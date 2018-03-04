@@ -74,6 +74,7 @@
         <module>javadoc</module>
         <module>jjtree-javacc</module>
         <module>xmlcodegen</module>
+        <module>checkstyle</module>
     </modules>
 
 

@@ -1763,6 +1763,34 @@
                     </groups>
                 </configuration>
             </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-checkstyle-plugin</artifactId>
+               <version>3.0.0</version>
+               <dependencies>
+                  <dependency>
+                        <groupId>org.geotools.maven</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${project.version}</version>
+                  </dependency>
+                </dependencies>
+               <executions>
+                 <execution>
+                   <id>validate</id>
+                   <phase>validate</phase>
+                   <configuration>
+                     <configLocation>gt_checks.xml</configLocation>
+                     <encoding>UTF-8</encoding>
+                     <consoleOutput>true</consoleOutput>
+                     <failsOnError>true</failsOnError>
+                     <linkXRef>false</linkXRef>
+                   </configuration>
+                   <goals>
+                     <goal>check</goal>
+                   </goals>
+                 </execution>
+               </executions>
+            </plugin>
         </plugins>
     </build>
 
