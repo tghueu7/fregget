@@ -458,7 +458,7 @@ public class PrimitiveFactoryImpl implements Serializable, Factory, PrimitiveFac
 
   private PrimitiveImpl processRingToPrimitive(Envelope bounds, Ring ring, int dimension) {
     int D = crs.getCoordinateSystem().getDimension();
-    if (dimension == D) { // create Surface from ring and return	
+    if (dimension == D) { // create Surface from ring and return
       SurfaceBoundary boundary = new SurfaceBoundaryImpl(crs, ring, Collections.EMPTY_LIST);
       return new SurfaceImpl(boundary);
     }
