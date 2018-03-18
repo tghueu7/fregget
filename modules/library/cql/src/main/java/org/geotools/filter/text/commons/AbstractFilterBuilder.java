@@ -412,7 +412,7 @@ public abstract class AbstractFilterBuilder {
       }
       tz = TimeZone.getTimeZone(timeZoneOffset);
     } else { // the time zone offset wasn't specified then the time zone is that provided by the
-             // host
+      // host
       tz = TimeZone.getDefault();
     }
     DateFormat formatter = new SimpleDateFormat(format.toString());

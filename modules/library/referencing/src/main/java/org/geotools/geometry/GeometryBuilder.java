@@ -404,7 +404,7 @@ public class GeometryBuilder {
 
   private Primitive processRingToPrimitive(Envelope bounds, Ring ring, int dimension) {
     int D = crs.getCoordinateSystem().getDimension();
-    if (dimension == D) { // create Surface from ring and return		
+    if (dimension == D) { // create Surface from ring and return	
       SurfaceBoundary boundary = createSurfaceBoundary(ring, Collections.EMPTY_LIST);
       return createSurface(boundary);
     }

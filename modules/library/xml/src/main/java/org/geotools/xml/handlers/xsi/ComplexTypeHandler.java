@@ -974,7 +974,7 @@ public class ComplexTypeHandler extends XSIElementHandler {
           Object v = parent.getValue(element, value, attrs, hints);
 
           return v; // this means it's meant to be extended ... and so should already include the
-                    // extensions.
+          // extensions.
         } catch (SAXNotSupportedException snse) {
           logger.finest(snse.toString());
 

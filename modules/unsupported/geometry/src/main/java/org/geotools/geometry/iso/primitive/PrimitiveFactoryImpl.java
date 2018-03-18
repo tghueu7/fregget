@@ -458,7 +458,7 @@ public class PrimitiveFactoryImpl implements Serializable, Factory, PrimitiveFac
 
   private PrimitiveImpl processRingToPrimitive(Envelope bounds, Ring ring, int dimension) {
     int D = crs.getCoordinateSystem().getDimension();
-    if (dimension == D) { // create Surface from ring and return		
+    if (dimension == D) { // create Surface from ring and return	
       SurfaceBoundary boundary = new SurfaceBoundaryImpl(crs, ring, Collections.EMPTY_LIST);
       return new SurfaceImpl(boundary);
     }
@@ -488,7 +488,7 @@ public class PrimitiveFactoryImpl implements Serializable, Factory, PrimitiveFac
     DirectPosition positionA =
         positionFactory.createDirectPosition(null); // new DirectPositionImpl(crs);
     DirectPosition positionB =
-        positionFactory.createDirectPosition(null); // new DirectPositionImpl(crs);	
+        positionFactory.createDirectPosition(null); // new DirectPositionImpl(crs);
     if (axis.getDirection() != AxisDirection.OTHER) {
       positionA.setOrdinate(D, bounds.getMinimum(D));
       positionB.setOrdinate(D, bounds.getMaximum(D));

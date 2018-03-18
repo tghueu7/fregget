@@ -16,7 +16,6 @@
  */
 package org.geotools.filter.text.commons;
 
-
 /**
  * Maintains the result of building process.
  *

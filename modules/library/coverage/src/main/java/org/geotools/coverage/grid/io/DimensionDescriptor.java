@@ -16,7 +16,6 @@
  */
 package org.geotools.coverage.grid.io;
 
-
 /**
  * Describes a "dimension" exposed by a structured grid coverage reader.
  *

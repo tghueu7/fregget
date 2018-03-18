@@ -73,7 +73,7 @@ public class PostGisOnlineTest extends AbstractTest {
   @Override
   protected String[] getTileTableNames() {
     return new String[] {
-        /* "tiles0" , */
+      /* "tiles0" , */
       "tiles1", "tiles2", "tiles3"
     };
   }
@@ -81,7 +81,7 @@ public class PostGisOnlineTest extends AbstractTest {
   @Override
   protected String[] getSpatialTableNames() {
     return new String[] {
-        /* "spatial0", */
+      /* "spatial0", */
       "spatial1", "spatial2", "spatial3"
     };
   }

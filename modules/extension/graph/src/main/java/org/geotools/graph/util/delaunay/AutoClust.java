@@ -233,7 +233,7 @@ public class AutoClust {
           AutoClustUtils.findAdjacentEdges(
               next,
               edges); // yes, next.getEdges() could work, but there's no guarantee that next's edge
-                      // list is current anymore
+      // list is current anymore
       edgesWithinTwo.addAll(adjacentEdges);
       Iterator adjacentIt = adjacentEdges.iterator();
       while (adjacentIt.hasNext()) {
@@ -243,7 +243,7 @@ public class AutoClust {
             AutoClustUtils.findAdjacentEdges(
                 other,
                 edges); // yes, other.getEdges() could work, but there's no guarantee that other's
-                        // edge list is current anymore
+        // edge list is current anymore
         Iterator atoIt = adjacentToOther.iterator();
         while (atoIt.hasNext()) {
           Edge nextEdge2 = (Edge) atoIt.next();

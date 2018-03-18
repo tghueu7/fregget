@@ -85,8 +85,7 @@ public class PointArrayTest extends TestCase {
     assertTrue(directPositionAt4 == directPosition);
 
     DirectPosition directPositionAddition = tCoordFactory.createDirectPosition(new double[] {5, 5});
-    pa.setDirectPosition(
-        4, directPositionAddition); // test to see of object or values is stored
+    pa.setDirectPosition(4, directPositionAddition); // test to see of object or values is stored
 
     DirectPosition directPositionAt4mk2 = pa.getDirectPosition(4, directPosition); // retrive
     assertEquals("Same values as we put into 4", directPositionAt4mk2, directPositionAddition);

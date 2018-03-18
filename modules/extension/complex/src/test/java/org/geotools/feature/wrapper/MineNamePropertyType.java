@@ -9,7 +9,6 @@
  */
 package org.geotools.feature.wrapper;
 
-
 /**
  * A sample implementation of FeatureWrapper.
  *

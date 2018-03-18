@@ -80,9 +80,8 @@ public class DB2Util {
       ps.setInt(5, 1);
       ps.registerOutParameter(6, Types.INTEGER);
       ps.registerOutParameter(7, Types.CHAR);
-      ps
-          .executeUpdate(); // DB2TestSetup.LOGGER.log(Level.INFO,ps.getInt(5) + "|" +
-                            // ps.getString(6));
+      ps.executeUpdate(); // DB2TestSetup.LOGGER.log(Level.INFO,ps.getInt(5) + "|" +
+      // ps.getString(6));
 
     } catch (SQLException ex) { //
       // may happen for spatial extender versions < 10

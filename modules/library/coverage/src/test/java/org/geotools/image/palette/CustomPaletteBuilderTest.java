@@ -87,10 +87,8 @@ public class CustomPaletteBuilderTest extends Assert {
     assertTrue(indexed.getColorModel() instanceof IndexColorModel);
     IndexColorModel icm = (IndexColorModel) indexed.getColorModel();
     assertEquals(
-        4,
-        icm
-            .getMapSize()); // Black background, white fill, light gray fill, dark gray fill = 4
-                            // colors
+        4, icm.getMapSize()); // Black background, white fill, light gray fill, dark gray fill = 4
+    // colors
   }
 
   @Test
@@ -122,10 +120,8 @@ public class CustomPaletteBuilderTest extends Assert {
     assertTrue(indexed.getColorModel() instanceof IndexColorModel);
     IndexColorModel icm = (IndexColorModel) indexed.getColorModel();
     assertEquals(
-        4,
-        icm
-            .getMapSize()); // Black background, white fill, light gray fill, dark gray fill = 4
-                            // colors
+        4, icm.getMapSize()); // Black background, white fill, light gray fill, dark gray fill = 4
+    // colors
 
     // check image not black
     ImageWorker iw = new ImageWorker(indexed).forceComponentColorModel().intensity();
@@ -155,10 +151,8 @@ public class CustomPaletteBuilderTest extends Assert {
     assertTrue(indexed.getColorModel() instanceof IndexColorModel);
     IndexColorModel icm = (IndexColorModel) indexed.getColorModel();
     assertEquals(
-        4,
-        icm
-            .getMapSize()); // Black background, white fill, light gray fill, dark gray fill = 4
-                            // colors
+        4, icm.getMapSize()); // Black background, white fill, light gray fill, dark gray fill = 4
+    // colors
 
     // check image not black
     ImageWorker iw = new ImageWorker(indexed).forceComponentColorModel().intensity();

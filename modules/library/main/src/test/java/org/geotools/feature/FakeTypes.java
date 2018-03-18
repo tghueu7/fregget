@@ -213,14 +213,14 @@ public class FakeTypes {
         new FeatureTypeImpl(
             /* name: */ NAME_MineType,
             /* properties: */ MINETYPE_SCHEMA, // This is only a subset of mine information, the
-                                               // real one has some other details but they've been
-                                               // omitted
+            // real one has some other details but they've been
+            // omitted
             // here.
             /* defaultGeometry: */ null,
             /* isAbstract: */ false,
             /* restrictions: */ Collections.<Filter>emptyList(),
             /* superType: */ ANYTYPE_TYPE, // In real life it's actually a MiningFeatureType but I
-                                           // don't think it matters.
+            // don't think it matters.
             /* description: */ null);
   }
 }

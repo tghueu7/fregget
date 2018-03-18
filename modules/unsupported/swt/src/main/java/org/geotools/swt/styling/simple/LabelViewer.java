@@ -495,7 +495,7 @@ public class LabelViewer {
         new String[] {
           "0", "45", "90", "135", "180", "225", "270", "315", "360"
         }; // $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-           // //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
+    // //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
 
     if (this.place == null) {
       this.place = new Combo(part, SWT.DROP_DOWN);

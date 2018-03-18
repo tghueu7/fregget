@@ -18,7 +18,6 @@
  */
 package org.geotools.filter;
 
-
 /**
  * Abstract filter implementation provides or and and methods for child filters to use.
  *

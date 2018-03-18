@@ -77,7 +77,7 @@ public class AutoClustUtils {
           findAdjacentEdges(
               node,
               edges); // yes, I know node.getEdges() should do this, but this method could be out of
-                      // data by the time I use this in AutoClust
+      // data by the time I use this in AutoClust
       adjacentEdges.trimToSize();
       componentEdges.addAll(adjacentEdges);
       //            LOGGER.finer("Adding " + adjacentEdges + " to component");

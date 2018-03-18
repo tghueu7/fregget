@@ -16,7 +16,6 @@
  */
 package org.geotools.geometry.jts;
 
-
 /**
  * An iterator for empty geometries
  *

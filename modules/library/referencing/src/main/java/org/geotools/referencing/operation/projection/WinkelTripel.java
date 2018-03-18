@@ -110,7 +110,7 @@ public class WinkelTripel extends MapProjection {
     double x, y;
 
     if ((d = acos(cos(phi) * cos(c = 0.5 * lam))) != 0) {
-        /* basic Aitoff */
+      /* basic Aitoff */
       x = 2. * d * cos(phi) * sin(c) * (y = 1. / sin(d));
       y *= d * sin(phi);
     } else {

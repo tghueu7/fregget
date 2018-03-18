@@ -508,10 +508,7 @@ public class RasterSymbolizerTest extends org.junit.Assert {
     output = (GridCoverage2D) rsh_StyleBuilder.getOutput();
     assertEquals(
         DataBuffer.TYPE_BYTE,
-        output
-            .getRenderedImage()
-            .getSampleModel()
-            .getDataType()); // ok we went to byte
+        output.getRenderedImage().getSampleModel().getDataType()); // ok we went to byte
     worker = new ImageWorker(output.getRenderedImage());
     min = worker.getMinimums();
     max = worker.getMaximums();

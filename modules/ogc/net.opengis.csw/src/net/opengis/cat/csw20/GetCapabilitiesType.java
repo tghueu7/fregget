@@ -5,7 +5,6 @@
  */
 package net.opengis.cat.csw20;
 
-
 /**
  *
  * <!-- begin-user-doc -->

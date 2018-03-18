@@ -16,7 +16,6 @@
  */
 package org.geotools.renderer.style;
 
-
 /**
  * Base class for resolved styles. Styles are resolved according a particular rendering context. The
  * base class make no assumption about the output device (AWT, SWT, <i>etc.</i>). However, a

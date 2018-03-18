@@ -106,7 +106,7 @@ public class StrictWFS_2_0_Strategy extends AbstractWFSStrategy {
       Collections.unmodifiableList(
           Arrays.asList(
               "application/gml+xml; version=3.2", // As per Table 12 in 09-25r1 OGC Web Feature
-                                                  // Service WFS 2.0
+              // Service WFS 2.0
               "text/xml; subtype=gml/3.2",
               "gml32",
               "text/xml; subtype=gml/3.1.1",

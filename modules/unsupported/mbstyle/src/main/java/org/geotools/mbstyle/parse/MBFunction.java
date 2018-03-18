@@ -739,7 +739,7 @@ public class MBFunction {
         new ArrayList<>(
             stopsJson.size() * 2
                 + 3); // each stop is 2, plus property name, leading interval value, and
-                      // "succeeding"
+    // "succeeding"
     parameters.add(expression);
     for (int i = 0; i < stopsJson.size(); i++) {
       JSONArray entry = parse.jsonArray(stopsJson.get(i));

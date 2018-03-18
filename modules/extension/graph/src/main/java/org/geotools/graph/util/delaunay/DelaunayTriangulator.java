@@ -215,7 +215,7 @@ public class DelaunayTriangulator {
     Triangle borderA = null;
     Triangle borderB =
         null; // Note: assuming it's on the border of two triangles rather than at the intersection
-              // of 3 or more.
+    // of 3 or more.
     boolean notDone = true;
     while ((triangleIterator.hasNext()) && (notDone)) {
       Triangle next = (Triangle) triangleIterator.next();

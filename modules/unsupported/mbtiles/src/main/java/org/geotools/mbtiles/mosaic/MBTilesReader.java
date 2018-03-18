@@ -153,7 +153,7 @@ public class MBTilesReader extends AbstractGridCoverage2DReader {
       double propWidth =
           dim.getWidth()
               / ratioWidth; // this is the width in pixels that the whole world would have in the
-                            // requested resolution
+      // requested resolution
       zoomLevel = Math.round(Math.log(propWidth / DEFAULT_TILE_SIZE) / Math.log(ZOOM_LEVEL_BASE));
       // the closest zoom level to the resolution, based on the formula width = zoom_base^zoom_level
       // * tile_size -> zoom_level = log(width / tile_size)/log(zoom_base)

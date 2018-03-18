@@ -16,7 +16,6 @@
  */
 package org.geotools.data.ows;
 
-
 /**
  * Represents a base object for a Capabilities document
  *

@@ -101,7 +101,7 @@ public class LambertConformal2SP extends LambertConformal {
               STANDARD_PARALLEL_1, STANDARD_PARALLEL_2,
               FALSE_EASTING, FALSE_NORTHING,
               SCALE_FACTOR // This last parameter is for backwards compatibility, see
-                           // LambertConformalEsriProvider
+              // LambertConformalEsriProvider
             });
 
     /** Constructs a new provider. */

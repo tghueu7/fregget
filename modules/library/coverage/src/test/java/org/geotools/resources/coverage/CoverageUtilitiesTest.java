@@ -149,9 +149,9 @@ public final class CoverageUtilitiesTest {
                         Float.valueOf(0.0f),
                         Float.valueOf(0.0f))
                     .getRenderedImage(), // ImageFunctionDescriptor.create(new MyImageFunction(),
-                                         // Integer.valueOf(800), Integer.valueOf(600),
-                                         // Float.valueOf(1.0f),  Float.valueOf(1.0f),
-                                         // Float.valueOf(0.0f),  Float.valueOf(0.0f), null),
+                // Integer.valueOf(800), Integer.valueOf(600),
+                // Float.valueOf(1.0f),  Float.valueOf(1.0f),
+                // Float.valueOf(0.0f),  Float.valueOf(0.0f), null),
                 gg2D,
                 null,
                 null,

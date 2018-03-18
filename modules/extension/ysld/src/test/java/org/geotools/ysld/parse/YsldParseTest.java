@@ -1163,7 +1163,7 @@ public class YsldParseTest {
     StyledLayerDescriptor sld = Ysld.parse(yaml, Arrays.asList(finder), (ResourceLocator) null);
     doTestForGoogleMercator(
         sld); // The additional finder doesn't have a WebMercator context and so should not
-              // interfere.
+    // interfere.
 
     verify(finder);
   }

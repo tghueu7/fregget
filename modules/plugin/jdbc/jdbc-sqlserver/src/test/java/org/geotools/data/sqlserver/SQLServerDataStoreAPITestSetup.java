@@ -30,7 +30,7 @@ public class SQLServerDataStoreAPITestSetup extends JDBCDataStoreAPITestSetup {
     run(
         "CREATE TABLE road(fid int IDENTITY(0,1) PRIMARY KEY, id int, "
             + "geom geometry, name nvarchar(255) )"); // use nvarchar to test nvarchar mappings
-                                                      // (GEOT-3609)
+    // (GEOT-3609)
     run(
         "INSERT INTO road (id,geom,name) VALUES (0,"
             + "geometry::STGeomFromText('LINESTRING(1 1, 2 2, 4 2, 5 1)',4326),"

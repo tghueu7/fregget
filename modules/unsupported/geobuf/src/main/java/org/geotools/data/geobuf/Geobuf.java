@@ -1123,7 +1123,6 @@ public final class Geobuf {
          *
          * <code>repeated .org.geotools.data.geobuf.Data.Value values = 13;</code>
          */
-
         public org.geotools.data.geobuf.Geobuf.Data.Value getValues(int index) {
           return instance.getValues(index);
         }
@@ -2726,7 +2725,6 @@ public final class Geobuf {
           return instance.getGeometriesCount();
         }
         /** <code>repeated .org.geotools.data.geobuf.Data.Geometry geometries = 4;</code> */
-
         public org.geotools.data.geobuf.Geobuf.Data.Geometry getGeometries(int index) {
           return instance.getGeometries(index);
         }
@@ -2800,7 +2798,6 @@ public final class Geobuf {
           return instance.getValuesCount();
         }
         /** <code>repeated .org.geotools.data.geobuf.Data.Value values = 13;</code> */
-
         public org.geotools.data.geobuf.Geobuf.Data.Value getValues(int index) {
           return instance.getValues(index);
         }
@@ -3555,7 +3552,6 @@ public final class Geobuf {
           return instance.getFeaturesCount();
         }
         /** <code>repeated .org.geotools.data.geobuf.Data.Feature features = 1;</code> */
-
         public org.geotools.data.geobuf.Geobuf.Data.Feature getFeatures(int index) {
           return instance.getFeatures(index);
         }
@@ -3627,7 +3623,6 @@ public final class Geobuf {
           return instance.getValuesCount();
         }
         /** <code>repeated .org.geotools.data.geobuf.Data.Value values = 13;</code> */
-
         public org.geotools.data.geobuf.Geobuf.Data.Value getValues(int index) {
           return instance.getValues(index);
         }

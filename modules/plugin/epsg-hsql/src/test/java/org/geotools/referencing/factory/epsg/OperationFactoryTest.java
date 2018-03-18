@@ -258,9 +258,8 @@ public class OperationFactoryTest extends TestCase {
     Set<CoordinateOperation> operations = findOperations(source, target);
     int size = operations.size();
     assertTrue(
-        size
-            >= min); // at least min operations should be registered in the database for this CRS
-                     // pair
+        size >= min); // at least min operations should be registered in the database for this CRS
+    // pair
     assertOperationContained(operations, expectedText);
   }
 
@@ -291,9 +290,8 @@ public class OperationFactoryTest extends TestCase {
     Set<CoordinateOperation> operations = findOperations(source, target);
     int size = operations.size();
     assertTrue(
-        size
-            >= min); // at least min operations should be registered in the database for this CRS
-                     // pair
+        size >= min); // at least min operations should be registered in the database for this CRS
+    // pair
     assertOperationContained(operations, expectedText);
   }
 
@@ -310,9 +308,8 @@ public class OperationFactoryTest extends TestCase {
     Set<CoordinateOperation> operations = findOperations(source, target);
     int size = operations.size();
     assertTrue(
-        size
-            >= min); // at least min operations should be registered in the database for this CRS
-                     // pair
+        size >= min); // at least min operations should be registered in the database for this CRS
+    // pair
     assertOperationContained(operations, expectedText);
   }
 
@@ -329,9 +326,8 @@ public class OperationFactoryTest extends TestCase {
     Set<CoordinateOperation> operations = findOperations(source, target);
     int size = operations.size();
     assertTrue(
-        size
-            >= min); // at least min operations should be registered in the database for this CRS
-                     // pair
+        size >= min); // at least min operations should be registered in the database for this CRS
+    // pair
     assertOperationContained(operations, expectedText);
   }
 

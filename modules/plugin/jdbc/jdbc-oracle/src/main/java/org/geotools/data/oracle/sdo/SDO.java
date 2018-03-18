@@ -1880,7 +1880,7 @@ public final class SDO {
 
     final int LEN =
         D; // bugfix 20121231-BK: LEN = D instead of LEN = D + L as Oracle supports only one LRS
-           // ordinate!
+    // ordinate!
 
     if ((ordinates.length % LEN) != 0) {
       // bugfix 20121231-BK: LEN is D instead of D + L

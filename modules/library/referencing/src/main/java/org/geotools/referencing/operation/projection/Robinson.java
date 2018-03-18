@@ -179,7 +179,7 @@ public class Robinson extends MapProjection {
     double lam = x / FXC;
     double phi = abs(y / FYC);
     if (phi >= 1d) {
-        /* simple pathologic cases */
+      /* simple pathologic cases */
       if (phi > ONEEPS) {
         throw new ProjectionException(
             "Tolerance error occurred appling inverse Robinson projection");
@@ -188,7 +188,7 @@ public class Robinson extends MapProjection {
         lam /= X[NODES].c0;
       }
     } else {
-        /* general problem */
+      /* general problem */
       /* in Y space, reduce to table interval */
       int i;
       for (i = (int) floor(phi * NODES); ; ) {
@@ -206,7 +206,7 @@ public class Robinson extends MapProjection {
       /* make into root */
       T.c0 -= phi;
       for (; ; ) {
-          /* Newton-Raphson reduction */
+        /* Newton-Raphson reduction */
         double t1 = T.forward(t) / T.inverse(t);
         t -= t1;
         if (abs(t1) < EPS) {

@@ -1,7 +1,6 @@
 /** */
 package net.opengis.ows20;
 
-
 /**
  *
  * <!-- begin-user-doc -->

@@ -16,7 +16,6 @@
  */
 package org.geotools.geopkg;
 
-
 /**
  * Sets up a trigger to the feature insertion target table This setup enable to test the increment
  * of multiple database sequences upon a single feature insertion
