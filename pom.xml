@@ -1763,6 +1763,64 @@
                     </groups>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <logViolationsToConsole>true</logViolationsToConsole>
+                            <!-- ignore generated classes, e.g., javacc ones -->
+                            <excludes>**/generated/**/*</excludes> 
+                            <checkstyleRules>
+                                <module name="Checker">
+                                    <!-- There are tabs in javadocs that IntelliJ did not remove, 594 files affected (reports only first violation), found no way to ignore javadocs in intellij -->
+                                    <!-- module name="FileTabCharacter"/ --> 
+                                  
+                                    <!-- 839 violations, IntelliJ offers no way to fix this on reformat, only on file save -->
+                                    <!-- module name="NewlineAtEndOfFile"/-->
+
+                                    <module name="TreeWalker">
+                                        <!-- Found cases due to commented out code sections. 554 errors -->
+                                        <!-- module name="LeftCurly"/--> 
+
+                                        <!-- Found cases due to commented out code sections. 157 errors -->
+                                        <!-- module name="RightCurly"/-->
+
+                                        <!-- 124 empty statements around the codebase --> 
+                                        <!-- module name="EmptyStatement" / --> 
+
+                                        <!-- 12067 violations, IntelliJ seems to have options to force these on reformat though (not enabled by default) -->
+                                        <!-- module name="NeedBraces" / --> 
+
+                                        <!-- 483 violations -->
+                                        <!-- module name="WhitespaceAfter"/ --> 
+
+                                        <!-- 780 violations -->
+                                        <!-- module name="AvoidNestedBlocks"/> -->
+
+                                        <!-- 237 violations, weird... maybe needs a second IntelliJ run? 
+                                        <module name="LineLength">
+                                            <property name="max" value="120"/>
+                                        </module>
+                                        -->
+                                        
+                                        <!-- 10210 errors -->
+                                        <!-- module name="Indentation"/ -->
+                                    </module>
+                                </module>
+                            </checkstyleRules>
+                        </configuration>
+                        <goals>
+                          <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
