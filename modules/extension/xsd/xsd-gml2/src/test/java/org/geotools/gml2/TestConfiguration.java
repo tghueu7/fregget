@@ -19,19 +19,14 @@ package org.geotools.gml2;
 import org.geotools.xml.Configuration;
 import org.picocontainer.MutablePicoContainer;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class TestConfiguration extends Configuration {
-    public TestConfiguration() {
-        super(TEST.getInstance());
-        addDependency(new GMLConfiguration());
-    }
+  public TestConfiguration() {
+    super(TEST.getInstance());
+    addDependency(new GMLConfiguration());
+  }
 
-    protected void registerBindings(MutablePicoContainer container) {
-        //no bindings
-    }
+  protected void registerBindings(MutablePicoContainer container) {
+    // no bindings
+  }
 }

@@ -4,7 +4,7 @@
  *
  *    (C) 2006-2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2001-2002, http://www.yoda.arachsys.com/java/skeetutil/
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -14,41 +14,40 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- */ 
+ */
 package org.geotools.gce.grassraster.core.color;
 
 import java.util.NoSuchElementException;
 
-//import java.util.NoSuchElementException;
+// import java.util.NoSuchElementException;
 /**
- * Providing much the same functionality as java.util.StringTokenizer, but avoiding some of its more common problems. In particular:
+ * Providing much the same functionality as java.util.StringTokenizer, but avoiding some of its more
+ * common problems. In particular:
+ *
  * <ul>
- * <li>
- * 
- * <pre>
+ *   <li>
+ *       <pre>
  * x,,y
  * </pre>
- * 
- * yields a blank token between x and y, whereas with StringTokenizer it is swallowed.
- * <li>
- * 
- * <pre>
+ *       yields a blank token between x and y, whereas with StringTokenizer it is swallowed.
+ *   <li>
+ *       <pre>
  * ,a,
  * </pre>
- * 
- * yields a blank token both before and after a, whereas with StringTokenizer both are swallowed.
+ *       yields a blank token both before and after a, whereas with StringTokenizer both are
+ *       swallowed.
  * </ul>
- * 
- * Some pieces of StringTokenizer aren't supported, such as returning delimiters and changing delimiters during operation.
- * <p>
- * This class is deliberately <b>not</b> a subclass of StringTokenizer as the behaviour is significantly different. It can, however, be used in many
- * places where StringTokenizer is appropriate.
- * 
+ *
+ * Some pieces of StringTokenizer aren't supported, such as returning delimiters and changing
+ * delimiters during operation.
+ *
+ * <p>This class is deliberately <b>not</b> a subclass of StringTokenizer as the behaviour is
+ * significantly different. It can, however, be used in many places where StringTokenizer is
+ * appropriate.
+ *
  * @author JSkeet
- * 
  */
-public class JlsTokenizer
-{
+public class JlsTokenizer {
   /* Data to parse */
   private String data;
 
@@ -67,145 +66,122 @@ public class JlsTokenizer
    * If the position is *past* the very end of the string
    * (ie dataLength+1 or higher) then there are no more
    * tokens. */
-  private int position=0;
+  private int position = 0;
 
   /**
-   * Constructs a string tokenizer for the specified string. The 
-   * tokenizer uses the default delimiter set, which is 
-   * <code>"&nbsp;&#92;t&#92;n&#92;r&#92;f"</code>: the space character, 
-   * the tab character, the newline character, the carriage-return character,
-   * and the form-feed character. Delimiter characters themselves will 
-   * not be treated as tokens.
+   * Constructs a string tokenizer for the specified string. The tokenizer uses the default
+   * delimiter set, which is <code>"&nbsp;&#92;t&#92;n&#92;r&#92;f"</code>: the space character, the
+   * tab character, the newline character, the carriage-return character, and the form-feed
+   * character. Delimiter characters themselves will not be treated as tokens.
    *
-   * @param   str   a string to be parsed.
+   * @param str a string to be parsed.
    */
-  public JlsTokenizer (String str)
-  {
-    this (str, "\t\n\r\f");
+  public JlsTokenizer(String str) {
+    this(str, "\t\n\r\f");
   }
 
   /**
-   * Constructs a string tokenizer for the specified string. The 
-   * characters in the <code>delim</code> argument are the delimiters 
-   * for separating tokens. Delimiter characters themselves will not 
-   * be treated as tokens.
+   * Constructs a string tokenizer for the specified string. The characters in the <code>delim
+   * </code> argument are the delimiters for separating tokens. Delimiter characters themselves will
+   * not be treated as tokens.
    *
-   * @param   str     a string to be parsed.
-   * @param   delim   the delimiters.
+   * @param str a string to be parsed.
+   * @param delim the delimiters.
    */
-  public JlsTokenizer (String str, String delim)
-  {
+  public JlsTokenizer(String str, String delim) {
     this.data = str;
-    this.delimiters=delim;
+    this.delimiters = delim;
     this.dataLength = data.length();
   }
 
   /**
-   * Tests if there are more tokens available from this tokenizer's string. 
-   * If this method returns <tt>true</tt>, then a subsequent call to 
-   * <tt>nextToken</tt> with no argument will successfully return a token.
+   * Tests if there are more tokens available from this tokenizer's string. If this method returns
+   * <tt>true</tt>, then a subsequent call to <tt>nextToken</tt> with no argument will successfully
+   * return a token.
    *
-   * @return  <code>true</code> if and only if there is at least one token 
-   *          in the string after the current position; <code>false</code> 
-   *          otherwise.
+   * @return <code>true</code> if and only if there is at least one token in the string after the
+   *     current position; <code>false</code> otherwise.
    */
-  public boolean hasMoreTokens() 
-  {
+  public boolean hasMoreTokens() {
     return !(position > dataLength);
   }
 
   /**
    * Returns the next token from this string tokenizer.
    *
-   * @return     the next token from this string tokenizer.
-   * @exception  NoSuchElementException  if there are no more tokens in this
-   *             tokenizer's string.
+   * @return the next token from this string tokenizer.
+   * @exception NoSuchElementException if there are no more tokens in this tokenizer's string.
    */
-  public String nextToken() 
-  {
+  public String nextToken() {
     int delPos;
     /* Scan for the next delimiter or end of data */
-    for (delPos = position; delPos < dataLength; delPos++)
-    {
-      char c = data.charAt (delPos);
-      if (delimiters.indexOf (c) != -1)
-        break;
+    for (delPos = position; delPos < dataLength; delPos++) {
+      char c = data.charAt(delPos);
+      if (delimiters.indexOf(c) != -1) break;
     }
     /* Find out what the token should be */
-    String ret = data.substring (position, delPos);
+    String ret = data.substring(position, delPos);
     /* Set the position to the next position */
-    position = delPos+1;
+    position = delPos + 1;
     return ret;
   }
 
   /**
    * Returns the rest of the string.
    *
-   * @return     the rest of the string.
-   * @exception  NoSuchElementException  if there are no more tokens in this
-   *             tokenizer's string.
+   * @return the rest of the string.
+   * @exception NoSuchElementException if there are no more tokens in this tokenizer's string.
    */
-  public String remainingToken()
-  {
+  public String remainingToken() {
     return data.substring(position);
-//    int delPos;
-//    /* Scan for the next delimiter or end of data */
-//    for (delPos = position; delPos < dataLength; delPos++)
-//    {
-//        char c = data.charAt (delPos);
-//        if (delimiters.indexOf (c) != -1)
-//            break;
-//    }
-//    /* Find out what the token should be */
-//    String ret = data.substring (position, delPos);
-//    /* Set the position to the next position */
-//    position = delPos+1;
-//    return ret;
+    //    int delPos;
+    //    /* Scan for the next delimiter or end of data */
+    //    for (delPos = position; delPos < dataLength; delPos++)
+    //    {
+    //        char c = data.charAt (delPos);
+    //        if (delimiters.indexOf (c) != -1)
+    //            break;
+    //    }
+    //    /* Find out what the token should be */
+    //    String ret = data.substring (position, delPos);
+    //    /* Set the position to the next position */
+    //    position = delPos+1;
+    //    return ret;
   }
 
   /**
-   * Returns the same value as the <code>hasMoreTokens</code>
-   * method. It exists so that this class can implement the
-   * <code>Enumeration</code> interface. 
+   * Returns the same value as the <code>hasMoreTokens</code> method. It exists so that this class
+   * can implement the <code>Enumeration</code> interface.
    *
-   * @return  <code>true</code> if there are more tokens;
-   *          <code>false</code> otherwise.
+   * @return <code>true</code> if there are more tokens; <code>false</code> otherwise.
    */
-  public boolean hasMoreElements() 
-  {
+  public boolean hasMoreElements() {
     return hasMoreTokens();
   }
 
   /**
-   * Returns the same value as the <code>nextToken</code> method,
-   * except that its declared return value is <code>Object</code> rather than
-   * <code>String</code>. It exists so that this class can implement the
-   * <code>Enumeration</code> interface. 
+   * Returns the same value as the <code>nextToken</code> method, except that its declared return
+   * value is <code>Object</code> rather than <code>String</code>. It exists so that this class can
+   * implement the <code>Enumeration</code> interface.
    *
-   * @return     the next token in the string.
-   * @exception  NoSuchElementException  if there are no more tokens in this
-   *             tokenizer's string.
+   * @return the next token in the string.
+   * @exception NoSuchElementException if there are no more tokens in this tokenizer's string.
    */
-  public Object nextElement() 
-  {
+  public Object nextElement() {
     return nextToken();
   }
 
   /**
-   * Calculates the number of times that this tokenizer's 
-   * <code>nextToken</code> method can be called before it generates an 
-   * exception. The current position is not advanced.
+   * Calculates the number of times that this tokenizer's <code>nextToken</code> method can be
+   * called before it generates an exception. The current position is not advanced.
    *
-   * @return  the number of tokens remaining in the string using the current
-   *          delimiter set.
-   * @see     uk.org.skeet.util.JlsTokenizer#nextToken()
+   * @return the number of tokens remaining in the string using the current delimiter set.
+   * @see uk.org.skeet.util.JlsTokenizer#nextToken()
    */
-  public int countTokens() 
-  {
+  public int countTokens() {
     int savedPosition = position;
-    int count=0;
-    while (hasMoreTokens())
-    {
+    int count = 0;
+    while (hasMoreTokens()) {
       nextToken();
       count++;
     }

@@ -18,24 +18,22 @@ package org.geotools.data.wfs.internal;
 
 import java.util.List;
 import java.util.Set;
-
 import org.geotools.data.ResourceInfo;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 
-public interface FeatureTypeInfo extends ResourceInfo{
+public interface FeatureTypeInfo extends ResourceInfo {
 
-    ReferencedEnvelope getWGS84BoundingBox();
+  ReferencedEnvelope getWGS84BoundingBox();
 
-    String getDefaultSRS();
+  String getDefaultSRS();
 
-    List<String> getOtherSRS();
+  List<String> getOtherSRS();
 
-    Set<String> getOutputFormats();
-    
-    String getAbstract();
-    
-    Set<String> getKeywords();
-    
-    String getTitle();
+  Set<String> getOutputFormats();
 
+  String getAbstract();
+
+  Set<String> getKeywords();
+
+  String getTitle();
 }

@@ -29,61 +29,57 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.Filter;
 import org.opengis.filter.spatial.BBOX;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class TeradataViewOnlineTest extends JDBCViewOnlineTest {
 
-    @Override
-    protected JDBCViewTestSetup createTestSetup() {
-        return new TeradataViewTestSetup();
+  @Override
+  protected JDBCViewTestSetup createTestSetup() {
+    return new TeradataViewTestSetup();
+  }
+
+  @Override
+  protected boolean isPkNillable() {
+    return false;
+  }
+
+  public void testViewWithTesselationAndIndex() throws Exception {
+
+    Handler handler = Logging.getLogger("").getHandlers()[0];
+    handler.setLevel(Level.FINEST);
+
+    org.geotools.util.logging.Logging.getLogger("org.geotools.jdbc").setLevel(Level.FINEST);
+
+    SimpleFeatureType schema = dataStore.getSchema("lakesview2");
+    TessellationInfo tesselation =
+        (TessellationInfo) schema.getGeometryDescriptor().getUserData().get(TessellationInfo.KEY);
+    assertNotNull("expected tessleation info", tesselation);
+    assertEquals("lakesview2_geom_idx", tesselation.getIndexTableName());
+
+    // this will use the index but since the index is empty, it will return 0 (despite actually
+    // intersecting)
+    BBOX bbox = CommonFactoryFinder.getFilterFactory2(null).bbox("geom", -20, -20, 20, 20, null);
+    assertEquals(0, query(bbox));
+
+    // the filter will not use the index since this is essentially a table scan
+    // due to the size of the bbox versus world bounds
+    bbox = CommonFactoryFinder.getFilterFactory2(null).bbox("geom", -179, -89, 179, 89, null);
+    assertEquals(1, query(bbox));
+  }
+
+  int query(Filter f) throws Exception {
+    SimpleFeatureSource featureSource = dataStore.getFeatureSource("lakesview2");
+    Query q = new Query();
+    q.setFilter(f);
+    SimpleFeatureIterator features = featureSource.getFeatures(q).features();
+    int r = 0;
+    try {
+      while (features.hasNext()) {
+        features.next();
+        r++;
+      }
+    } finally {
+      features.close();
     }
-
-    @Override
-    protected boolean isPkNillable() {
-        return false;
-    }
-
-    public void testViewWithTesselationAndIndex() throws Exception {
-
-        Handler handler = Logging.getLogger("").getHandlers()[0];
-        handler.setLevel(Level.FINEST);
-
-        org.geotools.util.logging.Logging.getLogger("org.geotools.jdbc").setLevel(Level.FINEST);
-
-
-        SimpleFeatureType schema = dataStore.getSchema("lakesview2");
-        TessellationInfo tesselation = (TessellationInfo) schema.getGeometryDescriptor().getUserData().get(TessellationInfo.KEY);
-        assertNotNull("expected tessleation info", tesselation);
-        assertEquals("lakesview2_geom_idx", tesselation.getIndexTableName());
-
-        // this will use the index but since the index is empty, it will return 0 (despite actually intersecting)
-        BBOX bbox = CommonFactoryFinder.getFilterFactory2(null).bbox("geom", -20, -20, 20, 20, null);
-        assertEquals(0, query(bbox));
-
-        // the filter will not use the index since this is essentially a table scan
-        // due to the size of the bbox versus world bounds
-        bbox = CommonFactoryFinder.getFilterFactory2(null).bbox("geom", -179, -89, 179, 89, null);
-        assertEquals(1, query(bbox));
-    }
-
-    int query(Filter f) throws Exception {
-        SimpleFeatureSource featureSource = dataStore.getFeatureSource("lakesview2");
-        Query q = new Query();
-        q.setFilter(f);
-        SimpleFeatureIterator features = featureSource.getFeatures(q).features();
-        int r = 0;
-        try {
-            while (features.hasNext()) {
-                features.next();
-                r++;
-            }
-        } finally {
-            features.close();
-        }
-        return r;
-    }
-
+    return r;
+  }
 }

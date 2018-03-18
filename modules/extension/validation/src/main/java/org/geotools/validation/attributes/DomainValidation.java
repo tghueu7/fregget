@@ -21,50 +21,39 @@ import org.geotools.validation.ValidationResults;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
-
 /**
  * DomainValidation purpose.
- * 
- * <p>
- * TODO Explain this, no idea.
- * </p>
+ *
+ * <p>TODO Explain this, no idea.
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class DomainValidation extends DefaultFeatureValidation {
-    /**
-     * DomainValidation constructor.
-     * 
-     * <p>
-     * Description
-     * </p>
-     */
-    public DomainValidation() {
-        super();
-    }
+  /**
+   * DomainValidation constructor.
+   *
+   * <p>Description
+   */
+  public DomainValidation() {
+    super();
+  }
 
-    /**
-     * Validation test for feature.
-     * 
-     * <p>
-     * Description of test ...
-     * </p>
-     *
-     * @param feature The Feature to be validated
-     * @param type The FeatureType of the feature
-     * @param results The storage for error messages.
-     *
-     * @return <code>true</code> if the feature is a valid geometry.
-     *
-     * @see org.geotools.validation.FeatureValidation#validate
-     */
-    public boolean validate(SimpleFeature feature, SimpleFeatureType type,
-        ValidationResults results) {
-        return false;
-    }
+  /**
+   * Validation test for feature.
+   *
+   * <p>Description of test ...
+   *
+   * @param feature The Feature to be validated
+   * @param type The FeatureType of the feature
+   * @param results The storage for error messages.
+   * @return <code>true</code> if the feature is a valid geometry.
+   * @see org.geotools.validation.FeatureValidation#validate
+   */
+  public boolean validate(
+      SimpleFeature feature, SimpleFeatureType type, ValidationResults results) {
+    return false;
+  }
 }

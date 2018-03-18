@@ -21,12 +21,12 @@ import org.geotools.xml.AbstractSimpleBinding;
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xs.XS;
 
-
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:NMTOKEN.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="NMTOKEN" id="NMTOKEN"&gt;
  *      &lt;xs:annotation&gt;
@@ -45,41 +45,36 @@ import org.geotools.xs.XS;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSNMTOKENBinding extends AbstractSimpleBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return XS.NMTOKEN;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return XS.NMTOKEN;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return String.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return String.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        //just return the value passed in
-        return value;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    // just return the value passed in
+    return value;
+  }
 }

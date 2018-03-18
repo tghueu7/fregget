@@ -18,107 +18,99 @@ package org.geotools.brewer.color;
 
 import java.awt.Color;
 
-
 /**
  * A ColorPalette with additional ColorBrewer information (suitability data and colour selection).
  *
  * @author James Macgill
  * @author Cory Horner, Refractions Research Inc.
- *
- *
  * @source $URL$
  */
 public class BrewerPalette extends ColorPalette {
-    private PaletteSuitability suitability;
-    private SampleScheme sampler;
-    private PaletteType type;
+  private PaletteSuitability suitability;
+  private SampleScheme sampler;
+  private PaletteType type;
 
-    /**
-     * Creates a new instance of BrewerPalette
-     */
-    public BrewerPalette() {
+  /** Creates a new instance of BrewerPalette */
+  public BrewerPalette() {}
+
+  /**
+   * Getter for property type.
+   *
+   * @return Value of property type.
+   */
+  public PaletteType getType() {
+    return this.type;
+  }
+
+  /**
+   * Sets the type of palette.
+   *
+   * @param type new palette type
+   */
+  public void setType(PaletteType type) {
+    this.type = type;
+  }
+
+  public Color getColor(int index, int length) {
+    return getColors(length)[index];
+  }
+
+  /**
+   * Getter for the colour count
+   *
+   * @return the most colours this palette currently supports
+   */
+  public int getMaxColors() {
+    int countSampler = sampler.getMaxCount();
+    int numColors = getCount();
+
+    // return the lesser of countSampler and numColors
+    if (countSampler < numColors) {
+      return countSampler;
+    } else {
+      return numColors;
+    }
+  }
+
+  /**
+   * Getter for the colour count
+   *
+   * @return the minimum number of colours this palette currently supports
+   */
+  public int getMinColors() {
+    return sampler.getMinCount();
+  }
+
+  /** Obtains a set of colours from the palette. */
+  public Color[] getColors(int length) {
+    if (length < 2) {
+      length = 2; // if they ask for 1 colour, give them 2 instead of crashing
     }
 
-    /**
-     * Getter for property type.
-     *
-     * @return Value of property type.
-     */
-    public PaletteType getType() {
-        return this.type;
+    int[] lookup = sampler.getSampleScheme(length);
+    Color[] colors = getColors();
+    Color[] result = new Color[length];
+
+    for (int i = 0; i < length; i++) {
+      result[i] = colors[lookup[i]];
     }
 
-    /**
-     * Sets the type of palette.
-     *
-     * @param type new palette type
-     */
-    public void setType(PaletteType type) {
-        this.type = type;
-    }
+    return result;
+  }
 
-    public Color getColor(int index, int length) {
-        return getColors(length)[index];
-    }
+  public PaletteSuitability getPaletteSuitability() {
+    return suitability;
+  }
 
-    /**
-     * Getter for the colour count
-     *
-     * @return the most colours this palette currently supports
-     */
-    public int getMaxColors() {
-        int countSampler = sampler.getMaxCount();
-        int numColors = getCount();
+  public void setPaletteSuitability(PaletteSuitability suitability) {
+    this.suitability = suitability;
+  }
 
-        //return the lesser of countSampler and numColors
-        if (countSampler < numColors) {
-            return countSampler;
-        } else {
-            return numColors;
-        }
-    }
+  public SampleScheme getColorScheme() {
+    return sampler;
+  }
 
-    /**
-     * Getter for the colour count
-     *
-     * @return the minimum number of colours this palette currently supports
-     */
-    public int getMinColors() {
-        return sampler.getMinCount();
-    }
-
-    /**
-     * Obtains a set of colours from the palette.
-     */
-    public Color[] getColors(int length) {
-        if (length < 2) {
-            length = 2; //if they ask for 1 colour, give them 2 instead of crashing
-        }
-
-        int[] lookup = sampler.getSampleScheme(length);
-        Color[] colors = getColors();
-        Color[] result = new Color[length];
-
-        for (int i = 0; i < length; i++) {
-            result[i] = colors[lookup[i]];
-        }
-
-        return result;
-    }
-
-    public PaletteSuitability getPaletteSuitability() {
-        return suitability;
-    }
-
-    public void setPaletteSuitability(PaletteSuitability suitability) {
-        this.suitability = suitability;
-    }
-
-    public SampleScheme getColorScheme() {
-        return sampler;
-    }
-
-    public void setColorScheme(SampleScheme scheme) {
-        this.sampler = scheme;
-    }
+  public void setColorScheme(SampleScheme scheme) {
+    this.sampler = scheme;
+  }
 }

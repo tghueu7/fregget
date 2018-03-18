@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -19,21 +19,19 @@ package org.geotools.ysld.encode;
 
 import org.geotools.styling.Displacement;
 
-/**
- * Encodes a {@link Displacement} as YSLD.
- */
+/** Encodes a {@link Displacement} as YSLD. */
 public class DisplacementEncoder extends YsldEncodeHandler<Displacement> {
 
-    DisplacementEncoder(Displacement displace) {
-        super(displace);
-    }
+  DisplacementEncoder(Displacement displace) {
+    super(displace);
+  }
 
-    @Override
-    protected void encode(Displacement displace) {
-        if (nullIf(displace.getDisplacementX(), 0) == null
-                && nullIf(displace.getDisplacementY(), 0) == null) {
-            return;
-        }
-        put("displacement", displace.getDisplacementX(), displace.getDisplacementY());
+  @Override
+  protected void encode(Displacement displace) {
+    if (nullIf(displace.getDisplacementX(), 0) == null
+        && nullIf(displace.getDisplacementY(), 0) == null) {
+      return;
     }
+    put("displacement", displace.getDisplacementX(), displace.getDisplacementY());
+  }
 }

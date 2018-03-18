@@ -19,38 +19,33 @@ package org.geotools.sld.bindings;
 import java.awt.Color;
 import org.geotools.styling.Fill;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDFillBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(Fill.class, new SLDFillBinding(null,null).getType());
+  public void testType() throws Exception {
+    assertEquals(Fill.class, new SLDFillBinding(null, null).getType());
+  }
+
+  public void test() throws Exception {
+    SLDMockData.fill(document, document);
+
+    Fill fill = (Fill) parse();
+    assertNotNull(fill);
+    assertEquals(org.geotools.styling.SLD.opacity(fill), 1, 0d);
+
+    Color c = org.geotools.styling.SLD.color(fill.getColor());
+    assertEquals(c.getRed(), integer("12"));
+    assertEquals(c.getGreen(), integer("34"));
+    assertEquals(c.getBlue(), integer("56"));
+  }
+
+  public int integer(String hex) {
+    int integer = 0;
+
+    for (int i = 0; i < hex.length(); i++) {
+      int k = Integer.parseInt(hex.charAt(hex.length() - i - 1) + "");
+      integer += (k * Math.pow(16, i));
     }
 
-    public void test() throws Exception {
-        SLDMockData.fill(document, document);
-
-        Fill fill = (Fill) parse();
-        assertNotNull(fill);
-        assertEquals(org.geotools.styling.SLD.opacity(fill), 1, 0d);
-
-        Color c = org.geotools.styling.SLD.color(fill.getColor());
-        assertEquals(c.getRed(), integer("12"));
-        assertEquals(c.getGreen(), integer("34"));
-        assertEquals(c.getBlue(), integer("56"));
-    }
-
-    public int integer(String hex) {
-        int integer = 0;
-
-        for (int i = 0; i < hex.length(); i++) {
-            int k = Integer.parseInt(hex.charAt(hex.length() - i - 1) + "");
-            integer += (k * Math.pow(16, i));
-        }
-
-        return integer;
-    }
+    return integer;
+  }
 }

@@ -23,39 +23,38 @@ import org.xml.sax.helpers.NamespaceSupport;
 
 public abstract class ParameterCQLExpressionPropertyName implements PropertyName {
 
-    private final String name;
+  private final String name;
 
-    public ParameterCQLExpressionPropertyName(String name) {
-        this.name = name;
-    }
+  public ParameterCQLExpressionPropertyName(String name) {
+    this.name = name;
+  }
 
-    @Override
-    public Object evaluate(Object object) {
-        ParameterMappingContext contextObj = (ParameterMappingContext) object;
-        return get(contextObj);
-    }
+  @Override
+  public Object evaluate(Object object) {
+    ParameterMappingContext contextObj = (ParameterMappingContext) object;
+    return get(contextObj);
+  }
 
-    protected abstract Object get(ParameterMappingContext context);
+  protected abstract Object get(ParameterMappingContext context);
 
-    @Override
-    public <T> T evaluate(Object object, Class<T> context) {
-        ParameterMappingContext contextObj = (ParameterMappingContext) object;
-        return (T)get(contextObj);
-    }
+  @Override
+  public <T> T evaluate(Object object, Class<T> context) {
+    ParameterMappingContext contextObj = (ParameterMappingContext) object;
+    return (T) get(contextObj);
+  }
 
-    @Override
-    public Object accept(ExpressionVisitor visitor, Object extraData) {
-        return visitor.visit(this, extraData);
-    }
+  @Override
+  public Object accept(ExpressionVisitor visitor, Object extraData) {
+    return visitor.visit(this, extraData);
+  }
 
-    @Override
-    public String getPropertyName() {
-        return name;
-    }
+  @Override
+  public String getPropertyName() {
+    return name;
+  }
 
-    @Override
-    public NamespaceSupport getNamespaceContext() {
-        return null;
-    }
-
+  @Override
+  public NamespaceSupport getNamespaceContext() {
+    return null;
+  }
 }

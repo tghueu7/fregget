@@ -18,29 +18,24 @@ package org.geotools.sld.bindings;
 
 import org.geotools.styling.FeatureTypeStyle;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDFeatureTypeStyleBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(FeatureTypeStyle.class, new SLDFeatureTypeStyleBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(FeatureTypeStyle.class, new SLDFeatureTypeStyleBinding(null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.featureTypeStyle(document, document);
+  public void test() throws Exception {
+    SLDMockData.featureTypeStyle(document, document);
 
-        FeatureTypeStyle fts = (FeatureTypeStyle) parse();
-        assertNotNull(fts);
+    FeatureTypeStyle fts = (FeatureTypeStyle) parse();
+    assertNotNull(fts);
 
-        assertEquals("theName", fts.getName());
-        assertEquals("theAbstract", fts.getAbstract());
-        assertEquals("theTitle", fts.getTitle());
-        assertEquals("theFeatureTypeName", fts.getFeatureTypeName());
+    assertEquals("theName", fts.getName());
+    assertEquals("theAbstract", fts.getAbstract());
+    assertEquals("theTitle", fts.getTitle());
+    assertEquals("theFeatureTypeName", fts.getFeatureTypeName());
 
-        assertEquals(2, fts.getSemanticTypeIdentifiers().length);
-        assertEquals(2, fts.getRules().length);
-    }
+    assertEquals(2, fts.getSemanticTypeIdentifiers().length);
+    assertEquals(2, fts.getRules().length);
+  }
 }

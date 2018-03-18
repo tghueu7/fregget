@@ -20,130 +20,122 @@ package org.geotools.process.vector;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.geotools.data.simple.SimpleFeatureCollection;
-import org.geotools.data.simple.SimpleFeatureIterator;
-import org.geotools.factory.CommonFactoryFinder;
-import org.geotools.feature.DefaultFeatureCollection;
-import org.geotools.feature.simple.SimpleFeatureBuilder;
-import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
-import org.geotools.process.vector.InclusionFeatureCollection;
-import org.junit.Test;
-import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.filter.FilterFactory;
-
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
+import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.data.simple.SimpleFeatureIterator;
+import org.geotools.factory.CommonFactoryFinder;
+import org.geotools.feature.DefaultFeatureCollection;
+import org.geotools.feature.simple.SimpleFeatureBuilder;
+import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
+import org.junit.Test;
+import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.filter.FilterFactory;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class InclusionFeatureCollectionTest {
 
-    FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
+  FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
+  GeometryFactory gf = new GeometryFactory();
+
+  @Test
+  public void testExecute() throws Exception {
+    SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
+    tb.setName("featureType");
+    tb.add("geometry", Geometry.class);
+    tb.add("integer", Integer.class);
+
     GeometryFactory gf = new GeometryFactory();
-    
-    @Test
-    public void testExecute() throws Exception {
-        SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
-        tb.setName("featureType");
-        tb.add("geometry", Geometry.class);
-        tb.add("integer", Integer.class);
+    SimpleFeatureBuilder b = new SimpleFeatureBuilder(tb.buildFeatureType());
 
-        GeometryFactory gf = new GeometryFactory();
-        SimpleFeatureBuilder b = new SimpleFeatureBuilder(tb.buildFeatureType());
+    DefaultFeatureCollection features = new DefaultFeatureCollection(null, b.getFeatureType());
+    DefaultFeatureCollection secondFeatures =
+        new DefaultFeatureCollection(null, b.getFeatureType());
 
-        DefaultFeatureCollection features = new DefaultFeatureCollection(null, b.getFeatureType());
-        DefaultFeatureCollection secondFeatures = new DefaultFeatureCollection(null, b
-                .getFeatureType());
+    Coordinate firstArray[] = new Coordinate[5];
+    for (int numFeatures = 0; numFeatures < 1; numFeatures++) {
+      firstArray[0] = new Coordinate(0, 0);
+      firstArray[1] = new Coordinate(1, 0);
+      firstArray[2] = new Coordinate(1, 1);
+      firstArray[3] = new Coordinate(0, 1);
+      firstArray[4] = new Coordinate(0, 0);
+      LinearRing shell = gf.createLinearRing(firstArray);
+      b.add(gf.createPolygon(shell, null));
+      b.add(0);
 
-        Coordinate firstArray[] = new Coordinate[5];
-        for (int numFeatures = 0; numFeatures < 1; numFeatures++) {
-            firstArray[0] = new Coordinate(0, 0);
-            firstArray[1] = new Coordinate(1, 0);
-            firstArray[2] = new Coordinate(1, 1);
-            firstArray[3] = new Coordinate(0, 1);
-            firstArray[4] = new Coordinate(0, 0);
-            LinearRing shell = gf.createLinearRing(firstArray);
-            b.add(gf.createPolygon(shell, null));
-            b.add(0);
+      features.add(b.buildFeature(numFeatures + ""));
+    }
+    for (int numFeatures = 0; numFeatures < 1; numFeatures++) {
+      Coordinate array[] = new Coordinate[5];
+      array[0] = new Coordinate(firstArray[0].x - 1, firstArray[0].y - 1);
+      array[1] = new Coordinate(firstArray[1].x + 1, firstArray[1].y - 1);
+      array[2] = new Coordinate(firstArray[2].x + 1, firstArray[2].y + 1);
+      array[3] = new Coordinate(firstArray[3].x - 1, firstArray[3].y + 1);
+      array[4] = new Coordinate(firstArray[0].x - 1, firstArray[0].y - 1);
+      LinearRing shell = gf.createLinearRing(array);
+      b.add(gf.createPolygon(shell, null));
+      b.add(0);
 
-            features.add(b.buildFeature(numFeatures + ""));
+      secondFeatures.add(b.buildFeature(numFeatures + ""));
+    }
+    InclusionFeatureCollection process = new InclusionFeatureCollection();
+    SimpleFeatureCollection output = process.execute(features, secondFeatures);
+    assertEquals(1, output.size());
+    SimpleFeatureIterator iterator = output.features();
 
-        }
-        for (int numFeatures = 0; numFeatures < 1; numFeatures++) {
-            Coordinate array[] = new Coordinate[5];
-            array[0] = new Coordinate(firstArray[0].x - 1, firstArray[0].y - 1);
-            array[1] = new Coordinate(firstArray[1].x + 1, firstArray[1].y - 1);
-            array[2] = new Coordinate(firstArray[2].x + 1, firstArray[2].y + 1);
-            array[3] = new Coordinate(firstArray[3].x - 1, firstArray[3].y + 1);
-            array[4] = new Coordinate(firstArray[0].x - 1, firstArray[0].y - 1);
-            LinearRing shell = gf.createLinearRing(array);
-            b.add(gf.createPolygon(shell, null));
-            b.add(0);
+    Geometry expected = (Geometry) features.features().next().getDefaultGeometry();
+    SimpleFeature sf = iterator.next();
+    assertTrue(expected.equals((Geometry) sf.getDefaultGeometry()));
+  }
 
-            secondFeatures.add(b.buildFeature(numFeatures + ""));
-        }
-        InclusionFeatureCollection process = new InclusionFeatureCollection();
-        SimpleFeatureCollection output = process.execute(features, secondFeatures);
-        assertEquals(1, output.size());
-        SimpleFeatureIterator iterator = output.features();
+  public void testExecute1() throws Exception {
+    SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
+    tb.setName("featureType");
+    tb.add("geometry", Geometry.class);
+    tb.add("integer", Integer.class);
 
-        Geometry expected = (Geometry) features.features().next().getDefaultGeometry();
-        SimpleFeature sf = iterator.next();
-        assertTrue(expected.equals((Geometry) sf.getDefaultGeometry()));
+    GeometryFactory gf = new GeometryFactory();
+    SimpleFeatureBuilder b = new SimpleFeatureBuilder(tb.buildFeatureType());
 
+    DefaultFeatureCollection features = new DefaultFeatureCollection(null, b.getFeatureType());
+    DefaultFeatureCollection secondFeatures =
+        new DefaultFeatureCollection(null, b.getFeatureType());
+
+    Coordinate firstArray[] = new Coordinate[5];
+    for (int numFeatures = 0; numFeatures < 1; numFeatures++) {
+      firstArray[0] = new Coordinate(0, 0);
+      firstArray[1] = new Coordinate(1, 0);
+      firstArray[2] = new Coordinate(1, 1);
+      firstArray[3] = new Coordinate(0, 1);
+      firstArray[4] = new Coordinate(0, 0);
+      LinearRing shell = gf.createLinearRing(firstArray);
+      b.add(gf.createPolygon(shell, null));
+      b.add(0);
+
+      secondFeatures.add(b.buildFeature(numFeatures + ""));
     }
 
-    public void testExecute1() throws Exception {
-        SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
-        tb.setName("featureType");
-        tb.add("geometry", Geometry.class);
-        tb.add("integer", Integer.class);
+    Coordinate centre =
+        ((Polygon) secondFeatures.features().next().getDefaultGeometry())
+            .getCentroid()
+            .getCoordinate();
+    Point p = gf.createPoint(centre);
+    b.add(p);
+    b.add(0);
 
-        GeometryFactory gf = new GeometryFactory();
-        SimpleFeatureBuilder b = new SimpleFeatureBuilder(tb.buildFeatureType());
+    features.add(b.buildFeature(0 + ""));
 
-        DefaultFeatureCollection features = new DefaultFeatureCollection(null, b.getFeatureType());
-        DefaultFeatureCollection secondFeatures = new DefaultFeatureCollection(null, b
-                .getFeatureType());
+    InclusionFeatureCollection process = new InclusionFeatureCollection();
+    SimpleFeatureCollection output = process.execute(features, secondFeatures);
+    assertEquals(1, output.size());
+    SimpleFeatureIterator iterator = output.features();
 
-        Coordinate firstArray[] = new Coordinate[5];
-        for (int numFeatures = 0; numFeatures < 1; numFeatures++) {
-            firstArray[0] = new Coordinate(0, 0);
-            firstArray[1] = new Coordinate(1, 0);
-            firstArray[2] = new Coordinate(1, 1);
-            firstArray[3] = new Coordinate(0, 1);
-            firstArray[4] = new Coordinate(0, 0);
-            LinearRing shell = gf.createLinearRing(firstArray);
-            b.add(gf.createPolygon(shell, null));
-            b.add(0);
-
-            secondFeatures.add(b.buildFeature(numFeatures + ""));
-
-        }
-
-        Coordinate centre = ((Polygon) secondFeatures.features().next().getDefaultGeometry())
-                .getCentroid().getCoordinate();
-        Point p = gf.createPoint(centre);
-        b.add(p);
-        b.add(0);
-
-        features.add(b.buildFeature(0 + ""));
-
-        InclusionFeatureCollection process = new InclusionFeatureCollection();
-        SimpleFeatureCollection output = process.execute(features, secondFeatures);
-        assertEquals(1, output.size());
-        SimpleFeatureIterator iterator = output.features();
-
-        Geometry expected = (Geometry) features.features().next().getDefaultGeometry();
-        SimpleFeature sf = iterator.next();
-        assertTrue(expected.equals((Geometry) sf.getDefaultGeometry()));
-
-    }
+    Geometry expected = (Geometry) features.features().next().getDefaultGeometry();
+    SimpleFeature sf = iterator.next();
+    assertTrue(expected.equals((Geometry) sf.getDefaultGeometry()));
+  }
 }

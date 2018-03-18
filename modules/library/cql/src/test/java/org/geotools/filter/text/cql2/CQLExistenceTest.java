@@ -26,86 +26,80 @@ import org.opengis.filter.PropertyIsEqualTo;
 
 /**
  * Test Existence Predicate.
+ *
+ * <p>EXIST: evaluates as true for all record instances where the attribute_name is a member of the
+ * record schema. DOES-NOT-EXIST: opposite to EXISTS
+ *
  * <p>
- * EXIST: evaluates as true for all record instances where the attribute_name is
- * a member of the record schema. DOES-NOT-EXIST: opposite to EXISTS
- * </p>
- * <p>
- * 
+ *
  * <pre>
  *  &lt;existence_predicate &gt; ::=
  *          &lt;attribute_name &gt; EXISTS
  *      |   &lt;attribute_name &gt; DOES-NOT-EXIST
  * </pre>
- * 
- * </p>
- * 
+ *
  * @author Mauricio Pazos (Axios Engineering)
  * @since 2.6
- *
- *
- *
  * @source $URL$
  */
 public class CQLExistenceTest {
 
-    protected final Language language;
+  protected final Language language;
 
-    public CQLExistenceTest(){
-        
-        this(Language.CQL);
-    }
+  public CQLExistenceTest() {
 
-    protected CQLExistenceTest(final Language language){
-        
-        assert language != null: "language cannot be null value";
-        
-        this.language = language;
-    }
+    this(Language.CQL);
+  }
 
-    /**
-     * Sample: attribute_name DOES-NOT-EXIST
-     * 
-     * @throws CQLException
-     */
-    @Test
-    public void attributeDoesNotExist() throws CQLException{
-        // -------------------------------------------------------------
-        // <attribute_name> DOES-NOT-EXIST
-        // -------------------------------------------------------------
-        Filter resultFilter = CompilerUtil.parseFilter(this.language,FilterCQLSample.ATTRIBUTE_NAME_DOES_NOT_EXIST);
+  protected CQLExistenceTest(final Language language) {
 
-        Assert.assertNotNull("Filter expected", resultFilter);
+    assert language != null : "language cannot be null value";
 
-        Filter expected = FilterCQLSample.getSample(FilterCQLSample.ATTRIBUTE_NAME_DOES_NOT_EXIST);
+    this.language = language;
+  }
 
-        Assert.assertEquals(expected, resultFilter);
-    }
-    
-    /**
-     * Sample: attribute_name EXISTS
-     */
-    @Test
-    public void attributeExist() throws Exception {
+  /**
+   * Sample: attribute_name DOES-NOT-EXIST
+   *
+   * @throws CQLException
+   */
+  @Test
+  public void attributeDoesNotExist() throws CQLException {
+    // -------------------------------------------------------------
+    // <attribute_name> DOES-NOT-EXIST
+    // -------------------------------------------------------------
+    Filter resultFilter =
+        CompilerUtil.parseFilter(this.language, FilterCQLSample.ATTRIBUTE_NAME_DOES_NOT_EXIST);
 
-        // -------------------------------------------------------------
-        // <attribute_name> EXISTS
-        // TODO Exist function must be implemented in Geotools
-        // -------------------------------------------------------------
-        Filter resultFilter = CompilerUtil.parseFilter(this.language,FilterCQLSample.ATTRIBUTE_NAME_EXISTS);
+    Assert.assertNotNull("Filter expected", resultFilter);
 
-        Assert.assertNotNull("Filter expected", resultFilter);
+    Filter expected = FilterCQLSample.getSample(FilterCQLSample.ATTRIBUTE_NAME_DOES_NOT_EXIST);
 
-        Assert.assertTrue(resultFilter instanceof PropertyIsEqualTo);
+    Assert.assertEquals(expected, resultFilter);
+  }
 
-        PropertyIsEqualTo eqToResultFilter = (PropertyIsEqualTo) resultFilter;
+  /** Sample: attribute_name EXISTS */
+  @Test
+  public void attributeExist() throws Exception {
 
-        Filter expected = FilterCQLSample.getSample(FilterCQLSample.ATTRIBUTE_NAME_EXISTS);
+    // -------------------------------------------------------------
+    // <attribute_name> EXISTS
+    // TODO Exist function must be implemented in Geotools
+    // -------------------------------------------------------------
+    Filter resultFilter =
+        CompilerUtil.parseFilter(this.language, FilterCQLSample.ATTRIBUTE_NAME_EXISTS);
 
-        Assert.assertEquals(expected, eqToResultFilter);
+    Assert.assertNotNull("Filter expected", resultFilter);
 
-        Assert.assertNotNull("implementation of function was expected", eqToResultFilter.getExpression1());
-    }
+    Assert.assertTrue(resultFilter instanceof PropertyIsEqualTo);
 
-    
+    PropertyIsEqualTo eqToResultFilter = (PropertyIsEqualTo) resultFilter;
+
+    Filter expected = FilterCQLSample.getSample(FilterCQLSample.ATTRIBUTE_NAME_EXISTS);
+
+    Assert.assertEquals(expected, eqToResultFilter);
+
+    Assert.assertNotNull(
+        "implementation of function was expected", eqToResultFilter.getExpression1());
+  }
 }

@@ -22,12 +22,12 @@ import org.geotools.xml.SimpleBinding;
 import org.geotools.xml.impl.DatatypeConverterImpl;
 import org.geotools.xs.XS;
 
-
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:base64Binary.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="base64Binary" id="base64Binary"&gt;
  *      &lt;xs:annotation&gt;
@@ -52,65 +52,62 @@ import org.geotools.xs.XS;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSBase64BinaryBinding implements SimpleBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return XS.BASE64BINARY;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return XS.BASE64BINARY;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns arrays of type byte[].
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return byte[].class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns arrays of type byte[].
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return byte[].class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns arrays of type byte[].
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns arrays of type byte[].
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
 
-        return DatatypeConverterImpl.getInstance().parseBase64Binary((String)value); 
-    }
+    return DatatypeConverterImpl.getInstance().parseBase64Binary((String) value);
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public String encode(Object object, String value) {
-        byte[] bin = (byte[]) object;
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public String encode(Object object, String value) {
+    byte[] bin = (byte[]) object;
 
-        return DatatypeConverterImpl.getInstance().printBase64Binary(bin);
-    }
+    return DatatypeConverterImpl.getInstance().printBase64Binary(bin);
+  }
 }

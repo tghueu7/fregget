@@ -16,36 +16,31 @@
  */
 package org.geotools.sld.bindings;
 
-import org.w3c.dom.Element;
 import org.geotools.styling.SelectedChannelType;
+import org.w3c.dom.Element;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDSelectedChannelTypeBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(SelectedChannelType.class, new SLDSelectedChannelTypeBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(SelectedChannelType.class, new SLDSelectedChannelTypeBinding(null).getType());
+  }
 
-    public void testNormal() throws Exception {
-        document.appendChild(document.createElementNS(SLD.NAMESPACE, "GreenChannel"));
+  public void testNormal() throws Exception {
+    document.appendChild(document.createElementNS(SLD.NAMESPACE, "GreenChannel"));
 
-        Element name = document.createElementNS(SLD.NAMESPACE, "SourceChannelName");
-        name.appendChild(document.createTextNode("SomeName"));
+    Element name = document.createElementNS(SLD.NAMESPACE, "SourceChannelName");
+    name.appendChild(document.createTextNode("SomeName"));
 
-        Element contrast = document.createElementNS(SLD.NAMESPACE, "ContrastEnhancement");
+    Element contrast = document.createElementNS(SLD.NAMESPACE, "ContrastEnhancement");
 
-        document.getDocumentElement().appendChild(name);
-        document.getDocumentElement().appendChild(contrast);
+    document.getDocumentElement().appendChild(name);
+    document.getDocumentElement().appendChild(contrast);
 
-        SelectedChannelType channelType = (SelectedChannelType) parse();
-        assertNotNull(channelType);
-        assertNotNull(channelType.getChannelName());
-        assertEquals(channelType.getChannelName(), "SomeName");
+    SelectedChannelType channelType = (SelectedChannelType) parse();
+    assertNotNull(channelType);
+    assertNotNull(channelType.getChannelName());
+    assertEquals(channelType.getChannelName(), "SomeName");
 
-        assertNotNull(channelType.getContrastEnhancement());
-    }
+    assertNotNull(channelType.getContrastEnhancement());
+  }
 }

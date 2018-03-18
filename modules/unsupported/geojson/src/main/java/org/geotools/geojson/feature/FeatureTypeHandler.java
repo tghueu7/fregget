@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.geojson.DelegatingHandler;
 import org.geotools.geojson.IContentHandler;
@@ -34,14 +33,12 @@ import org.opengis.feature.type.GeometryDescriptor;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * Obtains a complete feature type from GeoJSON by parsing beyond first feature
- * and finding attributes that did not appear in the first feature or had null
- * values.
- * 
- * If null values are encoded, parsing will stop when all data types are found.
- * In the worst case, all features will be parsed. If null values are not
- * encoded, all features will be parsed anyway.
- * 
+ * Obtains a complete feature type from GeoJSON by parsing beyond first feature and finding
+ * attributes that did not appear in the first feature or had null values.
+ *
+ * <p>If null values are encoded, parsing will stop when all data types are found. In the worst
+ * case, all features will be parsed. If null values are not encoded, all features will be parsed
+ * anyway.
  */
 public class FeatureTypeHandler extends DelegatingHandler<SimpleFeatureType>
     implements IContentHandler<SimpleFeatureType> {
@@ -67,8 +64,7 @@ public class FeatureTypeHandler extends DelegatingHandler<SimpleFeatureType>
   }
 
   @Override
-  public boolean startObjectEntry(String key) throws ParseException,
-      IOException {
+  public boolean startObjectEntry(String key) throws ParseException, IOException {
     if ("crs".equals(key)) {
       delegate = new CRSHandler();
       return true;
@@ -119,8 +115,8 @@ public class FeatureTypeHandler extends DelegatingHandler<SimpleFeatureType>
       SimpleFeature feature = ((FeatureHandler) delegate).getValue();
       if (feature != null) {
         geom = feature.getFeatureType().getGeometryDescriptor();
-        List<AttributeDescriptor> attributeDescriptors = feature
-            .getFeatureType().getAttributeDescriptors();
+        List<AttributeDescriptor> attributeDescriptors =
+            feature.getFeatureType().getAttributeDescriptors();
         for (AttributeDescriptor ad : attributeDescriptors) {
           if (!ad.equals(geom)) {
             propertyTypes.put(ad.getLocalName(), ad.getType().getBinding());
@@ -157,8 +153,13 @@ public class FeatureTypeHandler extends DelegatingHandler<SimpleFeatureType>
           if (Number.class.isAssignableFrom(knownType) && newType == Double.class) {
             propertyTypes.put(currentProp, Double.class);
           } else {
-            throw new IllegalStateException("Found conflicting types " + knownType.getSimpleName() + " and "
-                + newType.getSimpleName() + " for property " + currentProp);
+            throw new IllegalStateException(
+                "Found conflicting types "
+                    + knownType.getSimpleName()
+                    + " and "
+                    + newType.getSimpleName()
+                    + " for property "
+                    + currentProp);
           }
         }
       }
@@ -172,8 +173,7 @@ public class FeatureTypeHandler extends DelegatingHandler<SimpleFeatureType>
    * parsing earlier, i.e.: as soon as all data types and the crs are found.
    */
   private boolean foundAllValues() {
-    return nullValuesEncoded && geom != null && crs != null
-        && !thereAreUnknownDataTypes();
+    return nullValuesEncoded && geom != null && crs != null && !thereAreUnknownDataTypes();
   }
 
   private boolean thereAreUnknownDataTypes() {

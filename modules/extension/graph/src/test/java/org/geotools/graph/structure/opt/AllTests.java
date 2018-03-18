@@ -18,11 +18,7 @@ package org.geotools.graph.structure.opt;
 
 import junit.framework.TestSuite;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class AllTests extends TestSuite {
   public AllTests() {
     super();
@@ -30,6 +26,5 @@ public class AllTests extends TestSuite {
     addTest(new TestSuite(OptEdgeTest.class));
     addTest(new TestSuite(OptDirectedNodeTest.class));
     addTest(new TestSuite(OptDirectedEdgeTest.class));
-  } 	
-    
+  }
 }

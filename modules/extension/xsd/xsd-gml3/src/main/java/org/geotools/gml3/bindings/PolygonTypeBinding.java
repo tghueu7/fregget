@@ -16,26 +16,23 @@
  */
 package org.geotools.gml3.bindings;
 
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.LinearRing;
+import com.vividsolutions.jts.geom.Polygon;
 import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.gml3.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.LinearRing;
-import com.vividsolutions.jts.geom.Polygon;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:PolygonType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="PolygonType"&gt;
  *      &lt;annotation&gt;
@@ -53,84 +50,78 @@ import com.vividsolutions.jts.geom.Polygon;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class PolygonTypeBinding extends AbstractComplexBinding {
-    GeometryFactory gFactory;
+  GeometryFactory gFactory;
 
-    public PolygonTypeBinding(GeometryFactory gFactory) {
-        this.gFactory = gFactory;
+  public PolygonTypeBinding(GeometryFactory gFactory) {
+    this.gFactory = gFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.PolygonType;
+  }
+
+  public int getExecutionMode() {
+    return BEFORE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Polygon.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // TODO: schema allows no exterior ring, but what the heck is that all about ?
+    LinearRing exterior = (LinearRing) node.getChildValue("exterior");
+    LinearRing[] interior = null;
+
+    if (node.hasChild("interior")) {
+      List list = node.getChildValues("interior");
+      interior = (LinearRing[]) list.toArray(new LinearRing[list.size()]);
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.PolygonType;
+    return gFactory.createPolygon(exterior, interior);
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    Polygon polygon = (Polygon) object;
+
+    if ("exterior".equals(name.getLocalPart())) {
+      return polygon.getExteriorRing();
     }
 
-    public int getExecutionMode() {
-        return BEFORE;
-    }
+    if ("interior".equals(name.getLocalPart())) {
+      int n = polygon.getNumInteriorRing();
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Polygon.class;
-    }
+      if (n > 0) {
+        LineString[] interior = new LineString[n];
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //TODO: schema allows no exterior ring, but what the heck is that all about ?
-        LinearRing exterior = (LinearRing) node.getChildValue("exterior");
-        LinearRing[] interior = null;
-
-        if (node.hasChild("interior")) {
-            List list = node.getChildValues("interior");
-            interior = (LinearRing[]) list.toArray(new LinearRing[list.size()]);
+        for (int i = 0; i < n; i++) {
+          interior[i] = polygon.getInteriorRingN(i);
         }
 
-        return gFactory.createPolygon(exterior, interior);
+        return interior;
+      }
     }
 
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        Polygon polygon = (Polygon) object;
-
-        if ("exterior".equals(name.getLocalPart())) {
-            return polygon.getExteriorRing();
-        }
-
-        if ("interior".equals(name.getLocalPart())) {
-            int n = polygon.getNumInteriorRing();
-
-            if (n > 0) {
-                LineString[] interior = new LineString[n];
-
-                for (int i = 0; i < n; i++) {
-                    interior[i] = polygon.getInteriorRingN(i);
-                }
-
-                return interior;
-            }
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

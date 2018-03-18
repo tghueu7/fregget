@@ -18,38 +18,35 @@ package org.geotools.styling;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.opengis.filter.expression.Expression;
 import org.opengis.style.ContrastMethod;
 
-/**
- * @author iant
- *
- */
-public class NormalizeContrastMethodStrategy extends AbstractContrastMethodStrategy{
+/** @author iant */
+public class NormalizeContrastMethodStrategy extends AbstractContrastMethodStrategy {
 
-    /** CLIP_TO_ZERO */
-    private static final String CLIP_TO_ZERO = "ClipToZero";
-    /** CLIP_TO_MINIMUM_MAXIMUM */
-    private static final String CLIP_TO_MINIMUM_MAXIMUM = "ClipToMinimumMaximum";
-    /** STRETCH_TO_MINIMUM_MAXIMUM */
-    private static final String STRETCH_TO_MINIMUM_MAXIMUM = "StretchToMinimumMaximum";
-    final static List<String> ALGORITHM_NAMES = 
-            Arrays.asList(STRETCH_TO_MINIMUM_MAXIMUM,
-            CLIP_TO_MINIMUM_MAXIMUM, CLIP_TO_ZERO);
+  /** CLIP_TO_ZERO */
+  private static final String CLIP_TO_ZERO = "ClipToZero";
+  /** CLIP_TO_MINIMUM_MAXIMUM */
+  private static final String CLIP_TO_MINIMUM_MAXIMUM = "ClipToMinimumMaximum";
+  /** STRETCH_TO_MINIMUM_MAXIMUM */
+  private static final String STRETCH_TO_MINIMUM_MAXIMUM = "StretchToMinimumMaximum";
 
-    public NormalizeContrastMethodStrategy() {
-        method = ContrastMethod.NORMALIZE;
+  static final List<String> ALGORITHM_NAMES =
+      Arrays.asList(STRETCH_TO_MINIMUM_MAXIMUM, CLIP_TO_MINIMUM_MAXIMUM, CLIP_TO_ZERO);
+
+  public NormalizeContrastMethodStrategy() {
+    method = ContrastMethod.NORMALIZE;
+  }
+
+  @Override
+  public void setAlgorithm(Expression name) {
+    if (name != null) {
+      String algorithm = name.evaluate(null, String.class);
+      if (algorithm != null && !ALGORITHM_NAMES.contains(algorithm)) {
+        throw new IllegalArgumentException(
+            "Unsupported Algorithm has been specified: " + algorithm);
+      }
     }
-
-    @Override
-    public void setAlgorithm(Expression name) {
-        if (name != null) {
-            String algorithm = name.evaluate(null, String.class);
-            if (algorithm != null && !ALGORITHM_NAMES.contains(algorithm)) {
-                throw new IllegalArgumentException("Unsupported Algorithm has been specified: " + algorithm);
-            }
-        }
-        super.setAlgorithm(name);
-    }
+    super.setAlgorithm(name);
+  }
 }

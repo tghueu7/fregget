@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- *    
+ *
  * 	  (c) 2014 - 2015 Open Source Geospatial Foundation - all rights reserved
  * 	  (c) 2012 - 2014 OpenPlans
  *
@@ -17,86 +17,83 @@
  */
 package org.geotools.data.csv.parse;
 
+import com.csvreader.CsvReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import org.geotools.data.csv.CSVFileState;
 import org.opengis.feature.simple.SimpleFeature;
 
-import com.csvreader.CsvReader;
-
 public class CSVIterator implements Iterator<SimpleFeature> {
 
-    private int idx;
+  private int idx;
 
-    private SimpleFeature next;
+  private SimpleFeature next;
 
-    private final CsvReader csvReader;
+  private final CsvReader csvReader;
 
-    private final CSVStrategy csvStrategy;
+  private final CSVStrategy csvStrategy;
 
-    public CSVIterator(CSVFileState csvFileState, CSVStrategy csvStrategy) throws IOException {
-        this.csvStrategy = csvStrategy;
-        csvReader = csvFileState.openCSVReader();
-        idx = 1;
-        next = null;
+  public CSVIterator(CSVFileState csvFileState, CSVStrategy csvStrategy) throws IOException {
+    this.csvStrategy = csvStrategy;
+    csvReader = csvFileState.openCSVReader();
+    idx = 1;
+    next = null;
+  }
+
+  private SimpleFeature buildFeature(String[] csvRecord) {
+    String id = "fid" + idx;
+    SimpleFeature feature = csvStrategy.decode(id, csvRecord);
+    idx++;
+    return feature;
+  }
+
+  @Override
+  public boolean hasNext() {
+    if (next != null) {
+      return true;
     }
-
-    private SimpleFeature buildFeature(String[] csvRecord) {
-        String id = "fid" + idx;
-        SimpleFeature feature = csvStrategy.decode(id, csvRecord);
-        idx++;
-        return feature;
+    try {
+      next = readFeature();
+    } catch (IOException e) {
+      next = null;
     }
+    return next != null;
+  }
 
-    @Override
-    public boolean hasNext() {
-        if (next != null) {
-            return true;
-        }
-        try {
-            next = readFeature();
-        } catch (IOException e) {
-            next = null;
-        }
-        return next != null;
+  private SimpleFeature readFeature() throws IOException {
+    if (csvReader.readRecord()) {
+      String[] csvRecord = csvReader.getValues();
+      return buildFeature(csvRecord);
     }
+    return null;
+  }
 
-    private SimpleFeature readFeature() throws IOException {
-        if (csvReader.readRecord()) {
-            String[] csvRecord = csvReader.getValues();
-            return buildFeature(csvRecord);
-        }
-        return null;
+  @Override
+  public SimpleFeature next() {
+    if (next != null) {
+      SimpleFeature result = next;
+      next = null;
+      return result;
     }
-
-    @Override
-    public SimpleFeature next() {
-        if (next != null) {
-            SimpleFeature result = next;
-            next = null;
-            return result;
-        }
-        SimpleFeature feature;
-        try {
-            feature = readFeature();
-        } catch (IOException e) {
-            feature = null;
-        }
-        if (feature == null) {
-            throw new NoSuchElementException();
-        }
-        return feature;
+    SimpleFeature feature;
+    try {
+      feature = readFeature();
+    } catch (IOException e) {
+      feature = null;
     }
-
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException("Cannot remove features from csv iteratore");
+    if (feature == null) {
+      throw new NoSuchElementException();
     }
+    return feature;
+  }
 
-    public void close() {
-        csvReader.close();
-    }
+  @Override
+  public void remove() {
+    throw new UnsupportedOperationException("Cannot remove features from csv iteratore");
+  }
 
+  public void close() {
+    csvReader.close();
+  }
 }

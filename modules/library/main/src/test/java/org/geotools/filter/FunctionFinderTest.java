@@ -16,8 +16,9 @@
  */
 package org.geotools.filter;
 
-import java.util.List;
+import static org.junit.Assert.*;
 
+import java.util.List;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.factory.Hints;
 import org.geotools.filter.function.InterpolateFunction;
@@ -29,79 +30,74 @@ import org.junit.Test;
 import org.opengis.filter.capability.FunctionName;
 import org.opengis.filter.expression.Function;
 
-import static org.junit.Assert.*;
-
 /**
  * @author jody
- *
- *
  * @source $URL$
  */
 public class FunctionFinderTest {
-    static org.opengis.filter.FilterFactory ff;
+  static org.opengis.filter.FilterFactory ff;
 
-    FunctionFinder finder;
+  FunctionFinder finder;
 
-    Function function;
+  Function function;
 
-    private FunctionName name;
+  private FunctionName name;
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        ff = CommonFactoryFinder.getFilterFactory(null);
+  @BeforeClass
+  public static void setUpBeforeClass() throws Exception {
+    ff = CommonFactoryFinder.getFilterFactory(null);
+  }
+
+  @AfterClass
+  public static void tearDownAfterClass() throws Exception {
+    ff = null;
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    finder = new FunctionFinder(new Hints(Hints.FILTER_FACTORY, ff));
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    finder = null;
+  }
+
+  @Test
+  public void testAllFunctionDescriptions() throws Exception {
+    List<FunctionName> all = finder.getAllFunctionDescriptions();
+    assertTrue(all.size() > 0);
+    boolean found = false;
+    for (FunctionName name : all) {
+      if (name.getName().equals("Interpolate")) {
+        found = true;
+        break;
+      }
     }
+    assertTrue("Found Interpolate", found);
+  }
 
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-        ff = null;
-    }
+  @Test
+  public void testFindInteropolate() throws Exception {
+    function = finder.findFunction("interpolate");
+    assertNotNull("interpolate", function);
+    assertTrue(function instanceof InterpolateFunction);
 
-    @Before
-    public void setUp() throws Exception {
-        finder = new FunctionFinder(new Hints(Hints.FILTER_FACTORY, ff));
-    }
+    function = finder.findFunction("Interpolate");
+    assertNotNull("Interpolate", function);
+    assertTrue(function instanceof InterpolateFunction);
 
-    @After
-    public void tearDown() throws Exception {
-        finder = null;
-    }
+    function = finder.findFunction("INTERPOLATE");
+    assertNotNull("INTERPOLATE", function);
+    assertTrue("fallback", function instanceof InterpolateFunction);
 
-    @Test
-    public void testAllFunctionDescriptions() throws Exception {
-        List<FunctionName> all = finder.getAllFunctionDescriptions();
-        assertTrue(all.size() > 0);
-        boolean found = false;
-        for (FunctionName name : all) {
-            if (name.getName().equals("Interpolate")) {
-                found = true;
-                break;
-            }
-        }
-        assertTrue("Found Interpolate", found );
-    }
+    name = finder.findFunctionDescription("interpolate");
+    assertNull("interpolate", name);
 
-    @Test
-    public void testFindInteropolate() throws Exception {
-        function = finder.findFunction("interpolate");
-        assertNotNull("interpolate", function);
-        assertTrue(function instanceof InterpolateFunction);
+    name = finder.findFunctionDescription("Interpolate");
+    assertNotNull("Interpolate", name);
 
-        function = finder.findFunction("Interpolate");
-        assertNotNull("Interpolate", function);
-        assertTrue(function instanceof InterpolateFunction);
-
-        function = finder.findFunction("INTERPOLATE");
-        assertNotNull("INTERPOLATE", function);
-        assertTrue("fallback", function instanceof InterpolateFunction);
-
-        name = finder.findFunctionDescription("interpolate");
-        assertNull("interpolate", name);
-
-        name = finder.findFunctionDescription("Interpolate");
-        assertNotNull("Interpolate", name);
-
-        name = finder.findFunctionDescription("INTERPOLATE");
-        assertNull("INTERPOLATE", name);
-    }
-
+    name = finder.findFunctionDescription("INTERPOLATE");
+    assertNull("INTERPOLATE", name);
+  }
 }

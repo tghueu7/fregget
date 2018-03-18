@@ -21,8 +21,8 @@ import org.geotools.jdbc.JDBCViewTestSetup;
 
 public class SpatiaLiteViewOnlineTest extends JDBCViewOnlineTest {
 
-    @Override
-    protected JDBCViewTestSetup createTestSetup() {
-        return new SpatiaLiteViewTestSetup();
-    }
+  @Override
+  protected JDBCViewTestSetup createTestSetup() {
+    return new SpatiaLiteViewTestSetup();
+  }
 }

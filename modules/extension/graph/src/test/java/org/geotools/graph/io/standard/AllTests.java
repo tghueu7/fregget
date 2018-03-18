@@ -18,11 +18,7 @@ package org.geotools.graph.io.standard;
 
 import junit.framework.TestSuite;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class AllTests extends TestSuite {
   public AllTests() {
     super();
@@ -30,8 +26,5 @@ public class AllTests extends TestSuite {
     addTest(new TestSuite(DirectedGraphSerializerTest.class));
     addTest(new TestSuite(OptGraphSerializerTest.class));
     addTest(new TestSuite(OptDirectedGraphSerializerTest.class));
-    
-  } 	
-    
-    
+  }
 }

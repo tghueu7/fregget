@@ -18,26 +18,21 @@ package org.geotools.sld.bindings;
 
 import org.geotools.styling.Style;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDUserStyleBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(Style.class, new SLDUserStyleBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(Style.class, new SLDUserStyleBinding(null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.userStyle(document, document);
+  public void test() throws Exception {
+    SLDMockData.userStyle(document, document);
 
-        Style style = (Style) parse();
-        assertNotNull(style);
-        assertEquals("theName", style.getName());
-        assertEquals("theAbstract", style.getAbstract());
-        assertEquals("theTitle", style.getTitle());
+    Style style = (Style) parse();
+    assertNotNull(style);
+    assertEquals("theName", style.getName());
+    assertEquals("theAbstract", style.getAbstract());
+    assertEquals("theTitle", style.getTitle());
 
-        assertEquals(2, style.getFeatureTypeStyles().length);
-    }
+    assertEquals(2, style.getFeatureTypeStyles().length);
+  }
 }

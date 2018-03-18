@@ -18,10 +18,8 @@ package org.geotools.styling.builder;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.measure.quantity.Length;
 import javax.measure.unit.Unit;
-
 import org.geotools.Builder;
 import org.geotools.styling.Font;
 import org.geotools.styling.LabelPlacement;
@@ -31,199 +29,194 @@ import org.geotools.styling.TextSymbolizer;
 import org.geotools.styling.TextSymbolizer2;
 import org.opengis.filter.expression.Expression;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class TextSymbolizerBuilder extends SymbolizerBuilder<TextSymbolizer> {
-    FillBuilder fill = new FillBuilder(this).unset();
+  FillBuilder fill = new FillBuilder(this).unset();
 
-    List<FontBuilder> fonts = new ArrayList<FontBuilder>();
+  List<FontBuilder> fonts = new ArrayList<FontBuilder>();
 
-    FontBuilder font;
+  FontBuilder font;
 
-    HaloBuilder halo = new HaloBuilder(this).unset();
+  HaloBuilder halo = new HaloBuilder(this).unset();
 
-    Expression label;
+  Expression label;
 
-    Expression geometry = null;
+  Expression geometry = null;
 
-    Unit<Length> uom;
+  Unit<Length> uom;
 
-    GraphicBuilder shield = new GraphicBuilder(this).unset();
+  GraphicBuilder shield = new GraphicBuilder(this).unset();
 
-    Builder<? extends LabelPlacement> placement = new PointPlacementBuilder(this).unset();
+  Builder<? extends LabelPlacement> placement = new PointPlacementBuilder(this).unset();
 
-    private Expression priority;
+  private Expression priority;
 
-    public TextSymbolizerBuilder() {
-        this(null);
+  public TextSymbolizerBuilder() {
+    this(null);
+  }
+
+  public TextSymbolizerBuilder(RuleBuilder parent) {
+    super(parent);
+    reset();
+  }
+
+  public TextSymbolizerBuilder geometry(Expression geometry) {
+    this.geometry = geometry;
+    return this;
+  }
+
+  public TextSymbolizerBuilder geometry(String cqlExpression) {
+    return geometry(cqlExpression(cqlExpression));
+  }
+
+  public HaloBuilder halo() {
+    unset = false;
+    return halo;
+  }
+
+  public FillBuilder fill() {
+    unset = false;
+    return fill;
+  }
+
+  public FontBuilder newFont() {
+    unset = false;
+    FontBuilder font = new FontBuilder(this);
+    fonts.add(font);
+    return font;
+  }
+
+  public LinePlacementBuilder linePlacement() {
+    if (!(placement instanceof LinePlacementBuilder)) {
+      placement = new LinePlacementBuilder(this);
     }
+    unset = false;
+    return (LinePlacementBuilder) placement;
+  }
 
-    public TextSymbolizerBuilder(RuleBuilder parent) {
-        super(parent);
-        reset();
+  public PointPlacementBuilder pointPlacement() {
+    if (!(placement instanceof PointPlacementBuilder)) {
+      placement = new PointPlacementBuilder(this);
     }
+    unset = false;
+    return (PointPlacementBuilder) placement;
+  }
 
-    public TextSymbolizerBuilder geometry(Expression geometry) {
-        this.geometry = geometry;
-        return this;
+  public TextSymbolizerBuilder uom(Unit<Length> uom) {
+    unset = false;
+    this.uom = uom;
+    return this;
+  }
+
+  public GraphicBuilder shield() {
+    unset = false;
+    return shield;
+  }
+
+  public TextSymbolizer build() {
+    if (unset) {
+      return null;
     }
-
-    public TextSymbolizerBuilder geometry(String cqlExpression) {
-        return geometry(cqlExpression(cqlExpression));
+    Font[] array = null;
+    if (!fonts.isEmpty()) {
+      array = new Font[fonts.size()];
+      for (int i = 0; i < array.length; i++) {
+        array[i] = fonts.get(i).build();
+      }
     }
-
-    public HaloBuilder halo() {
-        unset = false;
-        return halo;
+    TextSymbolizer ts =
+        sf.createTextSymbolizer(fill.build(), array, halo.build(), label, placement.build(), null);
+    ts.setGeometry(geometry);
+    if (uom != null) {
+      ts.setUnitOfMeasure(uom);
     }
-
-    public FillBuilder fill() {
-        unset = false;
-        return fill;
+    ts.getOptions().putAll(options);
+    ts.setPriority(priority);
+    if (ts instanceof TextSymbolizer2) {
+      TextSymbolizer2 ts2 = (TextSymbolizer2) ts;
+      if (!shield.isUnset()) {
+        ts2.setGraphic(shield.build());
+      }
     }
+    reset();
+    return ts;
+  }
 
-    public FontBuilder newFont() {
-        unset = false;
-        FontBuilder font = new FontBuilder(this);
-        fonts.add(font);
-        return font;
+  public TextSymbolizerBuilder unset() {
+    return (TextSymbolizerBuilder) super.unset();
+  }
+
+  public TextSymbolizerBuilder reset() {
+    fill.reset(); // TODO: default fill for text?
+    halo.unset(); // no default halo
+    label = null;
+    geometry = null;
+    placement.reset();
+    placement.unset();
+    options.clear();
+    uom = null;
+    priority = null;
+    unset = false;
+    return this;
+  }
+
+  public TextSymbolizerBuilder reset(TextSymbolizer symbolizer) {
+    fill.reset(symbolizer.getFill());
+    halo.reset(symbolizer.getHalo());
+    label = symbolizer.getLabel();
+    geometry = null;
+    LabelPlacement otherPlacement = symbolizer.getLabelPlacement();
+    if (symbolizer.getLabelPlacement() instanceof PointPlacement) {
+      PointPlacementBuilder builder = new PointPlacementBuilder(this);
+      builder.reset((PointPlacement) otherPlacement);
+      placement = builder;
+    } else if (symbolizer.getLabelPlacement() instanceof LabelPlacement) {
+      LinePlacementBuilder builder = new LinePlacementBuilder(this);
+      builder.reset((LinePlacement) otherPlacement);
+      placement = builder;
+    } else {
+      throw new IllegalArgumentException("Unrecognized label placement: " + otherPlacement);
     }
+    priority = symbolizer.getPriority();
+    unset = false;
+    return this;
+  }
 
-    public LinePlacementBuilder linePlacement() {
-        if (!(placement instanceof LinePlacementBuilder)) {
-            placement = new LinePlacementBuilder(this);
-        }
-        unset = false;
-        return (LinePlacementBuilder) placement;
-    }
+  public TextSymbolizerBuilder option(String name, Object value) {
+    options.put(name, value.toString());
+    unset = false;
+    return this;
+  }
 
-    public PointPlacementBuilder pointPlacement() {
-        if (!(placement instanceof PointPlacementBuilder)) {
-            placement = new PointPlacementBuilder(this);
-        }
-        unset = false;
-        return (PointPlacementBuilder) placement;
-    }
+  public TextSymbolizerBuilder label(Expression label) {
+    unset = false;
+    this.label = label;
+    return this;
+  }
 
-    public TextSymbolizerBuilder uom(Unit<Length> uom) {
-        unset = false;
-        this.uom = uom;
-        return this;
-    }
+  public TextSymbolizerBuilder label(String cqlExpression) {
+    return label(cqlExpression(cqlExpression));
+  }
 
-    public GraphicBuilder shield() {
-        unset = false;
-        return shield;
-    }
+  public TextSymbolizerBuilder labelText(String text) {
+    return label(literal(text));
+  }
 
-    public TextSymbolizer build() {
-        if (unset) {
-            return null;
-        }
-        Font[] array = null;
-        if (!fonts.isEmpty()) {
-            array = new Font[fonts.size()];
-            for (int i = 0; i < array.length; i++) {
-                array[i] = fonts.get(i).build();
-            }
-        }
-        TextSymbolizer ts = sf.createTextSymbolizer(fill.build(), array, halo.build(), label,
-                placement.build(), null);
-        ts.setGeometry(geometry);
-        if (uom != null) {
-            ts.setUnitOfMeasure(uom);
-        }
-        ts.getOptions().putAll(options);
-        ts.setPriority(priority);
-        if (ts instanceof TextSymbolizer2) {
-            TextSymbolizer2 ts2 = (TextSymbolizer2) ts;
-            if (!shield.isUnset()) {
-                ts2.setGraphic(shield.build());
-            }
-        }
-        reset();
-        return ts;
-    }
+  protected void buildStyleInternal(StyleBuilder sb) {
+    sb.featureTypeStyle().rule().text().init(this);
+  }
 
-    public TextSymbolizerBuilder unset() {
-        return (TextSymbolizerBuilder) super.unset();
-    }
+  public TextSymbolizerBuilder priority(Expression priority) {
+    unset = false;
+    this.priority = priority;
+    return this;
+  }
 
-    public TextSymbolizerBuilder reset() {
-        fill.reset(); // TODO: default fill for text?
-        halo.unset(); // no default halo
-        label = null;
-        geometry = null;
-        placement.reset();
-        placement.unset();
-        options.clear();
-        uom = null;
-        priority = null;
-        unset = false;
-        return this;
-    }
+  public TextSymbolizerBuilder priority(String cql) {
+    return priority(cqlExpression(cql));
+  }
 
-    public TextSymbolizerBuilder reset(TextSymbolizer symbolizer) {
-        fill.reset(symbolizer.getFill());
-        halo.reset(symbolizer.getHalo());
-        label = symbolizer.getLabel();
-        geometry = null;
-        LabelPlacement otherPlacement = symbolizer.getLabelPlacement();
-        if (symbolizer.getLabelPlacement() instanceof PointPlacement) {
-            PointPlacementBuilder builder = new PointPlacementBuilder(this);
-            builder.reset((PointPlacement) otherPlacement);
-            placement = builder;
-        } else if (symbolizer.getLabelPlacement() instanceof LabelPlacement) {
-            LinePlacementBuilder builder = new LinePlacementBuilder(this);
-            builder.reset((LinePlacement) otherPlacement);
-            placement = builder;
-        } else {
-            throw new IllegalArgumentException("Unrecognized label placement: " + otherPlacement);
-        }
-        priority = symbolizer.getPriority();
-        unset = false;
-        return this;
-    }
-
-    public TextSymbolizerBuilder option(String name, Object value) {
-        options.put(name, value.toString());
-        unset = false;
-        return this;
-    }
-
-    public TextSymbolizerBuilder label(Expression label) {
-        unset = false;
-        this.label = label;
-        return this;
-    }
-
-    public TextSymbolizerBuilder label(String cqlExpression) {
-        return label(cqlExpression(cqlExpression));
-    }
-
-    public TextSymbolizerBuilder labelText(String text) {
-        return label(literal(text));
-    }
-
-    protected void buildStyleInternal(StyleBuilder sb) {
-        sb.featureTypeStyle().rule().text().init(this);
-    }
-
-    public TextSymbolizerBuilder priority(Expression priority) {
-        unset = false;
-        this.priority = priority;
-        return this;
-    }
-
-    public TextSymbolizerBuilder priority(String cql) {
-        return priority(cqlExpression(cql));
-    }
-
-    public TextSymbolizerBuilder priority(int priority) {
-        return priority(literal(priority));
-    }
-
+  public TextSymbolizerBuilder priority(int priority) {
+    return priority(literal(priority));
+  }
 }

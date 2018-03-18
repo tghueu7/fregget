@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2015, Boundless
  *
@@ -26,22 +26,22 @@ import org.opengis.feature.type.Name;
 
 /**
  * A strategy for mapping a mongo collection to a feature.
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  */
 public interface CollectionMapper {
 
-    Geometry getGeometry(DBObject obj);
+  Geometry getGeometry(DBObject obj);
 
-    void setGeometry(DBObject obj, Geometry g);
+  void setGeometry(DBObject obj, Geometry g);
 
-    DBObject toObject(Geometry g);
+  DBObject toObject(Geometry g);
 
-    String getGeometryPath();
+  String getGeometryPath();
 
-    String getPropertyPath(String property);
+  String getPropertyPath(String property);
 
-    SimpleFeatureType buildFeatureType(Name name, DBCollection collection);
+  SimpleFeatureType buildFeatureType(Name name, DBCollection collection);
 
-    SimpleFeature buildFeature(DBObject obj, SimpleFeatureType featureType);
+  SimpleFeature buildFeature(DBObject obj, SimpleFeatureType featureType);
 }

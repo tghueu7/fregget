@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,140 +20,129 @@ import java.awt.Composite;
 import java.awt.image.BufferedImage;
 
 /**
- * A style class used to depict a point, polygon centroid or line with a small
- * graphic icon
- * 
+ * A style class used to depict a point, polygon centroid or line with a small graphic icon
+ *
  * @author Andrea Aime
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class GraphicStyle2D extends Style2D implements PointStyle2D {
-	BufferedImage image;
-	int border = 0;
-	float rotation;
+  BufferedImage image;
+  int border = 0;
+  float rotation;
 
-    float displacementX;
+  float displacementX;
 
-    float displacementY;
+  float displacementY;
 
-    float anchorPointX = 0.5f;
+  float anchorPointX = 0.5f;
 
-    float anchorPointY = 0.5f;
+  float anchorPointY = 0.5f;
 
-    Composite composite;
+  Composite composite;
 
-	/**
-	 * Creates a new GraphicStyle2D object.
-	 * 
-	 * @param image
-	 *            The image that will be used to depict the centroid/point/...
-	 * @param rotation
-	 *            The image rotation
-	 * @param opacity
-	 *            The image opacity
-	 */
-    public GraphicStyle2D(BufferedImage image, float rotation) {
-		this.image = image;
-		this.rotation = rotation;
-	}
-	
+  /**
+   * Creates a new GraphicStyle2D object.
+   *
+   * @param image The image that will be used to depict the centroid/point/...
+   * @param rotation The image rotation
+   * @param opacity The image opacity
+   */
+  public GraphicStyle2D(BufferedImage image, float rotation) {
+    this.image = image;
+    this.rotation = rotation;
+  }
 
-    public GraphicStyle2D(BufferedImage image, float rotation, int border) {
-		this.image = image;
-		this.rotation = rotation;
-		this.border = border;
-	}
+  public GraphicStyle2D(BufferedImage image, float rotation, int border) {
+    this.image = image;
+    this.rotation = rotation;
+    this.border = border;
+  }
 
-    public GraphicStyle2D(BufferedImage image, int border) {
-        this.image = image;
-        this.border = border;
-    }
+  public GraphicStyle2D(BufferedImage image, int border) {
+    this.image = image;
+    this.border = border;
+  }
 
+  /** */
+  public BufferedImage getImage() {
+    return image;
+  }
 
-	/**
-     */
-	public BufferedImage getImage() {
-		return image;
-	}
+  /**
+   * The graphic rotation in radians.
+   *
+   * @return graphic rotation in radians
+   */
+  public float getRotation() {
+    return rotation;
+  }
 
-	/**
-	 * The graphic rotation in radians.
-	 * 
-	 * @return graphic rotation in radians
-         */
-	public float getRotation() {
-		return rotation;
-	}
+  /** @param image */
+  public void setImage(BufferedImage image) {
+    this.image = image;
+  }
 
-	/**
-	 * @param image
-	 */
-	public void setImage(BufferedImage image) {
-		this.image = image;
-	}
+  /**
+   * Graphic rotation in radians
+   *
+   * @param radians graphic rotation
+   */
+  public void setRotation(float radians) {
+    rotation = radians;
+  }
 
-	/**
-	 * Graphic rotation in radians
-	 * @param radians graphic rotation
-	 */
-	public void setRotation(float radians) {
-		rotation = radians;
-	}
+  /**
+   * The actual image size might have been extended with an extra border (usually of one pixel) to
+   * preserve antialiasing pixels
+   *
+   * @return
+   */
+  public int getBorder() {
+    return border;
+  }
 
-	/**
-	 * The actual image size might have been extended with an extra border
-	 * (usually of one pixel) to preserve antialiasing pixels
-	 * 
-	 * @return
-	 */
-	public int getBorder() {
-		return border;
-	}
+  public void setBorder(int border) {
+    this.border = border;
+  }
 
-	public void setBorder(int border) {
-		this.border = border;
-	}
+  public float getDisplacementX() {
+    return displacementX;
+  }
 
-    public float getDisplacementX() {
-        return displacementX;
-    }
+  public void setDisplacementX(float displacementX) {
+    this.displacementX = displacementX;
+  }
 
-    public void setDisplacementX(float displacementX) {
-        this.displacementX = displacementX;
-    }
+  public float getDisplacementY() {
+    return displacementY;
+  }
 
-    public float getDisplacementY() {
-        return displacementY;
-    }
+  public void setDisplacementY(float displacementY) {
+    this.displacementY = displacementY;
+  }
 
-    public void setDisplacementY(float displacementY) {
-        this.displacementY = displacementY;
-    }
+  public float getAnchorPointX() {
+    return anchorPointX;
+  }
 
-    public float getAnchorPointX() {
-        return anchorPointX;
-    }
+  public void setAnchorPointX(float anchorPointX) {
+    this.anchorPointX = anchorPointX;
+  }
 
-    public void setAnchorPointX(float anchorPointX) {
-        this.anchorPointX = anchorPointX;
-    }
+  public float getAnchorPointY() {
+    return anchorPointY;
+  }
 
-    public float getAnchorPointY() {
-        return anchorPointY;
-    }
+  public void setAnchorPointY(float anchorPointY) {
+    this.anchorPointY = anchorPointY;
+  }
 
-    public void setAnchorPointY(float anchorPointY) {
-        this.anchorPointY = anchorPointY;
-    }
+  public Composite getComposite() {
+    return composite;
+  }
 
-    public Composite getComposite() {
-        return composite;
-    }
-
-    public void setComposite(Composite composite) {
-        this.composite = composite;
-    }
-
+  public void setComposite(Composite composite) {
+    this.composite = composite;
+  }
 }

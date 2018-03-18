@@ -19,28 +19,23 @@ package org.geotools.sld.bindings;
 import org.geotools.filter.Filters;
 import org.geotools.styling.ContrastEnhancement;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDContrastEnhancementBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(ContrastEnhancement.class,
-            new SLDContrastEnhancementBinding(null, null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(
+        ContrastEnhancement.class, new SLDContrastEnhancementBinding(null, null).getType());
+  }
 
-    public void testHistogram() throws Exception {
-        SLDMockData.contrastEnhancement(document, document);
+  public void testHistogram() throws Exception {
+    SLDMockData.contrastEnhancement(document, document);
 
-        ContrastEnhancement ce = (ContrastEnhancement) parse();
-        assertNotNull(ce);
+    ContrastEnhancement ce = (ContrastEnhancement) parse();
+    assertNotNull(ce);
 
-        assertNotNull(ce.getGammaValue());
-        assertEquals(1.23, Filters.asDouble(ce.getGammaValue()), 0d);
+    assertNotNull(ce.getGammaValue());
+    assertEquals(1.23, Filters.asDouble(ce.getGammaValue()), 0d);
 
-        assertNotNull(ce.getMethod());
-        assertEquals("histogram", ce.getMethod().name().toLowerCase());
-    }
+    assertNotNull(ce.getMethod());
+    assertEquals("histogram", ce.getMethod().name().toLowerCase());
+  }
 }

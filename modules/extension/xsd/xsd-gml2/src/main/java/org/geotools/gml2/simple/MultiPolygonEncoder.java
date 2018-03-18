@@ -16,52 +16,50 @@
  */
 package org.geotools.gml2.simple;
 
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
 import org.geotools.gml2.GML;
 import org.geotools.xml.Encoder;
 import org.xml.sax.helpers.AttributesImpl;
 
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Polygon;
-
 /**
  * Encodes a GML2 multi polygon
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */
 class MultiPolygonEncoder extends GeometryEncoder<MultiPolygon> {
 
-    static final QualifiedName MULTI_POLYGON = new QualifiedName(GML.NAMESPACE, "MultiPolygon",
-            "gml");
+  static final QualifiedName MULTI_POLYGON =
+      new QualifiedName(GML.NAMESPACE, "MultiPolygon", "gml");
 
-    static final QualifiedName POLYGON_MEMBER = new QualifiedName(GML.NAMESPACE, "polygonMember",
-            "gml");
+  static final QualifiedName POLYGON_MEMBER =
+      new QualifiedName(GML.NAMESPACE, "polygonMember", "gml");
 
-    QualifiedName multiPolygon;
+  QualifiedName multiPolygon;
 
-    QualifiedName polygonMember;
+  QualifiedName polygonMember;
 
-    PolygonEncoder pe;
+  PolygonEncoder pe;
 
-    protected MultiPolygonEncoder(Encoder encoder, String gmlPrefix) {
-        super(encoder);
-        pe = new PolygonEncoder(encoder, gmlPrefix);
-        multiPolygon = MULTI_POLYGON.derive(gmlPrefix);
-        polygonMember = POLYGON_MEMBER.derive(gmlPrefix);
+  protected MultiPolygonEncoder(Encoder encoder, String gmlPrefix) {
+    super(encoder);
+    pe = new PolygonEncoder(encoder, gmlPrefix);
+    multiPolygon = MULTI_POLYGON.derive(gmlPrefix);
+    polygonMember = POLYGON_MEMBER.derive(gmlPrefix);
+  }
+
+  @Override
+  public void encode(MultiPolygon geometry, AttributesImpl atts, GMLWriter handler)
+      throws Exception {
+    handler.startElement(multiPolygon, atts);
+
+    for (int i = 0; i < geometry.getNumGeometries(); i++) {
+      handler.startElement(polygonMember, null);
+      pe.encode((Polygon) geometry.getGeometryN(i), null, handler);
+      handler.endElement(polygonMember);
     }
 
-    @Override
-    public void encode(MultiPolygon geometry, AttributesImpl atts, GMLWriter handler)
-            throws Exception {
-        handler.startElement(multiPolygon, atts);
-
-        for (int i = 0; i < geometry.getNumGeometries(); i++) {
-            handler.startElement(polygonMember, null);
-            pe.encode((Polygon) geometry.getGeometryN(i), null, handler);
-            handler.endElement(polygonMember);
-        }
-
-        handler.endElement(multiPolygon);
-    }
-
+    handler.endElement(multiPolygon);
+  }
 }

@@ -20,33 +20,29 @@ package org.geotools.filter;
 import org.opengis.filter.expression.PropertyName;
 import org.xml.sax.helpers.NamespaceSupport;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class FilterFactoryImplNamespaceAware extends FilterFactoryImpl {
 
-    private NamespaceSupport namespaceContext;
+  private NamespaceSupport namespaceContext;
 
-    /**
-     * Empty constructor, no namespace context received, behaves exactly like
-     * {@link FilterFactoryImpl}
-     */
-    public FilterFactoryImplNamespaceAware() {
-        super();
-    }
+  /**
+   * Empty constructor, no namespace context received, behaves exactly like {@link
+   * FilterFactoryImpl}
+   */
+  public FilterFactoryImplNamespaceAware() {
+    super();
+  }
 
-    public FilterFactoryImplNamespaceAware(NamespaceSupport namespaceContext) {
-        setNamepaceContext(namespaceContext);
-    }
+  public FilterFactoryImplNamespaceAware(NamespaceSupport namespaceContext) {
+    setNamepaceContext(namespaceContext);
+  }
 
-    // @Override
-    public PropertyName property(String name) {
-        return property(name, namespaceContext);
-    }
+  // @Override
+  public PropertyName property(String name) {
+    return property(name, namespaceContext);
+  }
 
-    public void setNamepaceContext(NamespaceSupport namespaceContext) {
-        this.namespaceContext = namespaceContext;
-    }
+  public void setNamepaceContext(NamespaceSupport namespaceContext) {
+    this.namespaceContext = namespaceContext;
+  }
 }

@@ -18,44 +18,33 @@ package org.geotools.jdbc;
 
 import java.sql.SQLException;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public abstract class JDBCBooleanTestSetup extends JDBCDelegatingTestSetup {
 
-    protected JDBCBooleanTestSetup(JDBCTestSetup delegate) {
-        super(delegate);
-    }
-    
-    protected final void setUpData() throws Exception {
-        //kill all the data
-        try {
-            dropBooleanTable();
-        } catch (SQLException e) {
-        }
+  protected JDBCBooleanTestSetup(JDBCTestSetup delegate) {
+    super(delegate);
+  }
 
-        //create all the data
-        createBooleanTable();
+  protected final void setUpData() throws Exception {
+    // kill all the data
+    try {
+      dropBooleanTable();
+    } catch (SQLException e) {
     }
 
-    /**
-     * Creates a table with the following schema:
-     * <p>
-     * b( id:Integer; boolProperty: Boolean)
-     * </p>
-     * <p>
-     * The table should contain the following data.
-     *  0 | false
-     *  1 | true
-     * </p>
-     */
-    protected abstract void createBooleanTable() throws Exception;
+    // create all the data
+    createBooleanTable();
+  }
 
-    /**
-     * Drops the "b" table previously created
-     */
-    protected abstract void dropBooleanTable() throws Exception;
+  /**
+   * Creates a table with the following schema:
+   *
+   * <p>b( id:Integer; boolProperty: Boolean)
+   *
+   * <p>The table should contain the following data. 0 | false 1 | true
+   */
+  protected abstract void createBooleanTable() throws Exception;
 
+  /** Drops the "b" table previously created */
+  protected abstract void dropBooleanTable() throws Exception;
 }

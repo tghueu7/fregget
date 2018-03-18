@@ -18,31 +18,26 @@ package org.geotools.jdbc;
 
 import java.sql.SQLException;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public abstract class JDBCAggregateTestSetup extends JDBCDelegatingTestSetup {
 
-    protected JDBCAggregateTestSetup(JDBCTestSetup delegate) {
-        super(delegate);
-    }
-    
-    protected final void setUpData() throws Exception {
-        super.setUpData();
-        //kill all the data
-        try {
-            dropAggregateTable();
-        } catch (SQLException e) {
-        }
+  protected JDBCAggregateTestSetup(JDBCTestSetup delegate) {
+    super(delegate);
+  }
 
-        //create all the data
-        createAggregateTable();
+  protected final void setUpData() throws Exception {
+    super.setUpData();
+    // kill all the data
+    try {
+      dropAggregateTable();
+    } catch (SQLException e) {
     }
 
-    protected abstract void createAggregateTable() throws Exception;
+    // create all the data
+    createAggregateTable();
+  }
 
-    protected abstract void dropAggregateTable() throws Exception;
+  protected abstract void createAggregateTable() throws Exception;
 
+  protected abstract void dropAggregateTable() throws Exception;
 }

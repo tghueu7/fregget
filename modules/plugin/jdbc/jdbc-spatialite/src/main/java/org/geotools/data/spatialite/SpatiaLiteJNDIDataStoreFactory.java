@@ -19,18 +19,14 @@ package org.geotools.data.spatialite;
 import org.geotools.jdbc.JDBCJNDIDataStoreFactory;
 
 /**
- * JNDI DataStoreFactory for SpatiaLite database. 
- * 
+ * JNDI DataStoreFactory for SpatiaLite database.
+ *
  * @author Christian Mueller
- * 
- *
- *
- *
  * @source $URL$
  */
 public class SpatiaLiteJNDIDataStoreFactory extends JDBCJNDIDataStoreFactory {
 
-    public SpatiaLiteJNDIDataStoreFactory() {
-        super(new SpatiaLiteDataStoreFactory());
-    }
+  public SpatiaLiteJNDIDataStoreFactory() {
+    super(new SpatiaLiteDataStoreFactory());
+  }
 }

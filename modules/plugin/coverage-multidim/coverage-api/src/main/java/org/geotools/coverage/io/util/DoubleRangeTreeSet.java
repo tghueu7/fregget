@@ -19,33 +19,30 @@ package org.geotools.coverage.io.util;
 import java.util.Collection;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import org.geotools.util.NumberRange;
 
 /**
  * A treeset implementation with a built-in comparator for NumberRange<Double> objects
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 public class DoubleRangeTreeSet extends TreeSet<NumberRange<Double>> {
 
-    private static final long serialVersionUID = -1613807310486642564L;
-    
-    static NumberRangeComparator COMPARATOR = new NumberRangeComparator();
+  private static final long serialVersionUID = -1613807310486642564L;
 
-    public DoubleRangeTreeSet() {
-        super(COMPARATOR);
-    }
+  static NumberRangeComparator COMPARATOR = new NumberRangeComparator();
 
-    public DoubleRangeTreeSet(Collection<? extends NumberRange<Double>> c) {
-        super(COMPARATOR);
-        addAll(c);
-    }
+  public DoubleRangeTreeSet() {
+    super(COMPARATOR);
+  }
 
-    public DoubleRangeTreeSet(SortedSet<NumberRange<Double>> s) {
-        super(COMPARATOR);
-        addAll(s);
-    }
+  public DoubleRangeTreeSet(Collection<? extends NumberRange<Double>> c) {
+    super(COMPARATOR);
+    addAll(c);
+  }
 
+  public DoubleRangeTreeSet(SortedSet<NumberRange<Double>> s) {
+    super(COMPARATOR);
+    addAll(s);
+  }
 }

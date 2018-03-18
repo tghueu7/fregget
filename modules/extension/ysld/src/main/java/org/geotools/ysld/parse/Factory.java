@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,23 +23,23 @@ import org.geotools.styling.StyleFactory;
 import org.opengis.filter.FilterFactory;
 
 /**
- * Container class for instances of {@link StyleFactory}, {@link StyleBuilder}, and {@link FilterFactory}
- * used when parsing
+ * Container class for instances of {@link StyleFactory}, {@link StyleBuilder}, and {@link
+ * FilterFactory} used when parsing
  */
 public class Factory {
-    StyleFactory style;
+  StyleFactory style;
 
-    StyleBuilder styleBuilder;
+  StyleBuilder styleBuilder;
 
-    FilterFactory filter;
+  FilterFactory filter;
 
-    public Factory() {
-        this(CommonFactoryFinder.getStyleFactory(), CommonFactoryFinder.getFilterFactory());
-    }
+  public Factory() {
+    this(CommonFactoryFinder.getStyleFactory(), CommonFactoryFinder.getFilterFactory());
+  }
 
-    public Factory(StyleFactory style, FilterFactory filter) {
-        this.style = style;
-        this.styleBuilder = new StyleBuilder(style, filter);
-        this.filter = filter;
-    }
+  public Factory(StyleFactory style, FilterFactory filter) {
+    this.style = style;
+    this.styleBuilder = new StyleBuilder(style, filter);
+    this.filter = filter;
+  }
 }

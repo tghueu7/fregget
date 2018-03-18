@@ -21,17 +21,12 @@ import org.geotools.gml3.v3_2.GML;
 import org.geotools.gml3.v3_2.GML32TestSupport;
 import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class CurveTypeBindingTest extends GML32TestSupport {
 
-    public void testEncode() throws Exception {
-        Document dom = encode(GML3MockData.compoundCurve(), GML.Curve);
-        assertEquals(1, dom.getElementsByTagName("gml:ArcString").getLength());
-        assertEquals(1, dom.getElementsByTagName("gml:LineStringSegment").getLength());
-    }
+  public void testEncode() throws Exception {
+    Document dom = encode(GML3MockData.compoundCurve(), GML.Curve);
+    assertEquals(1, dom.getElementsByTagName("gml:ArcString").getLength());
+    assertEquals(1, dom.getElementsByTagName("gml:LineStringSegment").getLength());
+  }
 }

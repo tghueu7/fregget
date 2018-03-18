@@ -21,60 +21,55 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.geotools.util.CheckedHashMap;
 
 /**
- * 
  * @author Gabriel Roldan (Axios Engineering)
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
  * @version $Id$
- *
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
- *         /java/org/geotools/data/complex/config/SourceDataStore.java $
+ *     http://svn.osgeo.org/geotools/trunk/modules/unsupported/app-schema/app-schema/src/main
+ *     /java/org/geotools/data/complex/config/SourceDataStore.java $
  * @since 2.4
  */
 public class SourceDataStore implements Serializable {
-    private static final long serialVersionUID = 8540617713675342340L;
+  private static final long serialVersionUID = 8540617713675342340L;
 
-    private String id;
+  private String id;
 
-    private Map params = Collections.EMPTY_MAP;
+  private Map params = Collections.EMPTY_MAP;
 
-    /**
-     * True if we have the data store connection params but we want to connect to a data access
-     * that's connected to the data store. This requires the data access to be registered in
-     * DataAccessRegistry upon creation.
-     */
-    private boolean isDataAccess;
+  /**
+   * True if we have the data store connection params but we want to connect to a data access that's
+   * connected to the data store. This requires the data access to be registered in
+   * DataAccessRegistry upon creation.
+   */
+  private boolean isDataAccess;
 
-    public String getId() {
-        return id;
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public Map getParams() {
+    return new HashMap(params);
+  }
+
+  public void setParams(Map params) {
+    this.params = new CheckedHashMap(Serializable.class, Serializable.class);
+    if (params != null) {
+      this.params.putAll(params);
     }
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setDataAccess(String isDataAccess) {
+    this.isDataAccess = Boolean.valueOf(isDataAccess).booleanValue();
+  }
 
-    public Map getParams() {
-        return new HashMap(params);
-    }
-
-    public void setParams(Map params) {
-        this.params = new CheckedHashMap(Serializable.class, Serializable.class);
-        if (params != null) {
-            this.params.putAll(params);
-        }
-    }
-
-    public void setDataAccess(String isDataAccess) {
-        this.isDataAccess = Boolean.valueOf(isDataAccess).booleanValue();
-    }
-
-    public boolean isDataAccess() {
-        return isDataAccess;
-    }
+  public boolean isDataAccess() {
+    return isDataAccess;
+  }
 }

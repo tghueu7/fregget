@@ -16,23 +16,19 @@
  */
 package org.geotools.sld.bindings;
 
-import org.picocontainer.MutablePicoContainer;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import javax.xml.namespace.QName;
 import org.geotools.styling.ImageOutline;
-import org.geotools.styling.LineSymbolizer;
-import org.geotools.styling.PolygonSymbolizer;
 import org.geotools.styling.StyleFactory;
 import org.geotools.styling.Symbolizer;
 import org.geotools.xml.*;
-
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:ImageOutline.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="ImageOutline"&gt;
  *      &lt;xsd:annotation&gt;
@@ -51,69 +47,65 @@ import org.geotools.xml.*;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDImageOutlineBinding extends AbstractComplexBinding {
-    StyleFactory styleFactory;
+  StyleFactory styleFactory;
 
-    public SLDImageOutlineBinding(StyleFactory styleFactory) {
-        this.styleFactory = styleFactory;
-    }
+  public SLDImageOutlineBinding(StyleFactory styleFactory) {
+    this.styleFactory = styleFactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.IMAGEOUTLINE;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return SLD.IMAGEOUTLINE;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return ImageOutline.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return ImageOutline.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //&lt;xsd:choice&gt;
-        //  &lt;xsd:element ref="sld:LineSymbolizer"/&gt;
-        //  &lt;xsd:element ref="sld:PolygonSymbolizer"/&gt;
-        //&lt;/xsd:choice&gt;
-        return styleFactory.createImageOutline((Symbolizer) node.getChildValue(Symbolizer.class));
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // &lt;xsd:choice&gt;
+    //  &lt;xsd:element ref="sld:LineSymbolizer"/&gt;
+    //  &lt;xsd:element ref="sld:PolygonSymbolizer"/&gt;
+    // &lt;/xsd:choice&gt;
+    return styleFactory.createImageOutline((Symbolizer) node.getChildValue(Symbolizer.class));
+  }
 }

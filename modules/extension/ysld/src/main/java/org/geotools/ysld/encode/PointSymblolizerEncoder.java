@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -19,17 +19,15 @@ package org.geotools.ysld.encode;
 
 import org.geotools.styling.PointSymbolizer;
 
-/**
- * Encodes a {@link PointSymbolizer} as YSLD.
- */
+/** Encodes a {@link PointSymbolizer} as YSLD. */
 public class PointSymblolizerEncoder extends SymbolizerEncoder<PointSymbolizer> {
-    PointSymblolizerEncoder(PointSymbolizer sym) {
-        super(sym);
-    }
+  PointSymblolizerEncoder(PointSymbolizer sym) {
+    super(sym);
+  }
 
-    @Override
-    protected void encode(PointSymbolizer sym) {
-        inline(new GraphicEncoder((((PointSymbolizer) sym).getGraphic())));
-        super.encode(sym);
-    }
+  @Override
+  protected void encode(PointSymbolizer sym) {
+    inline(new GraphicEncoder((((PointSymbolizer) sym).getGraphic())));
+    super.encode(sym);
+  }
 }

@@ -17,10 +17,8 @@
 package org.geotools.coverageio.gdal.envihdr;
 
 import it.geosolutions.imageio.plugins.envihdr.ENVIHdrImageReaderSpi;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.geotools.coverageio.gdal.BaseGDALGridFormat;
 import org.geotools.data.DataSourceException;
 import org.geotools.factory.Hints;
@@ -30,57 +28,49 @@ import org.opengis.geometry.MismatchedDimensionException;
 /**
  * @author Mathew Wyatt, CSIRO Australia
  * @author Daniele Romagnoli, GeoSolutions SAS
- *
- *
  * @source $URL$
  */
 public final class EnviHdrFormat extends BaseGDALGridFormat implements Format {
 
-    /**
-     * Logger.
-     */
-    private final static Logger LOGGER = org.geotools.util.logging.Logging
-            .getLogger("org.geotools.coverageio.gdal.envihdr");
+  /** Logger. */
+  private static final Logger LOGGER =
+      org.geotools.util.logging.Logging.getLogger("org.geotools.coverageio.gdal.envihdr");
 
-    /**
-     * Constructor for the {@code BaseGDALGridFormat}. It is invoked by the
-     * underlying implementations.
-     *
-     * @param spi the format specific {@code ImageReaderSpi} instance
-     */
-    public EnviHdrFormat() {
-        super(new ENVIHdrImageReaderSpi());
+  /**
+   * Constructor for the {@code BaseGDALGridFormat}. It is invoked by the underlying
+   * implementations.
+   *
+   * @param spi the format specific {@code ImageReaderSpi} instance
+   */
+  public EnviHdrFormat() {
+    super(new ENVIHdrImageReaderSpi());
 
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.fine("Creating a new EnviHdrFormat.");
-        }
-
-        setInfo();
+    if (LOGGER.isLoggable(Level.FINE)) {
+      LOGGER.fine("Creating a new EnviHdrFormat.");
     }
 
-    private static InfoWrapper INFO = new InfoWrapper("ENVIHdr Coverage Format", "ENVIHdr");
+    setInfo();
+  }
 
-    /**
-     * Sets the metadata information.
-     */
-    protected void setInfo() {
-        setInfo(INFO);
-    }
+  private static InfoWrapper INFO = new InfoWrapper("ENVIHdr Coverage Format", "ENVIHdr");
 
-    /**
-     * @see org.geotools.data.coverage.grid.AbstractGridFormat#getReader(Object, Hints)
-     */
-    public EnviHdrReader getReader(Object source, Hints hints) {
-        try {
-            return new EnviHdrReader(source, hints);
-        } catch (MismatchedDimensionException e) {
-            final RuntimeException re = new RuntimeException();
-            re.initCause(e);
-            throw re;
-        } catch (DataSourceException e) {
-            final RuntimeException re = new RuntimeException();
-            re.initCause(e);
-            throw re;
-        }
+  /** Sets the metadata information. */
+  protected void setInfo() {
+    setInfo(INFO);
+  }
+
+  /** @see org.geotools.data.coverage.grid.AbstractGridFormat#getReader(Object, Hints) */
+  public EnviHdrReader getReader(Object source, Hints hints) {
+    try {
+      return new EnviHdrReader(source, hints);
+    } catch (MismatchedDimensionException e) {
+      final RuntimeException re = new RuntimeException();
+      re.initCause(e);
+      throw re;
+    } catch (DataSourceException e) {
+      final RuntimeException re = new RuntimeException();
+      re.initCause(e);
+      throw re;
     }
+  }
 }

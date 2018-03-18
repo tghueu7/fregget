@@ -19,21 +19,19 @@ package org.geotools.xs.bindings;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.TimeZone;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.factory.Hints;
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xml.impl.DatatypeConverterImpl;
 import org.geotools.xs.XS;
 
-
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:date.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="date" id="date"&gt;
  *      &lt;xs:annotation&gt;
@@ -59,67 +57,64 @@ import org.geotools.xs.XS;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSDateBinding implements SimpleBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return XS.DATE;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return XS.DATE;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return OVERRIDE;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link java.sql.Date}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Date.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link java.sql.Date}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Date.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link java.sql.Date}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public java.sql.Date parse(InstanceComponent instance, Object value) throws Exception {
-        Calendar calendar = DatatypeConverterImpl.getInstance().parseDate((String) value);
-        return new java.sql.Date(calendar.getTimeInMillis());
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link java.sql.Date}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public java.sql.Date parse(InstanceComponent instance, Object value) throws Exception {
+    Calendar calendar = DatatypeConverterImpl.getInstance().parseDate((String) value);
+    return new java.sql.Date(calendar.getTimeInMillis());
+  }
 
-    public String encode(Object object, String value) throws Exception {
-        final Date date = (Date) object;
-        Object hint = Hints.getSystemDefault(Hints.LOCAL_DATE_TIME_HANDLING);
-        Calendar calendar;
-        if(Boolean.TRUE.equals(hint)){
-            calendar = Calendar.getInstance();
-        }else{
-            calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-        }
-        calendar.clear();
-        calendar.setTimeInMillis(date.getTime());
-
-        return DatatypeConverterImpl.getInstance().printDate(calendar);
+  public String encode(Object object, String value) throws Exception {
+    final Date date = (Date) object;
+    Object hint = Hints.getSystemDefault(Hints.LOCAL_DATE_TIME_HANDLING);
+    Calendar calendar;
+    if (Boolean.TRUE.equals(hint)) {
+      calendar = Calendar.getInstance();
+    } else {
+      calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
     }
+    calendar.clear();
+    calendar.setTimeInMillis(date.getTime());
+
+    return DatatypeConverterImpl.getInstance().printDate(calendar);
+  }
 }

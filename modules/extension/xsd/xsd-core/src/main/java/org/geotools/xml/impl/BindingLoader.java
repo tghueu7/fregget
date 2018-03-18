@@ -17,93 +17,80 @@
 package org.geotools.xml.impl;
 
 import java.util.Map;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.xml.Binding;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
 import org.picocontainer.defaults.InstanceComponentAdapter;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class BindingLoader {
-    
-    Map bindings;
-    
-    public BindingLoader( Map bindings ) {
-        this.bindings = bindings;
+
+  Map bindings;
+
+  public BindingLoader(Map bindings) {
+    this.bindings = bindings;
+  }
+
+  /**
+   * Loads a binding with a specifc QName into a context.
+   *
+   * @param qName The qualified name of the type of the binding object.
+   * @param context The context which is to contain the binding.
+   * @return The binding object of the associated type, otherwise null if no such binding could be
+   *     created.
+   */
+  public Binding loadBinding(QName qName, PicoContainer context) {
+    Object o = bindings.get(qName);
+    if (o == null) {
+      return null;
+    }
+    if (o instanceof ComponentAdapter) {
+      return (Binding) ((ComponentAdapter) o).getComponentInstance(context);
     }
 
-    /**
-     * Loads a binding with a specifc QName into a context.
-     *
-     * @param qName The qualified name of the type of the binding object.
-     * @param context The context which is to contain the binding.
-     *
-     * @return The binding object of the associated type, otherwise null if
-     * no such binding could be created.
-     *
-     */
-    public Binding loadBinding(QName qName, PicoContainer context) {
-        Object o = bindings.get( qName );
-        if ( o == null ) {
-            return null;
-        }
-        if ( o instanceof ComponentAdapter ) {
-            return (Binding) ((ComponentAdapter)o).getComponentInstance( context );
-        }
-        
-        if ( o instanceof Class ) {
-            return loadBinding(qName, (Class)o, context);
-        }
-        
-        return (Binding) o;
+    if (o instanceof Class) {
+      return loadBinding(qName, (Class) o, context);
     }
 
-    /**
-     * Loads a binding with a specifc class into a context.
-     *
-     * @param bindingClass The class of the binding.
-     * @param context The context which is to contain the binding.
-     *
-     * @return The binding object of the associated type, otherwise null if
-     * no such binding could be created.
-     *
-     */
-    public Binding loadBinding(QName qName, Class bindingClass, PicoContainer context) {
-        //instantiate within the given context
-        ComponentAdapter adapter = 
-            new ConstructorInjectionComponentAdapter( qName, bindingClass );
-        return (Binding) adapter.getComponentInstance( context );
+    return (Binding) o;
+  }
+
+  /**
+   * Loads a binding with a specifc class into a context.
+   *
+   * @param bindingClass The class of the binding.
+   * @param context The context which is to contain the binding.
+   * @return The binding object of the associated type, otherwise null if no such binding could be
+   *     created.
+   */
+  public Binding loadBinding(QName qName, Class bindingClass, PicoContainer context) {
+    // instantiate within the given context
+    ComponentAdapter adapter = new ConstructorInjectionComponentAdapter(qName, bindingClass);
+    return (Binding) adapter.getComponentInstance(context);
+  }
+
+  /**
+   * Returns the component adapter for a binding with the specified name.
+   *
+   * @param type The qualified name of the type of the binding.
+   * @return The binding class, or null if no such class exists.
+   */
+  protected ComponentAdapter getBinding(QName type) {
+    Object o = bindings.get(type);
+    if (o == null) {
+      return null;
     }
 
-    /**
-     * Returns the component adapter for a binding with the specified name.
-     *
-     * @param type The qualified name of the type of the binding.
-     *
-     * @return The binding class, or null if no such class exists.
-     */
-    protected ComponentAdapter getBinding(QName type) {
-        Object o = bindings.get( type );
-        if ( o == null ) {
-            return null;
-        }
-        
-        if ( o instanceof ComponentAdapter ) {
-            return (ComponentAdapter) o; 
-        }
-        
-        if ( o instanceof Class ) {
-            return new ConstructorInjectionComponentAdapter( null, (Class) o ); 
-        }
-        
-        return new InstanceComponentAdapter( null, o );
+    if (o instanceof ComponentAdapter) {
+      return (ComponentAdapter) o;
     }
+
+    if (o instanceof Class) {
+      return new ConstructorInjectionComponentAdapter(null, (Class) o);
+    }
+
+    return new InstanceComponentAdapter(null, o);
+  }
 }

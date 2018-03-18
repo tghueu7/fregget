@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2015, Boundless
  *
@@ -21,8 +21,7 @@ import org.geotools.data.mongodb.MongoFeatureSourceTest;
 
 public class GeoJSONMongoFeatureSourceTest extends MongoFeatureSourceTest {
 
-    public GeoJSONMongoFeatureSourceTest() {
-        super(new GeoJSONMongoTestSetup());
-    }
-
+  public GeoJSONMongoFeatureSourceTest() {
+    super(new GeoJSONMongoTestSetup());
+  }
 }

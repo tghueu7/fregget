@@ -16,39 +16,37 @@
  */
 package org.geotools.jdbc;
 
-import org.geotools.geometry.jts.coordinatesequence.CoordinateSequences;
-
 import com.vividsolutions.jts.geom.CoordinateSequence;
 import com.vividsolutions.jts.geom.CoordinateSequenceFilter;
+import org.geotools.geometry.jts.coordinatesequence.CoordinateSequences;
 
 /**
- * Extracts the maximum dimension value from the geometry coordinate sequences (assumes 2 as the starting point)
- * 
- * @author Andrea Aime - GeoSolutions
+ * Extracts the maximum dimension value from the geometry coordinate sequences (assumes 2 as the
+ * starting point)
  *
+ * @author Andrea Aime - GeoSolutions
  */
 class CoordinateSequenceDimensionExtractor implements CoordinateSequenceFilter {
-    
-    int dimension = 2;
 
-    @Override
-    public void filter(CoordinateSequence seq, int i) {
-        int dim = CoordinateSequences.coordinateDimension(seq);
-        dimension = Math.max(dimension, dim);
-    }
+  int dimension = 2;
 
-    @Override
-    public boolean isDone() {
-        return false;
-    }
+  @Override
+  public void filter(CoordinateSequence seq, int i) {
+    int dim = CoordinateSequences.coordinateDimension(seq);
+    dimension = Math.max(dimension, dim);
+  }
 
-    @Override
-    public boolean isGeometryChanged() {
-        return false;
-    }
+  @Override
+  public boolean isDone() {
+    return false;
+  }
 
-    public int getDimension() {
-        return dimension;
-    }
+  @Override
+  public boolean isGeometryChanged() {
+    return false;
+  }
 
+  public int getDimension() {
+    return dimension;
+  }
 }

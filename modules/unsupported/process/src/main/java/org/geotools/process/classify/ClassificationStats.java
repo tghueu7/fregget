@@ -17,37 +17,24 @@
 package org.geotools.process.classify;
 
 import java.util.Set;
-
 import org.jaitools.numeric.Range;
 import org.jaitools.numeric.Statistic;
 
-/**
- * A classification of data into classes, with a count and statistics for each class.
- */
+/** A classification of data into classes, with a count and statistics for each class. */
 public interface ClassificationStats {
 
-    /**
-     * Number of classes. 
-     */
-    int size();
+  /** Number of classes. */
+  int size();
 
-    /**
-     * The statistics maintained for each class.
-     */
-    Set<Statistic> getStats();
+  /** The statistics maintained for each class. */
+  Set<Statistic> getStats();
 
-    /**
-     * The value range for the specified class. 
-     */
-    Range range(int i);
+  /** The value range for the specified class. */
+  Range range(int i);
 
-    /**
-     * The stat value for the specified class and statistic type.
-     */
-    Double value(int i, Statistic stat);
+  /** The stat value for the specified class and statistic type. */
+  Double value(int i, Statistic stat);
 
-    /**
-     * The count of values for the speciifed class.
-     */
-    Long count(int i);
+  /** The count of values for the speciifed class. */
+  Long count(int i);
 }

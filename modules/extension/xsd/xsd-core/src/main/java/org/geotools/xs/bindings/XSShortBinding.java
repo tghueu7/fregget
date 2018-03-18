@@ -21,12 +21,12 @@ import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xs.XS;
 
-
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:short.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="short" id="short"&gt;
  *      &lt;xs:annotation&gt;
@@ -40,70 +40,67 @@ import org.geotools.xs.XS;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSShortBinding implements SimpleBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return XS.SHORT;
+  /** @generated */
+  public QName getTarget() {
+    return XS.SHORT;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link Short}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Short.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link Short}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    String text = instance.getText();
+
+    if (text.charAt(0) == '+') {
+      text = text.substring(1);
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return OVERRIDE;
-    }
+    return new Short(text);
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link Short}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Short.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public String encode(Object object, String value) {
+    Short s = (Short) object;
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link Short}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        String text = instance.getText();
-
-        if (text.charAt(0) == '+') {
-            text = text.substring(1);
-        }
-
-        return new Short(text);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public String encode(Object object, String value) {
-        Short s = (Short) object;
-
-        return s.toString();
-    }
+    return s.toString();
+  }
 }

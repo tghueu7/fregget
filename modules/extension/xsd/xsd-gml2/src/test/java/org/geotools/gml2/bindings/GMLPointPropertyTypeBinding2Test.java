@@ -16,38 +16,32 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.Point;
 import org.geotools.gml2.GML;
 import org.geotools.xml.Binding;
 import org.w3c.dom.Document;
 
-import com.vividsolutions.jts.geom.Point;
-
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GMLPointPropertyTypeBinding2Test extends GMLTestSupport {
-    public void testType() {
-        assertEquals(Point.class, binding(GML.PointPropertyType).getType());
-    }
+  public void testType() {
+    assertEquals(Point.class, binding(GML.PointPropertyType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(GML.PointPropertyType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(GML.PointPropertyType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        GML2MockData.pointProperty(document, document);
+  public void testParse() throws Exception {
+    GML2MockData.pointProperty(document, document);
 
-        Point point = (Point) parse();
-        assertNotNull(point);
-    }
+    Point point = (Point) parse();
+    assertNotNull(point);
+  }
 
-    public void testEncode() throws Exception {
-        Document doc = encode(GML2MockData.point(), GML.pointProperty);
+  public void testEncode() throws Exception {
+    Document doc = encode(GML2MockData.point(), GML.pointProperty);
 
-        assertEquals(1,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
-    }
+    assertEquals(
+        1, doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Point.getLocalPart()).getLength());
+  }
 }

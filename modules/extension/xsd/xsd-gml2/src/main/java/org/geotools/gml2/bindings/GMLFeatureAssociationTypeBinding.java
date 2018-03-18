@@ -17,19 +17,18 @@
 package org.geotools.gml2.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.gml2.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 import org.opengis.feature.simple.SimpleFeature;
 
-
 /**
  * Binding object for the type http://www.opengis.net/gml:FeatureAssociationType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="FeatureAssociationType"&gt;
  *      &lt;annotation&gt;
@@ -52,50 +51,45 @@ import org.opengis.feature.simple.SimpleFeature;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLFeatureAssociationTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.FeatureAssociationType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return GML.FeatureAssociationType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return SimpleFeature.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return SimpleFeature.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return node.getChildValue(SimpleFeature.class);
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return node.getChildValue(SimpleFeature.class);
 
-        //TODO: xlink and remoteSchema attributes, hard to do because of streaming
+    // TODO: xlink and remoteSchema attributes, hard to do because of streaming
+  }
+
+  @Override
+  public Object getProperty(Object object, QName name) throws Exception {
+    if (GML._Feature.equals(name)) {
+      return object;
     }
-    
-    @Override
-    public Object getProperty(Object object, QName name) throws Exception {
-        if( GML._Feature.equals( name ) ) {
-            return object;    
-        }
-        return null;
-    }
+    return null;
+  }
 }

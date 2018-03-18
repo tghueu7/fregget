@@ -26,12 +26,12 @@ import org.geotools.xml.Binding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:LineStyleType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="LineStyleType"&gt;
  *      &lt;complexContent&gt;
@@ -45,53 +45,48 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class LineStyleTypeBinding extends AbstractComplexBinding {
-    StyleBuilder sb;
+  StyleBuilder sb;
 
-    public LineStyleTypeBinding(StyleBuilder sb) {
-        this.sb = sb;
-    }
+  public LineStyleTypeBinding(StyleBuilder sb) {
+    this.sb = sb;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return KML.LineStyleType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return KML.LineStyleType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return LineSymbolizer.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return LineSymbolizer.class;
+  }
 
-    public int getExecutionMode() {
-        return Binding.AFTER;
-    }
+  public int getExecutionMode() {
+    return Binding.AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Color color = (Color) value;
-        Float width = (Float) node.getChildValue("width", Float.valueOf(1f));
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Color color = (Color) value;
+    Float width = (Float) node.getChildValue("width", Float.valueOf(1f));
 
-        return sb.createLineSymbolizer(color, width);
-    }
+    return sb.createLineSymbolizer(color, width);
+  }
 }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2010, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,28 +22,26 @@ import org.geotools.jdbc.JDBCGeographyOnlineTest;
 import org.geotools.jdbc.JDBCGeographyTestSetup;
 import org.opengis.feature.simple.SimpleFeatureType;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class PostgisGeographyOnlineTest extends JDBCGeographyOnlineTest {
 
-    @Override
-    protected JDBCGeographyTestSetup createTestSetup() {
-        return new PostgisGeographyTestSetup(new PostGISPSTestSetup());
+  @Override
+  protected JDBCGeographyTestSetup createTestSetup() {
+    return new PostgisGeographyTestSetup(new PostGISPSTestSetup());
+  }
+
+  @Override
+  public void testSchema() throws Exception {
+    super.testSchema();
+
+    if (!isGeographySupportAvailable()) {
+      return;
     }
 
-    @Override
-    public void testSchema() throws Exception {
-        super.testSchema();
-        
-        if (!isGeographySupportAvailable()) {
-            return;
-        }
-
-        // extra check, pg specific: the native typename is actually geography
-        SimpleFeatureType ft = dataStore.getFeatureSource(tname("geopoint")).getSchema();
-        assertEquals("geography", ft.getGeometryDescriptor().getUserData().get(JDBCDataStore.JDBC_NATIVE_TYPENAME));
-    }
+    // extra check, pg specific: the native typename is actually geography
+    SimpleFeatureType ft = dataStore.getFeatureSource(tname("geopoint")).getSchema();
+    assertEquals(
+        "geography",
+        ft.getGeometryDescriptor().getUserData().get(JDBCDataStore.JDBC_NATIVE_TYPENAME));
+  }
 }

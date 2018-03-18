@@ -18,33 +18,23 @@ package org.geotools.validation.relate;
 
 import java.beans.PropertyDescriptor;
 
-
 /**
  * @author bowens
- *
- *
- *
  * @source $URL$
  */
-public class OverlapsIntegrityBeanInfo extends RelationIntegrityBeanInfo 
-{
-	
-	
-	/**
-	 * 
-	 */
-	public OverlapsIntegrityBeanInfo(){
-        super();
-    }
+public class OverlapsIntegrityBeanInfo extends RelationIntegrityBeanInfo {
 
-	
-    /**
-     * Implementation of getPropertyDescriptors.
-     *
-     *
-     * @see java.beans.BeanInfo#getPropertyDescriptors()
-     */
-    public PropertyDescriptor[] getPropertyDescriptors() {
-        return super.getPropertyDescriptors();
-    }
+  /** */
+  public OverlapsIntegrityBeanInfo() {
+    super();
+  }
+
+  /**
+   * Implementation of getPropertyDescriptors.
+   *
+   * @see java.beans.BeanInfo#getPropertyDescriptors()
+   */
+  public PropertyDescriptor[] getPropertyDescriptors() {
+    return super.getPropertyDescriptors();
+  }
 }

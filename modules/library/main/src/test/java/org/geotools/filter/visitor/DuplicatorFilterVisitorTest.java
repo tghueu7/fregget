@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -18,9 +18,7 @@ package org.geotools.filter.visitor;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.filter.IllegalFilterException;
 import org.geotools.filter.expression.InternalVolatileFunction;
@@ -32,68 +30,65 @@ import org.opengis.filter.PropertyIsNull;
 import org.opengis.filter.expression.Expression;
 import org.opengis.filter.expression.InternalFunction;
 
-
 /**
  * Unit test for DuplicatorFilterVisitor.
  *
  * @author Cory Horner, Refractions Research Inc.
- *
- *
  * @source $URL$
  */
 public class DuplicatorFilterVisitorTest extends TestCase {
-    FilterFactory fac;
+  FilterFactory fac;
 
-    public DuplicatorFilterVisitorTest(String testName) {
-        super(testName);
+  public DuplicatorFilterVisitorTest(String testName) {
+    super(testName);
+  }
+
+  protected void setUp() throws Exception {
+    fac = CommonFactoryFinder.getFilterFactory(null);
+  }
+
+  public void testLogicFilterDuplication() throws IllegalFilterException {
+    List filters = new ArrayList();
+    // create a filter
+    Filter filter1 = fac.greater(fac.literal(2), fac.literal(1));
+    filters.add(filter1);
+    Filter filter2 = fac.greater(fac.literal(4), fac.literal(3));
+    filters.add(filter2);
+
+    And oldFilter = fac.and(filters);
+    // duplicate it
+    DuplicatingFilterVisitor visitor = new DuplicatingFilterVisitor((FilterFactory2) fac);
+    Filter newFilter = (Filter) oldFilter.accept(visitor, null);
+
+    // compare it
+    assertNotNull(newFilter);
+    // TODO: a decent comparison
+  }
+
+  public void testDuplicateInternalFunction() throws IllegalFilterException {
+    class TestInternalFunction extends InternalVolatileFunction {
+
+      @Override
+      public Object evaluate(Object object) {
+        return null;
+      }
+
+      @Override
+      public InternalFunction duplicate(Expression... parameters) {
+        return new TestInternalFunction();
+      }
     }
 
-    protected void setUp() throws Exception {
-        fac = CommonFactoryFinder.getFilterFactory(null);
-    }
-    
-    public void testLogicFilterDuplication() throws IllegalFilterException {
-        List filters = new ArrayList();
-        // create a filter
-        Filter filter1 = fac.greater(fac.literal(2), fac.literal(1));
-        filters.add(filter1);
-        Filter filter2 = fac.greater(fac.literal(4), fac.literal(3));
-        filters.add(filter2);
+    Expression internalFunction = new TestInternalFunction();
+    Filter filter = fac.isNull(internalFunction);
 
-        And oldFilter = fac.and(filters);
-        //duplicate it
-    	DuplicatingFilterVisitor visitor = new DuplicatingFilterVisitor((FilterFactory2) fac);
-    	Filter newFilter = (Filter) oldFilter.accept(visitor, null);
+    DuplicatingFilterVisitor visitor = new DuplicatingFilterVisitor((FilterFactory2) fac);
+    Filter newFilter = (Filter) filter.accept(visitor, null);
 
-    	//compare it
-    	assertNotNull(newFilter);
-    	//TODO: a decent comparison
-    }
-    
-    public void testDuplicateInternalFunction() throws IllegalFilterException {
-        class TestInternalFunction extends InternalVolatileFunction {
-
-            @Override
-            public Object evaluate(Object object) {
-                return null;
-            }
-            @Override
-            public InternalFunction duplicate(Expression... parameters) {
-                return new TestInternalFunction();
-            }
-
-        }
-        
-        Expression internalFunction = new TestInternalFunction();
-        Filter filter = fac.isNull(internalFunction);
-
-        DuplicatingFilterVisitor visitor = new DuplicatingFilterVisitor((FilterFactory2) fac);
-        Filter newFilter = (Filter) filter.accept(visitor, null);
-        
-        assertTrue(newFilter instanceof PropertyIsNull);
-        Expression newExpression = ((PropertyIsNull)newFilter).getExpression();
-        assertNotNull(newExpression);
-        assertTrue(newExpression instanceof TestInternalFunction);
-        assertNotSame(internalFunction, newExpression);
-    }
+    assertTrue(newFilter instanceof PropertyIsNull);
+    Expression newExpression = ((PropertyIsNull) newFilter).getExpression();
+    assertNotNull(newExpression);
+    assertTrue(newExpression instanceof TestInternalFunction);
+    assertNotSame(internalFunction, newExpression);
+  }
 }

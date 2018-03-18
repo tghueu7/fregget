@@ -16,110 +16,110 @@
  */
 package org.geotools.data.ogr;
 
+import com.vividsolutions.jts.geom.GeometryFactory;
 import java.io.IOException;
 import java.util.NoSuchElementException;
-
 import org.geotools.data.FeatureReader;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
-import com.vividsolutions.jts.geom.GeometryFactory;
-
 /**
  * An OGR feature reader, reads data from the provided layer.<br>
  * It assumes eventual filters have already been set on it, and will extract only the
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/ogr/src/main/java/org/geotools
- *         /data/ogr/OGRFeatureReader.java $
+ *     http://svn.osgeo.org/geotools/trunk/modules/unsupported/ogr/src/main/java/org/geotools
+ *     /data/ogr/OGRFeatureReader.java $
  */
 class OGRFeatureReader implements FeatureReader<SimpleFeatureType, SimpleFeature> {
 
-    Object dataSource;
+  Object dataSource;
 
-    Object layer;
+  Object layer;
 
-    SimpleFeatureType schema;
+  SimpleFeatureType schema;
 
-    Object curr;
+  Object curr;
 
-    private FeatureMapper mapper;
+  private FeatureMapper mapper;
 
-    boolean layerCompleted;
+  boolean layerCompleted;
 
-    OGR ogr;
+  OGR ogr;
 
-    public OGRFeatureReader(Object dataSource, Object layer,
-            SimpleFeatureType targetSchema, SimpleFeatureType originalSchema, GeometryFactory gf, OGR ogr) {
-        this.dataSource = dataSource;
-        this.layer = layer;
-        this.schema = targetSchema;
+  public OGRFeatureReader(
+      Object dataSource,
+      Object layer,
+      SimpleFeatureType targetSchema,
+      SimpleFeatureType originalSchema,
+      GeometryFactory gf,
+      OGR ogr) {
+    this.dataSource = dataSource;
+    this.layer = layer;
+    this.schema = targetSchema;
 
-        ogr.LayerResetReading(layer);
+    ogr.LayerResetReading(layer);
 
-        this.layerCompleted = false;
-        this.mapper = new FeatureMapper(targetSchema, layer, gf, ogr);
-        this.ogr = ogr;
-        // TODO: mark as ignored all the fields we don't want to handle, as well as ignoring
-        // the per feature style, assuming the caps say we can
+    this.layerCompleted = false;
+    this.mapper = new FeatureMapper(targetSchema, layer, gf, ogr);
+    this.ogr = ogr;
+    // TODO: mark as ignored all the fields we don't want to handle, as well as ignoring
+    // the per feature style, assuming the caps say we can
+  }
+
+  public void close() throws IOException {
+    if (curr != null) {
+      ogr.FeatureDestroy(curr);
+      curr = null;
+    }
+    if (layer != null) {
+      ogr.LayerRelease(layer);
+      layer = null;
+    }
+    if (dataSource != null) {
+      ogr.DataSourceRelease(dataSource);
+      dataSource = null;
+    }
+    schema = null;
+  }
+
+  protected void finalize() throws Throwable {
+    close();
+  }
+
+  public SimpleFeatureType getFeatureType() {
+    return schema;
+  }
+
+  public boolean hasNext() throws IOException {
+    // ugly, but necessary to close the reader when getting to the end, because
+    // it would break feature appending otherwise (the reader is used in feature
+    // writing too)
+    if (layerCompleted) {
+      return false;
     }
 
-    public void close() throws IOException {
-        if (curr != null) {
-            ogr.FeatureDestroy(curr);
-            curr = null;
-        }
-        if (layer != null) {
-            ogr.LayerRelease(layer);
-            layer = null;
-        }
-        if (dataSource != null) {
-            ogr.DataSourceRelease(dataSource);
-            dataSource = null;
-        }
-        schema = null;
+    if (curr == null) {
+      curr = ogr.LayerGetNextFeature(layer);
     }
-
-    protected void finalize() throws Throwable {
-        close();
+    if (curr != null) {
+      return true;
+    } else {
+      layerCompleted = true;
+      return false;
     }
+  }
 
-    public SimpleFeatureType getFeatureType() {
-        return schema;
-    }
+  public SimpleFeature next() throws IOException, NoSuchElementException {
+    if (!hasNext()) throw new NoSuchElementException("There are no more Features to be read");
 
-    public boolean hasNext() throws IOException {
-        // ugly, but necessary to close the reader when getting to the end, because
-        // it would break feature appending otherwise (the reader is used in feature
-        // writing too)
-        if (layerCompleted) {
-            return false;
-        }
+    SimpleFeature f = mapper.convertOgrFeature(curr);
 
-        if (curr == null) {
-            curr = ogr.LayerGetNextFeature(layer);
-        }
-        if (curr != null) {
-            return true;
-        } else {
-            layerCompleted = true;
-            return false;
-        }
-    }
+    // .. nullify curr, so that we can move to the next one
+    ogr.FeatureDestroy(curr);
+    curr = null;
 
-    public SimpleFeature next() throws IOException, NoSuchElementException {
-        if (!hasNext())
-            throw new NoSuchElementException("There are no more Features to be read");
-
-        SimpleFeature f = mapper.convertOgrFeature(curr);
-
-        // .. nullify curr, so that we can move to the next one
-        ogr.FeatureDestroy(curr);
-        curr = null;
-
-        return f;
-    }
-
+    return f;
+  }
 }

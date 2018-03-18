@@ -17,20 +17,20 @@
 package org.geotools.filter.v1_1;
 
 import javax.xml.namespace.QName;
+import org.geotools.xml.AbstractComplexBinding;
+import org.geotools.xml.ElementInstance;
+import org.geotools.xml.Node;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.PropertyName;
 import org.opengis.filter.sort.SortBy;
 import org.opengis.filter.sort.SortOrder;
-import org.geotools.xml.AbstractComplexBinding;
-import org.geotools.xml.ElementInstance;
-import org.geotools.xml.Node;
-
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:SortPropertyType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="SortPropertyType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -41,68 +41,62 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SortPropertyTypeBinding extends AbstractComplexBinding {
-    FilterFactory filterfactory;
+  FilterFactory filterfactory;
 
-    public SortPropertyTypeBinding(FilterFactory filterfactory) {
-        this.filterfactory = filterfactory;
+  public SortPropertyTypeBinding(FilterFactory filterfactory) {
+    this.filterfactory = filterfactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return OGC.SortPropertyType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return SortBy.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    PropertyName name = (PropertyName) node.getChildValue(PropertyName.class);
+    SortOrder order = (SortOrder) node.getChildValue(SortOrder.class);
+
+    if (order == null) {
+      order = SortOrder.ASCENDING;
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.SortPropertyType;
+    return filterfactory.sort(name.getPropertyName(), order);
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    SortBy sortBy = (SortBy) object;
+
+    if (OGC.PropertyName.equals(name)) {
+      return sortBy.getPropertyName();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return SortBy.class;
+    if ("SortOrder".equals(name.getLocalPart())) {
+      return sortBy.getSortOrder();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        PropertyName name = (PropertyName) node.getChildValue(PropertyName.class);
-        SortOrder order = (SortOrder) node.getChildValue(SortOrder.class);
-
-        if (order == null) {
-            order = SortOrder.ASCENDING;
-        }
-
-        return filterfactory.sort(name.getPropertyName(), order);
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        SortBy sortBy = (SortBy) object;
-
-        if (OGC.PropertyName.equals(name)) {
-            return sortBy.getPropertyName();
-        }
-
-        if ("SortOrder".equals(name.getLocalPart())) {
-            return sortBy.getSortOrder();
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

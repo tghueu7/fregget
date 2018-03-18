@@ -17,6 +17,8 @@
  */
 package org.geotools.image;
 
+import com.vividsolutions.jts.awt.ShapeWriter;
+import com.vividsolutions.jts.geom.Geometry;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
@@ -24,57 +26,51 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.BitSet;
 
-import com.vividsolutions.jts.awt.ShapeWriter;
-import com.vividsolutions.jts.geom.Geometry;
-
-
 /**
- * An analogous of {@link BitSet} which is explicitly 2 dimensional and allows
- * drawing a shape to quickly turn on a large area of the map.
- * This class is not thread safe.
- * 
- * @author Andrea Aime - GeoSolutions
+ * An analogous of {@link BitSet} which is explicitly 2 dimensional and allows drawing a shape to
+ * quickly turn on a large area of the map. This class is not thread safe.
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class DrawableBitSet {
 
-    BufferedImage image;
-    WritableRaster raster;
-    int[] pixel = new int[1];
+  BufferedImage image;
+  WritableRaster raster;
+  int[] pixel = new int[1];
 
-    public DrawableBitSet(int width, int height) {
-        image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_BINARY);
-        raster = image.getRaster();
+  public DrawableBitSet(int width, int height) {
+    image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_BINARY);
+    raster = image.getRaster();
+  }
+
+  public boolean get(int x, int y) {
+    raster.getPixel(x, y, pixel);
+
+    return pixel[0] > 0;
+  }
+
+  public void set(int x, int y) {
+    pixel[0] = 1;
+    raster.setPixel(x, y, pixel);
+  }
+
+  public void set(Geometry geom) {
+    if (geom == null) {
+      return;
     }
 
-    public boolean get(int x, int y) {
-        raster.getPixel(x, y, pixel);
+    set(new ShapeWriter().toShape(geom));
+  }
 
-        return pixel[0] > 0;
-    }
+  public void set(Shape shape) {
+    Graphics2D g2d = image.createGraphics();
+    g2d.setColor(Color.WHITE);
+    g2d.draw(shape);
+    g2d.fill(shape);
+    g2d.dispose();
+  }
 
-    public void set(int x, int y) {
-        pixel[0] = 1;
-        raster.setPixel(x, y, pixel);
-    }
-
-    public void set(Geometry geom) {
-        if (geom == null) {
-            return;
-        }
-
-        set(new ShapeWriter().toShape(geom));
-    }
-
-    public void set(Shape shape) {
-        Graphics2D g2d = image.createGraphics();
-        g2d.setColor(Color.WHITE);
-        g2d.draw(shape);
-        g2d.fill(shape);
-        g2d.dispose();
-    }
-
-    public BufferedImage getImage() {
-        return image;
-    }
+  public BufferedImage getImage() {
+    return image;
+  }
 }

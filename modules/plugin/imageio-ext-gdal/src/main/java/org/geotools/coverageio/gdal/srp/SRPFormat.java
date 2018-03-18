@@ -16,69 +16,57 @@
  */
 package org.geotools.coverageio.gdal.srp;
 
-import it.geosolutions.imageio.plugins.rpftoc.RPFTOCImageReaderSpi;
 import it.geosolutions.imageio.plugins.srp.SRPImageReaderSpi;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.geotools.coverageio.gdal.BaseGDALGridFormat;
 import org.geotools.data.DataSourceException;
 import org.geotools.factory.Hints;
 import org.opengis.coverage.grid.Format;
 import org.opengis.geometry.MismatchedDimensionException;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * An implementation of {@link Format} for the SRP format.
- * 
+ *
  * @author Andrea Aime, GeoSolutions
  * @since 19.x
- *
  * @source $URL$
  */
 public final class SRPFormat extends BaseGDALGridFormat implements Format {
-    /**
-     * Logger.
-     */
-    private final static Logger LOGGER = org.geotools.util.logging.Logging
-            .getLogger(SRPFormat.class.getPackage().getName());
+  /** Logger. */
+  private static final Logger LOGGER =
+      org.geotools.util.logging.Logging.getLogger(SRPFormat.class.getPackage().getName());
 
-    /**
-     * Creates an instance and sets the metadata.
-     */
-    public SRPFormat() {
-        super(new SRPImageReaderSpi());
+  /** Creates an instance and sets the metadata. */
+  public SRPFormat() {
+    super(new SRPImageReaderSpi());
 
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.fine("Creating a new SRPFormat.");
-        }
-
-        setInfo();
+    if (LOGGER.isLoggable(Level.FINE)) {
+      LOGGER.fine("Creating a new SRPFormat.");
     }
 
-    private static InfoWrapper INFO = new InfoWrapper("ASRP/USRP Coverage Format", "SRP");
+    setInfo();
+  }
 
-    /**
-     * Sets the metadata information.
-     */
-    protected void setInfo() {
-        setInfo(INFO);
-    }
+  private static InfoWrapper INFO = new InfoWrapper("ASRP/USRP Coverage Format", "SRP");
 
-    /**
-     * @see org.geotools.data.coverage.grid.AbstractGridFormat#getReader(Object,
-     *      Hints)
-     */
-    public SRPReader getReader(Object source, Hints hints) {
-        try {
-            return new SRPReader(source, hints);
-        } catch (MismatchedDimensionException e) {
-            final RuntimeException re = new RuntimeException();
-            re.initCause(e);
-            throw re;
-        } catch (DataSourceException e) {
-            final RuntimeException re = new RuntimeException();
-            re.initCause(e);
-            throw re;
-        }
+  /** Sets the metadata information. */
+  protected void setInfo() {
+    setInfo(INFO);
+  }
+
+  /** @see org.geotools.data.coverage.grid.AbstractGridFormat#getReader(Object, Hints) */
+  public SRPReader getReader(Object source, Hints hints) {
+    try {
+      return new SRPReader(source, hints);
+    } catch (MismatchedDimensionException e) {
+      final RuntimeException re = new RuntimeException();
+      re.initCause(e);
+      throw re;
+    } catch (DataSourceException e) {
+      final RuntimeException re = new RuntimeException();
+      re.initCause(e);
+      throw re;
     }
+  }
 }

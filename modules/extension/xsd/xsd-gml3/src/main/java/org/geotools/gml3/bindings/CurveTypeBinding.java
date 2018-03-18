@@ -16,11 +16,11 @@
  */
 package org.geotools.gml3.bindings;
 
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LineString;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.geometry.jts.CompoundCurvedGeometry;
 import org.geotools.geometry.jts.CurvedGeometry;
 import org.geotools.geometry.jts.CurvedGeometryFactory;
@@ -30,15 +30,12 @@ import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:CurveType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="CurveType"&gt;
  *      &lt;annotation&gt;
@@ -61,99 +58,92 @@ import com.vividsolutions.jts.geom.LineString;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class CurveTypeBinding extends AbstractComplexBinding implements Comparable {
-    protected GeometryFactory gf;
+  protected GeometryFactory gf;
 
-    ArcParameters arcParameters;
+  ArcParameters arcParameters;
 
-    public CurveTypeBinding(GeometryFactory gf) {
-        this.gf = gf;
-    }
+  public CurveTypeBinding(GeometryFactory gf) {
+    this.gf = gf;
+  }
 
-    public void setArcParameters(ArcParameters arcParameters) {
-        this.arcParameters = arcParameters;
-    }
+  public void setArcParameters(ArcParameters arcParameters) {
+    this.arcParameters = arcParameters;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.CurveType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return GML.CurveType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return CurvedGeometry.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return CurvedGeometry.class;
+  }
 
-    public int getExecutionMode() {
-        return BEFORE;
-    }
+  public int getExecutionMode() {
+    return BEFORE;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        LineString[] segments = (LineString[]) node.getChildValue("segments");
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    LineString[] segments = (LineString[]) node.getChildValue("segments");
 
-        if(segments.length == 0) {
-            return null;
-        } else if (segments.length == 1) {
-            return segments[0];
-        } else {
-            LineString curved = null;
-            for (LineString ls : segments) {
-                if (ls instanceof CurvedGeometry<?>) {
-                    curved = ls;
-                }
-            }
-            CurvedGeometryFactory factory = GML3ParsingUtils.getCurvedGeometryFactory(
-                    arcParameters, gf, curved != null ? curved.getCoordinateSequence() : null);
-            return factory.createCurvedGeometry(Arrays.asList(segments));
-
+    if (segments.length == 0) {
+      return null;
+    } else if (segments.length == 1) {
+      return segments[0];
+    } else {
+      LineString curved = null;
+      for (LineString ls : segments) {
+        if (ls instanceof CurvedGeometry<?>) {
+          curved = ls;
         }
+      }
+      CurvedGeometryFactory factory =
+          GML3ParsingUtils.getCurvedGeometryFactory(
+              arcParameters, gf, curved != null ? curved.getCoordinateSequence() : null);
+      return factory.createCurvedGeometry(Arrays.asList(segments));
+    }
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    if ("segments".equals(name.getLocalPart())) {
+      if (object instanceof CompoundCurvedGeometry<?>) {
+        CompoundCurvedGeometry<?> curve = (CompoundCurvedGeometry<?>) object;
+        List<LineString> components = curve.getComponents();
+        return components;
+      } else {
+        return object;
+      }
+    } else {
+      super.getProperty(object, name);
     }
 
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        if ("segments".equals(name.getLocalPart())) {
-            if (object instanceof CompoundCurvedGeometry<?>) {
-                CompoundCurvedGeometry<?> curve = (CompoundCurvedGeometry<?>) object;
-                List<LineString> components = curve.getComponents();
-                return components;
-            } else {
-                return object;
-            }
-        } else {
-            super.getProperty(object, name);
-        }
+    return null;
+  }
 
-        return null;
+  public int compareTo(Object o) {
+    if (o instanceof LineStringTypeBinding) {
+      return -1;
+    } else {
+      return 0;
     }
-    
-    public int compareTo(Object o) {
-        if (o instanceof LineStringTypeBinding) {
-            return -1;
-        } else {
-            return 0;
-        }
-    }
-
+  }
 }

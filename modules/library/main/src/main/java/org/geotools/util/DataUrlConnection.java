@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2017, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,33 +21,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-
 import org.geotools.data.Base64;
 
-/**
- * Decodes the base64 data and provides an appropriate InputStream.
- */
+/** Decodes the base64 data and provides an appropriate InputStream. */
 public class DataUrlConnection extends URLConnection {
 
-    /**
-     * Must be overridden.
-     *
-     * @param url the data url
-     */
-    protected DataUrlConnection(final URL url) {
-        super(url);
-    }
+  /**
+   * Must be overridden.
+   *
+   * @param url the data url
+   */
+  protected DataUrlConnection(final URL url) {
+    super(url);
+  }
 
-    @Override
-    public void connect() throws IOException {
-        // nothing to be done
-    }
+  @Override
+  public void connect() throws IOException {
+    // nothing to be done
+  }
 
-    @Override
-    public InputStream getInputStream() {
-        String url = this.url.toExternalForm();
-        url = url.substring(url.lastIndexOf(",") + 1);
-        return new ByteArrayInputStream(Base64.decode(url));
-    }
-
+  @Override
+  public InputStream getInputStream() {
+    String url = this.url.toExternalForm();
+    url = url.substring(url.lastIndexOf(",") + 1);
+    return new ByteArrayInputStream(Base64.decode(url));
+  }
 }

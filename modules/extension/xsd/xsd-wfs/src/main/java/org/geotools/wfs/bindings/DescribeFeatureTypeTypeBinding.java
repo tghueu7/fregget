@@ -17,21 +17,17 @@
 package org.geotools.wfs.bindings;
 
 import javax.xml.namespace.QName;
-
 import net.opengis.wfs.BaseRequestType;
 import net.opengis.wfs.DescribeFeatureTypeType;
 import net.opengis.wfs.WfsFactory;
-
 import org.geotools.wfs.WFS;
 import org.geotools.xml.AbstractComplexEMFBinding;
 import org.geotools.xml.Binding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-
 /**
- * Binding object for the type
- * http://www.opengis.net/wfs:DescribeFeatureTypeType.
+ * Binding object for the type http://www.opengis.net/wfs:DescribeFeatureTypeType.
  *
  * <p>
  *
@@ -97,44 +93,36 @@ import org.geotools.xml.Node;
  * </code>
  *         </pre>
  *
- * </p>
- *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class DescribeFeatureTypeTypeBinding extends AbstractComplexEMFBinding {
-    private WfsFactory wfsFactory;
+  private WfsFactory wfsFactory;
 
-    public DescribeFeatureTypeTypeBinding(WfsFactory factory) {
-        super(factory);
-        this.wfsFactory = factory;
-    }
+  public DescribeFeatureTypeTypeBinding(WfsFactory factory) {
+    super(factory);
+    this.wfsFactory = factory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WFS.DescribeFeatureTypeType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return WFS.DescribeFeatureTypeType;
+  }
 
-    /**
-     * @return {@link Binding#BEFORE} so at parse time we can return an instance
-     *         of {@link DescribeFeatureTypeType}, or the framework would try
-     *         to create a {@link BaseRequestType},which is abstract.
-     */
-    public int getExecutionMode() {
-        return BEFORE;
-    }
+  /**
+   * @return {@link Binding#BEFORE} so at parse time we can return an instance of {@link
+   *     DescribeFeatureTypeType}, or the framework would try to create a {@link
+   *     BaseRequestType},which is abstract.
+   */
+  public int getExecutionMode() {
+    return BEFORE;
+  }
 
-    /**
-     * Simply returns an instance of {@link DescribeFeatureTypeType} and lets
-     * the framework to reflectively set the object properties.
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return wfsFactory.createDescribeFeatureTypeType();
-    }
+  /**
+   * Simply returns an instance of {@link DescribeFeatureTypeType} and lets the framework to
+   * reflectively set the object properties.
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return wfsFactory.createDescribeFeatureTypeType();
+  }
 }

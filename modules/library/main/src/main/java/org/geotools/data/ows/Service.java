@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -18,131 +18,117 @@ package org.geotools.data.ows;
 
 import java.awt.Dimension;
 import java.net.URL;
-
 import org.opengis.metadata.citation.ResponsibleParty;
 
-
 /**
- * This is a data model for the Open Web Service (OWS) metadata. This should be 
- * extended while implementing other OWSs. Name, Title and OnlineResource are 
- * required. Everything else is optional.
- * 
- *
+ * This is a data model for the Open Web Service (OWS) metadata. This should be extended while
+ * implementing other OWSs. Name, Title and OnlineResource are required. Everything else is
+ * optional.
  *
  * @source $URL$
  */
 public class Service {
-    /**
-     * The name of the Service (machine readible, typically one word) -
-     * Required
-     */
-    private String name;
+  /** The name of the Service (machine readible, typically one word) - Required */
+  private String name;
 
-    /** The title for the service (human readible) - Required */
-    private String title;
+  /** The title for the service (human readible) - Required */
+  private String title;
 
-    /** The URL pointing to where this Service can be accessed - Required */
-    private URL onlineResource;
+  /** The URL pointing to where this Service can be accessed - Required */
+  private URL onlineResource;
 
-    /** Keywords that apply to the Service. Can be used for searching, etc */
-    private String[] keywordList;
+  /** Keywords that apply to the Service. Can be used for searching, etc */
+  private String[] keywordList;
 
-    /**
-     * Abstract allows a description providing more information about the
-     * Service
-     */
-    private String _abstract;
-    
-    /**
-     * Information about a contact person for the service.
-     */
-    private ResponsibleParty contactInformation;
-    
-    private int layerLimit;
-    private int maxWidth;
-    private int maxHeight;
+  /** Abstract allows a description providing more information about the Service */
+  private String _abstract;
 
-    public String get_abstract() {
-        return _abstract;
-    }
+  /** Information about a contact person for the service. */
+  private ResponsibleParty contactInformation;
 
-    public void set_abstract(String _abstract) {
-        this._abstract = _abstract;
-    }
+  private int layerLimit;
+  private int maxWidth;
+  private int maxHeight;
 
-    public String[] getKeywordList() {
-        return keywordList;
-    }
+  public String get_abstract() {
+    return _abstract;
+  }
 
-    public void setKeywordList(String[] keywordList) {
-        this.keywordList = keywordList;
-    }
+  public void set_abstract(String _abstract) {
+    this._abstract = _abstract;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String[] getKeywordList() {
+    return keywordList;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setKeywordList(String[] keywordList) {
+    this.keywordList = keywordList;
+  }
 
-    public URL getOnlineResource() {
-        return onlineResource;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setOnlineResource(URL onlineResource) {
-        this.onlineResource = onlineResource;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public URL getOnlineResource() {
+    return onlineResource;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public void setOnlineResource(URL onlineResource) {
+    this.onlineResource = onlineResource;
+  }
 
-    public int getLayerLimit() {
-        return layerLimit;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public void setLayerLimit(int layerLimit) {
-        this.layerLimit = layerLimit;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public Dimension getMaxDimension(){
-        return new Dimension( maxWidth, maxHeight );
-    }
-    
-    public int getMaxHeight() {
-        return maxHeight;
-    }
+  public int getLayerLimit() {
+    return layerLimit;
+  }
 
-    public void setMaxHeight(int maxHeight) {
-        this.maxHeight = maxHeight;
-    }
+  public void setLayerLimit(int layerLimit) {
+    this.layerLimit = layerLimit;
+  }
 
-    public int getMaxWidth() {
-        return maxWidth;
-    }
+  public Dimension getMaxDimension() {
+    return new Dimension(maxWidth, maxHeight);
+  }
 
-    public void setMaxWidth(int maxWidth) {
-        this.maxWidth = maxWidth;
-    }
+  public int getMaxHeight() {
+    return maxHeight;
+  }
 
-    /**
-     * Information about a contact person for the service. Uses the GeoAPI
-     * citation metadata model, which does not map directly to the WMS 
-     * specification, but it is close.
-     * 
-     * The Role field is not used.
-     * 
-     */
-	public ResponsibleParty getContactInformation() {
-		return contactInformation;
-	}
+  public void setMaxHeight(int maxHeight) {
+    this.maxHeight = maxHeight;
+  }
 
-	public void setContactInformation(ResponsibleParty contactInformation) {
-		this.contactInformation = contactInformation;
-	}
+  public int getMaxWidth() {
+    return maxWidth;
+  }
+
+  public void setMaxWidth(int maxWidth) {
+    this.maxWidth = maxWidth;
+  }
+
+  /**
+   * Information about a contact person for the service. Uses the GeoAPI citation metadata model,
+   * which does not map directly to the WMS specification, but it is close.
+   *
+   * <p>The Role field is not used.
+   */
+  public ResponsibleParty getContactInformation() {
+    return contactInformation;
+  }
+
+  public void setContactInformation(ResponsibleParty contactInformation) {
+    this.contactInformation = contactInformation;
+  }
 }

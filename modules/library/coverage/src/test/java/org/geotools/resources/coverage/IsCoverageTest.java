@@ -33,44 +33,41 @@ import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-
-/**
- * @author Davide Savazzi - GeoSolutions
- */
+/** @author Davide Savazzi - GeoSolutions */
 public class IsCoverageTest extends GridCoverageTestBase {
 
-    static final FilterFactory2 FF = CommonFactoryFinder.getFilterFactory2();
+  static final FilterFactory2 FF = CommonFactoryFinder.getFilterFactory2();
 
-    @Test
-    public void testEvaluateFeature() throws Exception {
-        Filter isCoverage = FF.equals(FF.function("isCoverage"), FF.literal("true"));
-        Filter isNotCoverage = FF.equals(FF.function("isCoverage"), FF.literal("false"));
+  @Test
+  public void testEvaluateFeature() throws Exception {
+    Filter isCoverage = FF.equals(FF.function("isCoverage"), FF.literal("true"));
+    Filter isNotCoverage = FF.equals(FF.function("isCoverage"), FF.literal("false"));
 
-        // a coverage
-        CoordinateReferenceSystem crs = DefaultGeographicCRS.WGS84;
-        GridCoverage2D coverage = getRandomCoverage(crs);
-        SimpleFeatureCollection featureCollection = FeatureUtilities.wrapGridCoverage(coverage);
-        SimpleFeature feature = featureCollection.features().next();
-        assertTrue(isCoverage.evaluate(feature));
-        assertFalse(isNotCoverage.evaluate(feature));
-        
-        // not a coverage
-        SimpleFeatureType type = DataUtilities.createType("ns", "name:string,geom:Geometry");
-        SimpleFeatureBuilder build = new SimpleFeatureBuilder(type);
-        build.add("testName");
-        build.add(null);
-        feature = build.buildFeature(null);
-        assertEquals(false, isCoverage.evaluate(feature));
-        assertEquals(true, isNotCoverage.evaluate(feature));        
-    }
-    
-    @Test
-    public void testSimplify() throws Exception {
-        Filter isCoverage = FF.equals(FF.function("isCoverage"), FF.literal("true"));
+    // a coverage
+    CoordinateReferenceSystem crs = DefaultGeographicCRS.WGS84;
+    GridCoverage2D coverage = getRandomCoverage(crs);
+    SimpleFeatureCollection featureCollection = FeatureUtilities.wrapGridCoverage(coverage);
+    SimpleFeature feature = featureCollection.features().next();
+    assertTrue(isCoverage.evaluate(feature));
+    assertFalse(isNotCoverage.evaluate(feature));
 
-        SimplifyingFilterVisitor visitor = new SimplifyingFilterVisitor();
-        Filter result = (Filter) isCoverage.accept(visitor, null);
-        
-        assertEquals(isCoverage, result);
-    }
+    // not a coverage
+    SimpleFeatureType type = DataUtilities.createType("ns", "name:string,geom:Geometry");
+    SimpleFeatureBuilder build = new SimpleFeatureBuilder(type);
+    build.add("testName");
+    build.add(null);
+    feature = build.buildFeature(null);
+    assertEquals(false, isCoverage.evaluate(feature));
+    assertEquals(true, isNotCoverage.evaluate(feature));
+  }
+
+  @Test
+  public void testSimplify() throws Exception {
+    Filter isCoverage = FF.equals(FF.function("isCoverage"), FF.literal("true"));
+
+    SimplifyingFilterVisitor visitor = new SimplifyingFilterVisitor();
+    Filter result = (Filter) isCoverage.accept(visitor, null);
+
+    assertEquals(isCoverage, result);
+  }
 }

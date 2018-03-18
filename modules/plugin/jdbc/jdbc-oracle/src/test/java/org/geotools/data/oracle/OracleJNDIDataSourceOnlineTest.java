@@ -20,23 +20,18 @@ package org.geotools.data.oracle;
 import org.geotools.jdbc.JDBCJNDIDataSourceOnlineTest;
 import org.geotools.jdbc.JDBCJNDITestSetup;
 
-/**
- * 
- * 
- * @source $URL$
- */
+/** @source $URL$ */
 public class OracleJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlineTest {
 
-    protected JDBCJNDITestSetup createTestSetup() {
-        return new JDBCJNDITestSetup(new OracleTestSetup());
-    }
+  protected JDBCJNDITestSetup createTestSetup() {
+    return new JDBCJNDITestSetup(new OracleTestSetup());
+  }
 
-    protected OracleNGJNDIDataStoreFactory getJNDIStoreFactory() {
-        return new OracleNGJNDIDataStoreFactory();
-    }
+  protected OracleNGJNDIDataStoreFactory getJNDIStoreFactory() {
+    return new OracleNGJNDIDataStoreFactory();
+  }
 
-    protected OracleNGDataStoreFactory getDataStoreFactory() {
-        return new OracleNGDataStoreFactory();
-    }
-
+  protected OracleNGDataStoreFactory getDataStoreFactory() {
+    return new OracleNGDataStoreFactory();
+  }
 }

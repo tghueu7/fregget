@@ -17,49 +17,50 @@
  */
 package org.geotools.arcsde.raster.info;
 
-import java.util.NoSuchElementException;
-
 import com.esri.sde.sdk.client.SeRaster;
+import java.util.NoSuchElementException;
 
 /**
  * An enumeration that mirrors the different possible raster interpolation types in Arcsde (ie,
  * {@code SeRaster#SE_INTERPOLATION_*})
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
  * @since 2.5.4
  * @version $Id$
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
- *         /geotools/arcsde/raster/info/InterpolationType.java $
+ *     http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
+ *     /geotools/arcsde/raster/info/InterpolationType.java $
  */
 public enum InterpolationType {
-    INTERPOLATION_BICUBIC, INTERPOLATION_BILINEAR, INTERPOLATION_NEAREST, INTERPOLATION_NONE;
-    static {
-        INTERPOLATION_BICUBIC.setSdeTypeId(SeRaster.SE_INTERPOLATION_BICUBIC);
-        INTERPOLATION_BILINEAR.setSdeTypeId(SeRaster.SE_INTERPOLATION_BILINEAR);
-        INTERPOLATION_NEAREST.setSdeTypeId(SeRaster.SE_INTERPOLATION_NEAREST);
-        INTERPOLATION_NONE.setSdeTypeId(SeRaster.SE_INTERPOLATION_NONE);
-    }
+  INTERPOLATION_BICUBIC,
+  INTERPOLATION_BILINEAR,
+  INTERPOLATION_NEAREST,
+  INTERPOLATION_NONE;
 
-    private int typeId;
+  static {
+    INTERPOLATION_BICUBIC.setSdeTypeId(SeRaster.SE_INTERPOLATION_BICUBIC);
+    INTERPOLATION_BILINEAR.setSdeTypeId(SeRaster.SE_INTERPOLATION_BILINEAR);
+    INTERPOLATION_NEAREST.setSdeTypeId(SeRaster.SE_INTERPOLATION_NEAREST);
+    INTERPOLATION_NONE.setSdeTypeId(SeRaster.SE_INTERPOLATION_NONE);
+  }
 
-    private void setSdeTypeId(int typeId) {
-        this.typeId = typeId;
-    }
+  private int typeId;
 
-    public int getSeInterpolationType() {
-        return this.typeId;
-    }
+  private void setSdeTypeId(int typeId) {
+    this.typeId = typeId;
+  }
 
-    public static InterpolationType valueOf(final int seInterpolationType) {
-        for (InterpolationType type : InterpolationType.values()) {
-            if (type.getSeInterpolationType() == seInterpolationType) {
-                return type;
-            }
-        }
-        throw new NoSuchElementException("Interpolation type " + seInterpolationType
-                + " does not exist");
+  public int getSeInterpolationType() {
+    return this.typeId;
+  }
+
+  public static InterpolationType valueOf(final int seInterpolationType) {
+    for (InterpolationType type : InterpolationType.values()) {
+      if (type.getSeInterpolationType() == seInterpolationType) {
+        return type;
+      }
     }
+    throw new NoSuchElementException(
+        "Interpolation type " + seInterpolationType + " does not exist");
+  }
 }

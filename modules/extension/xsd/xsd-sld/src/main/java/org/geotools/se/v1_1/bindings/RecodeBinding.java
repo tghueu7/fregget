@@ -16,16 +16,15 @@
  */
 package org.geotools.se.v1_1.bindings;
 
+import javax.xml.namespace.QName;
 import org.geotools.se.v1_1.SE;
 import org.geotools.xml.*;
 
-import javax.xml.namespace.QName;
-
 /**
  * Binding object for the element http://www.opengis.net/se:Recode.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *  <code>
  *  &lt;xsd:element name="Recode" substitutionGroup="se:Function" type="se:RecodeType"&gt;
@@ -34,11 +33,11 @@ import javax.xml.namespace.QName;
  *         Transformation of discrete values to other values
  *               &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ *
  * <pre>
  *       <code>
  *  &lt;xsd:complexType name="RecodeType"&gt;
@@ -50,45 +49,42 @@ import javax.xml.namespace.QName;
  *              &lt;/xsd:sequence&gt;
  *          &lt;/xsd:extension&gt;
  *      &lt;/xsd:complexContent&gt;
- *  &lt;/xsd:complexType&gt; 
- *              
+ *  &lt;/xsd:complexType&gt;
+ *
  *        </code>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class RecodeBinding extends AbstractComplexBinding {
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SE.Recode;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return SE.Recode;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return null;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return null;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
 
-        // TODO: implement and remove call to super
-        return super.parse(instance, node, value);
-    }
-
+    // TODO: implement and remove call to super
+    return super.parse(instance, node, value);
+  }
 }

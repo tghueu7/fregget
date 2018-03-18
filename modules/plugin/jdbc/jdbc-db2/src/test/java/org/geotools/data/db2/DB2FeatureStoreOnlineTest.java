@@ -18,33 +18,27 @@ package org.geotools.data.db2;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
 import org.geotools.jdbc.JDBCFeatureStoreOnlineTest;
 import org.geotools.jdbc.JDBCTestSetup;
-
 
 /**
  * FeatureStore test for MySQL.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class DB2FeatureStoreOnlineTest extends JDBCFeatureStoreOnlineTest {
-    protected JDBCTestSetup createTestSetup() {
-        return new DB2TestSetup();
-    }
+  protected JDBCTestSetup createTestSetup() {
+    return new DB2TestSetup();
+  }
 
-    @Override
-    public void testAddInTransaction() throws IOException {
-        // Skip, DB2 does a lock escalation resulting in a table lock
-    }
+  @Override
+  public void testAddInTransaction() throws IOException {
+    // Skip, DB2 does a lock escalation resulting in a table lock
+  }
 
-    @Override
-    public void testExternalConnection() throws IOException, SQLException {
-        // skip, never comes back
-    }
+  @Override
+  public void testExternalConnection() throws IOException, SQLException {
+    // skip, never comes back
+  }
 }

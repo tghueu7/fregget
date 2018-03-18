@@ -21,25 +21,24 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.junit.runners.Parameterized.Parameters;
 
 public class CookbookPolygonTranslationTest extends AbstractIntegrationTest {
 
-    public CookbookPolygonTranslationTest(String name, File file) {
-        super(name, file, true);
+  public CookbookPolygonTranslationTest(String name, File file) {
+    super(name, file, true);
+  }
+
+  @Parameters(name = "{0}")
+  public static Collection<Object[]> data() {
+    List<Object[]> result = new ArrayList<>();
+    File root = new File("./src/test/resources/css/cookbook/polygon");
+    for (File file : root.listFiles()) {
+      if (file.getName().endsWith(".css")) {
+        result.add(new Object[] {file.getName(), file});
+      }
     }
 
-    @Parameters(name = "{0}")
-    public static Collection<Object[]> data() {
-        List<Object[]> result = new ArrayList<>();
-        File root = new File("./src/test/resources/css/cookbook/polygon");
-        for (File file : root.listFiles()) {
-            if (file.getName().endsWith(".css")) {
-                result.add(new Object[] { file.getName(), file });
-            }
-        }
-
-        return result;
-    }
+    return result;
+  }
 }

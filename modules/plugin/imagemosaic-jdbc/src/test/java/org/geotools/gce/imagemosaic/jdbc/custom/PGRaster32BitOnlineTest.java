@@ -17,64 +17,51 @@
 
 package org.geotools.gce.imagemosaic.jdbc.custom;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.StringTokenizer;
-
-import org.geotools.gce.imagemosaic.jdbc.AbstractTest;
-import org.geotools.gce.imagemosaic.jdbc.Config;
-import org.geotools.gce.imagemosaic.jdbc.DBDialect;
-
-
-import junit.framework.Assert;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class PGRaster32BitOnlineTest extends PGRasterOnlineTest {
-    public PGRaster32BitOnlineTest(String test) {
-            super(test);
+  public PGRaster32BitOnlineTest(String test) {
+    super(test);
+  }
+
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+
+    PGRaster32BitOnlineTest test = new PGRaster32BitOnlineTest("");
+
+    if (test.checkPreConditions() == false) {
+      return suite;
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
+    suite.addTest(new PGRaster32BitOnlineTest("testGetConnection"));
 
-        PGRaster32BitOnlineTest test = new PGRaster32BitOnlineTest("");
+    // Test with in db pgraster
+    suite.addTest(new PGRaster32BitOnlineTest("testDrop"));
+    suite.addTest(new PGRaster32BitOnlineTest("testCreateFloat32"));
+    suite.addTest(new PGRaster32BitOnlineTest("testImage1"));
+    suite.addTest(new PGRaster32BitOnlineTest("testFullExtent"));
+    suite.addTest(new PGRaster32BitOnlineTest("testNoData"));
+    suite.addTest(new PGRaster32BitOnlineTest("testPartial"));
+    suite.addTest(new PGRaster32BitOnlineTest("testVienna"));
+    suite.addTest(new PGRaster32BitOnlineTest("testViennaEnv"));
 
-        if (test.checkPreConditions() == false) {
-                return suite;
-        }
+    // The following two tests fail but it's not clear why yet.
+    // suite.addTest(new PGRaster32BitOnlineTest("testOutputTransparentColor"));
+    // suite.addTest(new PGRaster32BitOnlineTest("testOutputTransparentColor2"));
 
-        suite.addTest(new PGRaster32BitOnlineTest("testGetConnection"));
+    suite.addTest(new PGRaster32BitOnlineTest("testCloseConnection"));
 
-        // Test with in db pgraster
-        suite.addTest(new PGRaster32BitOnlineTest("testDrop"));
-        suite.addTest(new PGRaster32BitOnlineTest("testCreateFloat32"));
-        suite.addTest(new PGRaster32BitOnlineTest("testImage1"));
-        suite.addTest(new PGRaster32BitOnlineTest("testFullExtent"));
-        suite.addTest(new PGRaster32BitOnlineTest("testNoData"));
-        suite.addTest(new PGRaster32BitOnlineTest("testPartial"));
-        suite.addTest(new PGRaster32BitOnlineTest("testVienna"));
-        suite.addTest(new PGRaster32BitOnlineTest("testViennaEnv"));
+    return suite;
+  }
 
-        // The following two tests fail but it's not clear why yet.
-        //suite.addTest(new PGRaster32BitOnlineTest("testOutputTransparentColor"));
-        //suite.addTest(new PGRaster32BitOnlineTest("testOutputTransparentColor2"));
-
-        suite.addTest(new PGRaster32BitOnlineTest("testCloseConnection"));
-
-        return suite;
-}
-
-    public void testCreateFloat32() {
-        executeCreate(Connection,new String [] { "pgraster32bit.sql","1/pgraster32bit.sql","2/pgraster32bit.sql",},false );
-    }
+  public void testCreateFloat32() {
+    executeCreate(
+        Connection,
+        new String[] {
+          "pgraster32bit.sql", "1/pgraster32bit.sql", "2/pgraster32bit.sql",
+        },
+        false);
+  }
 }

@@ -24,7 +24,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.TimeZone;
 import java.util.logging.Level;
-
 import org.geotools.data.shapefile.fid.FidIndexer;
 import org.geotools.data.shapefile.fid.IndexedFidWriter;
 import org.geotools.data.shapefile.files.FileWriter;
@@ -41,106 +40,106 @@ import org.opengis.feature.simple.SimpleFeature;
  */
 class IndexedShapefileFeatureWriter extends ShapefileFeatureWriter implements FileWriter {
 
-    private IndexedFidWriter fidWriter;
+  private IndexedFidWriter fidWriter;
 
-    private String currentFid;
+  private String currentFid;
 
-    private IndexManager indexes;
+  private IndexManager indexes;
 
-    public IndexedShapefileFeatureWriter(IndexManager indexes,
-            ShapefileFeatureReader featureReader, Charset charset, TimeZone timeZone)
-            throws IOException {
-        super(indexes.shpFiles, featureReader, charset, timeZone);
-        this.indexes = indexes;
-        if (!indexes.shpFiles.isLocal()) {
-            this.fidWriter = IndexedFidWriter.EMPTY_WRITER;
-        } else {
-            StorageFile storageFile = shpFiles.getStorageFile(FIX);
-            storageFiles.put(FIX, storageFile);
-            this.fidWriter = new IndexedFidWriter(shpFiles, storageFile);
+  public IndexedShapefileFeatureWriter(
+      IndexManager indexes,
+      ShapefileFeatureReader featureReader,
+      Charset charset,
+      TimeZone timeZone)
+      throws IOException {
+    super(indexes.shpFiles, featureReader, charset, timeZone);
+    this.indexes = indexes;
+    if (!indexes.shpFiles.isLocal()) {
+      this.fidWriter = IndexedFidWriter.EMPTY_WRITER;
+    } else {
+      StorageFile storageFile = shpFiles.getStorageFile(FIX);
+      storageFiles.put(FIX, storageFile);
+      this.fidWriter = new IndexedFidWriter(shpFiles, storageFile);
+    }
+  }
+
+  @Override
+  public SimpleFeature next() throws IOException {
+    // closed already, error!
+    if (featureReader == null) {
+      throw new IOException("Writer closed");
+    }
+
+    // we have to write the current feature back into the stream
+    if (currentFeature != null) {
+      write();
+    }
+
+    long next = fidWriter.next();
+    currentFid = getFeatureType().getTypeName() + "." + next;
+    SimpleFeature feature = super.next();
+    return feature;
+  }
+
+  @Override
+  protected String nextFeatureId() {
+    return currentFid;
+  }
+
+  @Override
+  public void remove() throws IOException {
+    fidWriter.remove();
+    super.remove();
+  }
+
+  @Override
+  public void write() throws IOException {
+    fidWriter.write();
+    super.write();
+  }
+
+  /** Release resources and flush the header information. */
+  public void close() throws IOException {
+    super.close();
+    fidWriter.close();
+
+    try {
+      if (shpFiles.isLocal()) {
+        if (indexes.isIndexStale(ShpFileType.FIX)) {
+          FidIndexer.generate(shpFiles);
         }
+
+        deleteFile(ShpFileType.QIX);
+      }
+    } catch (Throwable e) {
+      ShapefileDataStoreFactory.LOGGER.log(Level.WARNING, "Error creating Spatial index", e);
     }
+  }
 
-    @Override
-    public SimpleFeature next() throws IOException {
-        // closed already, error!
-        if (featureReader == null) {
-            throw new IOException("Writer closed");
-        }
-
-        // we have to write the current feature back into the stream
-        if (currentFeature != null) {
-            write();
-        }
-
-        long next = fidWriter.next();
-        currentFid = getFeatureType().getTypeName() + "." + next;
-        SimpleFeature feature = super.next();
-        return feature;
+  @Override
+  protected void doClose() throws IOException {
+    super.doClose();
+    try {
+      fidWriter.close();
+    } catch (Throwable e) {
+      ShapefileDataStoreFactory.LOGGER.log(Level.WARNING, "Error creating Feature ID index", e);
     }
+  }
 
-    @Override
-    protected String nextFeatureId() {
-        return currentFid;
+  private void deleteFile(ShpFileType shpFileType) {
+    URL url = shpFiles.acquireWrite(shpFileType, this);
+    try {
+      File toDelete = URLs.urlToFile(url);
+
+      if (toDelete.exists()) {
+        toDelete.delete();
+      }
+    } finally {
+      shpFiles.unlockWrite(url, this);
     }
+  }
 
-    @Override
-    public void remove() throws IOException {
-        fidWriter.remove();
-        super.remove();
-    }
-
-    @Override
-    public void write() throws IOException {
-        fidWriter.write();
-        super.write();
-    }
-
-    /**
-     * Release resources and flush the header information.
-     */
-    public void close() throws IOException {
-        super.close();
-        fidWriter.close();
-
-        try {
-            if (shpFiles.isLocal()) {
-                if (indexes.isIndexStale(ShpFileType.FIX)) {
-                    FidIndexer.generate(shpFiles);
-                }
-
-                deleteFile(ShpFileType.QIX);
-            }
-        } catch (Throwable e) {
-            ShapefileDataStoreFactory.LOGGER.log(Level.WARNING, "Error creating Spatial index", e);
-        }
-    }
-
-    @Override
-    protected void doClose() throws IOException {
-        super.doClose();
-        try {
-            fidWriter.close();
-        } catch (Throwable e) {
-            ShapefileDataStoreFactory.LOGGER.log(Level.WARNING, "Error creating Feature ID index",
-                    e);
-        }
-    }
-
-    private void deleteFile(ShpFileType shpFileType) {
-        URL url = shpFiles.acquireWrite(shpFileType, this);
-        try {
-            File toDelete = URLs.urlToFile(url);
-
-            if (toDelete.exists()) {
-                toDelete.delete();
-            }
-        } finally {
-            shpFiles.unlockWrite(url, this);
-        }
-    }
-
-    public String id() {
-        return getClass().getName();
-    }
+  public String id() {
+    return getClass().getName();
+  }
 }

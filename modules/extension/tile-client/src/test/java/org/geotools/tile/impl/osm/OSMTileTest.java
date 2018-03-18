@@ -25,34 +25,29 @@ import org.junit.Test;
 
 public class OSMTileTest {
 
-    private Tile tile;
+  private Tile tile;
 
-    @Before
-    public void beforeTest() {
+  @Before
+  public void beforeTest() {
 
-        String baseURL = "http://tile.openstreetmap.org/";
-        TileService service = new OSMService("Mapnik", baseURL);
-        OSMTileIdentifier tileIdentifier = new OSMTileIdentifier(10, 12,
-                new WebMercatorZoomLevel(5), service.getName());
+    String baseURL = "http://tile.openstreetmap.org/";
+    TileService service = new OSMService("Mapnik", baseURL);
+    OSMTileIdentifier tileIdentifier =
+        new OSMTileIdentifier(10, 12, new WebMercatorZoomLevel(5), service.getName());
 
-        this.tile = new OSMTile(tileIdentifier, service);
+    this.tile = new OSMTile(tileIdentifier, service);
+  }
 
-    }
+  @Test
+  public void testConstructor() {
 
-    @Test
-    public void testConstructor() {
+    Assert.assertNotNull(this.tile);
+  }
 
-        Assert.assertNotNull(this.tile);
+  @Test
+  public void testGetURL() {
 
-    }
-
-    @Test
-    public void testGetURL() {
-
-        System.out.println();
-        Assert.assertEquals("http://tile.openstreetmap.org/5/10/12.png",
-                this.tile.getUrl().toString());
-
-    }
-
+    System.out.println();
+    Assert.assertEquals("http://tile.openstreetmap.org/5/10/12.png", this.tile.getUrl().toString());
+  }
 }

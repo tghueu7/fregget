@@ -18,41 +18,35 @@ package org.geotools.gml2.bindings;
 
 import com.vividsolutions.jts.geom.CoordinateSequence;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GMLUtil {
-    /**
-     * Determines the dimension of a coordinate sequence. This is based off of
-     * the first coordinate in the sequence.
-     *
-     * @param seq The coordinate sequence in question.
-     *
-     * @return The best guess at a dimension, -1 if it can not be determined.
-     */
-    public static int getDimension(CoordinateSequence seq) {
-        int dimension = 0;
+  /**
+   * Determines the dimension of a coordinate sequence. This is based off of the first coordinate in
+   * the sequence.
+   *
+   * @param seq The coordinate sequence in question.
+   * @return The best guess at a dimension, -1 if it can not be determined.
+   */
+  public static int getDimension(CoordinateSequence seq) {
+    int dimension = 0;
 
-        if (seq.size() == 0) {
-            return -1;
-        }
-
-        for (; dimension < 100; dimension++) {
-            try {
-                double d = seq.getOrdinate(0, dimension);
-
-                if (Double.isNaN(d)) {
-                    return dimension;
-                }
-            } catch (Throwable t) {
-                return dimension;
-            }
-        }
-
-        //whoever has a coordinate with more then 100 dimensions is not sane
-        return -1;
+    if (seq.size() == 0) {
+      return -1;
     }
+
+    for (; dimension < 100; dimension++) {
+      try {
+        double d = seq.getOrdinate(0, dimension);
+
+        if (Double.isNaN(d)) {
+          return dimension;
+        }
+      } catch (Throwable t) {
+        return dimension;
+      }
+    }
+
+    // whoever has a coordinate with more then 100 dimensions is not sane
+    return -1;
+  }
 }

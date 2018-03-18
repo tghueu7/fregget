@@ -27,12 +27,12 @@ import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-
 /**
  * Strategy object for the type http://mails/refractions/net:envelopeType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="envelopeType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -47,64 +47,57 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MLEnvelopeTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return ML.ENVELOPETYPE;
+  /** @generated */
+  public QName getTarget() {
+    return ML.ENVELOPETYPE;
+  }
+
+  public Class getType() {
+    return Envelope.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    String from = (String) node.getChildValue("From");
+    String to = (String) node.getChildValue("To");
+    Calendar date = (Calendar) node.getChildValue("Data");
+    String subject = (String) node.getChildValue("Subject");
+
+    List headerElements = node.getChildValues("header");
+    Header[] headers = new Header[headerElements.size()];
+
+    int i = 0;
+
+    for (Iterator itr = headerElements.iterator(); itr.hasNext(); ) {
+      Map headerObject = (Map) itr.next();
+      headers[i++] = new Header((String) headerObject.get("name"), (String) headerObject.get(null));
     }
 
-    public Class getType() {
-        return Envelope.class;
+    return new Envelope(from, to, date, subject, headers);
+  }
+
+  @Override
+  public Object getProperty(Object object, QName name) throws Exception {
+    Envelope e = (Envelope) object;
+
+    if ("From".equals(name.getLocalPart())) {
+      return e.getFrom();
+    }
+    if ("To".equals(name.getLocalPart())) {
+      return e.getTo();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        String from = (String) node.getChildValue("From");
-        String to = (String) node.getChildValue("To");
-        Calendar date = (Calendar) node.getChildValue("Data");
-        String subject = (String) node.getChildValue("Subject");
-
-        List headerElements = node.getChildValues("header");
-        Header[] headers = new Header[headerElements.size()];
-
-        int i = 0;
-
-        for (Iterator itr = headerElements.iterator(); itr.hasNext();) {
-            Map headerObject = (Map) itr.next();
-            headers[i++] = new Header((String) headerObject.get("name"),
-                    (String) headerObject.get(null));
-        }
-
-        return new Envelope(from, to, date, subject, headers);
-    }
-    
-    @Override
-    public Object getProperty(Object object, QName name) throws Exception {
-        Envelope e = (Envelope) object;
-        
-        if ( "From".equals( name.getLocalPart() ) ) {
-            return e.getFrom();
-        }
-        if ( "To".equals( name.getLocalPart() ) ) {
-            return e.getTo();
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

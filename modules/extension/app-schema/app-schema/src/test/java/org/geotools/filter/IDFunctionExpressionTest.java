@@ -17,6 +17,9 @@
 
 package org.geotools.filter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import org.geotools.data.ComplexTestData;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.feature.AppSchemaAttributeBuilder;
@@ -29,61 +32,55 @@ import org.opengis.feature.Feature;
 import org.opengis.feature.type.FeatureType;
 import org.opengis.feature.type.FeatureTypeFactory;
 import org.opengis.filter.expression.Function;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
- * 
  * @author Gabriel Roldan
  * @deprecated use the following property expression instead: <code>@gml:id</code>
- *
- *
- *
- *
  * @source $URL$
  */
 public class IDFunctionExpressionTest extends AppSchemaTestSupport {
 
-    Feature feature;
+  Feature feature;
 
-    Function idExpr;
+  Function idExpr;
 
-    public IDFunctionExpressionTest() {
-    }
+  public IDFunctionExpressionTest() {}
 
-    @Before
-    public void setUp() throws Exception {
-        FeatureTypeFactory typeFactory = new UniqueNameFeatureTypeFactoryImpl();
-        FeatureType type = ComplexTestData.createExample02MultipleMultivalued(typeFactory);
-        AppSchemaAttributeBuilder ab = new AppSchemaAttributeBuilder(new ValidatingFeatureFactoryImpl());
-        ab.setType(type);
-        feature = (Feature) ab.build("test-id");
-        idExpr = CommonFactoryFinder.getFilterFactory(null).function("getID", new org.opengis.filter.expression.Expression[0]);
-    }
+  @Before
+  public void setUp() throws Exception {
+    FeatureTypeFactory typeFactory = new UniqueNameFeatureTypeFactoryImpl();
+    FeatureType type = ComplexTestData.createExample02MultipleMultivalued(typeFactory);
+    AppSchemaAttributeBuilder ab =
+        new AppSchemaAttributeBuilder(new ValidatingFeatureFactoryImpl());
+    ab.setType(type);
+    feature = (Feature) ab.build("test-id");
+    idExpr =
+        CommonFactoryFinder.getFilterFactory(null)
+            .function("getID", new org.opengis.filter.expression.Expression[0]);
+  }
 
-    @Test
-    public void testGetValue() throws Exception {
-        Object fid = feature.getIdentifier();
-        Object found = idExpr.evaluate(feature);
-        assertNotNull(found);
-        assertEquals(fid, found);
-    }
+  @Test
+  public void testGetValue() throws Exception {
+    Object fid = feature.getIdentifier();
+    Object found = idExpr.evaluate(feature);
+    assertNotNull(found);
+    assertEquals(fid, found);
+  }
 
-    /*
-     * Test method for 'org.geotools.filter.IDFunctionExpression.getName()'
-     */
-    @Test
-    public void testGetName() {
-        assertEquals("getID", idExpr.getName());
-    }
+  /*
+   * Test method for 'org.geotools.filter.IDFunctionExpression.getName()'
+   */
+  @Test
+  public void testGetName() {
+    assertEquals("getID", idExpr.getName());
+  }
 
-    /*
-     * Test method for 'org.geotools.filter.IDFunctionExpression.getArgs()'
-     */
-    @Test
-    public void testGetArgs() {
-        assertNotNull(idExpr.getParameters());
-        assertEquals(0, idExpr.getParameters().size());
-    }
-
+  /*
+   * Test method for 'org.geotools.filter.IDFunctionExpression.getArgs()'
+   */
+  @Test
+  public void testGetArgs() {
+    assertNotNull(idExpr.getParameters());
+    assertEquals(0, idExpr.getParameters().size());
+  }
 }

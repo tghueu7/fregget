@@ -19,22 +19,17 @@ package org.geotools.sld.bindings;
 import org.geotools.filter.Filters;
 import org.geotools.styling.Displacement;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDDisplacementBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(Displacement.class, new SLDDisplacementBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(Displacement.class, new SLDDisplacementBinding(null).getType());
+  }
 
-    public void testNormal() throws Exception {
-        SLDMockData.displacement(document, document);
+  public void testNormal() throws Exception {
+    SLDMockData.displacement(document, document);
 
-        Displacement d = (Displacement) parse();
-        assertEquals(Filters.asInt(d.getDisplacementX()), 1);
-        assertEquals(Filters.asInt(d.getDisplacementY()), 2);
-    }
+    Displacement d = (Displacement) parse();
+    assertEquals(Filters.asInt(d.getDisplacementX()), 1);
+    assertEquals(Filters.asInt(d.getDisplacementY()), 2);
+  }
 }

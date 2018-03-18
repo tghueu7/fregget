@@ -16,38 +16,36 @@
  */
 package org.geotools.gml3.simple;
 
+import com.vividsolutions.jts.geom.Geometry;
 import org.geotools.gml2.simple.GMLWriter;
 import org.geotools.gml2.simple.QualifiedName;
 import org.geotools.gml3.GML;
 import org.geotools.xml.Encoder;
 import org.xml.sax.helpers.AttributesImpl;
 
-import com.vividsolutions.jts.geom.Geometry;
-
 /**
  * Encodes a GML3 curved ring
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class RingEncoder extends MultiLineStringEncoder {
 
-    static final QualifiedName RING = new QualifiedName(GML.NAMESPACE, "Ring", "gml");
+  static final QualifiedName RING = new QualifiedName(GML.NAMESPACE, "Ring", "gml");
 
-    private QualifiedName ring;
+  private QualifiedName ring;
 
-    protected RingEncoder(Encoder e, String gmlPrefix, String gmlUri) {
-        super(e, gmlPrefix, gmlUri, true);
-        this.ring = RING.derive(gmlPrefix, gmlUri);
-    }
+  protected RingEncoder(Encoder e, String gmlPrefix, String gmlUri) {
+    super(e, gmlPrefix, gmlUri, true);
+    this.ring = RING.derive(gmlPrefix, gmlUri);
+  }
 
-    @Override
-    public void encode(Geometry geometry, AttributesImpl atts, GMLWriter handler, String gmlId)
-            throws Exception {
-        handler.startElement(ring, atts);
+  @Override
+  public void encode(Geometry geometry, AttributesImpl atts, GMLWriter handler, String gmlId)
+      throws Exception {
+    handler.startElement(ring, atts);
 
-        encodeMembers(geometry, handler, gmlId);
+    encodeMembers(geometry, handler, gmlId);
 
-        handler.endElement(ring);
-    }
-
+    handler.endElement(ring);
+  }
 }

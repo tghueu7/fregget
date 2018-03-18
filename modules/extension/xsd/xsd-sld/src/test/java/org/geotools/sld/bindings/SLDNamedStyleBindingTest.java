@@ -18,22 +18,17 @@ package org.geotools.sld.bindings;
 
 import org.geotools.styling.NamedStyle;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDNamedStyleBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(NamedStyle.class, new SLDNamedStyleBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(NamedStyle.class, new SLDNamedStyleBinding(null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.namedStyle(document, document);
+  public void test() throws Exception {
+    SLDMockData.namedStyle(document, document);
 
-        NamedStyle style = (NamedStyle) parse();
-        assertNotNull(style);
-        assertEquals("theName", style.getName());
-    }
+    NamedStyle style = (NamedStyle) parse();
+    assertNotNull(style);
+    assertEquals("theName", style.getName());
+  }
 }

@@ -17,18 +17,16 @@
 package org.geotools.wfs.bindings;
 
 import javax.xml.namespace.QName;
-
 import net.opengis.wfs.WfsFactory;
-
 import org.geotools.wfs.WFS;
 import org.geotools.xml.AbstractComplexEMFBinding;
-
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:FeatureTypeListType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="FeatureTypeListType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -44,23 +42,17 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class FeatureTypeListTypeBinding extends AbstractComplexEMFBinding {
-    public FeatureTypeListTypeBinding(WfsFactory factory) {
-        super(factory);
-    }
+  public FeatureTypeListTypeBinding(WfsFactory factory) {
+    super(factory);
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WFS.FeatureTypeListType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return WFS.FeatureTypeListType;
+  }
 }

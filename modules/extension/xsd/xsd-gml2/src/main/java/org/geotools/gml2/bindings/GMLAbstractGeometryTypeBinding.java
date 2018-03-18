@@ -16,11 +16,10 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.Geometry;
 import java.net.URI;
 import java.util.logging.Logger;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.gml2.GML;
 import org.geotools.referencing.CRS;
 import org.geotools.xml.AbstractComplexBinding;
@@ -28,14 +27,12 @@ import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-import com.vividsolutions.jts.geom.Geometry;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractGeometryType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="AbstractGeometryType" abstract="true"&gt;
  *      &lt;annotation&gt;
@@ -54,87 +51,82 @@ import com.vividsolutions.jts.geom.Geometry;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLAbstractGeometryTypeBinding extends AbstractComplexBinding {
-    Logger logger;
+  Logger logger;
 
-    public GMLAbstractGeometryTypeBinding(Logger logger) {
-        this.logger = logger;
-    }
+  public GMLAbstractGeometryTypeBinding(Logger logger) {
+    this.logger = logger;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.ABSTRACTGEOMETRYTYPE;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return GML.ABSTRACTGEOMETRYTYPE;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return OVERRIDE;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Geometry.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Geometry.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        if (value instanceof Geometry) {
-            Geometry geometry = (Geometry) value;
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    if (value instanceof Geometry) {
+      Geometry geometry = (Geometry) value;
 
-            //&lt;attribute name="srsName" type="anyURI" use="optional"/&gt;
-            if (node.hasAttribute("srsName")) {
-                URI srs = (URI) node.getAttributeValue("srsName");
-                CoordinateReferenceSystem crs = CRS.decode(srs.toString());
+      // &lt;attribute name="srsName" type="anyURI" use="optional"/&gt;
+      if (node.hasAttribute("srsName")) {
+        URI srs = (URI) node.getAttributeValue("srsName");
+        CoordinateReferenceSystem crs = CRS.decode(srs.toString());
 
-                if (crs != null) {
-                    geometry.setUserData(crs);
-                } else {
-                    logger.warning("Could not create Coordinate Reference System for " + srs);
-                }
-            }
-
-            //TODO: process the ID attribute
+        if (crs != null) {
+          geometry.setUserData(crs);
+        } else {
+          logger.warning("Could not create Coordinate Reference System for " + srs);
         }
+      }
 
-        return value;
+      // TODO: process the ID attribute
     }
 
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        if ("srsName".equals(name.getLocalPart())) {
-            Geometry geometry = (Geometry) object;
+    return value;
+  }
 
-            if (geometry.getUserData() instanceof CoordinateReferenceSystem) {
-                return GML2EncodingUtils.crs((CoordinateReferenceSystem) geometry.getUserData());
-            }
-        }
+  public Object getProperty(Object object, QName name) throws Exception {
+    if ("srsName".equals(name.getLocalPart())) {
+      Geometry geometry = (Geometry) object;
 
-        return null;
+      if (geometry.getUserData() instanceof CoordinateReferenceSystem) {
+        return GML2EncodingUtils.crs((CoordinateReferenceSystem) geometry.getUserData());
+      }
     }
+
+    return null;
+  }
 }

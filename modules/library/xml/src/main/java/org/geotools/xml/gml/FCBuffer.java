@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -23,7 +23,6 @@ import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.geotools.data.FeatureReader;
 import org.geotools.xml.DocumentFactory;
 import org.geotools.xml.XMLHandlerHints;
@@ -31,383 +30,357 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.xml.sax.SAXException;
 
-
 /**
- * <p>
- * Feature Buffer ... acts as a  FeatureReader<SimpleFeatureType, SimpleFeature> by making itself as a seperate
- * thread prior starting execution with the SAX Parser.
- * </p>
+ * Feature Buffer ... acts as a FeatureReader<SimpleFeatureType, SimpleFeature> by making itself as
+ * a seperate thread prior starting execution with the SAX Parser.
  *
  * @author dzwiers
- *
- *
  * @source $URL$
  */
-public class FCBuffer extends Thread implements  FeatureReader<SimpleFeatureType, SimpleFeature> {
-    /** Last feature is in the buffer */
-    public static final int FINISH = -1;
-    
-    /** DOCUMENT ME! */
-    public static final int STOP = -2;
+public class FCBuffer extends Thread implements FeatureReader<SimpleFeatureType, SimpleFeature> {
+  /** Last feature is in the buffer */
+  public static final int FINISH = -1;
 
-    /** DOCUMENT ME! */
-    protected static Logger logger = getLogger();
+  /** DOCUMENT ME! */
+  public static final int STOP = -2;
 
-    // positive number is the number of feature to parse before yield
+  /** DOCUMENT ME! */
+  protected static Logger logger = getLogger();
 
-    /** DOCUMENT ME! */
-    protected int state = 0;
-    private SimpleFeature[] features;
+  // positive number is the number of feature to parse before yield
 
-    private int end;
-    private int size;
-    private int head;
-    private int timeout = 1000;
-    private URI document; // for run
-    protected SAXException exception = null;
+  /** DOCUMENT ME! */
+  protected int state = 0;
 
-    private FCBuffer() {
-        // should not be called
-    	super("Feature Collection Buffer");
+  private SimpleFeature[] features;
+
+  private int end;
+  private int size;
+  private int head;
+  private int timeout = 1000;
+  private URI document; // for run
+  protected SAXException exception = null;
+
+  private FCBuffer() {
+    // should not be called
+    super("Feature Collection Buffer");
+  }
+
+  /**
+   * @param document
+   * @param capacity
+   * @param timeout
+   * @param ft Nullable
+   */
+  protected FCBuffer(URI document, int capacity, int timeout, SimpleFeatureType ft) {
+    super("Feature Collection Buffer");
+    features = new SimpleFeature[capacity];
+    this.timeout = timeout;
+    this.document = document;
+    end = size = head = 0;
+    this.ft = ft;
+  }
+
+  /**
+   * Returns the logger to be used for this class.
+   *
+   * @todo Logger.setLevel(...) should not be invoked, because it override any user setting in
+   *     {@code jre/lib/logging.properties}. Users should edit their properties file instead. If
+   *     Geotools is too verbose below the warning level, then some log messages should probably be
+   *     changed from Level.INFO to Level.FINE.
+   */
+  private static final Logger getLogger() {
+    Logger l = org.geotools.util.logging.Logging.getLogger("org.geotools.xml.gml");
+    l.setLevel(Level.WARNING);
+    return l;
+  }
+
+  /**
+   * DOCUMENT ME!
+   *
+   * @return The buffer size
+   */
+  public int getSize() {
+    return size;
+  }
+
+  /**
+   * DOCUMENT ME!
+   *
+   * @return The buffer capacity
+   */
+  public int getCapacity() {
+    return features.length;
+  }
+
+  /**
+   * DOCUMENT ME!
+   *
+   * @return The buffer capacity
+   */
+  public int getTimeout() {
+    return timeout;
+  }
+
+  /**
+   * Adds a feature to the buffer
+   *
+   * @param f Feature to add
+   * @return false if unable to add the feature
+   */
+  protected boolean addFeature(SimpleFeature f) {
+    if (ft == null) {
+      ft = f.getFeatureType();
     }
 
-    /**
-     * 
-     * @param document
-     * @param capacity
-     * @param timeout
-     * @param ft Nullable
-     */
-    protected FCBuffer(URI document, int capacity, int timeout, SimpleFeatureType ft) {
-    	super("Feature Collection Buffer");
-        features = new SimpleFeature[capacity];
-        this.timeout = timeout;
-        this.document = document;
-        end = size = head = 0;
-        this.ft = ft;
+    if (size >= features.length) {
+      return false;
     }
 
-    /**
-     * Returns the logger to be used for this class.
-     *
-     * @todo Logger.setLevel(...) should not be invoked, because it override any user setting in
-     *       {@code jre/lib/logging.properties}. Users should edit their properties file instead.
-     *       If Geotools is too verbose below the warning level, then some log messages should
-     *       probably be changed from Level.INFO to Level.FINE.
-     */
-    private static final Logger getLogger() {
-        Logger l = org.geotools.util.logging.Logging.getLogger("org.geotools.xml.gml");
-        l.setLevel(Level.WARNING);
-        return l;
+    synchronized (this) {
+      notify();
+
+      features[end] = f;
+      end++;
+
+      if (end == features.length) {
+        end = 0;
+      }
+
+      size++;
+    }
+    return true;
+  }
+
+  /**
+   * The prefered method of using this class, this will return the Feature Reader for the document
+   * specified, using the specified buffer capacity.
+   *
+   * @param document URL to parse
+   * @param capacity
+   * @throws SAXException
+   */
+  public static FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(
+      URI document, int capacity) throws SAXException {
+    return getFeatureReader(document, capacity, 1000, null);
+  }
+
+  public static FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(
+      URI document, int capacity, SimpleFeatureType ft) throws SAXException {
+    return getFeatureReader(document, capacity, 1000, ft);
+  }
+
+  public static FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(
+      URI document, int capacity, int timeout) throws SAXException {
+
+    return getFeatureReader(document, capacity, timeout, null);
+  }
+
+  public static FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(
+      URI document, int capacity, int timeout, SimpleFeatureType ft) throws SAXException {
+    FCBuffer fc = new FCBuffer(document, capacity, timeout, ft);
+    fc.start(); // calls run
+
+    if (fc.exception != null) {
+      throw fc.exception;
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return The buffer size
-     */
-    public int getSize() {
-        return size;
+    if (fc.getFeatureType() != null
+        && fc.getFeatureType().getGeometryDescriptor() != null
+        && fc.getFeatureType().getGeometryDescriptor().getCoordinateReferenceSystem() == null) {
+      // load crs
+      //                Feature f = fc.peek();
+      // TODO set crs here.
+    }
+    return fc;
+  }
+
+  protected SimpleFeatureType ft = null;
+
+  private volatile Date lastUpdate;
+  /**
+   * DOCUMENT ME!
+   *
+   * @return DOCUMENT ME!
+   * @see org.geotools.data.FeatureReader#getFeatureType()
+   */
+  public SimpleFeatureType getFeatureType() {
+    if (ft != null) return ft;
+    Date d = new Date(Calendar.getInstance().getTimeInMillis() + timeout);
+
+    while ((ft == null) && ((state != FINISH) && (state != STOP))) {
+      yield(); // let the parser run ... this is being called from
+
+      if (d.before(Calendar.getInstance().getTime())) {
+        exception = new SAXException("Timeout");
+        state = STOP;
+      }
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return The buffer capacity
-     */
-    public int getCapacity() {
-        return features.length;
+    // the original thread
+    if ((state == FINISH) || (state == STOP)) {
+      return ft;
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return The buffer capacity
-     */
-    public int getTimeout() {
-        return timeout;
+    return ft;
+  }
+
+  /** @see org.geotools.data.FeatureReader#next() */
+  public SimpleFeature next() throws IOException, NoSuchElementException {
+    if (exception != null) {
+      state = STOP;
+      IOException e = new IOException(exception.toString());
+      e.initCause(exception);
+      throw e;
     }
 
-    /**
-     * <p>
-     * Adds a feature to the buffer
-     * </p>
-     *
-     * @param f Feature to add
-     *
-     * @return false if unable to add the feature
-     */
-    protected boolean addFeature(SimpleFeature f) {
-        if (ft == null) {
-            ft = f.getFeatureType();
-        }
+    SimpleFeature f = null;
+    synchronized (this) {
+      size--;
+      f = features[head++];
+      notify();
 
-        if (size >= features.length) {
-            return false;
-        }
-        
+      if (head == features.length) {
+        head = 0;
+      }
+    }
+    return f;
+  }
+
+  /** @see org.geotools.data.FeatureReader#next() */
+  public SimpleFeature peek() throws IOException, NoSuchElementException {
+    if (exception != null) {
+      state = STOP;
+      IOException e = new IOException(exception.toString());
+      e.initCause(exception);
+      throw e;
+    }
+
+    SimpleFeature f = features[head];
+    return f;
+  }
+
+  /** @see org.geotools.data.FeatureReader#hasNext() */
+  public boolean hasNext() throws IOException {
+    if (exception instanceof StopException) {
+      return false;
+    }
+
+    if (exception != null) {
+      IOException e = new IOException(exception.toString());
+      e.initCause(exception);
+      throw e;
+    }
+
+    logger.finest("hasNext " + size);
+
+    resetTimer();
+
+    while ((size <= 1) && (state != FINISH) && (state != STOP)) { // && t>0) {
+
+      if (exception != null) {
+        state = STOP;
+        IOException e = new IOException(exception.toString());
+        e.initCause(exception);
+        throw e;
+      }
+
+      logger.finest("waiting for parser");
+      try {
         synchronized (this) {
-            notify();
-        
-
-	        features[end] = f;
-	        end++;
-	
-	        if (end == features.length) {
-	            end = 0;
-	        }
-	
-	        size++;
+          wait(200);
         }
-        return true;
+      } catch (InterruptedException e) {
+        // just continue;
+      }
+
+      if (lastUpdate.before(new Date(Calendar.getInstance().getTimeInMillis() - timeout))) {
+        exception = new SAXException("Timeout");
+        state = STOP;
+      }
     }
 
-    /**
-     * <p>
-     * The prefered method of using this class, this will return the Feature
-     * Reader for the document specified, using the specified buffer capacity.
-     * </p>
-     *
-     * @param document URL to parse
-     * @param capacity
-     *
-     *
-     * @throws SAXException
-     */
-    public static  FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(URI document, int capacity)
-        throws SAXException {
-        return getFeatureReader(document,capacity,1000,null);
-    }
-    
-    public static  FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(URI document, int capacity, SimpleFeatureType ft)
-    throws SAXException {
-        return getFeatureReader(document,capacity,1000,ft);
-}
+    if (state == STOP) {
+      if (exception != null) {
+        IOException e = new IOException(exception.toString());
+        e.initCause(exception);
+        throw e;
+      }
 
-    public static  FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(URI document, int capacity,
-        int timeout) throws SAXException {
-
-        return getFeatureReader(document,capacity,timeout,null);
+      return false;
     }
 
-    public static  FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(URI document, int capacity,
-        int timeout, SimpleFeatureType ft) throws SAXException {
-        FCBuffer fc = new FCBuffer(document, capacity, timeout,ft);
-        fc.start(); // calls run
-
-        if (fc.exception != null) {
-            throw fc.exception;
-        }
-
-        if(fc.getFeatureType()!=null && fc.getFeatureType().getGeometryDescriptor()!=null && fc.getFeatureType().getGeometryDescriptor().getCoordinateReferenceSystem() == null){
-                // load crs
-//                Feature f = fc.peek();
-                // TODO set crs here.
-        }
-        return fc;
+    if (state == FINISH) {
+      return !(size == 0);
     }
 
-    protected SimpleFeatureType ft = null;
+    if (size == 0) {
+      state = STOP;
 
-	private volatile Date lastUpdate;
-    /**
-     * DOCUMENT ME!
-     *
-     * @return DOCUMENT ME!
-     *
-     * @see org.geotools.data.FeatureReader#getFeatureType()
-     */
-    public SimpleFeatureType getFeatureType() {
-        if(ft != null)
-            return ft;
-        Date d = new Date(Calendar.getInstance().getTimeInMillis() + timeout);
+      if (exception != null) {
+        throw new IOException(exception.toString());
+      }
 
-        while ((ft == null) && ((state != FINISH) && (state != STOP))) {
-            yield(); // let the parser run ... this is being called from 
-
-            if (d.before(Calendar.getInstance().getTime())) {
-                exception = new SAXException("Timeout");
-                state = STOP;
-            }
-        }
-
-        // the original thread
-        if ((state == FINISH) || (state == STOP)) {
-            return ft;
-        }
-
-        return ft;
+      throw new IOException("There was an error");
     }
 
-    /**
-     * @see org.geotools.data.FeatureReader#next()
-     */
-    public SimpleFeature next()
-        throws IOException, NoSuchElementException {
-        if (exception != null) {
-            state = STOP;
-            IOException e = new IOException(exception.toString());
-            e.initCause(exception);
-            throw e;
-        }
+    return true;
+  }
 
-        SimpleFeature f = null;
-        synchronized (this) {
-	        size--;
-	         f = features[head++];
-            notify();
-        
-        
-	        if (head == features.length) {
-	            head = 0;
-	        }
-        }
-        return f;
+  /** @see org.geotools.data.FeatureReader#close() */
+  public void close() {
+    state = STOP; // note for the sax parser
+    interrupt();
+  }
+
+  /** @see java.lang.Runnable#run() */
+  public void run() {
+    XMLHandlerHints hints = new XMLHandlerHints();
+    initHints(hints);
+
+    try {
+      DocumentFactory.getInstance(document, hints);
+
+      // start parsing until buffer part full, then yield();
+    } catch (StopException e) {
+      exception = e;
+      state = STOP;
+      yield();
+    } catch (SAXException e) {
+      exception = e;
+      state = STOP;
+      yield();
     }
+  }
 
-    /**
-     * @see org.geotools.data.FeatureReader#next()
-     */
-    public SimpleFeature peek()
-        throws IOException, NoSuchElementException {
-        if (exception != null) {
-            state = STOP;
-            IOException e = new IOException(exception.toString());
-            e.initCause(exception);
-            throw e;
-        }
-
-        SimpleFeature f = features[head];
-        return f;
+  /**
+   * Called before parsing the FeatureCollection. Subclasses may override to set their custom hints.
+   */
+  protected void initHints(XMLHandlerHints hints) {
+    hints.put(XMLHandlerHints.STREAM_HINT, this);
+    hints.put(XMLHandlerHints.FLOW_HANDLER_HINT, new FCFlowHandler());
+    if (this.ft != null) {
+      hints.put("DEBUG_INFO_FEATURE_TYPE_NAME", ft.getTypeName());
     }
+  }
 
-    /**
-     * @see org.geotools.data.FeatureReader#hasNext()
-     */
-    public boolean hasNext() throws IOException {
-        if (exception instanceof StopException) {
-            return false;
-        }
-
-        if (exception != null) {
-            IOException e = new IOException(exception.toString());
-            e.initCause(exception);
-            throw e;
-        }
-
-        logger.finest("hasNext " + size);
-
-        resetTimer();
-
-        while ((size <= 1) && (state != FINISH) && (state != STOP)) { //&& t>0) {
-        	
-            if (exception != null) {
-                state = STOP;
-                IOException e = new IOException(exception.toString());
-                e.initCause(exception);
-                throw e;
-            }
-
-            logger.finest("waiting for parser");
-            try {
-                synchronized (this) {
-                    wait(200);
-                }
-            } catch (InterruptedException e) {
-                //just continue;
-            }
-
-            if (lastUpdate.before(new Date(Calendar.getInstance().getTimeInMillis() - timeout))) {
-                exception = new SAXException("Timeout");
-                state = STOP;
-            }
-        }
-
-        if (state == STOP) {
-            if (exception != null) {
-            	IOException e = new IOException(exception.toString());
-            	e.initCause(exception);
-            	throw e;
-            }
-
-            return false;
-        }
-
-        if (state == FINISH) {
-            return !(size == 0);
-        }
-
-        if (size == 0) {
-            state = STOP;
-
-            if (exception != null) {
-                throw new IOException(exception.toString());
-            }
-
-            throw new IOException("There was an error");
-        }
-
-        return true;
+  /**
+   * DOCUMENT ME!
+   *
+   * @author $author$
+   * @version $Revision: 1.9 $
+   */
+  public static class StopException extends SAXException {
+    public StopException() {
+      super("Stopping");
     }
+  }
 
-    /**
-     * @see org.geotools.data.FeatureReader#close()
-     */
-    public void close(){
-        state = STOP; // note for the sax parser
-        interrupt();
-    }
+  public int getInternalState() {
+    return state;
+  }
 
-    /**
-     * @see java.lang.Runnable#run()
-     */
-    public void run() {
-        XMLHandlerHints hints = new XMLHandlerHints();
-        initHints(hints);
-
-        try {
-            DocumentFactory.getInstance(document, hints);
-
-            // start parsing until buffer part full, then yield();
-        } catch (StopException e) {
-            exception = e;
-            state = STOP;
-            yield();
-        } catch (SAXException e) {
-            exception = e;
-            state = STOP;
-            yield();
-        }
-    }
-
-    /**
-     * Called before parsing the FeatureCollection.  Subclasses may override to set their custom hints.  
-     */
-    protected void initHints(XMLHandlerHints hints)  {
-        hints.put(XMLHandlerHints.STREAM_HINT, this);
-        hints.put(XMLHandlerHints.FLOW_HANDLER_HINT, new FCFlowHandler());
-        if( this.ft!=null ){
-        	hints.put("DEBUG_INFO_FEATURE_TYPE_NAME", ft.getTypeName());
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @author $author$
-     * @version $Revision: 1.9 $
-     */
-    public static class StopException extends SAXException {
-        public StopException() {
-            super("Stopping");
-        }
-    }
-    
-    public int getInternalState() {
-    	return state;
-    }
-
-	public void resetTimer() {
-		this.lastUpdate = Calendar.getInstance().getTime();		
-	}
+  public void resetTimer() {
+    this.lastUpdate = Calendar.getInstance().getTime();
+  }
 }

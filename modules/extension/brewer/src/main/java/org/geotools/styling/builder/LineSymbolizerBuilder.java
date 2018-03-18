@@ -18,129 +18,123 @@ package org.geotools.styling.builder;
 
 import javax.measure.quantity.Length;
 import javax.measure.unit.Unit;
-
 import org.geotools.styling.LineSymbolizer;
 import org.geotools.styling.Stroke;
 import org.opengis.filter.expression.Expression;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class LineSymbolizerBuilder extends SymbolizerBuilder<LineSymbolizer> {
-    StrokeBuilder strokeBuilder = new StrokeBuilder(this);
+  StrokeBuilder strokeBuilder = new StrokeBuilder(this);
 
-    Expression geometry = null;
+  Expression geometry = null;
 
-    Unit<Length> uom = null;
+  Unit<Length> uom = null;
 
-    Expression perpendicularOffset;
+  Expression perpendicularOffset;
 
-    public LineSymbolizerBuilder() {
-        this(null);
+  public LineSymbolizerBuilder() {
+    this(null);
+  }
+
+  LineSymbolizerBuilder(AbstractStyleBuilder<?> parent) {
+    super(parent);
+    reset();
+  }
+
+  public LineSymbolizerBuilder geometry(Expression geometry) {
+    this.geometry = geometry;
+    return this;
+  }
+
+  public LineSymbolizerBuilder geometry(String cqlExpression) {
+    return geometry(cqlExpression(cqlExpression));
+  }
+
+  public StrokeBuilder stroke() {
+    unset = false;
+    return strokeBuilder;
+  }
+
+  public LineSymbolizerBuilder uom(Unit<Length> uom) {
+    unset = false;
+    this.uom = uom;
+    return this;
+  }
+
+  public LineSymbolizer build() {
+    if (unset) {
+      return null; // builder was constructed but never used
     }
-
-    LineSymbolizerBuilder(AbstractStyleBuilder<?> parent) {
-        super(parent);
-        reset();
+    Stroke stroke = strokeBuilder.build();
+    if (stroke == null) {
+      stroke = Stroke.DEFAULT;
     }
-
-    public LineSymbolizerBuilder geometry(Expression geometry) {
-        this.geometry = geometry;
-        return this;
+    LineSymbolizer ls = sf.createLineSymbolizer(stroke, null);
+    if (geometry != null) {
+      ls.setGeometry(geometry);
     }
-
-    public LineSymbolizerBuilder geometry(String cqlExpression) {
-        return geometry(cqlExpression(cqlExpression));
+    if (uom != null) {
+      ls.setUnitOfMeasure(uom);
     }
-
-    public StrokeBuilder stroke() {
-        unset = false;
-        return strokeBuilder;
+    if (perpendicularOffset != null) {
+      ls.setPerpendicularOffset(perpendicularOffset);
     }
-
-    public LineSymbolizerBuilder uom(Unit<Length> uom) {
-        unset = false;
-        this.uom = uom;
-        return this;
+    ls.getOptions().putAll(options);
+    if (parent == null) {
+      reset();
     }
+    return ls;
+  }
 
-    public LineSymbolizer build() {
-        if (unset) {
-            return null; // builder was constructed but never used
-        }
-        Stroke stroke = strokeBuilder.build();
-        if (stroke == null) {
-            stroke = Stroke.DEFAULT;
-        }
-        LineSymbolizer ls = sf.createLineSymbolizer(stroke, null);
-        if (geometry != null) {
-            ls.setGeometry(geometry);
-        }
-        if (uom != null) {
-            ls.setUnitOfMeasure(uom);
-        }
-        if (perpendicularOffset != null) {
-            ls.setPerpendicularOffset(perpendicularOffset);
-        }
-        ls.getOptions().putAll(options);
-        if (parent == null) {
-            reset();
-        }
-        return ls;
-    }
+  public LineSymbolizerBuilder reset() {
+    strokeBuilder.reset();
+    geometry = null;
+    unset = false;
+    uom = null;
+    perpendicularOffset = null;
+    return this;
+  }
 
-    public LineSymbolizerBuilder reset() {
-        strokeBuilder.reset();
-        geometry = null;
-        unset = false;
-        uom = null;
-        perpendicularOffset = null;
-        return this;
+  public LineSymbolizerBuilder reset(LineSymbolizer original) {
+    if (original == null) {
+      return unset();
     }
+    geometry = original.getGeometry();
+    strokeBuilder.reset(original.getStroke());
+    uom = original.getUnitOfMeasure();
+    perpendicularOffset = original.getPerpendicularOffset();
+    return this;
+  }
 
-    public LineSymbolizerBuilder reset(LineSymbolizer original) {
-        if (original == null) {
-            return unset();
-        }
-        geometry = original.getGeometry();
-        strokeBuilder.reset(original.getStroke());
-        uom = original.getUnitOfMeasure();
-        perpendicularOffset = original.getPerpendicularOffset();
-        return this;
+  public LineSymbolizerBuilder reset(org.opengis.style.LineSymbolizer original) {
+    if (original instanceof LineSymbolizer) {
+      return reset((LineSymbolizer) original);
     }
+    if (original == null) {
+      return unset();
+    }
+    geometry = property(original.getGeometryPropertyName());
+    strokeBuilder.reset(original.getStroke());
+    uom = original.getUnitOfMeasure();
+    perpendicularOffset = original.getPerpendicularOffset();
+    return this;
+  }
 
-    public LineSymbolizerBuilder reset(org.opengis.style.LineSymbolizer original) {
-        if (original instanceof LineSymbolizer) {
-            return reset((LineSymbolizer) original);
-        }
-        if (original == null) {
-            return unset();
-        }
-        geometry = property(original.getGeometryPropertyName());
-        strokeBuilder.reset(original.getStroke());
-        uom = original.getUnitOfMeasure();
-        perpendicularOffset = original.getPerpendicularOffset();
-        return this;
-    }
+  public LineSymbolizerBuilder unset() {
+    return (LineSymbolizerBuilder) super.unset();
+  }
 
-    public LineSymbolizerBuilder unset() {
-        return (LineSymbolizerBuilder) super.unset();
-    }
+  protected void buildStyleInternal(StyleBuilder sb) {
+    sb.featureTypeStyle().rule().line().init(this);
+  }
 
-    protected void buildStyleInternal(StyleBuilder sb) {
-        sb.featureTypeStyle().rule().line().init(this);
-    }
+  public LineSymbolizerBuilder perpendicularOffset(Expression perpendicularOffset) {
+    this.perpendicularOffset = perpendicularOffset;
+    return this;
+  }
 
-    public LineSymbolizerBuilder perpendicularOffset(Expression perpendicularOffset) {
-        this.perpendicularOffset = perpendicularOffset;
-        return this;
-    }
-    
-    public LineSymbolizerBuilder perpendicularOffset(double perpendicularOffset) {
-        this.perpendicularOffset = literal(perpendicularOffset);
-        return this;
-    }
-
+  public LineSymbolizerBuilder perpendicularOffset(double perpendicularOffset) {
+    this.perpendicularOffset = literal(perpendicularOffset);
+    return this;
+  }
 }

@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -21,44 +21,43 @@ import org.geotools.styling.*;
 import org.geotools.ysld.YamlMap;
 import org.geotools.ysld.YamlObject;
 
-/**
- * Handles parsing a Ysld "mark" property into a {@link Mark} object.
- * 
- */
+/** Handles parsing a Ysld "mark" property into a {@link Mark} object. */
 public abstract class MarkParser extends YsldParseHandler {
 
-    Mark mark;
+  Mark mark;
 
-    protected MarkParser(Factory factory) {
-        super(factory);
-        mark = factory.style.createMark();
-        mark.setStroke(null);
-        mark.setFill(null);
+  protected MarkParser(Factory factory) {
+    super(factory);
+    mark = factory.style.createMark();
+    mark.setStroke(null);
+    mark.setFill(null);
+  }
+
+  @Override
+  public void handle(YamlObject<?> obj, YamlParseContext context) {
+    mark(mark);
+
+    YamlMap map = obj.map();
+
+    if (map.has("shape")) {
+      mark.setWellKnownName(Util.expression(map.str("shape"), factory));
     }
 
-    @Override
-    public void handle(YamlObject<?> obj, YamlParseContext context) {
-        mark(mark);
-
-        YamlMap map = obj.map();
-
-        if (map.has("shape")) {
-            mark.setWellKnownName(Util.expression(map.str("shape"), factory));
-        }
-
-        context.push(new StrokeParser(factory) {
-            @Override
-            protected void stroke(Stroke stroke) {
-                mark.setStroke(stroke);
-            }
+    context.push(
+        new StrokeParser(factory) {
+          @Override
+          protected void stroke(Stroke stroke) {
+            mark.setStroke(stroke);
+          }
         });
-        context.push(new FillParser(factory) {
-            @Override
-            protected void fill(Fill fill) {
-                mark.setFill(fill);
-            }
+    context.push(
+        new FillParser(factory) {
+          @Override
+          protected void fill(Fill fill) {
+            mark.setFill(fill);
+          }
         });
-    }
+  }
 
-    protected abstract void mark(Mark mark);
+  protected abstract void mark(Mark mark);
 }

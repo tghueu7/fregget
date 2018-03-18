@@ -18,24 +18,19 @@ package org.geotools.styling.builder;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import org.geotools.styling.Symbolizer;
 
-/**
- * Base class handling options management
- */
+/** Base class handling options management */
 public abstract class SymbolizerBuilder<T extends Symbolizer> extends AbstractStyleBuilder<T> {
 
-    public SymbolizerBuilder(AbstractSLDBuilder parent) {
-        super(parent);
-    }
+  public SymbolizerBuilder(AbstractSLDBuilder parent) {
+    super(parent);
+  }
 
-    protected Map<String, String> options = new LinkedHashMap<>();
+  protected Map<String, String> options = new LinkedHashMap<>();
 
-    public SymbolizerBuilder option(String name, String value) {
-        options.put(name, value);
-        return this;
-    }
-
-
+  public SymbolizerBuilder option(String name, String value) {
+    options.put(name, value);
+    return this;
+  }
 }

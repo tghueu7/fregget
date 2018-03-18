@@ -5,12 +5,12 @@ import org.geotools.data.ogr.OGRDataStoreTest;
 
 public class BridjOGRDataStoreTest extends OGRDataStoreTest {
 
-    public BridjOGRDataStoreTest() {
-        super(BridjOGRDataStoreFactory.class);
-    }
+  public BridjOGRDataStoreTest() {
+    super(BridjOGRDataStoreFactory.class);
+  }
 
-    public void testVersion() {
-        Pointer<Byte> result = OgrLibrary.GDALVersionInfo(Pointer.pointerToCString("--version"));
-        System.out.println(result.getCString());
-    }
+  public void testVersion() {
+    Pointer<Byte> result = OgrLibrary.GDALVersionInfo(Pointer.pointerToCString("--version"));
+    System.out.println(result.getCString());
+  }
 }

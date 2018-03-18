@@ -21,12 +21,12 @@ import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xs.XS;
 
-
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:string.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="string" id="string"&gt;
  *      &lt;xs:annotation&gt;
@@ -51,62 +51,59 @@ import org.geotools.xs.XS;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSStringBinding implements SimpleBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return XS.STRING;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return XS.STRING;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return OVERRIDE;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link String}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return String.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link String}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return String.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * The string datatype represents character strings in XML.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        return value;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * The string datatype represents character strings in XML.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    return value;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public String encode(Object object, String value) {
-        return (String) object;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public String encode(Object object, String value) {
+    return (String) object;
+  }
 }

@@ -1,13 +1,12 @@
 package org.geotools.jts;
 
+import com.vividsolutions.jts.geom.Coordinate;
 import org.geotools.geometry.jts.JTS;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-import com.vividsolutions.jts.geom.Coordinate;
-
 public class JTSExamples {
 
-void orthodromicDistance() throws Exception {
+  void orthodromicDistance() throws Exception {
 
     Coordinate start = null;
     Coordinate end = null;
@@ -24,5 +23,5 @@ void orthodromicDistance() throws Exception {
 
     System.out.println("Distance = " + km + "km " + meters + "m " + cm + "cm");
     // orthodromicDistance end
-}
+  }
 }

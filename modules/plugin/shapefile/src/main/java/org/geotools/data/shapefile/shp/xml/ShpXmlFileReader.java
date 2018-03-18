@@ -16,9 +16,9 @@
  */
 package org.geotools.data.shapefile.shp.xml;
 
+import com.vividsolutions.jts.geom.Envelope;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.geotools.data.shapefile.files.FileReader;
 import org.geotools.data.shapefile.files.ShpFileType;
 import org.geotools.data.shapefile.files.ShpFiles;
@@ -27,75 +27,66 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
-import com.vividsolutions.jts.geom.Envelope;
-
-/**
- * 
- * 
- * @source $URL$
- */
+/** @source $URL$ */
 public class ShpXmlFileReader implements FileReader {
 
-    Document dom;
+  Document dom;
 
-    /**
-     * Parse metadataFile (currently for bounding box information).
-     * <p>
-     * 
-     * </p>
-     * 
-     * @param shapefileFiles
-     * @throws JDOMException
-     * @throws IOException
-     */
-    public ShpXmlFileReader(ShpFiles shapefileFiles) throws JDOMException, IOException {
-        SAXBuilder builder = new SAXBuilder(false);
+  /**
+   * Parse metadataFile (currently for bounding box information).
+   *
+   * <p>
+   *
+   * @param shapefileFiles
+   * @throws JDOMException
+   * @throws IOException
+   */
+  public ShpXmlFileReader(ShpFiles shapefileFiles) throws JDOMException, IOException {
+    SAXBuilder builder = new SAXBuilder(false);
 
-        InputStream inputStream = shapefileFiles.getInputStream(ShpFileType.SHP_XML, this);
-        try {
-            dom = builder.build(inputStream);
-        } finally {
-            inputStream.close();
-        }
+    InputStream inputStream = shapefileFiles.getInputStream(ShpFileType.SHP_XML, this);
+    try {
+      dom = builder.build(inputStream);
+    } finally {
+      inputStream.close();
     }
+  }
 
-    public Metadata parse() {
-        return parseMetadata(dom.getRootElement());
-    }
+  public Metadata parse() {
+    return parseMetadata(dom.getRootElement());
+  }
 
-    protected Metadata parseMetadata(Element root) {
-        Metadata meta = new Metadata();
-        meta.setIdinfo(parseIdInfo(root.getChild("idinfo")));
+  protected Metadata parseMetadata(Element root) {
+    Metadata meta = new Metadata();
+    meta.setIdinfo(parseIdInfo(root.getChild("idinfo")));
 
-        return meta;
-    }
+    return meta;
+  }
 
-    protected IdInfo parseIdInfo(Element element) {
-        IdInfo idInfo = new IdInfo();
+  protected IdInfo parseIdInfo(Element element) {
+    IdInfo idInfo = new IdInfo();
 
-        Element bounding = element.getChild("spdom").getChild("bounding");
-        idInfo.setBounding(parseBounding(bounding));
+    Element bounding = element.getChild("spdom").getChild("bounding");
+    idInfo.setBounding(parseBounding(bounding));
 
-        Element lbounding = element.getChild("spdom").getChild("lbounding");
-        idInfo.setLbounding(parseBounding(lbounding));
+    Element lbounding = element.getChild("spdom").getChild("lbounding");
+    idInfo.setLbounding(parseBounding(lbounding));
 
-        return idInfo;
-    }
+    return idInfo;
+  }
 
-    protected Envelope parseBounding(Element bounding) {
-        if (bounding == null)
-            return new Envelope();
+  protected Envelope parseBounding(Element bounding) {
+    if (bounding == null) return new Envelope();
 
-        double minX = Double.parseDouble(bounding.getChildText("westbc"));
-        double maxX = Double.parseDouble(bounding.getChildText("eastbc"));
-        double minY = Double.parseDouble(bounding.getChildText("southbc"));
-        double maxY = Double.parseDouble(bounding.getChildText("northbc"));
+    double minX = Double.parseDouble(bounding.getChildText("westbc"));
+    double maxX = Double.parseDouble(bounding.getChildText("eastbc"));
+    double minY = Double.parseDouble(bounding.getChildText("southbc"));
+    double maxY = Double.parseDouble(bounding.getChildText("northbc"));
 
-        return new Envelope(minX, maxX, minY, maxY);
-    }
+    return new Envelope(minX, maxX, minY, maxY);
+  }
 
-    public String id() {
-        return "Shp Xml Reader";
-    }
-
+  public String id() {
+    return "Shp Xml Reader";
+  }
 }

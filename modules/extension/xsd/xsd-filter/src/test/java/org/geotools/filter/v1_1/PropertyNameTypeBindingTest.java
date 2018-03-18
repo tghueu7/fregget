@@ -16,38 +16,33 @@
  */
 package org.geotools.filter.v1_1;
 
-import org.w3c.dom.Document;
 import org.opengis.filter.expression.PropertyName;
+import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class PropertyNameTypeBindingTest extends FilterTestSupport {
-    public void testParse() throws Exception {
-        FilterMockData.propertyName(document, document);
+  public void testParse() throws Exception {
+    FilterMockData.propertyName(document, document);
 
-        PropertyName propertyName = (PropertyName) parse();
-        assertNotNull(propertyName);
+    PropertyName propertyName = (PropertyName) parse();
+    assertNotNull(propertyName);
 
-        assertEquals("foo", propertyName.getPropertyName());
-    }
+    assertEquals("foo", propertyName.getPropertyName());
+  }
 
-    public void testParseWithPrefix() throws Exception {
-        FilterMockData.propertyName("bar:foo", document, document);
+  public void testParseWithPrefix() throws Exception {
+    FilterMockData.propertyName("bar:foo", document, document);
 
-        PropertyName propertyName = (PropertyName) parse();
-        assertNotNull(propertyName);
+    PropertyName propertyName = (PropertyName) parse();
+    assertNotNull(propertyName);
 
-        assertEquals("bar:foo", propertyName.getPropertyName());
-    }
+    assertEquals("bar:foo", propertyName.getPropertyName());
+  }
 
-    public void testEncode() throws Exception {
-        PropertyName propertyName = FilterMockData.propertyName("foo");
-        Document dom = encode(propertyName, OGC.PropertyName);
+  public void testEncode() throws Exception {
+    PropertyName propertyName = FilterMockData.propertyName("foo");
+    Document dom = encode(propertyName, OGC.PropertyName);
 
-        assertEquals("foo", dom.getDocumentElement().getFirstChild().getNodeValue());
-    }
+    assertEquals("foo", dom.getDocumentElement().getFirstChild().getNodeValue());
+  }
 }

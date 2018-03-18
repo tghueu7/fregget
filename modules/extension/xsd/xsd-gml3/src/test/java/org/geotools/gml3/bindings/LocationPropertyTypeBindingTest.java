@@ -20,15 +20,10 @@ import org.geotools.gml3.GML;
 import org.geotools.gml3.GML3TestSupport;
 import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class LocationPropertyTypeBindingTest extends GML3TestSupport {
-    public void testEncode() throws Exception {
-        Document dom = encode(GML3MockData.point(), GML.location);
-        assertEquals(1, dom.getElementsByTagName("gml:Point").getLength());
-    }
+  public void testEncode() throws Exception {
+    Document dom = encode(GML3MockData.point(), GML.location);
+    assertEquals(1, dom.getElementsByTagName("gml:Point").getLength());
+  }
 }

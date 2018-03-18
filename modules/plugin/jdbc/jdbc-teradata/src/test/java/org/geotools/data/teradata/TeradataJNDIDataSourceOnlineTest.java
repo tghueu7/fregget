@@ -22,25 +22,20 @@ import org.geotools.jdbc.JDBCJNDIDataSourceOnlineTest;
 import org.geotools.jdbc.JDBCJNDIDataStoreFactory;
 import org.geotools.jdbc.JDBCJNDITestSetup;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class TeradataJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlineTest {
 
-    protected JDBCJNDITestSetup createTestSetup() {
-        return new JDBCJNDITestSetup(new TeradataTestSetup());
-    }
+  protected JDBCJNDITestSetup createTestSetup() {
+    return new JDBCJNDITestSetup(new TeradataTestSetup());
+  }
 
-    @Override
-    protected JDBCJNDIDataStoreFactory getJNDIStoreFactory() {
-        return new TeradataJNDIDataStoreFactory();
-    }
+  @Override
+  protected JDBCJNDIDataStoreFactory getJNDIStoreFactory() {
+    return new TeradataJNDIDataStoreFactory();
+  }
 
-    @Override
-    protected JDBCDataStoreFactory getDataStoreFactory() {
-        return new TeradataDataStoreFactory();
-    }
-
+  @Override
+  protected JDBCDataStoreFactory getDataStoreFactory() {
+    return new TeradataDataStoreFactory();
+  }
 }

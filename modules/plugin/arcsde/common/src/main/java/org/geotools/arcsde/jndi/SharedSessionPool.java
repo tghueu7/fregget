@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
-
 import org.geotools.arcsde.logging.Loggers;
 import org.geotools.arcsde.session.ArcSDEConnectionConfig;
 import org.geotools.arcsde.session.ISession;
@@ -34,123 +33,103 @@ import org.geotools.arcsde.session.UnavailableConnectionException;
 /**
  * A {@link ISessionPool session pool} that is not closable and hence can be shared between
  * different applications/datastores when referenced by a JNDI context.
- * 
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
- *
- *
  * @source $URL$
  * @version $Id$
  * @since 2.5.7
- * 
  */
 public final class SharedSessionPool implements ISessionPool {
 
-    private static final Logger LOGGER = Loggers.getLogger("org.geotools.arcsde.session");
+  private static final Logger LOGGER = Loggers.getLogger("org.geotools.arcsde.session");
 
-    private static final AtomicInteger instanceCounter = new AtomicInteger();
+  private static final AtomicInteger instanceCounter = new AtomicInteger();
 
-    private final int instanceNumber;
+  private final int instanceNumber;
 
-    private final ISessionPool delegate;
+  private final ISessionPool delegate;
 
-    private static final Map<ArcSDEConnectionConfig, SharedSessionPool> instances = Collections
-            .synchronizedMap(new WeakHashMap<ArcSDEConnectionConfig, SharedSessionPool>());
+  private static final Map<ArcSDEConnectionConfig, SharedSessionPool> instances =
+      Collections.synchronizedMap(new WeakHashMap<ArcSDEConnectionConfig, SharedSessionPool>());
 
-    protected SharedSessionPool(final ISessionPool delegate) throws IOException {
-        this.delegate = delegate;
-        this.instanceNumber = instanceCounter.incrementAndGet();
-    }
+  protected SharedSessionPool(final ISessionPool delegate) throws IOException {
+    this.delegate = delegate;
+    this.instanceNumber = instanceCounter.incrementAndGet();
+  }
 
-    public static ISessionPool getInstance(final ArcSDEConnectionConfig config,
-            final ISessionPoolFactory factory) throws IOException {
-        LOGGER.info("Getting shared session pool for " + config);
+  public static ISessionPool getInstance(
+      final ArcSDEConnectionConfig config, final ISessionPoolFactory factory) throws IOException {
+    LOGGER.info("Getting shared session pool for " + config);
+    if (!instances.containsKey(config)) {
+      synchronized (instances) {
         if (!instances.containsKey(config)) {
-            synchronized (instances) {
-                if (!instances.containsKey(config)) {
-                    LOGGER.info("Creating shared session pool for " + config);
-                    ISessionPool pool = factory.createPool(config);
-                    SharedSessionPool sharedPool = new SharedSessionPool(pool);
-                    instances.put(config, sharedPool);
-                    LOGGER.info("Created shared pool " + sharedPool);
-                }
-            }
+          LOGGER.info("Creating shared session pool for " + config);
+          ISessionPool pool = factory.createPool(config);
+          SharedSessionPool sharedPool = new SharedSessionPool(pool);
+          instances.put(config, sharedPool);
+          LOGGER.info("Created shared pool " + sharedPool);
         }
-
-        SharedSessionPool sharedPool = instances.get(config);
-        LOGGER.info("Returning shared session pool " + sharedPool);
-
-        return sharedPool;
+      }
     }
 
-    @Override
-    protected void finalize() {
-        LOGGER.info("Destroying session pool for " + getConfig());
-        delegate.close();
-    }
+    SharedSessionPool sharedPool = instances.get(config);
+    LOGGER.info("Returning shared session pool " + sharedPool);
 
-    /**
-     * @see ISessionPool#close()
-     */
-    public void close() {
-        LOGGER.info("Ignoring SessionPool close, this is a shared pool");
-    }
+    return sharedPool;
+  }
 
-    /**
-     * @see ISessionPool#getAvailableCount()
-     */
-    public int getAvailableCount() {
-        return delegate.getAvailableCount();
-    }
+  @Override
+  protected void finalize() {
+    LOGGER.info("Destroying session pool for " + getConfig());
+    delegate.close();
+  }
 
-    /**
-     * @see ISessionPool#getConfig()
-     */
-    public ArcSDEConnectionConfig getConfig() {
-        return delegate.getConfig();
-    }
+  /** @see ISessionPool#close() */
+  public void close() {
+    LOGGER.info("Ignoring SessionPool close, this is a shared pool");
+  }
 
-    /**
-     * @see ISessionPool#getInUseCount()
-     */
-    public int getInUseCount() {
-        return delegate.getInUseCount();
-    }
+  /** @see ISessionPool#getAvailableCount() */
+  public int getAvailableCount() {
+    return delegate.getAvailableCount();
+  }
 
-    /**
-     * @see ISessionPool#getPoolSize()
-     */
-    public int getPoolSize() {
-        return delegate.getPoolSize();
-    }
+  /** @see ISessionPool#getConfig() */
+  public ArcSDEConnectionConfig getConfig() {
+    return delegate.getConfig();
+  }
 
-    /**
-     * @see org.geotools.arcsde.session.ISessionPool#getSession()
-     */
-    public ISession getSession() throws IOException, UnavailableConnectionException {
-        return getSession(true);
-    }
+  /** @see ISessionPool#getInUseCount() */
+  public int getInUseCount() {
+    return delegate.getInUseCount();
+  }
 
-    /**
-     * @see ISessionPool#getSession(boolean)
-     */
-    public ISession getSession(final boolean transactional) throws IOException,
-            UnavailableConnectionException {
-        return delegate.getSession(transactional);
-    }
+  /** @see ISessionPool#getPoolSize() */
+  public int getPoolSize() {
+    return delegate.getPoolSize();
+  }
 
-    /**
-     * @see ISessionPool#isClosed()
-     */
-    public boolean isClosed() {
-        return delegate.isClosed();
-    }
+  /** @see org.geotools.arcsde.session.ISessionPool#getSession() */
+  public ISession getSession() throws IOException, UnavailableConnectionException {
+    return getSession(true);
+  }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder(getClass().getSimpleName());
-        sb.append("[(").append(instanceNumber).append("), ");
-        sb.append("delegate=").append(delegate).append("]");
-        return sb.toString();
-    }
+  /** @see ISessionPool#getSession(boolean) */
+  public ISession getSession(final boolean transactional)
+      throws IOException, UnavailableConnectionException {
+    return delegate.getSession(transactional);
+  }
+
+  /** @see ISessionPool#isClosed() */
+  public boolean isClosed() {
+    return delegate.isClosed();
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder(getClass().getSimpleName());
+    sb.append("[(").append(instanceNumber).append("), ");
+    sb.append("delegate=").append(delegate).append("]");
+    return sb.toString();
+  }
 }

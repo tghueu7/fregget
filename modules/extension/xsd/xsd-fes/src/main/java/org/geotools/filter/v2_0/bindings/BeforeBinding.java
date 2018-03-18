@@ -16,67 +16,65 @@
  */
 package org.geotools.filter.v2_0.bindings;
 
+import javax.xml.namespace.QName;
 import org.geotools.filter.v2_0.FES;
 import org.geotools.xml.*;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Expression;
 import org.opengis.filter.temporal.Before;
 
-import javax.xml.namespace.QName;
-
 /**
  * Binding object for the element http://www.opengis.net/fes/2.0:Before.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *  <code>
- *  &lt;xsd:element name="Before" substitutionGroup="fes:temporalOps" type="fes:BinaryTemporalOpType"/&gt; 
- * 	
+ *  &lt;xsd:element name="Before" substitutionGroup="fes:temporalOps" type="fes:BinaryTemporalOpType"/&gt;
+ *
  *   </code>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
  */
 public class BeforeBinding extends AbstractComplexBinding {
 
-    FilterFactory filterFactory;
+  FilterFactory filterFactory;
 
-    public BeforeBinding(FilterFactory filterFactory) {
-        this.filterFactory = filterFactory;
-    }
+  public BeforeBinding(FilterFactory filterFactory) {
+    this.filterFactory = filterFactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return FES.Before;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return FES.Before;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Before.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Before.class;
+  }
 
-    @Override
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  @Override
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        Expression[] e = FESParseEncodeUtil.temporal(node, filterFactory);
-        return filterFactory.before(e[0], e[1]);
-    }
-
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Expression[] e = FESParseEncodeUtil.temporal(node, filterFactory);
+    return filterFactory.before(e[0], e[1]);
+  }
 }

@@ -17,19 +17,17 @@
 package org.geotools.gml3.bindings;
 
 import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.gml3.GML;
 import org.geotools.xml.AbstractSimpleBinding;
 import org.geotools.xml.InstanceComponent;
-
 
 /**
  * Binding object for the type http://www.opengis.net/gml:doubleList.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;simpleType name="doubleList"&gt;
  *      &lt;annotation&gt;
@@ -40,56 +38,51 @@ import org.geotools.xml.InstanceComponent;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class DoubleListBinding extends AbstractSimpleBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.doubleList;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return GML.doubleList;
+  }
 
-    public int getExecutionMode() {
-        return OVERRIDE;
-    }
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        //return double[].class;
-        return Double[].class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    // return double[].class;
+    return Double[].class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        List list = (List) value;
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    List list = (List) value;
 
-        return list.toArray(new Double[list.size()]);
+    return list.toArray(new Double[list.size()]);
 
-        //        String[] values = ((String) value).split(" +");
-        //        double[] doubles = new double[values.length];
-        //
-        //        for (int i = 0; i < values.length; i++) {
-        //            doubles[i] = Double.parseDouble(values[i]);
-        //        }
-        //
-        //        return doubles;
-    }
+    //        String[] values = ((String) value).split(" +");
+    //        double[] doubles = new double[values.length];
+    //
+    //        for (int i = 0; i < values.length; i++) {
+    //            doubles[i] = Double.parseDouble(values[i]);
+    //        }
+    //
+    //        return doubles;
+  }
 }

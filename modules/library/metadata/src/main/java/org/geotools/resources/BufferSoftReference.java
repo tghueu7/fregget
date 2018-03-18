@@ -18,43 +18,41 @@ package org.geotools.resources;
 
 import java.lang.ref.SoftReference;
 import java.nio.ByteBuffer;
-
-import org.geotools.resources.NIOUtilities;
 import org.geotools.util.WeakCollectionCleaner;
 
 /**
- * A soft reference that will clear the contained byte buffer before getting garbage collected 
- * @author Andrea Aime - OpenGeo
+ * A soft reference that will clear the contained byte buffer before getting garbage collected
  *
+ * @author Andrea Aime - OpenGeo
  */
 class BufferSoftReference extends SoftReference<ByteBuffer> {
 
-    public BufferSoftReference(ByteBuffer referent) {
-        super(referent, WeakCollectionCleaner.DEFAULT.getReferenceQueue());
+  public BufferSoftReference(ByteBuffer referent) {
+    super(referent, WeakCollectionCleaner.DEFAULT.getReferenceQueue());
+  }
+
+  @Override
+  public void clear() {
+    ByteBuffer buffer = get();
+    NIOUtilities.clean(buffer);
+    super.clear();
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (!(other instanceof BufferSoftReference)) {
+      return false;
     }
 
-    @Override
-    public void clear() {
-        ByteBuffer buffer = get();
-        NIOUtilities.clean(buffer);
-        super.clear();
+    ByteBuffer buffer = get();
+    if (buffer == null) {
+      return false;
+    } else {
+      ByteBuffer otherBuffer = ((BufferSoftReference) other).get();
+      if (otherBuffer == null) {
+        return false;
+      }
+      return otherBuffer == buffer;
     }
-
-    @Override
-    public boolean equals(Object other) {
-        if(!(other instanceof BufferSoftReference)) {
-            return false;
-        }
-        
-        ByteBuffer buffer = get();
-        if(buffer == null) {
-            return false;
-        } else {
-            ByteBuffer otherBuffer = ((BufferSoftReference) other).get();
-            if(otherBuffer == null) {
-                return false;
-            }
-            return otherBuffer == buffer;
-        }
-    }
+  }
 }

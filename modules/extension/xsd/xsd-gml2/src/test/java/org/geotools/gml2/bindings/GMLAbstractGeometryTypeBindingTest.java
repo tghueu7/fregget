@@ -16,44 +16,39 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Point;
 import org.geotools.gml2.GML;
 import org.geotools.referencing.CRS;
 import org.geotools.xml.Binding;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.w3c.dom.Document;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Point;
-
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GMLAbstractGeometryTypeBindingTest extends GMLTestSupport {
-    public void testType() {
-        assertEquals(Geometry.class, binding(GML.AbstractGeometryType).getType());
-    }
+  public void testType() {
+    assertEquals(Geometry.class, binding(GML.AbstractGeometryType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(GML.AbstractGeometryType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(GML.AbstractGeometryType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        GML2MockData.point(document, document);
-        document.getDocumentElement().setAttribute("srsName", "EPSG:4326");
+  public void testParse() throws Exception {
+    GML2MockData.point(document, document);
+    document.getDocumentElement().setAttribute("srsName", "EPSG:4326");
 
-        Point p = (Point) parse();
-        assertTrue(p.getUserData() instanceof CoordinateReferenceSystem);
-    }
+    Point p = (Point) parse();
+    assertTrue(p.getUserData() instanceof CoordinateReferenceSystem);
+  }
 
-    public void testEncode() throws Exception {
-        Point p = GML2MockData.point();
-        p.setUserData(CRS.decode("EPSG:4326", true));
+  public void testEncode() throws Exception {
+    Point p = GML2MockData.point();
+    p.setUserData(CRS.decode("EPSG:4326", true));
 
-        Document doc = encode(p, GML.Point);
-        assertEquals("http://www.opengis.net/gml/srs/epsg.xml#4326",
-            doc.getDocumentElement().getAttribute("srsName"));
-    }
+    Document doc = encode(p, GML.Point);
+    assertEquals(
+        "http://www.opengis.net/gml/srs/epsg.xml#4326",
+        doc.getDocumentElement().getAttribute("srsName"));
+  }
 }

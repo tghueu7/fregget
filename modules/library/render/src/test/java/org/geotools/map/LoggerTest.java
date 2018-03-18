@@ -16,55 +16,54 @@
  */
 package org.geotools.map;
 
-import org.geotools.util.logging.Logging;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-
 import java.io.ByteArrayOutputStream;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
+import org.geotools.util.logging.Logging;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 
 public class LoggerTest {
-    private static final Logger LOGGER = Logging.getLogger("org.geotools.map");
-    private static Level oldLevel;
-    protected Handler logHandler;
-    protected ByteArrayOutputStream logStream;
+  private static final Logger LOGGER = Logging.getLogger("org.geotools.map");
+  private static Level oldLevel;
+  protected Handler logHandler;
+  protected ByteArrayOutputStream logStream;
 
-    @BeforeClass
-    public static void setupOnce() {
-        oldLevel = LOGGER.getLevel();
-        LOGGER.setLevel(Level.FINE);
-    }
+  @BeforeClass
+  public static void setupOnce() {
+    oldLevel = LOGGER.getLevel();
+    LOGGER.setLevel(Level.FINE);
+  }
 
-    @AfterClass
-    public static void cleanupOnce() {
-        LOGGER.setLevel(oldLevel);
-    }
+  @AfterClass
+  public static void cleanupOnce() {
+    LOGGER.setLevel(oldLevel);
+  }
 
-    protected void grabLogger() {
-        grabLogger(Level.ALL);
-    }
+  protected void grabLogger() {
+    grabLogger(Level.ALL);
+  }
 
-    protected void grabLogger(Level level) {
-        logStream = new ByteArrayOutputStream();
-        logHandler = new StreamHandler(logStream, new SimpleFormatter());
-        logHandler.setLevel(level);
-        LOGGER.addHandler(logHandler);
-        LOGGER.setUseParentHandlers(false);
-    }
+  protected void grabLogger(Level level) {
+    logStream = new ByteArrayOutputStream();
+    logHandler = new StreamHandler(logStream, new SimpleFormatter());
+    logHandler.setLevel(level);
+    LOGGER.addHandler(logHandler);
+    LOGGER.setUseParentHandlers(false);
+  }
 
-    protected void releaseLogger() {
-        if (logHandler != null) {
-            LOGGER.removeHandler(logHandler);
-            LOGGER.setUseParentHandlers(true);
-        }
+  protected void releaseLogger() {
+    if (logHandler != null) {
+      LOGGER.removeHandler(logHandler);
+      LOGGER.setUseParentHandlers(true);
     }
+  }
 
-    public String getLogOutput() {
-        logHandler.flush();
-        return logStream.toString();
-    }
+  public String getLogOutput() {
+    logHandler.flush();
+    return logStream.toString();
+  }
 }

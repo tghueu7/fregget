@@ -29,76 +29,73 @@ import org.junit.Test;
 
 public class BingTileFactoryTest extends TileFactoryTest {
 
-    @Test
-    public void testGetTileFromCoordinate() {
+  @Test
+  public void testGetTileFromCoordinate() {
 
-        Tile tile = factory.findTileAtCoordinate(51, 7, new WebMercatorZoomLevel(5),
-                createService());
+    Tile tile = factory.findTileAtCoordinate(51, 7, new WebMercatorZoomLevel(5), createService());
 
-        TileService service = createService();
-        BingTile expectedTile = new BingTile(20, 15, new WebMercatorZoomLevel(5), service);
-        Assert.assertEquals(expectedTile, tile);
+    TileService service = createService();
+    BingTile expectedTile = new BingTile(20, 15, new WebMercatorZoomLevel(5), service);
+    Assert.assertEquals(expectedTile, tile);
+  }
 
-    }
+  @Test
+  public void testFindRightNeighbour() {
 
-    @Test
-    public void testFindRightNeighbour() {
+    TileService service = createService();
+    BingTile tile = new BingTile(20, 15, new WebMercatorZoomLevel(5), service);
 
-        TileService service = createService();
-        BingTile tile = new BingTile(20, 15, new WebMercatorZoomLevel(5), service);
+    Tile neighbour = factory.findRightNeighbour(tile, service);
 
-        Tile neighbour = factory.findRightNeighbour(tile, service);
+    BingTile expectedNeighbour = new BingTile(21, 15, new WebMercatorZoomLevel(5), service);
 
-        BingTile expectedNeighbour = new BingTile(21, 15, new WebMercatorZoomLevel(5), service);
+    Assert.assertEquals(expectedNeighbour, neighbour);
+  }
 
-        Assert.assertEquals(expectedNeighbour, neighbour);
+  @Test
+  public void testFindLowerNeighbour() {
 
-    }
+    TileService service = createService();
+    BingTile tile = new BingTile(20, 15, new WebMercatorZoomLevel(5), service);
 
-    @Test
-    public void testFindLowerNeighbour() {
+    Tile neighbour = factory.findLowerNeighbour(tile, service);
 
-        TileService service = createService();
-        BingTile tile = new BingTile(20, 15, new WebMercatorZoomLevel(5), service);
+    BingTile expectedNeighbour = new BingTile(20, 16, new WebMercatorZoomLevel(5), service);
 
-        Tile neighbour = factory.findLowerNeighbour(tile, service);
+    Assert.assertEquals(expectedNeighbour, neighbour);
+  }
 
-        BingTile expectedNeighbour = new BingTile(20, 16, new WebMercatorZoomLevel(5), service);
+  @Test
+  public void testGetExtentFromTileName() {
 
-        Assert.assertEquals(expectedNeighbour, neighbour);
+    BingTileIdentifier tileId =
+        new BingTileIdentifier(10, 12, new WebMercatorZoomLevel(5), "SomeName");
+    BingTile tile = new BingTile(tileId, new BingService("2", "d"));
 
-    }
+    ReferencedEnvelope env = WebMercatorTileFactory.getExtentFromTileName(tileId);
 
-    @Test
-    public void testGetExtentFromTileName() {
+    Assert.assertEquals(tile.getExtent(), env);
 
-        BingTileIdentifier tileId = new BingTileIdentifier(10, 12, new WebMercatorZoomLevel(5),
-                "SomeName");
-        BingTile tile = new BingTile(tileId, new BingService("2", "d"));
+    ReferencedEnvelope expectedEnv =
+        new ReferencedEnvelope(
+            -67.5, -56.25, 31.9521622380, 40.9798980, DefaultGeographicCRS.WGS84);
 
-        ReferencedEnvelope env = WebMercatorTileFactory.getExtentFromTileName(tileId);
+    Assert.assertEquals(env.getMinX(), expectedEnv.getMinX(), 0.000001);
+    Assert.assertEquals(env.getMinY(), expectedEnv.getMinY(), 0.000001);
+    Assert.assertEquals(env.getMaxX(), expectedEnv.getMaxX(), 0.000001);
+    Assert.assertEquals(env.getMaxY(), expectedEnv.getMaxY(), 0.000001);
 
-        Assert.assertEquals(tile.getExtent(), env);
+    // Assert.assertEquals(envRaw, env);
 
-        ReferencedEnvelope expectedEnv = new ReferencedEnvelope(-67.5, -56.25, 31.9521622380,
-                40.9798980, DefaultGeographicCRS.WGS84);
+  }
 
-        Assert.assertEquals(env.getMinX(), expectedEnv.getMinX(), 0.000001);
-        Assert.assertEquals(env.getMinY(), expectedEnv.getMinY(), 0.000001);
-        Assert.assertEquals(env.getMaxX(), expectedEnv.getMaxX(), 0.000001);
-        Assert.assertEquals(env.getMaxY(), expectedEnv.getMaxY(), 0.000001);
+  private TileService createService() {
+    String baseURL =
+        "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
+    return new BingService("Road", baseURL);
+  }
 
-        // Assert.assertEquals(envRaw, env);
-
-    }
-
-    private TileService createService() {
-        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
-        return new BingService("Road", baseURL);
-
-    }
-
-    protected TileFactory createFactory() {
-        return new BingTileFactory();
-    }
+  protected TileFactory createFactory() {
+    return new BingTileFactory();
+  }
 }

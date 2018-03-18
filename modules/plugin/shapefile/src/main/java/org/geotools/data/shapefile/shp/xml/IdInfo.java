@@ -20,46 +20,34 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * Bean of idinfo element of shp.xml.
- * 
- *
  *
  * @source $URL$
  */
 public class IdInfo {
 
-    /** spdom/bounding represents */
-    Envelope bounding;
+  /** spdom/bounding represents */
+  Envelope bounding;
 
-    /** spdom/lbounding represents */
-    Envelope lbounding;
+  /** spdom/lbounding represents */
+  Envelope lbounding;
 
-    /**
-     * @return Returns the bounding.
-     */
-    public Envelope getBounding() {
-        return bounding;
-    }
+  /** @return Returns the bounding. */
+  public Envelope getBounding() {
+    return bounding;
+  }
 
-    /**
-     * @param bounding
-     *                The bounding to set.
-     */
-    public void setBounding(Envelope bounding) {
-        this.bounding = bounding;
-    }
+  /** @param bounding The bounding to set. */
+  public void setBounding(Envelope bounding) {
+    this.bounding = bounding;
+  }
 
-    /**
-     * @return Returns the lbounding.
-     */
-    public Envelope getLbounding() {
-        return lbounding;
-    }
+  /** @return Returns the lbounding. */
+  public Envelope getLbounding() {
+    return lbounding;
+  }
 
-    /**
-     * @param lbounding
-     *                The lbounding to set.
-     */
-    public void setLbounding(Envelope lbounding) {
-        this.lbounding = lbounding;
-    }
+  /** @param lbounding The lbounding to set. */
+  public void setLbounding(Envelope lbounding) {
+    this.lbounding = lbounding;
+  }
 }

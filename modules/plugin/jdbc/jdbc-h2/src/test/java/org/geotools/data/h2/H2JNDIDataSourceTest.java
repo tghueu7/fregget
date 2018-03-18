@@ -22,25 +22,20 @@ import org.geotools.jdbc.JDBCJNDIDataSourceOnlineTest;
 import org.geotools.jdbc.JDBCJNDIDataStoreFactory;
 import org.geotools.jdbc.JDBCJNDITestSetup;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class H2JNDIDataSourceTest extends JDBCJNDIDataSourceOnlineTest {
 
-    protected JDBCJNDITestSetup createTestSetup() {
-        return new JDBCJNDITestSetup(new H2TestSetup());
-    }
+  protected JDBCJNDITestSetup createTestSetup() {
+    return new JDBCJNDITestSetup(new H2TestSetup());
+  }
 
-    @Override
-    protected JDBCJNDIDataStoreFactory getJNDIStoreFactory() {
-        return new H2JNDIDataStoreFactory();
-    }
+  @Override
+  protected JDBCJNDIDataStoreFactory getJNDIStoreFactory() {
+    return new H2JNDIDataStoreFactory();
+  }
 
-    @Override
-    protected JDBCDataStoreFactory getDataStoreFactory() {
-        return new H2DataStoreFactory();
-    }
-
+  @Override
+  protected JDBCDataStoreFactory getDataStoreFactory() {
+    return new H2DataStoreFactory();
+  }
 }

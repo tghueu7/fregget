@@ -17,44 +17,34 @@
 package org.geotools.validation.network;
 
 import java.beans.PropertyDescriptor;
-
 import org.geotools.validation.DefaultIntegrityValidationBeanInfo;
-
 
 /**
  * GazetteerNameValidationBeanInfo purpose.
- * 
- * <p>
- * Description of GazetteerNameValidationBeanInfo ...
- * </p>
+ *
+ * <p>Description of GazetteerNameValidationBeanInfo ...
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
  * @source $URL$
  * @version $Id$
  */
-public class AddressGapValidationBeanInfo
-    extends DefaultIntegrityValidationBeanInfo {
-    /**
-     * GazetteerNameValidationBeanInfo constructor.
-     * 
-     * <p>
-     * Description
-     * </p>
-     */
-    public AddressGapValidationBeanInfo() {
-        super();
-    }
+public class AddressGapValidationBeanInfo extends DefaultIntegrityValidationBeanInfo {
+  /**
+   * GazetteerNameValidationBeanInfo constructor.
+   *
+   * <p>Description
+   */
+  public AddressGapValidationBeanInfo() {
+    super();
+  }
 
-    /**
-     * Implementation of getPropertyDescriptors.
-     *
-     *
-     * @see java.beans.BeanInfo#getPropertyDescriptors()
-     */
-    public PropertyDescriptor[] getPropertyDescriptors() {
-        return super.getPropertyDescriptors();
-    }
+  /**
+   * Implementation of getPropertyDescriptors.
+   *
+   * @see java.beans.BeanInfo#getPropertyDescriptors()
+   */
+  public PropertyDescriptor[] getPropertyDescriptors() {
+    return super.getPropertyDescriptors();
+  }
 }

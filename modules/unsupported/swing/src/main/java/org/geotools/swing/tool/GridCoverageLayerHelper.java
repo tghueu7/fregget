@@ -17,69 +17,62 @@
 
 package org.geotools.swing.tool;
 
-
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.geometry.DirectPosition2D;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.GridCoverageLayer;
 import org.geotools.map.Layer;
 
-
 /**
  * Used by {@linkplain InfoTool} to query {@linkplain GridCoverageLayer} objects.
  *
  * @author Michael Bedward
  * @since 8.0
- *
  * @source $URL$
  * @version $URL$
  */
 public class GridCoverageLayerHelper extends InfoToolHelper {
 
-    /**
-     * Creates a new helper instance.
-     */
-    public GridCoverageLayerHelper() {
+  /** Creates a new helper instance. */
+  public GridCoverageLayerHelper() {}
+
+  @Override
+  public void setLayer(Layer layer) {
+    if (!(layer instanceof GridCoverageLayer)) {
+      throw new IllegalArgumentException("layer must be an instance of GridCoverageLayer");
     }
 
-    @Override
-    public void setLayer(Layer layer) {
-        if (!(layer instanceof GridCoverageLayer)) {
-            throw new IllegalArgumentException("layer must be an instance of GridCoverageLayer");
+    super.setLayer(layer);
+  }
+
+  @Override
+  public boolean isSupportedLayer(Layer layer) {
+    return layer instanceof GridCoverageLayer;
+  }
+
+  @Override
+  public InfoToolResult getInfo(DirectPosition2D pos) throws Exception {
+    InfoToolResult result = new InfoToolResult();
+
+    if (isValid()) {
+      GridCoverage2D source = ((GridCoverageLayer) getLayer()).getCoverage();
+      ReferencedEnvelope env = new ReferencedEnvelope(source.getEnvelope2D());
+      DirectPosition2D trPos =
+          InfoToolHelperUtils.getTransformed(pos, getContentToLayerTransform());
+
+      if (env.contains(trPos)) {
+        Object objArray = source.evaluate(trPos);
+        Number[] bandValues = InfoToolHelperUtils.asNumberArray(objArray);
+
+        if (bandValues != null) {
+          result.newFeature("Raw values");
+          for (int i = 0; i < bandValues.length; i++) {
+            result.setFeatureValue("Band " + i, bandValues[i]);
+          }
         }
-
-        super.setLayer(layer);
+      }
     }
 
-    @Override
-    public boolean isSupportedLayer(Layer layer) {
-        return layer instanceof GridCoverageLayer;
-    }
-
-    @Override
-    public InfoToolResult getInfo(DirectPosition2D pos) throws Exception {
-        InfoToolResult result = new InfoToolResult();
-
-        if (isValid()) {
-            GridCoverage2D source = ((GridCoverageLayer) getLayer()).getCoverage();
-            ReferencedEnvelope env = new ReferencedEnvelope(source.getEnvelope2D());
-            DirectPosition2D trPos =
-                    InfoToolHelperUtils.getTransformed(pos, getContentToLayerTransform());
-
-            if (env.contains(trPos)) {
-                Object objArray = source.evaluate(trPos);
-                Number[] bandValues = InfoToolHelperUtils.asNumberArray(objArray);
-
-                if (bandValues != null) {
-                    result.newFeature("Raw values");
-                    for (int i = 0; i < bandValues.length; i++) {
-                        result.setFeatureValue("Band " + i, bandValues[i]);
-                    }
-                }
-            }
-        }
-
-        return result;
-    }
-
+    return result;
+  }
 }

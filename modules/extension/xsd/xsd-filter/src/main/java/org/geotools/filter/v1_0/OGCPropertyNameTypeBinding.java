@@ -16,24 +16,24 @@
  */
 package org.geotools.filter.v1_0;
 
-import org.picocontainer.MutablePicoContainer;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import javax.xml.namespace.QName;
-import org.opengis.filter.FilterFactory;
-import org.opengis.filter.expression.Expression;
-import org.opengis.filter.expression.PropertyName;
 import org.geotools.filter.Filters;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
-
+import org.opengis.filter.FilterFactory;
+import org.opengis.filter.expression.Expression;
+import org.opengis.filter.expression.PropertyName;
+import org.picocontainer.MutablePicoContainer;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:PropertyNameType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="PropertyNameType"&gt;
  *      &lt;xsd:complexContent mixed="true"&gt;
@@ -43,84 +43,79 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCPropertyNameTypeBinding extends AbstractComplexBinding {
-    protected FilterFactory factory;
+  protected FilterFactory factory;
 
-    public OGCPropertyNameTypeBinding(FilterFactory factory) {
-        this.factory = factory;
+  public OGCPropertyNameTypeBinding(FilterFactory factory) {
+    this.factory = factory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return OGC.PropertyNameType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return PropertyName.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Expression expression = (Expression) value;
+    String xpath = Filters.asString(expression);
+
+    // if null returned, assume empty string == default geometry
+    if (xpath == null) {
+      xpath = "";
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.PropertyNameType;
+    return factory.property(xpath);
+  }
+
+  public Element encode(Object object, Document document, Element value) throws Exception {
+    PropertyName propertyName = (PropertyName) object;
+
+    if (propertyName.getPropertyName() != null) {
+      value.appendChild(document.createTextNode(propertyName.getPropertyName()));
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return PropertyName.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Expression expression = (Expression) value;
-        String xpath = Filters.asString(expression);
-
-        //if null returned, assume empty string == default geometry
-        if (xpath == null) {
-            xpath = "";
-        }
-
-        return factory.property(xpath);
-    }
-
-    public Element encode(Object object, Document document, Element value)
-        throws Exception {
-        PropertyName propertyName = (PropertyName) object;
-
-        if (propertyName.getPropertyName() != null) {
-            value.appendChild(document.createTextNode(propertyName.getPropertyName()));
-        }
-
-        return value;
-    }
+    return value;
+  }
 }

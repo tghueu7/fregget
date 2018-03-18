@@ -16,24 +16,22 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.CoordinateSequence;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Point;
 import javax.xml.namespace.QName;
-
 import org.geotools.gml2.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.CoordinateSequence;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Point;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:PointType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="PointType"&gt;
  *      &lt;annotation&gt;
@@ -54,73 +52,67 @@ import com.vividsolutions.jts.geom.Point;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLPointTypeBinding extends AbstractComplexBinding {
-    GeometryFactory gFactory;
+  GeometryFactory gFactory;
 
-    public GMLPointTypeBinding(GeometryFactory gFactory) {
-        this.gFactory = gFactory;
+  public GMLPointTypeBinding(GeometryFactory gFactory) {
+    this.gFactory = gFactory;
+  }
+
+  public int getExecutionMode() {
+    return BEFORE;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.PointType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Point.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    if (node.getChild("coord") != null) {
+      Coordinate c = (Coordinate) node.getChild("coord").getValue();
+
+      return gFactory.createPoint(c);
     }
 
-    public int getExecutionMode() {
-        return BEFORE;
+    if (node.getChild("coordinates") != null) {
+      CoordinateSequence seq = (CoordinateSequence) node.getChild("coordinates").getValue();
+
+      return gFactory.createPoint(seq);
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.PointType;
+    throw new RuntimeException("Could not find a coordinate");
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    Point point = (Point) object;
+
+    if (GML.coord.equals(name)) {
+      return point.getCoordinate();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Point.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        if (node.getChild("coord") != null) {
-            Coordinate c = (Coordinate) node.getChild("coord").getValue();
-
-            return gFactory.createPoint(c);
-        }
-
-        if (node.getChild("coordinates") != null) {
-            CoordinateSequence seq = (CoordinateSequence) node.getChild("coordinates").getValue();
-
-            return gFactory.createPoint(seq);
-        }
-
-        throw new RuntimeException("Could not find a coordinate");
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        Point point = (Point) object;
-
-        if (GML.coord.equals(name)) {
-            return point.getCoordinate();
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

@@ -17,7 +17,6 @@
 package org.geotools.filter.v2_0.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.filter.v2_0.FES;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
@@ -28,57 +27,56 @@ import org.opengis.filter.temporal.TEquals;
 
 /**
  * Binding object for the element http://www.opengis.net/fes/2.0:TEquals.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *  <code>
- *  &lt;xsd:element name="TEquals" substitutionGroup="fes:temporalOps" type="fes:BinaryTemporalOpType"/&gt; 
- * 	
+ *  &lt;xsd:element name="TEquals" substitutionGroup="fes:temporalOps" type="fes:BinaryTemporalOpType"/&gt;
+ *
  *   </code>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
  */
 public class TEqualsBinding extends AbstractComplexBinding {
 
-    FilterFactory filterFactory;
+  FilterFactory filterFactory;
 
-    public TEqualsBinding(FilterFactory filterFactory) {
-        this.filterFactory = filterFactory;
-    }
+  public TEqualsBinding(FilterFactory filterFactory) {
+    this.filterFactory = filterFactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return FES.TEquals;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return FES.TEquals;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return TEquals.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return TEquals.class;
+  }
 
-    @Override
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  @Override
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        Expression[] e = FESParseEncodeUtil.temporal(node, filterFactory);
-        return filterFactory.tequals(e[0], e[1]);
-    }
-
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Expression[] e = FESParseEncodeUtil.temporal(node, filterFactory);
+    return filterFactory.tequals(e[0], e[1]);
+  }
 }

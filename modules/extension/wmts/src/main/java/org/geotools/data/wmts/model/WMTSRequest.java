@@ -21,31 +21,29 @@ import org.geotools.data.ows.OperationType;
 /**
  * Available WMTS Operations are listed in a Request element.
  *
- * (Based on existing work by rgould for WMS service)
- * 
+ * <p>(Based on existing work by rgould for WMS service)
+ *
  * @author ian
  * @author Emanuele Tajariol (etj at geo-solutions dot it)
- *
  */
 public class WMTSRequest {
-    private OperationType getCapabilities;
+  private OperationType getCapabilities;
 
-    private OperationType getTile;
+  private OperationType getTile;
 
-    public OperationType getGetCapabilities() {
-        return getCapabilities;
-    }
+  public OperationType getGetCapabilities() {
+    return getCapabilities;
+  }
 
-    public void setGetCapabilities(OperationType getCapabilities) {
-        this.getCapabilities = getCapabilities;
-    }
+  public void setGetCapabilities(OperationType getCapabilities) {
+    this.getCapabilities = getCapabilities;
+  }
 
-    public OperationType getGetTile() {
-        return getTile;
-    }
+  public OperationType getGetTile() {
+    return getTile;
+  }
 
-    public void setGetTile(OperationType getTile) {
-        this.getTile = getTile;
-    }
-
+  public void setGetTile(OperationType getTile) {
+    this.getTile = getTile;
+  }
 }

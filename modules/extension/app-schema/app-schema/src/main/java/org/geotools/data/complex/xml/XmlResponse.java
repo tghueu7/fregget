@@ -18,38 +18,33 @@
 package org.geotools.data.complex.xml;
 
 import java.util.List;
-
 import org.jdom2.Document;
 
 /**
- * The xml object returned for processing via a backend xmlDataStore. 
- * 
+ * The xml object returned for processing via a backend xmlDataStore.
+ *
  * @author Russell Petty (GeoScience Victoria)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  */
 public class XmlResponse {
 
-    private Document doc;
+  private Document doc;
 
-    private List<Integer> validFeatureIndex;
+  private List<Integer> validFeatureIndex;
 
-    public XmlResponse(Document doc, List<Integer> validIndexedItems) {
-        assert doc != null;
-        assert validIndexedItems != null;
-        this.doc = doc;
-        this.validFeatureIndex = validIndexedItems;
-    }
+  public XmlResponse(Document doc, List<Integer> validIndexedItems) {
+    assert doc != null;
+    assert validIndexedItems != null;
+    this.doc = doc;
+    this.validFeatureIndex = validIndexedItems;
+  }
 
-    public Document getDoc() {
-        return doc;
-    }
+  public Document getDoc() {
+    return doc;
+  }
 
-    public List<Integer> getValidFeatureIndex() {
-        return validFeatureIndex;
-    }
-
+  public List<Integer> getValidFeatureIndex() {
+    return validFeatureIndex;
+  }
 }

@@ -17,179 +17,160 @@
 package org.geotools.data.wfs.internal;
 
 import static org.geotools.data.wfs.internal.WFSOperationType.GET_FEATURE;
-import net.opengis.wfs20.StoredQueryDescriptionType;
 
+import net.opengis.wfs20.StoredQueryDescriptionType;
 import org.geotools.factory.Hints;
 import org.opengis.feature.type.FeatureType;
 import org.opengis.filter.Filter;
 import org.opengis.filter.sort.SortBy;
 
-/**
- */
+/** */
 public class GetFeatureRequest extends WFSRequest {
 
-    public enum ResultType {
-        RESULTS, HITS;
-    }
+  public enum ResultType {
+    RESULTS,
+    HITS;
+  }
 
-    private String[] propertyNames;
+  private String[] propertyNames;
 
-    private String srsName;
+  private String srsName;
 
-    private Filter filter;
+  private Filter filter;
 
-    private Integer maxFeatures;
+  private Integer maxFeatures;
 
-    private ResultType resultType;
+  private ResultType resultType;
 
-    private SortBy[] sortBy;
+  private SortBy[] sortBy;
 
-    private FeatureType fullType;
+  private FeatureType fullType;
 
-    private FeatureType queryType;
+  private FeatureType queryType;
 
-    private Filter unsupportedFilter;
-    
-    private boolean storedQuery;
-    
-    private StoredQueryDescriptionType storedQueryDescriptionType;
-    
-    private Hints hints;
+  private Filter unsupportedFilter;
 
-    GetFeatureRequest(WFSConfig config, WFSStrategy strategy) {
-        super(GET_FEATURE, config, strategy);
-        resultType = ResultType.RESULTS;
-    }
+  private boolean storedQuery;
 
-    //
-    // public GetFeatureRequest(GetFeatureRequest query) {
-    // setFilter(query.getFilter());
-    // setMaxFeatures(query.getMaxFeatures());
-    // setOutputFormat(query.getOutputFormat());
-    // setPropertyNames(query.getPropertyNames());
-    // setResultType(query.getResultType());
-    // setSortBy(query.getSortBy());
-    // setSrsName(query.getSrsName());
-    // }
+  private StoredQueryDescriptionType storedQueryDescriptionType;
 
-    public String[] getPropertyNames() {
-        return propertyNames;
-    }
+  private Hints hints;
 
-    public String getSrsName() {
-        return srsName;
-    }
+  GetFeatureRequest(WFSConfig config, WFSStrategy strategy) {
+    super(GET_FEATURE, config, strategy);
+    resultType = ResultType.RESULTS;
+  }
 
-    public Filter getFilter() {
-        return filter;
-    }
+  //
+  // public GetFeatureRequest(GetFeatureRequest query) {
+  // setFilter(query.getFilter());
+  // setMaxFeatures(query.getMaxFeatures());
+  // setOutputFormat(query.getOutputFormat());
+  // setPropertyNames(query.getPropertyNames());
+  // setResultType(query.getResultType());
+  // setSortBy(query.getSortBy());
+  // setSrsName(query.getSrsName());
+  // }
 
-    public Integer getMaxFeatures() {
-        return maxFeatures;
-    }
+  public String[] getPropertyNames() {
+    return propertyNames;
+  }
 
-    public ResultType getResultType() {
-        return resultType;
-    }
+  public String getSrsName() {
+    return srsName;
+  }
 
-    public SortBy[] getSortBy() {
-        return sortBy;
-    }
+  public Filter getFilter() {
+    return filter;
+  }
 
-    /**
-     * @param propertyNames
-     *            the propertyNames to set
-     */
-    public void setPropertyNames(String[] propertyNames) {
-        this.propertyNames = propertyNames;
-    }
+  public Integer getMaxFeatures() {
+    return maxFeatures;
+  }
 
-    /**
-     * @param srsName
-     *            the srsName to set
-     */
-    public void setSrsName(String srsName) {
-        this.srsName = srsName;
-    }
+  public ResultType getResultType() {
+    return resultType;
+  }
 
-    /**
-     * @param filter
-     *            the filter to set
-     */
-    public void setFilter(Filter filter) {
-        this.filter = filter;
-    }
+  public SortBy[] getSortBy() {
+    return sortBy;
+  }
 
-    /**
-     * @param maxFeatures
-     *            the maxFeatures to set
-     */
-    public void setMaxFeatures(Integer maxFeatures) {
-        this.maxFeatures = maxFeatures;
-    }
+  /** @param propertyNames the propertyNames to set */
+  public void setPropertyNames(String[] propertyNames) {
+    this.propertyNames = propertyNames;
+  }
 
-    /**
-     * @param resultType
-     *            the resultType to set
-     */
-    public void setResultType(ResultType resultType) {
-        this.resultType = resultType;
-    }
+  /** @param srsName the srsName to set */
+  public void setSrsName(String srsName) {
+    this.srsName = srsName;
+  }
 
-    /**
-     * @param sortBy
-     *            the sortBy to set
-     */
-    public void setSortBy(SortBy[] sortBy) {
-        this.sortBy = sortBy;
-    }
+  /** @param filter the filter to set */
+  public void setFilter(Filter filter) {
+    this.filter = filter;
+  }
 
-    public void setFullType(FeatureType fullType) {
-        this.fullType = fullType;
-    }
+  /** @param maxFeatures the maxFeatures to set */
+  public void setMaxFeatures(Integer maxFeatures) {
+    this.maxFeatures = maxFeatures;
+  }
 
-    public FeatureType getFullType() {
-        return fullType;
-    }
+  /** @param resultType the resultType to set */
+  public void setResultType(ResultType resultType) {
+    this.resultType = resultType;
+  }
 
-    public void setQueryType(FeatureType queryType) {
-        this.queryType = queryType;
-    }
+  /** @param sortBy the sortBy to set */
+  public void setSortBy(SortBy[] sortBy) {
+    this.sortBy = sortBy;
+  }
 
-    public FeatureType getQueryType() {
-        return queryType;
-    }
+  public void setFullType(FeatureType fullType) {
+    this.fullType = fullType;
+  }
 
-    public void setUnsupportedFilter(Filter unsupportedFilter) {
-        this.unsupportedFilter = unsupportedFilter;
-    }
+  public FeatureType getFullType() {
+    return fullType;
+  }
 
-    public Filter getUnsupportedFilter() {
-        return unsupportedFilter == null ? Filter.INCLUDE : unsupportedFilter;
-    }
+  public void setQueryType(FeatureType queryType) {
+    this.queryType = queryType;
+  }
 
-    public boolean isStoredQuery() {
-        return storedQuery;
-    }
+  public FeatureType getQueryType() {
+    return queryType;
+  }
 
-    public void setStoredQuery(boolean storedQuery) {
-        this.storedQuery = storedQuery;
-    }
+  public void setUnsupportedFilter(Filter unsupportedFilter) {
+    this.unsupportedFilter = unsupportedFilter;
+  }
 
-    public void setHints(Hints hints) {
-        this.hints = hints;
-    }
+  public Filter getUnsupportedFilter() {
+    return unsupportedFilter == null ? Filter.INCLUDE : unsupportedFilter;
+  }
 
-    public Hints getHints() {
-        return hints;
-    }
+  public boolean isStoredQuery() {
+    return storedQuery;
+  }
 
-    public StoredQueryDescriptionType getStoredQueryDescriptionType() {
-        return storedQueryDescriptionType;
-    }
+  public void setStoredQuery(boolean storedQuery) {
+    this.storedQuery = storedQuery;
+  }
 
-    public void setStoredQueryDescriptionType(StoredQueryDescriptionType desc) {
-        this.storedQueryDescriptionType = desc;
+  public void setHints(Hints hints) {
+    this.hints = hints;
+  }
 
-    }
+  public Hints getHints() {
+    return hints;
+  }
+
+  public StoredQueryDescriptionType getStoredQueryDescriptionType() {
+    return storedQueryDescriptionType;
+  }
+
+  public void setStoredQueryDescriptionType(StoredQueryDescriptionType desc) {
+    this.storedQueryDescriptionType = desc;
+  }
 }

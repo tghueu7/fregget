@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -18,7 +18,6 @@ package org.geotools.feature.collection;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.geotools.data.DataUtilities;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureIterator;
@@ -30,84 +29,83 @@ import org.opengis.filter.sort.SortBy;
 
 /**
  * A FeatureCollection which completely delegates to another FeatureCollection.
- * <p>
- * This class should be subclasses by classes which must somehow decorate 
- * another SimpleFeatureCollection and override the relevant methods. 
- * </p>
+ *
+ * <p>This class should be subclasses by classes which must somehow decorate another
+ * SimpleFeatureCollection and override the relevant methods.
+ *
  * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
  * @since 2.5
- *
  * @source $URL$
  */
-public class DecoratingFeatureCollection<T extends FeatureType, F extends Feature> implements
-        FeatureCollection<T, F> {
+public class DecoratingFeatureCollection<T extends FeatureType, F extends Feature>
+    implements FeatureCollection<T, F> {
 
-    /**
-     * the delegate
-     */
-    protected FeatureCollection<T, F> delegate;
+  /** the delegate */
+  protected FeatureCollection<T, F> delegate;
 
-    protected DecoratingFeatureCollection(FeatureCollection<T, F> delegate) {
-        this.delegate = delegate;
-    }
+  protected DecoratingFeatureCollection(FeatureCollection<T, F> delegate) {
+    this.delegate = delegate;
+  }
 
-    public void accepts(org.opengis.feature.FeatureVisitor visitor,
-            org.opengis.util.ProgressListener progress) throws IOException {
-        DataUtilities.visit(this, visitor, progress);
-    }
-    
-    public boolean contains(Object o) {
-        return delegate.contains(o);
-    }
+  public void accepts(
+      org.opengis.feature.FeatureVisitor visitor, org.opengis.util.ProgressListener progress)
+      throws IOException {
+    DataUtilities.visit(this, visitor, progress);
+  }
 
-    public boolean containsAll(Collection<?> c) {
-        return delegate.containsAll(c);
-    }
+  public boolean contains(Object o) {
+    return delegate.contains(o);
+  }
 
-    public boolean equals(Object o) {
-        return delegate.equals(o);
-    }
+  public boolean containsAll(Collection<?> c) {
+    return delegate.containsAll(c);
+  }
 
-    public FeatureIterator<F> features() {
-        return delegate.features();
-    }
+  public boolean equals(Object o) {
+    return delegate.equals(o);
+  }
 
-    public ReferencedEnvelope getBounds() {
-        return delegate.getBounds();
-    }
+  public FeatureIterator<F> features() {
+    return delegate.features();
+  }
 
-    public T getSchema() {
-        return delegate.getSchema();
-    }
+  public ReferencedEnvelope getBounds() {
+    return delegate.getBounds();
+  }
 
-    public int hashCode() {
-        return delegate.hashCode();
-    }
+  public T getSchema() {
+    return delegate.getSchema();
+  }
 
-    public boolean isEmpty() {
-        return delegate.isEmpty();
-    }
+  public int hashCode() {
+    return delegate.hashCode();
+  }
 
-    public int size() {
-        return delegate.size();
-    }
+  public boolean isEmpty() {
+    return delegate.isEmpty();
+  }
 
-    public FeatureCollection<T, F> sort(SortBy order) {
-        return delegate.sort(order);
-    }
+  public int size() {
+    return delegate.size();
+  }
 
-    public FeatureCollection<T, F> subCollection(Filter filter) {
-        return delegate.subCollection(filter);
-    }
+  public FeatureCollection<T, F> sort(SortBy order) {
+    return delegate.sort(order);
+  }
 
-    public Object[] toArray() {
-        return delegate.toArray();
-    }
+  public FeatureCollection<T, F> subCollection(Filter filter) {
+    return delegate.subCollection(filter);
+  }
 
-    public <O> O[] toArray(O[] a) {
-        return delegate.toArray(a);
-    }
-	public String getID() {
-		return delegate.getID();
-	}
+  public Object[] toArray() {
+    return delegate.toArray();
+  }
+
+  public <O> O[] toArray(O[] a) {
+    return delegate.toArray(a);
+  }
+
+  public String getID() {
+    return delegate.getID();
+  }
 }

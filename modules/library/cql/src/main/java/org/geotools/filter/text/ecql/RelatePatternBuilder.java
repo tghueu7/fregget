@@ -31,42 +31,38 @@ import org.opengis.filter.expression.Function;
  */
 final class RelatePatternBuilder extends FunctionBuilder {
 
-    /**
-     * @param resultStack
-     * @param filterFactory
-     */
-    public RelatePatternBuilder(BuildResultStack resultStack,
-            FilterFactory filterFactory) {
-        super(resultStack, filterFactory);
+  /**
+   * @param resultStack
+   * @param filterFactory
+   */
+  public RelatePatternBuilder(BuildResultStack resultStack, FilterFactory filterFactory) {
+    super(resultStack, filterFactory);
+  }
 
-    }
+  @Override
+  public Function build() throws CQLException {
 
-    @Override
-    public Function build() throws CQLException {
-        
-        Expression[] args = buildParameters();
-        
-        Function relate = getFilterFactory().function("relatePattern", args);         
+    Expression[] args = buildParameters();
 
-        return relate;
-    }
+    Function relate = getFilterFactory().function("relatePattern", args);
 
-    /**
-     * 
-     * @return
-     * @throws CQLException
-     */
-    private Expression[] buildParameters() throws CQLException {
+    return relate;
+  }
 
-        Expression[] args =new Expression[3];
+  /**
+   * @return
+   * @throws CQLException
+   */
+  private Expression[] buildParameters() throws CQLException {
 
-        args[2] = getResultStack().popExpression(); 
+    Expression[] args = new Expression[3];
 
-        args[1] = getResultStack().popExpression();
-        
-        args[0] = getResultStack().popExpression();
+    args[2] = getResultStack().popExpression();
 
-        return args;
-    }
+    args[1] = getResultStack().popExpression();
 
+    args[0] = getResultStack().popExpression();
+
+    return args;
+  }
 }

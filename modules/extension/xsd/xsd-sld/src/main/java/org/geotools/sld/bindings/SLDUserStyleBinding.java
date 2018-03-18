@@ -16,23 +16,21 @@
  */
 package org.geotools.sld.bindings;
 
-import org.opengis.util.InternationalString;
-import org.picocontainer.MutablePicoContainer;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import java.util.List;
 import javax.xml.namespace.QName;
 import org.geotools.styling.FeatureTypeStyle;
 import org.geotools.styling.Style;
 import org.geotools.styling.StyleFactory;
 import org.geotools.xml.*;
-
+import org.opengis.util.InternationalString;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:UserStyle.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="UserStyle"&gt;
  *      &lt;xsd:annotation&gt;
@@ -53,94 +51,87 @@ import org.geotools.xml.*;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDUserStyleBinding extends AbstractComplexBinding {
-    StyleFactory styleFactory;
+  StyleFactory styleFactory;
 
-    public SLDUserStyleBinding(StyleFactory styleFactory) {
-        this.styleFactory = styleFactory;
+  public SLDUserStyleBinding(StyleFactory styleFactory) {
+    this.styleFactory = styleFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return SLD.USERSTYLE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Style.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Style style = styleFactory.createStyle();
+
+    // &lt;xsd:element ref="sld:Name" minOccurs="0"/&gt;
+    if (node.hasChild("Name")) {
+      style.setName((String) node.getChildValue("Name"));
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.USERSTYLE;
+    // &lt;xsd:element ref="sld:Title" minOccurs="0"/&gt;
+    if (node.hasChild("Title")) {
+      style.getDescription().setTitle((InternationalString) node.getChildValue("Title"));
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
+    // &lt;xsd:element ref="sld:Abstract" minOccurs="0"/&gt;
+    if (node.hasChild("Abstract")) {
+      style.getDescription().setAbstract((InternationalString) node.getChildValue("Abstract"));
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Style.class;
+    // &lt;xsd:element ref="sld:IsDefault" minOccurs="0"/&gt;
+    if (node.hasChild("IsDefault")) {
+      style.setDefault(((Boolean) node.getChildValue("IsDefault")).booleanValue());
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
+    // &lt;xsd:element ref="sld:FeatureTypeStyle" maxOccurs="unbounded"/&gt;
+    List fts = node.getChildValues(FeatureTypeStyle.class);
+    style.setFeatureTypeStyles((FeatureTypeStyle[]) fts.toArray(new FeatureTypeStyle[fts.size()]));
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Style style = styleFactory.createStyle();
-
-        //&lt;xsd:element ref="sld:Name" minOccurs="0"/&gt;
-        if (node.hasChild("Name")) {
-            style.setName((String) node.getChildValue("Name"));
-        }
-
-        //&lt;xsd:element ref="sld:Title" minOccurs="0"/&gt;
-        if (node.hasChild("Title")) {
-            style.getDescription().setTitle(
-                    (InternationalString) node.getChildValue("Title"));
-        }
-
-        //&lt;xsd:element ref="sld:Abstract" minOccurs="0"/&gt;
-        if (node.hasChild("Abstract")) {
-            style.getDescription().setAbstract(
-                    (InternationalString) node.getChildValue("Abstract"));
-        }
-
-        //&lt;xsd:element ref="sld:IsDefault" minOccurs="0"/&gt;
-        if (node.hasChild("IsDefault")) {
-            style.setDefault(((Boolean) node.getChildValue("IsDefault")).booleanValue());
-        }
-
-        //&lt;xsd:element ref="sld:FeatureTypeStyle" maxOccurs="unbounded"/&gt;
-        List fts = node.getChildValues(FeatureTypeStyle.class);
-        style.setFeatureTypeStyles((FeatureTypeStyle[]) fts.toArray(
-                new FeatureTypeStyle[fts.size()]));
-
-        return style;
-    }
+    return style;
+  }
 }

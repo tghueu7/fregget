@@ -20,39 +20,39 @@ package org.geotools.tile;
 /**
  * A listener for tile state change events.
  *
- * See net.refractions.uidg.project.render.Tile. Taken from <a href=
- * "https://github.com/moovida/uDig/tree/master/plugins/net.refractions.udig.project/src/net/refractions/udig/project/render" >uDig</a>.
+ * <p>See net.refractions.uidg.project.render.Tile. Taken from <a href=
+ * "https://github.com/moovida/uDig/tree/master/plugins/net.refractions.udig.project/src/net/refractions/udig/project/render"
+ * >uDig</a>.
  *
  * @author Emily Gouge (Refractions Research)
  * @since 12.0
  */
 public interface TileStateChangedListener {
-    /**
-     * Called when the screen state of a tile has changed.
-     *
-     * @param tile
-     */
-    void screenStateChanged(Tile tile);
+  /**
+   * Called when the screen state of a tile has changed.
+   *
+   * @param tile
+   */
+  void screenStateChanged(Tile tile);
 
-    /**
-     * Called when the render state of a tile has changed.
-     *
-     * @param tile
-     */
-    void renderStateChanged(Tile tile);
+  /**
+   * Called when the render state of a tile has changed.
+   *
+   * @param tile
+   */
+  void renderStateChanged(Tile tile);
 
-    /**
-     * Called when the context state of a tile has changed.
-     *
-     * @param tile
-     */
-    void contextStateChanged(Tile tile);
+  /**
+   * Called when the context state of a tile has changed.
+   *
+   * @param tile
+   */
+  void contextStateChanged(Tile tile);
 
-    /**
-     * Called when the validation state of a tile has changed.
-     *
-     * @param tile
-     */
-    void validationStateChanged(Tile tile);
-
+  /**
+   * Called when the validation state of a tile has changed.
+   *
+   * @param tile
+   */
+  void validationStateChanged(Tile tile);
 }

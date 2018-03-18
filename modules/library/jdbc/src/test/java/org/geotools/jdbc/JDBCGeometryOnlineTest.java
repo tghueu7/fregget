@@ -16,11 +16,6 @@
  */
 package org.geotools.jdbc;
 
-import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
-import org.geotools.referencing.CRS;
-import org.opengis.feature.simple.SimpleFeatureType;
-import org.opengis.referencing.crs.CoordinateReferenceSystem;
-
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.LineString;
@@ -30,86 +25,89 @@ import com.vividsolutions.jts.geom.MultiPoint;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
+import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
+import org.geotools.referencing.CRS;
+import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * Tests that geometry types can be properly created and retrieved back from the
- * database. You might need to override some of the tests method to fix the expectations
- * for specific geometry class types.
- *
- *
+ * Tests that geometry types can be properly created and retrieved back from the database. You might
+ * need to override some of the tests method to fix the expectations for specific geometry class
+ * types.
  *
  * @source $URL$
  */
 public abstract class JDBCGeometryOnlineTest extends JDBCTestSupport {
 
-    @Override
-    protected abstract JDBCGeometryTestSetup createTestSetup();
+  @Override
+  protected abstract JDBCGeometryTestSetup createTestSetup();
 
-    public void testPoint() throws Exception {
-        assertEquals(Point.class, checkGeometryType(Point.class));
-    }
-    
-    public void testLineString() throws Exception {
-        assertEquals(LineString.class, checkGeometryType(LineString.class));
-    }
-    
-    public void testLinearRing() throws Exception {
-        assertEquals(LinearRing.class, checkGeometryType(LinearRing.class));
-    }
-    
-    public void testPolygon() throws Exception {
-        assertEquals(Polygon.class, checkGeometryType(Polygon.class));
-    }
-    
-    public void testMultiPoint() throws Exception {
-        assertEquals(MultiPoint.class, checkGeometryType(MultiPoint.class));
-    }
-    
-    public void testMultiLineString() throws Exception {
-        assertEquals(MultiLineString.class, checkGeometryType(MultiLineString.class));
-    }
-    
-    public void testMultiPolygon() throws Exception {
-        assertEquals(MultiPolygon.class, checkGeometryType(MultiPolygon.class));
-    }
-    
-    /**
-     * Sometimes the source cannot anticipate the geometry type, can we cope with this?
-     * @throws Exception
-     */
-    public void testGeometry() throws Exception {
-        assertEquals(Geometry.class, checkGeometryType(Geometry.class));
-    }
-    
-    /**
-     * Same goes for heterogeneous collections 
-     * @throws Exception
-     */
-    public void testGeometryCollection() throws Exception {
-        assertEquals(GeometryCollection.class, checkGeometryType(GeometryCollection.class));
-    }
+  public void testPoint() throws Exception {
+    assertEquals(Point.class, checkGeometryType(Point.class));
+  }
 
-    protected Class checkGeometryType(Class geomClass) throws Exception {
-        // we just prefix the table name with "t" otherwise we go beyond
-        // the Oracle identifier max length limit (oh my my...)
-        String featureTypeName = tname("t" + geomClass.getSimpleName());
+  public void testLineString() throws Exception {
+    assertEquals(LineString.class, checkGeometryType(LineString.class));
+  }
 
-        // create a featureType and write it to PostGIS
-        CoordinateReferenceSystem crs = CRS.decode("EPSG:4326");
+  public void testLinearRing() throws Exception {
+    assertEquals(LinearRing.class, checkGeometryType(LinearRing.class));
+  }
 
-        SimpleFeatureTypeBuilder ftb = new SimpleFeatureTypeBuilder();
-        ftb.setName(featureTypeName);
-        ftb.add(aname("id"), Integer.class);
-        ftb.add(aname("name"), String.class);
-        ftb.add(aname("geom"), geomClass, crs);
+  public void testPolygon() throws Exception {
+    assertEquals(Polygon.class, checkGeometryType(Polygon.class));
+  }
 
-        SimpleFeatureType newFT = ftb.buildFeatureType();
-        dataStore.createSchema(newFT);
+  public void testMultiPoint() throws Exception {
+    assertEquals(MultiPoint.class, checkGeometryType(MultiPoint.class));
+  }
 
-        SimpleFeatureType newSchema = dataStore.getSchema(featureTypeName);
-        assertNotNull(newSchema);
-        assertEquals(3, newSchema.getAttributeCount());
-        return newSchema.getGeometryDescriptor().getType().getBinding();
-    }
+  public void testMultiLineString() throws Exception {
+    assertEquals(MultiLineString.class, checkGeometryType(MultiLineString.class));
+  }
 
+  public void testMultiPolygon() throws Exception {
+    assertEquals(MultiPolygon.class, checkGeometryType(MultiPolygon.class));
+  }
+
+  /**
+   * Sometimes the source cannot anticipate the geometry type, can we cope with this?
+   *
+   * @throws Exception
+   */
+  public void testGeometry() throws Exception {
+    assertEquals(Geometry.class, checkGeometryType(Geometry.class));
+  }
+
+  /**
+   * Same goes for heterogeneous collections
+   *
+   * @throws Exception
+   */
+  public void testGeometryCollection() throws Exception {
+    assertEquals(GeometryCollection.class, checkGeometryType(GeometryCollection.class));
+  }
+
+  protected Class checkGeometryType(Class geomClass) throws Exception {
+    // we just prefix the table name with "t" otherwise we go beyond
+    // the Oracle identifier max length limit (oh my my...)
+    String featureTypeName = tname("t" + geomClass.getSimpleName());
+
+    // create a featureType and write it to PostGIS
+    CoordinateReferenceSystem crs = CRS.decode("EPSG:4326");
+
+    SimpleFeatureTypeBuilder ftb = new SimpleFeatureTypeBuilder();
+    ftb.setName(featureTypeName);
+    ftb.add(aname("id"), Integer.class);
+    ftb.add(aname("name"), String.class);
+    ftb.add(aname("geom"), geomClass, crs);
+
+    SimpleFeatureType newFT = ftb.buildFeatureType();
+    dataStore.createSchema(newFT);
+
+    SimpleFeatureType newSchema = dataStore.getSchema(featureTypeName);
+    assertNotNull(newSchema);
+    assertEquals(3, newSchema.getAttributeCount());
+    return newSchema.getGeometryDescriptor().getType().getBinding();
+  }
 }

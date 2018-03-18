@@ -18,21 +18,16 @@ package org.geotools.sld.bindings;
 
 import org.geotools.styling.Graphic;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDGraphicFillBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(Graphic.class, new SLDGraphicFillBinding().getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(Graphic.class, new SLDGraphicFillBinding().getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.graphicFill(document, document);
+  public void test() throws Exception {
+    SLDMockData.graphicFill(document, document);
 
-        Graphic graphic = (Graphic) parse();
-        assertNotNull(graphic);
-    }
+    Graphic graphic = (Graphic) parse();
+    assertNotNull(graphic);
+  }
 }

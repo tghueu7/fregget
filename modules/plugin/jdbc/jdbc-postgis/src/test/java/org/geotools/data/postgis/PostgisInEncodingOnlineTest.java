@@ -20,8 +20,8 @@ import org.geotools.jdbc.JDBCInEncodingOnlineTest;
 import org.geotools.jdbc.JDBCTestSetup;
 
 public class PostgisInEncodingOnlineTest extends JDBCInEncodingOnlineTest {
-    @Override
-    protected JDBCTestSetup createTestSetup() {
-        return new PostGISTestSetup();
-    }
+  @Override
+  protected JDBCTestSetup createTestSetup() {
+    return new PostGISTestSetup();
+  }
 }

@@ -23,10 +23,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;
-
 import javax.media.jai.ImageLayout;
 import javax.media.jai.JAI;
-
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.io.GridFormatFactorySpi;
 import org.geotools.coverage.grid.io.GridFormatFinder;
@@ -43,95 +41,89 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
  * @author Andrea Antonello (www.hydrologis.com)
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
- * 
- * Testing {@link IDRISIReader}
- *
- *
- *
+ *     <p>Testing {@link IDRISIReader}
  * @source $URL$
  */
 public final class AIGTest extends GDALTestCase {
-     /**
-     * file name of a valid AIG sample data to be used for tests.
-     */
-//     private final static String fileName = "abc3x1/hdr.adf";
-     private final static String fileName = "hdr.adf";
+  /** file name of a valid AIG sample data to be used for tests. */
+  //     private final static String fileName = "abc3x1/hdr.adf";
+  private static final String fileName = "hdr.adf";
 
-    /**
-     * Creates a new instance of {@code IDRISIReader}
-     * 
-     * @param name
-     */
-    public AIGTest() {
-        super("Aig", new AIGFormatFactory());
+  /**
+   * Creates a new instance of {@code IDRISIReader}
+   *
+   * @param name
+   */
+  public AIGTest() {
+    super("Aig", new AIGFormatFactory());
+  }
+
+  @Test
+  public void test() throws Exception {
+    if (!testingEnabled()) {
+      return;
     }
 
-    @Test
-    public void test() throws Exception {
-        if (!testingEnabled()) {
-            return;
-        }
-
-        File file;
-        try {
-            file = TestData.file(this, fileName);
-        } catch (FileNotFoundException fnfe) {
-            LOGGER.warning("test-data not found: " + fileName + "\nTests are skipped");
-            return;
-        } catch (IOException ioe) {
-            LOGGER.warning("test-data not found: " + fileName + "\nTests are skipped");
-            return;
-        }
-
-        // Preparing an useful layout in case the image is striped.
-        final ImageLayout l = new ImageLayout();
-        l.setTileGridXOffset(0).setTileGridYOffset(0).setTileHeight(3).setTileWidth(1);
-
-        Hints hints = new Hints();
-        hints.add(new RenderingHints(JAI.KEY_IMAGE_LAYOUT, l));
-
-        // get a reader
-        final URL url = file.toURI().toURL();
-        final Object source = url;
-        final BaseGDALGridCoverage2DReader reader = new AIGReader(source, hints);
-        checkReader(reader);
-        
-        // Testing the getSource method
-        Assert.assertEquals(reader.getSource(), source);
-
-        // /////////////////////////////////////////////////////////////////////
-        //
-        // read once
-        //
-        // /////////////////////////////////////////////////////////////////////
-        GridCoverage2D gc = (GridCoverage2D) reader.read(null);
-        forceDataLoading(gc);
+    File file;
+    try {
+      file = TestData.file(this, fileName);
+    } catch (FileNotFoundException fnfe) {
+      LOGGER.warning("test-data not found: " + fileName + "\nTests are skipped");
+      return;
+    } catch (IOException ioe) {
+      LOGGER.warning("test-data not found: " + fileName + "\nTests are skipped");
+      return;
     }
 
-    @Test
-    public void testIsAvailable() throws NoSuchAuthorityCodeException, FactoryException {
-        if (!testingEnabled()) {
-            return;
-        }
+    // Preparing an useful layout in case the image is striped.
+    final ImageLayout l = new ImageLayout();
+    l.setTileGridXOffset(0).setTileGridYOffset(0).setTileHeight(3).setTileWidth(1);
 
-        GridFormatFinder.scanForPlugins();
+    Hints hints = new Hints();
+    hints.add(new RenderingHints(JAI.KEY_IMAGE_LAYOUT, l));
 
-        Iterator list = GridFormatFinder.getAvailableFormats().iterator();
-        boolean found = false;
-        GridFormatFactorySpi fac = null;
+    // get a reader
+    final URL url = file.toURI().toURL();
+    final Object source = url;
+    final BaseGDALGridCoverage2DReader reader = new AIGReader(source, hints);
+    checkReader(reader);
 
-        while( list.hasNext() ) {
-            fac = (GridFormatFactorySpi) list.next();
+    // Testing the getSource method
+    Assert.assertEquals(reader.getSource(), source);
 
-            if (fac instanceof AIGFormatFactory) {
-                found = true;
+    // /////////////////////////////////////////////////////////////////////
+    //
+    // read once
+    //
+    // /////////////////////////////////////////////////////////////////////
+    GridCoverage2D gc = (GridCoverage2D) reader.read(null);
+    forceDataLoading(gc);
+  }
 
-                break;
-            }
-        }
-
-        Assert.assertTrue("IDRISIFormatFactory not registered", found);
-        Assert.assertTrue("IDRISIFormatFactory not available", fac.isAvailable());
-        Assert.assertNotNull(new AIGFormatFactory().createFormat());
+  @Test
+  public void testIsAvailable() throws NoSuchAuthorityCodeException, FactoryException {
+    if (!testingEnabled()) {
+      return;
     }
+
+    GridFormatFinder.scanForPlugins();
+
+    Iterator list = GridFormatFinder.getAvailableFormats().iterator();
+    boolean found = false;
+    GridFormatFactorySpi fac = null;
+
+    while (list.hasNext()) {
+      fac = (GridFormatFactorySpi) list.next();
+
+      if (fac instanceof AIGFormatFactory) {
+        found = true;
+
+        break;
+      }
+    }
+
+    Assert.assertTrue("IDRISIFormatFactory not registered", found);
+    Assert.assertTrue("IDRISIFormatFactory not available", fac.isAvailable());
+    Assert.assertNotNull(new AIGFormatFactory().createFormat());
+  }
 }

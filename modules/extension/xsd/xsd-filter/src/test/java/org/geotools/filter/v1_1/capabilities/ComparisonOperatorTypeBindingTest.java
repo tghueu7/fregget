@@ -16,18 +16,18 @@
  */
 package org.geotools.filter.v1_1.capabilities;
 
-import org.w3c.dom.Document;
 import javax.xml.namespace.QName;
-import org.opengis.filter.capability.Operator;
 import org.geotools.filter.v1_1.OGC;
 import org.geotools.xml.Binding;
-
+import org.opengis.filter.capability.Operator;
+import org.w3c.dom.Document;
 
 /**
  * Binding test case for http://www.opengis.net/ogc:ComparisonOperatorType.
  *
  * <p>
- *  <pre>
+ *
+ * <pre>
  *   <code>
  *  &lt;xsd:simpleType name="ComparisonOperatorType"&gt;
  *      &lt;xsd:restriction base="xsd:string"&gt;
@@ -45,98 +45,97 @@ import org.geotools.xml.Binding;
  *
  *    </code>
  *   </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class ComparisonOperatorTypeBindingTest extends OGCTestSupport {
-    public void testType() {
-        assertEquals(Operator.class, binding(OGC.ComparisonOperatorType).getType());
-    }
+  public void testType() {
+    assertEquals(Operator.class, binding(OGC.ComparisonOperatorType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(OGC.ComparisonOperatorType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(OGC.ComparisonOperatorType).getExecutionMode());
+  }
 
-    public void testParse1() throws Exception {
-        FilterMockData.comparisonOperator(document, document, "LessThan");
+  public void testParse1() throws Exception {
+    FilterMockData.comparisonOperator(document, document, "LessThan");
 
-        Operator op = (Operator) parse(OGC.ComparisonOperatorType);
+    Operator op = (Operator) parse(OGC.ComparisonOperatorType);
 
-        assertEquals("LessThan", op.getName());
-    }
+    assertEquals("LessThan", op.getName());
+  }
 
-    public void testParse2() throws Exception {
-        FilterMockData.comparisonOperator(document, document, "LessThanOrEqualTo");
+  public void testParse2() throws Exception {
+    FilterMockData.comparisonOperator(document, document, "LessThanOrEqualTo");
 
-        Operator op = (Operator) parse(OGC.ComparisonOperatorType);
+    Operator op = (Operator) parse(OGC.ComparisonOperatorType);
 
-        assertEquals("LessThanOrEqualTo", op.getName());
-    }
+    assertEquals("LessThanOrEqualTo", op.getName());
+  }
 
-    public void testParse3() throws Exception {
-        FilterMockData.comparisonOperator(document, document, "GreaterThan");
+  public void testParse3() throws Exception {
+    FilterMockData.comparisonOperator(document, document, "GreaterThan");
 
-        Operator op = (Operator) parse(OGC.ComparisonOperatorType);
+    Operator op = (Operator) parse(OGC.ComparisonOperatorType);
 
-        assertEquals("GreaterThan", op.getName());
-    }
+    assertEquals("GreaterThan", op.getName());
+  }
 
-    public void testParse4() throws Exception {
-        FilterMockData.comparisonOperator(document, document, "GreaterThanOrEqualTo");
+  public void testParse4() throws Exception {
+    FilterMockData.comparisonOperator(document, document, "GreaterThanOrEqualTo");
 
-        Operator op = (Operator) parse(OGC.ComparisonOperatorType);
+    Operator op = (Operator) parse(OGC.ComparisonOperatorType);
 
-        assertEquals("GreaterThanOrEqualTo", op.getName());
-    }
+    assertEquals("GreaterThanOrEqualTo", op.getName());
+  }
 
-    public void testParse5() throws Exception {
-        FilterMockData.comparisonOperator(document, document, "EqualTo");
+  public void testParse5() throws Exception {
+    FilterMockData.comparisonOperator(document, document, "EqualTo");
 
-        Operator op = (Operator) parse(OGC.ComparisonOperatorType);
+    Operator op = (Operator) parse(OGC.ComparisonOperatorType);
 
-        assertEquals("EqualTo", op.getName());
-    }
+    assertEquals("EqualTo", op.getName());
+  }
 
-    public void testParse6() throws Exception {
-        FilterMockData.comparisonOperator(document, document, "NotEqualTo");
+  public void testParse6() throws Exception {
+    FilterMockData.comparisonOperator(document, document, "NotEqualTo");
 
-        Operator op = (Operator) parse(OGC.ComparisonOperatorType);
+    Operator op = (Operator) parse(OGC.ComparisonOperatorType);
 
-        assertEquals("NotEqualTo", op.getName());
-    }
+    assertEquals("NotEqualTo", op.getName());
+  }
 
-    public void testParse7() throws Exception {
-        FilterMockData.comparisonOperator(document, document, "Like");
+  public void testParse7() throws Exception {
+    FilterMockData.comparisonOperator(document, document, "Like");
 
-        Operator op = (Operator) parse(OGC.ComparisonOperatorType);
+    Operator op = (Operator) parse(OGC.ComparisonOperatorType);
 
-        assertEquals("Like", op.getName());
-    }
+    assertEquals("Like", op.getName());
+  }
 
-    public void testParse8() throws Exception {
-        FilterMockData.comparisonOperator(document, document, "Between");
+  public void testParse8() throws Exception {
+    FilterMockData.comparisonOperator(document, document, "Between");
 
-        Operator op = (Operator) parse(OGC.ComparisonOperatorType);
+    Operator op = (Operator) parse(OGC.ComparisonOperatorType);
 
-        assertEquals("Between", op.getName());
-    }
+    assertEquals("Between", op.getName());
+  }
 
-    public void testParse9() throws Exception {
-        FilterMockData.comparisonOperator(document, document, "NullCheck");
+  public void testParse9() throws Exception {
+    FilterMockData.comparisonOperator(document, document, "NullCheck");
 
-        Operator op = (Operator) parse(OGC.ComparisonOperatorType);
+    Operator op = (Operator) parse(OGC.ComparisonOperatorType);
 
-        assertEquals("NullCheck", op.getName());
-    }
+    assertEquals("NullCheck", op.getName());
+  }
 
-    public void testEncode() throws Exception {
-        Document dom = encode(FilterMockData.comparisonOperator("LessThan"),
-                new QName(OGC.NAMESPACE, "ComparisonOperator"), OGC.ComparisonOperatorType);
-        assertEquals("LessThan", dom.getDocumentElement().getFirstChild().getNodeValue());
-    }
+  public void testEncode() throws Exception {
+    Document dom =
+        encode(
+            FilterMockData.comparisonOperator("LessThan"),
+            new QName(OGC.NAMESPACE, "ComparisonOperator"),
+            OGC.ComparisonOperatorType);
+    assertEquals("LessThan", dom.getDocumentElement().getFirstChild().getNodeValue());
+  }
 }

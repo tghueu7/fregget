@@ -17,42 +17,40 @@
 package org.geotools.data.transform;
 
 import java.util.NoSuchElementException;
-
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.opengis.feature.simple.SimpleFeature;
 
 /**
- * A simple wrapper that limits the number of features returned by a given
- * {@link SimpleFeatureIterator}
- * 
+ * A simple wrapper that limits the number of features returned by a given {@link
+ * SimpleFeatureIterator}
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class MaxFeaturesIterator implements SimpleFeatureIterator {
 
-    SimpleFeatureIterator wrapped;
+  SimpleFeatureIterator wrapped;
 
-    int count;
+  int count;
 
-    public MaxFeaturesIterator(SimpleFeatureIterator wrapped, int count) {
-        this.wrapped = wrapped;
-        this.count = count;
-    }
+  public MaxFeaturesIterator(SimpleFeatureIterator wrapped, int count) {
+    this.wrapped = wrapped;
+    this.count = count;
+  }
 
-    @Override
-    public boolean hasNext() {
-        return count > 0 && wrapped.hasNext();
-    }
+  @Override
+  public boolean hasNext() {
+    return count > 0 && wrapped.hasNext();
+  }
 
-    @Override
-    public SimpleFeature next() throws NoSuchElementException {
-        SimpleFeature result = wrapped.next();
-        count--;
-        return result;
-    }
+  @Override
+  public SimpleFeature next() throws NoSuchElementException {
+    SimpleFeature result = wrapped.next();
+    count--;
+    return result;
+  }
 
-    @Override
-    public void close() {
-        wrapped.close();
-    }
-
+  @Override
+  public void close() {
+    wrapped.close();
+  }
 }

@@ -17,47 +17,39 @@
 package org.geotools.sld.bindings;
 
 import java.util.Locale;
-
 import org.geotools.styling.Rule;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDRuleBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(Rule.class, new SLDRuleBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(Rule.class, new SLDRuleBinding(null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.rule(document, document);
+  public void test() throws Exception {
+    SLDMockData.rule(document, document);
 
-        Rule rule = (Rule) parse();
+    Rule rule = (Rule) parse();
 
-        assertNotNull(rule);
-        assertEquals("theName", rule.getName());
-        assertEquals("theAbstract", rule.getAbstract());
-        assertEquals("theTitle", rule.getTitle());
+    assertNotNull(rule);
+    assertEquals("theName", rule.getName());
+    assertEquals("theAbstract", rule.getAbstract());
+    assertEquals("theTitle", rule.getTitle());
 
-        assertEquals(1, rule.getLegendGraphic().length);
-        assertEquals(1d, rule.getMinScaleDenominator(), 0d);
-        assertEquals(1d, rule.getMaxScaleDenominator(), 0d);
-        assertEquals(5, rule.getSymbolizers().length);
-    }
-    
-    public void testLocalized() throws Exception {
-        SLDMockData.localizedRule(document, document);
+    assertEquals(1, rule.getLegendGraphic().length);
+    assertEquals(1d, rule.getMinScaleDenominator(), 0d);
+    assertEquals(1d, rule.getMaxScaleDenominator(), 0d);
+    assertEquals(5, rule.getSymbolizers().length);
+  }
 
-        Rule rule = (Rule) parse();
+  public void testLocalized() throws Exception {
+    SLDMockData.localizedRule(document, document);
 
-        assertNotNull(rule);
-        
-        assertEquals("theTitle", rule.getDescription().getTitle().toString());
-        assertEquals("english", rule.getDescription().getTitle().toString(Locale.ENGLISH));
-        assertEquals("italian", rule.getDescription().getTitle().toString(Locale.ITALIAN));
+    Rule rule = (Rule) parse();
 
-        
-    }
+    assertNotNull(rule);
+
+    assertEquals("theTitle", rule.getDescription().getTitle().toString());
+    assertEquals("english", rule.getDescription().getTitle().toString(Locale.ENGLISH));
+    assertEquals("italian", rule.getDescription().getTitle().toString(Locale.ITALIAN));
+  }
 }

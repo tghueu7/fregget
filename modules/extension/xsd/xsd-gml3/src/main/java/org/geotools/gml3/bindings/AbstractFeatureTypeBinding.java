@@ -17,12 +17,9 @@
 package org.geotools.gml3.bindings;
 
 import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.geotools.gml2.FeatureTypeCache;
-import org.geotools.gml2.bindings.GMLEncodingUtils;
 import org.geotools.gml3.GML;
 import org.geotools.gml3.XSDIdRegistry;
 import org.geotools.xml.AbstractComplexBinding;
@@ -35,12 +32,12 @@ import org.opengis.feature.Feature;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractFeatureType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType abstract="true" name="AbstractFeatureType"&gt;
  *      &lt;annotation&gt;
@@ -64,85 +61,84 @@ import org.w3c.dom.Element;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class AbstractFeatureTypeBinding extends AbstractComplexBinding {
-    FeatureTypeCache ftCache;
-    XSDIdRegistry idSet;
-    BindingWalkerFactory bwFactory;
-    SchemaIndex schemaIndex;
-    Configuration configuration;
-    GML3EncodingUtils encodingUtils;
-    
-    public AbstractFeatureTypeBinding(FeatureTypeCache ftCache, BindingWalkerFactory bwFactory,
-            SchemaIndex schemaIndex, Configuration configuration, XSDIdRegistry idRegistry, GML3EncodingUtils encodingUtils ) {
-        this.ftCache = ftCache;
-        this.bwFactory = bwFactory;
-        this.schemaIndex = schemaIndex;
-        this.configuration = configuration;
-        this.idSet = idRegistry;
-        this.encodingUtils = encodingUtils;
-    }
+  FeatureTypeCache ftCache;
+  XSDIdRegistry idSet;
+  BindingWalkerFactory bwFactory;
+  SchemaIndex schemaIndex;
+  Configuration configuration;
+  GML3EncodingUtils encodingUtils;
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.AbstractFeatureType;
-    }
+  public AbstractFeatureTypeBinding(
+      FeatureTypeCache ftCache,
+      BindingWalkerFactory bwFactory,
+      SchemaIndex schemaIndex,
+      Configuration configuration,
+      XSDIdRegistry idRegistry,
+      GML3EncodingUtils encodingUtils) {
+    this.ftCache = ftCache;
+    this.bwFactory = bwFactory;
+    this.schemaIndex = schemaIndex;
+    this.configuration = configuration;
+    this.idSet = idRegistry;
+    this.encodingUtils = encodingUtils;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Feature.class;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return GML.AbstractFeatureType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return GML3ParsingUtils.parseFeature(instance, node, value, ftCache, bwFactory);
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Feature.class;
+  }
 
-        //        //get the definition of the element
-        //        XSDElementDeclaration decl = instance.getElementDeclaration();
-        //
-        //        //look for a feature type in the cache
-        //        FeatureType fType = ftCache.get(decl.getName());
-        //
-        //        if (fType == null) {
-        //            fType = GML3ParsingUtils.featureType(decl, bwFactory);
-        //            ftCache.put(fType);
-        //        }
-        //
-        //        //TODO: this could pick up wrong thing, node api needs to be 
-        //        // namespace aware
-        //        String fid = (String) node.getAttributeValue("id");
-        //
-        //        return GML3ParsingUtils.feature(fType, fid, node);
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return GML3ParsingUtils.parseFeature(instance, node, value, ftCache, bwFactory);
 
-    public Element encode(Object object, Document document, Element value)
-        throws Exception {
-        return encodingUtils.AbstractFeatureTypeEncode(object,document,value,idSet);
-    }
+    //        //get the definition of the element
+    //        XSDElementDeclaration decl = instance.getElementDeclaration();
+    //
+    //        //look for a feature type in the cache
+    //        FeatureType fType = ftCache.get(decl.getName());
+    //
+    //        if (fType == null) {
+    //            fType = GML3ParsingUtils.featureType(decl, bwFactory);
+    //            ftCache.put(fType);
+    //        }
+    //
+    //        //TODO: this could pick up wrong thing, node api needs to be
+    //        // namespace aware
+    //        String fid = (String) node.getAttributeValue("id");
+    //
+    //        return GML3ParsingUtils.feature(fType, fid, node);
+  }
 
-    @Override
-    public List getProperties(Object object, XSDElementDeclaration element) throws Exception {
-        return encodingUtils.AbstractFeatureTypeGetProperties(object, element, schemaIndex,
-                configuration);
-    }
+  public Element encode(Object object, Document document, Element value) throws Exception {
+    return encodingUtils.AbstractFeatureTypeEncode(object, document, value, idSet);
+  }
+
+  @Override
+  public List getProperties(Object object, XSDElementDeclaration element) throws Exception {
+    return encodingUtils.AbstractFeatureTypeGetProperties(
+        object, element, schemaIndex, configuration);
+  }
 }

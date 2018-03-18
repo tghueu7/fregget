@@ -23,12 +23,12 @@ import org.geotools.xml.AbstractSimpleBinding;
 import org.geotools.xml.Binding;
 import org.geotools.xml.InstanceComponent;
 
-
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:color.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;simpleType name="color"&gt;
  *      &lt;annotation&gt;
@@ -48,76 +48,73 @@ import org.geotools.xml.InstanceComponent;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class ColorBinding extends AbstractSimpleBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return KML.color;
+  /** @generated */
+  public QName getTarget() {
+    return KML.color;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Color.class;
+  }
+
+  public int getExecutionMode() {
+    return Binding.OVERRIDE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    if (value == null) {
+      return null;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Color.class;
+    String color = (String) value;
+
+    if (color.startsWith("#")) {
+      color = color.substring(1);
     }
 
-    public int getExecutionMode() {
-        return Binding.OVERRIDE;
+    if ((color.length() < 6) || (color.length() > 8)) {
+      throw new IllegalArgumentException("illegal color: " + color);
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        if (value == null) {
-            return null;
-        }
+    int i = 0;
+    String a = null;
 
-        String color = (String) value;
-
-        if (color.startsWith("#")) {
-            color = color.substring(1);
-        }
-
-        if ((color.length() < 6) || (color.length() > 8)) {
-            throw new IllegalArgumentException("illegal color: " + color);
-        }
-
-        int i = 0;
-        String a = null;
-
-        if (color.length() > 6) {
-            a = color.substring(i, 2);
-            i = 2;
-        }
-
-        String r = color.substring(i, i + 2);
-        String g = color.substring(i + 2, i + 4);
-        String b = color.substring(i + 4, i + 6);
-
-        if (a != null) {
-            return new Color(Integer.parseInt(r, 16), Integer.parseInt(g, 16),
-                Integer.parseInt(b, 16), Integer.parseInt(a, 16));
-        } else {
-            return new Color(Integer.parseInt(r, 16), Integer.parseInt(g, 16),
-                Integer.parseInt(b, 16));
-        }
+    if (color.length() > 6) {
+      a = color.substring(i, 2);
+      i = 2;
     }
+
+    String r = color.substring(i, i + 2);
+    String g = color.substring(i + 2, i + 4);
+    String b = color.substring(i + 4, i + 6);
+
+    if (a != null) {
+      return new Color(
+          Integer.parseInt(r, 16),
+          Integer.parseInt(g, 16),
+          Integer.parseInt(b, 16),
+          Integer.parseInt(a, 16));
+    } else {
+      return new Color(Integer.parseInt(r, 16), Integer.parseInt(g, 16), Integer.parseInt(b, 16));
+    }
+  }
 }

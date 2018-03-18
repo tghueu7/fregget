@@ -19,39 +19,38 @@ package org.geotools.data.wfs.internal;
 import java.io.IOException;
 
 /**
- * A Java Exception that mirrors a WFS {@code ExceptionReport} and is meant to be produced by
- * {@link ExceptionReportParser}.
- * 
+ * A Java Exception that mirrors a WFS {@code ExceptionReport} and is meant to be produced by {@link
+ * ExceptionReportParser}.
  */
 public class WFSException extends IOException {
-    private static final long serialVersionUID = -2828901359361793862L;
+  private static final long serialVersionUID = -2828901359361793862L;
 
-    private StringBuilder msg;
+  private StringBuilder msg;
 
-    public WFSException(String msg) {
-        this(msg, null);
+  public WFSException(String msg) {
+    this(msg, null);
+  }
+
+  public WFSException(String msg, Throwable cause) {
+    super(msg);
+    super.initCause(cause);
+    this.msg = new StringBuilder();
+    if (msg != null) {
+      this.msg.append(msg);
     }
+  }
 
-    public WFSException(String msg, Throwable cause) {
-        super(msg);
-        super.initCause(cause);
-        this.msg = new StringBuilder();
-        if (msg != null) {
-            this.msg.append(msg);
-        }
-    }
+  public void addExceptionReport(String report) {
+    msg.append("\n\t[").append(report).append("]");
+  }
 
-    public void addExceptionReport(String report) {
-        msg.append("\n\t[").append(report).append("]");
-    }
+  @Override
+  public String getMessage() {
+    return msg.toString();
+  }
 
-    @Override
-    public String getMessage() {
-        return msg.toString();
-    }
-
-    @Override
-    public String getLocalizedMessage() {
-        return msg.toString();
-    }
+  @Override
+  public String getLocalizedMessage() {
+    return msg.toString();
+  }
 }

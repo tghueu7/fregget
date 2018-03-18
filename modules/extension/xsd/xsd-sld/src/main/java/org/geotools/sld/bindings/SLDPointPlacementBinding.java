@@ -17,7 +17,6 @@
 package org.geotools.sld.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.styling.AnchorPoint;
 import org.geotools.styling.Displacement;
 import org.geotools.styling.PointPlacement;
@@ -28,12 +27,12 @@ import org.geotools.xml.Node;
 import org.opengis.filter.expression.Expression;
 import org.picocontainer.MutablePicoContainer;
 
-
 /**
  * Binding object for the element http://www.opengis.net/sld:PointPlacement.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="PointPlacement"&gt;
  *      &lt;xsd:annotation&gt;
@@ -52,74 +51,70 @@ import org.picocontainer.MutablePicoContainer;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDPointPlacementBinding extends AbstractComplexBinding {
-    StyleFactory styleFactory;
+  StyleFactory styleFactory;
 
-    public SLDPointPlacementBinding(StyleFactory styleFactory) {
-        this.styleFactory = styleFactory;
-    }
+  public SLDPointPlacementBinding(StyleFactory styleFactory) {
+    this.styleFactory = styleFactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.POINTPLACEMENT;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return SLD.POINTPLACEMENT;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return PointPlacement.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return PointPlacement.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //&lt;xsd:element ref="sld:AnchorPoint" minOccurs="0"/&gt;
-        AnchorPoint anchorPoint = (AnchorPoint) node.getChildValue("AnchorPoint");
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // &lt;xsd:element ref="sld:AnchorPoint" minOccurs="0"/&gt;
+    AnchorPoint anchorPoint = (AnchorPoint) node.getChildValue("AnchorPoint");
 
-        //&lt;xsd:element ref="sld:Displacement" minOccurs="0"/&gt;
-        Displacement displacement = (Displacement) node.getChildValue("Displacement");
+    // &lt;xsd:element ref="sld:Displacement" minOccurs="0"/&gt;
+    Displacement displacement = (Displacement) node.getChildValue("Displacement");
 
-        //&lt;xsd:element ref="sld:Rotation" minOccurs="0"/&gt;
-        Expression rotation = (Expression) node.getChildValue("Rotation");
+    // &lt;xsd:element ref="sld:Rotation" minOccurs="0"/&gt;
+    Expression rotation = (Expression) node.getChildValue("Rotation");
 
-        return styleFactory.createPointPlacement(anchorPoint, displacement, rotation);
-    }
+    return styleFactory.createPointPlacement(anchorPoint, displacement, rotation);
+  }
 }

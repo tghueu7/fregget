@@ -16,6 +16,7 @@
  */
 package org.geotools.coverage.grid.io;
 
+import java.io.IOException;
 import org.geotools.data.Query;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.store.ReTypingFeatureCollection;
@@ -23,66 +24,63 @@ import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.opengis.feature.simple.SimpleFeatureType;
 
-import java.io.IOException;
-
 public class RenamingGranuleSource implements GranuleSource {
 
-    protected final String name;
-    protected final GranuleSource delegate;
-    protected final SimpleFeatureType schema;
-    private final String delegateTypeName;
+  protected final String name;
+  protected final GranuleSource delegate;
+  protected final SimpleFeatureType schema;
+  private final String delegateTypeName;
 
-    public RenamingGranuleSource(String name, GranuleSource delegate) {
-        this.name = name;
-        this.delegate = delegate;
-        SimpleFeatureType schema = null;
-        try {
-            schema = delegate.getSchema();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        this.delegateTypeName = schema.getTypeName();
-        SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
-        builder.init(schema);
-        builder.setName(name);
-        this.schema = builder.buildFeatureType();
+  public RenamingGranuleSource(String name, GranuleSource delegate) {
+    this.name = name;
+    this.delegate = delegate;
+    SimpleFeatureType schema = null;
+    try {
+      schema = delegate.getSchema();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
+    this.delegateTypeName = schema.getTypeName();
+    SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+    builder.init(schema);
+    builder.setName(name);
+    this.schema = builder.buildFeatureType();
+  }
 
-    @Override
-    public SimpleFeatureCollection getGranules(Query q) throws IOException {
-        Query renamed = renameQuery(q);
-        SimpleFeatureCollection granules = delegate.getGranules(renamed);
-        SimpleFeatureType targetSchema = this.schema;
-        if (q.getPropertyNames() != Query.ALL_NAMES) {
-            targetSchema = SimpleFeatureTypeBuilder.retype(schema, q.getPropertyNames());
-        }
-        return new ReTypingFeatureCollection(granules, targetSchema);
+  @Override
+  public SimpleFeatureCollection getGranules(Query q) throws IOException {
+    Query renamed = renameQuery(q);
+    SimpleFeatureCollection granules = delegate.getGranules(renamed);
+    SimpleFeatureType targetSchema = this.schema;
+    if (q.getPropertyNames() != Query.ALL_NAMES) {
+      targetSchema = SimpleFeatureTypeBuilder.retype(schema, q.getPropertyNames());
     }
+    return new ReTypingFeatureCollection(granules, targetSchema);
+  }
 
-    protected Query renameQuery(Query q) {
-        Query renamed = new Query(q);
-        renamed.setTypeName(delegateTypeName);
-        return renamed;
-    }
+  protected Query renameQuery(Query q) {
+    Query renamed = new Query(q);
+    renamed.setTypeName(delegateTypeName);
+    return renamed;
+  }
 
-    @Override
-    public int getCount(Query q) throws IOException {
-        return delegate.getCount(renameQuery(q));
-    }
+  @Override
+  public int getCount(Query q) throws IOException {
+    return delegate.getCount(renameQuery(q));
+  }
 
-    @Override
-    public ReferencedEnvelope getBounds(Query q) throws IOException {
-        return delegate.getBounds(renameQuery(q));
-    }
+  @Override
+  public ReferencedEnvelope getBounds(Query q) throws IOException {
+    return delegate.getBounds(renameQuery(q));
+  }
 
-    @Override
-    public SimpleFeatureType getSchema() throws IOException {
-        return schema;
-    }
+  @Override
+  public SimpleFeatureType getSchema() throws IOException {
+    return schema;
+  }
 
-    @Override
-    public void dispose() throws IOException {
-        delegate.dispose();
-    }
-
+  @Override
+  public void dispose() throws IOException {
+    delegate.dispose();
+  }
 }

@@ -16,26 +16,23 @@
  */
 package org.geotools.gml3.bindings;
 
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.gml3.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Polygon;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiSurfaceType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiSurfaceType"&gt;
  *      &lt;annotation&gt;
@@ -57,77 +54,71 @@ import com.vividsolutions.jts.geom.Polygon;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MultiSurfaceTypeBinding extends AbstractComplexBinding {
-    protected GeometryFactory gf;
+  protected GeometryFactory gf;
 
-    public MultiSurfaceTypeBinding(GeometryFactory gf) {
-        this.gf = gf;
+  public MultiSurfaceTypeBinding(GeometryFactory gf) {
+    this.gf = gf;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.MultiSurfaceType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return MultiPolygon.class;
+  }
+
+  public int getExecutionMode() {
+    return BEFORE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+
+    // &lt;element maxOccurs="unbounded" minOccurs="0" ref="gml:surfaceMember"/&gt;
+    List surfaces = node.getChildValues(Polygon.class);
+
+    // &lt;element minOccurs="0" ref="gml:surfaceMembers"/&gt;
+    if (node.hasChild(Polygon[].class)) {
+      surfaces.addAll(Arrays.asList((Polygon[]) node.getChildValue(Polygon[].class)));
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.MultiSurfaceType;
+    return gf.createMultiPolygon((Polygon[]) surfaces.toArray(new Polygon[surfaces.size()]));
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    if ("surfaceMember".equals(name.getLocalPart())) {
+      MultiPolygon multiSurface = (MultiPolygon) object;
+      Polygon[] members = new Polygon[multiSurface.getNumGeometries()];
+
+      for (int i = 0; i < members.length; i++) {
+        members[i] = (Polygon) multiSurface.getGeometryN(i);
+      }
+
+      GML3EncodingUtils.setChildIDs(multiSurface);
+
+      return members;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return MultiPolygon.class;
-    }
-
-    public int getExecutionMode() {
-        return BEFORE;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        
-        //&lt;element maxOccurs="unbounded" minOccurs="0" ref="gml:surfaceMember"/&gt;
-        List surfaces = node.getChildValues(Polygon.class);
-        
-        //&lt;element minOccurs="0" ref="gml:surfaceMembers"/&gt;
-        if (node.hasChild(Polygon[].class)) {
-            surfaces.addAll(Arrays.asList((Polygon[])node.getChildValue(Polygon[].class)));
-        }
-        
-        return gf.createMultiPolygon((Polygon[]) surfaces.toArray(new Polygon[surfaces.size()]));
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        if ("surfaceMember".equals(name.getLocalPart())) {
-            MultiPolygon multiSurface = (MultiPolygon) object;
-            Polygon[] members = new Polygon[multiSurface.getNumGeometries()];
-
-            for (int i = 0; i < members.length; i++) {
-                members[i] = (Polygon) multiSurface.getGeometryN(i);
-            }
-
-            GML3EncodingUtils.setChildIDs(multiSurface);
-
-            return members;
-        }
-        
-        return null;
-    }
+    return null;
+  }
 }

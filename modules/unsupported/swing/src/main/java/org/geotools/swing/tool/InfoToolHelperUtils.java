@@ -26,74 +26,67 @@ import org.opengis.referencing.operation.MathTransform;
  *
  * @author Michael Bedward
  * @since 8.0
- *
  * @source $URL$
  * @version $URL$
  */
 public class InfoToolHelperUtils {
 
-    /**
-     * Transforms a position. If {@code transform} is {@code null} the original
-     * position is returned.
-     *
-     * @param pos the position
-     *
-     * @return the transformed position
-     */
-    public static DirectPosition2D getTransformed(DirectPosition2D pos, MathTransform transform) {
-        if (transform != null) {
-            try {
-                return new DirectPosition2D(transform.transform(pos, null));
-            } catch (Exception ex) {
-                throw new IllegalStateException(ex);
-            }
-        }
-
-        return pos;
+  /**
+   * Transforms a position. If {@code transform} is {@code null} the original position is returned.
+   *
+   * @param pos the position
+   * @return the transformed position
+   */
+  public static DirectPosition2D getTransformed(DirectPosition2D pos, MathTransform transform) {
+    if (transform != null) {
+      try {
+        return new DirectPosition2D(transform.transform(pos, null));
+      } catch (Exception ex) {
+        throw new IllegalStateException(ex);
+      }
     }
 
+    return pos;
+  }
 
+  /**
+   * Convert the Object returned by {@linkplain GridCoverage2D#evaluate(DirectPosition)} into an
+   * array of {@code Numbers}.
+   *
+   * @param objArray an Object representing a primitive array
+   * @return a new array of Numbers
+   */
+  public static Number[] asNumberArray(Object objArray) {
+    Number[] numbers = null;
 
-    /**
-     * Convert the Object returned by {@linkplain GridCoverage2D#evaluate(DirectPosition)}
-     * into an array of {@code Numbers}.
-     *
-     * @param objArray an Object representing a primitive array
-     *
-     * @return a new array of Numbers
-     */
-    public static Number[] asNumberArray(Object objArray) {
-        Number[] numbers = null;
+    if (objArray instanceof byte[]) {
+      byte[] values = (byte[]) objArray;
+      numbers = new Number[values.length];
+      for (int i = 0; i < values.length; i++) {
+        numbers[i] = ((int) values[i]) & 0xff;
+      }
 
-        if (objArray instanceof byte[]) {
-            byte[] values = (byte[]) objArray;
-            numbers = new Number[values.length];
-            for (int i = 0; i < values.length; i++) {
-                numbers[i] = ((int)values[i]) & 0xff;
-            }
+    } else if (objArray instanceof int[]) {
+      int[] values = (int[]) objArray;
+      numbers = new Number[values.length];
+      for (int i = 0; i < values.length; i++) {
+        numbers[i] = values[i];
+      }
 
-        } else if (objArray instanceof int[]) {
-            int[] values = (int[]) objArray;
-            numbers = new Number[values.length];
-            for (int i = 0; i < values.length; i++) {
-                numbers[i] = values[i];
-            }
-
-        } else if (objArray instanceof float[]) {
-            float[] values = (float[]) objArray;
-            numbers = new Number[values.length];
-            for (int i = 0; i < values.length; i++) {
-                numbers[i] = values[i];
-            }
-        } else if (objArray instanceof double[]) {
-            double[] values = (double[]) objArray;
-            numbers = new Number[values.length];
-            for (int i = 0; i < values.length; i++) {
-                numbers[i] = values[i];
-            }
-        }
-
-        return numbers;
+    } else if (objArray instanceof float[]) {
+      float[] values = (float[]) objArray;
+      numbers = new Number[values.length];
+      for (int i = 0; i < values.length; i++) {
+        numbers[i] = values[i];
+      }
+    } else if (objArray instanceof double[]) {
+      double[] values = (double[]) objArray;
+      numbers = new Number[values.length];
+      for (int i = 0; i < values.length; i++) {
+        numbers[i] = values[i];
+      }
     }
 
+    return numbers;
+  }
 }

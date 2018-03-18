@@ -16,35 +16,31 @@
  */
 package org.geotools.data.postgis;
 
-import java.util.Map;
-
-import org.geotools.jdbc.JDBCJNDIDataStoreFactory;
 import static org.geotools.data.postgis.PostgisNGDataStoreFactory.*;
 
+import java.util.Map;
+import org.geotools.jdbc.JDBCJNDIDataStoreFactory;
+
 /**
- * JNDI DataStoreFactory  for Postgis database.
- * 
+ * JNDI DataStoreFactory for Postgis database.
+ *
  * @author Christian Mueller
- * 
- *
- *
- *
  * @source $URL$
  */
 public class PostgisNGJNDIDataStoreFactory extends JDBCJNDIDataStoreFactory {
 
-    public PostgisNGJNDIDataStoreFactory() {
-        super(new PostgisNGDataStoreFactory());
-    }
-    
-    @Override
-    protected void setupParameters(Map parameters) {
-        super.setupParameters(parameters);
-        
-        parameters.put(LOOSEBBOX.key, LOOSEBBOX);
-        parameters.put(ESTIMATED_EXTENTS.key, ESTIMATED_EXTENTS);
-        parameters.put(PREPARED_STATEMENTS.key, PREPARED_STATEMENTS);
-        parameters.put(ENCODE_FUNCTIONS.key, ENCODE_FUNCTIONS);
-        parameters.put(SIMPLIFY.key, SIMPLIFY);
-    }
+  public PostgisNGJNDIDataStoreFactory() {
+    super(new PostgisNGDataStoreFactory());
+  }
+
+  @Override
+  protected void setupParameters(Map parameters) {
+    super.setupParameters(parameters);
+
+    parameters.put(LOOSEBBOX.key, LOOSEBBOX);
+    parameters.put(ESTIMATED_EXTENTS.key, ESTIMATED_EXTENTS);
+    parameters.put(PREPARED_STATEMENTS.key, PREPARED_STATEMENTS);
+    parameters.put(ENCODE_FUNCTIONS.key, ENCODE_FUNCTIONS);
+    parameters.put(SIMPLIFY.key, SIMPLIFY);
+  }
 }

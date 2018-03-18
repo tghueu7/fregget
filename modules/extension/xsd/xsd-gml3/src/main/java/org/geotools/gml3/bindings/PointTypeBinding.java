@@ -16,9 +16,12 @@
  */
 package org.geotools.gml3.bindings;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.CoordinateSequence;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Point;
 import javax.xml.namespace.QName;
-
-import org.geotools.geometry.DirectPosition1D;
 import org.geotools.geometry.DirectPosition2D;
 import org.geotools.gml3.GML;
 import org.geotools.xml.AbstractComplexBinding;
@@ -26,18 +29,12 @@ import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 import org.opengis.geometry.DirectPosition;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.CoordinateSequence;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Point;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:PointType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="PointType"&gt;
  *      &lt;annotation&gt;
@@ -73,84 +70,80 @@ import com.vividsolutions.jts.geom.Point;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class PointTypeBinding extends AbstractComplexBinding {
-    GeometryFactory gFactory;
+  GeometryFactory gFactory;
 
-    public PointTypeBinding(GeometryFactory gFactory) {
-        this.gFactory = gFactory;
+  public PointTypeBinding(GeometryFactory gFactory) {
+    this.gFactory = gFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.PointType;
+  }
+
+  public int getExecutionMode() {
+    return BEFORE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Point.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    if (node.hasChild(DirectPosition.class)) {
+      DirectPosition dp = (DirectPosition) node.getChildValue(DirectPosition.class);
+
+      if (dp instanceof DirectPosition2D) {
+        return gFactory.createPoint(new Coordinate(dp.getOrdinate(0), dp.getOrdinate(1)));
+      } else {
+        return gFactory.createPoint(
+            new Coordinate(dp.getOrdinate(0), dp.getOrdinate(1), dp.getOrdinate(2)));
+      }
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.PointType;
+    if (node.hasChild(Coordinate.class)) {
+      return gFactory.createPoint((Coordinate) node.getChildValue(Coordinate.class));
     }
 
-    public int getExecutionMode() {
-        return BEFORE;
+    if (node.hasChild(CoordinateSequence.class)) {
+      return gFactory.createPoint(
+          (CoordinateSequence) node.getChildValue(CoordinateSequence.class));
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Point.class;
+    return null;
+  }
+
+  public Object getProperty(Object object, QName name) {
+    // hack for xlink stuff
+    Geometry geometry = (Geometry) object;
+    if (geometry.isEmpty()) {
+      return null;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        if (node.hasChild(DirectPosition.class)) {
-            DirectPosition dp = (DirectPosition) node.getChildValue(DirectPosition.class);
-
-            if(dp instanceof DirectPosition2D) {
-                return gFactory.createPoint(new Coordinate(dp.getOrdinate(0), dp.getOrdinate(1)));
-            } else {
-                return gFactory.createPoint(new Coordinate(dp.getOrdinate(0), dp.getOrdinate(1), dp.getOrdinate(2)));
-            }
-        }
-
-        if (node.hasChild(Coordinate.class)) {
-            return gFactory.createPoint((Coordinate) node.getChildValue(Coordinate.class));
-        }
-
-        if (node.hasChild(CoordinateSequence.class)) {
-            return gFactory.createPoint((CoordinateSequence) node.getChildValue(
-                    CoordinateSequence.class));
-        }
-
-        return null;
+    if ("pos".equals(name.getLocalPart())) {
+      Point point = (Point) object;
+      return point.getCoordinateSequence();
     }
 
-    public Object getProperty(Object object, QName name) {
-        //hack for xlink stuff
-        Geometry geometry = (Geometry) object;
-        if ( geometry.isEmpty() ) {
-            return null;
-        }
-        
-        if ("pos".equals(name.getLocalPart())) {
-            Point point = (Point) object;
-            return point.getCoordinateSequence();
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

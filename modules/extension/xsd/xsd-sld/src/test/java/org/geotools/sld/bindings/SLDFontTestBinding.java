@@ -19,35 +19,30 @@ package org.geotools.sld.bindings;
 import org.geotools.filter.Filters;
 import org.geotools.styling.Font;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDFontTestBinding extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(Font.class, new SLDFontBinding(null, null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(Font.class, new SLDFontBinding(null, null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.font(document, document);
+  public void test() throws Exception {
+    SLDMockData.font(document, document);
 
-        Font font = (Font) parse();
-        assertNotNull(font);
-        assertEquals("Arial", Filters.asString(font.getFontFamily()));
-        assertEquals("normal", Filters.asString(font.getFontStyle()));
-        assertEquals("normal", Filters.asString(font.getFontWeight()));
-        assertEquals(14, Filters.asInt(font.getFontSize()));
-    }
-    
-    public void testDefaultFont() throws Exception {
-        SLDMockData.element(SLD.FONT, document, document);
-        Font font = (Font) parse();
-        assertNotNull(font);
-        assertEquals("Serif", Filters.asString(font.getFontFamily()));
-        assertEquals("normal", Filters.asString(font.getFontStyle()));
-        assertEquals("normal", Filters.asString(font.getFontWeight()));
-        assertEquals(10, Filters.asInt(font.getFontSize()));
-    }
+    Font font = (Font) parse();
+    assertNotNull(font);
+    assertEquals("Arial", Filters.asString(font.getFontFamily()));
+    assertEquals("normal", Filters.asString(font.getFontStyle()));
+    assertEquals("normal", Filters.asString(font.getFontWeight()));
+    assertEquals(14, Filters.asInt(font.getFontSize()));
+  }
+
+  public void testDefaultFont() throws Exception {
+    SLDMockData.element(SLD.FONT, document, document);
+    Font font = (Font) parse();
+    assertNotNull(font);
+    assertEquals("Serif", Filters.asString(font.getFontFamily()));
+    assertEquals("normal", Filters.asString(font.getFontStyle()));
+    assertEquals("normal", Filters.asString(font.getFontWeight()));
+    assertEquals(10, Filters.asInt(font.getFontSize()));
+  }
 }

@@ -17,10 +17,8 @@
 package org.geotools.coverageio.gdal.ecw;
 
 import it.geosolutions.imageio.plugins.ecw.ECWImageReaderSpi;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.geotools.coverageio.gdal.BaseGDALGridFormat;
 import org.geotools.data.DataSourceException;
 import org.geotools.factory.Hints;
@@ -29,58 +27,48 @@ import org.opengis.geometry.MismatchedDimensionException;
 
 /**
  * An implementation of {@link Format} for the ECW format.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
  * @since 2.5.x
- *
- *
  * @source $URL$
  */
 public final class ECWFormat extends BaseGDALGridFormat implements Format {
 
-    /**
-     * Logger.
-     */
-    private final static Logger LOGGER = org.geotools.util.logging.Logging
-            .getLogger("org.geotools.coverageio.gdal.ecw");
+  /** Logger. */
+  private static final Logger LOGGER =
+      org.geotools.util.logging.Logging.getLogger("org.geotools.coverageio.gdal.ecw");
 
-    /**
-     * Creates an instance and sets the metadata.
-     */
-    public ECWFormat() {
-        super(new ECWImageReaderSpi());
+  /** Creates an instance and sets the metadata. */
+  public ECWFormat() {
+    super(new ECWImageReaderSpi());
 
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.fine("Creating a new ECWFormat.");
-        }
-
-        setInfo();
+    if (LOGGER.isLoggable(Level.FINE)) {
+      LOGGER.fine("Creating a new ECWFormat.");
     }
 
-    private static InfoWrapper INFO = new InfoWrapper("ECW Coverage Format", "ECW");
+    setInfo();
+  }
 
-    /**
-     * Sets the metadata information.
-     */
-    protected void setInfo() {
-        setInfo(INFO);
-    }
+  private static InfoWrapper INFO = new InfoWrapper("ECW Coverage Format", "ECW");
 
-    /**
-     * @see org.geotools.data.coverage.grid.AbstractGridFormat#getReader(Object, Hints)
-     */
-    public ECWReader getReader(Object source, Hints hints) {
-        try {
-            return new ECWReader(source, hints);
-        } catch (MismatchedDimensionException e) {
-            final RuntimeException re = new RuntimeException();
-            re.initCause(e);
-            throw re;
-        } catch (DataSourceException e) {
-            final RuntimeException re = new RuntimeException();
-            re.initCause(e);
-            throw re;
-        }
+  /** Sets the metadata information. */
+  protected void setInfo() {
+    setInfo(INFO);
+  }
+
+  /** @see org.geotools.data.coverage.grid.AbstractGridFormat#getReader(Object, Hints) */
+  public ECWReader getReader(Object source, Hints hints) {
+    try {
+      return new ECWReader(source, hints);
+    } catch (MismatchedDimensionException e) {
+      final RuntimeException re = new RuntimeException();
+      re.initCause(e);
+      throw re;
+    } catch (DataSourceException e) {
+      final RuntimeException re = new RuntimeException();
+      re.initCause(e);
+      throw re;
     }
+  }
 }

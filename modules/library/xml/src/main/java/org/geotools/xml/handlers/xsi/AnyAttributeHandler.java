@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -19,87 +19,65 @@ package org.geotools.xml.handlers.xsi;
 import org.geotools.xml.XSIElementHandler;
 import org.xml.sax.Attributes;
 
-
 /**
  * AnyAttributeHandler purpose.
- * 
- * <p>
- * Represents an 'anyAttribute' element in an xml schema
- * </p>
+ *
+ * <p>Represents an 'anyAttribute' element in an xml schema
  *
  * @author dzwiers, Refractions Research, Inc. http://www.refractions.net
  * @author $Author:$ (last modification)
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class AnyAttributeHandler extends XSIElementHandler {
-    /** 'anyAttribute' */
-    public final static String LOCALNAME = "anyAttribute";
+  /** 'anyAttribute' */
+  public static final String LOCALNAME = "anyAttribute";
 
-    //    private String id;
-    private String namespace;
+  //    private String id;
+  private String namespace;
 
-    //    private int processContents;
+  //    private int processContents;
 
-    /**
-     * @see Object#hashCode()
-     */
-    public int hashCode() {
-        return LOCALNAME.hashCode() * ((namespace == null) ? 1
-                                                           : namespace.hashCode());
+  /** @see Object#hashCode() */
+  public int hashCode() {
+    return LOCALNAME.hashCode() * ((namespace == null) ? 1 : namespace.hashCode());
+  }
+
+  /** @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String, java.lang.String) */
+  public XSIElementHandler getHandler(String namespaceURI, String localName) {
+    return null;
+  }
+
+  /**
+   * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String, java.lang.String,
+   *     org.xml.sax.Attributes)
+   */
+  public void startElement(String namespaceURI, String localName, Attributes atts) {
+
+    namespace = atts.getValue("", "namespace");
+
+    if (namespace == null) {
+      namespace = atts.getValue(namespaceURI, "namespace");
     }
+  }
 
-    /**
-     * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
-     */
-    public XSIElementHandler getHandler(String namespaceURI, String localName){
-        return null;
-    }
+  /** @see org.geotools.xml.XSIElementHandler#getLocalName() */
+  public String getLocalName() {
+    return LOCALNAME;
+  }
 
-    /**
-     * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
-     */
-    public void startElement(String namespaceURI, String localName,
-        Attributes atts){
+  /** Returns the values of the namespace attribute */
+  public String getNamespace() {
+    return namespace;
+  }
 
-        namespace = atts.getValue("", "namespace");
+  /** @see org.geotools.xml.XSIElementHandler#getHandlerType() */
+  public int getHandlerType() {
+    return DEFAULT;
+  }
 
-        if (namespace == null) {
-            namespace = atts.getValue(namespaceURI, "namespace");
-        }
-    }
-
-    /**
-     * @see org.geotools.xml.XSIElementHandler#getLocalName()
-     */
-    public String getLocalName() {
-        return LOCALNAME;
-    }
-
-    /**
-     * Returns the values of the namespace attribute
-     *
-     */
-    public String getNamespace() {
-        return namespace;
-    }
-
-    /**
-     * @see org.geotools.xml.XSIElementHandler#getHandlerType()
-     */
-    public int getHandlerType() {
-        return DEFAULT;
-    }
-
-    /**
-     * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
-     */
-    public void endElement(String namespaceURI, String localName){
-        // do nothing
-    }
+  /** @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String, java.lang.String) */
+  public void endElement(String namespaceURI, String localName) {
+    // do nothing
+  }
 }

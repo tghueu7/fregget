@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015-2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,7 +17,6 @@
 package org.geotools.data.memory;
 
 import java.io.IOException;
-
 import org.geotools.data.DataTestCase;
 import org.geotools.data.DefaultTransaction;
 import org.geotools.data.FeatureReader;
@@ -31,87 +30,87 @@ import org.opengis.filter.Filter;
 
 public class MemoryFeatureReaderTest extends DataTestCase {
 
-    private MemoryDataStore memoryDataStore;
+  private MemoryDataStore memoryDataStore;
 
-    private final Transaction transaction = new DefaultTransaction();
+  private final Transaction transaction = new DefaultTransaction();
 
-    public MemoryFeatureReaderTest(String name) {
-        super(name);
+  public MemoryFeatureReaderTest(String name) {
+    super(name);
+  }
+
+  public void setUp() throws Exception {
+    super.setUp();
+    memoryDataStore = new MemoryDataStore(roadFeatures);
+  }
+
+  public void testReaderIsNotBrokenWhileWritingFeatureDirectly() throws IOException {
+    // a write should not "destroy" readers
+    int expectedFeatureCount = roadFeatures.length;
+    int currentFeatureCount = 0;
+
+    FeatureReader<SimpleFeatureType, SimpleFeature> featureReader =
+        memoryDataStore.getFeatureReader(
+            new Query(roadType.getTypeName(), Filter.INCLUDE), transaction);
+
+    // start iterating through content
+    if (featureReader.hasNext()) {
+      featureReader.next();
+      currentFeatureCount++;
+    }
+    SimpleFeature newFeature = SimpleFeatureBuilder.template(roadType, null);
+
+    memoryDataStore.addFeature(newFeature);
+
+    assertReaderHasFeatureCount(expectedFeatureCount, currentFeatureCount, featureReader);
+  }
+
+  public void testReaderIsNotBrokenWhileWritingWithWriterAndTransaction() throws IOException {
+    // a write should not "destroy" readers
+    int expectedFeatureCount = roadFeatures.length;
+    int currentFeatureCount = 0;
+
+    FeatureReader<SimpleFeatureType, SimpleFeature> featureReader =
+        memoryDataStore.getFeatureReader(
+            new Query(roadType.getTypeName(), Filter.INCLUDE), transaction);
+
+    // start iterating through content
+    if (featureReader.hasNext()) {
+      featureReader.next();
+      currentFeatureCount++;
     }
 
-    public void setUp() throws Exception {
-        super.setUp();
-        memoryDataStore = new MemoryDataStore(roadFeatures);
+    FeatureWriter<SimpleFeatureType, SimpleFeature> featureWriter =
+        memoryDataStore.getFeatureWriter(roadType.getTypeName(), transaction);
+
+    while (featureWriter.hasNext()) {
+      featureWriter.next();
     }
 
-    public void testReaderIsNotBrokenWhileWritingFeatureDirectly()
-            throws IOException {
-        // a write should not "destroy" readers
-        int expectedFeatureCount = roadFeatures.length;
-        int currentFeatureCount = 0;
+    SimpleFeature newFeature = featureWriter.next();
+    assertNotNull(newFeature);
 
-        FeatureReader<SimpleFeatureType, SimpleFeature> featureReader = memoryDataStore
-                .getFeatureReader(
-                        new Query(roadType.getTypeName(), Filter.INCLUDE),
-                        transaction);
+    transaction.commit();
 
-        // start iterating through content
-        if (featureReader.hasNext()) {
-            featureReader.next();
-            currentFeatureCount++;
-        }
-        SimpleFeature newFeature = SimpleFeatureBuilder.template(roadType, null);
+    assertReaderHasFeatureCount(expectedFeatureCount, currentFeatureCount, featureReader);
+  }
 
-        memoryDataStore.addFeature(newFeature);
+  public void shutDown() throws IOException {
+    transaction.close();
+  }
 
-        assertReaderHasFeatureCount(expectedFeatureCount, currentFeatureCount, featureReader);
+  private void assertReaderHasFeatureCount(
+      int expectedFeatureCount,
+      int currentFeatureCount,
+      FeatureReader<SimpleFeatureType, SimpleFeature> featureReader)
+      throws IOException {
+    while (featureReader.hasNext()) {
+      featureReader.next();
+      currentFeatureCount++;
     }
 
-    public void testReaderIsNotBrokenWhileWritingWithWriterAndTransaction()
-            throws IOException {
-        // a write should not "destroy" readers
-        int expectedFeatureCount = roadFeatures.length;
-        int currentFeatureCount = 0;
-
-        FeatureReader<SimpleFeatureType, SimpleFeature> featureReader = memoryDataStore
-                .getFeatureReader(
-                        new Query(roadType.getTypeName(), Filter.INCLUDE),
-                        transaction);
-
-        // start iterating through content
-        if (featureReader.hasNext()) {
-            featureReader.next();
-            currentFeatureCount++;
-        }
-
-        FeatureWriter<SimpleFeatureType, SimpleFeature> featureWriter = memoryDataStore
-                .getFeatureWriter(roadType.getTypeName(), transaction);
-
-        while (featureWriter.hasNext()) {
-            featureWriter.next();
-        }
-
-        SimpleFeature newFeature = featureWriter.next();
-        assertNotNull(newFeature);
-
-        transaction.commit();
-
-        assertReaderHasFeatureCount(expectedFeatureCount, currentFeatureCount, featureReader);
-    }
-
-    public void shutDown() throws IOException {
-        transaction.close();
-    }
-
-    private void assertReaderHasFeatureCount(int expectedFeatureCount,
-            int currentFeatureCount,
-            FeatureReader<SimpleFeatureType, SimpleFeature> featureReader) throws IOException {
-        while (featureReader.hasNext()) {
-            featureReader.next();
-            currentFeatureCount++;
-        }
-
-        assertEquals("a write in MemoryDataStore should not 'destroy' readers",
-                expectedFeatureCount, currentFeatureCount);
-    }
+    assertEquals(
+        "a write in MemoryDataStore should not 'destroy' readers",
+        expectedFeatureCount,
+        currentFeatureCount);
+  }
 }

@@ -16,79 +16,66 @@
  */
 package org.geotools.validation.network;
 
+import com.vividsolutions.jts.geom.Envelope;
 import java.util.Map;
-
 import org.geotools.validation.DefaultIntegrityValidation;
 import org.geotools.validation.ValidationResults;
 
-import com.vividsolutions.jts.geom.Envelope;
-
-
 /**
  * StarNodeValidation purpose.
- * 
- * <p>
- * TODO fill this in.
- * </p>
+ *
+ * <p>TODO fill this in.
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class AngleSizeValidation extends DefaultIntegrityValidation {
-	
-	private int angle;
-	
-    /**
-     * StarNodeValidation constructor.
-     * 
-     * <p>
-     * Description
-     * </p>
-     */
-    public AngleSizeValidation() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-    /**
-     * Check FeatureType for ...
-     * 
-     * <p>
-     * Detailed description...
-     * </p>
-     *
-     * @param layers Map of SimpleFeatureSource by "dataStoreID:typeName"
-     * @param envelope The bounding box that encloses the unvalidated data
-     * @param results Used to coallate results information
-     *
-     * @return <code>true</code> if all the features pass this test.
-     *
-     * @throws Exception DOCUMENT ME!
-     */
-    public boolean validate(Map layers, Envelope envelope,
-    		ValidationResults results) throws Exception {
-    	results.warning(null, "Validation not yet implemented");
-    	// TODO fill me in!
-    	return false;
-    }
-	/**
-	 * Access angle property.
-	 * 
-	 * @return Returns the angle.
-	 */
-	public int getAngle() {
-		return angle;
-	}
-	/**
-	 * Set angle to angle.
-	 *
-	 * @param angle The angle to set.
-	 */
-	public void setAngle(int angle) {
-		this.angle = angle;
-	}
+  private int angle;
+
+  /**
+   * StarNodeValidation constructor.
+   *
+   * <p>Description
+   */
+  public AngleSizeValidation() {
+    super();
+    // TODO Auto-generated constructor stub
+  }
+
+  /**
+   * Check FeatureType for ...
+   *
+   * <p>Detailed description...
+   *
+   * @param layers Map of SimpleFeatureSource by "dataStoreID:typeName"
+   * @param envelope The bounding box that encloses the unvalidated data
+   * @param results Used to coallate results information
+   * @return <code>true</code> if all the features pass this test.
+   * @throws Exception DOCUMENT ME!
+   */
+  public boolean validate(Map layers, Envelope envelope, ValidationResults results)
+      throws Exception {
+    results.warning(null, "Validation not yet implemented");
+    // TODO fill me in!
+    return false;
+  }
+  /**
+   * Access angle property.
+   *
+   * @return Returns the angle.
+   */
+  public int getAngle() {
+    return angle;
+  }
+  /**
+   * Set angle to angle.
+   *
+   * @param angle The angle to set.
+   */
+  public void setAngle(int angle) {
+    this.angle = angle;
+  }
 }

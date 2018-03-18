@@ -16,32 +16,27 @@
  */
 package org.geotools.kml.bindings;
 
-import org.opengis.feature.simple.SimpleFeature;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.kml.KML;
 import org.geotools.kml.KMLTestSupport;
 import org.geotools.xml.Binding;
+import org.opengis.feature.simple.SimpleFeature;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class KmlTypeBindingTest extends KMLTestSupport {
-    public void testType() throws Exception {
-        assertEquals(FeatureCollection.class, binding(KML.KmlType).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(FeatureCollection.class, binding(KML.KmlType).getType());
+  }
 
-    public void testExecutionMode() throws Exception {
-        assertEquals(Binding.OVERRIDE, binding(KML.KmlType).getExecutionMode());
-    }
+  public void testExecutionMode() throws Exception {
+    assertEquals(Binding.OVERRIDE, binding(KML.KmlType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        String xml = "<kml>" + "<Document>" + "<name>document</name>" + "</Document>" + "</kml>";
-        buildDocument(xml);
+  public void testParse() throws Exception {
+    String xml = "<kml>" + "<Document>" + "<name>document</name>" + "</Document>" + "</kml>";
+    buildDocument(xml);
 
-        SimpleFeature document = (SimpleFeature) parse();
-        assertEquals("document", document.getAttribute("name"));
-    }
+    SimpleFeature document = (SimpleFeature) parse();
+    assertEquals("document", document.getAttribute("name"));
+  }
 }

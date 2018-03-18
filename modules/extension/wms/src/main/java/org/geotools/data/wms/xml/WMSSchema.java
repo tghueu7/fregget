@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -21,9 +21,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.Map;
-
 import javax.naming.OperationNotSupportedException;
-
 import org.geotools.data.wms.xml.WMSComplexTypes.LatitudeType;
 import org.geotools.data.wms.xml.WMSComplexTypes.LongitudeType;
 import org.geotools.data.wms.xml.WMSComplexTypes.OperationType;
@@ -114,31 +112,27 @@ import org.xml.sax.SAXException;
 
 /**
  * @author Richard Gould
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
- *
- *
+ *     <p>TODO To change the template for this generated type comment go to Window - Preferences -
+ *     Java - Code Style - Code Templates
  * @source $URL$
  */
 public class WMSSchema implements Schema {
 
-    private static Schema instance = new WMSSchema();
-    public static URI NAMESPACE = makeURI("http://www.opengis.net/wms");
-    
-    static final Element[] elements = new Element[] {
+  private static Schema instance = new WMSSchema();
+  public static URI NAMESPACE = makeURI("http://www.opengis.net/wms");
+
+  static final Element[] elements =
+      new Element[] {
         new WMSElement("WMS_Capabilities", _WMS_CapabilitiesType.getInstance()),
         new WMSElement("WMT_MS_Capabilities", _WMT_MS_CapabilitiesType.getInstance()),
-        
         new WMSElement("Name", XSISimpleTypes.String.getInstance()),
         new WMSElement("Title", XSISimpleTypes.String.getInstance()),
         new WMSElement("Abstract", XSISimpleTypes.String.getInstance()),
-        new WMSElement("KeywordList", _KeywordListType.getInstance()), 
+        new WMSElement("KeywordList", _KeywordListType.getInstance()),
         new WMSElement("Keyword", _KeywordType.getInstance()),
         new WMSElement("Keywords", _KeywordsType.getInstance()),
         new WMSElement("OnlineResource", _OnlineResourceType.getInstance()),
         new WMSElement("Format", _FormatType.getInstance()),
-        
         new WMSElement("Service", _ServiceType.getInstance()),
         new WMSElement("ContactInformation", _ContactInformationType.getInstance()),
         new WMSElement("ContactPersonPrimary", _ContactPersonPrimaryType.getInstance()),
@@ -155,42 +149,33 @@ public class WMSSchema implements Schema {
         new WMSElement("ContactVoiceTelephone", XSISimpleTypes.String.getInstance()),
         new WMSElement("ContactFacsimileTelephone", XSISimpleTypes.String.getInstance()),
         new WMSElement("ContactElectronicMailAddress", XSISimpleTypes.String.getInstance()),
-        
         new WMSElement("Fees", XSISimpleTypes.String.getInstance()),
         new WMSElement("AccessConstraints", XSISimpleTypes.String.getInstance()),
         new WMSElement("LayerLimit", XSISimpleTypes.PositiveInteger.getInstance()),
         new WMSElement("MaxWidth", XSISimpleTypes.PositiveInteger.getInstance()),
         new WMSElement("MaxHeight", XSISimpleTypes.PositiveInteger.getInstance()),
-        
         new WMSElement("Capability", _CapabilityType.getInstance()),
         new WMSElement("VendorSpecificCapabilities", _VendorSpecificCapabilitiesType.getInstance()),
         new WMSElement("UserDefinedSymbolization", _UserDefinedSymbolizationType.getInstance()),
         new WMSElement("SupportedSLDVersion", XSISimpleTypes.String.getInstance()),
         new WMSElement("Request", _RequestType.getInstance()),
-        
         new WMSElement("Capabilities", OperationType.getInstance()),
         new WMSElement("GetCapabilities", OperationType.getInstance()),
-        
         new WMSElement("Map", OperationType.getInstance()),
         new WMSElement("GetMap", OperationType.getInstance()),
-        
         new WMSElement("FeatureInfo", OperationType.getInstance()),
         new WMSElement("GetFeatureInfo", OperationType.getInstance()),
-        
         new WMSElement("DescribeLayer", OperationType.getInstance()),
         new WMSElement("GetLegendGraphic", OperationType.getInstance()),
         new WMSElement("GetStyles", OperationType.getInstance()),
         new WMSElement("PutStyles", OperationType.getInstance()),
-        new WMSElement("_ExtendedOperation", OperationType.getInstance()), //is abstract
-        
+        new WMSElement("_ExtendedOperation", OperationType.getInstance()), // is abstract
         new WMSElement("DCPType", _DCPTypeType.getInstance()),
         new WMSElement("HTTP", _HTTPType.getInstance()),
         new WMSElement("Get", _GetType.getInstance()),
         new WMSElement("Post", _PostType.getInstance()),
-                
         new WMSElement("Exception", _ExceptionType.getInstance()),
         new WMSElement("_ExtendedCapabilities", __ExtendedCapabilitiesType.getInstance()),
-        
         new WMSElement("Layer", _LayerType.getInstance()),
         new WMSElement("CRS", XSISimpleTypes.String.getInstance()),
         new WMSElement("EX_GeographicBoundingBox", _EX_GeographicBoundingBoxType.getInstance()),
@@ -217,8 +202,8 @@ public class WMSSchema implements Schema {
         new WMSElement("MaxScaleDenominator", XSISimpleTypes.Double.getInstance()),
         new WMSElement("ScaleHint", _ScaleHintType.getInstance()),
         new WMSElement("SRS", XSISimpleTypes.String.getInstance()),
-        
-        //1.0.0 format elements
+
+        // 1.0.0 format elements
         new WMSElement("GIF", _GIFType.getInstance()),
         new WMSElement("JPEG", _JPEGType.getInstance()),
         new WMSElement("PNG", _PNGType.getInstance()),
@@ -237,409 +222,415 @@ public class WMSSchema implements Schema {
         new WMSElement("INIMAGE", _INIMAGEType.getInstance()),
         new WMSElement("BLANK", _BLANKType.getInstance()),
         new WMSElement("CW_WKB", _CW_WKBType.getInstance()),
-        
         new WMSElement("WMS_DescribeLayerResponse", WMS_DescribeLayerResponse.getInstance()),
         new WMSElement("LayerDescription", _LayerDescription.getInstance()),
         new WMSElement("Query", _Query.getInstance()),
-        
-        //Service Exception stuff
+
+        // Service Exception stuff
         new WMSElement("WMTException", _WMTException.getInstance()),
         new WMSElement("ServiceExceptionReport", _ServiceExceptionReport.getInstance()),
         new WMSElement("ServiceException", _ServiceException.getInstance()),
-        
         new WMSElement(IgnoreHandler.NAME, new WMSSchema.WMSIgnoreType(), 0, Integer.MAX_VALUE)
-    };
-    
-    static final ComplexType[] complexTypes = new ComplexType[] {
-        OperationType.getInstance()
-    };
+      };
 
-    static final SimpleType[] simpleTypes = new SimpleType[] {
-        new SimpleTypeGT(null, "longitudeType", NAMESPACE, SimpleType.RESTRICTION,
-                new SimpleType[] { XSISimpleTypes.String.getInstance() },
-                	new Facet[] { 
-                		new FacetGT(Facet.MININCLUSIVE, "-180"),
-                		new FacetGT(Facet.MAXINCLUSIVE, "180") },
-                	SimpleType.NONE
-                ),
-                
-        new SimpleTypeGT(null, "latitudeType", NAMESPACE, SimpleType.RESTRICTION,
-                new SimpleType[] { XSISimpleTypes.String.getInstance() },
-                	new Facet[] { 
-                		new FacetGT(Facet.MININCLUSIVE, "-90"),
-                		new FacetGT(Facet.MAXINCLUSIVE, "90") },
-                SimpleType.NONE
-        ),
+  static final ComplexType[] complexTypes = new ComplexType[] {OperationType.getInstance()};
 
-    };
+  static final SimpleType[] simpleTypes =
+      new SimpleType[] {
+        new SimpleTypeGT(
+            null,
+            "longitudeType",
+            NAMESPACE,
+            SimpleType.RESTRICTION,
+            new SimpleType[] {XSISimpleTypes.String.getInstance()},
+            new Facet[] {
+              new FacetGT(Facet.MININCLUSIVE, "-180"), new FacetGT(Facet.MAXINCLUSIVE, "180")
+            },
+            SimpleType.NONE),
+        new SimpleTypeGT(
+            null,
+            "latitudeType",
+            NAMESPACE,
+            SimpleType.RESTRICTION,
+            new SimpleType[] {XSISimpleTypes.String.getInstance()},
+            new Facet[] {
+              new FacetGT(Facet.MININCLUSIVE, "-90"), new FacetGT(Facet.MAXINCLUSIVE, "90")
+            },
+            SimpleType.NONE),
+      };
 
-    public AttributeGroup[] getAttributeGroups() {
-        return new AttributeGroup[0];
+  public AttributeGroup[] getAttributeGroups() {
+    return new AttributeGroup[0];
+  }
+
+  public Attribute[] getAttributes() {
+    return new Attribute[0];
+  }
+
+  public int getBlockDefault() {
+    return NONE;
+  }
+
+  public ComplexType[] getComplexTypes() {
+    return complexTypes;
+  }
+
+  public Element[] getElements() {
+    return elements;
+  }
+
+  public int getFinalDefault() {
+    return NONE;
+  }
+
+  public Group[] getGroups() {
+    return new Group[0];
+  }
+
+  public String getId() {
+    return null;
+  }
+
+  private static Schema[] imports = new Schema[] {XLinkSchema.getInstance()};
+
+  public Schema[] getImports() {
+    return imports;
+  }
+
+  public String getPrefix() {
+    return "wms";
+  }
+
+  public SimpleType[] getSimpleTypes() {
+    return simpleTypes;
+  }
+
+  /* (non-Javadoc)
+   * @see org.geotools.xml.schema.Schema#getTargetNamespace()
+   */
+  public URI getTargetNamespace() {
+    return NAMESPACE;
+  }
+
+  /* (non-Javadoc)
+   * @see org.geotools.xml.schema.Schema#getURI()
+   */
+  public URI getURI() {
+    return NAMESPACE;
+  }
+
+  public String getVersion() {
+    return "1.3.0";
+  }
+
+  /* (non-Javadoc)
+   * @see org.geotools.xml.schema.Schema#includesURI(java.net.URI)
+   */
+  public boolean includesURI(URI uri) {
+    // We don't need to read the definition at all
+    // --this is a specification, it shouldn't change.
+    return true;
+  }
+
+  public boolean isAttributeFormDefault() {
+    return true;
+  }
+
+  public boolean isElementFormDefault() {
+    return true;
+  }
+
+  public static Schema getInstance() {
+    return instance;
+  }
+
+  /** Returns the implementation hints. The default implementation returns en empty map. */
+  public Map getImplementationHints() {
+    return Collections.EMPTY_MAP;
+  }
+
+  // convinience method to deal with the URISyntaxException
+  private static URI makeURI(String s) {
+    try {
+      return new URI(s);
+    } catch (URISyntaxException e) {
+      // do nothing
+      return null;
+    }
+  }
+
+  static class WMSElement implements Element {
+
+    private int max;
+    private int min;
+    private String name;
+    private Type type;
+
+    /**
+     * @param name
+     * @param type
+     */
+    public WMSElement(String name, Type type) {
+      super();
+      this.name = name;
+      this.type = type;
+      this.min = 1;
+      this.max = 1;
+    }
+    /**
+     * @param max
+     * @param min
+     * @param name
+     * @param type
+     */
+    public WMSElement(String name, Type type, int min, int max) {
+      super();
+      this.max = max;
+      this.min = min;
+      this.name = name;
+      this.type = type;
     }
 
-    public Attribute[] getAttributes() {
-        return new Attribute[0];
+    private WMSElement() {}
+
+    public boolean isAbstract() {
+      return false;
     }
 
-    public int getBlockDefault() {
-        return NONE;
+    public int getBlock() {
+      return NONE;
     }
 
-    public ComplexType[] getComplexTypes() {
-        return complexTypes;
+    public String getDefault() {
+      // TODO terminate
+      return null;
     }
 
-    public Element[] getElements() {
-        return elements;
+    public int getFinal() {
+      return NONE;
     }
 
-    public int getFinalDefault() {
-        return NONE;
+    public String getFixed() {
+      // TODO Terminate
+      return null;
     }
 
-    public Group[] getGroups() {
-        return new Group[0];
+    public boolean isForm() {
+      // TODO Terminate
+      return false;
     }
 
     public String getId() {
-        return null;
+      return null;
     }
 
-    private static Schema[] imports = new Schema[]{
-            XLinkSchema.getInstance()
-    };
-    public Schema[] getImports() {
-        return imports;
+    public int getMaxOccurs() {
+      // TODO Terminate
+      return max;
     }
 
-    public String getPrefix() {
-        return "wms";
+    public int getMinOccurs() {
+      // TODO Terminate
+      return min;
     }
 
-    public SimpleType[] getSimpleTypes() {
-        return simpleTypes;
+    public String getName() {
+      // TODO Terminate
+      return name;
+    }
+
+    public URI getNamespace() {
+      return NAMESPACE;
+    }
+
+    public boolean isNillable() {
+      // TODO Terminate
+      return false;
+    }
+
+    public Element getSubstitutionGroup() {
+      // TODO Terminate
+      return null;
+    }
+
+    public Type getType() {
+      // TODO Terminate
+      return type;
     }
 
     /* (non-Javadoc)
-     * @see org.geotools.xml.schema.Schema#getTargetNamespace()
+     * @see org.geotools.xml.schema.ElementGrouping#getGrouping()
      */
-    public URI getTargetNamespace() {
-        return NAMESPACE;
+    public int getGrouping() {
+      // TODO Auto-generated method stub
+      return ELEMENT;
     }
 
     /* (non-Javadoc)
-     * @see org.geotools.xml.schema.Schema#getURI()
+     * @see org.geotools.xml.schema.ElementGrouping#findChildElement(java.lang.String)
      */
-    public URI getURI() {
-        return NAMESPACE;
+    public Element findChildElement(String name) {
+      return (this.name != null && this.name.equals(name)) ? this : null;
     }
 
-    public String getVersion() {
-        return "1.3.0";
+    public Element findChildElement(String localName, URI namespaceURI) {
+      return (this.name != null
+              && this.name.equals(localName)
+              && getNamespace().equals(namespaceURI))
+          ? this
+          : null;
     }
+  }
+
+  abstract static class WMSComplexType implements ComplexType {
+
+    public Type getParent() {
+      return null;
+    }
+
+    public boolean isAbstract() {
+      return false;
+    }
+
+    public String getAnyAttributeNameSpace() {
+      return null;
+    }
+
+    public int getBlock() {
+      return NONE;
+    }
+
+    public int getFinal() {
+      return NONE;
+    }
+
+    public String getId() {
+      return null;
+    }
+
+    public boolean isMixed() {
+      return false;
+    }
+
+    public boolean isDerived() {
+      return false;
+    }
+
+    public boolean cache(Element element, Map hints) {
+      return true;
+    }
+
+    public URI getNamespace() {
+      return NAMESPACE;
+    }
+
+    public Element findChildElement(String name) {
+      return (getChild() == null) ? null : getChild().findChildElement(name);
+    }
+
+    protected boolean sameName(Element element, ElementValue value) {
+      return element.getName().equals(value.getElement().getName());
+    }
+  }
+
+  abstract static class WMSSimpleType implements SimpleType {
+
+    public int getFinal() {
+      return NONE;
+    }
+
+    public String getId() {
+      return null;
+    }
+
+    public boolean canCreateAttributes(Attribute attribute, Object value, Map hints) {
+      return false;
+    }
+
+    public URI getNamespace() {
+      return NAMESPACE;
+    }
+
+    public Element findChildElement(String name) {
+      return null;
+    }
+
+    public AttributeValue toAttribute(Attribute attribute, Object value, Map hints)
+        throws OperationNotSupportedException {
+      return new AttributeValueGT(attribute, value.toString());
+    }
+  }
+
+  static class WMSIgnoreType implements Type {
 
     /* (non-Javadoc)
-     * @see org.geotools.xml.schema.Schema#includesURI(java.net.URI)
+     * @see org.geotools.xml.schema.Type#canEncode(org.geotools.xml.schema.Element, java.lang.Object, java.util.Map)
      */
-    public boolean includesURI( URI uri ) {
-        //We don't need to read the definition at all
-        //--this is a specification, it shouldn't change.
-        return true;
+    public boolean canEncode(Element element, Object value, Map hints) {
+      // TODO Auto-generated method stub
+      return false;
     }
-
-    public boolean isAttributeFormDefault() {
-        return true;
-    }
-
-    public boolean isElementFormDefault() {
-        return true;
-    }
-    
-    public static Schema getInstance() {
-        return instance;
-    }
-
-    /**
-     * Returns the implementation hints. The default implementation returns en empty map.
+    /* (non-Javadoc)
+     * @see org.geotools.xml.schema.Type#encode(org.geotools.xml.schema.Element, java.lang.Object, org.geotools.xml.PrintHandler, java.util.Map)
      */
-    public Map getImplementationHints() {
-        return Collections.EMPTY_MAP;
+    public void encode(Element element, Object value, PrintHandler output, Map hints)
+        throws IOException, OperationNotSupportedException {
+      // TODO Auto-generated method stub
+
+    }
+    /* (non-Javadoc)
+     * @see org.geotools.xml.schema.Type#findChildElement(java.lang.String)
+     */
+    public Element findChildElement(String name) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    /* (non-Javadoc)
+     * @see org.geotools.xml.schema.Type#getInstanceType()
+     */
+    public Class getInstanceType() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    /* (non-Javadoc)
+     * @see org.geotools.xml.schema.Type#getName()
+     */
+    public String getName() {
+      // TODO Auto-generated method stub
+      return "Ignore";
+    }
+    /* (non-Javadoc)
+     * @see org.geotools.xml.schema.Type#getNamespace()
+     */
+    public URI getNamespace() {
+      return NAMESPACE;
+    }
+    /* (non-Javadoc)
+     * @see org.geotools.xml.schema.Type#getValue(org.geotools.xml.schema.Element, org.geotools.xml.schema.ElementValue[], org.xml.sax.Attributes, java.util.Map)
+     */
+    public Object getValue(Element element, ElementValue[] value, Attributes attrs, Map hints)
+        throws SAXException, OperationNotSupportedException {
+      // TODO Auto-generated method stub
+      return null;
+    }
+  }
+
+  static class WMSAttribute extends AttributeGT {
+
+    public WMSAttribute(
+        String id,
+        String name,
+        URI namespace,
+        SimpleType type,
+        int use,
+        String _default,
+        String fixed,
+        boolean form) {
+      super(id, name, namespace, type, use, _default, fixed, form);
     }
 
-    // convinience method to deal with the URISyntaxException
-    private static URI makeURI(String s) {
-        try {
-            return new URI(s);
-        } catch (URISyntaxException e) {
-            // do nothing
-            return null;
-        }
+    public WMSAttribute(String name, SimpleType simpleType) {
+      super(null, name, WMSSchema.NAMESPACE, simpleType, OPTIONAL, null, null, false);
     }
-    
-    static class WMSElement implements Element {
-        
-        private int max;
-        private int min;
-        private String name;
-        private Type type;
-
-        /**
-         * @param name
-         * @param type
-         */
-        public WMSElement( String name, Type type ) {
-            super();
-            this.name = name;
-            this.type = type;
-            this.min = 1;
-            this.max = 1;
-        }
-        /**
-         * @param max
-         * @param min
-         * @param name
-         * @param type
-         */
-        public WMSElement( String name, Type type, int min, int max ) {
-            super();
-            this.max = max;
-            this.min = min;
-            this.name = name;
-            this.type = type;
-        }
-        private WMSElement() {
-            
-        }
-
-        public boolean isAbstract() {
-            return false;
-        }
-
-        public int getBlock() {
-            return NONE;
-        }
-
-        public String getDefault() {
-            //TODO terminate
-            return null;
-        }
-
-        public int getFinal() {
-            return NONE;
-        }
-
-        public String getFixed() {
-            // TODO Terminate
-            return null;
-        }
-
-        public boolean isForm() {
-            // TODO Terminate
-            return false;
-        }
-
-        public String getId() {
-            return null;
-        }
-
-        public int getMaxOccurs() {
-            // TODO Terminate
-            return max;
-        }
-
-        public int getMinOccurs() {
-            // TODO Terminate
-            return min;
-        }
-
-        public String getName() {
-            // TODO Terminate
-            return name;
-        }
-
-        public URI getNamespace() {
-            return NAMESPACE;
-        }
-
-        public boolean isNillable() {
-            // TODO Terminate
-            return false;
-        }
-
-        public Element getSubstitutionGroup() {
-            // TODO Terminate
-            return null;
-        }
-
-        public Type getType() {
-            // TODO Terminate
-            return type;
-        }
-
-        /* (non-Javadoc)
-         * @see org.geotools.xml.schema.ElementGrouping#getGrouping()
-         */
-        public int getGrouping() {
-            // TODO Auto-generated method stub
-            return ELEMENT;
-        }
-
-        /* (non-Javadoc)
-         * @see org.geotools.xml.schema.ElementGrouping#findChildElement(java.lang.String)
-         */
-        public Element findChildElement( String name ) {
-            return (this.name!=null && this.name.equals(name))?this:null;
-        }
-		public Element findChildElement(String localName, URI namespaceURI) {
-            return (this.name!=null 
-            		&& this.name.equals(localName)
-            		&& getNamespace().equals(namespaceURI))?this:null;
-		}
-    }
-    
-    static abstract class WMSComplexType implements ComplexType {
-
-        public Type getParent() {
-            return null;
-        }
-
-        public boolean isAbstract() {
-            return false;
-        }
-
-        public String getAnyAttributeNameSpace() {
-            return null;
-        }
-
-        public int getBlock() {
-            return NONE;
-        }
-
-        public int getFinal() {
-            return NONE;
-        }
-        
-        public String getId() {
-            return null;
-        }
-
-        public boolean isMixed() {
-            return false;
-        }
-
-        public boolean isDerived() {
-            return false;
-        }
-
-        public boolean cache( Element element, Map hints ) {
-            return true;
-        }
-
-        public URI getNamespace() {
-            return NAMESPACE;
-        }
-
-        public Element findChildElement( String name ) {
-            return (getChild() == null) ? null : getChild().findChildElement(name);
-        }
-
-        protected boolean sameName( Element element, ElementValue value ) {
-            return element.getName().equals(value.getElement().getName());
-        }
-    }
-    
-    static abstract class WMSSimpleType implements SimpleType {
-
-        public int getFinal() {
-            return NONE;
-        }
-
-        public String getId() {
-            return null;
-        }
-
-        public boolean canCreateAttributes( Attribute attribute, Object value, Map hints ) {
-            return false;
-        }
-
-        public URI getNamespace() {
-            return NAMESPACE;
-        }
-
-        public Element findChildElement( String name ) {
-            return null;
-        }
-        
-        public AttributeValue toAttribute(Attribute attribute, Object value,
-                Map hints) throws OperationNotSupportedException {
-            return new AttributeValueGT(attribute, value.toString());
-        }
-    }
-    
-    static class WMSIgnoreType implements Type {
-       
-          /* (non-Javadoc)
-       * @see org.geotools.xml.schema.Type#canEncode(org.geotools.xml.schema.Element, java.lang.Object, java.util.Map)
-       */
-      public boolean canEncode(Element element, Object value, Map hints) {
-         // TODO Auto-generated method stub
-         return false;
-      }
-      /* (non-Javadoc)
-       * @see org.geotools.xml.schema.Type#encode(org.geotools.xml.schema.Element, java.lang.Object, org.geotools.xml.PrintHandler, java.util.Map)
-       */
-      public void encode(Element element, Object value, PrintHandler output, Map hints)
-            throws IOException, OperationNotSupportedException {
-         // TODO Auto-generated method stub
-
-      }
-      /* (non-Javadoc)
-       * @see org.geotools.xml.schema.Type#findChildElement(java.lang.String)
-       */
-      public Element findChildElement(String name) {
-         // TODO Auto-generated method stub
-         return null;
-      }
-      /* (non-Javadoc)
-       * @see org.geotools.xml.schema.Type#getInstanceType()
-       */
-      public Class getInstanceType() {
-         // TODO Auto-generated method stub
-         return null;
-      }
-      /* (non-Javadoc)
-       * @see org.geotools.xml.schema.Type#getName()
-       */
-      public String getName() {
-         // TODO Auto-generated method stub
-         return "Ignore";
-      }
-      /* (non-Javadoc)
-       * @see org.geotools.xml.schema.Type#getNamespace()
-       */
-      public URI getNamespace() {
-         return NAMESPACE;
-      }
-      /* (non-Javadoc)
-       * @see org.geotools.xml.schema.Type#getValue(org.geotools.xml.schema.Element, org.geotools.xml.schema.ElementValue[], org.xml.sax.Attributes, java.util.Map)
-       */
-      public Object getValue(Element element, ElementValue[] value, Attributes attrs, Map hints)
-            throws SAXException, OperationNotSupportedException {
-         // TODO Auto-generated method stub
-         return null;
-      }
-}
-    
-    
-    static class WMSAttribute extends AttributeGT {
-
-        public WMSAttribute( String id, String name, URI namespace, SimpleType type, int use, String _default, String fixed, boolean form ) {
-            super(id, name, namespace, type, use, _default, fixed, form);
-        }
-        
-        public WMSAttribute(String name, SimpleType simpleType) {
-            super(null, name, WMSSchema.NAMESPACE, simpleType, OPTIONAL, null,
-                null, false);
-        }
-    }
+  }
 }

@@ -16,20 +16,15 @@
  */
 package org.geotools.data.shapefile.files;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public final class BasicShpFileWriter implements FileWriter {
-    private String id;
+  private String id;
 
-    public BasicShpFileWriter( String id ) {
-        this.id = id;
-    }
+  public BasicShpFileWriter(String id) {
+    this.id = id;
+  }
 
-    public String id() {
-        return id;
-    }
+  public String id() {
+    return id;
+  }
 }

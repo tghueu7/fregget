@@ -18,59 +18,53 @@ package org.geotools.xml.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.geotools.xml.Binding;
 import org.geotools.xml.ComplexBinding;
 
-
 /**
- * Gets properties from a parent object by visiting bindings in the hierachy.
- * The object properties are stored as name, object tuples.
+ * Gets properties from a parent object by visiting bindings in the hierachy. The object properties
+ * are stored as name, object tuples.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class GetPropertiesExecutor implements BindingWalker.Visitor {
-    /** the parent object */
-    Object parent;
+  /** the parent object */
+  Object parent;
 
-    /** the parent element */
-    XSDElementDeclaration element;
-    
-    /** the properties */
-    List properties;
+  /** the parent element */
+  XSDElementDeclaration element;
 
-    public GetPropertiesExecutor(Object parent, XSDElementDeclaration element) {
-        this.parent = parent;
-        this.element = element;
-        properties = new ArrayList();
-    }
+  /** the properties */
+  List properties;
 
-    public List getProperties() {
-        return properties;
-    }
+  public GetPropertiesExecutor(Object parent, XSDElementDeclaration element) {
+    this.parent = parent;
+    this.element = element;
+    properties = new ArrayList();
+  }
 
-    public void visit(Binding binding) {
-        if (binding instanceof ComplexBinding) {
-            ComplexBinding complex = (ComplexBinding) binding;
+  public List getProperties() {
+    return properties;
+  }
 
-            try {
-                List properties = complex.getProperties(parent);
-                if ( properties == null || properties.isEmpty() ) {
-                    properties = complex.getProperties(parent, element);
-                }
-                if (properties != null) {
-                    this.properties.addAll(properties);
-                }
-            } catch (Exception e) {
-                String msg = "Failed to get properties. Binding for " + complex.getTarget();
-                throw new RuntimeException(msg, e);
-            }
+  public void visit(Binding binding) {
+    if (binding instanceof ComplexBinding) {
+      ComplexBinding complex = (ComplexBinding) binding;
+
+      try {
+        List properties = complex.getProperties(parent);
+        if (properties == null || properties.isEmpty()) {
+          properties = complex.getProperties(parent, element);
         }
+        if (properties != null) {
+          this.properties.addAll(properties);
+        }
+      } catch (Exception e) {
+        String msg = "Failed to get properties. Binding for " + complex.getTarget();
+        throw new RuntimeException(msg, e);
+      }
     }
+  }
 }

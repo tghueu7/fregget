@@ -22,16 +22,11 @@ import org.geotools.styling.StyleFactory;
 import org.geotools.xml.Configuration;
 import org.geotools.xml.test.XMLTestSupport;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public abstract class SLDTestSupport extends XMLTestSupport {
-    StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory();
+  StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory();
 
-    protected Configuration createConfiguration() {
-        return new SLDConfiguration();
-    }
+  protected Configuration createConfiguration() {
+    return new SLDConfiguration();
+  }
 }

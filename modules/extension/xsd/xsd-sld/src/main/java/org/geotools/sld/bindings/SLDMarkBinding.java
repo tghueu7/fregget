@@ -17,7 +17,6 @@
 package org.geotools.sld.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.styling.Fill;
 import org.geotools.styling.Mark;
 import org.geotools.styling.Stroke;
@@ -28,12 +27,12 @@ import org.geotools.xml.Node;
 import org.opengis.filter.FilterFactory;
 import org.picocontainer.MutablePicoContainer;
 
-
 /**
  * Binding object for the element http://www.opengis.net/sld:Mark.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Mark"&gt;
  *      &lt;xsd:annotation&gt;
@@ -51,80 +50,76 @@ import org.picocontainer.MutablePicoContainer;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDMarkBinding extends AbstractComplexBinding {
-    protected FilterFactory filterFactory;
-    protected StyleFactory styleFactory;
+  protected FilterFactory filterFactory;
+  protected StyleFactory styleFactory;
 
-    public SLDMarkBinding(StyleFactory styleFactory, FilterFactory filterFactory) {
-        this.styleFactory = styleFactory;
-        this.filterFactory = filterFactory;
+  public SLDMarkBinding(StyleFactory styleFactory, FilterFactory filterFactory) {
+    this.styleFactory = styleFactory;
+    this.filterFactory = filterFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return SLD.MARK;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Mark.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    String wkName = (String) node.getChildValue("WellKnownName");
+    Stroke stroke = (Stroke) node.getChildValue("Stroke");
+    Fill fill = (Fill) node.getChildValue("Fill");
+
+    Mark mark = styleFactory.createMark();
+
+    if (wkName != null) {
+      mark.setWellKnownName(filterFactory.literal(wkName));
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.MARK;
-    }
+    mark.setStroke(stroke);
+    mark.setFill(fill);
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Mark.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        String wkName = (String) node.getChildValue("WellKnownName");
-        Stroke stroke = (Stroke) node.getChildValue("Stroke");
-        Fill fill = (Fill) node.getChildValue("Fill");
-
-        Mark mark = styleFactory.createMark();
-
-        if (wkName != null) {
-            mark.setWellKnownName(filterFactory.literal(wkName));
-        }
-
-        mark.setStroke(stroke);
-        mark.setFill(fill);
-
-        return mark;
-    }
+    return mark;
+  }
 }

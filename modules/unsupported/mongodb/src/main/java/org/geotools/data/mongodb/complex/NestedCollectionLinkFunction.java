@@ -16,25 +16,23 @@
  */
 package org.geotools.data.mongodb.complex;
 
+import static org.geotools.filter.capability.FunctionNameImpl.parameter;
+
 import org.geotools.filter.FunctionExpressionImpl;
 import org.geotools.filter.capability.FunctionNameImpl;
 import org.opengis.filter.capability.FunctionName;
 
-import static org.geotools.filter.capability.FunctionNameImpl.parameter;
-
-/**
- * Function used to chain an entity with a sub collection.
- */
+/** Function used to chain an entity with a sub collection. */
 public final class NestedCollectionLinkFunction extends FunctionExpressionImpl {
 
-    private static final FunctionName DEFINITION = new FunctionNameImpl(
-            "nestedCollectionLink", parameter("value", String.class));
+  private static final FunctionName DEFINITION =
+      new FunctionNameImpl("nestedCollectionLink", parameter("value", String.class));
 
-    public NestedCollectionLinkFunction() {
-        super(DEFINITION);
-    }
+  public NestedCollectionLinkFunction() {
+    super(DEFINITION);
+  }
 
-    public Object evaluate(Object object) {
-        return null;
-    }
+  public Object evaluate(Object object) {
+    return null;
+  }
 }

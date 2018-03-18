@@ -18,23 +18,18 @@ package org.geotools.sld.bindings;
 
 import org.geotools.styling.NamedLayer;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDNamedLayerBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(NamedLayer.class, new SLDNamedLayerBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(NamedLayer.class, new SLDNamedLayerBinding(null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.namedLayer(document, document);
+  public void test() throws Exception {
+    SLDMockData.namedLayer(document, document);
 
-        NamedLayer layer = (NamedLayer) parse();
-        assertNotNull(layer);
+    NamedLayer layer = (NamedLayer) parse();
+    assertNotNull(layer);
 
-        assertEquals("theName", layer.getName());
-    }
+    assertEquals("theName", layer.getName());
+  }
 }

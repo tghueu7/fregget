@@ -16,8 +16,8 @@ package org.geotools.data.aggregate;
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-import java.io.Serializable;
 
+import java.io.Serializable;
 import org.opengis.feature.type.Name;
 
 /**
@@ -26,65 +26,58 @@ import org.opengis.feature.type.Name;
  * @source $URL$
  */
 public class SourceType implements Serializable {
-    private static final long serialVersionUID = -3739314811871903310L;
+  private static final long serialVersionUID = -3739314811871903310L;
 
-    Name storeName;
+  Name storeName;
 
-    String typeName;
+  String typeName;
 
-    /**
-     * Creates a new source feature type
-     * @param storeName The source store name
-     * @param typeName The source type name
-     */
-    public SourceType(Name storeName, String typeName) {
-        super();
-        this.storeName = storeName;
-        this.typeName = typeName;
-    }
+  /**
+   * Creates a new source feature type
+   *
+   * @param storeName The source store name
+   * @param typeName The source type name
+   */
+  public SourceType(Name storeName, String typeName) {
+    super();
+    this.storeName = storeName;
+    this.typeName = typeName;
+  }
 
-    public Name getStoreName() {
-        return storeName;
-    }
+  public Name getStoreName() {
+    return storeName;
+  }
 
-    public String getTypeName() {
-        return typeName;
-    }
+  public String getTypeName() {
+    return typeName;
+  }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((storeName == null) ? 0 : storeName.hashCode());
-        result = prime * result + ((typeName == null) ? 0 : typeName.hashCode());
-        return result;
-    }
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((storeName == null) ? 0 : storeName.hashCode());
+    result = prime * result + ((typeName == null) ? 0 : typeName.hashCode());
+    return result;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        SourceType other = (SourceType) obj;
-        if (storeName == null) {
-            if (other.storeName != null)
-                return false;
-        } else if (!storeName.equals(other.storeName))
-            return false;
-        if (typeName == null) {
-            if (other.typeName != null)
-                return false;
-        } else if (!typeName.equals(other.typeName))
-            return false;
-        return true;
-    }
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    SourceType other = (SourceType) obj;
+    if (storeName == null) {
+      if (other.storeName != null) return false;
+    } else if (!storeName.equals(other.storeName)) return false;
+    if (typeName == null) {
+      if (other.typeName != null) return false;
+    } else if (!typeName.equals(other.typeName)) return false;
+    return true;
+  }
 
-    @Override
-    public String toString() {
-        return "SourceType [sourceName=" + storeName + ", typeName=" + typeName + "]";
-    }
-
+  @Override
+  public String toString() {
+    return "SourceType [sourceName=" + storeName + ", typeName=" + typeName + "]";
+  }
 }

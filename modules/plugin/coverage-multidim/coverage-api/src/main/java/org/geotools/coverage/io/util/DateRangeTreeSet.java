@@ -19,33 +19,30 @@ package org.geotools.coverage.io.util;
 import java.util.Collection;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import org.geotools.util.DateRange;
 
 /**
  * A treeset implementation with a built-in comparator for DateRange objects
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 public class DateRangeTreeSet extends TreeSet<DateRange> {
 
-    private static final long serialVersionUID = -1613807310486642564L;
-    
-    static DateRangeComparator COMPARATOR = new DateRangeComparator();
+  private static final long serialVersionUID = -1613807310486642564L;
 
-    public DateRangeTreeSet() {
-        super(COMPARATOR);
-    }
+  static DateRangeComparator COMPARATOR = new DateRangeComparator();
 
-    public DateRangeTreeSet(Collection<? extends DateRange> c) {
-        super(COMPARATOR);
-        addAll(c);
-    }
+  public DateRangeTreeSet() {
+    super(COMPARATOR);
+  }
 
-    public DateRangeTreeSet(SortedSet<DateRange> s) {
-        super(COMPARATOR);
-        addAll(s);
-    }
+  public DateRangeTreeSet(Collection<? extends DateRange> c) {
+    super(COMPARATOR);
+    addAll(c);
+  }
 
+  public DateRangeTreeSet(SortedSet<DateRange> s) {
+    super(COMPARATOR);
+    addAll(s);
+  }
 }

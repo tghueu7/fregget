@@ -5,9 +5,8 @@ import org.geotools.xml.test.XMLTestSupport;
 
 public class FESTestSupport extends XMLTestSupport {
 
-    @Override
-    protected Configuration createConfiguration() {
-        return new FESConfiguration();
-    }
-
+  @Override
+  protected Configuration createConfiguration() {
+    return new FESConfiguration();
+  }
 }

@@ -26,12 +26,12 @@ import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-
 /**
  * Strategy object for the type http://mails/refractions/net:mailType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="mailType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -45,51 +45,45 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MLMailTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return ML.MAILTYPE;
+  /** @generated */
+  public QName getTarget() {
+    return ML.MAILTYPE;
+  }
+
+  public Class getType() {
+    return Mail.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Envelope envelope = (Envelope) node.getChildValue("envelope");
+    String body = (String) node.getChildValue("body");
+    BigInteger id = (BigInteger) node.getAttributeValue("id");
+
+    List atts = node.getChildValues("attachment");
+    Attachment[] attachments = (Attachment[]) atts.toArray(new Attachment[atts.size()]);
+
+    return new Mail(id, body, envelope, attachments);
+  }
+
+  @Override
+  public Object getProperty(Object object, QName name) throws Exception {
+    Mail m = (Mail) object;
+    if ("envelope".equals(name.getLocalPart())) {
+      return m.getEnvelope();
     }
 
-    public Class getType() {
-        return Mail.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Envelope envelope = (Envelope) node.getChildValue("envelope");
-        String body = (String) node.getChildValue("body");
-        BigInteger id = (BigInteger) node.getAttributeValue("id");
-
-        List atts = node.getChildValues("attachment");
-        Attachment[] attachments = (Attachment[]) atts.toArray(new Attachment[atts.size()]);
-
-        return new Mail(id, body, envelope, attachments);
-    }
-    
-    @Override
-    public Object getProperty(Object object, QName name) throws Exception {
-        Mail m = (Mail) object;
-        if ( "envelope".equals( name.getLocalPart() ) ) {
-            return m.getEnvelope();
-        }
-        
-        return null;
-    }
+    return null;
+  }
 }

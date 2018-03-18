@@ -17,8 +17,6 @@
 package org.geotools.jdbc;
 
 import java.io.IOException;
-
-import org.geotools.data.DataUtilities;
 import org.geotools.data.DefaultTransaction;
 import org.geotools.data.FeatureWriter;
 import org.geotools.data.Query;
@@ -30,92 +28,88 @@ import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public abstract class JDBCTransactionOnlineTest extends JDBCTestSupport {
-    public void testCommit() throws IOException {
-        //JDBCFeatureStore fs = (JDBCFeatureStore) dataStore.getFeatureSource(tname("ft1"));
+  public void testCommit() throws IOException {
+    // JDBCFeatureStore fs = (JDBCFeatureStore) dataStore.getFeatureSource(tname("ft1"));
 
-        try(Transaction tx = new DefaultTransaction();
-                FeatureWriter<SimpleFeatureType, SimpleFeature> writer = dataStore.getFeatureWriterAppend(tname("ft1"), tx)) {
-            SimpleFeature feature = writer.next();
-            feature.setAttribute(aname("intProperty"), new Integer(100));
-            writer.write();
-            writer.close();
-            tx.commit();
-        }
-        
-        SimpleFeatureCollection fc = dataStore.getFeatureSource(tname("ft1")).getFeatures();
-        assertEquals(4, fc.size());
+    try (Transaction tx = new DefaultTransaction();
+        FeatureWriter<SimpleFeatureType, SimpleFeature> writer =
+            dataStore.getFeatureWriterAppend(tname("ft1"), tx)) {
+      SimpleFeature feature = writer.next();
+      feature.setAttribute(aname("intProperty"), new Integer(100));
+      writer.write();
+      writer.close();
+      tx.commit();
     }
 
-    public void testNoCommit() throws IOException {
-        try (Transaction tx = new DefaultTransaction();
-                FeatureWriter<SimpleFeatureType, SimpleFeature> writer = dataStore
-                        .getFeatureWriterAppend(tname("ft1"), tx)) {
-            SimpleFeature feature = writer.next();
-            feature.setAttribute(aname("intProperty"), new Integer(100));
-            writer.write();
-            tx.rollback();
-        }
+    SimpleFeatureCollection fc = dataStore.getFeatureSource(tname("ft1")).getFeatures();
+    assertEquals(4, fc.size());
+  }
 
-        SimpleFeatureCollection fc = dataStore.getFeatureSource(tname("ft1")).getFeatures();
-        assertEquals(3, fc.size());
+  public void testNoCommit() throws IOException {
+    try (Transaction tx = new DefaultTransaction();
+        FeatureWriter<SimpleFeatureType, SimpleFeature> writer =
+            dataStore.getFeatureWriterAppend(tname("ft1"), tx)) {
+      SimpleFeature feature = writer.next();
+      feature.setAttribute(aname("intProperty"), new Integer(100));
+      writer.write();
+      tx.rollback();
     }
 
-    public void testConcurrentTransactions() throws IOException {
-        try (Transaction tx1 = new DefaultTransaction();
-                Transaction tx2 = new DefaultTransaction();
-                FeatureWriter<SimpleFeatureType, SimpleFeature> w1 = dataStore
-                        .getFeatureWriterAppend(tname("ft1"), tx1);
-                FeatureWriter<SimpleFeatureType, SimpleFeature> w2 = dataStore
-                        .getFeatureWriterAppend(tname("ft1"), tx2)) {
+    SimpleFeatureCollection fc = dataStore.getFeatureSource(tname("ft1")).getFeatures();
+    assertEquals(3, fc.size());
+  }
 
-            SimpleFeature f1 = w1.next();
-            SimpleFeature f2 = w2.next();
+  public void testConcurrentTransactions() throws IOException {
+    try (Transaction tx1 = new DefaultTransaction();
+        Transaction tx2 = new DefaultTransaction();
+        FeatureWriter<SimpleFeatureType, SimpleFeature> w1 =
+            dataStore.getFeatureWriterAppend(tname("ft1"), tx1);
+        FeatureWriter<SimpleFeatureType, SimpleFeature> w2 =
+            dataStore.getFeatureWriterAppend(tname("ft1"), tx2)) {
 
-            f1.setAttribute(aname("intProperty"), new Integer(100));
-            f2.setAttribute(aname("intProperty"), new Integer(101));
+      SimpleFeature f1 = w1.next();
+      SimpleFeature f2 = w2.next();
 
-            w1.write();
-            w2.write();
-            
-            w1.close();
-            w2.close();
+      f1.setAttribute(aname("intProperty"), new Integer(100));
+      f2.setAttribute(aname("intProperty"), new Integer(101));
 
-            tx1.commit();
-            tx2.commit();
-        }
+      w1.write();
+      w2.write();
 
-        SimpleFeatureCollection fc = dataStore.getFeatureSource(tname("ft1")).getFeatures();
-        assertEquals(5, fc.size());
+      w1.close();
+      w2.close();
+
+      tx1.commit();
+      tx2.commit();
     }
-    
-    public void testSerialTransactions() throws IOException {
-        SimpleFeatureStore st = (SimpleFeatureStore) dataStore.getFeatureSource( tname("ft1") );
-        
-        SimpleFeatureBuilder b = new SimpleFeatureBuilder(st.getSchema());
-        b.set(aname("intProperty"), new Integer(100));
-        SimpleFeature f1 = b.buildFeature(null);
-        DefaultFeatureCollection features = new DefaultFeatureCollection(null,null);
-        features.add( f1 );
 
-        try(Transaction tx1 = new DefaultTransaction()) {
-            st.setTransaction(tx1);
-            st.addFeatures( features );
-            tx1.commit();
-        }
-        assertEquals(4, dataStore.getFeatureSource(tname("ft1")).getCount(Query.ALL));
-        
-        try(Transaction tx2 = new DefaultTransaction()) {
-            st.setTransaction(tx2);
-            st.addFeatures( features );
-            tx2.commit();
-        }
-        assertEquals(5, dataStore.getFeatureSource(tname("ft1")).getCount(Query.ALL));
+    SimpleFeatureCollection fc = dataStore.getFeatureSource(tname("ft1")).getFeatures();
+    assertEquals(5, fc.size());
+  }
+
+  public void testSerialTransactions() throws IOException {
+    SimpleFeatureStore st = (SimpleFeatureStore) dataStore.getFeatureSource(tname("ft1"));
+
+    SimpleFeatureBuilder b = new SimpleFeatureBuilder(st.getSchema());
+    b.set(aname("intProperty"), new Integer(100));
+    SimpleFeature f1 = b.buildFeature(null);
+    DefaultFeatureCollection features = new DefaultFeatureCollection(null, null);
+    features.add(f1);
+
+    try (Transaction tx1 = new DefaultTransaction()) {
+      st.setTransaction(tx1);
+      st.addFeatures(features);
+      tx1.commit();
     }
+    assertEquals(4, dataStore.getFeatureSource(tname("ft1")).getCount(Query.ALL));
+
+    try (Transaction tx2 = new DefaultTransaction()) {
+      st.setTransaction(tx2);
+      st.addFeatures(features);
+      tx2.commit();
+    }
+    assertEquals(5, dataStore.getFeatureSource(tname("ft1")).getCount(Query.ALL));
+  }
 }

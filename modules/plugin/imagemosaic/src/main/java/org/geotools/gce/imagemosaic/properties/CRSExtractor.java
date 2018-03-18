@@ -20,47 +20,42 @@ package org.geotools.gce.imagemosaic.properties;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
 import org.geotools.coverage.grid.io.GridCoverage2DReader;
-import org.geotools.gce.imagemosaic.properties.PropertiesCollector;
-import org.geotools.gce.imagemosaic.properties.PropertiesCollectorSPI;
 import org.geotools.referencing.CRS;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-/**
- * Extract the CRS from the coverage in order to store in the index
- */
+/** Extract the CRS from the coverage in order to store in the index */
 public class CRSExtractor extends PropertiesCollector {
 
-    public static final String DEFAULT_ATTRIBUTE_NAME = "crs";
+  public static final String DEFAULT_ATTRIBUTE_NAME = "crs";
 
-    private String crsCode;
+  private String crsCode;
 
-    public CRSExtractor() {
-        this(new CRSExtractorSPI(), Collections.singletonList(DEFAULT_ATTRIBUTE_NAME));
-    }
+  public CRSExtractor() {
+    this(new CRSExtractorSPI(), Collections.singletonList(DEFAULT_ATTRIBUTE_NAME));
+  }
 
-    public CRSExtractor(PropertiesCollectorSPI spi, List<String> propertyNames) {
-        super(spi, propertyNames);
-    }
+  public CRSExtractor(PropertiesCollectorSPI spi, List<String> propertyNames) {
+    super(spi, propertyNames);
+  }
 
-    @Override
-    public void setProperties(SimpleFeature feature) {
-        feature.setAttribute(this.getPropertyNames().get(0), this.crsCode);
-    }
+  @Override
+  public void setProperties(SimpleFeature feature) {
+    feature.setAttribute(this.getPropertyNames().get(0), this.crsCode);
+  }
 
-    @Override
-    public void setProperties(Map<String, Object> map) {
-        getPropertyNames().forEach(propName -> map.put(propName, this.crsCode));
-    }
+  @Override
+  public void setProperties(Map<String, Object> map) {
+    getPropertyNames().forEach(propName -> map.put(propName, this.crsCode));
+  }
 
-    @Override
-    public PropertiesCollector collect(GridCoverage2DReader gridCoverageReader) {
+  @Override
+  public PropertiesCollector collect(GridCoverage2DReader gridCoverageReader) {
 
-        CoordinateReferenceSystem crs = gridCoverageReader.getCoordinateReferenceSystem();
-        crsCode = CRS.toSRS(crs, false);
+    CoordinateReferenceSystem crs = gridCoverageReader.getCoordinateReferenceSystem();
+    crsCode = CRS.toSRS(crs, false);
 
-        return this;
-    }
+    return this;
+  }
 }

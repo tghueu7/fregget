@@ -16,23 +16,20 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.LineString;
 import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.gml2.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.LineString;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:LineStringPropertyType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="LineStringPropertyType"&gt;
  *      &lt;annotation&gt;
@@ -52,49 +49,44 @@ import com.vividsolutions.jts.geom.LineString;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLLineStringPropertyTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.LINESTRINGPROPERTYTYPE;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return GML.LINESTRINGPROPERTYTYPE;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return LineString.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return LineString.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * Returns an object of type @link LineString
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return node.getChildValue( LineString.class );
-    }
-    
-    public Object getProperty(Object object, QName name) {
-        return GML2EncodingUtils.GeometryPropertyType_getProperty( (LineString) object, name, false );
-    }
-    
-    public List getProperties(Object object) throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperties( (LineString) object );
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * Returns an object of type @link LineString
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return node.getChildValue(LineString.class);
+  }
+
+  public Object getProperty(Object object, QName name) {
+    return GML2EncodingUtils.GeometryPropertyType_getProperty((LineString) object, name, false);
+  }
+
+  public List getProperties(Object object) throws Exception {
+    return GML2EncodingUtils.GeometryPropertyType_getProperties((LineString) object);
+  }
 }

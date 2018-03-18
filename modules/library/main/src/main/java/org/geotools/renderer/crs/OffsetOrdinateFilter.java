@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,29 +21,28 @@ import com.vividsolutions.jts.geom.CoordinateSequenceFilter;
 
 /**
  * Applies a static offset to the specified ordinate in all coordinates of the geometry
- * 
+ *
  * @author Andrea Aime - OpenGeo
  */
 class OffsetOrdinateFilter implements CoordinateSequenceFilter {
-    final double offset;
+  final double offset;
 
-    final int ordinateIndex;
+  final int ordinateIndex;
 
-    public OffsetOrdinateFilter(int ordinateIndex, double offset) {
-        this.ordinateIndex = ordinateIndex;
-        this.offset = offset;
-    }
+  public OffsetOrdinateFilter(int ordinateIndex, double offset) {
+    this.ordinateIndex = ordinateIndex;
+    this.offset = offset;
+  }
 
-    public void filter(CoordinateSequence seq, int i) {
-        seq.setOrdinate(i, ordinateIndex, seq.getOrdinate(i, ordinateIndex) + offset);
-    }
+  public void filter(CoordinateSequence seq, int i) {
+    seq.setOrdinate(i, ordinateIndex, seq.getOrdinate(i, ordinateIndex) + offset);
+  }
 
-    public boolean isDone() {
-        return false;
-    }
+  public boolean isDone() {
+    return false;
+  }
 
-    public boolean isGeometryChanged() {
-        return true;
-    }
-
+  public boolean isGeometryChanged() {
+    return true;
+  }
 }

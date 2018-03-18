@@ -16,15 +16,12 @@
  */
 package org.geotools.sld.bindings;
 
-import org.picocontainer.MutablePicoContainer;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import javax.xml.namespace.QName;
 import org.geotools.styling.ChannelSelection;
 import org.geotools.styling.SelectedChannelType;
 import org.geotools.styling.StyleFactory;
 import org.geotools.xml.*;
-
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:ChannelSelection.
@@ -55,76 +52,75 @@ import org.geotools.xml.*;
  * </code>
  *         </pre>
  *
- * </p>
- *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDChannelSelectionBinding extends AbstractComplexBinding {
-    StyleFactory styleFactory;
+  StyleFactory styleFactory;
 
-    public SLDChannelSelectionBinding(StyleFactory styleFactory) {
-        this.styleFactory = styleFactory;
+  public SLDChannelSelectionBinding(StyleFactory styleFactory) {
+    this.styleFactory = styleFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return SLD.CHANNELSELECTION;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return ChannelSelection.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+
+    ChannelSelection cs = styleFactory.createChannelSelection(null);
+
+    if (node.hasChild("GrayChannel")) {
+      cs.setGrayChannel((SelectedChannelType) node.getChildValue("GrayChannel"));
+    } else {
+      SelectedChannelType[] rgb =
+          new SelectedChannelType[] {
+            (SelectedChannelType) node.getChildValue("RedChannel"),
+            (SelectedChannelType) node.getChildValue("GreenChannel"),
+            (SelectedChannelType) node.getChildValue("BlueChannel")
+          };
+      cs.setRGBChannels(rgb);
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.CHANNELSELECTION;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return ChannelSelection.class;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        
-        ChannelSelection cs = styleFactory.createChannelSelection(null);
-        
-        if (node.hasChild("GrayChannel")) {
-            cs.setGrayChannel((SelectedChannelType) node.getChildValue("GrayChannel"));
-        }
-        else {
-            SelectedChannelType[] rgb = new SelectedChannelType[] {
-                (SelectedChannelType) node.getChildValue("RedChannel"),
-                (SelectedChannelType) node.getChildValue("GreenChannel"),
-                (SelectedChannelType) node.getChildValue("BlueChannel")
-            };
-            cs.setRGBChannels(rgb);
-        }
-        
-        return cs;
-    }
+    return cs;
+  }
 }

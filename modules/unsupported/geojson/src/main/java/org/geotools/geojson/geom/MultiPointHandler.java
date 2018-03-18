@@ -16,61 +16,55 @@
  */
 package org.geotools.geojson.geom;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.simple.parser.ParseException;
-
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.MultiPoint;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.json.simple.parser.ParseException;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class MultiPointHandler extends GeometryHandlerBase<MultiPoint> {
 
-    List<Coordinate> coordinates;
-    
-    public MultiPointHandler(GeometryFactory factory) {
-        super(factory);
+  List<Coordinate> coordinates;
+
+  public MultiPointHandler(GeometryFactory factory) {
+    super(factory);
+  }
+
+  @Override
+  public boolean startObjectEntry(String key) throws ParseException, IOException {
+    if ("coordinates".equals(key)) {
+      coordinates = new ArrayList();
+    }
+    return true;
+  }
+
+  @Override
+  public boolean startArray() throws ParseException, IOException {
+    if (ordinates == null) {
+      ordinates = new ArrayList();
     }
 
-    @Override
-    public boolean startObjectEntry(String key) throws ParseException, IOException {
-        if ("coordinates".equals(key)) {
-            coordinates = new ArrayList();
-        }
-        return true;
+    return true;
+  }
+
+  @Override
+  public boolean endArray() throws ParseException, IOException {
+    if (ordinates != null) {
+      coordinates.add(coordinate(ordinates));
+      ordinates = null;
     }
-    
-    @Override
-    public boolean startArray() throws ParseException, IOException {
-        if (ordinates == null) {
-            ordinates = new ArrayList();
-        }
-        
-        return true;
+    return true;
+  }
+
+  @Override
+  public boolean endObject() throws ParseException, IOException {
+    if (coordinates != null) {
+      value = factory.createMultiPoint(coordinates(coordinates));
+      coordinates = null;
     }
-    
-    @Override
-    public boolean endArray() throws ParseException, IOException {
-        if (ordinates != null) {
-            coordinates.add(coordinate(ordinates));
-            ordinates = null;
-        }
-        return true;
-    }
-    
-    @Override
-    public boolean endObject() throws ParseException, IOException {
-        if (coordinates != null) {
-            value = factory.createMultiPoint(coordinates(coordinates));
-            coordinates = null;
-        }
-        return true;
-    }
+    return true;
+  }
 }

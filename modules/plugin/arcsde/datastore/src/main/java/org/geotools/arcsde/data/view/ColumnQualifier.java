@@ -18,49 +18,47 @@
 package org.geotools.arcsde.data.view;
 
 import java.util.Map;
-
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
-
 import org.geotools.arcsde.session.ISession;
 
 /**
  * Qualifies a column name with the ArcSDE "table.user." prefix as required by the ArcSDE java api
  * to not get confused when using joined tables.
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
  * @version $Id$
  * @source $URL:
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/view/ColumnQualifier.java $
+ *     http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ *     /org/geotools/arcsde/data/view/ColumnQualifier.java $
  * @since 2.3.x
  */
 class ColumnQualifier {
 
-    public static Column qualify(ISession session, Map<String, Object> tableAliases, Column column) {
-        Table table = column.getTable();
+  public static Column qualify(ISession session, Map<String, Object> tableAliases, Column column) {
+    Table table = column.getTable();
 
-        String columnName = column.getColumnName();
+    String columnName = column.getColumnName();
 
-        Table unaliasedTable = (Table) tableAliases.get(table.getName());
+    Table unaliasedTable = (Table) tableAliases.get(table.getName());
 
-        Table qualifiedTable;
+    Table qualifiedTable;
 
-        if (unaliasedTable == null) {
-            // not an aliased table, qualify it
-            qualifiedTable = TableQualifier.qualify(session, table);
-        } else {
-            // AllTableColumns is refering to an aliased table in the FROM
-            // clause,
-            // replace its table by the original one to get rid of the alias
-            qualifiedTable = unaliasedTable;
-        }
-
-        Column qualifiedColumn = new Column();
-
-        qualifiedColumn.setColumnName(columnName);
-        qualifiedColumn.setTable(qualifiedTable);
-
-        return qualifiedColumn;
+    if (unaliasedTable == null) {
+      // not an aliased table, qualify it
+      qualifiedTable = TableQualifier.qualify(session, table);
+    } else {
+      // AllTableColumns is refering to an aliased table in the FROM
+      // clause,
+      // replace its table by the original one to get rid of the alias
+      qualifiedTable = unaliasedTable;
     }
+
+    Column qualifiedColumn = new Column();
+
+    qualifiedColumn.setColumnName(columnName);
+    qualifiedColumn.setTable(qualifiedTable);
+
+    return qualifiedColumn;
+  }
 }

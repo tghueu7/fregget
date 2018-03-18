@@ -17,59 +17,51 @@
 package org.geotools.data.directory;
 
 import java.io.IOException;
-
 import org.geotools.data.FeatureLock;
 import org.geotools.data.Query;
 import org.geotools.data.simple.SimpleFeatureLocking;
 import org.opengis.filter.Filter;
 
-/**
- * 
- *
- * @source $URL$
- */
-public class DirectoryFeatureLocking extends DirectoryFeatureStore implements
-        SimpleFeatureLocking {
+/** @source $URL$ */
+public class DirectoryFeatureLocking extends DirectoryFeatureStore implements SimpleFeatureLocking {
 
-    SimpleFeatureLocking flocking;
+  SimpleFeatureLocking flocking;
 
-    public DirectoryFeatureLocking(
-            SimpleFeatureLocking locking) {
-        super(locking);
-        this.flocking = locking;
-    }
+  public DirectoryFeatureLocking(SimpleFeatureLocking locking) {
+    super(locking);
+    this.flocking = locking;
+  }
 
-    public int lockFeatures() throws IOException {
-        return flocking.lockFeatures();
-    }
+  public int lockFeatures() throws IOException {
+    return flocking.lockFeatures();
+  }
 
-    public int lockFeatures(Filter filter) throws IOException {
-        return flocking.lockFeatures(filter);
-    }
+  public int lockFeatures(Filter filter) throws IOException {
+    return flocking.lockFeatures(filter);
+  }
 
-    public void setFeatureLock(FeatureLock lock) {
-        flocking.setFeatureLock(lock);
-    }
+  public void setFeatureLock(FeatureLock lock) {
+    flocking.setFeatureLock(lock);
+  }
 
-    public int lockFeatures(Query query) throws IOException {
-        return flocking.lockFeatures(query);
-    }
+  public int lockFeatures(Query query) throws IOException {
+    return flocking.lockFeatures(query);
+  }
 
-    public void unLockFeatures() throws IOException {
-        flocking.unLockFeatures();
-    }
+  public void unLockFeatures() throws IOException {
+    flocking.unLockFeatures();
+  }
 
-    public void unLockFeatures(Filter filter) throws IOException {
-        flocking.unLockFeatures(filter);
-    }
+  public void unLockFeatures(Filter filter) throws IOException {
+    flocking.unLockFeatures(filter);
+  }
 
-    public void unLockFeatures(Query query) throws IOException {
-        flocking.unLockFeatures(query);
-    }
-    
-    @Override
-    public SimpleFeatureLocking unwrap() {
-        return flocking;
-    }
+  public void unLockFeatures(Query query) throws IOException {
+    flocking.unLockFeatures(query);
+  }
 
+  @Override
+  public SimpleFeatureLocking unwrap() {
+    return flocking;
+  }
 }

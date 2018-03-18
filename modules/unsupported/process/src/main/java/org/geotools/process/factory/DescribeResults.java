@@ -1,4 +1,4 @@
- /*
+/*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
  *
@@ -23,10 +23,11 @@ import java.lang.annotation.Target;
 
 /**
  * Used to report multiple outputs out of a process
+ *
  * @author Andrea
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface DescribeResults {
-    DescribeResult[] value();
+  DescribeResult[] value();
 }

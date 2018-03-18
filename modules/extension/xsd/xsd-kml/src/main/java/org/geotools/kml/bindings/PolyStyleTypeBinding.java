@@ -26,12 +26,12 @@ import org.geotools.xml.Binding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:PolyStyleType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="PolyStyleType"&gt;
  *      &lt;complexContent&gt;
@@ -46,68 +46,63 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class PolyStyleTypeBinding extends AbstractComplexBinding {
-    StyleBuilder sb;
+  StyleBuilder sb;
 
-    public PolyStyleTypeBinding(StyleBuilder sb) {
-        this.sb = sb;
+  public PolyStyleTypeBinding(StyleBuilder sb) {
+    this.sb = sb;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return KML.PolyStyleType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return PolygonSymbolizer.class;
+  }
+
+  public int getExecutionMode() {
+    return Binding.AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Color color = (Color) value;
+    PolygonSymbolizer poly = sb.createPolygonSymbolizer();
+
+    Boolean fill = (Boolean) node.getChildValue("fill", Boolean.TRUE);
+    Boolean outline = (Boolean) node.getChildValue("outline", Boolean.TRUE);
+
+    if (fill) {
+      poly.setFill(sb.createFill(color));
+    } else {
+      poly.setFill(null);
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return KML.PolyStyleType;
+    if (outline) {
+      poly.setStroke(sb.createStroke());
+    } else {
+      poly.setStroke(null);
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return PolygonSymbolizer.class;
-    }
-
-    public int getExecutionMode() {
-        return Binding.AFTER;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Color color = (Color) value;
-        PolygonSymbolizer poly = sb.createPolygonSymbolizer();
-
-        Boolean fill = (Boolean) node.getChildValue("fill", Boolean.TRUE);
-        Boolean outline = (Boolean) node.getChildValue("outline", Boolean.TRUE);
-
-        if (fill) {
-            poly.setFill(sb.createFill(color));
-        } else {
-            poly.setFill(null);
-        }
-
-        if (outline) {
-            poly.setStroke(sb.createStroke());
-        } else {
-            poly.setStroke(null);
-        }
-
-        return poly;
-    }
+    return poly;
+  }
 }

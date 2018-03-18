@@ -20,7 +20,6 @@ import javax.measure.quantity.Length;
 import javax.measure.unit.NonSI;
 import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
-
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.filter.visitor.SimplifyingFilterVisitor;
 import org.geotools.util.Converters;
@@ -32,123 +31,123 @@ import org.opengis.filter.expression.Literal;
 import org.opengis.filter.expression.NilExpression;
 
 /**
- * Helper class that parses a measure with eventual local unit of measure and helps the
- * {@link RescalingMode} enumeration to perfom its scaling job
- * 
+ * Helper class that parses a measure with eventual local unit of measure and helps the {@link
+ * RescalingMode} enumeration to perfom its scaling job
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 class Measure {
 
-    static final FilterFactory ff = CommonFactoryFinder.getFilterFactory();
+  static final FilterFactory ff = CommonFactoryFinder.getFilterFactory();
 
-    Expression expression;
+  Expression expression;
 
-    Double value;
+  Double value;
 
-    Unit<Length> uom;
+  Unit<Length> uom;
 
-    Unit<Length> defaultUnit;
+  Unit<Length> defaultUnit;
 
-    public Measure(String value, Unit<Length> defaultUnit) {
-        setDefaultUnit(defaultUnit);
-        processLiteralExpression(value, defaultUnit);
-    }
+  public Measure(String value, Unit<Length> defaultUnit) {
+    setDefaultUnit(defaultUnit);
+    processLiteralExpression(value, defaultUnit);
+  }
 
-    public Measure(Expression unscaled, Unit<Length> defaultUnit) {
-        this.expression = unscaled;
-        setDefaultUnit(defaultUnit);
+  public Measure(Expression unscaled, Unit<Length> defaultUnit) {
+    this.expression = unscaled;
+    setDefaultUnit(defaultUnit);
+    this.uom = defaultUnit;
+    if (unscaled instanceof Literal) {
+      processLiteralExpression((Literal) unscaled, defaultUnit);
+    } else {
+      // see if we can still optimize
+      PropertyIsNull test = ff.isNull(unscaled);
+      Filter simplified = (Filter) test.accept(new SimplifyingFilterVisitor(), null);
+      if (simplified == Filter.INCLUDE) {
+        // special case, the expression was nil to start with
+        this.expression = NilExpression.NIL;
         this.uom = defaultUnit;
-        if (unscaled instanceof Literal) {
-            processLiteralExpression((Literal) unscaled, defaultUnit);
+      } else if (simplified instanceof PropertyIsNull) {
+        PropertyIsNull pin = (PropertyIsNull) simplified;
+        Expression se = pin.getExpression();
+        if (se instanceof Literal) {
+          processLiteralExpression((Literal) se, defaultUnit);
         } else {
-            // see if we can still optimize
-            PropertyIsNull test = ff.isNull(unscaled);
-            Filter simplified = (Filter) test.accept(new SimplifyingFilterVisitor(), null);
-            if (simplified == Filter.INCLUDE) {
-                // special case, the expression was nil to start with
-                this.expression = NilExpression.NIL;
-                this.uom = defaultUnit;
-            } else if (simplified instanceof PropertyIsNull) {
-                PropertyIsNull pin = (PropertyIsNull) simplified;
-                Expression se = pin.getExpression();
-                if (se instanceof Literal) {
-                    processLiteralExpression((Literal) se, defaultUnit);
-                } else {
-                    this.expression = se;
-                    this.uom = defaultUnit;
-                }
-            }
+          this.expression = se;
+          this.uom = defaultUnit;
         }
+      }
     }
+  }
 
-    private void setDefaultUnit(Unit<Length> defaultUnit) {
-        if (defaultUnit == null) {
-            this.defaultUnit = NonSI.PIXEL;
-        } else {
-            this.defaultUnit = defaultUnit;
-        }
+  private void setDefaultUnit(Unit<Length> defaultUnit) {
+    if (defaultUnit == null) {
+      this.defaultUnit = NonSI.PIXEL;
+    } else {
+      this.defaultUnit = defaultUnit;
     }
+  }
 
-    private void processLiteralExpression(Literal literal, Unit<Length> defaultUnit) {
-        // check if we have a uom attached at the end of the expression
-        String value = literal.evaluate(null, String.class);
-        if (value == null) {
-            // let it go without doing anything, it may be a ConstantExpression.NULL
-            return;
-        }
-        processLiteralExpression(value, defaultUnit);
+  private void processLiteralExpression(Literal literal, Unit<Length> defaultUnit) {
+    // check if we have a uom attached at the end of the expression
+    String value = literal.evaluate(null, String.class);
+    if (value == null) {
+      // let it go without doing anything, it may be a ConstantExpression.NULL
+      return;
     }
+    processLiteralExpression(value, defaultUnit);
+  }
 
-    private void processLiteralExpression(String value, Unit<Length> defaultUnit) {
-        Unit<Length> uom = defaultUnit;
-        String unitless = value;
+  private void processLiteralExpression(String value, Unit<Length> defaultUnit) {
+    Unit<Length> uom = defaultUnit;
+    String unitless = value;
 
-        if (value.endsWith("px")) {
-            unitless = value.substring(0, value.length() - 2);
-            uom = NonSI.PIXEL;
-        } else if (value.endsWith("ft")) {
-            unitless = value.substring(0, value.length() - 2);
-            uom = NonSI.FOOT;
-        } else if (value.endsWith("m")) {
-            unitless = value.substring(0, value.length() - 1);
-            uom = SI.METER;
-        }
-        Double measure = Converters.convert(unitless, Double.class);
-        if (measure == null) {
-            throw new IllegalArgumentException("Invalid measure '" + value
-                    + "', was expecting a number, eventually followed by px, m or ft");
-        }
-        this.expression = ff.literal(value);
-        this.value = measure;
-        this.uom = uom;
+    if (value.endsWith("px")) {
+      unitless = value.substring(0, value.length() - 2);
+      uom = NonSI.PIXEL;
+    } else if (value.endsWith("ft")) {
+      unitless = value.substring(0, value.length() - 2);
+      uom = NonSI.FOOT;
+    } else if (value.endsWith("m")) {
+      unitless = value.substring(0, value.length() - 1);
+      uom = SI.METER;
     }
-
-    /**
-     * Returns true if the uom is set and is not pixel
-     * 
-     * @return
-     */
-    boolean isRealWorldUnit() {
-        return uom != null && uom != NonSI.PIXEL;
+    Double measure = Converters.convert(unitless, Double.class);
+    if (measure == null) {
+      throw new IllegalArgumentException(
+          "Invalid measure '"
+              + value
+              + "', was expecting a number, eventually followed by px, m or ft");
     }
+    this.expression = ff.literal(value);
+    this.value = measure;
+    this.uom = uom;
+  }
 
-    /**
-     * Returns true if the uom is pixel within a symbolizer whose default unit is also pixel
-     * 
-     * @param measure
-     * @return
-     */
-    boolean isPixelInPixelDefault() {
-        return (uom == null || uom == defaultUnit)
-                && (defaultUnit == null || defaultUnit == NonSI.PIXEL);
-    }
+  /**
+   * Returns true if the uom is set and is not pixel
+   *
+   * @return
+   */
+  boolean isRealWorldUnit() {
+    return uom != null && uom != NonSI.PIXEL;
+  }
 
-    /**
-     * @return true, if the uom is a real world unit within a symbolizer whose default unit is pixel.
-     */
-    public boolean isRealWorldUnitInPixelDefault() {
-        return isRealWorldUnit() && (defaultUnit == null || defaultUnit == NonSI.PIXEL);
-    }
+  /**
+   * Returns true if the uom is pixel within a symbolizer whose default unit is also pixel
+   *
+   * @param measure
+   * @return
+   */
+  boolean isPixelInPixelDefault() {
+    return (uom == null || uom == defaultUnit)
+        && (defaultUnit == null || defaultUnit == NonSI.PIXEL);
+  }
 
+  /**
+   * @return true, if the uom is a real world unit within a symbolizer whose default unit is pixel.
+   */
+  public boolean isRealWorldUnitInPixelDefault() {
+    return isRealWorldUnit() && (defaultUnit == null || defaultUnit == NonSI.PIXEL);
+  }
 }

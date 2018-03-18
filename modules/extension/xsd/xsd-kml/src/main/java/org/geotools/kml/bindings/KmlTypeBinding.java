@@ -16,22 +16,20 @@
  */
 package org.geotools.kml.bindings;
 
-import java.util.List;
-
 import javax.xml.namespace.QName;
-import org.opengis.feature.simple.SimpleFeature;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.kml.KML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
-
+import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:KmlType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="KmlType"&gt;
  *      &lt;all&gt;
@@ -42,50 +40,45 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class KmlTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return KML.KmlType;
+  /** @generated */
+  public QName getTarget() {
+    return KML.KmlType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return FeatureCollection.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return node.getChildValue(SimpleFeature.class);
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    if (KML.Feature.getLocalPart().equals(name.getLocalPart())
+        || org.geotools.kml.v22.KML.AbstractFeatureGroup.getLocalPart()
+            .equals(name.getLocalPart())) {
+      return object;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return FeatureCollection.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return node.getChildValue(SimpleFeature.class);
-    }
-    
-    public Object getProperty(Object object, QName name) throws Exception {
-        if (KML.Feature.getLocalPart().equals(name.getLocalPart())
-                || org.geotools.kml.v22.KML.AbstractFeatureGroup.getLocalPart().equals(
-                        name.getLocalPart())) {
-            return object;
-        }
-        
-        return null;
-    }
+    return null;
+  }
 }

@@ -18,66 +18,62 @@
 package org.geotools.arcsde.data.view;
 
 import java.util.Map;
-
 import net.sf.jsqlparser.statement.select.ColumnReference;
 import net.sf.jsqlparser.statement.select.OrderByElement;
 import net.sf.jsqlparser.statement.select.OrderByVisitor;
-
 import org.geotools.arcsde.session.ISession;
 
 /**
  * Qualifies a column reference in an order by clause
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
  * @version $Id$
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/view/OrderByElementQualifier.java $
+ *     http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ *     /org/geotools/arcsde/data/view/OrderByElementQualifier.java $
  * @since 2.3.x
  */
 public class OrderByElementQualifier implements OrderByVisitor {
 
-    private OrderByElement _qualifiedOrderBy;
+  private OrderByElement _qualifiedOrderBy;
 
-    private ISession session;
+  private ISession session;
 
-    private Map<String, Object> tableAliases;
+  private Map<String, Object> tableAliases;
 
-    /**
-     * Creates a new OrderByElementQualifier object.
-     * 
-     * @param session
-     */
-    private OrderByElementQualifier(ISession session, Map<String, Object> tableAliases) {
-        this.session = session;
-        this.tableAliases = tableAliases;
+  /**
+   * Creates a new OrderByElementQualifier object.
+   *
+   * @param session
+   */
+  private OrderByElementQualifier(ISession session, Map<String, Object> tableAliases) {
+    this.session = session;
+    this.tableAliases = tableAliases;
+  }
+
+  public static OrderByElement qualify(
+      ISession session, Map<String, Object> tableAliases, OrderByElement orderBy) {
+    if (orderBy == null) {
+      return null;
     }
 
-    public static OrderByElement qualify(ISession session, Map<String, Object> tableAliases,
-            OrderByElement orderBy) {
-        if (orderBy == null) {
-            return null;
-        }
+    OrderByElementQualifier qualifier = new OrderByElementQualifier(session, tableAliases);
+    orderBy.accept(qualifier);
 
-        OrderByElementQualifier qualifier = new OrderByElementQualifier(session, tableAliases);
-        orderBy.accept(qualifier);
+    return qualifier._qualifiedOrderBy;
+  }
 
-        return qualifier._qualifiedOrderBy;
-    }
+  public void visit(OrderByElement orderBy) {
+    OrderByElement qualifiedOrderBy = new OrderByElement();
+    qualifiedOrderBy.setAsc(orderBy.isAsc());
 
-    public void visit(OrderByElement orderBy) {
-        OrderByElement qualifiedOrderBy = new OrderByElement();
-        qualifiedOrderBy.setAsc(orderBy.isAsc());
+    ColumnReference colRef = orderBy.getColumnReference();
 
-        ColumnReference colRef = orderBy.getColumnReference();
+    ColumnReference qualifiedColRef =
+        ColumnReferenceQualifier.qualify(session, tableAliases, colRef);
 
-        ColumnReference qualifiedColRef = ColumnReferenceQualifier.qualify(session, tableAliases,
-                colRef);
+    qualifiedOrderBy.setColumnReference(qualifiedColRef);
 
-        qualifiedOrderBy.setColumnReference(qualifiedColRef);
-
-        this._qualifiedOrderBy = qualifiedOrderBy;
-    }
+    this._qualifiedOrderBy = qualifiedOrderBy;
+  }
 }

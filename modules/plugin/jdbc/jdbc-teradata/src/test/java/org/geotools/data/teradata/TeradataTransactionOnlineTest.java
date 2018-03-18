@@ -16,28 +16,23 @@
  */
 package org.geotools.data.teradata;
 
+import java.io.IOException;
 import org.geotools.jdbc.JDBCTestSetup;
 import org.geotools.jdbc.JDBCTransactionOnlineTest;
 
-import java.io.IOException;
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class TeradataTransactionOnlineTest extends JDBCTransactionOnlineTest {
 
-    protected JDBCTestSetup createTestSetup() {
-        return new TeradataTestSetup();
-    }
+  protected JDBCTestSetup createTestSetup() {
+    return new TeradataTestSetup();
+  }
 
-    public void testConcurrentTransactions() throws IOException {
-        // TODO enable this
-    }
+  public void testConcurrentTransactions() throws IOException {
+    // TODO enable this
+  }
 
-    public void testSerialTransactions() throws IOException {
-        // Teradata will block
-        // TODO enable this
-    }
+  public void testSerialTransactions() throws IOException {
+    // Teradata will block
+    // TODO enable this
+  }
 }

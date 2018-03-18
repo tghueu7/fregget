@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,30 +21,28 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-
 import org.geotools.data.DataStore;
 import org.geotools.test.OnlineTestCase;
 
 public class SolrDataStoreTest extends OnlineTestCase {
 
-    public void testGetNames() throws IOException {
-        String url = fixture.getProperty(SolrDataStoreFactory.URL.key);
-        String field = "status_s";
+  public void testGetNames() throws IOException {
+    String url = fixture.getProperty(SolrDataStoreFactory.URL.key);
+    String field = "status_s";
 
-        Map params = new HashMap();
-        params.put(SolrDataStoreFactory.URL.key, url);
-        params.put(SolrDataStoreFactory.FIELD.key, field);
-        params.put(SolrDataStoreFactory.NAMESPACE.key, SolrDataStoreFactory.NAMESPACE.sample);
+    Map params = new HashMap();
+    params.put(SolrDataStoreFactory.URL.key, url);
+    params.put(SolrDataStoreFactory.FIELD.key, field);
+    params.put(SolrDataStoreFactory.NAMESPACE.key, SolrDataStoreFactory.NAMESPACE.sample);
 
-        SolrDataStoreFactory factory = new SolrDataStoreFactory();
-        DataStore dataStore = factory.createDataStore(params);
-        String[] typeNames = dataStore.getTypeNames();
-        assertTrue(new HashSet(Arrays.asList(typeNames)).contains(("active")));
-    }
+    SolrDataStoreFactory factory = new SolrDataStoreFactory();
+    DataStore dataStore = factory.createDataStore(params);
+    String[] typeNames = dataStore.getTypeNames();
+    assertTrue(new HashSet(Arrays.asList(typeNames)).contains(("active")));
+  }
 
-    @Override
-    protected String getFixtureId() {
-        return SolrDataStoreFactory.NAMESPACE.sample.toString();
-    }
-
+  @Override
+  protected String getFixtureId() {
+    return SolrDataStoreFactory.NAMESPACE.sample.toString();
+  }
 }

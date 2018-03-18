@@ -17,9 +17,7 @@
 package org.geotools.sld.bindings;
 
 import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.styling.Extent;
 import org.geotools.styling.FeatureTypeConstraint;
 import org.geotools.styling.StyleFactory;
@@ -29,12 +27,12 @@ import org.geotools.xml.Node;
 import org.opengis.filter.Filter;
 import org.picocontainer.MutablePicoContainer;
 
-
 /**
  * Binding object for the element http://www.opengis.net/sld:FeatureTypeConstraint.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="FeatureTypeConstraint"&gt;
  *      &lt;xsd:annotation&gt;
@@ -52,71 +50,67 @@ import org.picocontainer.MutablePicoContainer;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDFeatureTypeConstraintBinding extends AbstractComplexBinding {
-    StyleFactory styleFactory;
+  StyleFactory styleFactory;
 
-    public SLDFeatureTypeConstraintBinding(StyleFactory styleFactory) {
-        this.styleFactory = styleFactory;
-    }
+  public SLDFeatureTypeConstraintBinding(StyleFactory styleFactory) {
+    this.styleFactory = styleFactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.FEATURETYPECONSTRAINT;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return SLD.FEATURETYPECONSTRAINT;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return FeatureTypeConstraint.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return FeatureTypeConstraint.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        String featureTypeName = (String) node.getChildValue("FeatureTypeName");
-        Filter filter = (Filter) node.getChildValue("Filter");
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    String featureTypeName = (String) node.getChildValue("FeatureTypeName");
+    Filter filter = (Filter) node.getChildValue("Filter");
 
-        List extentList = node.getChildValues("Extent");
-        Extent[] extents = (Extent[]) extentList.toArray(new Extent[extentList.size()]);
+    List extentList = node.getChildValues("Extent");
+    Extent[] extents = (Extent[]) extentList.toArray(new Extent[extentList.size()]);
 
-        return styleFactory.createFeatureTypeConstraint(featureTypeName, filter, extents);
-    }
+    return styleFactory.createFeatureTypeConstraint(featureTypeName, filter, extents);
+  }
 }

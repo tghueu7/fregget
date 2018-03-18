@@ -21,70 +21,64 @@ import javax.xml.namespace.QName;
 import org.geotools.xs.TestSchema;
 import org.geotools.xs.XS;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class XSNonPositiveIntegerStrategyTest extends TestSchema {
-    /**
-     * nonPositiveInteger has a lexical representation consisting of an
-     * optional preceding sign followed by a finite-length sequence of
-     * decimal digits (#x30-#x39). The sign may be "+" or may be omitted
-     * only for lexical forms denoting zero; in all other lexical forms,
-     * the negative sign ("-") must be present.
-     *
-     * For example: -1, 0, -12678967543233, -100000.
-     * @throws Exception
-     *
-     */
-    public void validateValues(String text, Number expected)
-        throws Exception {
-        Object value = new BigInteger(text.trim());
+  /**
+   * nonPositiveInteger has a lexical representation consisting of an optional preceding sign
+   * followed by a finite-length sequence of decimal digits (#x30-#x39). The sign may be "+" or may
+   * be omitted only for lexical forms denoting zero; in all other lexical forms, the negative sign
+   * ("-") must be present.
+   *
+   * <p>For example: -1, 0, -12678967543233, -100000.
+   *
+   * @throws Exception
+   */
+  public void validateValues(String text, Number expected) throws Exception {
+    Object value = new BigInteger(text.trim());
 
-        Object result = strategy.parse(element(text, qname), value);
+    Object result = strategy.parse(element(text, qname), value);
 
-        if (!(result instanceof BigInteger) && result instanceof Number) {
-            result = BigInteger.valueOf(((Number) result).longValue());
-        }
-
-        assertEquals(integer(expected), integer(result));
+    if (!(result instanceof BigInteger) && result instanceof Number) {
+      result = BigInteger.valueOf(((Number) result).longValue());
     }
 
-    public BigInteger integer(Object value) {
-        return (value instanceof BigInteger) ? ((BigInteger) value)
-                                             : BigInteger.valueOf(((Number) value).longValue());
-    }
+    assertEquals(integer(expected), integer(result));
+  }
 
-    public Number number(String number) {
-        return BigInteger.valueOf(Integer.valueOf(number).longValue());
-    }
+  public BigInteger integer(Object value) {
+    return (value instanceof BigInteger)
+        ? ((BigInteger) value)
+        : BigInteger.valueOf(((Number) value).longValue());
+  }
 
-    /*
-     * Test method for 'org.geotools.xml.strategies.xs.XSNonPositiveIntegerStrategy.parse(Element, Node[], Object)'
-     */
-    public void testNegativeOne() throws Exception {
-        validateValues("-1", number("-1"));
-    }
+  public Number number(String number) {
+    return BigInteger.valueOf(Integer.valueOf(number).longValue());
+  }
 
-    public void testZero() throws Exception {
-        validateValues("0", number("0"));
-    }
+  /*
+   * Test method for 'org.geotools.xml.strategies.xs.XSNonPositiveIntegerStrategy.parse(Element, Node[], Object)'
+   */
+  public void testNegativeOne() throws Exception {
+    validateValues("-1", number("-1"));
+  }
 
-    public void testLargePositiveNumber() throws Exception {
-        try {
-            validateValues("-12678967543233", new BigInteger("-12678967543233"));
-        } catch (IllegalArgumentException expected) {
-            // yeah!
-        }
-    }
+  public void testZero() throws Exception {
+    validateValues("0", number("0"));
+  }
 
-    public void testNegativeNumber() throws Exception {
-        validateValues("-100000", new Integer("-100000"));
+  public void testLargePositiveNumber() throws Exception {
+    try {
+      validateValues("-12678967543233", new BigInteger("-12678967543233"));
+    } catch (IllegalArgumentException expected) {
+      // yeah!
     }
+  }
 
-    protected QName getQName() {
-        return XS.NONPOSITIVEINTEGER;
-    }
+  public void testNegativeNumber() throws Exception {
+    validateValues("-100000", new Integer("-100000"));
+  }
+
+  protected QName getQName() {
+    return XS.NONPOSITIVEINTEGER;
+  }
 }

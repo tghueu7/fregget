@@ -16,17 +16,17 @@
  */
 package org.geotools.ows.bindings;
 
-import net.opengis.ows10.Ows10Factory;
 import javax.xml.namespace.QName;
+import net.opengis.ows10.Ows10Factory;
 import org.geotools.ows.OWS;
 import org.geotools.xml.*;
-
 
 /**
  * Binding object for the type http://www.opengis.net/ows:ServiceType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;simpleType name="ServiceType"&gt;
  *      &lt;annotation&gt;
@@ -37,44 +37,38 @@ import org.geotools.xml.*;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class ServiceTypeBinding extends AbstractSimpleBinding {
-    public ServiceTypeBinding(Ows10Factory factory) {
-    }
+  public ServiceTypeBinding(Ows10Factory factory) {}
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OWS.ServiceType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return OWS.ServiceType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return null;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return null;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        //TODO: implement and remove call to super
-        return super.parse(instance, value);
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    // TODO: implement and remove call to super
+    return super.parse(instance, value);
+  }
 }

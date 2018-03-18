@@ -16,18 +16,17 @@
  */
 package org.geotools.gml3.bindings;
 
-import javax.xml.namespace.QName;
-
-import org.geotools.gml3.GML;
-import org.geotools.gml3.XSDIdRegistry;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
+import javax.xml.namespace.QName;
+import org.geotools.gml3.GML;
+import org.geotools.gml3.XSDIdRegistry;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:SurfacePropertyType.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *         <code>
  *  &lt;complexType name="SurfacePropertyType"&gt;
@@ -44,35 +43,27 @@ import com.vividsolutions.jts.geom.Polygon;
  *          &lt;/annotation&gt;
  *      &lt;/attributeGroup&gt;
  *  &lt;/complexType&gt;
- * 
+ *
  *          </code>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
- * 
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/extension/xsd/xsd-gml3/src/main/java/org
- *         /geotools/gml3/bindings/SurfacePropertyTypeBinding.java $
+ *     http://svn.osgeo.org/geotools/trunk/modules/extension/xsd/xsd-gml3/src/main/java/org
+ *     /geotools/gml3/bindings/SurfacePropertyTypeBinding.java $
  */
 public class SurfacePropertyTypeBinding extends GeometryPropertyTypeBindingBase {
 
-    public SurfacePropertyTypeBinding(GML3EncodingUtils encodingUtils, XSDIdRegistry idRegistry) {
-        super(encodingUtils, idRegistry);
-    }
+  public SurfacePropertyTypeBinding(GML3EncodingUtils encodingUtils, XSDIdRegistry idRegistry) {
+    super(encodingUtils, idRegistry);
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.SurfacePropertyType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return GML.SurfacePropertyType;
+  }
 
-    public Class<? extends Geometry> getGeometryType() {
-        return Polygon.class;
-    }
-
+  public Class<? extends Geometry> getGeometryType() {
+    return Polygon.class;
+  }
 }

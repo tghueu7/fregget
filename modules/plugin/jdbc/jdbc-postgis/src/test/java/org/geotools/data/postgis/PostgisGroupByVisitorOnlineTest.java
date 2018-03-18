@@ -20,8 +20,8 @@ import org.geotools.jdbc.JDBCGroupByVisitorOnlineTest;
 
 public class PostgisGroupByVisitorOnlineTest extends JDBCGroupByVisitorOnlineTest {
 
-    @Override
-    protected PostgisGroupByVisitorTestSetup createTestSetup() {
-        return new PostgisGroupByVisitorTestSetup(new PostGISTestSetup());
-    }
+  @Override
+  protected PostgisGroupByVisitorTestSetup createTestSetup() {
+    return new PostgisGroupByVisitorTestSetup(new PostGISTestSetup());
+  }
 }

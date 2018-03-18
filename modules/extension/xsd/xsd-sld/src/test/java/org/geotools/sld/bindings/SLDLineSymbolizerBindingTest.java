@@ -19,34 +19,29 @@ package org.geotools.sld.bindings;
 import org.geotools.styling.LineSymbolizer;
 import org.opengis.filter.expression.Function;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDLineSymbolizerBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(LineSymbolizer.class, new SLDLineSymbolizerBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(LineSymbolizer.class, new SLDLineSymbolizerBinding(null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.lineSymbolizer(document, document);
+  public void test() throws Exception {
+    SLDMockData.lineSymbolizer(document, document);
 
-        LineSymbolizer lineSymbolizer = (LineSymbolizer) parse();
-        assertNotNull(lineSymbolizer);
+    LineSymbolizer lineSymbolizer = (LineSymbolizer) parse();
+    assertNotNull(lineSymbolizer);
 
-        assertNotNull(lineSymbolizer.getStroke());
-    }
-    
-    public void testTransform() throws Exception {
-        SLDMockData.transformedLineSymbolizer(document, document);
+    assertNotNull(lineSymbolizer.getStroke());
+  }
 
-        LineSymbolizer lineSymbolizer = (LineSymbolizer) parse();
-        assertNotNull(lineSymbolizer);
-        assertNotNull(lineSymbolizer.getStroke());
-        assertNotNull(lineSymbolizer.getGeometry());
-        Function tx = (Function) lineSymbolizer.getGeometry();
-        assertEquals("buffer", tx.getName());
-    }
+  public void testTransform() throws Exception {
+    SLDMockData.transformedLineSymbolizer(document, document);
+
+    LineSymbolizer lineSymbolizer = (LineSymbolizer) parse();
+    assertNotNull(lineSymbolizer);
+    assertNotNull(lineSymbolizer.getStroke());
+    assertNotNull(lineSymbolizer.getGeometry());
+    Function tx = (Function) lineSymbolizer.getGeometry();
+    assertEquals("buffer", tx.getName());
+  }
 }

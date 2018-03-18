@@ -16,17 +16,17 @@
  */
 package org.geotools.filter.v1_1.capabilities;
 
-import org.w3c.dom.Document;
-import org.opengis.filter.capability.FilterCapabilities;
 import org.geotools.filter.v1_1.OGC;
 import org.geotools.xml.Binding;
-
+import org.opengis.filter.capability.FilterCapabilities;
+import org.w3c.dom.Document;
 
 /**
  * Binding test case for http://www.opengis.net/ogc:_Filter_Capabilities.
  *
  * <p>
- *  <pre>
+ *
+ * <pre>
  *   <code>
  *  &lt;xsd:complexType name="_Filter_Capabilities"&gt;
  *      &lt;xsd:sequence&gt;
@@ -38,39 +38,35 @@ import org.geotools.xml.Binding;
  *
  *    </code>
  *   </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class _Filter_CapabilitiesTypeBindingTest extends OGCTestSupport {
-    public void testType() {
-        assertEquals(FilterCapabilities.class, binding(OGC._Filter_Capabilities).getType());
-    }
+  public void testType() {
+    assertEquals(FilterCapabilities.class, binding(OGC._Filter_Capabilities).getType());
+  }
 
-    public void testExectionMode() {
-        assertEquals(Binding.OVERRIDE, binding(OGC._Filter_Capabilities).getExecutionMode());
-    }
+  public void testExectionMode() {
+    assertEquals(Binding.OVERRIDE, binding(OGC._Filter_Capabilities).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        FilterMockData.capabilities(document, document);
+  public void testParse() throws Exception {
+    FilterMockData.capabilities(document, document);
 
-        FilterCapabilities caps = (FilterCapabilities) parse();
+    FilterCapabilities caps = (FilterCapabilities) parse();
 
-        assertEquals(FilterCapabilities.VERSION_110, caps.getVersion());
-        assertNotNull(caps.getScalarCapabilities());
-        assertNotNull(caps.getSpatialCapabilities());
-        assertNotNull(caps.getIdCapabilities());
-    }
+    assertEquals(FilterCapabilities.VERSION_110, caps.getVersion());
+    assertNotNull(caps.getScalarCapabilities());
+    assertNotNull(caps.getSpatialCapabilities());
+    assertNotNull(caps.getIdCapabilities());
+  }
 
-    public void testEncode() throws Exception {
-        Document dom = encode(FilterMockData.capabilities(), OGC.Filter_Capabilities);
+  public void testEncode() throws Exception {
+    Document dom = encode(FilterMockData.capabilities(), OGC.Filter_Capabilities);
 
-        assertNotNull(dom.getElementsByTagNameNS(OGC.NAMESPACE, "Spatial_Capabilities"));
-        assertNotNull(dom.getElementsByTagNameNS(OGC.NAMESPACE, "Scalar_Capabilities"));
-        assertNotNull(dom.getElementsByTagNameNS(OGC.NAMESPACE, "Id_Capabilities"));
-    }
+    assertNotNull(dom.getElementsByTagNameNS(OGC.NAMESPACE, "Spatial_Capabilities"));
+    assertNotNull(dom.getElementsByTagNameNS(OGC.NAMESPACE, "Scalar_Capabilities"));
+    assertNotNull(dom.getElementsByTagNameNS(OGC.NAMESPACE, "Id_Capabilities"));
+  }
 }

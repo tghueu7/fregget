@@ -5,9 +5,8 @@ import org.geotools.jdbc.JDBCUuidTestSetup;
 
 public class SQLServerUuidOnlineTest extends JDBCUuidOnlineTest {
 
-    @Override
-    protected JDBCUuidTestSetup createTestSetup() {
-        return new SQLServerUuidTestSetup();
-    }
-
+  @Override
+  protected JDBCUuidTestSetup createTestSetup() {
+    return new SQLServerUuidTestSetup();
+  }
 }

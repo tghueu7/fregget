@@ -16,78 +16,73 @@
  */
 package org.geotools.xml.impl;
 
-
 /**
  * A simple thread safe buffer.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class Buffer {
-    static final int DEFAULT_SIZE = 1024;
-    Object[] buffer;
-    int in;
-    int out;
-    int size;
-    boolean closed;
+  static final int DEFAULT_SIZE = 1024;
+  Object[] buffer;
+  int in;
+  int out;
+  int size;
+  boolean closed;
 
-    public Buffer() {
-        this(DEFAULT_SIZE);
+  public Buffer() {
+    this(DEFAULT_SIZE);
+  }
+
+  public Buffer(int size) {
+    buffer = new Object[size];
+    in = 0;
+    out = 0;
+    size = 0;
+    closed = false;
+  }
+
+  public synchronized void put(Object object) {
+    while (size == buffer.length) {
+      try {
+        wait();
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+      }
     }
 
-    public Buffer(int size) {
-        buffer = new Object[size];
-        in = 0;
-        out = 0;
-        size = 0;
-        closed = false;
+    buffer[in++] = object;
+    in = (in == buffer.length) ? 0 : in;
+    size++;
+
+    notifyAll();
+  }
+
+  public synchronized Object get() {
+    while (size == 0) {
+      if (closed) {
+        return null;
+      }
+
+      try {
+        wait(100);
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+      }
     }
 
-    public synchronized void put(Object object) {
-        while (size == buffer.length) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+    Object object = buffer[out];
+    buffer[out++] = null;
+    out = (out == buffer.length) ? 0 : out;
+    size--;
 
-        buffer[in++] = object;
-        in = (in == buffer.length) ? 0 : in;
-        size++;
+    notifyAll();
 
-        notifyAll();
-    }
+    return object;
+  }
 
-    public synchronized Object get() {
-        while (size == 0) {
-            if (closed) {
-                return null;
-            }
-
-            try {
-                wait(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        Object object = buffer[out];
-        buffer[out++] = null;
-        out = (out == buffer.length) ? 0 : out;
-        size--;
-
-        notifyAll();
-
-        return object;
-    }
-
-    public synchronized void close() {
-        closed = true;
-        notifyAll();
-    }
+  public synchronized void close() {
+    closed = true;
+    notifyAll();
+  }
 }

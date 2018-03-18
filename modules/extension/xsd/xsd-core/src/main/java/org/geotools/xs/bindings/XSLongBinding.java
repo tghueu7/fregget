@@ -21,12 +21,12 @@ import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xs.XS;
 
-
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:long.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="long" id="long"&gt;
  *      &lt;xs:annotation&gt;
@@ -44,74 +44,71 @@ import org.geotools.xs.XS;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSLongBinding implements SimpleBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return XS.LONG;
+  /** @generated */
+  public QName getTarget() {
+    return XS.LONG;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link Long}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Long.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link Long}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    String text = (String) value;
+
+    if (text == null || text.length() == 0) {
+      return null;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return OVERRIDE;
+    if (text.charAt(0) == '+') {
+      text = text.substring(1);
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link Long}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Long.class;
-    }
+    return new Long(text);
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link Long}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        String text = (String) value;
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public String encode(Object object, String value) {
+    Long l = (Long) object;
 
-        if(text == null || text.length() == 0){
-            return null;
-        }
-
-        if (text.charAt(0) == '+') {
-            text = text.substring(1);
-        }
-
-        return new Long(text);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public String encode(Object object, String value) {
-        Long l = (Long) object;
-
-        return l.toString();
-    }
+    return l.toString();
+  }
 }

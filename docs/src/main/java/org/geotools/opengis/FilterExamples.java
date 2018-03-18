@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
-
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
@@ -19,7 +18,6 @@ import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.MultiValuedFilter.MatchAction;
 import org.opengis.filter.identity.FeatureId;
-import org.opengis.filter.identity.Identifier;
 import org.opengis.filter.identity.Version;
 import org.opengis.filter.identity.Version.Action;
 import org.opengis.temporal.Instant;
@@ -27,15 +25,15 @@ import org.opengis.temporal.Period;
 
 public class FilterExamples {
 
-public void includeExclude() {
+  public void includeExclude() {
     Filter filter;
     // includeExclude start
     filter = Filter.INCLUDE; // no filter provided! include everything
     filter = Filter.EXCLUDE; // no filter provided! exclude everything
     // includeExclude end
-}
+  }
 
-public void ffExample() {
+  public void ffExample() {
     // start ff example
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
     Filter filter;
@@ -66,9 +64,9 @@ public void ffExample() {
     // you can customise the wildcard characters used
     filter = ff.like(ff.property("code"), "2300?", "*", "?", "\\");
     // end ff example
-}
+  }
 
-public void nilExample() {
+  public void nilExample() {
     // start nil example
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
     Filter filter;
@@ -77,73 +75,77 @@ public void nilExample() {
     filter = ff.isNull(ff.property("approved"));
 
     // this example checks if approved exists at all
-    filter = ff.isNil(ff.property("approved"),"no approval available");
+    filter = ff.isNil(ff.property("approved"), "no approval available");
 
     // end nil example
-}
+  }
 
-public void id(){
+  public void id() {
     // id start
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
     Filter filter;
-    
-    filter = ff.id(ff.featureId("CITY.98734597823459687235"),
-                   ff.featureId("CITY.98734592345235823474"));
-    // id end
-}
 
-public void rid() throws Exception {
+    filter =
+        ff.id(ff.featureId("CITY.98734597823459687235"), ff.featureId("CITY.98734592345235823474"));
+    // id end
+  }
+
+  public void rid() throws Exception {
     // rid start
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
     Filter filter;
-    
-    // grab a specific revision
-    filter = ff.id( ff.featureId("CITY.98734597823459687235","A457") );
-    
-    // You can also use ResourceId to grab a specific revision
-    filter = ff.id( ff.resourceId("CITY.98734597823459687235","A457", new Version()) );
-    
-    // grab the one before that
-    filter = ff.id(ff.resourceId("CITY.98734597823459687235","A457",new Version(Action.PREVIOUS) ));
-    
-     // grab the one after that
-    filter = ff.id(ff.resourceId("CITY.98734597823459687235","A457",new Version(Action.NEXT) ));
-    
-     // grab the first one
-    filter = ff.id(ff.resourceId("CITY.98734597823459687235","A457",new Version(Action.FIRST) ));
-    
-    // grab the first one (ie index = 1 )
-    filter = ff.id(ff.resourceId("CITY.98734597823459687235","A457",new Version(1) ));
-    
-    // grab the twelfth record in the sequence (ie index = 12 )
-    filter = ff.id(ff.resourceId("CITY.98734597823459687235","A457",new Version(12) ));
-    
-    // Grab the entry close to Jan 1985
-    DateFormat df = DateFormat.getDateInstance( DateFormat.SHORT );
-    df.setTimeZone(TimeZone.getTimeZone("GMT"));
-    filter = ff.id(ff.resourceId("CITY.98734597823459687235","A457",new Version(df.parse("1985-1-1"))));
-    
-     // Grab all the entries in the 1990s
-    filter = ff.id(ff.resourceId("CITY.98734597823459687235",df.parse("1990-1-1"),df.parse("2000-1-1")));
-    
-    // rid end
-}
 
-public void idSet(){
+    // grab a specific revision
+    filter = ff.id(ff.featureId("CITY.98734597823459687235", "A457"));
+
+    // You can also use ResourceId to grab a specific revision
+    filter = ff.id(ff.resourceId("CITY.98734597823459687235", "A457", new Version()));
+
+    // grab the one before that
+    filter =
+        ff.id(ff.resourceId("CITY.98734597823459687235", "A457", new Version(Action.PREVIOUS)));
+
+    // grab the one after that
+    filter = ff.id(ff.resourceId("CITY.98734597823459687235", "A457", new Version(Action.NEXT)));
+
+    // grab the first one
+    filter = ff.id(ff.resourceId("CITY.98734597823459687235", "A457", new Version(Action.FIRST)));
+
+    // grab the first one (ie index = 1 )
+    filter = ff.id(ff.resourceId("CITY.98734597823459687235", "A457", new Version(1)));
+
+    // grab the twelfth record in the sequence (ie index = 12 )
+    filter = ff.id(ff.resourceId("CITY.98734597823459687235", "A457", new Version(12)));
+
+    // Grab the entry close to Jan 1985
+    DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+    df.setTimeZone(TimeZone.getTimeZone("GMT"));
+    filter =
+        ff.id(
+            ff.resourceId("CITY.98734597823459687235", "A457", new Version(df.parse("1985-1-1"))));
+
+    // Grab all the entries in the 1990s
+    filter =
+        ff.id(
+            ff.resourceId("CITY.98734597823459687235", df.parse("1990-1-1"), df.parse("2000-1-1")));
+
+    // rid end
+  }
+
+  public void idSet() {
     // idSet start
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
     Filter filter;
-    
+
     Set<FeatureId> selected = new HashSet<>();
     selected.add(ff.featureId("CITY.98734597823459687235"));
     selected.add(ff.featureId("CITY.98734592345235823474"));
-    
+
     filter = ff.id(selected);
     // idSet end
-}
+  }
 
-
-public void logical() {
+  public void logical() {
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
     Filter filter;
     // logical start
@@ -154,16 +156,20 @@ public void logical() {
     filter = ff.not(ff.like(ff.property("code"), "230%"));
 
     // you can also combine filters to narrow the results returned
-    filter = ff.and(ff.greater(ff.property("rainfall"), ff.literal(70)),
+    filter =
+        ff.and(
+            ff.greater(ff.property("rainfall"), ff.literal(70)),
             ff.equal(ff.property("land_use"), ff.literal("urban"), false));
 
-    filter = ff.or(ff.equal(ff.property("code"), ff.literal("approved")),
+    filter =
+        ff.or(
+            ff.equal(ff.property("code"), ff.literal("approved")),
             ff.greater(ff.property("funding"), ff.literal(23000)));
 
     // logical end
-}
+  }
 
-void temporal() throws Exception {
+  void temporal() throws Exception {
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
 
     // temporal start
@@ -182,12 +188,11 @@ void temporal() throws Exception {
     Instant temporalInstant2 = new DefaultInstant(new DefaultPosition(date2));
     Period period = new DefaultPeriod(temporalInstant, temporalInstant2);
 
-    Filter within = ff.toverlaps(ff.property("constructed_date"),
-            ff.literal(period));
+    Filter within = ff.toverlaps(ff.property("constructed_date"), ff.literal(period));
     // temporal end
-}
+  }
 
-void caseSensitive() throws Exception {
+  void caseSensitive() throws Exception {
     // caseSensitive start
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
 
@@ -195,70 +200,64 @@ void caseSensitive() throws Exception {
     Filter filter = ff.equal(ff.property("state"), ff.literal("queensland"));
 
     // You can override this default with matchCase = false
-    filter = ff.equal(ff.property("state"), ff.literal("new south wales"),
-            false);
+    filter = ff.equal(ff.property("state"), ff.literal("new south wales"), false);
 
     // All property comparisons allow you to control case sensitivity
-    Filter welcome = ff.greater(ff.property("zone"), ff.literal("danger"),
-            false);
+    Filter welcome = ff.greater(ff.property("zone"), ff.literal("danger"), false);
     // caseSensitive end
-}
+  }
 
-public void matchAction() {
+  public void matchAction() {
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
     Filter filter;
     // matchAction start
-    filter = ff.greater(ff.property("child/age"), ff.literal(12), true,
-            MatchAction.ALL);
+    filter = ff.greater(ff.property("child/age"), ff.literal(12), true, MatchAction.ALL);
     // matchAction end
-}
+  }
 
-public void matchActionAny() {
+  public void matchActionAny() {
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
     Filter filter;
     // matchActionAny start
-    List<Integer> ages = Arrays.asList(new Integer[] { 7, 8, 10, 15 });
+    List<Integer> ages = Arrays.asList(new Integer[] {7, 8, 10, 15});
 
-    filter = ff.greater(ff.literal(ages), ff.literal(12), false,
-            MatchAction.ANY);
+    filter = ff.greater(ff.literal(ages), ff.literal(12), false, MatchAction.ANY);
     System.out.println("Any: " + filter.evaluate(null)); // prints Any: true
     // matchActionAny end
-}
+  }
 
-public void matchActionAll() {
+  public void matchActionAll() {
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
     Filter filter;
     // matchActionAll start
-    List<Integer> ages = Arrays.asList(new Integer[] { 7, 8, 10, 15 });
+    List<Integer> ages = Arrays.asList(new Integer[] {7, 8, 10, 15});
 
-    filter = ff.greater(ff.literal(ages), ff.literal(12), false,
-            MatchAction.ALL);
+    filter = ff.greater(ff.literal(ages), ff.literal(12), false, MatchAction.ALL);
     System.out.println("All: " + filter.evaluate(null)); // prints All: false
     // matchActionAll end
-}
+  }
 
-public void matchActionOne() {
+  public void matchActionOne() {
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
     Filter filter;
     // matchActionOne start
-    List<Integer> ages = Arrays.asList(new Integer[] { 7, 8, 10, 15 });
+    List<Integer> ages = Arrays.asList(new Integer[] {7, 8, 10, 15});
 
-    filter = ff.greater(ff.literal(ages), ff.literal(12), false,
-            MatchAction.ONE);
+    filter = ff.greater(ff.literal(ages), ff.literal(12), false, MatchAction.ONE);
     System.out.println("One: " + filter.evaluate(null)); // prints One: true
     // matchActionOne end
-}
+  }
 
-public void bbox() {
+  public void bbox() {
     double x1 = 0;
     double x2 = 0;
     double y1 = 0;
     double y2 = 0;
-    
+
     // bbox start
     FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
-    ReferencedEnvelope bbox = new ReferencedEnvelope(x1, x2, y1, y2, DefaultGeographicCRS.WGS84 );
+    ReferencedEnvelope bbox = new ReferencedEnvelope(x1, x2, y1, y2, DefaultGeographicCRS.WGS84);
     Filter filter = ff.bbox(ff.property("the_geom"), bbox);
     // bbox end
-}
+  }
 }

@@ -9,28 +9,21 @@
  *************************************************************************************************/
 package org.geotools.geometry.jts.spatialschema.geometry.aggregate;
 
-import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.geometry.aggregate.MultiPoint;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-/**
- *
- *
- *
- *
- * @source $URL$
- */
-public class MultiPointImpl extends AggregateImpl 
-	implements MultiPoint {
+/** @source $URL$ */
+public class MultiPointImpl extends AggregateImpl implements MultiPoint {
 
-    public MultiPointImpl() {
-        this(null);
-    }
+  public MultiPointImpl() {
+    this(null);
+  }
 
-    public MultiPointImpl(final CoordinateReferenceSystem crs) {
-        super(crs);
-    }
+  public MultiPointImpl(final CoordinateReferenceSystem crs) {
+    super(crs);
+  }
 
-    public MultiPointImpl clone() {
-        return (MultiPointImpl) super.clone();
-    }
+  public MultiPointImpl clone() {
+    return (MultiPointImpl) super.clone();
+  }
 }

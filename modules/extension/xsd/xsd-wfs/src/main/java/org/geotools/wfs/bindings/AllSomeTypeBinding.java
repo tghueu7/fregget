@@ -17,10 +17,8 @@
 package org.geotools.wfs.bindings;
 
 import javax.xml.namespace.QName;
-
 import net.opengis.wfs.AllSomeType;
 import net.opengis.wfs.WfsFactory;
-
 import org.geotools.wfs.WFS;
 import org.geotools.xml.AbstractSimpleBinding;
 import org.geotools.xml.InstanceComponent;
@@ -28,9 +26,9 @@ import org.geotools.xml.impl.AttributeImpl;
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:AllSomeType.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *         <code>
  *  &lt;xsd:simpleType name=&quot;AllSomeType&quot;&gt;
@@ -41,47 +39,44 @@ import org.geotools.xml.impl.AttributeImpl;
  *  &lt;/xsd:simpleType&gt;
  * </code>
  *         </pre>
- * 
- * </p>
- * 
+ *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class AllSomeTypeBinding extends AbstractSimpleBinding {
-    private final WfsFactory factory;
+  private final WfsFactory factory;
 
-    public AllSomeTypeBinding(WfsFactory factory) {
-        this.factory = factory;
-    }
+  public AllSomeTypeBinding(WfsFactory factory) {
+    this.factory = factory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WFS.AllSomeType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return WFS.AllSomeType;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return AllSomeType.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return AllSomeType.class;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value) throws Exception {
-        AttributeImpl att = (AttributeImpl) instance;
-        String text = att.getText();
-        AllSomeType allSomeType = AllSomeType.get(text);
-        return allSomeType;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    AttributeImpl att = (AttributeImpl) instance;
+    String text = att.getText();
+    AllSomeType allSomeType = AllSomeType.get(text);
+    return allSomeType;
+  }
 }

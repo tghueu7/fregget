@@ -25,42 +25,42 @@ import org.opengis.feature.type.AttributeType;
 
 /**
  * Test ReferenceTypeBinding.
- * 
+ *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- * 
  * @source $URL$
  */
 public class ReferenceTypeBindingTest extends GML3TestSupport {
 
-    /**
-     * Make sure no xlink:href is created if id is not set.
-     * 
-     * @throws Exception
-     */
-    public void testXlinkHrefNull() throws Exception {
-        AttributeType attType = new AttributeTypeImpl(new NameImpl("someAttributeType"),
-                String.class, false, false, null, null, null);
-        AttributeImpl node = new AttributeImpl(null, attType, null);
-        ReferenceTypeBinding binding = new ReferenceTypeBinding();
-        Object xlink = binding.getProperty(node, XLINK.HREF);
-        assertNull(xlink);
-    }
+  /**
+   * Make sure no xlink:href is created if id is not set.
+   *
+   * @throws Exception
+   */
+  public void testXlinkHrefNull() throws Exception {
+    AttributeType attType =
+        new AttributeTypeImpl(
+            new NameImpl("someAttributeType"), String.class, false, false, null, null, null);
+    AttributeImpl node = new AttributeImpl(null, attType, null);
+    ReferenceTypeBinding binding = new ReferenceTypeBinding();
+    Object xlink = binding.getProperty(node, XLINK.HREF);
+    assertNull(xlink);
+  }
 
-    /**
-     * Test xlink:href returns gml:id.
-     * 
-     * @throws Exception
-     */
-    public void testXlinkHref() throws Exception {
-        AttributeType attType = new AttributeTypeImpl(new NameImpl("someAttributeType"),
-                String.class, false, false, null, null, null);
-        AttributeImpl node = new AttributeImpl(null, attType, null);
-        final String ID = "something";
-        node.getUserData().put("gml:id", ID);
-        ReferenceTypeBinding binding = new ReferenceTypeBinding();
-        Object xlink = binding.getProperty(node, XLINK.HREF);
-        assertNotNull(xlink);
-        assertEquals("#" + ID, xlink.toString());
-    }
-
+  /**
+   * Test xlink:href returns gml:id.
+   *
+   * @throws Exception
+   */
+  public void testXlinkHref() throws Exception {
+    AttributeType attType =
+        new AttributeTypeImpl(
+            new NameImpl("someAttributeType"), String.class, false, false, null, null, null);
+    AttributeImpl node = new AttributeImpl(null, attType, null);
+    final String ID = "something";
+    node.getUserData().put("gml:id", ID);
+    ReferenceTypeBinding binding = new ReferenceTypeBinding();
+    Object xlink = binding.getProperty(node, XLINK.HREF);
+    assertNotNull(xlink);
+    assertEquals("#" + ID, xlink.toString());
+  }
 }

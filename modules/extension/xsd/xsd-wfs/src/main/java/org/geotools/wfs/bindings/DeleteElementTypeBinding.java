@@ -17,22 +17,20 @@
 package org.geotools.wfs.bindings;
 
 import javax.xml.namespace.QName;
-
 import net.opengis.wfs.DeleteElementType;
 import net.opengis.wfs.WfsFactory;
-
 import org.geotools.wfs.WFS;
 import org.geotools.xml.AbstractComplexEMFBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 import org.opengis.filter.Filter;
 
-
 /**
  * Binding object for the type http://www.opengis.net/wfs:DeleteElementType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="DeleteElementType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -83,59 +81,54 @@ import org.opengis.filter.Filter;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class DeleteElementTypeBinding extends AbstractComplexEMFBinding {
-    WfsFactory wfsfactory;
+  WfsFactory wfsfactory;
 
-    public DeleteElementTypeBinding(WfsFactory wfsfactory) {
-        this.wfsfactory = wfsfactory;
+  public DeleteElementTypeBinding(WfsFactory wfsfactory) {
+    this.wfsfactory = wfsfactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return WFS.DeleteElementType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return DeleteElementType.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    DeleteElementType deleteElement = wfsfactory.createDeleteElementType();
+
+    // &lt;xsd:element maxOccurs="1" minOccurs="1" ref="ogc:Filter"&gt;
+    deleteElement.setFilter((Filter) node.getChildValue(Filter.class));
+
+    // &lt;xsd:attribute name="handle" type="xsd:string" use="optional"/&gt;
+    if (node.hasAttribute("handle")) {
+      deleteElement.setHandle((String) node.getAttributeValue("handle"));
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WFS.DeleteElementType;
-    }
+    // &lt;xsd:attribute name="typeName" type="xsd:QName" use="required"/&gt;
+    deleteElement.setTypeName((QName) node.getAttributeValue(QName.class));
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return DeleteElementType.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        DeleteElementType deleteElement = wfsfactory.createDeleteElementType();
-
-        //&lt;xsd:element maxOccurs="1" minOccurs="1" ref="ogc:Filter"&gt;
-        deleteElement.setFilter((Filter) node.getChildValue(Filter.class));
-
-        //&lt;xsd:attribute name="handle" type="xsd:string" use="optional"/&gt;
-        if (node.hasAttribute("handle")) {
-            deleteElement.setHandle((String) node.getAttributeValue("handle"));
-        }
-
-        //&lt;xsd:attribute name="typeName" type="xsd:QName" use="required"/&gt;
-        deleteElement.setTypeName((QName) node.getAttributeValue(QName.class));
-
-        return deleteElement;
-    }
+    return deleteElement;
+  }
 }

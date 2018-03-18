@@ -8,32 +8,30 @@ import org.geotools.map.MapContent;
 import org.geotools.map.MapViewport;
 
 /**
- *
  * @author michael
- *
  * @source $URL$
  */
 public class WaitingMapContent extends MapContent {
-    
-    public static enum Type {
-        BOUNDS,
-        SCREEN_AREA;
-    }
-    
-    public WaitingMapContent() {
-        viewport = new WaitingViewport();
-    }
 
-    @Override
-    public synchronized MapViewport getViewport() {
-        return viewport;
-    }
-    
-    public void setExpected(Type type) {
-        ((WaitingViewport) viewport).setExpected(type);
-    }
-    
-    public void await(Type type, long millisTimeout) {
-        ((WaitingViewport) viewport).await(type, millisTimeout);
-    }
+  public static enum Type {
+    BOUNDS,
+    SCREEN_AREA;
+  }
+
+  public WaitingMapContent() {
+    viewport = new WaitingViewport();
+  }
+
+  @Override
+  public synchronized MapViewport getViewport() {
+    return viewport;
+  }
+
+  public void setExpected(Type type) {
+    ((WaitingViewport) viewport).setExpected(type);
+  }
+
+  public void await(Type type, long millisTimeout) {
+    ((WaitingViewport) viewport).await(type, millisTimeout);
+  }
 }

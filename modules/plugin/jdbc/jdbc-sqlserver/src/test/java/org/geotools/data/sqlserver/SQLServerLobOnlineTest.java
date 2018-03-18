@@ -5,9 +5,8 @@ import org.geotools.jdbc.JDBCLobTestSetup;
 
 public class SQLServerLobOnlineTest extends JDBCLobOnlineTest {
 
-    @Override
-    protected JDBCLobTestSetup createTestSetup() {
-        return new SQLServerLobTestSetup(new SQLServerTestSetup());
-    }
-
+  @Override
+  protected JDBCLobTestSetup createTestSetup() {
+    return new SQLServerLobTestSetup(new SQLServerTestSetup());
+  }
 }

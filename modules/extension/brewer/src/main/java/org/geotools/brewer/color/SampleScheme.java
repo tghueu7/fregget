@@ -16,70 +16,63 @@
  */
 package org.geotools.brewer.color;
 
-
 /**
  * Number of samples that can be represented.
  *
  * @author James Macgill
- *
- *
  * @source $URL$
  */
 public class SampleScheme {
-    int[][] sampleScheme = new int[15][];
-    int minCount = -1;
-    int maxCount = -1;
+  int[][] sampleScheme = new int[15][];
+  int minCount = -1;
+  int maxCount = -1;
 
-    /**
-     * Creates a new instance of SampleScheme
-     */
-    public SampleScheme() {
+  /** Creates a new instance of SampleScheme */
+  public SampleScheme() {}
+
+  /**
+   * Indexed getter for property sampleScheme.
+   *
+   * @param length Index of the property.
+   * @return Value of the property at <CODE>index</CODE>.
+   */
+  public int[] getSampleScheme(int length) {
+    return this.sampleScheme[length - 2];
+  }
+
+  /**
+   * Indexed setter for property sampleScheme.
+   *
+   * @param length Index of the property.
+   * @param sampleScheme New value of the property at <CODE>index</CODE>.
+   */
+  public void setSampleScheme(int length, int[] sampleScheme) {
+    this.sampleScheme[length - 2] = sampleScheme;
+
+    if ((minCount == -1) || (minCount > length)) {
+      minCount = length;
     }
 
-    /**
-     * Indexed getter for property sampleScheme.
-     *
-     * @param length Index of the property.
-     *
-     * @return Value of the property at <CODE>index</CODE>.
-     */
-    public int[] getSampleScheme(int length) {
-        return this.sampleScheme[length - 2];
+    if ((maxCount == -1) || (maxCount < length)) {
+      maxCount = length;
     }
+  }
 
-    /**
-     * Indexed setter for property sampleScheme.
-     *
-     * @param length Index of the property.
-     * @param sampleScheme New value of the property at <CODE>index</CODE>.
-     */
-    public void setSampleScheme(int length, int[] sampleScheme) {
-        this.sampleScheme[length - 2] = sampleScheme;
+  /**
+   * Getter for the min colour count
+   *
+   * @return the smallest number of colours we have a scheme for
+   */
+  public int getMinCount() {
+    return minCount;
+  }
 
-        if ((minCount == -1) || (minCount > length)) {
-            minCount = length;
-        }
-
-        if ((maxCount == -1) || (maxCount < length)) {
-            maxCount = length;
-        }
-    }
-
-    /**
-     * Getter for the min colour count
-     *
-     * @return the smallest number of colours we have a scheme for
-     */
-    public int getMinCount() {
-        return minCount;
-    }
-
-    /**
-     * Getter for the max colour count
-     *
-     * @return the largest number of colours we have a scheme for
-     */
-    public int getMaxCount() {
-        return maxCount;
-    }
+  /**
+   * Getter for the max colour count
+   *
+   * @return the largest number of colours we have a scheme for
+   */
+  public int getMaxCount() {
+    return maxCount;
+  }
 }

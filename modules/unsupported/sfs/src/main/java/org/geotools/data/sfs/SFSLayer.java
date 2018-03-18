@@ -17,73 +17,74 @@
 
 package org.geotools.data.sfs;
 
+import com.vividsolutions.jts.geom.Envelope;
 import org.opengis.feature.type.Name;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-import com.vividsolutions.jts.geom.Envelope;
-
-/**
- * Stores a single layer information from the capabilities
- */
+/** Stores a single layer information from the capabilities */
 class SFSLayer {
 
-    Name typeName;
+  Name typeName;
 
-    boolean xyOrder;
+  boolean xyOrder;
 
-    String layerSRS;
+  String layerSRS;
 
-    CoordinateReferenceSystem coordinateReferenceSystem;
+  CoordinateReferenceSystem coordinateReferenceSystem;
 
-    Envelope bounds;
+  Envelope bounds;
 
-    public SFSLayer(Name typeName, boolean layerAxisOrder, String layerSRS,
-            CoordinateReferenceSystem crs, Envelope bounds) {
-        super();
-        this.typeName = typeName;
-        this.xyOrder = layerAxisOrder;
-        this.layerSRS = layerSRS;
-        this.coordinateReferenceSystem = crs;
-        this.bounds = bounds;
-    }
+  public SFSLayer(
+      Name typeName,
+      boolean layerAxisOrder,
+      String layerSRS,
+      CoordinateReferenceSystem crs,
+      Envelope bounds) {
+    super();
+    this.typeName = typeName;
+    this.xyOrder = layerAxisOrder;
+    this.layerSRS = layerSRS;
+    this.coordinateReferenceSystem = crs;
+    this.bounds = bounds;
+  }
 
-    public Name getTypeName() {
-        return typeName;
-    }
+  public Name getTypeName() {
+    return typeName;
+  }
 
-    public void setTypeName(Name typeName) {
-        this.typeName = typeName;
-    }
+  public void setTypeName(Name typeName) {
+    this.typeName = typeName;
+  }
 
-    public boolean isXYOrder() {
-        return xyOrder;
-    }
+  public boolean isXYOrder() {
+    return xyOrder;
+  }
 
-    public void setXyOrder(boolean layerAxisOrder) {
-        this.xyOrder = layerAxisOrder;
-    }
+  public void setXyOrder(boolean layerAxisOrder) {
+    this.xyOrder = layerAxisOrder;
+  }
 
-    public String getLayerSRS() {
-        return layerSRS;
-    }
+  public String getLayerSRS() {
+    return layerSRS;
+  }
 
-    public void setLayerSRS(String layerSRS) {
-        this.layerSRS = layerSRS;
-    }
+  public void setLayerSRS(String layerSRS) {
+    this.layerSRS = layerSRS;
+  }
 
-    public Envelope getBounds() {
-        return bounds;
-    }
+  public Envelope getBounds() {
+    return bounds;
+  }
 
-    public void setBounds(Envelope bounds) {
-        this.bounds = bounds;
-    }
+  public void setBounds(Envelope bounds) {
+    this.bounds = bounds;
+  }
 
-    public CoordinateReferenceSystem getCoordinateReferenceSystem() {
-        return coordinateReferenceSystem;
-    }
+  public CoordinateReferenceSystem getCoordinateReferenceSystem() {
+    return coordinateReferenceSystem;
+  }
 
-    public void setCoordinateReferenceSystem(CoordinateReferenceSystem coordinateReferenceSystem) {
-        this.coordinateReferenceSystem = coordinateReferenceSystem;
-    }
+  public void setCoordinateReferenceSystem(CoordinateReferenceSystem coordinateReferenceSystem) {
+    this.coordinateReferenceSystem = coordinateReferenceSystem;
+  }
 }

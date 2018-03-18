@@ -17,27 +17,22 @@
 package org.geotools.gml3;
 
 /**
- *
  * @author Erik van de Pol
- *
- *
  * @source $URL$
  */
 public class ArcParameters {
-    protected LinearizationTolerance linearizationTolerance;
+  protected LinearizationTolerance linearizationTolerance;
 
-    public ArcParameters() {
-        // default:
-        this.linearizationTolerance = new CircleRadiusTolerance(0.001);
-    }
+  public ArcParameters() {
+    // default:
+    this.linearizationTolerance = new CircleRadiusTolerance(0.001);
+  }
 
-    public ArcParameters(LinearizationTolerance linearizationTolerance) {
-        this.linearizationTolerance = linearizationTolerance;
-    }
+  public ArcParameters(LinearizationTolerance linearizationTolerance) {
+    this.linearizationTolerance = linearizationTolerance;
+  }
 
-    public LinearizationTolerance getLinearizationTolerance() {
-        return linearizationTolerance;
-    }
-
-
+  public LinearizationTolerance getLinearizationTolerance() {
+    return linearizationTolerance;
+  }
 }

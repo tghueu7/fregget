@@ -21,12 +21,12 @@ import org.geotools.kml.KML;
 import org.geotools.xml.AbstractSimpleBinding;
 import org.geotools.xml.InstanceComponent;
 
-
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:dateTimeType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;simpleType name="dateTimeType"&gt;
  *      &lt;union memberTypes="dateTime date gYearMonth gYear"/&gt;
@@ -34,41 +34,36 @@ import org.geotools.xml.InstanceComponent;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class DateTimeTypeBinding extends AbstractSimpleBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return KML.dateTimeType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return KML.dateTimeType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return null;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return null;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        //TODO: implement
-        return null;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    // TODO: implement
+    return null;
+  }
 }

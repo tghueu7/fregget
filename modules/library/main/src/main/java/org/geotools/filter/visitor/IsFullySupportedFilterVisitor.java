@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2018, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -18,7 +18,6 @@ package org.geotools.filter.visitor;
 
 import java.util.List;
 import java.util.Set;
-
 import org.opengis.filter.And;
 import org.opengis.filter.ExcludeFilter;
 import org.opengis.filter.Filter;
@@ -88,465 +87,456 @@ import org.opengis.filter.temporal.TEquals;
 import org.opengis.filter.temporal.TOverlaps;
 
 /**
- * This visitor will return Boolean.TRUE if the provided filter
- * is completely supported by the FilterCapabilities.
- * <p>
- * This method will look up the right information in the provided
- * FilterCapabilities instance for you depending on the type of filter
- * provided. It will do a deep structural search of the provided
- * filter ensuring every expression and function is accounted for
- * and supported by the provided FilterCapabilities.
- * <p>
- * Example:<pre><code>
+ * This visitor will return Boolean.TRUE if the provided filter is completely supported by the
+ * FilterCapabilities.
+ *
+ * <p>This method will look up the right information in the provided FilterCapabilities instance for
+ * you depending on the type of filter provided. It will do a deep structural search of the provided
+ * filter ensuring every expression and function is accounted for and supported by the provided
+ * FilterCapabilities.
+ *
+ * <p>Example:
+ *
+ * <pre><code>
  * boolean yes = filter.accepts( IsFullySupportedFilterVisitor( capabilities ), null );
  * </code></pre>
- * 
+ *
  * @author Jody Garnett (Refractions Research)
- *
- *
- *
  * @source $URL$
  */
 public class IsFullySupportedFilterVisitor implements FilterVisitor, ExpressionVisitor {
-    
-    private FilterCapabilities capabilities;
 
-    public IsFullySupportedFilterVisitor( FilterCapabilities capabilities ){
-        this.capabilities = capabilities;
+  private FilterCapabilities capabilities;
+
+  public IsFullySupportedFilterVisitor(FilterCapabilities capabilities) {
+    this.capabilities = capabilities;
+  }
+
+  /** INCLUDE and EXCLUDE are never supported */
+  public Object visit(ExcludeFilter filter, Object extraData) {
+    return false;
+  }
+  /** INCLUDE and EXCLUDE are never supported */
+  public Object visit(IncludeFilter filter, Object extraData) {
+    return false;
+  }
+
+  public Object visit(And filter, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null || !scalar.hasLogicalOperators()) {
+      return false;
     }
-    
-    /** INCLUDE and EXCLUDE are never supported */
-    public Object visit( ExcludeFilter filter, Object extraData ) {
+    List<Filter> children = filter.getChildren();
+    if (children == null) return false;
+    for (Filter child : children) {
+      boolean yes = (Boolean) child.accept(this, null);
+      if (!yes) return false;
+    }
+    return true;
+  }
+
+  public Object visit(Id filter, Object extraData) {
+    IdCapabilities idCapabilities = capabilities.getIdCapabilities();
+    if (idCapabilities == null) return false;
+
+    Set<Identifier> identifiers = filter.getIdentifiers();
+    if (identifiers == null) return null;
+    for (Identifier identifier : identifiers) {
+      if (identifier instanceof FeatureId && capabilities.getIdCapabilities().hasFID()) {
+        continue;
+      } else if (identifier instanceof ObjectId && capabilities.getIdCapabilities().hasEID()) {
+        continue;
+      } else {
         return false;
+      }
     }
-    /** INCLUDE and EXCLUDE are never supported */
-    public Object visit( IncludeFilter filter, Object extraData ) {
-        return false;
-    }
-     
-    public Object visit( And filter, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null || !scalar.hasLogicalOperators() ){
-            return false;
-        }
-        List<Filter> children = filter.getChildren();
-        if( children == null ) return false;
-        for( Filter child : children ){
-            boolean yes = (Boolean) child.accept( this, null );
-            if( !yes ) return false;
-        }
-        return true;
-    }
+    return true;
+  }
 
-    public Object visit( Id filter, Object extraData ) {
-        IdCapabilities idCapabilities = capabilities.getIdCapabilities();
-        if( idCapabilities == null ) return false;
-        
-        Set<Identifier> identifiers = filter.getIdentifiers();
-        if( identifiers == null ) return null;
-        for (Identifier identifier : identifiers ){
-            if( identifier instanceof FeatureId &&
-                capabilities.getIdCapabilities().hasFID() ){
-                continue;                
-            }
-            else if( identifier instanceof ObjectId &&
-                capabilities.getIdCapabilities().hasEID() ){
-                continue;
-            }
-            else {
-                return false;
-            }
-        }
-        return true;
+  public Object visit(Not filter, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null || !scalar.hasLogicalOperators()) {
+      return false;
     }
+    return (Boolean) filter.getFilter().accept(this, null);
+  }
 
-    public Object visit( Not filter, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null || !scalar.hasLogicalOperators() ){
-            return false;
-        }
-        return (Boolean) filter.getFilter().accept( this, null );
+  public Object visit(Or filter, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null || !scalar.hasLogicalOperators()) {
+      return false;
     }
+    List<Filter> children = filter.getChildren();
+    if (children == null) return false;
+    for (Filter child : children) {
+      boolean yes = (Boolean) child.accept(this, null);
+      if (!yes) return false;
+    }
+    return true;
+  }
 
-    public Object visit( Or filter, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null || !scalar.hasLogicalOperators() ){
-            return false;
-        }
-        List<Filter> children = filter.getChildren();
-        if( children == null ) return false;
-        for( Filter child : children ){
-            boolean yes = (Boolean) child.accept( this, null );
-            if( !yes ) return false;
-        }
-        return true;
-    }
+  public Object visit(PropertyIsBetween filter, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
 
-    public Object visit( PropertyIsBetween filter, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;
-        
-        ComparisonOperators operators = scalar.getComparisonOperators();
-        if( operators == null ) return false;
-        
-        if( operators.getOperator( PropertyIsBetween.NAME ) == null ) return false;
-        
-        return (Boolean) filter.getLowerBoundary().accept(this, null) && 
-               (Boolean) filter.getExpression().accept(this, null) &&
-               (Boolean) filter.getUpperBoundary().accept(this, null);        
-    }
+    ComparisonOperators operators = scalar.getComparisonOperators();
+    if (operators == null) return false;
 
-    public Object visit( PropertyIsEqualTo filter, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;
-        
-        ComparisonOperators operators = scalar.getComparisonOperators();
-        if( operators == null ) return false;
-        
-        if( operators.getOperator( PropertyIsEqualTo.NAME ) == null ) return false;
-        
-        return (Boolean) filter.getExpression1().accept(this,null) &&
-               (Boolean) filter.getExpression2().accept(this,null);
-    }
+    if (operators.getOperator(PropertyIsBetween.NAME) == null) return false;
 
-    public Object visit( PropertyIsNotEqualTo filter, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;
-        
-        ComparisonOperators operators = scalar.getComparisonOperators();
-        if( operators == null ) return false;
-        
-        if( operators.getOperator( PropertyIsNotEqualTo.NAME ) == null ) return false;
-        
-        return (Boolean) filter.getExpression1().accept(this,null) &&
-               (Boolean) filter.getExpression2().accept(this,null);
-    }
+    return (Boolean) filter.getLowerBoundary().accept(this, null)
+        && (Boolean) filter.getExpression().accept(this, null)
+        && (Boolean) filter.getUpperBoundary().accept(this, null);
+  }
 
-    public Object visit( PropertyIsGreaterThan filter, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;
-        
-        ComparisonOperators operators = scalar.getComparisonOperators();
-        if( operators == null ) return false;
-        
-        if( operators.getOperator( PropertyIsGreaterThan.NAME ) == null ) return false;
-        
-        return (Boolean) filter.getExpression1().accept(this,null) &&
-               (Boolean) filter.getExpression2().accept(this,null);
-    }
+  public Object visit(PropertyIsEqualTo filter, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
 
-    public Object visit( PropertyIsGreaterThanOrEqualTo filter, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;
-        
-        ComparisonOperators operators = scalar.getComparisonOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( PropertyIsGreaterThanOrEqualTo.NAME ) != null;
-    }
+    ComparisonOperators operators = scalar.getComparisonOperators();
+    if (operators == null) return false;
 
-    public Object visit( PropertyIsLessThan filter, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;
-        
-        ComparisonOperators operators = scalar.getComparisonOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( PropertyIsLessThan.NAME ) != null;
-    }
+    if (operators.getOperator(PropertyIsEqualTo.NAME) == null) return false;
 
-    public Object visit( PropertyIsLessThanOrEqualTo filter, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;
-        
-        ComparisonOperators operators = scalar.getComparisonOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( PropertyIsLessThanOrEqualTo.NAME ) != null;
-    }
+    return (Boolean) filter.getExpression1().accept(this, null)
+        && (Boolean) filter.getExpression2().accept(this, null);
+  }
 
-    public Object visit( PropertyIsLike filter, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;
-        
-        ComparisonOperators operators = scalar.getComparisonOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( PropertyIsLike.NAME ) != null;
-    }
+  public Object visit(PropertyIsNotEqualTo filter, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
 
-    public Object visit( PropertyIsNull filter, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;
-        
-        ComparisonOperators operators = scalar.getComparisonOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( PropertyIsNull.NAME ) != null;
-    }
+    ComparisonOperators operators = scalar.getComparisonOperators();
+    if (operators == null) return false;
 
-    public Object visit( PropertyIsNil filter, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;
-        
-        ComparisonOperators operators = scalar.getComparisonOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( PropertyIsNil.NAME ) != null;
-    }
+    if (operators.getOperator(PropertyIsNotEqualTo.NAME) == null) return false;
 
-    public Object visit( BBOX filter, Object extraData ) {
-        SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
-        if( spatial == null ) return false;
-        
-        SpatialOperators operators = spatial.getSpatialOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( BBOX.NAME ) != null;
-    }
+    return (Boolean) filter.getExpression1().accept(this, null)
+        && (Boolean) filter.getExpression2().accept(this, null);
+  }
 
-    public Object visit( Beyond filter, Object extraData ) {
-        SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
-        if( spatial == null ) return false;
-        
-        SpatialOperators operators = spatial.getSpatialOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( Beyond.NAME ) != null;
-    }
+  public Object visit(PropertyIsGreaterThan filter, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
 
-    public Object visit( Contains filter, Object extraData ) {
-        SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
-        if( spatial == null ) return false;
-        
-        SpatialOperators operators = spatial.getSpatialOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( Contains.NAME ) != null;
-    }
+    ComparisonOperators operators = scalar.getComparisonOperators();
+    if (operators == null) return false;
 
-    public Object visit( Crosses filter, Object extraData ) {
-        SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
-        if( spatial == null ) return false;
-        
-        SpatialOperators operators = spatial.getSpatialOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( Crosses.NAME ) != null;
-    }
+    if (operators.getOperator(PropertyIsGreaterThan.NAME) == null) return false;
 
-    public Object visit( Disjoint filter, Object extraData ) {
-        SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
-        if( spatial == null ) return false;
-        
-        SpatialOperators operators = spatial.getSpatialOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( Disjoint.NAME ) != null;
-    }
+    return (Boolean) filter.getExpression1().accept(this, null)
+        && (Boolean) filter.getExpression2().accept(this, null);
+  }
 
-    public Object visit( DWithin filter, Object extraData ) {
-        SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
-        if( spatial == null ) return false;
-        
-        SpatialOperators operators = spatial.getSpatialOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( DWithin.NAME ) != null;
-    }
+  public Object visit(PropertyIsGreaterThanOrEqualTo filter, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
 
-    public Object visit( Equals filter, Object extraData ) {
-        SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
-        if( spatial == null ) return false;
-        
-        SpatialOperators operators = spatial.getSpatialOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( Equals.NAME ) != null;
-    }
+    ComparisonOperators operators = scalar.getComparisonOperators();
+    if (operators == null) return false;
 
-    public Object visit( Intersects filter, Object extraData ) {
-        SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
-        if( spatial == null ) return false;
-        
-        SpatialOperators operators = spatial.getSpatialOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( Intersects.NAME ) != null;
-    }
+    return operators.getOperator(PropertyIsGreaterThanOrEqualTo.NAME) != null;
+  }
 
-    public Object visit( Overlaps filter, Object extraData ) {
-        SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
-        if( spatial == null ) return false;
-        
-        SpatialOperators operators = spatial.getSpatialOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( Overlaps.NAME ) != null;
-    }
+  public Object visit(PropertyIsLessThan filter, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
 
-    public Object visit( Touches filter, Object extraData ) {
-        SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
-        if( spatial == null ) return false;
-        
-        SpatialOperators operators = spatial.getSpatialOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( Touches.NAME ) != null;
-    }
+    ComparisonOperators operators = scalar.getComparisonOperators();
+    if (operators == null) return false;
 
-    public Object visit( Within filter, Object extraData ) {
-        SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
-        if( spatial == null ) return false;
-        
-        SpatialOperators operators = spatial.getSpatialOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator( Within.NAME ) != null;
-    }
+    return operators.getOperator(PropertyIsLessThan.NAME) != null;
+  }
 
-    public Object visitNullFilter( Object extraData ) {
-        return false;
-    }        
-    //
-    // Expressions
-    //
-    /** NilExpression is a placeholder and is never supported */
-    public Object visit( NilExpression expression, Object extraData ) {
-        return false;
-    }
-    
-    public Object visit( Add expression, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;        
-        
-        ArithmeticOperators operators = scalar.getArithmeticOperators();
-        if( operators == null ) return false;
-        
-        return operators.hasSimpleArithmetic();
-    }
+  public Object visit(PropertyIsLessThanOrEqualTo filter, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
 
-    public Object visit( Divide expression, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;        
-        
-        ArithmeticOperators operators = scalar.getArithmeticOperators();
-        if( operators == null ) return false;
-        
-        return operators.hasSimpleArithmetic();
-    }
+    ComparisonOperators operators = scalar.getComparisonOperators();
+    if (operators == null) return false;
 
-    public Object visit( Function function, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;        
-        
-        ArithmeticOperators operators = scalar.getArithmeticOperators();
-        if( operators == null ) return false;
-        
-        Functions functions = operators.getFunctions();
-        if( functions == null ) return false;
-        
-        // Note that only function name is checked here
-        FunctionName found = functions.getFunctionName( function.getName() );
-        // And that's enough to assess if the function is supported
-        return found != null; 
-    }
+    return operators.getOperator(PropertyIsLessThanOrEqualTo.NAME) != null;
+  }
 
-    public Object visit( Literal expression, Object extraData ) {
-        return true;
-    }
+  public Object visit(PropertyIsLike filter, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
 
-    public Object visit( Multiply expression, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;        
-        
-        ArithmeticOperators operators = scalar.getArithmeticOperators();
-        if( operators == null ) return false;
-        
-        return operators.hasSimpleArithmetic();
-    }
+    ComparisonOperators operators = scalar.getComparisonOperators();
+    if (operators == null) return false;
 
-    /**
-     * You can override this to perform a sanity check against a provided
-     * FeatureType.
-     */
-    public Object visit( PropertyName expression, Object extraData ) {
-        return true;
-    }
+    return operators.getOperator(PropertyIsLike.NAME) != null;
+  }
 
-    public Object visit( Subtract expression, Object extraData ) {
-        ScalarCapabilities scalar = capabilities.getScalarCapabilities();
-        if( scalar == null ) return false;        
-        
-        ArithmeticOperators operators = scalar.getArithmeticOperators();
-        if( operators == null ) return false;
-        
-        return operators.hasSimpleArithmetic();
-    }
+  public Object visit(PropertyIsNull filter, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
 
-    public Object visit(After after, Object extraData) {
-        return visit((BinaryTemporalOperator)after, After.NAME);
-    }
+    ComparisonOperators operators = scalar.getComparisonOperators();
+    if (operators == null) return false;
 
-    public Object visit(AnyInteracts anyInteracts, Object extraData) {
-        return visit((BinaryTemporalOperator)anyInteracts, AnyInteracts.NAME);
-    }
+    return operators.getOperator(PropertyIsNull.NAME) != null;
+  }
 
-    public Object visit(Before before, Object extraData) {
-        return visit((BinaryTemporalOperator)before, Before.NAME);
-    }
+  public Object visit(PropertyIsNil filter, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
 
-    public Object visit(Begins begins, Object extraData) {
-        return visit((BinaryTemporalOperator)begins, Begins.NAME);
-    }
+    ComparisonOperators operators = scalar.getComparisonOperators();
+    if (operators == null) return false;
 
-    public Object visit(BegunBy begunBy, Object extraData) {
-        return visit((BinaryTemporalOperator)begunBy, BegunBy.NAME);
-    }
+    return operators.getOperator(PropertyIsNil.NAME) != null;
+  }
 
-    public Object visit(During during, Object extraData) {
-        return visit((BinaryTemporalOperator)during, During.NAME);
-    }
+  public Object visit(BBOX filter, Object extraData) {
+    SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
+    if (spatial == null) return false;
 
-    public Object visit(EndedBy endedBy, Object extraData) {
-        return visit((BinaryTemporalOperator)endedBy, EndedBy.NAME);
-    }
+    SpatialOperators operators = spatial.getSpatialOperators();
+    if (operators == null) return false;
 
-    public Object visit(Ends ends, Object extraData) {
-        return visit((BinaryTemporalOperator)ends, Ends.NAME);
-    }
+    return operators.getOperator(BBOX.NAME) != null;
+  }
 
-    public Object visit(Meets meets, Object extraData) {
-        return visit((BinaryTemporalOperator)meets, Meets.NAME);
-    }
+  public Object visit(Beyond filter, Object extraData) {
+    SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
+    if (spatial == null) return false;
 
-    public Object visit(MetBy metBy, Object extraData) {
-        return visit((BinaryTemporalOperator)metBy, MetBy.NAME);
-    }
+    SpatialOperators operators = spatial.getSpatialOperators();
+    if (operators == null) return false;
 
-    public Object visit(OverlappedBy overlappedBy, Object extraData) {
-        return visit((BinaryTemporalOperator)overlappedBy, OverlappedBy.NAME);
-    }
+    return operators.getOperator(Beyond.NAME) != null;
+  }
 
-    public Object visit(TContains contains, Object extraData) {
-        return visit((BinaryTemporalOperator)contains, TContains.NAME);
-    }
+  public Object visit(Contains filter, Object extraData) {
+    SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
+    if (spatial == null) return false;
 
-    public Object visit(TEquals equals, Object extraData) {
-        return visit((BinaryTemporalOperator)equals, TEquals.NAME);
-    }
+    SpatialOperators operators = spatial.getSpatialOperators();
+    if (operators == null) return false;
 
-    public Object visit(TOverlaps contains, Object extraData) {
-        return visit((BinaryTemporalOperator)contains, TOverlaps.NAME);
-    }
-    
-    protected Object visit(BinaryTemporalOperator filter, Object data) {
-        TemporalCapabilities temporal = capabilities.getTemporalCapabilities();
-        if( temporal == null ) return false;
-        
-        TemporalOperators operators = temporal.getTemporalOperators();
-        if( operators == null ) return false;
-        
-        return operators.getOperator((String)data) != null;
-    }
+    return operators.getOperator(Contains.NAME) != null;
+  }
+
+  public Object visit(Crosses filter, Object extraData) {
+    SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
+    if (spatial == null) return false;
+
+    SpatialOperators operators = spatial.getSpatialOperators();
+    if (operators == null) return false;
+
+    return operators.getOperator(Crosses.NAME) != null;
+  }
+
+  public Object visit(Disjoint filter, Object extraData) {
+    SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
+    if (spatial == null) return false;
+
+    SpatialOperators operators = spatial.getSpatialOperators();
+    if (operators == null) return false;
+
+    return operators.getOperator(Disjoint.NAME) != null;
+  }
+
+  public Object visit(DWithin filter, Object extraData) {
+    SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
+    if (spatial == null) return false;
+
+    SpatialOperators operators = spatial.getSpatialOperators();
+    if (operators == null) return false;
+
+    return operators.getOperator(DWithin.NAME) != null;
+  }
+
+  public Object visit(Equals filter, Object extraData) {
+    SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
+    if (spatial == null) return false;
+
+    SpatialOperators operators = spatial.getSpatialOperators();
+    if (operators == null) return false;
+
+    return operators.getOperator(Equals.NAME) != null;
+  }
+
+  public Object visit(Intersects filter, Object extraData) {
+    SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
+    if (spatial == null) return false;
+
+    SpatialOperators operators = spatial.getSpatialOperators();
+    if (operators == null) return false;
+
+    return operators.getOperator(Intersects.NAME) != null;
+  }
+
+  public Object visit(Overlaps filter, Object extraData) {
+    SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
+    if (spatial == null) return false;
+
+    SpatialOperators operators = spatial.getSpatialOperators();
+    if (operators == null) return false;
+
+    return operators.getOperator(Overlaps.NAME) != null;
+  }
+
+  public Object visit(Touches filter, Object extraData) {
+    SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
+    if (spatial == null) return false;
+
+    SpatialOperators operators = spatial.getSpatialOperators();
+    if (operators == null) return false;
+
+    return operators.getOperator(Touches.NAME) != null;
+  }
+
+  public Object visit(Within filter, Object extraData) {
+    SpatialCapabilities spatial = capabilities.getSpatialCapabilities();
+    if (spatial == null) return false;
+
+    SpatialOperators operators = spatial.getSpatialOperators();
+    if (operators == null) return false;
+
+    return operators.getOperator(Within.NAME) != null;
+  }
+
+  public Object visitNullFilter(Object extraData) {
+    return false;
+  }
+  //
+  // Expressions
+  //
+  /** NilExpression is a placeholder and is never supported */
+  public Object visit(NilExpression expression, Object extraData) {
+    return false;
+  }
+
+  public Object visit(Add expression, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
+
+    ArithmeticOperators operators = scalar.getArithmeticOperators();
+    if (operators == null) return false;
+
+    return operators.hasSimpleArithmetic();
+  }
+
+  public Object visit(Divide expression, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
+
+    ArithmeticOperators operators = scalar.getArithmeticOperators();
+    if (operators == null) return false;
+
+    return operators.hasSimpleArithmetic();
+  }
+
+  public Object visit(Function function, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
+
+    ArithmeticOperators operators = scalar.getArithmeticOperators();
+    if (operators == null) return false;
+
+    Functions functions = operators.getFunctions();
+    if (functions == null) return false;
+
+    // Note that only function name is checked here
+    FunctionName found = functions.getFunctionName(function.getName());
+    // And that's enough to assess if the function is supported
+    return found != null;
+  }
+
+  public Object visit(Literal expression, Object extraData) {
+    return true;
+  }
+
+  public Object visit(Multiply expression, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
+
+    ArithmeticOperators operators = scalar.getArithmeticOperators();
+    if (operators == null) return false;
+
+    return operators.hasSimpleArithmetic();
+  }
+
+  /** You can override this to perform a sanity check against a provided FeatureType. */
+  public Object visit(PropertyName expression, Object extraData) {
+    return true;
+  }
+
+  public Object visit(Subtract expression, Object extraData) {
+    ScalarCapabilities scalar = capabilities.getScalarCapabilities();
+    if (scalar == null) return false;
+
+    ArithmeticOperators operators = scalar.getArithmeticOperators();
+    if (operators == null) return false;
+
+    return operators.hasSimpleArithmetic();
+  }
+
+  public Object visit(After after, Object extraData) {
+    return visit((BinaryTemporalOperator) after, After.NAME);
+  }
+
+  public Object visit(AnyInteracts anyInteracts, Object extraData) {
+    return visit((BinaryTemporalOperator) anyInteracts, AnyInteracts.NAME);
+  }
+
+  public Object visit(Before before, Object extraData) {
+    return visit((BinaryTemporalOperator) before, Before.NAME);
+  }
+
+  public Object visit(Begins begins, Object extraData) {
+    return visit((BinaryTemporalOperator) begins, Begins.NAME);
+  }
+
+  public Object visit(BegunBy begunBy, Object extraData) {
+    return visit((BinaryTemporalOperator) begunBy, BegunBy.NAME);
+  }
+
+  public Object visit(During during, Object extraData) {
+    return visit((BinaryTemporalOperator) during, During.NAME);
+  }
+
+  public Object visit(EndedBy endedBy, Object extraData) {
+    return visit((BinaryTemporalOperator) endedBy, EndedBy.NAME);
+  }
+
+  public Object visit(Ends ends, Object extraData) {
+    return visit((BinaryTemporalOperator) ends, Ends.NAME);
+  }
+
+  public Object visit(Meets meets, Object extraData) {
+    return visit((BinaryTemporalOperator) meets, Meets.NAME);
+  }
+
+  public Object visit(MetBy metBy, Object extraData) {
+    return visit((BinaryTemporalOperator) metBy, MetBy.NAME);
+  }
+
+  public Object visit(OverlappedBy overlappedBy, Object extraData) {
+    return visit((BinaryTemporalOperator) overlappedBy, OverlappedBy.NAME);
+  }
+
+  public Object visit(TContains contains, Object extraData) {
+    return visit((BinaryTemporalOperator) contains, TContains.NAME);
+  }
+
+  public Object visit(TEquals equals, Object extraData) {
+    return visit((BinaryTemporalOperator) equals, TEquals.NAME);
+  }
+
+  public Object visit(TOverlaps contains, Object extraData) {
+    return visit((BinaryTemporalOperator) contains, TOverlaps.NAME);
+  }
+
+  protected Object visit(BinaryTemporalOperator filter, Object data) {
+    TemporalCapabilities temporal = capabilities.getTemporalCapabilities();
+    if (temporal == null) return false;
+
+    TemporalOperators operators = temporal.getTemporalOperators();
+    if (operators == null) return false;
+
+    return operators.getOperator((String) data) != null;
+  }
 }

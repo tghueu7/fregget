@@ -16,35 +16,30 @@
  */
 package org.geotools.filter.v1_1;
 
-import org.w3c.dom.Document;
-import org.opengis.filter.sort.SortBy;
 import org.geotools.xml.Binding;
+import org.opengis.filter.sort.SortBy;
+import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SortByTypeBindingTest extends FilterTestSupport {
-    public void testType() {
-        assertEquals(SortBy[].class, binding(OGC.SortByType).getType());
-    }
+  public void testType() {
+    assertEquals(SortBy[].class, binding(OGC.SortByType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(OGC.SortByType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(OGC.SortByType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        FilterMockData.sortBy(document, document);
+  public void testParse() throws Exception {
+    FilterMockData.sortBy(document, document);
 
-        SortBy[] sortBy = (SortBy[]) parse();
+    SortBy[] sortBy = (SortBy[]) parse();
 
-        assertEquals(2, sortBy.length);
-    }
+    assertEquals(2, sortBy.length);
+  }
 
-    public void testEncode() throws Exception {
-        Document doc = encode(FilterMockData.sortBy(), OGC.SortBy);
-        assertEquals(2, doc.getElementsByTagNameNS(OGC.NAMESPACE, "SortProperty").getLength());
-    }
+  public void testEncode() throws Exception {
+    Document doc = encode(FilterMockData.sortBy(), OGC.SortBy);
+    assertEquals(2, doc.getElementsByTagNameNS(OGC.NAMESPACE, "SortProperty").getLength());
+  }
 }

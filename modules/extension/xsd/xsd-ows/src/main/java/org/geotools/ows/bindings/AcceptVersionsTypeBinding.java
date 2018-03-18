@@ -16,18 +16,17 @@
  */
 package org.geotools.ows.bindings;
 
-import net.opengis.ows10.AcceptVersionsType;
-import net.opengis.ows10.Ows10Factory;
 import javax.xml.namespace.QName;
+import net.opengis.ows10.Ows10Factory;
 import org.geotools.ows.OWS;
 import org.geotools.xml.*;
-
 
 /**
  * Binding object for the type http://www.opengis.net/ows:AcceptVersionsType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="AcceptVersionsType"&gt;
  *      &lt;annotation&gt;
@@ -40,45 +39,40 @@ import org.geotools.xml.*;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class AcceptVersionsTypeBinding extends AbstractComplexEMFBinding {
-    public AcceptVersionsTypeBinding(Ows10Factory factory) {
-        super(factory);
-    }
+  public AcceptVersionsTypeBinding(Ows10Factory factory) {
+    super(factory);
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OWS.AcceptVersionsType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return OWS.AcceptVersionsType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return super.getType();
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return super.getType();
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //TODO: implement and remove call to super
-        return super.parse(instance, node, value);
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // TODO: implement and remove call to super
+    return super.parse(instance, node, value);
+  }
 }

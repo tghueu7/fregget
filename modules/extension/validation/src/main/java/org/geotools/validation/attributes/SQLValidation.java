@@ -21,67 +21,57 @@ import org.geotools.validation.ValidationResults;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
-
 /**
  * PointCoveredByLineValidation purpose.
- * 
- * <p>
- * SQL Validation
- * </p>
+ *
+ * <p>SQL Validation
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class SQLValidation extends DefaultFeatureValidation {
-    private String sql;
+  private String sql;
 
-    /**
-     * PointCoveredByLineValidation constructor.
-     * 
-     * <p>
-     * Super
-     * </p>
-     */
-    public SQLValidation() {
-        super();
-    }
+  /**
+   * PointCoveredByLineValidation constructor.
+   *
+   * <p>Super
+   */
+  public SQLValidation() {
+    super();
+  }
 
-    /**
-     * SQL Validation
-     *
-     * @param feature Feature to be Validated
-     * @param type FeatureTypeInfo schema of feature
-     * @param results coallate results information
-     *
-     *
-     * @see org.geotools.validation.FeatureValidation#validate(org.geotools.feature.Feature,
-     *      org.geotools.feature.FeatureType,
-     *      org.geotools.validation.ValidationResults)
-     */
-    public boolean validate(SimpleFeature feature, SimpleFeatureType type,
-        ValidationResults results) {
-        return false;
-    }
+  /**
+   * SQL Validation
+   *
+   * @param feature Feature to be Validated
+   * @param type FeatureTypeInfo schema of feature
+   * @param results coallate results information
+   * @see org.geotools.validation.FeatureValidation#validate(org.geotools.feature.Feature,
+   *     org.geotools.feature.FeatureType, org.geotools.validation.ValidationResults)
+   */
+  public boolean validate(
+      SimpleFeature feature, SimpleFeatureType type, ValidationResults results) {
+    return false;
+  }
 
-    /**
-     * Access lineTypeRef property.
-     *
-     * @return Returns the sql.
-     */
-    public String getSql() {
-        return sql;
-    }
+  /**
+   * Access lineTypeRef property.
+   *
+   * @return Returns the sql.
+   */
+  public String getSql() {
+    return sql;
+  }
 
-    /**
-     * Set lineTypeRef to lineTypeRef.
-     *
-     * @param sql The sql to set.
-     */
-    public void setSql(String sql) {
-        this.sql = sql;
-    }
+  /**
+   * Set lineTypeRef to lineTypeRef.
+   *
+   * @param sql The sql to set.
+   */
+  public void setSql(String sql) {
+    this.sql = sql;
+  }
 }

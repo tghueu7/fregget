@@ -16,21 +16,21 @@
  */
 package org.geotools.filter.v1_0;
 
-import org.picocontainer.MutablePicoContainer;
 import javax.xml.namespace.QName;
-import org.opengis.filter.FilterFactory;
-import org.opengis.filter.expression.Expression;
-import org.opengis.filter.expression.Function;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
-
+import org.opengis.filter.FilterFactory;
+import org.opengis.filter.expression.Expression;
+import org.opengis.filter.expression.Function;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:FunctionType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="FunctionType"&gt;
  *      &lt;xsd:complexContent&gt;
@@ -45,81 +45,75 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCFunctionTypeBinding extends AbstractComplexBinding {
-    private FilterFactory factory;
+  private FilterFactory factory;
 
-    public OGCFunctionTypeBinding(FilterFactory factory) {
-        this.factory = factory;
+  public OGCFunctionTypeBinding(FilterFactory factory) {
+    this.factory = factory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return OGC.FunctionType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Function.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Expression[] args = new Expression[node.getChildren().size()];
+
+    for (int i = 0; i < node.getChildren().size(); i++) {
+      Node child = (Node) node.getChildren().get(i);
+      args[i] = (Expression) child.getValue();
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.FunctionType;
+    String name = (String) node.getAttribute("name").getValue();
+
+    return factory.function(name, args);
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    Function function = (Function) object;
+
+    // &lt;xsd:element maxOccurs="unbounded" minOccurs="0" ref="ogc:expression"/&gt;
+    if ("expression".equals(name.getLocalPart())) {
+      return function.getParameters();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Function.class;
+    // &lt;xsd:attribute name="name" type="xsd:string" use="required"/&gt;
+    if ("name".equals(name.getLocalPart())) {
+      return function.getName();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Expression[] args = new Expression[node.getChildren().size()];
-
-        for (int i = 0; i < node.getChildren().size(); i++) {
-            Node child = (Node) node.getChildren().get(i);
-            args[i] = (Expression) child.getValue();
-        }
-
-        String name = (String) node.getAttribute("name").getValue();
-
-        return factory.function(name, args);
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        Function function = (Function) object;
-
-        //&lt;xsd:element maxOccurs="unbounded" minOccurs="0" ref="ogc:expression"/&gt;
-        if ("expression".equals(name.getLocalPart())) {
-            return function.getParameters();
-        }
-
-        //&lt;xsd:attribute name="name" type="xsd:string" use="required"/&gt;
-        if ("name".equals(name.getLocalPart())) {
-            return function.getName();
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

@@ -18,61 +18,60 @@ package org.geotools.gce.imagemosaic;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.geotools.coverage.grid.io.GridCoverage2DReader;
 import org.geotools.gce.imagemosaic.namecollector.CoverageNameCollector;
 import org.geotools.gce.imagemosaic.namecollector.CoverageNameCollectorSPI;
 import org.geotools.gce.imagemosaic.namecollector.CoverageNameCollectorSpiFinder;
 
 /**
- * Class delegated to parse coverageNameCollectors property and setup proper 
- * {@link CoverageNameCollector} machinery to be used to return a target coverageName. 
+ * Class delegated to parse coverageNameCollectors property and setup proper {@link
+ * CoverageNameCollector} machinery to be used to return a target coverageName.
  */
 class CoverageNameHandler {
 
-    private CoverageNameCollectorSPI spi;
+  private CoverageNameCollectorSPI spi;
 
-    private Map<String, String> properties;
+  private Map<String, String> properties;
 
-    CoverageNameHandler(CoverageNameCollectorSPI spi) {
+  CoverageNameHandler(CoverageNameCollectorSPI spi) {
+    this.spi = spi;
+  }
+
+  CoverageNameHandler(String coverageNameCollectors) {
+    if (coverageNameCollectors != null && coverageNameCollectors.length() > 0) {
+      if (coverageNameCollectors.contains(":")) {
+        int indexOf = coverageNameCollectors.indexOf(":");
+        String properties = coverageNameCollectors.substring(indexOf + 1);
+        coverageNameCollectors = coverageNameCollectors.substring(0, indexOf);
+        initializeProperties(properties);
+      }
+
+      CoverageNameCollectorSPI spi =
+          CoverageNameCollectorSpiFinder.getCoverageNameCollectorSPI().get(coverageNameCollectors);
+      if (spi != null) {
         this.spi = spi;
+      }
     }
+  }
 
-    CoverageNameHandler(String coverageNameCollectors) {
-        if (coverageNameCollectors != null && coverageNameCollectors.length() > 0) {
-            if (coverageNameCollectors.contains(":")) {
-                int indexOf = coverageNameCollectors.indexOf(":");
-                String properties = coverageNameCollectors.substring(indexOf + 1);
-                coverageNameCollectors = coverageNameCollectors.substring(0, indexOf);
-                initializeProperties(properties);
-            }
+  CoverageNameHandler(CoverageNameCollectorSPI spi, Map<String, String> properties) {
+    this.spi = spi;
+    this.properties = properties;
+  }
 
-            CoverageNameCollectorSPI spi = CoverageNameCollectorSpiFinder.getCoverageNameCollectorSPI()
-                    .get(coverageNameCollectors);
-            if (spi != null) {
-                this.spi = spi;
-            }
-        }
+  private void initializeProperties(String propertiesString) {
+    if (propertiesString != null && !propertiesString.trim().isEmpty()) {
+      String[] propertiesKVP = propertiesString.split(Utils.PROPERTIES_SEPARATOR);
+      properties = new HashMap<String, String>();
+      for (String property : propertiesKVP) {
+        String[] kvp = property.split("=");
+        properties.put(kvp[0], kvp[1]);
+      }
     }
+  }
 
-    CoverageNameHandler(CoverageNameCollectorSPI spi, Map<String, String> properties) {
-        this.spi = spi;
-        this.properties = properties;
-    }
-
-    private void initializeProperties(String propertiesString) {
-        if (propertiesString != null && !propertiesString.trim().isEmpty()) {
-            String[] propertiesKVP = propertiesString.split(Utils.PROPERTIES_SEPARATOR);
-            properties = new HashMap<String, String>();
-            for (String property : propertiesKVP) {
-                String[] kvp = property.split("=");
-                properties.put(kvp[0], kvp[1]);
-            }
-        }
-    }
-
-    String getTargetCoverageName(GridCoverage2DReader inputCoverageReader, Map<String, String> map) {
-        CoverageNameCollector collector = spi.create(inputCoverageReader, properties);
-        return collector.getName(inputCoverageReader, map);
-    }
+  String getTargetCoverageName(GridCoverage2DReader inputCoverageReader, Map<String, String> map) {
+    CoverageNameCollector collector = spi.create(inputCoverageReader, properties);
+    return collector.getName(inputCoverageReader, map);
+  }
 }

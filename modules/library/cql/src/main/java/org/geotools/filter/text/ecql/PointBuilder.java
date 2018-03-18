@@ -17,46 +17,39 @@
 
 package org.geotools.filter.text.ecql;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Point;
 import org.geotools.filter.text.commons.BuildResultStack;
 import org.geotools.filter.text.commons.Result;
 import org.geotools.filter.text.cql2.CQLException;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Point;
-
-
-
 /**
- * Builds a point using the coordinates of stack that maintain the coordinates made
- * in the parsing process.
+ * Builds a point using the coordinates of stack that maintain the coordinates made in the parsing
+ * process.
  *
  * @author Mauricio Pazos (Axios Engineering)
  * @since 2.6
  */
 final class PointBuilder extends GeometryBuilder {
 
-    
-    public PointBuilder( String stmt, BuildResultStack resultStack) {
-        super (stmt, resultStack);
+  public PointBuilder(String stmt, BuildResultStack resultStack) {
+    super(stmt, resultStack);
+  }
+
+  /** Builds a Point geometry */
+  public Geometry build() throws CQLException {
+    Result result = getResultStack().popResult();
+    org.geotools.filter.text.commons.IToken token = result.getToken();
+    try {
+      Coordinate coordinate = (Coordinate) result.getBuilt();
+
+      Point point = getGeometryFactory().createPoint(coordinate);
+
+      return point;
+
+    } catch (ClassCastException e) {
+      throw new CQLException(e.getMessage(), token, getStatemet());
     }
-
-    /**
-     * Builds a Point geometry
-     */
-    public Geometry build() throws CQLException {
-        Result result = getResultStack().popResult();
-        org.geotools.filter.text.commons.IToken token = result.getToken();
-        try {
-            Coordinate coordinate = (Coordinate) result.getBuilt();
-
-            Point point = getGeometryFactory().createPoint(coordinate);
-
-            return point;
-            
-        } catch (ClassCastException e) {
-            throw new CQLException(e.getMessage(), token, getStatemet());
-        }
-    }
-
+  }
 }

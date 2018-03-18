@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,148 +17,148 @@
  */
 package org.geotools.ysld.transform.sld;
 
+import java.io.IOException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import java.io.IOException;
 
 /**
- * Handles xml parse events for {@link org.opengis.filter.expression.Expression} elements
- * (literals, rendering transforms, and functions).
+ * Handles xml parse events for {@link org.opengis.filter.expression.Expression} elements (literals,
+ * rendering transforms, and functions).
  */
 public class ExpressionHandler extends SldTransformHandler {
 
-    StringBuilder scalar;
+  StringBuilder scalar;
 
-    ExpressionHandler() {
-        this(new StringBuilder());
+  ExpressionHandler() {
+    this(new StringBuilder());
+  }
+
+  ExpressionHandler(StringBuilder scalar) {
+    this.scalar = scalar;
+  }
+
+  @Override
+  public void element(XMLStreamReader xml, SldTransformContext context)
+      throws XMLStreamException, IOException {
+    String name = xml.getLocalName();
+    if ("Literal".equals(name)) {
+      context.push(new LiteralHandler(scalar));
+    } else if ("PropertyName".equals(name)) {
+      context.push(new PropertyNameHandler(scalar));
+    } else if ("Function".equals(name)) {
+      context.push(new FunctionHandler(scalar));
     }
+  }
 
-    ExpressionHandler(StringBuilder scalar) {
-        this.scalar = scalar;
+  @Override
+  public void characters(XMLStreamReader xml, SldTransformContext context)
+      throws XMLStreamException, IOException {
+    scalar.append(xml.getText());
+  }
+
+  @Override
+  public void endElement(XMLStreamReader xml, SldTransformContext context)
+      throws XMLStreamException, IOException {
+    String name = xml.getLocalName();
+    if ("Literal".equals(name) || "PropertyName".equals(name) || "Function".equals(name)) {
+      onValue(scalar.toString().trim(), context).pop();
+
+    } else {
+      onValue(scalar.toString(), context).pop();
+    }
+  }
+
+  protected SldTransformContext onValue(String value, SldTransformContext context)
+      throws IOException {
+    return context.scalar(value);
+  }
+
+  static class LiteralHandler extends ExpressionHandler {
+
+    LiteralHandler(StringBuilder scalar) {
+      super(scalar);
     }
 
     @Override
     public void element(XMLStreamReader xml, SldTransformContext context)
-            throws XMLStreamException, IOException {
-        String name = xml.getLocalName();
-        if ("Literal".equals(name)) {
-            context.push(new LiteralHandler(scalar));
-        } else if ("PropertyName".equals(name)) {
-            context.push(new PropertyNameHandler(scalar));
-        } else if ("Function".equals(name)) {
-            context.push(new FunctionHandler(scalar));
-        }
+        throws XMLStreamException, IOException {
+      if (!"Literal".equals(xml.getLocalName())) {
+        super.element(xml, context);
+      }
     }
 
     @Override
     public void characters(XMLStreamReader xml, SldTransformContext context)
-            throws XMLStreamException, IOException {
-        scalar.append(xml.getText());
+        throws XMLStreamException, IOException {
+      scalar.append(xml.getText());
     }
 
     @Override
     public void endElement(XMLStreamReader xml, SldTransformContext context)
-            throws XMLStreamException, IOException {
-        String name = xml.getLocalName();
-        if ("Literal".equals(name) || "PropertyName".equals(name) || "Function".equals(name)) {
-            onValue(scalar.toString().trim(), context).pop();
+        throws XMLStreamException, IOException {
+      if ("Literal".equals(xml.getLocalName())) {
+        context.pop();
+      }
+    }
+  }
 
-        } else {
-            onValue(scalar.toString(), context).pop();
-        }
+  static class PropertyNameHandler extends ExpressionHandler {
+
+    PropertyNameHandler(StringBuilder scalar) {
+      super(scalar);
     }
 
-    protected SldTransformContext onValue(String value, SldTransformContext context)
-            throws IOException {
-        return context.scalar(value);
+    @Override
+    public void element(XMLStreamReader xml, SldTransformContext context)
+        throws XMLStreamException, IOException {
+      if (!"PropertyName".equals(xml.getLocalName())) {
+        super.element(xml, context);
+      }
     }
 
-    static class LiteralHandler extends ExpressionHandler {
-
-        LiteralHandler(StringBuilder scalar) {
-            super(scalar);
-        }
-
-        @Override
-        public void element(XMLStreamReader xml, SldTransformContext context)
-                throws XMLStreamException, IOException {
-            if (!"Literal".equals(xml.getLocalName())) {
-                super.element(xml, context);
-            }
-        }
-
-        @Override
-        public void characters(XMLStreamReader xml, SldTransformContext context)
-                throws XMLStreamException, IOException {
-            scalar.append(xml.getText());
-        }
-
-        @Override
-        public void endElement(XMLStreamReader xml, SldTransformContext context)
-                throws XMLStreamException, IOException {
-            if ("Literal".equals(xml.getLocalName())) {
-                context.pop();
-            }
-        }
+    @Override
+    public void characters(XMLStreamReader xml, SldTransformContext context)
+        throws XMLStreamException, IOException {
+      scalar.append("${").append(xml.getText()).append("}");
     }
 
-    static class PropertyNameHandler extends ExpressionHandler {
+    @Override
+    public void endElement(XMLStreamReader xml, SldTransformContext context)
+        throws XMLStreamException, IOException {
+      if ("PropertyName".equals(xml.getLocalName())) {
+        context.pop();
+      }
+    }
+  }
 
-        PropertyNameHandler(StringBuilder scalar) {
-            super(scalar);
-        }
+  static class FunctionHandler extends ExpressionHandler {
 
-        @Override
-        public void element(XMLStreamReader xml, SldTransformContext context)
-                throws XMLStreamException, IOException {
-            if (!"PropertyName".equals(xml.getLocalName())) {
-                super.element(xml, context);
-            }
-        }
-
-        @Override
-        public void characters(XMLStreamReader xml, SldTransformContext context)
-                throws XMLStreamException, IOException {
-            scalar.append("${").append(xml.getText()).append("}");
-        }
-
-        @Override
-        public void endElement(XMLStreamReader xml, SldTransformContext context)
-                throws XMLStreamException, IOException {
-            if ("PropertyName".equals(xml.getLocalName())) {
-                context.pop();
-            }
-        }
+    FunctionHandler(StringBuilder scalar) {
+      super(scalar);
     }
 
-    static class FunctionHandler extends ExpressionHandler {
-
-        FunctionHandler(StringBuilder scalar) {
-            super(scalar);
-        }
-
-        @Override
-        public void element(XMLStreamReader xml, SldTransformContext context)
-                throws XMLStreamException, IOException {
-            String name = xml.getLocalName();
-            if ("Function".equals(name)) {
-                scalar.append(xml.getAttributeValue(xml.getNamespaceURI(), "name") + "(");
-            } else {
-                super.element(xml, context);
-            }
-        }
-
-        @Override
-        public void endElement(XMLStreamReader xml, SldTransformContext context)
-                throws XMLStreamException, IOException {
-            String name = xml.getLocalName();
-            if ("Function".equals(name)) {
-                if ('.' == scalar.charAt(scalar.length() - 1)) {
-                    scalar.setLength(scalar.length() - 1);
-                }
-                scalar.append(")");
-                context.pop();
-            }
-        }
+    @Override
+    public void element(XMLStreamReader xml, SldTransformContext context)
+        throws XMLStreamException, IOException {
+      String name = xml.getLocalName();
+      if ("Function".equals(name)) {
+        scalar.append(xml.getAttributeValue(xml.getNamespaceURI(), "name") + "(");
+      } else {
+        super.element(xml, context);
+      }
     }
+
+    @Override
+    public void endElement(XMLStreamReader xml, SldTransformContext context)
+        throws XMLStreamException, IOException {
+      String name = xml.getLocalName();
+      if ("Function".equals(name)) {
+        if ('.' == scalar.charAt(scalar.length() - 1)) {
+          scalar.setLength(scalar.length() - 1);
+        }
+        scalar.append(")");
+        context.pop();
+      }
+    }
+  }
 }

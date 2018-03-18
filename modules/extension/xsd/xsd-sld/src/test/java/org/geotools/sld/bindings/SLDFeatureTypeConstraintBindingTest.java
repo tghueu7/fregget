@@ -18,26 +18,20 @@ package org.geotools.sld.bindings;
 
 import org.geotools.styling.FeatureTypeConstraint;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDFeatureTypeConstraintBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(FeatureTypeConstraint.class,
-            new SLDFeatureTypeConstraintBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(FeatureTypeConstraint.class, new SLDFeatureTypeConstraintBinding(null).getType());
+  }
 
-    public void testNormal() throws Exception {
-        SLDMockData.featureTypeConstraint(document, document);
+  public void testNormal() throws Exception {
+    SLDMockData.featureTypeConstraint(document, document);
 
-        FeatureTypeConstraint ftc = (FeatureTypeConstraint) parse();
-        assertNotNull(ftc);
+    FeatureTypeConstraint ftc = (FeatureTypeConstraint) parse();
+    assertNotNull(ftc);
 
-        assertEquals("theFeatureTypeName", ftc.getFeatureTypeName());
-        assertNotNull(ftc.getFilter());
-        assertEquals(2, ftc.getExtents().length);
-    }
+    assertEquals("theFeatureTypeName", ftc.getFeatureTypeName());
+    assertNotNull(ftc.getFilter());
+    assertEquals(2, ftc.getExtents().length);
+  }
 }

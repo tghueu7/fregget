@@ -16,8 +16,11 @@
  */
 package org.geotools.data.sqlserver;
 
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LinearRing;
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.impl.PackedCoordinateSequenceFactory;
 import java.io.IOException;
-
 import org.geotools.data.Query;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.geometry.jts.ReferencedEnvelope;
@@ -28,170 +31,171 @@ import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.spatial.BBOX;
 import org.opengis.filter.spatial.Contains;
 
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LinearRing;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.geom.impl.PackedCoordinateSequenceFactory;
-
 /**
  * Same as {@link SQLServerSpatialFiltersOnlineTest}, but forcing the sql hints for spatial filters
- * 
+ *
  * @source $URL$
  */
 public class SQLServerTableHintsOnlineTest extends SQLServerSpatialFiltersOnlineTest {
 
-    private String originalSchema;
+  private String originalSchema;
 
-    @Override
-    protected void connect() throws Exception {
-        super.connect();
+  @Override
+  protected void connect() throws Exception {
+    super.connect();
 
-        SQLServerDialect dialect = (SQLServerDialect) dataStore.getSQLDialect();
-        dialect.setForceSpatialIndexes(true);
-        dialect.setTableHints(null);
-    }
-    
-    @Override
-    protected void tearDownInternal() throws Exception {
-        dataStore.setDatabaseSchema(originalSchema);
-        super.tearDownInternal();
-    }
+    SQLServerDialect dialect = (SQLServerDialect) dataStore.getSQLDialect();
+    dialect.setForceSpatialIndexes(true);
+    dialect.setTableHints(null);
+  }
 
-    public void testDecorateWithIndex() throws IOException {
-        SQLServerDialect dialect = (SQLServerDialect) dataStore.getSQLDialect();
-        StringBuffer sql = decorateSpatialQuery(dialect);
+  @Override
+  protected void tearDownInternal() throws Exception {
+    dataStore.setDatabaseSchema(originalSchema);
+    super.tearDownInternal();
+  }
 
-        assertTrue(sql.toString().contains("FROM \"road\" WITH(INDEX(\"_road_geometry_index\"))"));
-    }
+  public void testDecorateWithIndex() throws IOException {
+    SQLServerDialect dialect = (SQLServerDialect) dataStore.getSQLDialect();
+    StringBuffer sql = decorateSpatialQuery(dialect);
 
-    public void testDecorateWithIndexAndNamespace() throws IOException {
-        SQLServerDialect dialect = (SQLServerDialect) dataStore.getSQLDialect();
-        StringBuffer sql1 = new StringBuffer(
-                "SELECT \"fid\",\"id\",\"geom\".STAsBinary() as \"geom\",\"name\" "
-                        + "FROM \"schema\".\"road\" "
-                        + "WHERE  \"geom\".Filter(geometry::STGeomFromText('POLYGON ((2 -1, 2 5, 4 5, 4 -1, 2 -1))', 4326)) = 1 "
-                        + "AND geometry::STGeomFromText('POLYGON ((2 -1, 2 5, 4 5, 4 -1, 2 -1))', 4326).STContains(\"geom\") = 1");
+    assertTrue(sql.toString().contains("FROM \"road\" WITH(INDEX(\"_road_geometry_index\"))"));
+  }
 
-        // the filter for the Query
-        FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
-        GeometryFactory gf = new GeometryFactory();
-        PackedCoordinateSequenceFactory sf = new PackedCoordinateSequenceFactory();
-        LinearRing shell = gf.createLinearRing(sf.create(new double[] { 2, -1, 2, 5, 4, 5, 4, -1,
-                2, -1 }, 2));
-        Polygon polygon = gf.createPolygon(shell, null);
-        Contains cs = ff.contains(ff.literal(polygon), ff.property(aname("geom")));
+  public void testDecorateWithIndexAndNamespace() throws IOException {
+    SQLServerDialect dialect = (SQLServerDialect) dataStore.getSQLDialect();
+    StringBuffer sql1 =
+        new StringBuffer(
+            "SELECT \"fid\",\"id\",\"geom\".STAsBinary() as \"geom\",\"name\" "
+                + "FROM \"schema\".\"road\" "
+                + "WHERE  \"geom\".Filter(geometry::STGeomFromText('POLYGON ((2 -1, 2 5, 4 5, 4 -1, 2 -1))', 4326)) = 1 "
+                + "AND geometry::STGeomFromText('POLYGON ((2 -1, 2 5, 4 5, 4 -1, 2 -1))', 4326).STContains(\"geom\") = 1");
 
-        SimpleFeatureType roadSchema = dataStore.getSchema("road");
-        originalSchema = dataStore.getDatabaseSchema();
-        dataStore.setDatabaseSchema("schema");
-        dialect.handleSelectHints(sql1, roadSchema, new Query("road", cs));
-        StringBuffer sql = sql1;
+    // the filter for the Query
+    FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
+    GeometryFactory gf = new GeometryFactory();
+    PackedCoordinateSequenceFactory sf = new PackedCoordinateSequenceFactory();
+    LinearRing shell =
+        gf.createLinearRing(sf.create(new double[] {2, -1, 2, 5, 4, 5, 4, -1, 2, -1}, 2));
+    Polygon polygon = gf.createPolygon(shell, null);
+    Contains cs = ff.contains(ff.literal(polygon), ff.property(aname("geom")));
 
-        assertTrue(sql.toString().contains(
-                "FROM \"schema\".\"road\" WITH(INDEX(\"_road_geometry_index\"))"));
-    }
+    SimpleFeatureType roadSchema = dataStore.getSchema("road");
+    originalSchema = dataStore.getDatabaseSchema();
+    dataStore.setDatabaseSchema("schema");
+    dialect.handleSelectHints(sql1, roadSchema, new Query("road", cs));
+    StringBuffer sql = sql1;
 
-    public void testDecorateWithIndexAndTableHints() throws IOException {
-        SQLServerDialect dialect = (SQLServerDialect) dataStore.getSQLDialect();
-        dialect.setTableHints("NOLOCK");
-        StringBuffer sql = decorateSpatialQuery(dialect);
+    assertTrue(
+        sql.toString().contains("FROM \"schema\".\"road\" WITH(INDEX(\"_road_geometry_index\"))"));
+  }
 
-        assertTrue(sql.toString().contains(
-                "FROM \"road\" WITH(INDEX(\"_road_geometry_index\"), NOLOCK)"));
-    }
+  public void testDecorateWithIndexAndTableHints() throws IOException {
+    SQLServerDialect dialect = (SQLServerDialect) dataStore.getSQLDialect();
+    dialect.setTableHints("NOLOCK");
+    StringBuffer sql = decorateSpatialQuery(dialect);
 
-    private StringBuffer decorateSpatialQuery(SQLServerDialect dialect) throws IOException {
-        StringBuffer sql = new StringBuffer("SELECT \"fid\",\"id\",\"geom\".STAsBinary() as \"geom\",\"name\" "
+    assertTrue(
+        sql.toString().contains("FROM \"road\" WITH(INDEX(\"_road_geometry_index\"), NOLOCK)"));
+  }
+
+  private StringBuffer decorateSpatialQuery(SQLServerDialect dialect) throws IOException {
+    StringBuffer sql =
+        new StringBuffer(
+            "SELECT \"fid\",\"id\",\"geom\".STAsBinary() as \"geom\",\"name\" "
                 + "FROM \"road\" "
                 + "WHERE  \"geom\".Filter(geometry::STGeomFromText('POLYGON ((2 -1, 2 5, 4 5, 4 -1, 2 -1))', 4326)) = 1 "
                 + "AND geometry::STGeomFromText('POLYGON ((2 -1, 2 5, 4 5, 4 -1, 2 -1))', 4326).STContains(\"geom\") = 1");
-        
-        // the filter for the Query
-        FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
-        GeometryFactory gf = new GeometryFactory();
-        PackedCoordinateSequenceFactory sf = new PackedCoordinateSequenceFactory();
-        LinearRing shell = gf.createLinearRing(sf.create(new double[] { 2, -1, 2, 5, 4, 5, 4, -1,
-                2, -1 }, 2));
-        Polygon polygon = gf.createPolygon(shell, null);
-        Contains cs = ff.contains(ff.literal(polygon), ff.property(aname("geom")));
 
-        
-        SimpleFeatureType roadSchema = dataStore.getSchema("road");
-        dialect.handleSelectHints(sql, roadSchema, new Query("road", cs));
-        return sql;
-    }
+    // the filter for the Query
+    FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
+    GeometryFactory gf = new GeometryFactory();
+    PackedCoordinateSequenceFactory sf = new PackedCoordinateSequenceFactory();
+    LinearRing shell =
+        gf.createLinearRing(sf.create(new double[] {2, -1, 2, 5, 4, 5, 4, -1, 2, -1}, 2));
+    Polygon polygon = gf.createPolygon(shell, null);
+    Contains cs = ff.contains(ff.literal(polygon), ff.property(aname("geom")));
 
-    public void testNonSpatialNoTableHints() throws IOException {
-        SQLServerDialect dialect = (SQLServerDialect) dataStore.getSQLDialect();
-        StringBuffer sql = new StringBuffer(
-                "SELECT \"fid\",\"id\",\"geom\".STAsBinary() as \"geom\",\"name\" "
-                        + "FROM \"road\" "
-                        + "WHERE \"name\" = 'XXX')");
+    SimpleFeatureType roadSchema = dataStore.getSchema("road");
+    dialect.handleSelectHints(sql, roadSchema, new Query("road", cs));
+    return sql;
+  }
 
-        // the filter for the Query
-        FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
-        Filter filter = ff.equal(ff.property("name"), ff.literal("XXX"), true);
+  public void testNonSpatialNoTableHints() throws IOException {
+    SQLServerDialect dialect = (SQLServerDialect) dataStore.getSQLDialect();
+    StringBuffer sql =
+        new StringBuffer(
+            "SELECT \"fid\",\"id\",\"geom\".STAsBinary() as \"geom\",\"name\" "
+                + "FROM \"road\" "
+                + "WHERE \"name\" = 'XXX')");
 
-        SimpleFeatureType roadSchema = dataStore.getSchema("road");
-        dialect.handleSelectHints(sql, roadSchema, new Query("road", filter));
+    // the filter for the Query
+    FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
+    Filter filter = ff.equal(ff.property("name"), ff.literal("XXX"), true);
 
-        assertFalse(sql.toString().contains("WITH"));
-    }
+    SimpleFeatureType roadSchema = dataStore.getSchema("road");
+    dialect.handleSelectHints(sql, roadSchema, new Query("road", filter));
 
-    public void testNonSpatialWithTableHints() throws IOException {
-        SQLServerDialect dialect = (SQLServerDialect) dataStore.getSQLDialect();
-        dialect.setTableHints("NOLOCK");
-        StringBuffer sql = new StringBuffer(
-                "SELECT \"fid\",\"id\",\"geom\".STAsBinary() as \"geom\",\"name\" "
-                        + "FROM \"road\" " + "WHERE \"name\" = 'XXX')");
+    assertFalse(sql.toString().contains("WITH"));
+  }
 
-        // the filter for the Query
-        FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
-        Filter filter = ff.equal(ff.property("name"), ff.literal("XXX"), true);
+  public void testNonSpatialWithTableHints() throws IOException {
+    SQLServerDialect dialect = (SQLServerDialect) dataStore.getSQLDialect();
+    dialect.setTableHints("NOLOCK");
+    StringBuffer sql =
+        new StringBuffer(
+            "SELECT \"fid\",\"id\",\"geom\".STAsBinary() as \"geom\",\"name\" "
+                + "FROM \"road\" "
+                + "WHERE \"name\" = 'XXX')");
 
-        SimpleFeatureType roadSchema = dataStore.getSchema("road");
-        dialect.handleSelectHints(sql, roadSchema, new Query("road", filter));
+    // the filter for the Query
+    FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
+    Filter filter = ff.equal(ff.property("name"), ff.literal("XXX"), true);
 
-        assertTrue(sql.toString().contains("WITH(NOLOCK)"));
-    }
+    SimpleFeatureType roadSchema = dataStore.getSchema("road");
+    dialect.handleSelectHints(sql, roadSchema, new Query("road", filter));
 
-    public void testNonSpatialWithTableHintsAndSchema() throws IOException {
-        SQLServerDialect dialect = (SQLServerDialect) dataStore.getSQLDialect();
-        dialect.setTableHints("NOLOCK");
-        StringBuffer sql = new StringBuffer(
-                "SELECT \"fid\",\"id\",\"geom\".STAsBinary() as \"geom\",\"name\" "
-                        + "FROM \"schema\".\"road\" "
-                        + "WHERE \"name\" = 'XXX')");
+    assertTrue(sql.toString().contains("WITH(NOLOCK)"));
+  }
 
-        // the filter for the Query
-        FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
-        Filter filter = ff.equal(ff.property("name"), ff.literal("XXX"), true);
+  public void testNonSpatialWithTableHintsAndSchema() throws IOException {
+    SQLServerDialect dialect = (SQLServerDialect) dataStore.getSQLDialect();
+    dialect.setTableHints("NOLOCK");
+    StringBuffer sql =
+        new StringBuffer(
+            "SELECT \"fid\",\"id\",\"geom\".STAsBinary() as \"geom\",\"name\" "
+                + "FROM \"schema\".\"road\" "
+                + "WHERE \"name\" = 'XXX')");
 
-        SimpleFeatureType roadSchema = dataStore.getSchema("road");
-        originalSchema = dataStore.getDatabaseSchema();
-        dataStore.setDatabaseSchema("schema");
-        dialect.handleSelectHints(sql, roadSchema, new Query("road", filter));
+    // the filter for the Query
+    FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
+    Filter filter = ff.equal(ff.property("name"), ff.literal("XXX"), true);
 
-        assertTrue(sql.toString().contains("WITH(NOLOCK)"));
-    }
+    SimpleFeatureType roadSchema = dataStore.getSchema("road");
+    originalSchema = dataStore.getDatabaseSchema();
+    dataStore.setDatabaseSchema("schema");
+    dialect.handleSelectHints(sql, roadSchema, new Query("road", filter));
 
-    public void testEnvelopeBboxFilter() throws Exception {
-        FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
-        // should match only "r2"
-        BBOX bbox = ff.bbox(aname("geom"), 2, 3, 4, 5, "EPSG:4326");
-        ReferencedEnvelope bounds = dataStore.getFeatureSource(tname("road")).getBounds(
-                new Query(null, bbox));
-        assertEquals(3, bounds.getMinX(), 1e-3d);
-        assertEquals(3, bounds.getMaxX(), 1e-3d);
-        assertEquals(0, bounds.getMinY(), 1e-3d);
-        assertEquals(4, bounds.getMaxY(), 1e-3d);
-    }
+    assertTrue(sql.toString().contains("WITH(NOLOCK)"));
+  }
 
-    public void testCountBboxFilter() throws Exception {
-        FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
-        // should match only "r2"
-        BBOX bbox = ff.bbox(aname("geom"), 2, 3, 4, 5, "EPSG:4326");
-        int count = dataStore.getFeatureSource(tname("road")).getCount(new Query(null, bbox));
-        assertEquals(1, count);
-    }
+  public void testEnvelopeBboxFilter() throws Exception {
+    FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
+    // should match only "r2"
+    BBOX bbox = ff.bbox(aname("geom"), 2, 3, 4, 5, "EPSG:4326");
+    ReferencedEnvelope bounds =
+        dataStore.getFeatureSource(tname("road")).getBounds(new Query(null, bbox));
+    assertEquals(3, bounds.getMinX(), 1e-3d);
+    assertEquals(3, bounds.getMaxX(), 1e-3d);
+    assertEquals(0, bounds.getMinY(), 1e-3d);
+    assertEquals(4, bounds.getMaxY(), 1e-3d);
+  }
+
+  public void testCountBboxFilter() throws Exception {
+    FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
+    // should match only "r2"
+    BBOX bbox = ff.bbox(aname("geom"), 2, 3, 4, 5, "EPSG:4326");
+    int count = dataStore.getFeatureSource(tname("road")).getCount(new Query(null, bbox));
+    assertEquals(1, count);
+  }
 }

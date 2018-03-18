@@ -21,142 +21,131 @@ import org.geotools.validation.ValidationResults;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
-
 /**
  * NullZeroFeatureValidation purpose.
- * 
- * <p>
- * Description of NullZeroFeatureValidation ...
- * </p>
- * 
- * <p>
- * Capabilities:
- * 
+ *
+ * <p>Description of NullZeroFeatureValidation ...
+ *
+ * <p>Capabilities:
+ *
  * <ul>
- * <li>
- * Tests for null/0 atribute values.
- * </li>
+ *   <li>Tests for null/0 atribute values.
  * </ul>
- * 
+ *
  * Example Use:
+ *
  * <pre><code>
  * NullZeroFeatureValidation x = new NullZeroFeatureValidation(...);
  * </code></pre>
- * </p>
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class NullZeroValidation extends DefaultFeatureValidation {
-	/** XPATH expression for attribtue */
-    private String attribute;
+  /** XPATH expression for attribtue */
+  private String attribute;
 
-    public NullZeroValidation() {
-        super();
+  public NullZeroValidation() {
+    super();
+  }
+
+  /**
+   * Implement validate.
+   *
+   * <p>Description ...
+   *
+   * @param feature Provides the attributes to test.
+   * @param type not used.
+   * @param results a reference for returning error codes.
+   * @return false when null or 0 values are found in the attribute.
+   * @see org.geotools.validation.FeatureValidation#validate(org.geotools.feature.Feature,
+   *     org.geotools.feature.FeatureType, org.geotools.validation.ValidationResults)
+   */
+  public boolean validate(
+      SimpleFeature feature,
+      SimpleFeatureType type,
+      ValidationResults results) { // throws Exception {
+
+    // if attribute not set, just pass
+    if (attribute == null) return true;
+
+    Object obj = feature.getAttribute(attribute);
+
+    if (obj == null) {
+      results.error(feature, attribute + " is Empty");
+
+      return false;
     }
 
-    /**
-     * Implement validate.
-     * 
-     * <p>
-     * Description ...
-     * </p>
-     *
-     * @param feature Provides the attributes to test.
-     * @param type not used.
-     * @param results a reference for returning error codes.
-     *
-     * @return false when null or 0 values are found in the attribute.
-     *
-     * @see org.geotools.validation.FeatureValidation#validate(org.geotools.feature.Feature,
-     *      org.geotools.feature.FeatureType,
-     *      org.geotools.validation.ValidationResults)
-     */
-    public boolean validate(SimpleFeature feature, SimpleFeatureType type,
-        ValidationResults results) { // throws Exception {
+    if (obj instanceof Number) {
+      Number number = (Number) obj;
 
-    	//if attribute not set, just pass
-    	if (attribute == null)
-    		return true;
-    	
-        Object obj = feature.getAttribute(attribute);
+      if (number.intValue() == 0) {
+        results.error(feature, attribute + " is Zero");
 
-        if (obj == null) {
-            results.error(feature, attribute + " is Empty");
-
-            return false;
-        }
-
-        if (obj instanceof Number) {
-            Number number = (Number) obj;
-
-            if (number.intValue() == 0) {
-                results.error(feature, attribute + " is Zero");
-
-                return false;
-            }
-        }
-
-		if (obj instanceof String) {
-			String string = (String) obj;
-
-			if ("".equals(string.trim())) {
-				results.error(feature, attribute + " is \"\"");
-
-				return false;
-			}
-		}
-
-        return true;
+        return false;
+      }
     }
 
-    /**
-     * Implement getPriority.
-     *
-     * @see org.geotools.validation.Validation#getPriority()
-     */
-    public int getPriority() {
-        return 0;
+    if (obj instanceof String) {
+      String string = (String) obj;
+
+      if ("".equals(string.trim())) {
+        results.error(feature, attribute + " is \"\"");
+
+        return false;
+      }
     }
 
-    /**
-     * Implementation of getTypeNames.
-     *
-     * @return Array of typeNames, or empty array for all, null for disabled
-     *
-     * @see org.geotools.validation.Validation#getTypeRefs()
-     */
-    public String[] getTypeRefs() {
-        if (getTypeRef() == null) {
-            return null;
-        }
+    return true;
+  }
 
-        if (getTypeRef().equals("*")) {
-            return ALL;
-        }
+  /**
+   * Implement getPriority.
+   *
+   * @see org.geotools.validation.Validation#getPriority()
+   */
+  public int getPriority() {
+    return 0;
+  }
 
-        return new String[] { getTypeRef(), };
+  /**
+   * Implementation of getTypeNames.
+   *
+   * @return Array of typeNames, or empty array for all, null for disabled
+   * @see org.geotools.validation.Validation#getTypeRefs()
+   */
+  public String[] getTypeRefs() {
+    if (getTypeRef() == null) {
+      return null;
     }
 
-    /**
-     * Access attributeName property.
-     *
-     * @return the path being stored for validation
-     */
-    public String getAttribute() {
-        return attribute;
+    if (getTypeRef().equals("*")) {
+      return ALL;
     }
 
-    /**
-     * set AttributeName to xpath expression.
-     *
-     * @param xpath A String
-     */
-    public void setAttribute(String xpath) {
-        attribute = xpath;
-    }
+    return new String[] {
+      getTypeRef(),
+    };
+  }
+
+  /**
+   * Access attributeName property.
+   *
+   * @return the path being stored for validation
+   */
+  public String getAttribute() {
+    return attribute;
+  }
+
+  /**
+   * set AttributeName to xpath expression.
+   *
+   * @param xpath A String
+   */
+  public void setAttribute(String xpath) {
+    attribute = xpath;
+  }
 }

@@ -21,10 +21,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.geotools.data.jdbc.datasource.DBCPDataSourceFactory;
 import org.geotools.data.jdbc.datasource.JNDIDataSourceFactory;
 import org.w3c.dom.Document;
@@ -36,477 +34,471 @@ import org.xml.sax.InputSource;
 
 /**
  * Class for holding the config info read from the xml config file
- * 
+ *
  * @author mcr
- * 
- *
- *
  * @source $URL$
  */
 public class Config {
-    static private Map<String, Config> ConfigMap = new Hashtable<String, Config>(); // Hashtable
+  private static Map<String, Config> ConfigMap = new Hashtable<String, Config>(); // Hashtable
 
-    // is
-    // synchronized
-    private String xmlUrl;
+  // is
+  // synchronized
+  private String xmlUrl;
 
-    private String coverageName;
+  private String coverageName;
 
-    private String geoRasterAttribute;
+  private String geoRasterAttribute;
 
-    private String coordsys;
+  private String coordsys;
 
-    private SpatialExtension spatialExtension;
+  private SpatialExtension spatialExtension;
 
-    private String dstype;
+  private String dstype;
 
-    private String username;
+  private String username;
 
-    private String password;
+  private String password;
 
-    private String jdbcUrl;
+  private String jdbcUrl;
 
-    private String driverClassName;
+  private String driverClassName;
 
-    private Integer maxActive;
+  private Integer maxActive;
 
-    private Integer maxIdle;
+  private Integer maxIdle;
 
-    private String jndiReferenceName;
+  private String jndiReferenceName;
 
-    private String coverageNameAttribute;
+  private String coverageNameAttribute;
 
-    private String blobAttributeNameInTileTable;
+  private String blobAttributeNameInTileTable;
 
-    private String keyAttributeNameInTileTable;
+  private String keyAttributeNameInTileTable;
 
-    private String keyAttributeNameInSpatialTable;
+  private String keyAttributeNameInSpatialTable;
 
-    private String geomAttributeNameInSpatialTable;
+  private String geomAttributeNameInSpatialTable;
 
-    private String maxXAttribute;
+  private String maxXAttribute;
 
-    private String maxYAttribute;
+  private String maxYAttribute;
 
-    private String minXAttribute;
+  private String minXAttribute;
 
-    private String minYAttribute;
+  private String minYAttribute;
 
-    private String masterTable;
+  private String masterTable;
 
-    private String resXAttribute;
+  private String resXAttribute;
 
-    private String resYAttribute;
+  private String resYAttribute;
 
-    private String tileTableNameAtribute;
+  private String tileTableNameAtribute;
 
-    private String spatialTableNameAtribute;
+  private String spatialTableNameAtribute;
 
-    private String sqlUpdateMosaicStatement;
+  private String sqlUpdateMosaicStatement;
 
-    private String sqlSelectCoverageStatement;
+  private String sqlSelectCoverageStatement;
 
-    private String sqlUpdateResStatement;
+  private String sqlUpdateResStatement;
 
-    private Boolean verifyCardinality;
-    
-    private Boolean ignoreAxisOrder;
+  private Boolean verifyCardinality;
 
-    private Integer interpolation;
+  private Boolean ignoreAxisOrder;
 
-    private String tileMaxXAttribute;
+  private Integer interpolation;
 
-    private String tileMaxYAttribute;
+  private String tileMaxXAttribute;
 
-    private String tileMinXAttribute;
+  private String tileMaxYAttribute;
 
-    private String tileMinYAttribute;
-    
-    private String jdbcAccessClassName;
+  private String tileMinXAttribute;
 
+  private String tileMinYAttribute;
 
-    protected Config() {
+  private String jdbcAccessClassName;
+
+  protected Config() {}
+
+  public static Config readFrom(URL xmlURL) throws Exception {
+    Config result = ConfigMap.get(xmlURL.toString());
+
+    if (result != null) {
+      return result;
     }
 
-    public static Config readFrom(URL xmlURL) throws Exception {
-        Config result = ConfigMap.get(xmlURL.toString());
+    InputStream in = xmlURL.openStream();
+    InputSource input = new InputSource(xmlURL.toString());
 
-        if (result != null) {
-            return result;
-        }
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    dbf.setIgnoringElementContentWhitespace(true);
+    dbf.setIgnoringComments(true);
 
-        InputStream in = xmlURL.openStream();
-        InputSource input = new InputSource(xmlURL.toString());
+    DocumentBuilder db = dbf.newDocumentBuilder();
 
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setIgnoringElementContentWhitespace(true);
-        dbf.setIgnoringComments(true);
+    // db.setEntityResolver(new ConfigEntityResolver(xmlURL));
+    Document dom = db.parse(input);
+    in.close();
 
-        DocumentBuilder db = dbf.newDocumentBuilder();
+    result = new Config();
 
-        // db.setEntityResolver(new ConfigEntityResolver(xmlURL));
-        Document dom = db.parse(input);
-        in.close();
+    result.xmlUrl = xmlURL.toString();
 
-        result = new Config();
+    result.dstype = readValueString(dom, "dstype");
+    result.username = readValueString(dom, "username");
+    result.password = readValueString(dom, "password");
+    result.jdbcUrl = readValueString(dom, "jdbcUrl");
+    result.driverClassName = readValueString(dom, "driverClassName");
+    result.jndiReferenceName = readValueString(dom, "jndiReferenceName");
+    result.maxActive = readValueInteger(dom, "maxActive");
+    result.maxIdle = readValueInteger(dom, "maxIdle");
 
-        result.xmlUrl = xmlURL.toString();
+    result.coordsys = readNameString(dom.getDocumentElement(), "coordsys");
+    result.coverageName = readNameString(dom.getDocumentElement(), "coverageName");
 
-        result.dstype = readValueString(dom, "dstype");
-        result.username = readValueString(dom, "username");
-        result.password = readValueString(dom, "password");
-        result.jdbcUrl = readValueString(dom, "jdbcUrl");
-        result.driverClassName = readValueString(dom, "driverClassName");
-        result.jndiReferenceName = readValueString(dom, "jndiReferenceName");
-        result.maxActive = readValueInteger(dom, "maxActive");
-        result.maxIdle = readValueInteger(dom, "maxIdle");
+    Node tmp = dom.getElementsByTagName("scaleop").item(0);
+    NamedNodeMap map = tmp.getAttributes();
+    String s = map.getNamedItem("interpolation").getNodeValue();
+    result.interpolation = new Integer(s);
 
-        result.coordsys = readNameString(dom.getDocumentElement(), "coordsys");
-        result.coverageName = readNameString(dom.getDocumentElement(), "coverageName");
-
-        Node tmp = dom.getElementsByTagName("scaleop").item(0);
-        NamedNodeMap map = tmp.getAttributes();
-        String s = map.getNamedItem("interpolation").getNodeValue();
-        result.interpolation = new Integer(s);
-        
-        result.ignoreAxisOrder=Boolean.FALSE;
-        tmp = dom.getElementsByTagName("axisOrder").item(0);
-        if (tmp!=null) {
-            map = tmp.getAttributes();
-            s = map.getNamedItem("ignore").getNodeValue();
-            result.ignoreAxisOrder = new Boolean(s);
-        }
-
-        // db mapping
-        result.spatialExtension = SpatialExtension.fromString(readNameString(dom
-                .getDocumentElement(), "spatialExtension"));
-        if (SpatialExtension.GEORASTER.equals(result.spatialExtension))
-            readForOracleGeoRaster(result, dom);
-        else if (SpatialExtension.CUSTOM.equals(result.spatialExtension)) {
-            readForCustom(result, dom);
-        }
-        else {    
-            readMapping(result, dom);
-            result.initStatements();
-        }    
-        ConfigMap.put(xmlURL.toString(), result);
-
-        return result;
+    result.ignoreAxisOrder = Boolean.FALSE;
+    tmp = dom.getElementsByTagName("axisOrder").item(0);
+    if (tmp != null) {
+      map = tmp.getAttributes();
+      s = map.getNamedItem("ignore").getNodeValue();
+      result.ignoreAxisOrder = new Boolean(s);
     }
 
-    static void readMapping(Config result, Document dom) {
-        result.masterTable = readNameString(dom.getDocumentElement(), "masterTable");
+    // db mapping
+    result.spatialExtension =
+        SpatialExtension.fromString(readNameString(dom.getDocumentElement(), "spatialExtension"));
+    if (SpatialExtension.GEORASTER.equals(result.spatialExtension))
+      readForOracleGeoRaster(result, dom);
+    else if (SpatialExtension.CUSTOM.equals(result.spatialExtension)) {
+      readForCustom(result, dom);
+    } else {
+      readMapping(result, dom);
+      result.initStatements();
+    }
+    ConfigMap.put(xmlURL.toString(), result);
 
-        Element masterTableElem = (Element) dom.getElementsByTagName("masterTable").item(0);
-        result.coverageNameAttribute = readNameString(masterTableElem, "coverageNameAttribute");
+    return result;
+  }
 
-        result.maxXAttribute = readNameString(masterTableElem, "maxXAttribute");
-        result.maxYAttribute = readNameString(masterTableElem, "maxYAttribute");
-        result.minXAttribute = readNameString(masterTableElem, "minXAttribute");
-        result.minYAttribute = readNameString(masterTableElem, "minYAttribute");
-        result.resXAttribute = readNameString(masterTableElem, "resXAttribute");
-        result.resYAttribute = readNameString(masterTableElem, "resYAttribute");
-        
-        result.tileTableNameAtribute = readNameString(masterTableElem, "tileTableNameAtribute"); // typo
-        if (result.tileTableNameAtribute==null) 
-            result.tileTableNameAtribute = readNameString(masterTableElem, "tileTableNameAttribute"); //  correct name
-                
-        result.spatialTableNameAtribute = readNameString(masterTableElem,"spatialTableNameAtribute"); // typo
-        if (result.spatialTableNameAtribute == null)
-            result.spatialTableNameAtribute= readNameString(masterTableElem,"spatialTableNameAttribute"); // correct name
+  static void readMapping(Config result, Document dom) {
+    result.masterTable = readNameString(dom.getDocumentElement(), "masterTable");
 
-        Element tileTableElem = (Element) dom.getElementsByTagName("tileTable").item(0);
-        if (tileTableElem!=null) {
-            result.blobAttributeNameInTileTable = readNameString(tileTableElem, "blobAttributeName");
-            result.keyAttributeNameInTileTable = readNameString(tileTableElem, "keyAttributeName");
-        }
-        
+    Element masterTableElem = (Element) dom.getElementsByTagName("masterTable").item(0);
+    result.coverageNameAttribute = readNameString(masterTableElem, "coverageNameAttribute");
 
-        Element spatialTableElem = (Element) dom.getElementsByTagName("spatialTable").item(0);
-        if (spatialTableElem!=null) {
-            result.keyAttributeNameInSpatialTable = readNameString(spatialTableElem, "keyAttributeName");
-            result.geomAttributeNameInSpatialTable = readNameString(spatialTableElem,
-                "geomAttributeName");
-            result.tileMaxXAttribute = readNameString(spatialTableElem, "tileMaxXAttribute");
-            result.tileMaxYAttribute = readNameString(spatialTableElem, "tileMaxYAttribute");
-            result.tileMinXAttribute = readNameString(spatialTableElem, "tileMinXAttribute");
-            result.tileMinYAttribute = readNameString(spatialTableElem, "tileMinYAttribute");
-        }
+    result.maxXAttribute = readNameString(masterTableElem, "maxXAttribute");
+    result.maxYAttribute = readNameString(masterTableElem, "maxYAttribute");
+    result.minXAttribute = readNameString(masterTableElem, "minXAttribute");
+    result.minYAttribute = readNameString(masterTableElem, "minYAttribute");
+    result.resXAttribute = readNameString(masterTableElem, "resXAttribute");
+    result.resYAttribute = readNameString(masterTableElem, "resYAttribute");
 
+    result.tileTableNameAtribute = readNameString(masterTableElem, "tileTableNameAtribute"); // typo
+    if (result.tileTableNameAtribute == null)
+      result.tileTableNameAtribute =
+          readNameString(masterTableElem, "tileTableNameAttribute"); //  correct name
 
-        result.verifyCardinality=Boolean.FALSE;
-        Node tmp = dom.getElementsByTagName("verify").item(0);
-        if (tmp!=null) {
-            NamedNodeMap map = tmp.getAttributes();
-            String s = map.getNamedItem("cardinality").getNodeValue();
-            result.verifyCardinality = new Boolean(s);
-        }
-        
+    result.spatialTableNameAtribute =
+        readNameString(masterTableElem, "spatialTableNameAtribute"); // typo
+    if (result.spatialTableNameAtribute == null)
+      result.spatialTableNameAtribute =
+          readNameString(masterTableElem, "spatialTableNameAttribute"); // correct name
 
-        
+    Element tileTableElem = (Element) dom.getElementsByTagName("tileTable").item(0);
+    if (tileTableElem != null) {
+      result.blobAttributeNameInTileTable = readNameString(tileTableElem, "blobAttributeName");
+      result.keyAttributeNameInTileTable = readNameString(tileTableElem, "keyAttributeName");
     }
 
-    static void readForOracleGeoRaster(Config result, Document dom) {
-        result.masterTable = readNameString(dom.getDocumentElement(), "masterTable");
-
-        Element masterTableElem = (Element) dom.getElementsByTagName("masterTable").item(0);
-        result.coverageNameAttribute = readNameString(masterTableElem, "coverageNameAttribute");
-
-        result.geoRasterAttribute = readNameString(masterTableElem, "geoRasterAttribute");
-    }
-    
-    static void readForCustom(Config result, Document dom) {        
-        result.jdbcAccessClassName = readNameString(dom.getDocumentElement(), "jdbcAccessClassName");
+    Element spatialTableElem = (Element) dom.getElementsByTagName("spatialTable").item(0);
+    if (spatialTableElem != null) {
+      result.keyAttributeNameInSpatialTable = readNameString(spatialTableElem, "keyAttributeName");
+      result.geomAttributeNameInSpatialTable =
+          readNameString(spatialTableElem, "geomAttributeName");
+      result.tileMaxXAttribute = readNameString(spatialTableElem, "tileMaxXAttribute");
+      result.tileMaxYAttribute = readNameString(spatialTableElem, "tileMaxYAttribute");
+      result.tileMinXAttribute = readNameString(spatialTableElem, "tileMinXAttribute");
+      result.tileMinYAttribute = readNameString(spatialTableElem, "tileMinYAttribute");
     }
 
+    result.verifyCardinality = Boolean.FALSE;
+    Node tmp = dom.getElementsByTagName("verify").item(0);
+    if (tmp != null) {
+      NamedNodeMap map = tmp.getAttributes();
+      String s = map.getNamedItem("cardinality").getNodeValue();
+      result.verifyCardinality = new Boolean(s);
+    }
+  }
 
-    private void initStatements() {
-        StringBuffer buff = null;
-        buff = new StringBuffer("update ").append(masterTable).append(" set ");
-        buff.append(maxXAttribute).append(" = ?,");
-        buff.append(maxYAttribute).append(" = ?,");
-        buff.append(minXAttribute).append(" = ?,");
-        buff.append(minYAttribute).append(" = ?");
-        buff.append(" where ").append(coverageNameAttribute).append(" = ? ");
-        if (tileTableNameAtribute!= null) 
-            buff.append(" and ").append(tileTableNameAtribute).append(" = ? ");
-        if (spatialTableNameAtribute!=null)
-            buff.append(" and ").append(spatialTableNameAtribute).append(" = ? ");
-        sqlUpdateMosaicStatement = buff.toString();
+  static void readForOracleGeoRaster(Config result, Document dom) {
+    result.masterTable = readNameString(dom.getDocumentElement(), "masterTable");
 
-        buff = new StringBuffer("select * from ").append(masterTable).append(" where ").append(
-                coverageNameAttribute).append(" = ? ");
-        sqlSelectCoverageStatement = buff.toString();
+    Element masterTableElem = (Element) dom.getElementsByTagName("masterTable").item(0);
+    result.coverageNameAttribute = readNameString(masterTableElem, "coverageNameAttribute");
 
-        buff = new StringBuffer("update ").append(masterTable).append(" set ");
-        buff.append(resXAttribute).append(" = ?,");
-        buff.append(resYAttribute).append(" = ? ");
-        buff.append(" where ").append(coverageNameAttribute).append(" = ? ");
-        if (tileTableNameAtribute!= null)
-            buff.append(" and ").append(tileTableNameAtribute).append(" = ? ");
-        if (spatialTableNameAtribute!=null)
-            buff.append(" and ").append(spatialTableNameAtribute).append(" = ? ");
-        sqlUpdateResStatement = buff.toString();
+    result.geoRasterAttribute = readNameString(masterTableElem, "geoRasterAttribute");
+  }
+
+  static void readForCustom(Config result, Document dom) {
+    result.jdbcAccessClassName = readNameString(dom.getDocumentElement(), "jdbcAccessClassName");
+  }
+
+  private void initStatements() {
+    StringBuffer buff = null;
+    buff = new StringBuffer("update ").append(masterTable).append(" set ");
+    buff.append(maxXAttribute).append(" = ?,");
+    buff.append(maxYAttribute).append(" = ?,");
+    buff.append(minXAttribute).append(" = ?,");
+    buff.append(minYAttribute).append(" = ?");
+    buff.append(" where ").append(coverageNameAttribute).append(" = ? ");
+    if (tileTableNameAtribute != null)
+      buff.append(" and ").append(tileTableNameAtribute).append(" = ? ");
+    if (spatialTableNameAtribute != null)
+      buff.append(" and ").append(spatialTableNameAtribute).append(" = ? ");
+    sqlUpdateMosaicStatement = buff.toString();
+
+    buff =
+        new StringBuffer("select * from ")
+            .append(masterTable)
+            .append(" where ")
+            .append(coverageNameAttribute)
+            .append(" = ? ");
+    sqlSelectCoverageStatement = buff.toString();
+
+    buff = new StringBuffer("update ").append(masterTable).append(" set ");
+    buff.append(resXAttribute).append(" = ?,");
+    buff.append(resYAttribute).append(" = ? ");
+    buff.append(" where ").append(coverageNameAttribute).append(" = ? ");
+    if (tileTableNameAtribute != null)
+      buff.append(" and ").append(tileTableNameAtribute).append(" = ? ");
+    if (spatialTableNameAtribute != null)
+      buff.append(" and ").append(spatialTableNameAtribute).append(" = ? ");
+    sqlUpdateResStatement = buff.toString();
+  }
+
+  private static String readValueString(Document dom, String elemName) {
+    Node n = readValueAttribute(dom, elemName);
+
+    if (n == null) {
+      return null;
     }
 
-    static private String readValueString(Document dom, String elemName) {
-        Node n = readValueAttribute(dom, elemName);
+    return n.getNodeValue();
+  }
 
-        if (n == null) {
-            return null;
-        }
+  private static String readNameString(Element elem, String elemName) {
+    Node n = readNameAttribute(elem, elemName);
 
-        return n.getNodeValue();
+    if (n == null) {
+      return null;
     }
 
-    static private String readNameString(Element elem, String elemName) {
-        Node n = readNameAttribute(elem, elemName);
+    return n.getNodeValue();
+  }
 
-        if (n == null) {
-            return null;
-        }
+  private static Integer readValueInteger(Document dom, String elemName) {
+    Node n = readValueAttribute(dom, elemName);
 
-        return n.getNodeValue();
+    if (n == null) {
+      return null;
     }
 
-    static private Integer readValueInteger(Document dom, String elemName) {
-        Node n = readValueAttribute(dom, elemName);
+    return new Integer(n.getNodeValue());
+  }
 
-        if (n == null) {
-            return null;
-        }
+  private static Node readValueAttribute(Document dom, String elemName) {
+    NodeList list = dom.getElementsByTagName(elemName);
+    Node n = list.item(0);
 
-        return new Integer(n.getNodeValue());
+    if (n == null) {
+      return null;
     }
 
-    static private Node readValueAttribute(Document dom, String elemName) {
-        NodeList list = dom.getElementsByTagName(elemName);
-        Node n = list.item(0);
+    return n.getAttributes().getNamedItem("value");
+  }
 
-        if (n == null) {
-            return null;
-        }
+  private static Node readNameAttribute(Element elem, String elemName) {
+    NodeList list = elem.getElementsByTagName(elemName);
+    Node n = list.item(0);
 
-        return n.getAttributes().getNamedItem("value");
+    if (n == null) {
+      return null;
     }
 
-    static private Node readNameAttribute(Element elem, String elemName) {
-        NodeList list = elem.getElementsByTagName(elemName);
-        Node n = list.item(0);
+    return n.getAttributes().getNamedItem("name");
+  }
 
-        if (n == null) {
-            return null;
-        }
+  public Map<String, Object> getDataSourceParams() {
+    Map<String, Object> result = new HashMap<String, Object>();
 
-        return n.getAttributes().getNamedItem("name");
+    if ("DBCP".equals(dstype)) {
+      result.put(DBCPDataSourceFactory.DSTYPE.key, dstype);
+      result.put(DBCPDataSourceFactory.USERNAME.key, username);
+      result.put(DBCPDataSourceFactory.PASSWORD.key, password);
+      result.put(DBCPDataSourceFactory.JDBC_URL.key, jdbcUrl);
+      result.put(DBCPDataSourceFactory.DRIVERCLASS.key, driverClassName);
+      result.put(DBCPDataSourceFactory.MAXACTIVE.key, maxActive);
+      result.put(DBCPDataSourceFactory.MAXIDLE.key, maxIdle);
     }
 
-    public Map<String, Object> getDataSourceParams() {
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        if ("DBCP".equals(dstype)) {
-            result.put(DBCPDataSourceFactory.DSTYPE.key, dstype);
-            result.put(DBCPDataSourceFactory.USERNAME.key, username);
-            result.put(DBCPDataSourceFactory.PASSWORD.key, password);
-            result.put(DBCPDataSourceFactory.JDBC_URL.key, jdbcUrl);
-            result.put(DBCPDataSourceFactory.DRIVERCLASS.key, driverClassName);
-            result.put(DBCPDataSourceFactory.MAXACTIVE.key, maxActive);
-            result.put(DBCPDataSourceFactory.MAXIDLE.key, maxIdle);
-        }
-
-        if ("JNDI".equals(dstype)) {
-            result.put(JNDIDataSourceFactory.DSTYPE.key, dstype);
-            result.put(JNDIDataSourceFactory.JNDI_REFNAME.key, jndiReferenceName);
-        }
-
-        return result;
+    if ("JNDI".equals(dstype)) {
+      result.put(JNDIDataSourceFactory.DSTYPE.key, dstype);
+      result.put(JNDIDataSourceFactory.JNDI_REFNAME.key, jndiReferenceName);
     }
 
-    public String getBlobAttributeNameInTileTable() {
-        return blobAttributeNameInTileTable;
-    }
+    return result;
+  }
 
-    public String getKeyAttributeNameInSpatialTable() {
-        return keyAttributeNameInSpatialTable;
-    }
+  public String getBlobAttributeNameInTileTable() {
+    return blobAttributeNameInTileTable;
+  }
 
-    public String getKeyAttributeNameInTileTable() {
-        return keyAttributeNameInTileTable;
-    }
+  public String getKeyAttributeNameInSpatialTable() {
+    return keyAttributeNameInSpatialTable;
+  }
 
-    public String getJdbcUrl() {
-        return jdbcUrl;
-    }
+  public String getKeyAttributeNameInTileTable() {
+    return keyAttributeNameInTileTable;
+  }
 
-    public String getJndiReferenceName() {
-        return jndiReferenceName;
-    }
+  public String getJdbcUrl() {
+    return jdbcUrl;
+  }
 
-    public String getSqlUpdateMosaicStatement() {
-        return sqlUpdateMosaicStatement;
-    }
+  public String getJndiReferenceName() {
+    return jndiReferenceName;
+  }
 
-    public String getSqlSelectCoverageStatement() {
-        return sqlSelectCoverageStatement;
-    }
+  public String getSqlUpdateMosaicStatement() {
+    return sqlUpdateMosaicStatement;
+  }
 
-    public String getSpatialTableNameAtribute() {
-        return spatialTableNameAtribute;
-    }
+  public String getSqlSelectCoverageStatement() {
+    return sqlSelectCoverageStatement;
+  }
 
-    public String getTileTableNameAtribute() {
-        return tileTableNameAtribute;
-    }
+  public String getSpatialTableNameAtribute() {
+    return spatialTableNameAtribute;
+  }
 
-    public String getSqlUpdateResStatement() {
-        return sqlUpdateResStatement;
-    }
+  public String getTileTableNameAtribute() {
+    return tileTableNameAtribute;
+  }
 
-    // String getTileTableSelectString(String tileTableName) {
-    // StringBuffer buff = new StringBuffer ("select
-    // ").append(blobAttributeNameInTileTable ).append(" from ")
-    // .append(tileTableName).append(" where ")
-    // .append(keyAttributeNameInTileTable).append( " = ? ");
-    // return buff.toString();
-    // }
-    public String getMaxXAttribute() {
-        return maxXAttribute;
-    }
+  public String getSqlUpdateResStatement() {
+    return sqlUpdateResStatement;
+  }
 
-    public String getMaxYAttribute() {
-        return maxYAttribute;
-    }
+  // String getTileTableSelectString(String tileTableName) {
+  // StringBuffer buff = new StringBuffer ("select
+  // ").append(blobAttributeNameInTileTable ).append(" from ")
+  // .append(tileTableName).append(" where ")
+  // .append(keyAttributeNameInTileTable).append( " = ? ");
+  // return buff.toString();
+  // }
+  public String getMaxXAttribute() {
+    return maxXAttribute;
+  }
 
-    public String getMinXAttribute() {
-        return minXAttribute;
-    }
+  public String getMaxYAttribute() {
+    return maxYAttribute;
+  }
 
-    public String getMinYAttribute() {
-        return minYAttribute;
-    }
+  public String getMinXAttribute() {
+    return minXAttribute;
+  }
 
-    public String getResXAttribute() {
-        return resXAttribute;
-    }
+  public String getMinYAttribute() {
+    return minYAttribute;
+  }
 
-    public String getResYAttribute() {
-        return resYAttribute;
-    }
+  public String getResXAttribute() {
+    return resXAttribute;
+  }
 
-    public String getCoordsys() {
-        return coordsys;
-    }
+  public String getResYAttribute() {
+    return resYAttribute;
+  }
 
-    public String getCoverageName() {
-        return coverageName;
-    }
+  public String getCoordsys() {
+    return coordsys;
+  }
 
-    public Integer getInterpolation() {
-        return interpolation;
-    }
+  public String getCoverageName() {
+    return coverageName;
+  }
 
-    public String getXmlUrl() {
-        return xmlUrl;
-    }
+  public Integer getInterpolation() {
+    return interpolation;
+  }
 
-    public Boolean getVerifyCardinality() {
-        return verifyCardinality;
-    }
+  public String getXmlUrl() {
+    return xmlUrl;
+  }
 
-    public String getDriverClassName() {
-        return driverClassName;
-    }
+  public Boolean getVerifyCardinality() {
+    return verifyCardinality;
+  }
 
-    public String getMasterTable() {
-        return masterTable;
-    }
+  public String getDriverClassName() {
+    return driverClassName;
+  }
 
-    public String getCoverageNameAttribute() {
-        return coverageNameAttribute;
-    }
+  public String getMasterTable() {
+    return masterTable;
+  }
 
-    public String getGeoRasterAttribute() {
-        return geoRasterAttribute;
-    }
+  public String getCoverageNameAttribute() {
+    return coverageNameAttribute;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public String getGeoRasterAttribute() {
+    return geoRasterAttribute;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public String getTileMaxXAttribute() {
-        return tileMaxXAttribute;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public String getTileMaxYAttribute() {
-        return tileMaxYAttribute;
-    }
+  public String getTileMaxXAttribute() {
+    return tileMaxXAttribute;
+  }
 
-    public String getTileMinXAttribute() {
-        return tileMinXAttribute;
-    }
+  public String getTileMaxYAttribute() {
+    return tileMaxYAttribute;
+  }
 
-    public String getTileMinYAttribute() {
-        return tileMinYAttribute;
-    }
+  public String getTileMinXAttribute() {
+    return tileMinXAttribute;
+  }
 
-    public String getGeomAttributeNameInSpatialTable() {
-        return geomAttributeNameInSpatialTable;
-    }
+  public String getTileMinYAttribute() {
+    return tileMinYAttribute;
+  }
 
-    public SpatialExtension getSpatialExtension() {
-        return spatialExtension;
-    }
-    public String getJdbcAccessClassName() {
-        return jdbcAccessClassName;
-    }
-    
-    public Boolean getIgnoreAxisOrder() {
-        return ignoreAxisOrder;
-    }
+  public String getGeomAttributeNameInSpatialTable() {
+    return geomAttributeNameInSpatialTable;
+  }
 
+  public SpatialExtension getSpatialExtension() {
+    return spatialExtension;
+  }
 
+  public String getJdbcAccessClassName() {
+    return jdbcAccessClassName;
+  }
+
+  public Boolean getIgnoreAxisOrder() {
+    return ignoreAxisOrder;
+  }
 }

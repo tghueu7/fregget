@@ -19,13 +19,13 @@ package org.geotools.map;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import org.geotools.map.event.MapAdapter;
 import org.geotools.map.event.MapBoundsEvent;
 import org.geotools.map.event.MapLayerListEvent;
-import org.geotools.map.event.MapAdapter;
 
 /**
- * A listener for map bounds and layer list events which can be set to wait
- * for specific events to be received.
+ * A listener for map bounds and layer list events which can be set to wait for specific events to
+ * be received.
  *
  * @author Michael Bedward
  * @since 2.7
@@ -34,76 +34,75 @@ import org.geotools.map.event.MapAdapter;
  */
 class WaitingMapListener extends MapAdapter {
 
-    static enum Type {
-        ADDED, 
-        REMOVED, 
-        CHANGED, 
-        MOVED, 
-        PRE_DISPOSE,
-        BOUNDS_CHANGED;
-    }
-    
-    private static final int N = Type.values().length;
-    CountDownLatch[] latches = new CountDownLatch[N];
+  static enum Type {
+    ADDED,
+    REMOVED,
+    CHANGED,
+    MOVED,
+    PRE_DISPOSE,
+    BOUNDS_CHANGED;
+  }
 
-    void setExpected(Type type) {
-        setExpected(type, 1);
-    }
+  private static final int N = Type.values().length;
+  CountDownLatch[] latches = new CountDownLatch[N];
 
-    void setExpected(Type type, int count) {
-        latches[type.ordinal()] = new CountDownLatch(count);
-    }
+  void setExpected(Type type) {
+    setExpected(type, 1);
+  }
 
-    boolean await(Type type, long timeoutMillis) {
-        int index = type.ordinal();
-        if (latches[index] == null) {
-            throw new IllegalStateException("Event type not expected: " + type);
-        }
-        boolean result = false;
-        try {
-            result = latches[index].await(timeoutMillis, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException ex) {
-            throw new RuntimeException(ex);
-        }
-        return result;
-    }
+  void setExpected(Type type, int count) {
+    latches[type.ordinal()] = new CountDownLatch(count);
+  }
 
-    @Override
-    public void layerAdded(MapLayerListEvent event) {
-        catchEvent(Type.ADDED);
+  boolean await(Type type, long timeoutMillis) {
+    int index = type.ordinal();
+    if (latches[index] == null) {
+      throw new IllegalStateException("Event type not expected: " + type);
     }
+    boolean result = false;
+    try {
+      result = latches[index].await(timeoutMillis, TimeUnit.MILLISECONDS);
+    } catch (InterruptedException ex) {
+      throw new RuntimeException(ex);
+    }
+    return result;
+  }
 
-    @Override
-    public void layerRemoved(MapLayerListEvent event) {
-        catchEvent(Type.REMOVED);
-    }
+  @Override
+  public void layerAdded(MapLayerListEvent event) {
+    catchEvent(Type.ADDED);
+  }
 
-    @Override
-    public void layerChanged(MapLayerListEvent event) {
-        catchEvent(Type.CHANGED);
-    }
+  @Override
+  public void layerRemoved(MapLayerListEvent event) {
+    catchEvent(Type.REMOVED);
+  }
 
-    @Override
-    public void layerMoved(MapLayerListEvent event) {
-        catchEvent(Type.MOVED);
-    }
+  @Override
+  public void layerChanged(MapLayerListEvent event) {
+    catchEvent(Type.CHANGED);
+  }
 
-    @Override
-    public void layerPreDispose(MapLayerListEvent event) {
-        catchEvent(Type.PRE_DISPOSE);
-    }
+  @Override
+  public void layerMoved(MapLayerListEvent event) {
+    catchEvent(Type.MOVED);
+  }
 
-    @Override
-    public void mapBoundsChanged(MapBoundsEvent event) {
-        catchEvent(Type.BOUNDS_CHANGED);
-    }
+  @Override
+  public void layerPreDispose(MapLayerListEvent event) {
+    catchEvent(Type.PRE_DISPOSE);
+  }
 
-    private void catchEvent(Type type) {
-        int index = type.ordinal();
-        if (latches[index] == null) {
-            throw new IllegalStateException("Event type not expected: " + type);
-        }
-        latches[index].countDown();
+  @Override
+  public void mapBoundsChanged(MapBoundsEvent event) {
+    catchEvent(Type.BOUNDS_CHANGED);
+  }
+
+  private void catchEvent(Type type) {
+    int index = type.ordinal();
+    if (latches[index] == null) {
+      throw new IllegalStateException("Event type not expected: " + type);
     }
-    
+    latches[index].countDown();
+  }
 }

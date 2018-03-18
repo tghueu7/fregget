@@ -5,9 +5,8 @@ import org.geotools.jdbc.JDBCThreeValuedLogicTestSetup;
 
 public class PostGISThreeValuedLogicOnlineTest extends JDBCThreeValuedLogicOnlineTest {
 
-    @Override
-    protected JDBCThreeValuedLogicTestSetup createTestSetup() {
-        return new JDBCThreeValuedLogicTestSetup(new PostGISTestSetup());
-    }
-
+  @Override
+  protected JDBCThreeValuedLogicTestSetup createTestSetup() {
+    return new JDBCThreeValuedLogicTestSetup(new PostGISTestSetup());
+  }
 }

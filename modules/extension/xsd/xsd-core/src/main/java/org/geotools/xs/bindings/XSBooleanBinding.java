@@ -21,12 +21,12 @@ import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xs.XS;
 
-
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:boolean.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="boolean" id="boolean"&gt;
  *      &lt;xs:annotation&gt;
@@ -47,76 +47,73 @@ import org.geotools.xs.XS;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSBooleanBinding implements SimpleBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return XS.BOOLEAN;
+  /** @generated */
+  public QName getTarget() {
+    return XS.BOOLEAN;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link Boolean}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Boolean.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link Boolean}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    if ("1".equals(value) || "true".equals(value)) {
+      return Boolean.TRUE;
+    } else if ("0".equals(value) || "false".equals(value)) {
+      return Boolean.FALSE;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
+    throw new IllegalArgumentException("boolean indeterminate from  '" + value + "'");
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public String encode(Object object, String value) {
+    Boolean bool = (Boolean) object;
+
+    if (Boolean.TRUE.equals(bool)) {
+      return "true";
+    } else if (Boolean.FALSE.equals(bool)) {
+      return "false";
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link Boolean}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Boolean.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link Boolean}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        if ("1".equals(value) || "true".equals(value)) {
-            return Boolean.TRUE;
-        } else if ("0".equals(value) || "false".equals(value)) {
-            return Boolean.FALSE;
-        }
-
-        throw new IllegalArgumentException("boolean indeterminate from  '" + value + "'");
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public String encode(Object object, String value) {
-        Boolean bool = (Boolean) object;
-
-        if (Boolean.TRUE.equals(bool)) {
-            return "true";
-        } else if (Boolean.FALSE.equals(bool)) {
-            return "false";
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

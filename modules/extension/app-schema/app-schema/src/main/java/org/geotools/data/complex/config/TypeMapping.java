@@ -22,145 +22,142 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
-
 import org.geotools.util.CheckedArrayList;
 
 /**
- * 
  * @author Gabriel Roldan (Axios Engineering)
  * @author Russell Petty (GeoScience Victoria)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  * @since 2.4
  */
 public class TypeMapping implements Serializable {
-    private static final Logger LOGGER = org.geotools.util.logging.Logging
-            .getLogger("org.geotools.data.complex");
+  private static final Logger LOGGER =
+      org.geotools.util.logging.Logging.getLogger("org.geotools.data.complex");
 
-    private static final long serialVersionUID = 1444252634598922057L;
+  private static final long serialVersionUID = 1444252634598922057L;
 
-    private String sourceDataStore;
+  private String sourceDataStore;
 
-    private String sourceTypeName;
-  
-    private String itemXpath;
+  private String sourceTypeName;
 
-    /**
-      * True if we don't want to create a new feature, but want to add attributes to the feature
-      * returned from the backend Data access.
-      */
-    private boolean isXmlDataStore;
+  private String itemXpath;
 
-    /**
-     * True if data is multiple rows represent 1 feature. The safe default is to assume it's true.
-     */
-    private boolean isDenormalised = true;
-    /**
-     * True if isDenormalised has been set in config.
-     */    
-    private boolean isDenormalisedSet = false;
-  
-    private String targetElementName;
+  /**
+   * True if we don't want to create a new feature, but want to add attributes to the feature
+   * returned from the backend Data access.
+   */
+  private boolean isXmlDataStore;
 
-    private List attributeMappings = Collections.EMPTY_LIST;
+  /** True if data is multiple rows represent 1 feature. The safe default is to assume it's true. */
+  private boolean isDenormalised = true;
+  /** True if isDenormalised has been set in config. */
+  private boolean isDenormalisedSet = false;
 
-    /**
-     * Optional unique identifier for a FeatureTypeMapping, useful for multiple mappings of the
-     * same type. 
-     */
-    private String mappingName;
+  private String targetElementName;
 
-    public TypeMapping() {
-        // no-op
+  private List attributeMappings = Collections.EMPTY_LIST;
+
+  /**
+   * Optional unique identifier for a FeatureTypeMapping, useful for multiple mappings of the same
+   * type.
+   */
+  private String mappingName;
+
+  public TypeMapping() {
+    // no-op
+  }
+
+  public List getAttributeMappings() {
+    return new ArrayList(attributeMappings);
+  }
+
+  public void setAttributeMappings(List attributeMappings) {
+    this.attributeMappings = new CheckedArrayList(AttributeMapping.class);
+    if (attributeMappings != null) {
+      this.attributeMappings.addAll(attributeMappings);
     }
+  }
 
-    public List getAttributeMappings() {
-        return new ArrayList(attributeMappings);
-    }
+  public String getSourceDataStore() {
+    return sourceDataStore;
+  }
 
-    public void setAttributeMappings(List attributeMappings) {
-        this.attributeMappings = new CheckedArrayList(AttributeMapping.class);
-        if (attributeMappings != null) {
-            this.attributeMappings.addAll(attributeMappings);
-        }
-    }
+  public void setSourceDataStore(String sourceDataStore) {
+    this.sourceDataStore = sourceDataStore;
+  }
 
-    public String getSourceDataStore() {
-        return sourceDataStore;
-    }
+  public String getSourceTypeName() {
+    return sourceTypeName;
+  }
 
-    public void setSourceDataStore(String sourceDataStore) {
-        this.sourceDataStore = sourceDataStore;
-    }
+  public void setSourceTypeName(String sourceTypeName) {
+    this.sourceTypeName = sourceTypeName;
+  }
 
-    public String getSourceTypeName() {
-        return sourceTypeName;
-    }
+  public String getTargetElementName() {
+    return targetElementName;
+  }
 
-    public void setSourceTypeName(String sourceTypeName) {
-        this.sourceTypeName = sourceTypeName;
-    }
+  public void setTargetElementName(String targetElementName) {
+    this.targetElementName = targetElementName;
+  }
 
-    public String getTargetElementName() {
-        return targetElementName;
-    }
+  public String getItemXpath() {
+    return itemXpath;
+  }
 
-    public void setTargetElementName(String targetElementName) {
-        this.targetElementName = targetElementName;
-    }
-    
-    public String getItemXpath() {
-        return itemXpath;
-    }
+  public void setItemXpath(String itemXpath) {
+    this.itemXpath = itemXpath;
+  }
 
-    public void setItemXpath(String itemXpath) {
-        this.itemXpath = itemXpath;
-    }
+  public void setXmlDataStore(String isXmlDataStore) {
+    this.isXmlDataStore = Boolean.valueOf(isXmlDataStore).booleanValue();
+  }
 
-    public void setXmlDataStore(String isXmlDataStore) {
-        this.isXmlDataStore = Boolean.valueOf(isXmlDataStore).booleanValue();
-    }
+  public boolean isXmlDataStore() {
+    return isXmlDataStore;
+  }
 
-    public boolean isXmlDataStore() {
-        return isXmlDataStore;
-    } 
+  public boolean isDenormalised() {
+    if (!isDenormalisedSet) {
+      LOGGER.info(
+          "isDenormalised is not set in app-schema mapping file for: "
+              + (mappingName == null ? targetElementName : mappingName)
+              + ".\n"
+              + "Setting isDenormalised can result in more efficient SQL queries.");
+    }
+    return isDenormalised;
+  }
 
-    public boolean isDenormalised() {
-        if (!isDenormalisedSet) {
-            LOGGER.info("isDenormalised is not set in app-schema mapping file for: " + (mappingName == null ? targetElementName : mappingName) + ".\n"
-                    + "Setting isDenormalised can result in more efficient SQL queries.");
-        }
-        return isDenormalised;
-    }
+  public void setIsDenormalised(String isDenormalised) {
+    this.isDenormalisedSet = true;
+    this.isDenormalised = Boolean.valueOf(isDenormalised).booleanValue();
+  }
 
-    public void setIsDenormalised(String isDenormalised) {
-        this.isDenormalisedSet = true;
-        this.isDenormalised = Boolean.valueOf(isDenormalised).booleanValue();
-    }
-    
-    public void setMappingName(final String mappingName) {
-        this.mappingName = mappingName;   
-    }
-    
-    public String getMappingName() {
-        return mappingName;
-    }
-    
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("TypeMappingDTO[");
-        if (mappingName != null) {
-            sb.append("mappingName=").append(mappingName).append(",\n ");
-        }
-        sb.append("sourceDataStore=").append(sourceDataStore).append(
-                ",\n sourceTypeName=").append(sourceTypeName).append(",\n targetElementName=")
-                .append(targetElementName).append(",\n attributeMappings=").append(
-                        attributeMappings).append("]");
-        return sb.toString();
+  public void setMappingName(final String mappingName) {
+    this.mappingName = mappingName;
+  }
 
-    }
+  public String getMappingName() {
+    return mappingName;
+  }
 
+  public String toString() {
+    StringBuffer sb = new StringBuffer();
+    sb.append("TypeMappingDTO[");
+    if (mappingName != null) {
+      sb.append("mappingName=").append(mappingName).append(",\n ");
+    }
+    sb.append("sourceDataStore=")
+        .append(sourceDataStore)
+        .append(",\n sourceTypeName=")
+        .append(sourceTypeName)
+        .append(",\n targetElementName=")
+        .append(targetElementName)
+        .append(",\n attributeMappings=")
+        .append(attributeMappings)
+        .append("]");
+    return sb.toString();
+  }
 }

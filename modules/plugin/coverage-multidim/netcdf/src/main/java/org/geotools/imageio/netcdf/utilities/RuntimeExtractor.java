@@ -20,59 +20,55 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.geotools.gce.imagemosaic.properties.PropertiesCollector;
 import org.geotools.gce.imagemosaic.properties.PropertiesCollectorSPI;
 import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * {@link PropertiesCollector} that is able to collect properties from a file name.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
- * 
  */
 class RuntimeExtractor extends PropertiesCollector {
-    Date date;
+  Date date;
 
-    enum RuntimeType {
-        MODIFY_TIME
+  enum RuntimeType {
+    MODIFY_TIME
+  }
+
+  String type = null;
+
+  public RuntimeExtractor(PropertiesCollectorSPI spi, List<String> propertyNames, String type) {
+    super(spi, propertyNames);
+    this.type = type;
+  }
+
+  @Override
+  public void setProperties(SimpleFeature feature) {
+
+    for (String propertyName : getPropertyNames()) {
+      // set the property
+      feature.setAttribute(propertyName, date);
     }
+  }
 
-    String type = null;
+  @Override
+  public void setProperties(Map<String, Object> map) {
+    throw new UnsupportedOperationException();
+  }
 
-    public RuntimeExtractor(PropertiesCollectorSPI spi, List<String> propertyNames, String type) {
-        super(spi, propertyNames);
-        this.type = type;
+  @Override
+  public RuntimeExtractor collect(File file) {
+    super.collect(file);
+
+    // get name of the file
+    if (type.equalsIgnoreCase(RuntimeType.MODIFY_TIME.toString())) {
+
+      // TODO Need to take into account locale?
+      date = new Date(file.lastModified());
     }
+    // final String name = FilenameUtils.getBaseName(file.getAbsolutePath());
 
-    @Override
-    public void setProperties(SimpleFeature feature) {
-
-        for (String propertyName : getPropertyNames()) {
-            // set the property
-            feature.setAttribute(propertyName, date);
-
-        }
-    }
-    
-    @Override
-    public void setProperties(Map<String, Object> map) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public RuntimeExtractor collect(File file) {
-        super.collect(file);
-
-        // get name of the file
-        if (type.equalsIgnoreCase(RuntimeType.MODIFY_TIME.toString())) {
-
-            // TODO Need to take into account locale?
-            date = new Date(file.lastModified());
-        }
-        // final String name = FilenameUtils.getBaseName(file.getAbsolutePath());
-
-        return this;
-    }
-
+    return this;
+  }
 }

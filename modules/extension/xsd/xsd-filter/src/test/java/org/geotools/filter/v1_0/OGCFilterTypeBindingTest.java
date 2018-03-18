@@ -16,76 +16,71 @@
  */
 package org.geotools.filter.v1_0;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.geotools.xml.Binding;
 import org.opengis.filter.And;
 import org.opengis.filter.Filter;
 import org.opengis.filter.PropertyIsEqualTo;
 import org.opengis.filter.spatial.Intersects;
-import org.geotools.xml.Binding;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class OGCFilterTypeBindingTest extends FilterTestSupport {
-    public void testType() {
-        assertEquals(Filter.class, binding(OGC.FilterType).getType());
-    }
+  public void testType() {
+    assertEquals(Filter.class, binding(OGC.FilterType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(OGC.FilterType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(OGC.FilterType).getExecutionMode());
+  }
 
-    public void testParseSpatial() throws Exception {
-        Element filterElement = FilterMockData.element(document, document, OGC.Filter);
-        FilterMockData.intersects(document, filterElement);
+  public void testParseSpatial() throws Exception {
+    Element filterElement = FilterMockData.element(document, document, OGC.Filter);
+    FilterMockData.intersects(document, filterElement);
 
-        Filter filter = (Filter) parse();
-        assertTrue(filter instanceof Intersects);
-    }
+    Filter filter = (Filter) parse();
+    assertTrue(filter instanceof Intersects);
+  }
 
-    public void testEncodeSpatial() throws Exception {
-        Document doc = encode(FilterMockData.intersects(), OGC.Filter);
-        assertEquals("ogc:Filter", doc.getDocumentElement().getNodeName());
+  public void testEncodeSpatial() throws Exception {
+    Document doc = encode(FilterMockData.intersects(), OGC.Filter);
+    assertEquals("ogc:Filter", doc.getDocumentElement().getNodeName());
 
-        assertEquals(1, doc.getElementsByTagNameNS(OGC.NAMESPACE, "Intersects").getLength());
-    }
+    assertEquals(1, doc.getElementsByTagNameNS(OGC.NAMESPACE, "Intersects").getLength());
+  }
 
-    public void testParseComparison() throws Exception {
-        Element filterElement = FilterMockData.element(document, document, OGC.Filter);
-        FilterMockData.propertyIsEqualTo(document, filterElement);
+  public void testParseComparison() throws Exception {
+    Element filterElement = FilterMockData.element(document, document, OGC.Filter);
+    FilterMockData.propertyIsEqualTo(document, filterElement);
 
-        Filter filter = (Filter) parse();
-        assertTrue(filter instanceof PropertyIsEqualTo);
-    }
+    Filter filter = (Filter) parse();
+    assertTrue(filter instanceof PropertyIsEqualTo);
+  }
 
-    public void testEncodeComparison() throws Exception {
-        Document doc = encode(FilterMockData.propertyIsEqualTo(), OGC.Filter);
+  public void testEncodeComparison() throws Exception {
+    Document doc = encode(FilterMockData.propertyIsEqualTo(), OGC.Filter);
 
-        assertEquals("ogc:Filter", doc.getDocumentElement().getNodeName());
-        assertEquals(1, doc.getElementsByTagNameNS(OGC.NAMESPACE, "PropertyIsEqualTo").getLength());
-    }
+    assertEquals("ogc:Filter", doc.getDocumentElement().getNodeName());
+    assertEquals(1, doc.getElementsByTagNameNS(OGC.NAMESPACE, "PropertyIsEqualTo").getLength());
+  }
 
-    public void testParseLogical() throws Exception {
-        Element filterElement = FilterMockData.element(document, document, OGC.Filter);
-        FilterMockData.and(document, filterElement);
+  public void testParseLogical() throws Exception {
+    Element filterElement = FilterMockData.element(document, document, OGC.Filter);
+    FilterMockData.and(document, filterElement);
 
-        Filter filter = (Filter) parse();
-        assertTrue(filter instanceof And);
-    }
+    Filter filter = (Filter) parse();
+    assertTrue(filter instanceof And);
+  }
 
-    public void testEncodeLogical() throws Exception {
-        Document doc = encode(FilterMockData.and(), OGC.Filter);
+  public void testEncodeLogical() throws Exception {
+    Document doc = encode(FilterMockData.and(), OGC.Filter);
 
-        assertEquals("ogc:Filter", doc.getDocumentElement().getNodeName());
-        assertEquals(1, doc.getElementsByTagNameNS(OGC.NAMESPACE, "And").getLength());
+    assertEquals("ogc:Filter", doc.getDocumentElement().getNodeName());
+    assertEquals(1, doc.getElementsByTagNameNS(OGC.NAMESPACE, "And").getLength());
 
-        doc = encode(FilterMockData.not(), OGC.Filter);
+    doc = encode(FilterMockData.not(), OGC.Filter);
 
-        assertEquals("ogc:Filter", doc.getDocumentElement().getNodeName());
-        assertEquals(1, doc.getElementsByTagNameNS(OGC.NAMESPACE, "Not").getLength());
-    }
+    assertEquals("ogc:Filter", doc.getDocumentElement().getNodeName());
+    assertEquals(1, doc.getElementsByTagNameNS(OGC.NAMESPACE, "Not").getLength());
+  }
 }

@@ -16,17 +16,13 @@
  */
 package org.geotools.ml;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class MimeType {
-    String type;
-    String subtype;
+  String type;
+  String subtype;
 
-    public MimeType(String type, String subtype) {
-        this.type = type;
-        this.subtype = subtype;
-    }
+  public MimeType(String type, String subtype) {
+    this.type = type;
+    this.subtype = subtype;
+  }
 }

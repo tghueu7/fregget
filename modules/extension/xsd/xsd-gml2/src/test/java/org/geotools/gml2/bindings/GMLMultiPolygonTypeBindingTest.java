@@ -16,63 +16,76 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.MultiPolygon;
 import org.geotools.gml2.GML;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 import org.picocontainer.defaults.DefaultPicoContainer;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPolygon;
-
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GMLMultiPolygonTypeBindingTest extends AbstractGMLBindingTest {
-    ElementInstance mp;
-    ElementInstance poly1;
-    ElementInstance poly2;
-    GeometryFactory gf;
+  ElementInstance mp;
+  ElementInstance poly1;
+  ElementInstance poly2;
+  GeometryFactory gf;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+  protected void setUp() throws Exception {
+    super.setUp();
 
-        poly1 = createElement(GML.NAMESPACE, "myPoly", GML.POLYGONMEMBERTYPE, null);
-        poly2 = createElement(GML.NAMESPACE, "myPoly", GML.POLYGONMEMBERTYPE, null);
-        mp = createElement(GML.NAMESPACE, "myPoly", GML.MULTIPOLYGONTYPE, null);
+    poly1 = createElement(GML.NAMESPACE, "myPoly", GML.POLYGONMEMBERTYPE, null);
+    poly2 = createElement(GML.NAMESPACE, "myPoly", GML.POLYGONMEMBERTYPE, null);
+    mp = createElement(GML.NAMESPACE, "myPoly", GML.MULTIPOLYGONTYPE, null);
 
-        container = new DefaultPicoContainer();
-        container.registerComponentImplementation(GeometryFactory.class);
-        container.registerComponentImplementation(GMLGeometryCollectionTypeBinding.class);
-        container.registerComponentImplementation(GMLMultiPolygonTypeBinding.class);
-    }
+    container = new DefaultPicoContainer();
+    container.registerComponentImplementation(GeometryFactory.class);
+    container.registerComponentImplementation(GMLGeometryCollectionTypeBinding.class);
+    container.registerComponentImplementation(GMLMultiPolygonTypeBinding.class);
+  }
 
-    public void test() throws Exception {
-        Node node = createNode(mp, new ElementInstance[] { poly1, poly2 },
-                new Object[] {
-                    new GeometryFactory().createPolygon(new GeometryFactory().createLinearRing(
-                            new Coordinate[] {
-                                new Coordinate(0, 0), new Coordinate(1, 1), new Coordinate(2, 2),
+  public void test() throws Exception {
+    Node node =
+        createNode(
+            mp,
+            new ElementInstance[] {poly1, poly2},
+            new Object[] {
+              new GeometryFactory()
+                  .createPolygon(
+                      new GeometryFactory()
+                          .createLinearRing(
+                              new Coordinate[] {
+                                new Coordinate(0, 0),
+                                new Coordinate(1, 1),
+                                new Coordinate(2, 2),
                                 new Coordinate(0, 0)
-                            }), null),
-                    new GeometryFactory().createPolygon(new GeometryFactory().createLinearRing(
-                            new Coordinate[] {
-                                new Coordinate(2, 2), new Coordinate(3, 3), new Coordinate(4, 4),
+                              }),
+                      null),
+              new GeometryFactory()
+                  .createPolygon(
+                      new GeometryFactory()
+                          .createLinearRing(
+                              new Coordinate[] {
+                                new Coordinate(2, 2),
+                                new Coordinate(3, 3),
+                                new Coordinate(4, 4),
                                 new Coordinate(2, 2)
-                            }), null)
-                }, null, null);
+                              }),
+                      null)
+            },
+            null,
+            null);
 
-        GMLGeometryCollectionTypeBinding s1 = (GMLGeometryCollectionTypeBinding) container
-            .getComponentInstanceOfType(GMLGeometryCollectionTypeBinding.class);
-        GMLMultiPolygonTypeBinding s2 = (GMLMultiPolygonTypeBinding) container
-            .getComponentInstanceOfType(GMLMultiPolygonTypeBinding.class);
+    GMLGeometryCollectionTypeBinding s1 =
+        (GMLGeometryCollectionTypeBinding)
+            container.getComponentInstanceOfType(GMLGeometryCollectionTypeBinding.class);
+    GMLMultiPolygonTypeBinding s2 =
+        (GMLMultiPolygonTypeBinding)
+            container.getComponentInstanceOfType(GMLMultiPolygonTypeBinding.class);
 
-        MultiPolygon mpoly = (MultiPolygon) s2.parse(mp, node, s1.parse(mp, node, null));
+    MultiPolygon mpoly = (MultiPolygon) s2.parse(mp, node, s1.parse(mp, node, null));
 
-        assertNotNull(mpoly);
-        assertEquals(mpoly.getNumGeometries(), 2);
-    }
+    assertNotNull(mpoly);
+    assertEquals(mpoly.getNumGeometries(), 2);
+  }
 }

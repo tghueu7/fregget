@@ -16,27 +16,24 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.CoordinateSequence;
+import com.vividsolutions.jts.geom.CoordinateSequenceFactory;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LinearRing;
 import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.geometry.jts.JTS;
 import org.geotools.gml2.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.CoordinateSequence;
-import com.vividsolutions.jts.geom.CoordinateSequenceFactory;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LinearRing;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:LinearRingType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="LinearRingType"&gt;
  *      &lt;annotation&gt;
@@ -59,95 +56,89 @@ import com.vividsolutions.jts.geom.LinearRing;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLLinearRingTypeBinding extends AbstractComplexBinding {
-    CoordinateSequenceFactory csFactory;
-    GeometryFactory gFactory;
+  CoordinateSequenceFactory csFactory;
+  GeometryFactory gFactory;
 
-    public GMLLinearRingTypeBinding(CoordinateSequenceFactory csFactory, GeometryFactory gFactory) {
-        this.csFactory = csFactory;
-        this.gFactory = gFactory;
+  public GMLLinearRingTypeBinding(CoordinateSequenceFactory csFactory, GeometryFactory gFactory) {
+    this.csFactory = csFactory;
+    this.gFactory = gFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.LinearRingType;
+  }
+
+  public int getExecutionMode() {
+    return BEFORE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return LinearRing.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    List coordinates = node.getChildren("coord");
+
+    if (!coordinates.isEmpty() && (coordinates.size() < 4)) {
+      throw new RuntimeException("LinearRing must have at least 4 coordinates");
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.LinearRingType;
-    }
+    if (!coordinates.isEmpty()) {
+      Node cnode = (Node) coordinates.get(0);
+      CoordinateSequence seq = (CoordinateSequence) cnode.getValue();
+      int dimension = GMLUtil.getDimension(seq);
 
-    public int getExecutionMode() {
-        return BEFORE;
-    }
+      CoordinateSequence lineSeq = seq = JTS.createCS(csFactory, coordinates.size(), dimension);
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return LinearRing.class;
-    }
+      for (int i = 0; i < coordinates.size(); i++) {
+        cnode = (Node) coordinates.get(i);
+        seq = (CoordinateSequence) cnode.getValue();
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        List coordinates = node.getChildren("coord");
-
-        if (!coordinates.isEmpty() && (coordinates.size() < 4)) {
-            throw new RuntimeException("LinearRing must have at least 4 coordinates");
+        for (int j = 0; j < dimension; j++) {
+          lineSeq.setOrdinate(i, j, seq.getOrdinate(0, j));
         }
+      }
 
-        if (!coordinates.isEmpty()) {
-            Node cnode = (Node) coordinates.get(0);
-            CoordinateSequence seq = (CoordinateSequence) cnode.getValue();
-            int dimension = GMLUtil.getDimension(seq);
-
-            CoordinateSequence lineSeq = seq = JTS.createCS(csFactory, coordinates.size(), dimension);
-
-            for (int i = 0; i < coordinates.size(); i++) {
-                cnode = (Node) coordinates.get(i);
-                seq = (CoordinateSequence) cnode.getValue();
-
-                for (int j = 0; j < dimension; j++) {
-                    lineSeq.setOrdinate(i, j, seq.getOrdinate(0, j));
-                }
-            }
-
-            return gFactory.createLinearRing(lineSeq);
-        }
-
-        if (node.getChild("coordinates") != null) {
-            Node cnode = (Node) node.getChild("coordinates");
-            CoordinateSequence lineSeq = (CoordinateSequence) cnode.getValue();
-
-            return gFactory.createLinearRing(lineSeq);
-        }
-
-        throw new RuntimeException("Could not find coordinates to build linestring");
+      return gFactory.createLinearRing(lineSeq);
     }
 
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        LinearRing linearRing = (LinearRing) object;
+    if (node.getChild("coordinates") != null) {
+      Node cnode = (Node) node.getChild("coordinates");
+      CoordinateSequence lineSeq = (CoordinateSequence) cnode.getValue();
 
-        if (GML.coordinates.equals(name)) {
-            return linearRing.getCoordinateSequence();
-        }
-
-        return null;
+      return gFactory.createLinearRing(lineSeq);
     }
+
+    throw new RuntimeException("Could not find coordinates to build linestring");
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    LinearRing linearRing = (LinearRing) object;
+
+    if (GML.coordinates.equals(name)) {
+      return linearRing.getCoordinateSequence();
+    }
+
+    return null;
+  }
 }

@@ -17,33 +17,32 @@
 package org.geotools.data.transform;
 
 import java.util.Map;
-
 import org.geotools.filter.visitor.DuplicatingFilterVisitor;
 import org.opengis.filter.expression.Expression;
 import org.opengis.filter.expression.PropertyName;
 
 /**
  * Visits a filter and expands the transforming expressions into it
- * 
- * @author Andrea Aime - GeoSolutions 
+ *
+ * @author Andrea Aime - GeoSolutions
  */
 class TransformFilterVisitor extends DuplicatingFilterVisitor {
 
-    private Map<String, Expression> expressions;
+  private Map<String, Expression> expressions;
 
-    public TransformFilterVisitor(Map<String, Expression> expressions) {
-        this.expressions = expressions;
-    }
+  public TransformFilterVisitor(Map<String, Expression> expressions) {
+    this.expressions = expressions;
+  }
 
-    @Override
-    public Object visit(PropertyName expression, Object extraData) {
-        String name = expression.getPropertyName();
-        Expression ex = expressions.get(name);
-        if (ex == null) {
-            return super.visit(expression, extraData);
-        } else {
-            // inject the actual expression into the filter
-            return ex;
-        }
+  @Override
+  public Object visit(PropertyName expression, Object extraData) {
+    String name = expression.getPropertyName();
+    Expression ex = expressions.get(name);
+    if (ex == null) {
+      return super.visit(expression, extraData);
+    } else {
+      // inject the actual expression into the filter
+      return ex;
     }
+  }
 }

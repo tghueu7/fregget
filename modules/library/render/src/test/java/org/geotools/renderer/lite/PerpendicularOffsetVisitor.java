@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2017, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -28,35 +28,34 @@ import org.geotools.styling.visitor.DuplicatingStyleVisitor;
  * @author Andrea Aime - GeoSolutions
  */
 class PerpendicularOffsetVisitor extends DuplicatingStyleVisitor {
-    double distance;
+  double distance;
 
-    public static Style apply(Style style, double distance) {
-        PerpendicularOffsetVisitor visitor = new PerpendicularOffsetVisitor(distance);
-        style.accept(visitor);
-        return (Style) visitor.getCopy();
+  public static Style apply(Style style, double distance) {
+    PerpendicularOffsetVisitor visitor = new PerpendicularOffsetVisitor(distance);
+    style.accept(visitor);
+    return (Style) visitor.getCopy();
+  }
+
+  public PerpendicularOffsetVisitor(double distance) {
+    this.distance = distance;
+  }
+
+  @Override
+  public void visit(LinePlacement lp) {
+    super.visit(lp);
+    LinePlacement copy = (LinePlacement) pages.peek();
+    copy.setPerpendicularOffset(ff.literal(distance));
+  }
+
+  @Override
+  public void visit(TextSymbolizer text) {
+    super.visit(text);
+    TextSymbolizer ts = (TextSymbolizer) pages.peek();
+
+    // do we have follow line without line placement?
+    if (ts.getLabelPlacement() == null
+        && "true".equalsIgnoreCase(ts.getOptions().get("followLine"))) {
+      ts.setLabelPlacement(new LinePlacementImpl());
     }
-
-    public PerpendicularOffsetVisitor(double distance) {
-        this.distance = distance;
-    }
-
-    @Override
-    public void visit(LinePlacement lp) {
-        super.visit(lp);
-        LinePlacement copy = (LinePlacement) pages.peek();
-        copy.setPerpendicularOffset(ff.literal(distance));
-    }
-
-    @Override
-    public void visit(TextSymbolizer text) {
-        super.visit(text);
-        TextSymbolizer ts = (TextSymbolizer) pages.peek();
-
-        // do we have follow line without line placement?
-        if (ts.getLabelPlacement() == null
-                && "true".equalsIgnoreCase(ts.getOptions().get("followLine"))) {
-            ts.setLabelPlacement(new LinePlacementImpl());
-        }
-    }
-
+  }
 }

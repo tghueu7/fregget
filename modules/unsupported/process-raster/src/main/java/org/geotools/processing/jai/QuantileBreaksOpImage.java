@@ -20,86 +20,87 @@ import java.awt.image.RenderedImage;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
-
 import javax.media.jai.ROI;
-
 import org.geotools.process.raster.classify.Classification;
 import org.geotools.process.raster.classify.QuantileClassification;
 
-/**
- * Classification op for the quantile method.
- */
+/** Classification op for the quantile method. */
 public class QuantileBreaksOpImage extends ClassBreaksOpImage {
 
-    public QuantileBreaksOpImage(RenderedImage image, Integer numClasses, Double[][] extrema,
-            ROI roi, Integer[] bands, Integer xStart, Integer yStart, Integer xPeriod,
-            Integer yPeriod, Double noData) {
-        super(image, numClasses, extrema, roi, bands, xStart, yStart, xPeriod, yPeriod, noData);
+  public QuantileBreaksOpImage(
+      RenderedImage image,
+      Integer numClasses,
+      Double[][] extrema,
+      ROI roi,
+      Integer[] bands,
+      Integer xStart,
+      Integer yStart,
+      Integer xPeriod,
+      Integer yPeriod,
+      Double noData) {
+    super(image, numClasses, extrema, roi, bands, xStart, yStart, xPeriod, yPeriod, noData);
+  }
+
+  @Override
+  protected Classification createClassification() {
+    return new QuantileClassification(bands.length);
+  }
+
+  @Override
+  protected void handleValue(double d, Classification c, int band) {
+    QuantileClassification qc = (QuantileClassification) c;
+    if (extrema != null) {
+      double min = extrema[0][band];
+      double max = extrema[1][band];
+
+      if (d < min || d > max) {
+        return;
+      }
     }
 
-    @Override
-    protected Classification createClassification() {
-        return new QuantileClassification(bands.length);
-    }
+    qc.count(d, band);
+  }
 
-    @Override
-    protected void handleValue(double d, Classification c, int band) {
-        QuantileClassification qc = (QuantileClassification) c;
-        if (extrema != null) {
-            double min = extrema[0][band];
-            double max = extrema[1][band];
+  @Override
+  protected void postCalculate(Classification c, int band) {
+    QuantileClassification qc = (QuantileClassification) c;
 
-            if (d < min || d > max) {
-                return;
-            }
+    // get the total number of values
+    int nvalues = qc.getCount(band);
+
+    // calculate the number of values per class
+    int size = (int) Math.ceil(nvalues / (double) numClasses);
+
+    // grab the key iterator
+    Iterator<Map.Entry<Double, Integer>> it = qc.getTable(band).entrySet().iterator();
+
+    TreeSet<Double> set = new TreeSet<Double>();
+    Map.Entry<Double, Integer> e = it.next();
+
+    while (nvalues > 0) {
+      // add the next break
+      set.add(e.getKey());
+
+      for (int i = 0; i < size && nvalues > 0; i++) {
+        // consume the next value
+        int count = e.getValue();
+        e.setValue(--count);
+        nvalues--;
+
+        if (count == 0) {
+          // number of occurences of this entry exhausted, move to next
+          if (!it.hasNext()) {
+            break;
+          }
+          e = it.next();
         }
-        
-        qc.count(d, band);
+      }
+
+      if (nvalues == 0) {
+        // add the last value
+        set.add(e.getKey());
+      }
     }
-
-    @Override
-    protected void postCalculate(Classification c, int band) {
-        QuantileClassification qc = (QuantileClassification) c;
-
-        //get the total number of values
-        int nvalues = qc.getCount(band);
-
-        //calculate the number of values per class
-        int size = (int) Math.ceil(nvalues / (double) numClasses);
-
-        //grab the key iterator
-        Iterator<Map.Entry<Double, Integer>> it = qc.getTable(band).entrySet().iterator();
-
-        TreeSet<Double> set = new TreeSet<Double>();
-        Map.Entry<Double, Integer> e = it.next();
-        
-        while(nvalues > 0) {
-            //add the next break
-            set.add(e.getKey());
-
-            for (int i = 0; i < size && nvalues > 0; i++) {
-                //consume the next value
-                int count = e.getValue();
-                e.setValue(--count);
-                nvalues--;
-                
-                if (count == 0) {
-                    //number of occurences of this entry exhausted, move to next
-                    if (!it.hasNext()) {
-                        break;
-                    }
-                    e = it.next();
-                }
-            }
-
-            if (nvalues == 0) {
-                //add the last value
-                set.add(e.getKey());
-            }
-        }
-        qc.setBreaks(band, set.toArray(new Double[set.size()]));
-        
-
-    }
-
+    qc.setBreaks(band, set.toArray(new Double[set.size()]));
+  }
 }

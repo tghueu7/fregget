@@ -3,7 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -21,25 +21,23 @@ package org.geotools.validation.xml;
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class ValidationException extends Exception {
-    public ValidationException() {
-        super();
-    }
+  public ValidationException() {
+    super();
+  }
 
-    public ValidationException(String s) {
-        super(s);
-    }
+  public ValidationException(String s) {
+    super(s);
+  }
 
-    public ValidationException(Throwable e) {
-        super(e);
-    }
+  public ValidationException(Throwable e) {
+    super(e);
+  }
 
-    public ValidationException(String s, Throwable e) {
-        super(s, e);
-    }
+  public ValidationException(String s, Throwable e) {
+    super(s, e);
+  }
 }

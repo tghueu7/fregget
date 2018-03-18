@@ -1,20 +1,18 @@
 package org.geotools.wmts.bindings;
 
+import java.math.BigInteger;
+import javax.xml.namespace.QName;
+import net.opengis.wmts.v_1.TileMatrixLimitsType;
+import net.opengis.wmts.v_1.wmtsv_1Factory;
 import org.geotools.wmts.WMTS;
 import org.geotools.xml.*;
 import org.geotools.xml.AbstractComplexBinding;
-
-import net.opengis.wmts.v_1.TileMatrixLimitsType;
-import net.opengis.wmts.v_1.wmtsv_1Factory;
-
-import java.math.BigInteger;
-
-import javax.xml.namespace.QName;
 
 /**
  * Binding object for the element http://www.opengis.net/wmts/1.0:TileMatrixLimits.
  *
  * <p>
+ *
  * <pre>
  * <code>
  *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="TileMatrixLimits" xmlns="http://www.w3.org/2001/XMLSchema"&gt;
@@ -61,57 +59,54 @@ import javax.xml.namespace.QName;
  *
  * </code>
  * </pre>
- * </p>
  *
  * @generated
  */
-public class TileMatrixLimitsBinding extends AbstractComplexBinding
-{
-    wmtsv_1Factory factory;
+public class TileMatrixLimitsBinding extends AbstractComplexBinding {
+  wmtsv_1Factory factory;
 
-    public TileMatrixLimitsBinding(wmtsv_1Factory factory) {
-        super();
-        this.factory = factory;
-    }
+  public TileMatrixLimitsBinding(wmtsv_1Factory factory) {
+    super();
+    this.factory = factory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WMTS.TileMatrixLimits;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return WMTS.TileMatrixLimits;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return TileMatrixLimitsType.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return TileMatrixLimitsType.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-            throws Exception {
-        TileMatrixLimitsType limits = factory.createTileMatrixLimitsType();
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    TileMatrixLimitsType limits = factory.createTileMatrixLimitsType();
 
-        limits.setTileMatrix((String) node.getChildValue("TileMatrix"));
+    limits.setTileMatrix((String) node.getChildValue("TileMatrix"));
 
-        limits.setMaxTileCol(toBigInt(node.getChildValue("MaxTileCol")));
-        limits.setMaxTileRow(toBigInt(node.getChildValue("MaxTileRow")));
-        limits.setMinTileCol(toBigInt(node.getChildValue("MinTileCol")));
-        limits.setMinTileRow(toBigInt(node.getChildValue("MinTileRow")));
+    limits.setMaxTileCol(toBigInt(node.getChildValue("MaxTileCol")));
+    limits.setMaxTileRow(toBigInt(node.getChildValue("MaxTileRow")));
+    limits.setMinTileCol(toBigInt(node.getChildValue("MinTileCol")));
+    limits.setMinTileRow(toBigInt(node.getChildValue("MinTileRow")));
 
-        return limits;
-    }
+    return limits;
+  }
 
-    private static BigInteger toBigInt(Object o) {
-        return BigInteger.valueOf(((Integer) o).longValue());
-    }
+  private static BigInteger toBigInt(Object o) {
+    return BigInteger.valueOf(((Integer) o).longValue());
+  }
 }

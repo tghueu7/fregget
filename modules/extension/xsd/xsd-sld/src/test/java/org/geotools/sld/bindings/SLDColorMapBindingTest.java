@@ -20,28 +20,23 @@ import java.awt.Color;
 import org.geotools.styling.ColorMap;
 import org.geotools.styling.ColorMapEntry;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDColorMapBindingTest extends SLDTestSupport {
-    public void testType() {
-        assertEquals(ColorMap.class, new SLDColorMapBinding(null).getType());
-    }
+  public void testType() {
+    assertEquals(ColorMap.class, new SLDColorMapBinding(null).getType());
+  }
 
-    public void testNormal() throws Exception {
-        SLDMockData.colorMap(document, document);
+  public void testNormal() throws Exception {
+    SLDMockData.colorMap(document, document);
 
-        ColorMap colorMap = (ColorMap) parse();
-        assertNotNull(colorMap);
+    ColorMap colorMap = (ColorMap) parse();
+    assertNotNull(colorMap);
 
-        ColorMapEntry[] entries = colorMap.getColorMapEntries();
+    ColorMapEntry[] entries = colorMap.getColorMapEntries();
 
-        assertNotNull(entries);
-        assertEquals(2, entries.length);
-        assertEquals(org.geotools.styling.SLD.color(entries[0].getColor()), Color.BLACK);
-        assertEquals(org.geotools.styling.SLD.color(entries[1].getColor()), Color.WHITE);
-    }
+    assertNotNull(entries);
+    assertEquals(2, entries.length);
+    assertEquals(org.geotools.styling.SLD.color(entries[0].getColor()), Color.BLACK);
+    assertEquals(org.geotools.styling.SLD.color(entries[1].getColor()), Color.WHITE);
+  }
 }

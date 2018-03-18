@@ -19,26 +19,24 @@ package org.geotools.imageio;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * Simple {@link Identification} class test
- */
+/** Simple {@link Identification} class test */
 public class IdentificationTest extends Assert {
 
-    @Test
-    public void testIdentification() {
-        final String name = "mean sea level depth";
-        Identification id = new Identification(name, null, null, "EPSG:5715");
-        assertEquals(name, id.getName());
-        assertEquals("EPSG:5715", id.getIdentifier());
-        assertNull(id.getRemarks());
-        assertNull(id.getAlias());
-        final int length = id.length();
-        assertEquals(20, length);
+  @Test
+  public void testIdentification() {
+    final String name = "mean sea level depth";
+    Identification id = new Identification(name, null, null, "EPSG:5715");
+    assertEquals(name, id.getName());
+    assertEquals("EPSG:5715", id.getIdentifier());
+    assertNull(id.getRemarks());
+    assertNull(id.getAlias());
+    final int length = id.length();
+    assertEquals(20, length);
 
-        final Identification id2 = (Identification) new Identification(name).subSequence(5, length);
-        final Identification id3 = (Identification) id.subSequence(0, length);
-        assertNotEquals(id, id2);
-        assertSame(id, id3);
-        assertEquals(id, id3);
-    }
+    final Identification id2 = (Identification) new Identification(name).subSequence(5, length);
+    final Identification id3 = (Identification) id.subSequence(0, length);
+    assertNotEquals(id, id2);
+    assertSame(id, id3);
+    assertEquals(id, id3);
+  }
 }

@@ -19,74 +19,72 @@ package org.geotools.data.wmts;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertNull;
+import static org.geotools.wmts.WMTSTestUtils.createCapabilities;
+
 import org.geotools.data.ows.Layer;
 import org.geotools.data.wmts.model.WMTSCapabilities;
 import org.geotools.geometry.GeneralEnvelope;
 import org.geotools.referencing.CRS;
-import static org.geotools.wmts.WMTSTestUtils.createCapabilities;
 import org.junit.Test;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-/**
- *
- * @author Emanuele Tajariol (etj at geo-solutions dot it)
- */
+/** @author Emanuele Tajariol (etj at geo-solutions dot it) */
 public class WebMapTileServerTest {
 
-    @Test
-    public void nasaGetEnvelopeTest() throws Exception {
+  @Test
+  public void nasaGetEnvelopeTest() throws Exception {
 
-        WMTSCapabilities caps = createCapabilities("nasa.getcapa.xml");
-        WebMapTileServer wmts = new WebMapTileServer(caps);
+    WMTSCapabilities caps = createCapabilities("nasa.getcapa.xml");
+    WebMapTileServer wmts = new WebMapTileServer(caps);
 
-        Layer layer = (Layer) caps.getLayer("AMSRE_Surface_Rain_Rate_Night");
-        // urn:ogc:def:crs:OGC:1.3:CRS84
+    Layer layer = (Layer) caps.getLayer("AMSRE_Surface_Rain_Rate_Night");
+    // urn:ogc:def:crs:OGC:1.3:CRS84
 
-        // <ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
-        // <ows:LowerCorner>-180 -90</ows:LowerCorner>
-        // <ows:UpperCorner>180 90</ows:UpperCorner>
-        // </ows:WGS84BoundingBox>
+    // <ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+    // <ows:LowerCorner>-180 -90</ows:LowerCorner>
+    // <ows:UpperCorner>180 90</ows:UpperCorner>
+    // </ows:WGS84BoundingBox>
 
-        assertNotNull(wmts.getEnvelope(layer, CRS.decode("urn:ogc:def:crs:OGC:1.3:CRS84")));
-        assertNotNull(wmts.getEnvelope(layer, CRS.decode("CRS:84")));
+    assertNotNull(wmts.getEnvelope(layer, CRS.decode("urn:ogc:def:crs:OGC:1.3:CRS84")));
+    assertNotNull(wmts.getEnvelope(layer, CRS.decode("CRS:84")));
 
-        assertNull(wmts.getEnvelope(layer, CRS.decode("EPSG:4326")));
+    assertNull(wmts.getEnvelope(layer, CRS.decode("EPSG:4326")));
 
-        CoordinateReferenceSystem crs = CRS.decode("CRS:84");
+    CoordinateReferenceSystem crs = CRS.decode("CRS:84");
 
-        GeneralEnvelope envelope = wmts.getEnvelope(layer, crs);
-        assertNotNull(envelope);
-        assertEquals(-90.0, envelope.getMinimum(1), 0.0001);
-        assertEquals(-180.0, envelope.getMinimum(0), 0.0001);
-        assertEquals(90.0, envelope.getMaximum(1), 0.0001);
-        assertEquals(180.0, envelope.getMaximum(0), 0.0001);
-    }
+    GeneralEnvelope envelope = wmts.getEnvelope(layer, crs);
+    assertNotNull(envelope);
+    assertEquals(-90.0, envelope.getMinimum(1), 0.0001);
+    assertEquals(-180.0, envelope.getMinimum(0), 0.0001);
+    assertEquals(90.0, envelope.getMaximum(1), 0.0001);
+    assertEquals(180.0, envelope.getMaximum(0), 0.0001);
+  }
 
-    @Test
-    public void chGetEnvelopeTest() throws Exception {
-        WMTSCapabilities caps = createCapabilities("admin_ch.getcapa.xml");
-        WebMapTileServer wmts = new WebMapTileServer(caps);
+  @Test
+  public void chGetEnvelopeTest() throws Exception {
+    WMTSCapabilities caps = createCapabilities("admin_ch.getcapa.xml");
+    WebMapTileServer wmts = new WebMapTileServer(caps);
 
-        Layer layer = (Layer) caps.getLayer("ch.are.alpenkonvention");
-        // <ows:SupportedCRS>urn:ogc:def:crs:EPSG:2056</ows:SupportedCRS>
-        // <ows:WGS84BoundingBox>
-        // <ows:LowerCorner>5.140242 45.398181</ows:LowerCorner>
-        // <ows:UpperCorner>11.47757 48.230651</ows:UpperCorner>
-        // </ows:WGS84BoundingBox>
+    Layer layer = (Layer) caps.getLayer("ch.are.alpenkonvention");
+    // <ows:SupportedCRS>urn:ogc:def:crs:EPSG:2056</ows:SupportedCRS>
+    // <ows:WGS84BoundingBox>
+    // <ows:LowerCorner>5.140242 45.398181</ows:LowerCorner>
+    // <ows:UpperCorner>11.47757 48.230651</ows:UpperCorner>
+    // </ows:WGS84BoundingBox>
 
-        assertNotNull(wmts.getEnvelope(layer, CRS.decode("urn:ogc:def:crs:OGC:1.3:CRS84")));
-        assertNotNull(wmts.getEnvelope(layer, CRS.decode("CRS:84")));
-        assertNotNull(wmts.getEnvelope(layer, CRS.decode("EPSG:2056")));
+    assertNotNull(wmts.getEnvelope(layer, CRS.decode("urn:ogc:def:crs:OGC:1.3:CRS84")));
+    assertNotNull(wmts.getEnvelope(layer, CRS.decode("CRS:84")));
+    assertNotNull(wmts.getEnvelope(layer, CRS.decode("EPSG:2056")));
 
-        assertNull(wmts.getEnvelope(layer, CRS.decode("EPSG:4326")));
+    assertNull(wmts.getEnvelope(layer, CRS.decode("EPSG:4326")));
 
-        CoordinateReferenceSystem crs = CRS.decode("CRS:84");
+    CoordinateReferenceSystem crs = CRS.decode("CRS:84");
 
-        GeneralEnvelope envelope = wmts.getEnvelope(layer, crs);
-        assertNotNull(envelope);
-        assertEquals(45.398181, envelope.getMinimum(1), 0.0001);
-        assertEquals(5.140242, envelope.getMinimum(0), 0.0001);
-        assertEquals(48.230651, envelope.getMaximum(1), 0.0001);
-        assertEquals(11.47757, envelope.getMaximum(0), 0.0001);
-    }
+    GeneralEnvelope envelope = wmts.getEnvelope(layer, crs);
+    assertNotNull(envelope);
+    assertEquals(45.398181, envelope.getMinimum(1), 0.0001);
+    assertEquals(5.140242, envelope.getMinimum(0), 0.0001);
+    assertEquals(48.230651, envelope.getMaximum(1), 0.0001);
+    assertEquals(11.47757, envelope.getMaximum(0), 0.0001);
+  }
 }

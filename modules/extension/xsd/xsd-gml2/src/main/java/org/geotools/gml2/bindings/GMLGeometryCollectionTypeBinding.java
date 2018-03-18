@@ -16,22 +16,20 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.GeometryCollection;
+import com.vividsolutions.jts.geom.GeometryFactory;
 import javax.xml.namespace.QName;
-
 import org.geotools.gml2.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.GeometryFactory;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:GeometryCollectionType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="GeometryCollectionType"&gt;
  *      &lt;annotation&gt;
@@ -52,60 +50,55 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLGeometryCollectionTypeBinding extends AbstractComplexBinding {
-    GeometryFactory gFactory;
+  GeometryFactory gFactory;
 
-    public GMLGeometryCollectionTypeBinding(GeometryFactory gFactory) {
-        this.gFactory = gFactory;
+  public GMLGeometryCollectionTypeBinding(GeometryFactory gFactory) {
+    this.gFactory = gFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.GeometryCollectionType;
+  }
+
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return GeometryCollection.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This method returns an object of type @link GeometryCollection
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return GML2ParsingUtils.GeometryCollectionType_parse(node, GeometryCollection.class, gFactory);
+  }
+
+  @Override
+  public Object getProperty(Object object, QName name) throws Exception {
+    if (GML.geometryMember.equals(name)) {
+      return GML2ParsingUtils.asCollection((GeometryCollection) object);
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.GeometryCollectionType;
-    }
-
-    public int getExecutionMode() {
-        return OVERRIDE;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return GeometryCollection.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * This method returns an object of type @link GeometryCollection
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return GML2ParsingUtils.GeometryCollectionType_parse(node, GeometryCollection.class, gFactory);
-    }
-    
-    @Override
-    public Object getProperty(Object object, QName name) throws Exception {
-        if (GML.geometryMember.equals(name)) {
-            return GML2ParsingUtils.asCollection((GeometryCollection) object);
-        }
-        
-        return GML2ParsingUtils.GeometryCollectionType_getProperty(object, name);
-    }
+    return GML2ParsingUtils.GeometryCollectionType_getProperty(object, name);
+  }
 }

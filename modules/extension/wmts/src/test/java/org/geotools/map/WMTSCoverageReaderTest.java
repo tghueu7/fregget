@@ -29,9 +29,9 @@ import java.util.Set;
 import javax.xml.parsers.ParserConfigurationException;
 import net.opengis.wmts.v_1.CapabilitiesType;
 import org.apache.commons.io.IOUtils;
+import org.geotools.data.wmts.WebMapTileServer;
 import org.geotools.data.wmts.model.WMTSCapabilities;
 import org.geotools.data.wmts.model.WMTSLayer;
-import org.geotools.data.wmts.WebMapTileServer;
 import org.geotools.data.wmts.request.GetTileRequest;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.ows.ServiceException;
@@ -39,98 +39,92 @@ import org.geotools.referencing.CRS;
 import org.geotools.tile.Tile;
 import org.geotools.wmts.WMTSConfiguration;
 import org.geotools.xml.Parser;
-
 import org.junit.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-/**
- * @author ian
- *
- */
+/** @author ian */
 public class WMTSCoverageReaderTest {
 
-    private final static String KVP_CAPA_RESOURCENAME = "test-data/getcapa_kvp.xml";
+  private static final String KVP_CAPA_RESOURCENAME = "test-data/getcapa_kvp.xml";
 
-    private final static String REST_CAPA_RESOURCENAME = "test-data/admin_ch.getcapa.xml";
+  private static final String REST_CAPA_RESOURCENAME = "test-data/admin_ch.getcapa.xml";
 
-    @Test
-    public void testRESTInitMapRequest() throws Exception {
-        WebMapTileServer server = createServer(REST_CAPA_RESOURCENAME);
-        WMTSLayer layer = (WMTSLayer) server.getCapabilities()
-                .getLayer("ch.are.agglomerationen_isolierte_staedte");
-        WMTSCoverageReader wcr = new WMTSCoverageReader(server, layer);
-        ReferencedEnvelope bbox = new ReferencedEnvelope(5, 12, 45, 49, CRS.decode("EPSG:4326"));
-        testInitMapRequest(wcr, bbox);
+  @Test
+  public void testRESTInitMapRequest() throws Exception {
+    WebMapTileServer server = createServer(REST_CAPA_RESOURCENAME);
+    WMTSLayer layer =
+        (WMTSLayer) server.getCapabilities().getLayer("ch.are.agglomerationen_isolierte_staedte");
+    WMTSCoverageReader wcr = new WMTSCoverageReader(server, layer);
+    ReferencedEnvelope bbox = new ReferencedEnvelope(5, 12, 45, 49, CRS.decode("EPSG:4326"));
+    testInitMapRequest(wcr, bbox);
+  }
+
+  @Test
+  public void testKVPInitMapRequest() throws Exception {
+    WebMapTileServer server = createServer(KVP_CAPA_RESOURCENAME);
+    WMTSLayer layer = (WMTSLayer) server.getCapabilities().getLayer("topp:states");
+    WMTSCoverageReader wcr = new WMTSCoverageReader(server, layer);
+    ReferencedEnvelope bbox = new ReferencedEnvelope(-180, 180, -90, 90, CRS.decode("EPSG:4326"));
+    testInitMapRequest(wcr, bbox);
+  }
+
+  public void testInitMapRequest(WMTSCoverageReader wcr, ReferencedEnvelope bbox) throws Exception {
+
+    int width = 400;
+    int height = 200;
+    Color backgroundColor = Color.WHITE;
+    ReferencedEnvelope grid = wcr.initTileRequest(bbox, width, height, null);
+    assertNotNull(grid);
+    GetTileRequest mapRequest = wcr.getTileRequest();
+    mapRequest.setCRS(grid.getCoordinateReferenceSystem());
+    Set<Tile> responses = wcr.wmts.issueRequest(mapRequest);
+    for (Tile t : responses) {
+      System.out.println(t);
+      System.out.println(t.getTileIdentifier() + " " + t.getExtent());
+    }
+  }
+
+  private WebMapTileServer createServer(String resourceName) throws Exception {
+
+    File capaFile = getRESTgetcapaFile(resourceName);
+    WMTSCapabilities capa = createCapabilities(capaFile);
+    return new WebMapTileServer(capa);
+  }
+
+  private WMTSCapabilities createCapabilities(File capa) throws ServiceException {
+    Object object;
+    InputStream inputStream = null;
+    try {
+      inputStream = new FileInputStream(capa);
+      Parser parser = new Parser(new WMTSConfiguration());
+
+      object = parser.parse(new InputSource(inputStream));
+
+    } catch (SAXException | ParserConfigurationException | IOException e) {
+      throw (ServiceException) new ServiceException("Error while parsing XML.").initCause(e);
+    } finally {
+      IOUtils.closeQuietly(inputStream);
     }
 
-    @Test
-    public void testKVPInitMapRequest() throws Exception {
-        WebMapTileServer server = createServer(KVP_CAPA_RESOURCENAME);
-        WMTSLayer layer = (WMTSLayer) server.getCapabilities().getLayer("topp:states");
-        WMTSCoverageReader wcr = new WMTSCoverageReader(server, layer);
-        ReferencedEnvelope bbox = new ReferencedEnvelope(-180, 180, -90, 90,
-                CRS.decode("EPSG:4326"));
-        testInitMapRequest(wcr, bbox);
+    if (object instanceof ServiceException) {
+      throw (ServiceException) object;
     }
 
-    public void testInitMapRequest(WMTSCoverageReader wcr, ReferencedEnvelope bbox)
-            throws Exception {
+    return new WMTSCapabilities((CapabilitiesType) object);
+  }
 
-        int width = 400;
-        int height = 200;
-        Color backgroundColor = Color.WHITE;
-        ReferencedEnvelope grid = wcr.initTileRequest(bbox, width, height, null);
-        assertNotNull(grid);
-        GetTileRequest mapRequest = wcr.getTileRequest();
-        mapRequest.setCRS(grid.getCoordinateReferenceSystem());
-        Set<Tile> responses = wcr.wmts.issueRequest(mapRequest);
-        for (Tile t : responses) {
-            System.out.println(t);
-            System.out.println(t.getTileIdentifier() + " " + t.getExtent());
-        }
+  private File getRESTgetcapaFile(String resourceName) {
+    try {
+      URL capaResource = getClass().getClassLoader().getResource(resourceName);
+      assertNotNull("Can't find getCapa resource " + resourceName, capaResource);
+      File capaFile = new File(capaResource.toURI());
+      assertTrue("Can't find getCapa file", capaFile.exists());
+
+      return capaFile;
+    } catch (URISyntaxException ex) {
+      fail(ex.getMessage());
+      return null;
     }
-
-    private WebMapTileServer createServer(String resourceName) throws Exception {
-
-        File capaFile = getRESTgetcapaFile(resourceName);
-        WMTSCapabilities capa = createCapabilities(capaFile);
-        return new WebMapTileServer(capa);
-    }
-
-    private WMTSCapabilities createCapabilities(File capa) throws ServiceException {
-        Object object;
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(capa);
-            Parser parser = new Parser(new WMTSConfiguration());
-
-            object = parser.parse(new InputSource(inputStream));
-
-        } catch (SAXException | ParserConfigurationException | IOException e) {
-            throw (ServiceException) new ServiceException("Error while parsing XML.").initCause(e);
-        } finally {
-            IOUtils.closeQuietly(inputStream);
-        }
-
-        if (object instanceof ServiceException) {
-            throw (ServiceException) object;
-        }
-
-        return new WMTSCapabilities((CapabilitiesType) object);
-    }
-
-    private File getRESTgetcapaFile(String resourceName) {
-        try {
-            URL capaResource = getClass().getClassLoader().getResource(resourceName);
-            assertNotNull("Can't find getCapa resource " + resourceName, capaResource);
-            File capaFile = new File(capaResource.toURI());
-            assertTrue("Can't find getCapa file", capaFile.exists());
-
-            return capaFile;
-        } catch (URISyntaxException ex) {
-            fail(ex.getMessage());
-            return null;
-        }
-    }
+  }
 }

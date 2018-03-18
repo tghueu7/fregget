@@ -18,57 +18,52 @@
 package org.geotools.data.sqlserver;
 
 import java.util.logging.Logger;
-
 import org.geotools.jdbc.JDBCDataStoreFactory;
 import org.geotools.jdbc.JDBCJNDIDataSourceOnlineTest;
 import org.geotools.jdbc.JDBCJNDIDataStoreFactory;
 import org.geotools.jdbc.JDBCJNDITestSetup;
 import org.geotools.util.logging.Logging;
 
-/**
- * 
- *
- * @source $URL$
- */
-public  class SQLServerJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlineTest {
-    
-    static final Logger LOGGER = Logging.getLogger(SQLServerJNDIDataSourceOnlineTest.class);
+/** @source $URL$ */
+public class SQLServerJNDIDataSourceOnlineTest extends JDBCJNDIDataSourceOnlineTest {
 
-    protected JDBCJNDITestSetup createTestSetup() {
-        return new JDBCJNDITestSetup(new SQLServerTestSetup());
-    }
+  static final Logger LOGGER = Logging.getLogger(SQLServerJNDIDataSourceOnlineTest.class);
 
-    @Override
-    protected JDBCJNDIDataStoreFactory getJNDIStoreFactory() {
-        return new SQLServerJNDIDataStoreFactory();
-    }
+  protected JDBCJNDITestSetup createTestSetup() {
+    return new JDBCJNDITestSetup(new SQLServerTestSetup());
+  }
 
-    @Override
-    protected JDBCDataStoreFactory getDataStoreFactory() {
-        return new SQLServerDataStoreFactory();
-    }
-    
-    @Override
-    protected void runTest() throws Throwable {
-        if(isMicrosoftDriverAvailable()) {
-            super.runTest();
-        } else {
-            LOGGER.info("Skipping SQLServerJNDIDataSourceOnlineTest test as the Microsoft driver is not available");
-        }
-    }
-    
-    /**
-     * Returns true if the Microsoft JDBC Driver is available in the classpath, false otherwise
-     * @return
-     */
-    private boolean isMicrosoftDriverAvailable() {
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            return true;
-        } catch(ClassNotFoundException e) {
-            return false;
-        }
-    }
+  @Override
+  protected JDBCJNDIDataStoreFactory getJNDIStoreFactory() {
+    return new SQLServerJNDIDataStoreFactory();
+  }
 
+  @Override
+  protected JDBCDataStoreFactory getDataStoreFactory() {
+    return new SQLServerDataStoreFactory();
+  }
 
+  @Override
+  protected void runTest() throws Throwable {
+    if (isMicrosoftDriverAvailable()) {
+      super.runTest();
+    } else {
+      LOGGER.info(
+          "Skipping SQLServerJNDIDataSourceOnlineTest test as the Microsoft driver is not available");
+    }
+  }
+
+  /**
+   * Returns true if the Microsoft JDBC Driver is available in the classpath, false otherwise
+   *
+   * @return
+   */
+  private boolean isMicrosoftDriverAvailable() {
+    try {
+      Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+      return true;
+    } catch (ClassNotFoundException e) {
+      return false;
+    }
+  }
 }

@@ -23,74 +23,68 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.geotools.coverage.grid.io.GridCoverage2DReader;
-import org.geotools.gce.imagemosaic.properties.PropertiesCollector;
-import org.geotools.gce.imagemosaic.properties.PropertiesCollectorSPI;
 import org.geotools.util.logging.Logging;
 import org.opengis.feature.simple.SimpleFeature;
 
-/**
- * 
- * @author Niels Charlier
- * 
- */
+/** @author Niels Charlier */
 class DateExtractor extends PropertiesCollector {
 
-    private final static SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy:mm:dd hh:mm:ss");
+  private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy:mm:dd hh:mm:ss");
 
-    private final static Logger LOGGER = Logging.getLogger(DateExtractor.class);
+  private static final Logger LOGGER = Logging.getLogger(DateExtractor.class);
 
-    public DateExtractor(PropertiesCollectorSPI spi, List<String> propertyNames) {
-        super(spi, propertyNames);
+  public DateExtractor(PropertiesCollectorSPI spi, List<String> propertyNames) {
+    super(spi, propertyNames);
+  }
+
+  @Override
+  public PropertiesCollector collect(final GridCoverage2DReader gridCoverageReader) {
+    String value =
+        ((org.geotools.gce.geotiff.GeoTiffReader) gridCoverageReader)
+            .getMetadata()
+            .getAsciiTIFFTag("306");
+    if (value != null) {
+      addMatch("" + value);
+    } else {
+      addMatch("");
     }
+    return this;
+  }
 
-    @Override
-    public PropertiesCollector collect(final GridCoverage2DReader gridCoverageReader) {
-        String value = ((org.geotools.gce.geotiff.GeoTiffReader) gridCoverageReader).getMetadata()
-                .getAsciiTIFFTag("306");
-        if (value != null) {
-            addMatch("" + value);
-        } else {
-            addMatch("");
-        }
-        return this;
+  private Date getDate() {
+    String dateStr = getMatches().size() > 0 ? getMatches().get(0) : null;
+    if (dateStr != null && !dateStr.isEmpty()) {
+      try {
+        return FORMAT.parse(getMatches().get(0));
+      } catch (ParseException e) {
+        LOGGER.log(Level.WARNING, "Failed to parse date: " + dateStr, e);
+      }
     }
+    return null;
+  }
 
-    private Date getDate() {
-        String dateStr = getMatches().size() > 0 ? getMatches().get(0) : null;
-        if (dateStr != null && !dateStr.isEmpty()) {
-            try {
-                return FORMAT.parse(getMatches().get(0));
-            } catch (ParseException e) {
-                LOGGER.log(Level.WARNING, "Failed to parse date: " + dateStr, e);
-            }
-        }
-        return null;
+  @Override
+  public void setProperties(SimpleFeature feature) {
+    Date date = getDate();
+
+    if (date != null) {
+      for (String propertyName : getPropertyNames()) {
+        // set the property
+        feature.setAttribute(propertyName, date);
+      }
     }
+  }
 
-    @Override
-    public void setProperties(SimpleFeature feature) {
-        Date date = getDate();
+  @Override
+  public void setProperties(Map<String, Object> map) {
+    Date date = getDate();
 
-        if (date != null) {
-            for (String propertyName : getPropertyNames()) {
-                // set the property
-                feature.setAttribute(propertyName, date);
-            }
-        }
+    if (date != null) {
+      for (String propertyName : getPropertyNames()) {
+        // set the property
+        map.put(propertyName, date);
+      }
     }
-
-    @Override
-    public void setProperties(Map<String, Object> map) {
-        Date date = getDate();
-
-        if (date != null) {
-            for (String propertyName : getPropertyNames()) {
-                // set the property
-                map.put(propertyName, date);
-            }
-        }
-    }
-
+  }
 }

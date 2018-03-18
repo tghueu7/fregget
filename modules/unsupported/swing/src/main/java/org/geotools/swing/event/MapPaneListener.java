@@ -22,40 +22,37 @@ package org.geotools.swing.event;
  *
  * @author Michael Bedward
  * @since 2.6
- *
  * @source $URL$
  * @version $Id$
  */
 public interface MapPaneListener {
 
-    /**
-     * Called when a new {@code MapContent} instance has been set for 
-     * the map pane.
-     *
-     * @param ev the event
-     */
-    void onNewMapContent(MapPaneEvent ev);
+  /**
+   * Called when a new {@code MapContent} instance has been set for the map pane.
+   *
+   * @param ev the event
+   */
+  void onNewMapContent(MapPaneEvent ev);
 
-    /**
-     * Called the display area (world bounds) has changed.
-     *
-     * @param ev the event
-     */
-    void onDisplayAreaChanged(MapPaneEvent ev);
+  /**
+   * Called the display area (world bounds) has changed.
+   *
+   * @param ev the event
+   */
+  void onDisplayAreaChanged(MapPaneEvent ev);
 
-    /**
-     * Called when a rendering task has started.
-     * 
-     * @param ev the event
-     */
-    void onRenderingStarted(MapPaneEvent ev);
+  /**
+   * Called when a rendering task has started.
+   *
+   * @param ev the event
+   */
+  void onRenderingStarted(MapPaneEvent ev);
 
-    /**
-     * Called when a rendering task has stopped. This includes
-     * normal completion, cancellation or failure.
-     *
-     * @param ev the event
-     */
-    void onRenderingStopped(MapPaneEvent ev);
-
+  /**
+   * Called when a rendering task has stopped. This includes normal completion, cancellation or
+   * failure.
+   *
+   * @param ev the event
+   */
+  void onRenderingStopped(MapPaneEvent ev);
 }

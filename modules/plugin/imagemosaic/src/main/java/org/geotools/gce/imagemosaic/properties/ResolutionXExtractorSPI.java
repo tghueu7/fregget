@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ResolutionXExtractorSPI extends ResolutionExtractorSPI {
 
-    public ResolutionExtractor create(final Object o, final List<String> propertyNames) {
-        return new ResolutionExtractor(this, propertyNames, ResolutionExtractor.Axis.X);
-    }
+  public ResolutionExtractor create(final Object o, final List<String> propertyNames) {
+    return new ResolutionExtractor(this, propertyNames, ResolutionExtractor.Axis.X);
+  }
 }

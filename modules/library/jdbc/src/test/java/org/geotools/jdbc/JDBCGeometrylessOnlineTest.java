@@ -28,70 +28,73 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * Checks the datastore can operate against geometryless tables
+ *
  * @author Andrea Aime - OpenGeo
- *
- *
- *
- *
  * @source $URL$
  */
 public abstract class JDBCGeometrylessOnlineTest extends JDBCTestSupport {
 
-    protected SimpleFeatureType personSchema;
-    protected SimpleFeatureType zipCodeSchema;
-    protected static final String PERSON = "person";
-    protected static final String ID = "id";
-    protected static final String NAME = "name";
-    protected static final String AGE = "age";
-    protected static final String ZIPCODE = "zipcode";
-    protected static final String CODE = "code";
+  protected SimpleFeatureType personSchema;
+  protected SimpleFeatureType zipCodeSchema;
+  protected static final String PERSON = "person";
+  protected static final String ID = "id";
+  protected static final String NAME = "name";
+  protected static final String AGE = "age";
+  protected static final String ZIPCODE = "zipcode";
+  protected static final String CODE = "code";
 
-    protected abstract JDBCGeometrylessTestSetup createTestSetup();
-    
-    @Override
-    protected void connect() throws Exception {
-        super.connect();
-        
-        personSchema = DataUtilities.createType(dataStore.getNamespaceURI() + "." + PERSON, ID + ":0," + NAME+":String," + AGE + ":0");
-        zipCodeSchema = DataUtilities.createType(dataStore.getNamespaceURI() + "." + ZIPCODE, ID + ":0," + CODE + ":String");
+  protected abstract JDBCGeometrylessTestSetup createTestSetup();
+
+  @Override
+  protected void connect() throws Exception {
+    super.connect();
+
+    personSchema =
+        DataUtilities.createType(
+            dataStore.getNamespaceURI() + "." + PERSON,
+            ID + ":0," + NAME + ":String," + AGE + ":0");
+    zipCodeSchema =
+        DataUtilities.createType(
+            dataStore.getNamespaceURI() + "." + ZIPCODE, ID + ":0," + CODE + ":String");
+  }
+
+  public void testPersonSchema() throws Exception {
+    SimpleFeatureType ft = dataStore.getSchema(tname(PERSON));
+    assertFeatureTypesEqual(personSchema, ft);
+  }
+
+  public void testReadFeatures() throws Exception {
+    SimpleFeatureCollection fc = dataStore.getFeatureSource(tname(PERSON)).getFeatures();
+    assertEquals(2, fc.size());
+    try (SimpleFeatureIterator fr = fc.features()) {
+      assertTrue(fr.hasNext());
+      SimpleFeature f = fr.next();
+      assertTrue(fr.hasNext());
+      f = fr.next();
+      assertFalse(fr.hasNext());
+    }
+  }
+
+  public void testGetBounds() throws Exception {
+    ReferencedEnvelope env = dataStore.getFeatureSource(tname(PERSON)).getBounds();
+    assertTrue(env.isEmpty());
+  }
+
+  public void testCreate() throws Exception {
+    dataStore.createSchema(zipCodeSchema);
+    assertFeatureTypesEqual(zipCodeSchema, dataStore.getSchema(tname(ZIPCODE)));
+  }
+
+  public void testWriteFeatures() throws Exception {
+    try (FeatureWriter fw =
+        dataStore.getFeatureWriterAppend(tname(PERSON), Transaction.AUTO_COMMIT)) {
+      SimpleFeature f = (SimpleFeature) fw.next();
+      f.setAttribute(aname("name"), "Joe");
+      f.setAttribute(aname("age"), 27);
+      fw.write();
     }
 
-    public void testPersonSchema() throws Exception {
-        SimpleFeatureType ft =  dataStore.getSchema(tname(PERSON));
-        assertFeatureTypesEqual(personSchema, ft);
-    }
-    
-    public void testReadFeatures() throws Exception {
-    	SimpleFeatureCollection fc = dataStore.getFeatureSource(tname(PERSON)).getFeatures();
-        assertEquals(2, fc.size());
-        try(SimpleFeatureIterator fr = fc.features()) {
-            assertTrue(fr.hasNext());
-            SimpleFeature f = fr.next();
-            assertTrue(fr.hasNext());
-            f = fr.next();
-            assertFalse(fr.hasNext());
-        }
-    }
-    
-    public void testGetBounds() throws Exception {
-        ReferencedEnvelope env = dataStore.getFeatureSource(tname(PERSON)).getBounds();
-        assertTrue(env.isEmpty());
-    }
-    
-    public void testCreate() throws Exception {
-        dataStore.createSchema(zipCodeSchema);
-        assertFeatureTypesEqual(zipCodeSchema, dataStore.getSchema(tname(ZIPCODE)));
-    }
-    
-    public void testWriteFeatures() throws Exception {
-        try(FeatureWriter fw = dataStore.getFeatureWriterAppend(tname(PERSON),Transaction.AUTO_COMMIT)) {
-            SimpleFeature f = (SimpleFeature) fw.next();
-            f.setAttribute(aname("name"), "Joe");
-            f.setAttribute(aname("age"), 27 );
-            fw.write();
-        }
-        
-        FeatureCollection fc = dataStore.getFeatureSource(tname(PERSON)).getFeatures();
-        assertEquals(3, fc.size());
-    }
+    FeatureCollection fc = dataStore.getFeatureSource(tname(PERSON)).getFeatures();
+    assertEquals(3, fc.size());
+  }
 }

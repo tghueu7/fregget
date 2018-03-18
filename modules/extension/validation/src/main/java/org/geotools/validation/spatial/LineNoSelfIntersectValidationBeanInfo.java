@@ -17,43 +17,34 @@
 package org.geotools.validation.spatial;
 
 import java.beans.PropertyDescriptor;
-
 import org.geotools.validation.DefaultFeatureValidationBeanInfo;
-
 
 /**
  * LineAbstractValidationBeanInfopurpose.
- * 
- * <p>
- * Description of LineAbstractValidationBeanInfo...
- * </p>
+ *
+ * <p>Description of LineAbstractValidationBeanInfo...
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: jive $ (last modification)
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class LineNoSelfIntersectValidationBeanInfo extends DefaultFeatureValidationBeanInfo {
-    /**
-     * LineAbstractValidationBeanInfoconstructor.
-     * 
-     * <p>
-     * Description
-     * </p>
-     */
-    public LineNoSelfIntersectValidationBeanInfo(){
-        super();
-    }
+  /**
+   * LineAbstractValidationBeanInfoconstructor.
+   *
+   * <p>Description
+   */
+  public LineNoSelfIntersectValidationBeanInfo() {
+    super();
+  }
 
-    /**
-     * Implementation of getPropertyDescriptors.
-     *
-     *
-     * @see java.beans.BeanInfo#getPropertyDescriptors()
-     */
-    public PropertyDescriptor[] getPropertyDescriptors() {
-        return super.getPropertyDescriptors();
-    }
+  /**
+   * Implementation of getPropertyDescriptors.
+   *
+   * @see java.beans.BeanInfo#getPropertyDescriptors()
+   */
+  public PropertyDescriptor[] getPropertyDescriptors() {
+    return super.getPropertyDescriptors();
+  }
 }

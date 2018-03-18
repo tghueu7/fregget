@@ -19,20 +19,16 @@ package org.geotools.geopkg;
 import org.geotools.jdbc.JDBCPrimaryKeyFinderOnlineTest;
 import org.geotools.jdbc.JDBCPrimaryKeyFinderTestSetup;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GeoPkgPrimaryKeyFinderOnlineTest extends JDBCPrimaryKeyFinderOnlineTest {
 
-    @Override
-    protected JDBCPrimaryKeyFinderTestSetup createTestSetup() {
-        return new GeoPkgPrimaryKeyFinderTestSetup();
-    }
+  @Override
+  protected JDBCPrimaryKeyFinderTestSetup createTestSetup() {
+    return new GeoPkgPrimaryKeyFinderTestSetup();
+  }
 
-    @Override
-    public void testSequencedPrimaryKey() throws Exception {
-        //GeoPkg does not do sequences
-    }
+  @Override
+  public void testSequencedPrimaryKey() throws Exception {
+    // GeoPkg does not do sequences
+  }
 }

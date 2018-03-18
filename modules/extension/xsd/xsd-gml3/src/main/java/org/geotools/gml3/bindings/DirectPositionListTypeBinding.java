@@ -17,6 +17,8 @@
 package org.geotools.gml3.bindings;
 
 import com.vividsolutions.jts.geom.CoordinateSequence;
+import java.math.BigInteger;
+import javax.xml.namespace.QName;
 import org.geotools.geometry.DirectPosition1D;
 import org.geotools.geometry.DirectPosition2D;
 import org.geotools.geometry.DirectPosition3D;
@@ -31,15 +33,11 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import javax.xml.namespace.QName;
-import java.math.BigInteger;
-
 /**
- * Binding object for the type
- * http://www.opengis.net/gml:DirectPositionListType.
- * 
+ * Binding object for the type http://www.opengis.net/gml:DirectPositionListType.
+ *
  * <p>
- * 
+ *
  * <pre>
  *         <code>
  *  &lt;complexType name=&quot;DirectPositionListType&quot;&gt;
@@ -61,144 +59,137 @@ import java.math.BigInteger;
  *  &lt;/complexType&gt;
  * </code>
  *         </pre>
- * 
- * </p>
- * 
+ *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class DirectPositionListTypeBinding extends AbstractComplexBinding {
 
-    CoordinateFormatter formatter;
+  CoordinateFormatter formatter;
 
-    public DirectPositionListTypeBinding(CoordinateFormatter formatter) {
-        this.formatter = formatter;
+  public DirectPositionListTypeBinding(CoordinateFormatter formatter) {
+    this.formatter = formatter;
+  }
+
+  public DirectPositionListTypeBinding() {
+    // no formatter
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.DirectPositionListType;
+  }
+
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return CoordinateSequence.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    int crsDimension = GML3ParsingUtils.dimensions(node);
+    CoordinateReferenceSystem crs = GML3ParsingUtils.crs(node);
+
+    // double[] values = (double[]) value;
+    Double[] values = (Double[]) value;
+    BigInteger coordinatesCount = (BigInteger) node.getAttributeValue("count");
+
+    if (coordinatesCount == null) {
+      coordinatesCount = BigInteger.valueOf(values.length / crsDimension);
     }
 
-    public DirectPositionListTypeBinding() {
-        // no formatter
+    final int coordCount = coordinatesCount.intValue();
+    if (coordCount == 0) {
+      return new DirectPosition[] {};
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.DirectPositionListType;
+    int dim = values.length / coordCount;
+
+    // if ((dim < 1) || (dim > 2)) {
+    if (dim < 1) {
+      throw new IllegalArgumentException("dimension must be greater or equal to 1");
     }
 
-    public int getExecutionMode() {
-        return AFTER;
+    DirectPosition[] dps = new DirectPosition[coordCount];
+
+    if (dim == 1) {
+      for (int i = 0; i < coordCount; i++) {
+        dps[i] = new DirectPosition1D(crs);
+        dps[i].setOrdinate(0, values[i].doubleValue());
+      }
+    } else if (dim == 2) {
+      int ordinateIdx = 0;
+      // HACK: not sure if its correct to assign ordinates 0 to 0 and 1 to
+      // 1 or it should be inferred from the crs
+      for (int coordIndex = 0; coordIndex < coordCount; coordIndex++) {
+        dps[coordIndex] = new DirectPosition2D(crs);
+        dps[coordIndex].setOrdinate(0, values[ordinateIdx].doubleValue());
+        dps[coordIndex].setOrdinate(1, values[ordinateIdx + 1].doubleValue());
+        ordinateIdx += crsDimension;
+      }
+    } else {
+      int ordinateIdx = 0;
+      // HACK: not sure if its correct to assign ordinates 0 to 0 and 1 to
+      // 1 or it should be inferred from the crs
+      for (int coordIndex = 0; coordIndex < coordCount; coordIndex++) {
+        dps[coordIndex] = new DirectPosition3D(crs);
+        dps[coordIndex].setOrdinate(0, values[ordinateIdx].doubleValue());
+        dps[coordIndex].setOrdinate(1, values[ordinateIdx + 1].doubleValue());
+        dps[coordIndex].setOrdinate(2, values[ordinateIdx + 2].doubleValue());
+        ordinateIdx += crsDimension;
+      }
     }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return CoordinateSequence.class;
-    }
+    return dps;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        int crsDimension = GML3ParsingUtils.dimensions(node);
-        CoordinateReferenceSystem crs = GML3ParsingUtils.crs(node);
+  /**
+   * @param object a CoordinateSequence
+   * @see org.geotools.xml.AbstractComplexBinding#encode(java.lang.Object, org.w3c.dom.Document,
+   *     org.w3c.dom.Element)
+   */
+  public Element encode(Object object, Document document, Element value) throws Exception {
+    CoordinateSequence cs = (CoordinateSequence) object;
+    StringBuffer sb = new StringBuffer();
 
-        // double[] values = (double[]) value;
-        Double[] values = (Double[]) value;
-        BigInteger coordinatesCount = (BigInteger) node.getAttributeValue("count");
-
-        if (coordinatesCount == null) {
-            coordinatesCount = BigInteger.valueOf(values.length / crsDimension);
-        }
-
-        final int coordCount = coordinatesCount.intValue();
-        if (coordCount == 0) {
-            return new DirectPosition[] {};
-        }
-
-        int dim = values.length / coordCount;
-
-        //if ((dim < 1) || (dim > 2)) {
-        if (dim < 1) {
-            throw new IllegalArgumentException("dimension must be greater or equal to 1");
-        }
-
-        DirectPosition[] dps = new DirectPosition[coordCount];
-
-        if (dim == 1) {
-            for (int i = 0; i < coordCount; i++) {
-                dps[i] = new DirectPosition1D(crs);
-                dps[i].setOrdinate(0, values[i].doubleValue());
-            }
-        } else if(dim == 2){
-            int ordinateIdx = 0;
-            // HACK: not sure if its correct to assign ordinates 0 to 0 and 1 to
-            // 1 or it should be inferred from the crs
-            for (int coordIndex = 0; coordIndex < coordCount; coordIndex++) {
-                dps[coordIndex] = new DirectPosition2D(crs);
-                dps[coordIndex].setOrdinate(0, values[ordinateIdx].doubleValue());
-                dps[coordIndex].setOrdinate(1, values[ordinateIdx + 1].doubleValue());
-                ordinateIdx += crsDimension;
-            }
+    int dim = CoordinateSequences.coordinateDimension(cs);
+    int size = cs.size();
+    int nOrdWithSpace = size * dim - 1;
+    int count = 0;
+    for (int i = 0; i < size; i++) {
+      for (int d = 0; d < dim; d++) {
+        double ordinate = cs.getOrdinate(i, d);
+        if (formatter != null) {
+          formatter.format(ordinate, sb);
         } else {
-            int ordinateIdx = 0;
-            // HACK: not sure if its correct to assign ordinates 0 to 0 and 1 to
-            // 1 or it should be inferred from the crs
-            for (int coordIndex = 0; coordIndex < coordCount; coordIndex++) {
-                dps[coordIndex] = new DirectPosition3D(crs); 
-                dps[coordIndex].setOrdinate(0, values[ordinateIdx].doubleValue());
-                dps[coordIndex].setOrdinate(1, values[ordinateIdx + 1].doubleValue());
-                dps[coordIndex].setOrdinate(2, values[ordinateIdx + 2].doubleValue());
-                ordinateIdx += crsDimension;
-            }
-
+          sb.append(ordinate);
         }
 
-        return dps;
-    }
-
-    /**
-     * 
-     * @param object a CoordinateSequence
-     * 
-     * @see org.geotools.xml.AbstractComplexBinding#encode(java.lang.Object, org.w3c.dom.Document, org.w3c.dom.Element)
-     */
-    public Element encode(Object object, Document document, Element value) throws Exception {
-        CoordinateSequence cs = (CoordinateSequence) object;
-        StringBuffer sb = new StringBuffer();
-
-        int dim = CoordinateSequences.coordinateDimension(cs);
-        int size = cs.size();
-        int nOrdWithSpace = size * dim - 1;
-        int count = 0;
-        for (int i = 0; i < size; i++) {
-            for (int d = 0; d < dim; d++) {
-                double ordinate = cs.getOrdinate(i, d);
-                if (formatter != null) {
-                    formatter.format(ordinate, sb);
-                } else {
-                    sb.append(ordinate);
-                }
-
-                if (count < nOrdWithSpace) {
-                    sb.append(" ");
-                }
-                count++;
-
-            }
+        if (count < nOrdWithSpace) {
+          sb.append(" ");
         }
-
-        value.appendChild(document.createTextNode(sb.toString()));
-
-        return value;
+        count++;
+      }
     }
-      
+
+    value.appendChild(document.createTextNode(sb.toString()));
+
+    return value;
+  }
 }

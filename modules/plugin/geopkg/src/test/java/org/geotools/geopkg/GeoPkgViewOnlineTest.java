@@ -21,8 +21,8 @@ import org.geotools.jdbc.JDBCViewTestSetup;
 
 public class GeoPkgViewOnlineTest extends JDBCViewOnlineTest {
 
-    @Override
-    protected JDBCViewTestSetup createTestSetup() {
-        return new GeoPkgViewTestSetup();
-    }
+  @Override
+  protected JDBCViewTestSetup createTestSetup() {
+    return new GeoPkgViewTestSetup();
+  }
 }

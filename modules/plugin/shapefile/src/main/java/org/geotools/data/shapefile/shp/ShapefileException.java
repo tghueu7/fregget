@@ -20,20 +20,18 @@ import org.geotools.data.DataSourceException;
 
 /**
  * Thrown when an error relating to the shapefile occures
- * 
- *
  *
  * @source $URL$
  */
 public class ShapefileException extends DataSourceException {
 
-    private static final long serialVersionUID = -6523799964553991364L;
+  private static final long serialVersionUID = -6523799964553991364L;
 
-    public ShapefileException(String s) {
-        super(s);
-    }
+  public ShapefileException(String s) {
+    super(s);
+  }
 
-    public ShapefileException(String s, Throwable cause) {
-        super(s, cause);
-    }
+  public ShapefileException(String s, Throwable cause) {
+    super(s, cause);
+  }
 }

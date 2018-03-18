@@ -16,28 +16,25 @@
  */
 package org.geotools.coverage;
 
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 
-/**
- * Tests the {@link ColorModelFactory} implementation.
- */
+import java.awt.image.ColorModel;
+import java.awt.image.DataBuffer;
+import org.junit.Test;
+
+/** Tests the {@link ColorModelFactory} implementation. */
 public class ColorModelFactoryTest {
 
-    @Test
-    public void testGetColorModelType() {
-        Category[] categories = new Category[0];
-        ColorModel cm1 = ColorModelFactory.getColorModel(categories, DataBuffer.TYPE_BYTE, 0, 1);
-        assertEquals(DataBuffer.TYPE_BYTE, cm1.getTransferType());
-        ColorModel cm2 = ColorModelFactory.getColorModel(categories, DataBuffer.TYPE_USHORT, 0, 1);
-        assertEquals(DataBuffer.TYPE_USHORT, cm2.getTransferType());
-        ColorModel cm3 = ColorModelFactory.getColorModel(categories, DataBuffer.TYPE_FLOAT, 0, 1);
-        assertEquals(DataBuffer.TYPE_FLOAT, cm3.getTransferType());
-        ColorModel cm4 = ColorModelFactory.getColorModel(categories, DataBuffer.TYPE_DOUBLE, 0, 1);
-        assertEquals(DataBuffer.TYPE_DOUBLE, cm4.getTransferType());
-    }
+  @Test
+  public void testGetColorModelType() {
+    Category[] categories = new Category[0];
+    ColorModel cm1 = ColorModelFactory.getColorModel(categories, DataBuffer.TYPE_BYTE, 0, 1);
+    assertEquals(DataBuffer.TYPE_BYTE, cm1.getTransferType());
+    ColorModel cm2 = ColorModelFactory.getColorModel(categories, DataBuffer.TYPE_USHORT, 0, 1);
+    assertEquals(DataBuffer.TYPE_USHORT, cm2.getTransferType());
+    ColorModel cm3 = ColorModelFactory.getColorModel(categories, DataBuffer.TYPE_FLOAT, 0, 1);
+    assertEquals(DataBuffer.TYPE_FLOAT, cm3.getTransferType());
+    ColorModel cm4 = ColorModelFactory.getColorModel(categories, DataBuffer.TYPE_DOUBLE, 0, 1);
+    assertEquals(DataBuffer.TYPE_DOUBLE, cm4.getTransferType());
+  }
 }

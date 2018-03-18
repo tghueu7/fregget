@@ -16,25 +16,22 @@
  */
 package org.geotools.gml3.bindings;
 
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.MultiPoint;
+import com.vividsolutions.jts.geom.Point;
 import java.util.ArrayList;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.gml3.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPoint;
-import com.vividsolutions.jts.geom.Point;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiPointType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiPointType"&gt;
  *      &lt;annotation&gt;
@@ -56,81 +53,74 @@ import com.vividsolutions.jts.geom.Point;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MultiPointTypeBinding extends AbstractComplexBinding {
-    GeometryFactory gFactory;
+  GeometryFactory gFactory;
 
-    public MultiPointTypeBinding(GeometryFactory gFactory) {
-        this.gFactory = gFactory;
+  public MultiPointTypeBinding(GeometryFactory gFactory) {
+    this.gFactory = gFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.MultiPointType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return MultiPoint.class;
+  }
+
+  public int getExecutionMode() {
+    return BEFORE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    ArrayList points = new ArrayList();
+
+    if (node.hasChild(Point.class)) {
+      points.addAll(node.getChildValues(Point.class));
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.MultiPointType;
+    if (node.hasChild(Point[].class)) {
+      Point[] p = (Point[]) node.getChildValue(Point[].class);
+
+      for (int i = 0; i < p.length; i++) points.add(p[i]);
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return MultiPoint.class;
+    return gFactory.createMultiPoint((Point[]) points.toArray(new Point[points.size()]));
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    if ("pointMember".equals(name.getLocalPart())) {
+      MultiPoint multiPoint = (MultiPoint) object;
+      Point[] members = new Point[multiPoint.getNumGeometries()];
+
+      for (int i = 0; i < members.length; i++) {
+        members[i] = (Point) multiPoint.getGeometryN(i);
+      }
+
+      GML3EncodingUtils.setChildIDs(multiPoint);
+
+      return members;
     }
 
-    public int getExecutionMode() {
-        return BEFORE;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        ArrayList points = new ArrayList();
-
-        if (node.hasChild(Point.class)) {
-            points.addAll(node.getChildValues(Point.class));
-        }
-
-        if (node.hasChild(Point[].class)) {
-            Point[] p = (Point[]) node.getChildValue(Point[].class);
-
-            for (int i = 0; i < p.length; i++)
-                points.add(p[i]);
-        }
-
-        return gFactory.createMultiPoint((Point[]) points.toArray(new Point[points.size()]));
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        if ("pointMember".equals(name.getLocalPart())) {
-            MultiPoint multiPoint = (MultiPoint) object;
-            Point[] members = new Point[multiPoint.getNumGeometries()];
-
-            for (int i = 0; i < members.length; i++) {
-                members[i] = (Point) multiPoint.getGeometryN(i);
-            }
-
-            GML3EncodingUtils.setChildIDs(multiPoint);
-
-            return members;
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

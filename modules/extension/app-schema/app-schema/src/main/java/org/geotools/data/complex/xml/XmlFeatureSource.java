@@ -23,14 +23,11 @@ import org.xml.sax.helpers.NamespaceSupport;
 /**
  * @author Russell Petty (GeoScience Victoria)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  */
 public interface XmlFeatureSource extends SimpleFeatureSource {
 
-    void setNamespaces(NamespaceSupport namespaces);
+  void setNamespaces(NamespaceSupport namespaces);
 
-    void setItemXpath(String itemXpath);
+  void setItemXpath(String itemXpath);
 }

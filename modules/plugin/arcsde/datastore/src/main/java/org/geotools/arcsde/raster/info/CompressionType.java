@@ -17,49 +17,49 @@
  */
 package org.geotools.arcsde.raster.info;
 
+import com.esri.sde.sdk.client.SeRaster;
 import java.util.NoSuchElementException;
 
-import com.esri.sde.sdk.client.SeRaster;
-
 /**
- * An enumeration that mirrors the different possible raster compression types in Arcsde (ie,
- * {@code SeRaster#SE_COMPRESSION_*})
- * 
+ * An enumeration that mirrors the different possible raster compression types in Arcsde (ie, {@code
+ * SeRaster#SE_COMPRESSION_*})
+ *
  * @author Gabriel Roldan (OpenGeo)
  * @since 2.5.4
  * @version $Id$
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
- *         /geotools/arcsde/raster/info/CompressionType.java $
+ *     http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/main/java/org
+ *     /geotools/arcsde/raster/info/CompressionType.java $
  */
 public enum CompressionType {
-    COMPRESSION_JP2, COMPRESSION_JPEG, COMPRESSION_LZ77, COMPRESSION_NONE;
-    static {
-        COMPRESSION_JP2.setSdeTypeId(SeRaster.SE_COMPRESSION_JP2);
-        COMPRESSION_JPEG.setSdeTypeId(SeRaster.SE_COMPRESSION_JPEG);
-        COMPRESSION_LZ77.setSdeTypeId(SeRaster.SE_COMPRESSION_LZ77);
-        COMPRESSION_NONE.setSdeTypeId(SeRaster.SE_COMPRESSION_NONE);
-    }
+  COMPRESSION_JP2,
+  COMPRESSION_JPEG,
+  COMPRESSION_LZ77,
+  COMPRESSION_NONE;
 
-    private int typeId;
+  static {
+    COMPRESSION_JP2.setSdeTypeId(SeRaster.SE_COMPRESSION_JP2);
+    COMPRESSION_JPEG.setSdeTypeId(SeRaster.SE_COMPRESSION_JPEG);
+    COMPRESSION_LZ77.setSdeTypeId(SeRaster.SE_COMPRESSION_LZ77);
+    COMPRESSION_NONE.setSdeTypeId(SeRaster.SE_COMPRESSION_NONE);
+  }
 
-    private void setSdeTypeId(int typeId) {
-        this.typeId = typeId;
-    }
+  private int typeId;
 
-    public int getSeCompressionType() {
-        return this.typeId;
-    }
+  private void setSdeTypeId(int typeId) {
+    this.typeId = typeId;
+  }
 
-    public static CompressionType valueOf(final int seCompressionType) {
-        for (CompressionType type : CompressionType.values()) {
-            if (type.getSeCompressionType() == seCompressionType) {
-                return type;
-            }
-        }
-        throw new NoSuchElementException("Compression type " + seCompressionType
-                + " does not exist");
+  public int getSeCompressionType() {
+    return this.typeId;
+  }
+
+  public static CompressionType valueOf(final int seCompressionType) {
+    for (CompressionType type : CompressionType.values()) {
+      if (type.getSeCompressionType() == seCompressionType) {
+        return type;
+      }
     }
+    throw new NoSuchElementException("Compression type " + seCompressionType + " does not exist");
+  }
 }

@@ -21,7 +21,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.geotools.factory.CommonFactoryFinder;
 import org.junit.Test;
 import org.opengis.filter.FilterFactory;
@@ -34,69 +33,67 @@ import org.opengis.filter.expression.Expression;
  */
 public class URLEncodeFunctionTest {
 
-    /**
-     *  Filter factory
-     */
-    FilterFactory filterFactory = CommonFactoryFinder.getFilterFactory(null);
+  /** Filter factory */
+  FilterFactory filterFactory = CommonFactoryFinder.getFilterFactory(null);
 
-    /**
-     * Test of getArgCount method, of class FilterFunction_strURLEncode.
-     */
-    @Test
-    public void testArgCount() {
-        URLEncodeFunction f = new URLEncodeFunction();
-        assertEquals(-1, f.getFunctionName().getArgumentCount());
-    }
+  /** Test of getArgCount method, of class FilterFunction_strURLEncode. */
+  @Test
+  public void testArgCount() {
+    URLEncodeFunction f = new URLEncodeFunction();
+    assertEquals(-1, f.getFunctionName().getArgumentCount());
+  }
 
-    /**
-     * Test of getName method, of class FilterFunction_strURLEncode.
-     */
-    @Test
-    public void testName() {
-        URLEncodeFunction f = new URLEncodeFunction();
-        assertEquals("strURLEncode", f.getName());
-    }
+  /** Test of getName method, of class FilterFunction_strURLEncode. */
+  @Test
+  public void testName() {
+    URLEncodeFunction f = new URLEncodeFunction();
+    assertEquals("strURLEncode", f.getName());
+  }
 
-    /**
-     * Test of evaluate method, of class URLEncodeFunction.
-     * @throws Exception
-     */
-    @Test
-    public void testURLEncodeWithDefault() throws Exception {
-        URLEncodeFunction f = new URLEncodeFunction();
+  /**
+   * Test of evaluate method, of class URLEncodeFunction.
+   *
+   * @throws Exception
+   */
+  @Test
+  public void testURLEncodeWithDefault() throws Exception {
+    URLEncodeFunction f = new URLEncodeFunction();
 
-        List<Expression> params = Arrays.asList(filterFactory.literal("Value With Spaces"));
-        f.setParameters(params);
+    List<Expression> params = Arrays.asList(filterFactory.literal("Value With Spaces"));
+    f.setParameters(params);
 
-        assertEquals("Value%20With%20Spaces", f.evaluate(null));
-    }
+    assertEquals("Value%20With%20Spaces", f.evaluate(null));
+  }
 
-    /**
-     * Test of evaluate method, of class URLEncodeFunction.
-     * @throws Exception
-     */
-    @Test
-    public void testURLEncode() throws Exception {
-        URLEncodeFunction f = new URLEncodeFunction();
+  /**
+   * Test of evaluate method, of class URLEncodeFunction.
+   *
+   * @throws Exception
+   */
+  @Test
+  public void testURLEncode() throws Exception {
+    URLEncodeFunction f = new URLEncodeFunction();
 
-        List<Expression> params = Arrays.asList(filterFactory.literal("Value With Spaces"), filterFactory.literal(false));
-        f.setParameters(params);
+    List<Expression> params =
+        Arrays.asList(filterFactory.literal("Value With Spaces"), filterFactory.literal(false));
+    f.setParameters(params);
 
-        assertEquals("Value%20With%20Spaces", f.evaluate(null));
-    }
+    assertEquals("Value%20With%20Spaces", f.evaluate(null));
+  }
 
+  /**
+   * Test of evaluate method, of class URLEncodeFunction.
+   *
+   * @throws Exception
+   */
+  @Test
+  public void testFormURLEncode() throws Exception {
+    URLEncodeFunction f = new URLEncodeFunction();
 
-    /**
-     * Test of evaluate method, of class URLEncodeFunction.
-     * @throws Exception
-     */
-    @Test
-    public void testFormURLEncode() throws Exception {
-        URLEncodeFunction f = new URLEncodeFunction();
+    List<Expression> params =
+        Arrays.asList(filterFactory.literal("Value With Spaces"), filterFactory.literal(true));
+    f.setParameters(params);
 
-        List<Expression> params = Arrays.asList(filterFactory.literal("Value With Spaces"), filterFactory.literal(true));
-        f.setParameters(params);
-
-        assertEquals("Value+With+Spaces", f.evaluate(null));
-    }
+    assertEquals("Value+With+Spaces", f.evaluate(null));
+  }
 }

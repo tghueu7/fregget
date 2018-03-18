@@ -17,6 +17,10 @@
 package org.geotools.filter.v2_0.bindings;
 
 import com.vividsolutions.jts.geom.Envelope;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.xml.namespace.QName;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDParticle;
@@ -28,17 +32,12 @@ import org.geotools.referencing.CRS;
 import org.opengis.filter.spatial.BBOX;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-import javax.xml.namespace.QName;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-
 /**
  * Binding object for the type http://www.opengis.net/ogc:BBOXType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *       <code>
  *  &lt;xsd:complexType name="BBOXType"&gt;
  *      &lt;xsd:complexContent&gt;
@@ -49,71 +48,70 @@ import java.util.List;
  *              &lt;/xsd:sequence&gt;
  *          &lt;/xsd:extension&gt;
  *      &lt;/xsd:complexContent&gt;
- *  &lt;/xsd:complexType&gt; 
- *              
+ *  &lt;/xsd:complexType&gt;
+ *
  *        </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
  * @source $URL$
  */
 public class BBOXTypeBinding extends OGCBBOXTypeBinding {
 
-    static final XSDParticle ENVELOPE_PARTICLE;
+  static final XSDParticle ENVELOPE_PARTICLE;
 
-    static {
-        ENVELOPE_PARTICLE = XSDFactory.eINSTANCE.createXSDParticle();
-        ENVELOPE_PARTICLE.setMinOccurs(0);
-        ENVELOPE_PARTICLE.setMaxOccurs(-1);
-        try {
-            ENVELOPE_PARTICLE.setContent(GML.getInstance().getSchema().resolveElementDeclaration(GML.Envelope
-                    .getLocalPart()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+  static {
+    ENVELOPE_PARTICLE = XSDFactory.eINSTANCE.createXSDParticle();
+    ENVELOPE_PARTICLE.setMinOccurs(0);
+    ENVELOPE_PARTICLE.setMaxOccurs(-1);
+    try {
+      ENVELOPE_PARTICLE.setContent(
+          GML.getInstance().getSchema().resolveElementDeclaration(GML.Envelope.getLocalPart()));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public QName getTarget() {
+    return FES.BBOXType;
+  }
+
+  public Class getType() {
+    return BBOX.class;
+  }
+
+  @Override
+  public Object getProperty(Object object, QName name) throws Exception {
+    BBOX box = (BBOX) object;
+
+    if (FES.ValueReference.equals(name)) {
+      return box.getExpression1();
     }
 
-    public QName getTarget() {
-        return FES.BBOXType;
+    return null;
+  }
+
+  @Override
+  public List getProperties(Object object, XSDElementDeclaration element) throws Exception {
+    BBOX box = (BBOX) object;
+
+    List properties = new ArrayList();
+    Envelope env = null;
+    try {
+      String srs = box.getSRS();
+      if (srs != null) {
+        CoordinateReferenceSystem crs = CRS.decode(srs);
+        env =
+            new ReferencedEnvelope(box.getMinX(), box.getMaxX(), box.getMinY(), box.getMaxY(), crs);
+      }
+    } catch (Throwable t) {
+      // never mind
+    }
+    if (env == null) {
+      env = new Envelope(box.getMinX(), box.getMaxX(), box.getMinY(), box.getMaxY());
     }
 
-    public Class getType() {
-        return BBOX.class;
-    }
-
-    @Override
-    public Object getProperty(Object object, QName name) throws Exception {
-        BBOX box = (BBOX) object;
-        
-        if (FES.ValueReference.equals(name)) {
-            return box.getExpression1();
-        }
-        
-        return null;
-    }
-
-    @Override
-    public List getProperties(Object object, XSDElementDeclaration element) throws Exception {
-        BBOX box = (BBOX) object;
-
-        List properties = new ArrayList();
-        Envelope env = null;
-        try {
-            String srs = box.getSRS();
-            if (srs != null) {
-                CoordinateReferenceSystem crs = CRS.decode(srs);
-                env = new ReferencedEnvelope(box.getMinX(), box.getMaxX(), box.getMinY(), box.getMaxY(), crs);
-            }
-        } catch (Throwable t) {
-            // never mind
-        }
-        if (env == null) {
-            env = new Envelope(box.getMinX(), box.getMaxX(), box.getMinY(), box.getMaxY());
-        }
-
-        properties.add(new Object[]{ENVELOPE_PARTICLE, env});
-        return properties;
-    }
+    properties.add(new Object[] {ENVELOPE_PARTICLE, env});
+    return properties;
+  }
 }

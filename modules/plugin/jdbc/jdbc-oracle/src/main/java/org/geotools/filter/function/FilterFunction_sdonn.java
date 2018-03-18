@@ -24,25 +24,28 @@ import org.opengis.geometry.Geometry;
 
 /**
  * Oracle function SDO_NN to identify the nearest neighbors for a geometry
- * 
+ *
  * @author Davide Savazzi - GeoSolutions
  */
 public class FilterFunction_sdonn extends FunctionExpressionImpl implements VolatileFunction {
 
-    public static FunctionName NAME = new FunctionNameImpl("sdo_nn", Boolean.class,
-            // required parameters:
-            FunctionNameImpl.parameter("geometry", Geometry.class), 
-            FunctionNameImpl.parameter("sdo_num_res", Integer.class), 
-            // optional parameters:
-            FunctionNameImpl.parameter("cql_filter", String.class, 0, 1), 
-            FunctionNameImpl.parameter("sdo_batch_size", Integer.class, 0, 1));
+  public static FunctionName NAME =
+      new FunctionNameImpl(
+          "sdo_nn",
+          Boolean.class,
+          // required parameters:
+          FunctionNameImpl.parameter("geometry", Geometry.class),
+          FunctionNameImpl.parameter("sdo_num_res", Integer.class),
+          // optional parameters:
+          FunctionNameImpl.parameter("cql_filter", String.class, 0, 1),
+          FunctionNameImpl.parameter("sdo_batch_size", Integer.class, 0, 1));
 
-    public FilterFunction_sdonn() {
-        super(NAME);
-    }
+  public FilterFunction_sdonn() {
+    super(NAME);
+  }
 
-    @Override
-    public Object evaluate(Object feature) {
-        throw new UnsupportedOperationException("Unsupported usage of SDO_NN Oracle function");
-    }
+  @Override
+  public Object evaluate(Object feature) {
+    throw new UnsupportedOperationException("Unsupported usage of SDO_NN Oracle function");
+  }
 }

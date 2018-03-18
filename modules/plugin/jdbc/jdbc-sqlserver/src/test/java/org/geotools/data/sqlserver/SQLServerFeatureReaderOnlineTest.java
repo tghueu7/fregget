@@ -5,9 +5,8 @@ import org.geotools.jdbc.JDBCTestSetup;
 
 public class SQLServerFeatureReaderOnlineTest extends JDBCFeatureReaderOnlineTest {
 
-    @Override
-    protected JDBCTestSetup createTestSetup() {
-        return new SQLServerTestSetup();
-    }
-
+  @Override
+  protected JDBCTestSetup createTestSetup() {
+    return new SQLServerTestSetup();
+  }
 }

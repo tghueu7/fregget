@@ -25,103 +25,96 @@ import javax.swing.JComponent;
 import javax.swing.event.MouseInputAdapter;
 
 /**
- * Draws a box on the parent component (e.g. JMapPane) as the mouse 
- * is dragged.
- * 
+ * Draws a box on the parent component (e.g. JMapPane) as the mouse is dragged.
+ *
  * @author Michael Bedward
  * @since 8.0
- *
  * @source $URL$
  * @version $Id$
- * 
  */
 public class MouseDragBox extends MouseInputAdapter {
-    
-    private final JComponent parentComponent;
-    private Point startPos;
-    private Rectangle rect;
-    private boolean dragged;
-    private boolean enabled;
-    private Graphics2D graphics;
 
-    /**
-     * Creates a new instance to work with the given component.
-     * 
-     * @param component the component on which the box will be drawn
-     */
-    public MouseDragBox(JComponent component) {
-        parentComponent = component;
-        rect = new Rectangle();
-        dragged = false;
-        enabled = false;
-    }
+  private final JComponent parentComponent;
+  private Point startPos;
+  private Rectangle rect;
+  private boolean dragged;
+  private boolean enabled;
+  private Graphics2D graphics;
 
-    /**
-     * Enables or disables the drag box. When enabled, the box 
-     * is drawn on mouse dragging.
-     * 
-     * @param state {@code true} to enable; {@code false} to disable
-     */
-    public void setEnabled(boolean state) {
-        enabled = state;
-    }
+  /**
+   * Creates a new instance to work with the given component.
+   *
+   * @param component the component on which the box will be drawn
+   */
+  public MouseDragBox(JComponent component) {
+    parentComponent = component;
+    rect = new Rectangle();
+    dragged = false;
+    enabled = false;
+  }
 
-    /**
-     * If the box is enabled, records the start position for subsequent
-     * drawing as the mouse is dragged.
-     * 
-     * @param ev input mouse event
-     */
-    @Override
-    public void mousePressed(MouseEvent ev) {
-        startPos = new Point(ev.getPoint());
-    }
+  /**
+   * Enables or disables the drag box. When enabled, the box is drawn on mouse dragging.
+   *
+   * @param state {@code true} to enable; {@code false} to disable
+   */
+  public void setEnabled(boolean state) {
+    enabled = state;
+  }
 
-    /**
-     * If the box is enabled, draws the box with the diagonal running from the
-     * start position to the current mouse position. 
-     * 
-     * @param ev input mouse event
-     */
-    @Override
-    public void mouseDragged(MouseEvent ev) {
-        if (enabled) {
-            ensureGraphics();
-            if (dragged) {
-                graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
-            }
-            rect.setFrameFromDiagonal(startPos, ev.getPoint());
-            graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
-            dragged = true;
-        }
-    }
+  /**
+   * If the box is enabled, records the start position for subsequent drawing as the mouse is
+   * dragged.
+   *
+   * @param ev input mouse event
+   */
+  @Override
+  public void mousePressed(MouseEvent ev) {
+    startPos = new Point(ev.getPoint());
+  }
 
-    /**
-     * If the box is enabled, removes the final box.
-     * 
-     * @param ev the input mouse event
-     */
-    @Override
-    public void mouseReleased(MouseEvent ev) {
-        if (dragged) {
-            ensureGraphics();
-            graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
-            dragged = false;
-            
-            graphics.dispose();
-            graphics = null;
-        }
+  /**
+   * If the box is enabled, draws the box with the diagonal running from the start position to the
+   * current mouse position.
+   *
+   * @param ev input mouse event
+   */
+  @Override
+  public void mouseDragged(MouseEvent ev) {
+    if (enabled) {
+      ensureGraphics();
+      if (dragged) {
+        graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
+      }
+      rect.setFrameFromDiagonal(startPos, ev.getPoint());
+      graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
+      dragged = true;
     }
+  }
 
-    /**
-     * Creates and initializes the graphics object if required.
-     */
-    private void ensureGraphics() {
-        if (graphics == null) {
-            graphics = (Graphics2D) parentComponent.getGraphics().create();
-            graphics.setColor(Color.WHITE);
-            graphics.setXORMode(Color.RED);
-        }
+  /**
+   * If the box is enabled, removes the final box.
+   *
+   * @param ev the input mouse event
+   */
+  @Override
+  public void mouseReleased(MouseEvent ev) {
+    if (dragged) {
+      ensureGraphics();
+      graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
+      dragged = false;
+
+      graphics.dispose();
+      graphics = null;
     }
-    
+  }
+
+  /** Creates and initializes the graphics object if required. */
+  private void ensureGraphics() {
+    if (graphics == null) {
+      graphics = (Graphics2D) parentComponent.getGraphics().create();
+      graphics.setColor(Color.WHITE);
+      graphics.setXORMode(Color.RED);
+    }
+  }
 }

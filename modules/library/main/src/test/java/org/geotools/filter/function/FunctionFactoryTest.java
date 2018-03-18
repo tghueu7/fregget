@@ -27,7 +27,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.factory.FactoryIteratorProvider;
 import org.geotools.factory.GeoTools;
@@ -45,110 +44,111 @@ import org.opengis.filter.expression.Expression;
 import org.opengis.filter.expression.Function;
 import org.opengis.filter.expression.Literal;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class FunctionFactoryTest {
 
-    static FactoryIteratorProvider ffIteratorProvider;
-    
-    @BeforeClass
-    public static void setUp() {
-        ffIteratorProvider = new FactoryIteratorProvider() {
-            
-            public <T> Iterator<T> iterator(Class<T> category) {
-                
-                if (FunctionFactory.class == category) {
-                     List<FunctionFactory> l = new ArrayList<FunctionFactory>();
-                     l.add(new FunctionFactory( ) {
-                        
-                        @SuppressWarnings("unchecked")
-                        public List<FunctionName> getFunctionNames() {
-                            return (List) Arrays.asList(new FunctionNameImpl("foo", 
-                                new String[]{"bar", "baz"}));
-                        }
-                        
-                        public Function function(String name, List<Expression> args, Literal fallback) {
-                            return function(new NameImpl(name), args, fallback);
-                        }
-                        public Function function(Name name, List<Expression> args, Literal fallback) {
-                            if ("foo".equals(name.getLocalPart())) {
-                                return new FunctionImpl() {
-                                    @Override
-                                    public Object evaluate(Object object, Class context) {
-                                        return "theResult";
-                                    }
-                                };
-                            }
-                            return null;
-                        }
-                        
-                    });
-                    return (Iterator<T>) l.iterator(); 
-                }
-                return null;
+  static FactoryIteratorProvider ffIteratorProvider;
+
+  @BeforeClass
+  public static void setUp() {
+    ffIteratorProvider =
+        new FactoryIteratorProvider() {
+
+          public <T> Iterator<T> iterator(Class<T> category) {
+
+            if (FunctionFactory.class == category) {
+              List<FunctionFactory> l = new ArrayList<FunctionFactory>();
+              l.add(
+                  new FunctionFactory() {
+
+                    @SuppressWarnings("unchecked")
+                    public List<FunctionName> getFunctionNames() {
+                      return (List)
+                          Arrays.asList(new FunctionNameImpl("foo", new String[] {"bar", "baz"}));
+                    }
+
+                    public Function function(String name, List<Expression> args, Literal fallback) {
+                      return function(new NameImpl(name), args, fallback);
+                    }
+
+                    public Function function(Name name, List<Expression> args, Literal fallback) {
+                      if ("foo".equals(name.getLocalPart())) {
+                        return new FunctionImpl() {
+                          @Override
+                          public Object evaluate(Object object, Class context) {
+                            return "theResult";
+                          }
+                        };
+                      }
+                      return null;
+                    }
+                  });
+              return (Iterator<T>) l.iterator();
             }
-        }; 
-        GeoTools.addFactoryIteratorProvider(ffIteratorProvider);
-        CommonFactoryFinder.reset();
-    }
-    
-    @AfterClass
-    public static void tearDown() {
-        GeoTools.removeFactoryIteratorProvider(ffIteratorProvider);
-    }
-    
-    @Test
-    public void testLookup() {
-        Set<FunctionFactory> factories = CommonFactoryFinder.getFunctionFactories(null);
-        FunctionFactory factory = null;
-        
-        for (FunctionFactory ff : factories) {
-            for (FunctionName fn : ff.getFunctionNames()) {
-                if ("foo".equals(fn.getName())) {
-                    factory = ff;
-                    break;
-                }
-            }
+            return null;
+          }
+        };
+    GeoTools.addFactoryIteratorProvider(ffIteratorProvider);
+    CommonFactoryFinder.reset();
+  }
+
+  @AfterClass
+  public static void tearDown() {
+    GeoTools.removeFactoryIteratorProvider(ffIteratorProvider);
+  }
+
+  @Test
+  public void testLookup() {
+    Set<FunctionFactory> factories = CommonFactoryFinder.getFunctionFactories(null);
+    FunctionFactory factory = null;
+
+    for (FunctionFactory ff : factories) {
+      for (FunctionName fn : ff.getFunctionNames()) {
+        if ("foo".equals(fn.getName())) {
+          factory = ff;
+          break;
         }
-        
-        assertNotNull(factory);
-        Function f = factory.function("foo", null, null);
-        assertNotNull(f);
+      }
     }
-    
-    /**
-     * GEOT-3841
-     * @throws Exception
-     */
-    @Test
-    public void testThreadedFunctionLookup() throws Exception {
-        final FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
-        ExecutorService es = Executors.newCachedThreadPool();
-        List<Future<Exception>> tests = new ArrayList<Future<Exception>>();
-        for (int i = 0; i < 100; i++) {
-            Future<Exception> f = es.submit(new Callable<Exception>() {
+
+    assertNotNull(factory);
+    Function f = factory.function("foo", null, null);
+    assertNotNull(f);
+  }
+
+  /**
+   * GEOT-3841
+   *
+   * @throws Exception
+   */
+  @Test
+  public void testThreadedFunctionLookup() throws Exception {
+    final FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
+    ExecutorService es = Executors.newCachedThreadPool();
+    List<Future<Exception>> tests = new ArrayList<Future<Exception>>();
+    for (int i = 0; i < 100; i++) {
+      Future<Exception> f =
+          es.submit(
+              new Callable<Exception>() {
 
                 public Exception call() throws Exception {
-                    try {
-                        ff.function("Length", ff.property("."));
-                        return null;
-                    } catch (Exception e) {
-                        return e;
-                    }
+                  try {
+                    ff.function("Length", ff.property("."));
+                    return null;
+                  } catch (Exception e) {
+                    return e;
+                  }
                 }
-            });
-            tests.add(f);
-        }
-        for (Future<Exception> future : tests) {
-            Exception e = future.get();
-            if(e != null) {
-                e.printStackTrace();
-            }
-            assertNull("No exception was expected", e);
-        }
-        es.shutdown();
+              });
+      tests.add(f);
     }
+    for (Future<Exception> future : tests) {
+      Exception e = future.get();
+      if (e != null) {
+        e.printStackTrace();
+      }
+      assertNull("No exception was expected", e);
+    }
+    es.shutdown();
+  }
 }

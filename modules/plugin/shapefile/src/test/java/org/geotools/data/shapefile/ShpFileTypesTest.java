@@ -21,92 +21,84 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import org.geotools.data.shapefile.files.ShpFileType;
 import org.junit.Test;
 
-/**
- * 
- *
- * @source $URL$
- */
-public class ShpFileTypesTest  {
+/** @source $URL$ */
+public class ShpFileTypesTest {
 
-    @Test
-    public void testToFileBase() {
+  @Test
+  public void testToFileBase() {
 
-        ShpFileType[] values = ShpFileType.values();
-        for (ShpFileType value : values) {
-            assertToFileBase(value);
-        }
-
+    ShpFileType[] values = ShpFileType.values();
+    for (ShpFileType value : values) {
+      assertToFileBase(value);
     }
+  }
 
-    @Test
-    public void testToURLBase() throws MalformedURLException {
+  @Test
+  public void testToURLBase() throws MalformedURLException {
 
-        ShpFileType[] values = ShpFileType.values();
-        for (ShpFileType value : values) {
-            assertToURLBase(value);
-        }
-
+    ShpFileType[] values = ShpFileType.values();
+    for (ShpFileType value : values) {
+      assertToURLBase(value);
     }
+  }
 
-    private void assertToURLBase(ShpFileType type) throws MalformedURLException {
-        String urlString = "file://c:/shapefiles/file1." + type.extension;
-        URL url = new URL(urlString);
+  private void assertToURLBase(ShpFileType type) throws MalformedURLException {
+    String urlString = "file://c:/shapefiles/file1." + type.extension;
+    URL url = new URL(urlString);
 
-        ShpFileType[] values = ShpFileType.values();
-        for (ShpFileType value : values) {
-            if (value != type) {
-                assertNull(value.toBase(url));
-            } else {
-                assertEquals("file://c:/shapefiles/file1", value.toBase(url));
-            }
-        }
+    ShpFileType[] values = ShpFileType.values();
+    for (ShpFileType value : values) {
+      if (value != type) {
+        assertNull(value.toBase(url));
+      } else {
+        assertEquals("file://c:/shapefiles/file1", value.toBase(url));
+      }
     }
+  }
 
-    private void assertToFileBase(ShpFileType type) {
-        File file = new File("c:\\shapefiles\\file1." + type.extension);
+  private void assertToFileBase(ShpFileType type) {
+    File file = new File("c:\\shapefiles\\file1." + type.extension);
 
-        ShpFileType[] values = ShpFileType.values();
-        for (ShpFileType value : values) {
-            if (value != type) {
-                assertNull(value.toBase(file));
-            } else {
-                assertEquals("c:\\shapefiles\\file1", value.toBase(file));
-            }
-        }
+    ShpFileType[] values = ShpFileType.values();
+    for (ShpFileType value : values) {
+      if (value != type) {
+        assertNull(value.toBase(file));
+      } else {
+        assertEquals("c:\\shapefiles\\file1", value.toBase(file));
+      }
     }
+  }
 
-    @Test
-    public void testNoExtension() throws Exception {
-        File noExtension = new File("name.");
-        assertNull(ShpFileType.DBF.toBase(noExtension));
-    }
+  @Test
+  public void testNoExtension() throws Exception {
+    File noExtension = new File("name.");
+    assertNull(ShpFileType.DBF.toBase(noExtension));
+  }
 
-    @Test
-    public void testNoBaseName() throws Exception {
-        File noBase = new File(".dbf");
-        assertNull(ShpFileType.DBF.toBase(noBase));
-    }
+  @Test
+  public void testNoBaseName() throws Exception {
+    File noBase = new File(".dbf");
+    assertNull(ShpFileType.DBF.toBase(noBase));
+  }
 
-    @Test
-    public void testNoBaseNameMixedCase() throws Exception {
-        File noBase = new File(".dbF");
-        assertNull(ShpFileType.DBF.toBase(noBase));
-    }
+  @Test
+  public void testNoBaseNameMixedCase() throws Exception {
+    File noBase = new File(".dbF");
+    assertNull(ShpFileType.DBF.toBase(noBase));
+  }
 
-    @Test
-    public void testUppercase() throws Exception {
-        File file = new File("BLOOB.DBF");
-        assertEquals("BLOOB", ShpFileType.DBF.toBase(file));
-    }
+  @Test
+  public void testUppercase() throws Exception {
+    File file = new File("BLOOB.DBF");
+    assertEquals("BLOOB", ShpFileType.DBF.toBase(file));
+  }
 
-    @Test
-    public void testMixedcase() throws Exception {
-        File file = new File("Beebop.dBf");
-        assertEquals("Beebop", ShpFileType.DBF.toBase(file));
-    }
-
+  @Test
+  public void testMixedcase() throws Exception {
+    File file = new File("Beebop.dBf");
+    assertEquals("Beebop", ShpFileType.DBF.toBase(file));
+  }
 }

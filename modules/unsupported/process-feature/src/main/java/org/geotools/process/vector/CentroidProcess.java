@@ -17,8 +17,9 @@
  */
 package org.geotools.process.vector;
 
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Point;
 import java.util.NoSuchElementException;
-
 import org.geotools.data.DataUtilities;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
@@ -34,103 +35,98 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.AttributeDescriptor;
 import org.opengis.feature.type.GeometryDescriptor;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Point;
-
 /**
- * A process that returns the centroids for the geometries in the
- * input feature collection.
- * 
- * @author Rohan Singh
- * 
+ * A process that returns the centroids for the geometries in the input feature collection.
  *
- * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/unsupported/process-feature/src/main/java/org/geotools/process/feature/gs/CentroidProcess.java $
+ * @author Rohan Singh
+ * @source $URL:
+ *     http://svn.osgeo.org/geotools/trunk/modules/unsupported/process-feature/src/main/java/org/geotools/process/feature/gs/CentroidProcess.java
+ *     $
  */
 @DescribeProcess(title = "Centroid", description = "Computes the geometric centroids of features")
 public class CentroidProcess implements VectorProcess {
 
-    @DescribeResult(name = "result", description = "Centroids of input features")
-    public SimpleFeatureCollection execute(
-            @DescribeParameter(name = "features", description = "Input feature collection") SimpleFeatureCollection features)
-            throws ProcessException {
-        return DataUtilities.simple(new CentroidFeatureCollection(features));
+  @DescribeResult(name = "result", description = "Centroids of input features")
+  public SimpleFeatureCollection execute(
+      @DescribeParameter(name = "features", description = "Input feature collection")
+          SimpleFeatureCollection features)
+      throws ProcessException {
+    return DataUtilities.simple(new CentroidFeatureCollection(features));
+  }
+
+  static class CentroidFeatureCollection extends SimpleProcessingCollection {
+    SimpleFeatureCollection delegate;
+
+    public CentroidFeatureCollection(SimpleFeatureCollection delegate) {
+      this.delegate = delegate;
     }
 
-    static class CentroidFeatureCollection extends SimpleProcessingCollection {
-        SimpleFeatureCollection delegate;
-
-        public CentroidFeatureCollection(SimpleFeatureCollection delegate) {
-            this.delegate = delegate;
-        }
-
-        @Override
-        public SimpleFeatureIterator features() {
-            return new CentroidFeatureIterator(delegate.features(), getSchema());
-        }
-
-        @Override
-        public ReferencedEnvelope getBounds() {
-            return DataUtilities.bounds( features() );
-        }
-
-        @Override
-        protected SimpleFeatureType buildTargetFeatureType() {
-            SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
-            for (AttributeDescriptor ad : delegate.getSchema().getAttributeDescriptors()) {
-                if(ad instanceof GeometryDescriptor) {
-                    GeometryDescriptor gd = (GeometryDescriptor) ad;
-                    Class<?> binding = ad.getType().getBinding();
-                    if(Point.class.isAssignableFrom(binding)) {
-                        tb.add(ad);
-                    } else {
-                        tb.minOccurs(ad.getMinOccurs());
-                        tb.maxOccurs(ad.getMaxOccurs());
-                        tb.nillable(ad.isNillable());
-                        tb.add(ad.getLocalName(), Point.class, gd.getCoordinateReferenceSystem());
-                    }
-                } else {
-                    tb.add(ad);
-                }
-            }
-            tb.setName(delegate.getSchema().getName());
-            return tb.buildFeatureType();
-        }
-
-        @Override
-        public int size() {
-            return delegate.size();
-        }
+    @Override
+    public SimpleFeatureIterator features() {
+      return new CentroidFeatureIterator(delegate.features(), getSchema());
     }
 
-    static class CentroidFeatureIterator implements SimpleFeatureIterator {
-        SimpleFeatureIterator delegate;
-
-        SimpleFeatureBuilder fb;
-
-        public CentroidFeatureIterator(SimpleFeatureIterator delegate, SimpleFeatureType schema) {
-            this.delegate = delegate;
-            fb = new SimpleFeatureBuilder(schema);
-        }
-
-        public void close() {
-            delegate.close();
-        }
-
-        public boolean hasNext() {
-            return delegate.hasNext();
-        }
-
-        public SimpleFeature next() throws NoSuchElementException {
-            SimpleFeature f = delegate.next();
-            for (Object attribute : f.getAttributes()) {
-                if ((attribute instanceof Geometry) &&
-                    !(attribute instanceof Point)) {
-                    attribute = ((Geometry) attribute).getCentroid();
-                }
-                fb.add(attribute);
-            }
-            return fb.buildFeature(f.getID());
-        }
-
+    @Override
+    public ReferencedEnvelope getBounds() {
+      return DataUtilities.bounds(features());
     }
+
+    @Override
+    protected SimpleFeatureType buildTargetFeatureType() {
+      SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
+      for (AttributeDescriptor ad : delegate.getSchema().getAttributeDescriptors()) {
+        if (ad instanceof GeometryDescriptor) {
+          GeometryDescriptor gd = (GeometryDescriptor) ad;
+          Class<?> binding = ad.getType().getBinding();
+          if (Point.class.isAssignableFrom(binding)) {
+            tb.add(ad);
+          } else {
+            tb.minOccurs(ad.getMinOccurs());
+            tb.maxOccurs(ad.getMaxOccurs());
+            tb.nillable(ad.isNillable());
+            tb.add(ad.getLocalName(), Point.class, gd.getCoordinateReferenceSystem());
+          }
+        } else {
+          tb.add(ad);
+        }
+      }
+      tb.setName(delegate.getSchema().getName());
+      return tb.buildFeatureType();
+    }
+
+    @Override
+    public int size() {
+      return delegate.size();
+    }
+  }
+
+  static class CentroidFeatureIterator implements SimpleFeatureIterator {
+    SimpleFeatureIterator delegate;
+
+    SimpleFeatureBuilder fb;
+
+    public CentroidFeatureIterator(SimpleFeatureIterator delegate, SimpleFeatureType schema) {
+      this.delegate = delegate;
+      fb = new SimpleFeatureBuilder(schema);
+    }
+
+    public void close() {
+      delegate.close();
+    }
+
+    public boolean hasNext() {
+      return delegate.hasNext();
+    }
+
+    public SimpleFeature next() throws NoSuchElementException {
+      SimpleFeature f = delegate.next();
+      for (Object attribute : f.getAttributes()) {
+        if ((attribute instanceof Geometry) && !(attribute instanceof Point)) {
+          attribute = ((Geometry) attribute).getCentroid();
+        }
+        fb.add(attribute);
+      }
+      return fb.buildFeature(f.getID());
+    }
+  }
 }

@@ -16,50 +16,47 @@
  */
 package org.geotools.gml2.simple;
 
+import com.vividsolutions.jts.geom.MultiPoint;
+import com.vividsolutions.jts.geom.Point;
 import org.geotools.gml2.GML;
 import org.geotools.xml.Encoder;
 import org.xml.sax.helpers.AttributesImpl;
 
-import com.vividsolutions.jts.geom.MultiPoint;
-import com.vividsolutions.jts.geom.Point;
-
 /**
  * Encodes a GML2 multipoint
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */
 class MultiPointEncoder extends GeometryEncoder<MultiPoint> {
 
-    static final QualifiedName MULTI_POINT = new QualifiedName(GML.NAMESPACE, "MultiPoint", "gml");
+  static final QualifiedName MULTI_POINT = new QualifiedName(GML.NAMESPACE, "MultiPoint", "gml");
 
-    static final QualifiedName POINT_MEMBER = new QualifiedName(GML.NAMESPACE, "pointMember", "gml");
+  static final QualifiedName POINT_MEMBER = new QualifiedName(GML.NAMESPACE, "pointMember", "gml");
 
-    PointEncoder pe;
+  PointEncoder pe;
 
-    QualifiedName multiPoint;
+  QualifiedName multiPoint;
 
-    QualifiedName pointMember;
+  QualifiedName pointMember;
 
-    protected MultiPointEncoder(Encoder encoder, String gmlPrefix) {
-        super(encoder);
-        pe = new PointEncoder(encoder, gmlPrefix);
-        multiPoint = MULTI_POINT.derive(gmlPrefix);
-        pointMember = POINT_MEMBER.derive(gmlPrefix);
+  protected MultiPointEncoder(Encoder encoder, String gmlPrefix) {
+    super(encoder);
+    pe = new PointEncoder(encoder, gmlPrefix);
+    multiPoint = MULTI_POINT.derive(gmlPrefix);
+    pointMember = POINT_MEMBER.derive(gmlPrefix);
+  }
+
+  @Override
+  public void encode(MultiPoint geometry, AttributesImpl atts, GMLWriter handler) throws Exception {
+    handler.startElement(multiPoint, atts);
+
+    for (int i = 0; i < geometry.getNumGeometries(); i++) {
+      handler.startElement(pointMember, null);
+      pe.encode((Point) geometry.getGeometryN(i), null, handler);
+      handler.endElement(pointMember);
     }
 
-    @Override
-    public void encode(MultiPoint geometry, AttributesImpl atts, GMLWriter handler)
-            throws Exception {
-        handler.startElement(multiPoint, atts);
-
-        for (int i = 0; i < geometry.getNumGeometries(); i++) {
-            handler.startElement(pointMember, null);
-            pe.encode((Point) geometry.getGeometryN(i), null, handler);
-            handler.endElement(pointMember);
-        }
-
-        handler.endElement(multiPoint);
-    }
-
+    handler.endElement(multiPoint);
+  }
 }

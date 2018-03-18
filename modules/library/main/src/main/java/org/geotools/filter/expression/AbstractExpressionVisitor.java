@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -27,47 +27,42 @@ import org.opengis.filter.expression.PropertyName;
 import org.opengis.filter.expression.Subtract;
 
 /**
- * Empty "abstract" implementation of ExpressionVisitor. Subclasses should
- * override desired methods.
- * 
+ * Empty "abstract" implementation of ExpressionVisitor. Subclasses should override desired methods.
+ *
  * @author Cory Horner, Refractions Research Inc.
- *
- *
- *
  * @source $URL$
  */
 public class AbstractExpressionVisitor implements ExpressionVisitor {
 
-    public Object visit(NilExpression expr, Object extraData) {
-        return expr;
-    }
+  public Object visit(NilExpression expr, Object extraData) {
+    return expr;
+  }
 
-    public Object visit(Add expr, Object extraData) {
-        return expr;
-    }
+  public Object visit(Add expr, Object extraData) {
+    return expr;
+  }
 
-    public Object visit(Divide expr, Object extraData) {
-        return expr;
-    }
+  public Object visit(Divide expr, Object extraData) {
+    return expr;
+  }
 
-    public Object visit(Function expr, Object extraData) {
-        return expr;
-    }
+  public Object visit(Function expr, Object extraData) {
+    return expr;
+  }
 
-    public Object visit(Literal expr, Object extraData) {
-        return expr;
-    }
+  public Object visit(Literal expr, Object extraData) {
+    return expr;
+  }
 
-    public Object visit(Multiply expr, Object extraData) {
-        return expr;
-    }
+  public Object visit(Multiply expr, Object extraData) {
+    return expr;
+  }
 
-    public Object visit(PropertyName expr, Object extraData) {
-        return expr;
-    }
+  public Object visit(PropertyName expr, Object extraData) {
+    return expr;
+  }
 
-    public Object visit(Subtract expr, Object extraData) {
-        return expr;
-    }
-
+  public Object visit(Subtract expr, Object extraData) {
+    return expr;
+  }
 }

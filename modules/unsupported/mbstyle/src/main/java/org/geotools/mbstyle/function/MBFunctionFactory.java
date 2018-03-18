@@ -19,7 +19,6 @@ package org.geotools.mbstyle.function;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.geotools.feature.NameImpl;
 import org.geotools.filter.FunctionFactory;
 import org.opengis.feature.type.Name;
@@ -29,60 +28,60 @@ import org.opengis.filter.expression.Function;
 import org.opengis.filter.expression.Literal;
 
 /**
- * Custom functions to support the use of MBStyle, {@link ZoomLevelFunction},
- * {@link ExponentialFunction}.
+ * Custom functions to support the use of MBStyle, {@link ZoomLevelFunction}, {@link
+ * ExponentialFunction}.
  */
 public class MBFunctionFactory implements FunctionFactory {
 
-    @Override
-    public List<FunctionName> getFunctionNames() {
-        List<FunctionName> functionList = new ArrayList<>();
-        functionList.add(ZoomLevelFunction.NAME);
-        functionList.add(ExponentialFunction.NAME);
-        functionList.add(CSSFunction.NAME);
-        functionList.add(DefaultIfNullFunction.NAME);
-        return Collections.unmodifiableList(functionList);
+  @Override
+  public List<FunctionName> getFunctionNames() {
+    List<FunctionName> functionList = new ArrayList<>();
+    functionList.add(ZoomLevelFunction.NAME);
+    functionList.add(ExponentialFunction.NAME);
+    functionList.add(CSSFunction.NAME);
+    functionList.add(DefaultIfNullFunction.NAME);
+    return Collections.unmodifiableList(functionList);
+  }
+
+  @Override
+  public Function function(String name, List<Expression> args, Literal fallback) {
+    return function(new NameImpl(name), args, fallback);
+  }
+
+  @Override
+  public Function function(Name name, List<Expression> args, Literal fallback) {
+    if (ZoomLevelFunction.NAME.getFunctionName().equals(name)) {
+      ZoomLevelFunction f = new ZoomLevelFunction();
+      f.setParameters(args);
+      f.setFallbackValue(fallback);
+      return f;
     }
+    if (ExponentialFunction.NAME.getFunctionName().equals(name)) {
+      ExponentialFunction f = new ExponentialFunction();
+      f.setParameters(args);
+      f.setFallbackValue(fallback);
 
-    @Override
-    public Function function(String name, List<Expression> args, Literal fallback) {
-        return function(new NameImpl(name), args, fallback);
+      return f;
     }
+    if (CSSFunction.NAME.getFunctionName().equals(name)) {
+      CSSFunction f = new CSSFunction();
+      f.setParameters(args);
+      f.setFallbackValue(fallback);
 
-    @Override
-    public Function function(Name name, List<Expression> args, Literal fallback) {
-        if (ZoomLevelFunction.NAME.getFunctionName().equals(name)) {
-            ZoomLevelFunction f = new ZoomLevelFunction();
-            f.setParameters(args);
-            f.setFallbackValue(fallback);
-            return f;
-        }
-        if (ExponentialFunction.NAME.getFunctionName().equals(name)) {
-            ExponentialFunction f = new ExponentialFunction();
-            f.setParameters(args);
-            f.setFallbackValue(fallback);
-
-            return f;
-        }
-        if (CSSFunction.NAME.getFunctionName().equals(name)) {
-            CSSFunction f = new CSSFunction();
-            f.setParameters(args);
-            f.setFallbackValue(fallback);
-
-            return f;
-        }
-        if (DefaultIfNullFunction.NAME.getFunctionName().equals(name)) {
-            DefaultIfNullFunction f = new DefaultIfNullFunction();
-            f.setParameters(args);
-            f.setFallbackValue(fallback);
-            return f;
-        }
-        if (StringTransformFunction.NAME.getFunctionName().equals(name)) {
-            StringTransformFunction f = new StringTransformFunction();
-            f.setParameters(args);
-            f.setFallbackValue(fallback);
-            return f;
-        }
-        return null;
+      return f;
     }
+    if (DefaultIfNullFunction.NAME.getFunctionName().equals(name)) {
+      DefaultIfNullFunction f = new DefaultIfNullFunction();
+      f.setParameters(args);
+      f.setFallbackValue(fallback);
+      return f;
+    }
+    if (StringTransformFunction.NAME.getFunctionName().equals(name)) {
+      StringTransformFunction f = new StringTransformFunction();
+      f.setParameters(args);
+      f.setFallbackValue(fallback);
+      return f;
+    }
+    return null;
+  }
 }

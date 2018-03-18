@@ -21,9 +21,8 @@ import org.geotools.xml.test.XMLTestSupport;
 
 public abstract class WFSTestSupport extends XMLTestSupport {
 
-    @Override
-    protected Configuration createConfiguration() {
-        return new WFSConfiguration();
-    }
-
+  @Override
+  protected Configuration createConfiguration() {
+    return new WFSConfiguration();
+  }
 }

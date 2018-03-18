@@ -27,35 +27,38 @@ import org.geotools.tile.impl.ZoomLevel;
  */
 class WMTSZoomLevel extends ZoomLevel {
 
-    private final WMTSTileService service;
+  private final WMTSTileService service;
 
-    /**
-     * @param zoomLevel
-     */
-    public WMTSZoomLevel(int zoomLevel, WMTSTileService service) {
-        // super(zoomLevel);
-        this.service = service;
-        setZoomLevel(zoomLevel);
-        this.maxTilePerRowNumber = calculateMaxTilePerRowNumber(zoomLevel);
-        this.maxTilePerColNumber = calculateMaxTilePerColNumber(zoomLevel);
+  /** @param zoomLevel */
+  public WMTSZoomLevel(int zoomLevel, WMTSTileService service) {
+    // super(zoomLevel);
+    this.service = service;
+    setZoomLevel(zoomLevel);
+    this.maxTilePerRowNumber = calculateMaxTilePerRowNumber(zoomLevel);
+    this.maxTilePerColNumber = calculateMaxTilePerColNumber(zoomLevel);
 
-        this.maxTileNumber = calculateMaxTileNumber();
-    }
+    this.maxTileNumber = calculateMaxTileNumber();
+  }
 
-    @Override
-    public int calculateMaxTilePerRowNumber(int zoomLevel) {
-        TileMatrix matrix = service.getTileMatrix(zoomLevel);
-        return matrix.getMatrixWidth();
-    }
+  @Override
+  public int calculateMaxTilePerRowNumber(int zoomLevel) {
+    TileMatrix matrix = service.getTileMatrix(zoomLevel);
+    return matrix.getMatrixWidth();
+  }
 
-    @Override
-    public int calculateMaxTilePerColNumber(int zoomLevel) {
-        TileMatrix matrix = service.getTileMatrix(zoomLevel);
-        return matrix.getMatrixHeight();
-    }
+  @Override
+  public int calculateMaxTilePerColNumber(int zoomLevel) {
+    TileMatrix matrix = service.getTileMatrix(zoomLevel);
+    return matrix.getMatrixHeight();
+  }
 
-    public String toString() {
-        return "ZoomLevel [z:" + getZoomLevel() + " col: " + getMaxTilePerColNumber() + " rows:"
-                + getMaxTilePerRowNumber() + "]";
-    }
+  public String toString() {
+    return "ZoomLevel [z:"
+        + getZoomLevel()
+        + " col: "
+        + getMaxTilePerColNumber()
+        + " rows:"
+        + getMaxTilePerRowNumber()
+        + "]";
+  }
 }

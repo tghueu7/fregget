@@ -16,38 +16,32 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.MultiPolygon;
 import org.geotools.gml2.GML;
 import org.geotools.xml.Binding;
 import org.w3c.dom.Document;
 
-import com.vividsolutions.jts.geom.MultiPolygon;
-
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GMLMultiPolygonTypeBinding2Test extends GMLTestSupport {
-    public void testType() {
-        assertEquals(MultiPolygon.class, binding(GML.MultiPolygonType).getType());
-    }
+  public void testType() {
+    assertEquals(MultiPolygon.class, binding(GML.MultiPolygonType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(GML.MultiPolygonType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(GML.MultiPolygonType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        GML2MockData.multiPolygon(document, document);
+  public void testParse() throws Exception {
+    GML2MockData.multiPolygon(document, document);
 
-        MultiPolygon mp = (MultiPolygon) parse();
-        assertEquals(2, mp.getNumGeometries());
-    }
+    MultiPolygon mp = (MultiPolygon) parse();
+    assertEquals(2, mp.getNumGeometries());
+  }
 
-    public void testEncode() throws Exception {
-        Document doc = encode(GML2MockData.multiPolygon(), GML.MultiPolygon);
+  public void testEncode() throws Exception {
+    Document doc = encode(GML2MockData.multiPolygon(), GML.MultiPolygon);
 
-        assertEquals(2,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.polygonMember.getLocalPart()).getLength());
-    }
+    assertEquals(
+        2, doc.getElementsByTagNameNS(GML.NAMESPACE, GML.polygonMember.getLocalPart()).getLength());
+  }
 }

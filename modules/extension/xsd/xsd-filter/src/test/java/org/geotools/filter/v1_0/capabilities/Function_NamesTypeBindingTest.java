@@ -16,40 +16,38 @@
  */
 package org.geotools.filter.v1_0.capabilities;
 
-import org.w3c.dom.Document;
 import javax.xml.namespace.QName;
-import org.opengis.filter.capability.FunctionName;
 import org.geotools.xml.Binding;
+import org.opengis.filter.capability.FunctionName;
+import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class Function_NamesTypeBindingTest extends FilterCapabilitiesTestSupport {
-    public void testType() {
-        assertEquals(FunctionName[].class, binding(OGC.Function_NamesType).getType());
-    }
+  public void testType() {
+    assertEquals(FunctionName[].class, binding(OGC.Function_NamesType).getType());
+  }
 
-    public void testExectionMode() {
-        assertEquals(Binding.OVERRIDE, binding(OGC.Function_NamesType).getExecutionMode());
-    }
+  public void testExectionMode() {
+    assertEquals(Binding.OVERRIDE, binding(OGC.Function_NamesType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        FilterMockData.functionNames(document, document);
+  public void testParse() throws Exception {
+    FilterMockData.functionNames(document, document);
 
-        FunctionName[] functions = (FunctionName[]) parse(OGC.Function_NamesType);
+    FunctionName[] functions = (FunctionName[]) parse(OGC.Function_NamesType);
 
-        assertEquals(2, functions.length);
-        assertEquals("foo", functions[0].getName());
-        assertEquals("bar", functions[1].getName());
-    }
+    assertEquals(2, functions.length);
+    assertEquals("foo", functions[0].getName());
+    assertEquals("bar", functions[1].getName());
+  }
 
-    public void testEncode() throws Exception {
-        Document dom = encode(FilterMockData.functionNames(),
-                new QName(OGC.NAMESPACE, "Function_Names"), OGC.Function_NamesType);
+  public void testEncode() throws Exception {
+    Document dom =
+        encode(
+            FilterMockData.functionNames(),
+            new QName(OGC.NAMESPACE, "Function_Names"),
+            OGC.Function_NamesType);
 
-        assertEquals(2, dom.getElementsByTagNameNS(OGC.NAMESPACE, "Function_Name").getLength());
-    }
+    assertEquals(2, dom.getElementsByTagNameNS(OGC.NAMESPACE, "Function_Name").getLength());
+  }
 }

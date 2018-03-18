@@ -25,65 +25,63 @@ import org.geotools.referencing.CRS;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.PropertyIsEqualTo;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class OracleFeatureSourceOnlineTest extends JDBCFeatureSourceOnlineTest {
 
-    @Override
-    protected JDBCTestSetup createTestSetup() {
-        return new OracleTestSetup();
-    }
-    
-    /**
-     * Test if the fast retrieval of bounds out of oracle metadata tables works
-     * @throws Exception
-     * @author Hendrik Peilke
-     */
-    public void testSDOGeomMetadataBounds() throws Exception {
-        // enable fast bounds retrieval from SDO_GEOM_METADATA table
-        ((OracleDialect) ((JDBCDataStore) dataStore).getSQLDialect()).setMetadataBboxEnabled(true);;
-        
-        ReferencedEnvelope bounds = dataStore.getFeatureSource(tname("ft1")).getBounds();
-        assertEquals(-180l, Math.round(bounds.getMinX()));
-        assertEquals(-90l, Math.round(bounds.getMinY()));
-        assertEquals(180l, Math.round(bounds.getMaxX()));
-        assertEquals(90l, Math.round(bounds.getMaxY()));
-    
-        assertTrue(areCRSEqual(CRS.decode("EPSG:4326"), bounds.getCoordinateReferenceSystem()));
-    }
-    
-    public void testEstimatedBounds() throws Exception {
-        // enable fast bbox
-        ((OracleDialect) ((JDBCDataStore) dataStore).getSQLDialect()).setEstimatedExtentsEnabled(true);
-        
-        ReferencedEnvelope bounds = dataStore.getFeatureSource(tname("ft1")).getBounds();
-        assertEquals(0l, Math.round(bounds.getMinX()));
-        assertEquals(0l, Math.round(bounds.getMinY()));
-        assertEquals(2l, Math.round(bounds.getMaxX()));
-        assertEquals(2l, Math.round(bounds.getMaxY()));
-    
-        assertTrue(areCRSEqual(CRS.decode("EPSG:4326"), bounds.getCoordinateReferenceSystem()));
-    }
+  @Override
+  protected JDBCTestSetup createTestSetup() {
+    return new OracleTestSetup();
+  }
 
-    public void testEstimatedBoundsWithQuery() throws Exception {
-        // enable fast bbox
-        ((OracleDialect) ((JDBCDataStore) dataStore).getSQLDialect()).setEstimatedExtentsEnabled(true);
-        
-        FilterFactory ff = dataStore.getFilterFactory();
-        PropertyIsEqualTo filter = ff.equals(ff.property(aname("stringProperty")), ff.literal("one"));
+  /**
+   * Test if the fast retrieval of bounds out of oracle metadata tables works
+   *
+   * @throws Exception
+   * @author Hendrik Peilke
+   */
+  public void testSDOGeomMetadataBounds() throws Exception {
+    // enable fast bounds retrieval from SDO_GEOM_METADATA table
+    ((OracleDialect) ((JDBCDataStore) dataStore).getSQLDialect()).setMetadataBboxEnabled(true);
+    ;
 
-        Query query = new Query();
-        query.setFilter(filter);
+    ReferencedEnvelope bounds = dataStore.getFeatureSource(tname("ft1")).getBounds();
+    assertEquals(-180l, Math.round(bounds.getMinX()));
+    assertEquals(-90l, Math.round(bounds.getMinY()));
+    assertEquals(180l, Math.round(bounds.getMaxX()));
+    assertEquals(90l, Math.round(bounds.getMaxY()));
 
-        ReferencedEnvelope bounds = dataStore.getFeatureSource(tname("ft1")).getBounds(query);
-        assertEquals(1l, Math.round(bounds.getMinX()));
-        assertEquals(1l, Math.round(bounds.getMinY()));
-        assertEquals(1l, Math.round(bounds.getMaxX()));
-        assertEquals(1l, Math.round(bounds.getMaxY()));
+    assertTrue(areCRSEqual(CRS.decode("EPSG:4326"), bounds.getCoordinateReferenceSystem()));
+  }
 
-        assertTrue(areCRSEqual(CRS.decode("EPSG:4326"), bounds.getCoordinateReferenceSystem()));
-    }
+  public void testEstimatedBounds() throws Exception {
+    // enable fast bbox
+    ((OracleDialect) ((JDBCDataStore) dataStore).getSQLDialect()).setEstimatedExtentsEnabled(true);
+
+    ReferencedEnvelope bounds = dataStore.getFeatureSource(tname("ft1")).getBounds();
+    assertEquals(0l, Math.round(bounds.getMinX()));
+    assertEquals(0l, Math.round(bounds.getMinY()));
+    assertEquals(2l, Math.round(bounds.getMaxX()));
+    assertEquals(2l, Math.round(bounds.getMaxY()));
+
+    assertTrue(areCRSEqual(CRS.decode("EPSG:4326"), bounds.getCoordinateReferenceSystem()));
+  }
+
+  public void testEstimatedBoundsWithQuery() throws Exception {
+    // enable fast bbox
+    ((OracleDialect) ((JDBCDataStore) dataStore).getSQLDialect()).setEstimatedExtentsEnabled(true);
+
+    FilterFactory ff = dataStore.getFilterFactory();
+    PropertyIsEqualTo filter = ff.equals(ff.property(aname("stringProperty")), ff.literal("one"));
+
+    Query query = new Query();
+    query.setFilter(filter);
+
+    ReferencedEnvelope bounds = dataStore.getFeatureSource(tname("ft1")).getBounds(query);
+    assertEquals(1l, Math.round(bounds.getMinX()));
+    assertEquals(1l, Math.round(bounds.getMinY()));
+    assertEquals(1l, Math.round(bounds.getMaxX()));
+    assertEquals(1l, Math.round(bounds.getMaxY()));
+
+    assertTrue(areCRSEqual(CRS.decode("EPSG:4326"), bounds.getCoordinateReferenceSystem()));
+  }
 }

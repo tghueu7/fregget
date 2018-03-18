@@ -20,56 +20,50 @@ package org.geotools.swing.action;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
-
 import org.geotools.swing.MapPane;
 
-
 /**
- * Base class for map pane actions; just provides a common initializing method and
- * a reference to the map pane being serviced.
- * 
+ * Base class for map pane actions; just provides a common initializing method and a reference to
+ * the map pane being serviced.
+ *
  * @author Michael Bedward
  * @since 2.6
- *
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public abstract class MapAction extends AbstractAction {
-    private static final long serialVersionUID = 2400755645451641127L;
+  private static final long serialVersionUID = 2400755645451641127L;
 
-    private MapPane mapPane;
+  private MapPane mapPane;
 
-    /**
-     * Called by sub-classes to set the map pane field and initialize
-     * the control action properties
-     *
-     * @param mapPane the map pane that this action is working with
-     * @param toolName short (single word) tool name; may be {@code null}
-     * @param toolTip brief tool description for GUI tool tip
-     * @param iconImage path to the icon to display on the control
-     */
-    protected void init(MapPane mapPane, String toolName, String toolTip, String iconImage) {
-        this.mapPane = mapPane;
+  /**
+   * Called by sub-classes to set the map pane field and initialize the control action properties
+   *
+   * @param mapPane the map pane that this action is working with
+   * @param toolName short (single word) tool name; may be {@code null}
+   * @param toolTip brief tool description for GUI tool tip
+   * @param iconImage path to the icon to display on the control
+   */
+  protected void init(MapPane mapPane, String toolName, String toolTip, String iconImage) {
+    this.mapPane = mapPane;
 
-        if (toolName != null) {
-            this.putValue(Action.NAME, toolName);
-        }
-
-        this.putValue(Action.SHORT_DESCRIPTION, toolTip);
-
-        if (iconImage != null) {
-            this.putValue(Action.SMALL_ICON, new ImageIcon(MapAction.class.getResource(iconImage)));
-        }
+    if (toolName != null) {
+      this.putValue(Action.NAME, toolName);
     }
 
-    /**
-     * Get the map pane that this Action is working with
-     *
-     * @return the map pane
-     */
-    public MapPane getMapPane() {
-        return mapPane;
+    this.putValue(Action.SHORT_DESCRIPTION, toolTip);
+
+    if (iconImage != null) {
+      this.putValue(Action.SMALL_ICON, new ImageIcon(MapAction.class.getResource(iconImage)));
     }
+  }
+
+  /**
+   * Get the map pane that this Action is working with
+   *
+   * @return the map pane
+   */
+  public MapPane getMapPane() {
+    return mapPane;
+  }
 }

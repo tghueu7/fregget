@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
- *   
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -21,58 +21,55 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
-
 import javax.sql.DataSource;
 
 /**
- * Fake data source working around a single user provided connection.
- * Used to allow backwards compatibility with the athority constructors
- * taking a single connection
- * @author Andrea Aime - OpenGeo
+ * Fake data source working around a single user provided connection. Used to allow backwards
+ * compatibility with the athority constructors taking a single connection
  *
+ * @author Andrea Aime - OpenGeo
  */
 class SingleConnectionDataSource implements DataSource {
 
-    Connection connection;
-    
-    public SingleConnectionDataSource(Connection connection) {
-        this.connection = connection;
-    }
-    
-    public Connection getConnection() throws SQLException {
-        return connection;
-    }
+  Connection connection;
 
-    public Connection getConnection(String username, String password) throws SQLException {
-        throw new UnsupportedOperationException();
-    }
+  public SingleConnectionDataSource(Connection connection) {
+    this.connection = connection;
+  }
 
-    public PrintWriter getLogWriter() throws SQLException {
-        throw new UnsupportedOperationException();
-    }
+  public Connection getConnection() throws SQLException {
+    return connection;
+  }
 
-    public int getLoginTimeout() throws SQLException {
-        throw new UnsupportedOperationException();
-    }
+  public Connection getConnection(String username, String password) throws SQLException {
+    throw new UnsupportedOperationException();
+  }
 
-    public void setLogWriter(PrintWriter out) throws SQLException {
-        throw new UnsupportedOperationException();
-    }
+  public PrintWriter getLogWriter() throws SQLException {
+    throw new UnsupportedOperationException();
+  }
 
-    public void setLoginTimeout(int seconds) throws SQLException {
-        throw new UnsupportedOperationException();
-    }
+  public int getLoginTimeout() throws SQLException {
+    throw new UnsupportedOperationException();
+  }
 
-    public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        return false;
-    }
+  public void setLogWriter(PrintWriter out) throws SQLException {
+    throw new UnsupportedOperationException();
+  }
 
-    public <T> T unwrap(Class<T> iface) throws SQLException {
-        throw new SQLException("Not wrapping an object implementing "+ iface.getClass().getName() );
-    }
+  public void setLoginTimeout(int seconds) throws SQLException {
+    throw new UnsupportedOperationException();
+  }
 
-    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-        throw new SQLFeatureNotSupportedException();
-    }
+  public boolean isWrapperFor(Class<?> iface) throws SQLException {
+    return false;
+  }
 
+  public <T> T unwrap(Class<T> iface) throws SQLException {
+    throw new SQLException("Not wrapping an object implementing " + iface.getClass().getName());
+  }
+
+  public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+    throw new SQLFeatureNotSupportedException();
+  }
 }

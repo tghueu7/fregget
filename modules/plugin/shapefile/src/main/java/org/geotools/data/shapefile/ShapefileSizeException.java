@@ -19,16 +19,17 @@ package org.geotools.data.shapefile;
 import java.io.IOException;
 
 /**
- * Exception thrown by the writer when the maximum size of the shapefile or dbf is reached. If the client has a direct reference to the feature writer
- * the exception is recoverable, the writer can be safely closed and both shp and dbf files are currently written will be within the specified size
- * limits
- * 
+ * Exception thrown by the writer when the maximum size of the shapefile or dbf is reached. If the
+ * client has a direct reference to the feature writer the exception is recoverable, the writer can
+ * be safely closed and both shp and dbf files are currently written will be within the specified
+ * size limits
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class ShapefileSizeException extends IOException {
-    private static final long serialVersionUID = 6539095903426714802L;
+  private static final long serialVersionUID = 6539095903426714802L;
 
-    public ShapefileSizeException(String message) {
-        super.getMessage();
-    }
+  public ShapefileSizeException(String message) {
+    super.getMessage();
+  }
 }

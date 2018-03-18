@@ -16,84 +16,80 @@
  */
 package org.geotools.xml;
 
-import junit.framework.TestCase;
-import org.w3c.dom.Document;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import junit.framework.TestCase;
 import org.geotools.xs.XSConfiguration;
+import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class FacetTest extends TestCase {
-    public void testList() throws Exception {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(true);
+  public void testList() throws Exception {
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    dbf.setNamespaceAware(true);
 
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        Document doc = db.parse(getClass().getResourceAsStream("list.xml"));
+    DocumentBuilder db = dbf.newDocumentBuilder();
+    Document doc = db.parse(getClass().getResourceAsStream("list.xml"));
 
-        String schemaLocation = "http://geotools.org/test "
-            + getClass().getResource("facets.xsd").getFile();
+    String schemaLocation =
+        "http://geotools.org/test " + getClass().getResource("facets.xsd").getFile();
 
-        doc.getDocumentElement()
-           .setAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
-            schemaLocation);
+    doc.getDocumentElement()
+        .setAttributeNS(
+            "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation", schemaLocation);
 
-        DOMParser parser = new DOMParser(new XSConfiguration(), doc);
-        Object o = parser.parse();
-        assertTrue(o instanceof List);
+    DOMParser parser = new DOMParser(new XSConfiguration(), doc);
+    Object o = parser.parse();
+    assertTrue(o instanceof List);
 
-        List list = (List) o;
-        assertEquals(3, list.size());
+    List list = (List) o;
+    assertEquals(3, list.size());
 
-        assertEquals(new Integer(1), list.get(0));
-        assertEquals(new Integer(2), list.get(1));
-        assertEquals(new Integer(3), list.get(2));
-    }
+    assertEquals(new Integer(1), list.get(0));
+    assertEquals(new Integer(2), list.get(1));
+    assertEquals(new Integer(3), list.get(2));
+  }
 
-    public void testWhitespace() throws Exception {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(true);
+  public void testWhitespace() throws Exception {
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    dbf.setNamespaceAware(true);
 
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        Document doc = db.parse(getClass().getResourceAsStream("whitespace.xml"));
+    DocumentBuilder db = dbf.newDocumentBuilder();
+    Document doc = db.parse(getClass().getResourceAsStream("whitespace.xml"));
 
-        String schemaLocation = "http://geotools.org/test "
-            + getClass().getResource("facets.xsd").getFile();
+    String schemaLocation =
+        "http://geotools.org/test " + getClass().getResource("facets.xsd").getFile();
 
-        doc.getDocumentElement()
-           .setAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
-            schemaLocation);
+    doc.getDocumentElement()
+        .setAttributeNS(
+            "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation", schemaLocation);
 
-        DOMParser parser = new DOMParser(new XSConfiguration(), doc);
-        String s = (String) parser.parse();
+    DOMParser parser = new DOMParser(new XSConfiguration(), doc);
+    String s = (String) parser.parse();
 
-        assertEquals("this is a normal string with some whitespace and some new lines", s);
-    }
-    
-    public void testCDATAWhitespace() throws Exception {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(true);
+    assertEquals("this is a normal string with some whitespace and some new lines", s);
+  }
 
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        Document doc = db.parse(getClass().getResourceAsStream("whitespace-cdata.xml"));
+  public void testCDATAWhitespace() throws Exception {
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    dbf.setNamespaceAware(true);
 
-        String schemaLocation = "http://geotools.org/test "
-            + getClass().getResource("facets.xsd").getFile();
+    DocumentBuilder db = dbf.newDocumentBuilder();
+    Document doc = db.parse(getClass().getResourceAsStream("whitespace-cdata.xml"));
 
-        doc.getDocumentElement()
-           .setAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
-            schemaLocation);
+    String schemaLocation =
+        "http://geotools.org/test " + getClass().getResource("facets.xsd").getFile();
 
-        DOMParser parser = new DOMParser(new XSConfiguration(), doc);
-        String s = (String) parser.parse();
+    doc.getDocumentElement()
+        .setAttributeNS(
+            "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation", schemaLocation);
 
-        assertEquals(" this is a \n" + " normal string \n" + " with some whitespace and \n"
-                + " some new lines", s);
-    }
+    DOMParser parser = new DOMParser(new XSConfiguration(), doc);
+    String s = (String) parser.parse();
+
+    assertEquals(
+        " this is a \n" + " normal string \n" + " with some whitespace and \n" + " some new lines",
+        s);
+  }
 }

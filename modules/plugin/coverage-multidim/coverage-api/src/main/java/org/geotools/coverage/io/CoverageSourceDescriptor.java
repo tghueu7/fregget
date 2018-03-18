@@ -18,7 +18,6 @@ package org.geotools.coverage.io;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.geotools.coverage.grid.io.DimensionDescriptor;
 import org.geotools.coverage.io.CoverageSource.AdditionalDomain;
 import org.geotools.coverage.io.CoverageSource.SpatialDomain;
@@ -27,122 +26,119 @@ import org.geotools.coverage.io.CoverageSource.VerticalDomain;
 import org.geotools.coverage.io.range.RangeType;
 
 /**
- * Describes a {@link CoverageSource} in terms of Name, {@link SpatialDomain}, {@link VerticalDomain}, {@link TemporalDomain},
- * {@link AdditionalDomain}s, {@link DimensionDescriptor}s
+ * Describes a {@link CoverageSource} in terms of Name, {@link SpatialDomain}, {@link
+ * VerticalDomain}, {@link TemporalDomain}, {@link AdditionalDomain}s, {@link DimensionDescriptor}s
  */
 public class CoverageSourceDescriptor {
 
-    private boolean hasTemporalDomain = false;
+  private boolean hasTemporalDomain = false;
 
-    private boolean hasVerticalDomain = false;
+  private boolean hasVerticalDomain = false;
 
-    private boolean hasAdditionalDomains = false;
+  private boolean hasAdditionalDomains = false;
 
-    private String name;
+  private String name;
 
-    /** range type of the wrapped coverage source */
-    private RangeType rangeType;
+  /** range type of the wrapped coverage source */
+  private RangeType rangeType;
 
-    /** spatial domain of the wrapped coverage source */
-    private SpatialDomain spatialDomain;
+  /** spatial domain of the wrapped coverage source */
+  private SpatialDomain spatialDomain;
 
-    /** temporal domain of the wrapped coverage source */
-    private TemporalDomain temporalDomain;
+  /** temporal domain of the wrapped coverage source */
+  private TemporalDomain temporalDomain;
 
-    /** vertical domain of the wrapped coverage source */
-    private VerticalDomain verticalDomain;
+  /** vertical domain of the wrapped coverage source */
+  private VerticalDomain verticalDomain;
 
-    /** additional domains of the wrapped coverage source */
-    private List<AdditionalDomain> additionalDomains;
+  /** additional domains of the wrapped coverage source */
+  private List<AdditionalDomain> additionalDomains;
 
-    private List<DimensionDescriptor> dimensionDescriptors;
+  private List<DimensionDescriptor> dimensionDescriptors;
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    protected void setName(String varName) {
-        this.name = varName;
-    }
+  protected void setName(String varName) {
+    this.name = varName;
+  }
 
-    public RangeType getRangeType() {
-        return rangeType;
-    }
+  public RangeType getRangeType() {
+    return rangeType;
+  }
 
-    public SpatialDomain getSpatialDomain() {
-        return spatialDomain;
-    }
+  public SpatialDomain getSpatialDomain() {
+    return spatialDomain;
+  }
 
-    public TemporalDomain getTemporalDomain() {
-        return temporalDomain;
-    }
+  public TemporalDomain getTemporalDomain() {
+    return temporalDomain;
+  }
 
-    public VerticalDomain getVerticalDomain() {
-        return verticalDomain;
-    }
+  public VerticalDomain getVerticalDomain() {
+    return verticalDomain;
+  }
 
-    public boolean isHasTemporalDomain() {
-        return hasTemporalDomain;
-    }
+  public boolean isHasTemporalDomain() {
+    return hasTemporalDomain;
+  }
 
-    public boolean isHasVerticalDomain() {
-        return hasVerticalDomain;
-    }
+  public boolean isHasVerticalDomain() {
+    return hasVerticalDomain;
+  }
 
-    protected void setHasTemporalDomain(boolean hasTemporalDomain) {
-        this.hasTemporalDomain = hasTemporalDomain;
-    }
+  protected void setHasTemporalDomain(boolean hasTemporalDomain) {
+    this.hasTemporalDomain = hasTemporalDomain;
+  }
 
-    protected void setHasVerticalDomain(boolean hasVerticalDomain) {
-        this.hasVerticalDomain = hasVerticalDomain;
-    }
+  protected void setHasVerticalDomain(boolean hasVerticalDomain) {
+    this.hasVerticalDomain = hasVerticalDomain;
+  }
 
-    public boolean isHasAdditionalDomains() {
-        return hasAdditionalDomains;
-    }
+  public boolean isHasAdditionalDomains() {
+    return hasAdditionalDomains;
+  }
 
-    public void setHasAdditionalDomains(boolean hasAdditionalDomains) {
-        this.hasAdditionalDomains = hasAdditionalDomains;
-    }
+  public void setHasAdditionalDomains(boolean hasAdditionalDomains) {
+    this.hasAdditionalDomains = hasAdditionalDomains;
+  }
 
-    protected void setRangeType(RangeType rangeType) {
-        this.rangeType = rangeType;
-    }
+  protected void setRangeType(RangeType rangeType) {
+    this.rangeType = rangeType;
+  }
 
-    protected void setSpatialDomain(SpatialDomain spatialDomain) {
-        this.spatialDomain = spatialDomain;
-    }
+  protected void setSpatialDomain(SpatialDomain spatialDomain) {
+    this.spatialDomain = spatialDomain;
+  }
 
-    protected void setTemporalDomain(TemporalDomain temporalDomain) {
-        this.temporalDomain = temporalDomain;
-    }
+  protected void setTemporalDomain(TemporalDomain temporalDomain) {
+    this.temporalDomain = temporalDomain;
+  }
 
-    protected void setVerticalDomain(VerticalDomain verticalDomain) {
-        this.verticalDomain = verticalDomain;
-    }
+  protected void setVerticalDomain(VerticalDomain verticalDomain) {
+    this.verticalDomain = verticalDomain;
+  }
 
-    public List<AdditionalDomain> getAdditionalDomains() {
-        return additionalDomains;
-    }
+  public List<AdditionalDomain> getAdditionalDomains() {
+    return additionalDomains;
+  }
 
-    public void setAdditionalDomains(List<AdditionalDomain> additionalDomains) {
-        this.additionalDomains = additionalDomains;
-    }
+  public void setAdditionalDomains(List<AdditionalDomain> additionalDomains) {
+    this.additionalDomains = additionalDomains;
+  }
 
-    public List<DimensionDescriptor> getDimensionDescriptors() throws IOException {
-        return dimensionDescriptors;
-    }
+  public List<DimensionDescriptor> getDimensionDescriptors() throws IOException {
+    return dimensionDescriptors;
+  }
 
-    public void setDimensionDescriptors(List<DimensionDescriptor> dimensionDescriptors) {
-        this.dimensionDescriptors = dimensionDescriptors;
-    }
+  public void setDimensionDescriptors(List<DimensionDescriptor> dimensionDescriptors) {
+    this.dimensionDescriptors = dimensionDescriptors;
+  }
 
-    /**
-     * 
-     */
-    public void dispose() {
-        // default impl, do nothing
+  /** */
+  public void dispose() {
+    // default impl, do nothing
 
-    }
-
+  }
 }

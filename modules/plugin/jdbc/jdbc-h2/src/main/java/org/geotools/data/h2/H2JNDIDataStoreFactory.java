@@ -20,42 +20,34 @@ import static org.geotools.data.h2.H2DataStoreFactory.*;
 
 import java.io.File;
 import java.util.Map;
-
 import org.geotools.jdbc.JDBCJNDIDataStoreFactory;
 
 /**
- * JNDI DataStoreFactory for H2. 
- * 
+ * JNDI DataStoreFactory for H2.
+ *
  * @author Christian Mueller
- *
- *
- *
  * @source $URL$
  */
 public class H2JNDIDataStoreFactory extends JDBCJNDIDataStoreFactory {
 
-    public H2JNDIDataStoreFactory() {
-        super(new H2DataStoreFactory());
-    }
- 
-    /**
-     * @see H2DataStoreFactory#setBaseDirectory(File)
-     */
-    public void setBaseDirectory(File baseDirectory) {
-        ((H2DataStoreFactory)delegate).setBaseDirectory(baseDirectory);
-    }
+  public H2JNDIDataStoreFactory() {
+    super(new H2DataStoreFactory());
+  }
 
-    /**
-     * @see H2DataStoreFactory#getBaseDirectory()
-     */
-    public File getBaseDirectory() {
-        return ((H2DataStoreFactory)delegate).getBaseDirectory();
-    }
-    
-    @Override
-    protected void setupParameters(Map parameters) {
-        super.setupParameters(parameters);
-        parameters.put(ASSOCIATIONS.key, ASSOCIATIONS);
-        parameters.put(AUTO_SERVER.key, AUTO_SERVER);
-    }
+  /** @see H2DataStoreFactory#setBaseDirectory(File) */
+  public void setBaseDirectory(File baseDirectory) {
+    ((H2DataStoreFactory) delegate).setBaseDirectory(baseDirectory);
+  }
+
+  /** @see H2DataStoreFactory#getBaseDirectory() */
+  public File getBaseDirectory() {
+    return ((H2DataStoreFactory) delegate).getBaseDirectory();
+  }
+
+  @Override
+  protected void setupParameters(Map parameters) {
+    super.setupParameters(parameters);
+    parameters.put(ASSOCIATIONS.key, ASSOCIATIONS);
+    parameters.put(AUTO_SERVER.key, AUTO_SERVER);
+  }
 }

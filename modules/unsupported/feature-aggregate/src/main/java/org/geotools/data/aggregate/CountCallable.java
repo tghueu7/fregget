@@ -19,7 +19,6 @@ package org.geotools.data.aggregate;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
-
 import org.geotools.data.DataStore;
 import org.geotools.data.Query;
 import org.geotools.data.simple.SimpleFeatureSource;
@@ -27,39 +26,38 @@ import org.opengis.feature.type.Name;
 
 class CountCallable implements Callable<Long> {
 
-    Query query;
+  Query query;
 
-    AggregatingDataStore store;
+  AggregatingDataStore store;
 
-    Name storeName;
+  Name storeName;
 
-    String typeName;
+  String typeName;
 
-    public CountCallable(AggregatingDataStore store, Query query, Name storeName, String typeName) {
-        super();
-        this.store = store;
-        this.query = query;
-        this.storeName = storeName;
-        this.typeName = typeName;
+  public CountCallable(AggregatingDataStore store, Query query, Name storeName, String typeName) {
+    super();
+    this.store = store;
+    this.query = query;
+    this.storeName = storeName;
+    this.typeName = typeName;
+  }
+
+  @Override
+  public Long call() throws Exception {
+    try {
+      DataStore ds = store.getStore(storeName, store.isTolerant());
+      SimpleFeatureSource source = ds.getFeatureSource(typeName);
+      Query q = new Query(query);
+      q.setTypeName(typeName);
+      return (long) source.getCount(q);
+    } catch (Exception e) {
+      String message = "Failed to count on " + storeName + "/" + typeName;
+      if (store.isTolerant()) {
+        AggregatingDataStore.LOGGER.log(Level.WARNING, message, e);
+        return 0l;
+      } else {
+        throw new IOException(message, e);
+      }
     }
-
-    @Override
-    public Long call() throws Exception {
-        try {
-            DataStore ds = store.getStore(storeName, store.isTolerant());
-            SimpleFeatureSource source = ds.getFeatureSource(typeName);
-            Query q = new Query(query);
-            q.setTypeName(typeName);
-            return (long) source.getCount(q);
-        } catch (Exception e) {
-            String message = "Failed to count on " + storeName + "/" + typeName;
-            if (store.isTolerant()) {
-                AggregatingDataStore.LOGGER.log(Level.WARNING, message, e);
-                return 0l;
-            } else {
-                throw new IOException(message, e);
-            }
-        }
-    }
-
+  }
 }

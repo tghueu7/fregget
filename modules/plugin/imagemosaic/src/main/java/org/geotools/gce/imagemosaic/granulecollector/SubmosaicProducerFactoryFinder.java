@@ -17,38 +17,35 @@
 
 package org.geotools.gce.imagemosaic.granulecollector;
 
+import static org.geotools.util.Utilities.toInstanceByClassNameMap;
+
 import java.util.Arrays;
 import java.util.Map;
-
 import org.geotools.factory.FactoryCreator;
 import org.geotools.factory.FactoryRegistry;
 
-import static org.geotools.util.Utilities.toInstanceByClassNameMap;
-
-/**
- * Helper finder for SubmosaicProducerFactories
- */
+/** Helper finder for SubmosaicProducerFactories */
 public class SubmosaicProducerFactoryFinder {
 
-    private static FactoryCreator registry;
+  private static FactoryCreator registry;
 
-    public static synchronized Map<String, SubmosaicProducerFactory> getGranuleHandlersSPI() {
-        // get all GranuleHandlerFactorySPI implementations
-        FactoryRegistry serviceRegistry = getServiceRegistry();
-        serviceRegistry.scanForPlugins();
-        return serviceRegistry
-                .getFactories(SubmosaicProducerFactory.class, true)
-                .collect(toInstanceByClassNameMap());
-    }
+  public static synchronized Map<String, SubmosaicProducerFactory> getGranuleHandlersSPI() {
+    // get all GranuleHandlerFactorySPI implementations
+    FactoryRegistry serviceRegistry = getServiceRegistry();
+    serviceRegistry.scanForPlugins();
+    return serviceRegistry
+        .getFactories(SubmosaicProducerFactory.class, true)
+        .collect(toInstanceByClassNameMap());
+  }
 
-    /**
-     * Returns the service registry. The registry will be created the first time this method is invoked.
-     */
-    private static FactoryRegistry getServiceRegistry() {
-        if (registry == null) {
-            registry = new FactoryCreator(
-                    Arrays.asList(new Class<?>[] { SubmosaicProducerFactory.class }));
-        }
-        return registry;
+  /**
+   * Returns the service registry. The registry will be created the first time this method is
+   * invoked.
+   */
+  private static FactoryRegistry getServiceRegistry() {
+    if (registry == null) {
+      registry = new FactoryCreator(Arrays.asList(new Class<?>[] {SubmosaicProducerFactory.class}));
     }
+    return registry;
+  }
 }

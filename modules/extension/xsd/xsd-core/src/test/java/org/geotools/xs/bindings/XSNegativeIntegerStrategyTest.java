@@ -21,54 +21,48 @@ import javax.xml.namespace.QName;
 import org.geotools.xs.TestSchema;
 import org.geotools.xs.XS;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class XSNegativeIntegerStrategyTest extends TestSchema {
-    /**
-     * negativeInteger has a lexical representation consisting of a negative
-     * sign ("-") followed by a finite-length sequence of decimal digits
-     * (#x30-#x39).
-     *
-     * For example: -1, -12678967543233, -100000.
-     * @throws Exception
-     *
-     */
-    public void validateValues(String text, Number expected)
-        throws Exception {
-        Object value = new BigInteger(text.trim());
+  /**
+   * negativeInteger has a lexical representation consisting of a negative sign ("-") followed by a
+   * finite-length sequence of decimal digits (#x30-#x39).
+   *
+   * <p>For example: -1, -12678967543233, -100000.
+   *
+   * @throws Exception
+   */
+  public void validateValues(String text, Number expected) throws Exception {
+    Object value = new BigInteger(text.trim());
 
-        Object result = strategy.parse(element(text, qname), value);
+    Object result = strategy.parse(element(text, qname), value);
 
-        if (!(result instanceof BigInteger) && result instanceof Number) {
-            result = BigInteger.valueOf(((Number) result).longValue());
-        }
-
-        assertEquals(integer(expected), integer(result));
+    if (!(result instanceof BigInteger) && result instanceof Number) {
+      result = BigInteger.valueOf(((Number) result).longValue());
     }
 
-    public BigInteger integer(Object value) {
-        return (value instanceof BigInteger) ? ((BigInteger) value)
-                                             : BigInteger.valueOf(((Number) value).longValue());
-    }
+    assertEquals(integer(expected), integer(result));
+  }
 
-    public Number number(String number) {
-        return BigInteger.valueOf(Integer.valueOf(number).longValue());
-    }
+  public BigInteger integer(Object value) {
+    return (value instanceof BigInteger)
+        ? ((BigInteger) value)
+        : BigInteger.valueOf(((Number) value).longValue());
+  }
 
-    /*
-     * Test method for 'org.geotools.xs.strategies.XSNegativeIntegerStrategy.parse(Element, Node[], Object)'
-     */
-    public void testParse() throws Exception {
-        validateValues("-1", new BigInteger("-1"));
-        validateValues("-12678967543233", new BigInteger("-12678967543233"));
-        validateValues("-100000", new BigInteger("-100000"));
-    }
+  public Number number(String number) {
+    return BigInteger.valueOf(Integer.valueOf(number).longValue());
+  }
 
-    protected QName getQName() {
-        return XS.NEGATIVEINTEGER;
-    }
+  /*
+   * Test method for 'org.geotools.xs.strategies.XSNegativeIntegerStrategy.parse(Element, Node[], Object)'
+   */
+  public void testParse() throws Exception {
+    validateValues("-1", new BigInteger("-1"));
+    validateValues("-12678967543233", new BigInteger("-12678967543233"));
+    validateValues("-100000", new BigInteger("-100000"));
+  }
+
+  protected QName getQName() {
+    return XS.NEGATIVEINTEGER;
+  }
 }

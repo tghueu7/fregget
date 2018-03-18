@@ -16,98 +16,93 @@
  */
 package org.geotools.filter.v1_1;
 
-import org.w3c.dom.Document;
 import org.opengis.filter.expression.Add;
 import org.opengis.filter.expression.BinaryExpression;
 import org.opengis.filter.expression.Divide;
 import org.opengis.filter.expression.Multiply;
 import org.opengis.filter.expression.Subtract;
+import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class BinaryOperatorTypeBindingTest extends FilterTestSupport {
-    public void testBinaryOperatorType() {
-        assertEquals(BinaryExpression.class, binding(OGC.BinaryOperatorType).getType());
-    }
+  public void testBinaryOperatorType() {
+    assertEquals(BinaryExpression.class, binding(OGC.BinaryOperatorType).getType());
+  }
 
-    public void testAddType() {
-        assertEquals(Add.class, binding(OGC.Add).getType());
-    }
+  public void testAddType() {
+    assertEquals(Add.class, binding(OGC.Add).getType());
+  }
 
-    public void testAddParse() throws Exception {
-        FilterMockData.add(document, document);
+  public void testAddParse() throws Exception {
+    FilterMockData.add(document, document);
 
-        Add add = (Add) parse();
+    Add add = (Add) parse();
 
-        assertNotNull(add.getExpression1());
-        assertNotNull(add.getExpression2());
-    }
+    assertNotNull(add.getExpression1());
+    assertNotNull(add.getExpression2());
+  }
 
-    public void testAddEncode() throws Exception {
-        Document dom = encode(FilterMockData.add(), OGC.Add);
+  public void testAddEncode() throws Exception {
+    Document dom = encode(FilterMockData.add(), OGC.Add);
 
-        assertEquals(2,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
-    }
+    assertEquals(
+        2, dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+  }
 
-    public void testSubType() {
-        assertEquals(Subtract.class, binding(OGC.Sub).getType());
-    }
+  public void testSubType() {
+    assertEquals(Subtract.class, binding(OGC.Sub).getType());
+  }
 
-    public void testSubParse() throws Exception {
-        FilterMockData.sub(document, document);
+  public void testSubParse() throws Exception {
+    FilterMockData.sub(document, document);
 
-        Subtract sub = (Subtract) parse();
+    Subtract sub = (Subtract) parse();
 
-        assertNotNull(sub.getExpression1());
-        assertNotNull(sub.getExpression2());
-    }
+    assertNotNull(sub.getExpression1());
+    assertNotNull(sub.getExpression2());
+  }
 
-    public void testSubEncode() throws Exception {
-        Document dom = encode(FilterMockData.sub(), OGC.Sub);
-        assertEquals(2,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
-    }
+  public void testSubEncode() throws Exception {
+    Document dom = encode(FilterMockData.sub(), OGC.Sub);
+    assertEquals(
+        2, dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+  }
 
-    public void testDivType() {
-        assertEquals(Divide.class, binding(OGC.Div).getType());
-    }
+  public void testDivType() {
+    assertEquals(Divide.class, binding(OGC.Div).getType());
+  }
 
-    public void testDivParse() throws Exception {
-        FilterMockData.div(document, document);
+  public void testDivParse() throws Exception {
+    FilterMockData.div(document, document);
 
-        Divide div = (Divide) parse();
+    Divide div = (Divide) parse();
 
-        assertNotNull(div.getExpression1());
-        assertNotNull(div.getExpression2());
-    }
+    assertNotNull(div.getExpression1());
+    assertNotNull(div.getExpression2());
+  }
 
-    public void testDivEncode() throws Exception {
-        Document dom = encode(FilterMockData.div(), OGC.Div);
-        assertEquals(2,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
-    }
+  public void testDivEncode() throws Exception {
+    Document dom = encode(FilterMockData.div(), OGC.Div);
+    assertEquals(
+        2, dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+  }
 
-    public void testMulType() {
-        assertEquals(Multiply.class, binding(OGC.Mul).getType());
-    }
+  public void testMulType() {
+    assertEquals(Multiply.class, binding(OGC.Mul).getType());
+  }
 
-    public void testMulParse() throws Exception {
-        FilterMockData.mul(document, document);
+  public void testMulParse() throws Exception {
+    FilterMockData.mul(document, document);
 
-        Multiply mul = (Multiply) parse();
+    Multiply mul = (Multiply) parse();
 
-        assertNotNull(mul.getExpression1());
-        assertNotNull(mul.getExpression2());
-    }
+    assertNotNull(mul.getExpression1());
+    assertNotNull(mul.getExpression2());
+  }
 
-    public void testMulEncode() throws Exception {
-        Document dom = encode(FilterMockData.mul(), OGC.Mul);
-        assertEquals(2,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
-    }
+  public void testMulEncode() throws Exception {
+    Document dom = encode(FilterMockData.mul(), OGC.Mul);
+    assertEquals(
+        2, dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+  }
 }

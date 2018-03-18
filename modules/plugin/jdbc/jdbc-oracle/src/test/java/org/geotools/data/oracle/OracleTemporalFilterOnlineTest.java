@@ -5,9 +5,8 @@ import org.geotools.jdbc.JDBCTemporalFilterOnlineTest;
 
 public class OracleTemporalFilterOnlineTest extends JDBCTemporalFilterOnlineTest {
 
-    @Override
-    protected JDBCDateTestSetup createTestSetup() {
-        return new OracleDateTestSetup(new OracleTestSetup());
-    }
-
+  @Override
+  protected JDBCDateTestSetup createTestSetup() {
+    return new OracleDateTestSetup(new OracleTestSetup());
+  }
 }

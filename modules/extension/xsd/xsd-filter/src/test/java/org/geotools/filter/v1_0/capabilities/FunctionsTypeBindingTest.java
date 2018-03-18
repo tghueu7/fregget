@@ -16,42 +16,36 @@
  */
 package org.geotools.filter.v1_0.capabilities;
 
+import javax.xml.namespace.QName;
+import org.geotools.xml.Binding;
+import org.opengis.filter.capability.Functions;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import javax.xml.namespace.QName;
-import org.opengis.filter.capability.FunctionName;
-import org.opengis.filter.capability.Functions;
-import org.geotools.xml.Binding;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class FunctionsTypeBindingTest extends FilterCapabilitiesTestSupport {
-    public void testType() {
-        assertEquals(Functions.class, binding(OGC.FunctionsType).getType());
-    }
+  public void testType() {
+    assertEquals(Functions.class, binding(OGC.FunctionsType).getType());
+  }
 
-    public void testExectionMode() {
-        assertEquals(Binding.OVERRIDE, binding(OGC.FunctionsType).getExecutionMode());
-    }
+  public void testExectionMode() {
+    assertEquals(Binding.OVERRIDE, binding(OGC.FunctionsType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        Element element = FilterMockData.element(document, document,
-                new QName(OGC.NAMESPACE, "Functions"));
-        FilterMockData.functionNames(document, element);
+  public void testParse() throws Exception {
+    Element element =
+        FilterMockData.element(document, document, new QName(OGC.NAMESPACE, "Functions"));
+    FilterMockData.functionNames(document, element);
 
-        Functions functions = (Functions) parse(OGC.FunctionsType);
-        assertEquals(2, functions.getFunctionNames().size());
-    }
+    Functions functions = (Functions) parse(OGC.FunctionsType);
+    assertEquals(2, functions.getFunctionNames().size());
+  }
 
-    public void testEncode() throws Exception {
-        Functions functions = FilterMockData.functions();
-        Document dom = encode(functions, new QName(OGC.NAMESPACE, "Functions"), OGC.FunctionsType);
+  public void testEncode() throws Exception {
+    Functions functions = FilterMockData.functions();
+    Document dom = encode(functions, new QName(OGC.NAMESPACE, "Functions"), OGC.FunctionsType);
 
-        assertEquals(1, dom.getElementsByTagNameNS(OGC.NAMESPACE, "Function_Names").getLength());
-        assertEquals(2, dom.getElementsByTagNameNS(OGC.NAMESPACE, "Function_Name").getLength());
-    }
+    assertEquals(1, dom.getElementsByTagNameNS(OGC.NAMESPACE, "Function_Names").getLength());
+    assertEquals(2, dom.getElementsByTagNameNS(OGC.NAMESPACE, "Function_Name").getLength());
+  }
 }

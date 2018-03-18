@@ -17,9 +17,10 @@
  */
 package org.geotools.process.vector;
 
-import java.util.Iterator;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.simplify.DouglasPeuckerSimplifier;
+import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
 import java.util.NoSuchElementException;
-
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.feature.collection.DecoratingSimpleFeatureCollection;
@@ -28,99 +29,103 @@ import org.geotools.process.ProcessException;
 import org.geotools.process.factory.DescribeParameter;
 import org.geotools.process.factory.DescribeProcess;
 import org.geotools.process.factory.DescribeResult;
-import org.geotools.process.gs.WrappingIterator;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
-
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.simplify.DouglasPeuckerSimplifier;
-import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
 
 /**
  * A process simplifying the geometries in the input feature collection according to a specified
  * distance, and using either a topology preserving or a Douglas-Peuker algorithm
- * 
- * @author Andrea Aime - OpenGeo
- * 
  *
+ * @author Andrea Aime - OpenGeo
  * @source $URL$
  */
-@DescribeProcess(title = "Simplify", description = "Simplifies feature geometry by reducing vertices using Douglas-Peucker simplification.")
+@DescribeProcess(
+  title = "Simplify",
+  description =
+      "Simplifies feature geometry by reducing vertices using Douglas-Peucker simplification."
+)
 public class SimplifyProcess implements VectorProcess {
 
-    @DescribeResult(name = "result", description = "The simplified feature collection")
-    public SimpleFeatureCollection execute(
-            @DescribeParameter(name = "features", description = "Input feature collection") SimpleFeatureCollection features,
-            @DescribeParameter(name = "distance", description = "Simplification distance tolerance") double distance,
-            @DescribeParameter(name = "preserveTopology", description = "If True, ensures that simplified features are topologically valid",  defaultValue = "false") boolean preserveTopology)
-            throws ProcessException {
-        if (distance < 0) {
-            throw new ProcessException("Invalid distance, it should be a positive number");
-        }
-
-        return new SimplifyingFeatureCollection(features, distance, preserveTopology);
+  @DescribeResult(name = "result", description = "The simplified feature collection")
+  public SimpleFeatureCollection execute(
+      @DescribeParameter(name = "features", description = "Input feature collection")
+          SimpleFeatureCollection features,
+      @DescribeParameter(name = "distance", description = "Simplification distance tolerance")
+          double distance,
+      @DescribeParameter(
+            name = "preserveTopology",
+            description = "If True, ensures that simplified features are topologically valid",
+            defaultValue = "false"
+          )
+          boolean preserveTopology)
+      throws ProcessException {
+    if (distance < 0) {
+      throw new ProcessException("Invalid distance, it should be a positive number");
     }
 
-    static class SimplifyingFeatureCollection extends DecoratingSimpleFeatureCollection {
-        double distance;
+    return new SimplifyingFeatureCollection(features, distance, preserveTopology);
+  }
 
-        boolean preserveTopology;
+  static class SimplifyingFeatureCollection extends DecoratingSimpleFeatureCollection {
+    double distance;
 
-        public SimplifyingFeatureCollection(SimpleFeatureCollection delegate, double distance,
-                boolean preserveTopology) {
-            super(delegate);
-            this.distance = distance;
-            this.preserveTopology = preserveTopology;
-        }
+    boolean preserveTopology;
 
-        @Override
-        public SimpleFeatureIterator features() {
-            return new SimplifyingFeatureIterator(delegate.features(), distance, preserveTopology,
-                    getSchema());
-        }
+    public SimplifyingFeatureCollection(
+        SimpleFeatureCollection delegate, double distance, boolean preserveTopology) {
+      super(delegate);
+      this.distance = distance;
+      this.preserveTopology = preserveTopology;
     }
 
-    static class SimplifyingFeatureIterator implements SimpleFeatureIterator {
-        SimpleFeatureIterator delegate;
-
-        double distance;
-
-        boolean preserveTopology;
-
-        SimpleFeatureBuilder fb;
-
-        public SimplifyingFeatureIterator(SimpleFeatureIterator delegate, double distance,
-                boolean preserveTopology, SimpleFeatureType schema) {
-            this.delegate = delegate;
-            this.distance = distance;
-            this.preserveTopology = preserveTopology;
-            fb = new SimpleFeatureBuilder(schema);
-        }
-
-        public void close() {
-            delegate.close();
-        }
-
-        public boolean hasNext() {
-            return delegate.hasNext();
-        }
-
-        public SimpleFeature next() throws NoSuchElementException {
-            SimpleFeature f = delegate.next();
-            for (Object attribute : f.getAttributes()) {
-                if (attribute instanceof Geometry) {
-                    if (preserveTopology) {
-                        attribute = DouglasPeuckerSimplifier.simplify((Geometry) attribute,
-                                distance);
-                    } else {
-                        attribute = TopologyPreservingSimplifier.simplify((Geometry) attribute,
-                                distance);
-                    }
-                }
-                fb.add(attribute);
-            }
-            return fb.buildFeature(f.getID());
-        }
-
+    @Override
+    public SimpleFeatureIterator features() {
+      return new SimplifyingFeatureIterator(
+          delegate.features(), distance, preserveTopology, getSchema());
     }
+  }
+
+  static class SimplifyingFeatureIterator implements SimpleFeatureIterator {
+    SimpleFeatureIterator delegate;
+
+    double distance;
+
+    boolean preserveTopology;
+
+    SimpleFeatureBuilder fb;
+
+    public SimplifyingFeatureIterator(
+        SimpleFeatureIterator delegate,
+        double distance,
+        boolean preserveTopology,
+        SimpleFeatureType schema) {
+      this.delegate = delegate;
+      this.distance = distance;
+      this.preserveTopology = preserveTopology;
+      fb = new SimpleFeatureBuilder(schema);
+    }
+
+    public void close() {
+      delegate.close();
+    }
+
+    public boolean hasNext() {
+      return delegate.hasNext();
+    }
+
+    public SimpleFeature next() throws NoSuchElementException {
+      SimpleFeature f = delegate.next();
+      for (Object attribute : f.getAttributes()) {
+        if (attribute instanceof Geometry) {
+          if (preserveTopology) {
+            attribute = DouglasPeuckerSimplifier.simplify((Geometry) attribute, distance);
+          } else {
+            attribute = TopologyPreservingSimplifier.simplify((Geometry) attribute, distance);
+          }
+        }
+        fb.add(attribute);
+      }
+      return fb.buildFeature(f.getID());
+    }
+  }
 }

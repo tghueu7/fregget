@@ -12,47 +12,40 @@ package org.geotools.geometry.jts.spatialschema.geometry.primitive;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.geometry.primitive.Ring;
 import org.opengis.geometry.primitive.SurfaceBoundary;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * LiteGO1 implementation of the SurfaceBoundary interface.
  *
- *
- *
- *
  * @source $URL$
  */
 public class SurfaceBoundaryImpl extends PrimitiveBoundaryImpl implements SurfaceBoundary {
-    private static final long serialVersionUID = 8658623156496260842L;
-    
-    private Ring exterior;
-    private List interior;
+  private static final long serialVersionUID = 8658623156496260842L;
 
-    public SurfaceBoundaryImpl(CoordinateReferenceSystem crs, Ring exterior, List interior) {
-        super(crs);
-        this.exterior = exterior;
-        this.interior = interior;
-    }
-    public SurfaceBoundaryImpl(CoordinateReferenceSystem crs, Ring exterior, Ring [] interior) {
-        super(crs);
-        this.exterior = exterior;
-        this.interior = new ArrayList( Arrays.asList( interior) );
-    }
+  private Ring exterior;
+  private List interior;
 
-    /**
-     * Returns the exterior ring, or {@code null} if none.
-     */
-    public Ring getExterior() {
-        return exterior;
-    }
+  public SurfaceBoundaryImpl(CoordinateReferenceSystem crs, Ring exterior, List interior) {
+    super(crs);
+    this.exterior = exterior;
+    this.interior = interior;
+  }
 
-    /**
-     * Returns the interior rings.
-     */
-    public List getInteriors() {
-        return interior;
-    }
+  public SurfaceBoundaryImpl(CoordinateReferenceSystem crs, Ring exterior, Ring[] interior) {
+    super(crs);
+    this.exterior = exterior;
+    this.interior = new ArrayList(Arrays.asList(interior));
+  }
+
+  /** Returns the exterior ring, or {@code null} if none. */
+  public Ring getExterior() {
+    return exterior;
+  }
+
+  /** Returns the interior rings. */
+  public List getInteriors() {
+    return interior;
+  }
 }

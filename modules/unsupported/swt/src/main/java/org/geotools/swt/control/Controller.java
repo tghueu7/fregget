@@ -15,25 +15,17 @@
 package org.geotools.swt.control;
 
 /**
- * Strategy object for 
+ * Strategy object for
+ *
  * @author Jesse
  * @since 1.1.0
- *
- *
- *
  * @source $URL$
  */
 public interface Controller {
 
-    /**
-     * Performs the "ok" function.  Applies the change of CRS
-     *
-     */
-    void handleOk();
+  /** Performs the "ok" function. Applies the change of CRS */
+  void handleOk();
 
-    /**
-     * Called when Chooser is no longer necessary.  
-     */
-    void handleClose();
-
+  /** Called when Chooser is no longer necessary. */
+  void handleClose();
 }

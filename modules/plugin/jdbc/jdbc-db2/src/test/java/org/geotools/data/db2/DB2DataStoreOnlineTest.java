@@ -19,19 +19,14 @@ package org.geotools.data.db2;
 import org.geotools.jdbc.JDBCDataStoreOnlineTest;
 import org.geotools.jdbc.JDBCTestSetup;
 
-
 /**
  * Data store test for db2.
  *
  * @author Christian Mueller
- *
- *
- *
- *
  * @source $URL$
  */
 public class DB2DataStoreOnlineTest extends JDBCDataStoreOnlineTest {
-    protected JDBCTestSetup createTestSetup() {
-        return new DB2DataStoreTestSetup(new DB2TestSetup());
-    }
+  protected JDBCTestSetup createTestSetup() {
+    return new DB2DataStoreTestSetup(new DB2TestSetup());
+  }
 }

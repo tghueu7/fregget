@@ -22,30 +22,25 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.geotools.gce.imagemosaic.properties.PropertiesCollector;
-import org.geotools.gce.imagemosaic.properties.PropertiesCollectorSPI;
-
-/**
- * SPI for the CRS extractor
- */
+/** SPI for the CRS extractor */
 public class CRSExtractorSPI implements PropertiesCollectorSPI {
-    @Override
-    public PropertiesCollector create(Object o, List<String> propertyNames) {
-        return new CRSExtractor(this, propertyNames);
-    }
+  @Override
+  public PropertiesCollector create(Object o, List<String> propertyNames) {
+    return new CRSExtractor(this, propertyNames);
+  }
 
-    @Override
-    public String getName() {
-        return "CRSExtractorSPI";
-    }
+  @Override
+  public String getName() {
+    return "CRSExtractorSPI";
+  }
 
-    @Override
-    public boolean isAvailable() {
-        return true;
-    }
+  @Override
+  public boolean isAvailable() {
+    return true;
+  }
 
-    @Override
-    public Map<RenderingHints.Key, ?> getImplementationHints() {
-        return Collections.emptyMap();
-    }
+  @Override
+  public Map<RenderingHints.Key, ?> getImplementationHints() {
+    return Collections.emptyMap();
+  }
 }

@@ -18,22 +18,21 @@ package org.geotools.styling.css.selector;
 
 public interface SelectorVisitor {
 
-    public Object visit(Accept accept);
+  public Object visit(Accept accept);
 
-    public Object visit(Reject reject);
+  public Object visit(Reject reject);
 
-    public Object visit(Id id);
+  public Object visit(Id id);
 
-    public Object visit(Data data);
+  public Object visit(Data data);
 
-    public Object visit(And and);
+  public Object visit(And and);
 
-    public Object visit(Or or);
+  public Object visit(Or or);
 
-    public Object visit(TypeName typeName);
+  public Object visit(TypeName typeName);
 
-    public Object visit(ScaleRange scaleRange);
+  public Object visit(ScaleRange scaleRange);
 
-    public Object visit(PseudoClass pseudoClass);
-
+  public Object visit(PseudoClass pseudoClass);
 }

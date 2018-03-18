@@ -20,19 +20,14 @@ import org.geotools.gml2.GMLConfiguration;
 import org.geotools.xml.Configuration;
 import org.geotools.xml.test.XMLTestSupport;
 
-
 /**
  * Abstract test class for gml2 bindings.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class GMLTestSupport extends XMLTestSupport {
-    protected Configuration createConfiguration() {
-        return new GMLConfiguration();
-    }
+  protected Configuration createConfiguration() {
+    return new GMLConfiguration();
+  }
 }

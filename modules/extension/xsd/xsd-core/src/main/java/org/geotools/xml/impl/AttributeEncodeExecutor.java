@@ -16,82 +16,76 @@
  */
 package org.geotools.xml.impl;
 
-import org.eclipse.xsd.XSDAttributeDeclaration;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
 import java.util.logging.Logger;
+import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.geotools.util.Converters;
 import org.geotools.xml.Binding;
 import org.geotools.xml.SimpleBinding;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class AttributeEncodeExecutor implements BindingWalker.Visitor {
-    /** the object being encoded **/
-    Object object;
+  /** the object being encoded * */
+  Object object;
 
-    /** the attribute being encoded **/
-    XSDAttributeDeclaration attribute;
+  /** the attribute being encoded * */
+  XSDAttributeDeclaration attribute;
 
-    /** the encoded value **/
-    Attr encoding;
+  /** the encoded value * */
+  Attr encoding;
 
-    /** the document / factory **/
-    Document document;
+  /** the document / factory * */
+  Document document;
 
-    /** logger */
-    Logger logger;
+  /** logger */
+  Logger logger;
 
-    public AttributeEncodeExecutor(Object object, XSDAttributeDeclaration attribute,
-        Document document, Logger logger) {
-        this.object = object;
-        this.attribute = attribute;
-        this.document = document;
-        this.logger = logger;
+  public AttributeEncodeExecutor(
+      Object object, XSDAttributeDeclaration attribute, Document document, Logger logger) {
+    this.object = object;
+    this.attribute = attribute;
+    this.document = document;
+    this.logger = logger;
 
-        encoding = document.createAttributeNS(attribute.getTargetNamespace(), attribute.getName());
+    encoding = document.createAttributeNS(attribute.getTargetNamespace(), attribute.getName());
+  }
+
+  public Attr getEncodedAttribute() {
+    return encoding;
+  }
+
+  public void visit(Binding binding) {
+    // ensure the object type matches the type declared on the bindign
+    if (binding.getType() == null) {
+      logger.fine("Binding: " + binding.getTarget() + " does not declare a target type");
+
+      return;
     }
 
-    public Attr getEncodedAttribute() {
-        return encoding;
+    if (!binding.getType().isAssignableFrom(object.getClass())) {
+      // try to convert
+      Object converted = Converters.convert(object, binding.getType());
+
+      if (converted != null) {
+        object = converted;
+      } else {
+        logger.fine(object + "[ " + object.getClass() + " ] is not of type " + binding.getType());
+
+        return;
+      }
     }
 
-    public void visit(Binding binding) {
-        //ensure the object type matches the type declared on the bindign
-        if (binding.getType() == null) {
-            logger.fine("Binding: " + binding.getTarget() + " does not declare a target type");
+    if (binding instanceof SimpleBinding) {
+      SimpleBinding simple = (SimpleBinding) binding;
 
-            return;
-        }
-
-        if (!binding.getType().isAssignableFrom(object.getClass())) {
-            //try to convert
-            Object converted = Converters.convert(object, binding.getType());
-
-            if (converted != null) {
-                object = converted;
-            } else {
-                logger.fine(object + "[ " + object.getClass() + " ] is not of type "
-                    + binding.getType());
-
-                return;
-            }
-        }
-
-        if (binding instanceof SimpleBinding) {
-            SimpleBinding simple = (SimpleBinding) binding;
-
-            try {
-                encoding.setValue(simple.encode(object, encoding.getValue()));
-            } catch (Throwable t) {
-                String msg = "Encode failed for " + attribute.getName() + ". Cause: "
-                    + t.getLocalizedMessage();
-                throw new RuntimeException(msg, t);
-            }
-        }
+      try {
+        encoding.setValue(simple.encode(object, encoding.getValue()));
+      } catch (Throwable t) {
+        String msg =
+            "Encode failed for " + attribute.getName() + ". Cause: " + t.getLocalizedMessage();
+        throw new RuntimeException(msg, t);
+      }
     }
+  }
 }

@@ -17,18 +17,16 @@
 package org.geotools.wfs.v1_0;
 
 import javax.xml.namespace.QName;
-
 import net.opengis.wfs.TransactionResponseType;
 import net.opengis.wfs.WfsFactory;
-
 import org.geotools.xml.AbstractComplexEMFBinding;
-
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:TransactionResponseType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="TransactionResponseType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -83,45 +81,40 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class WFS_TransactionResponseTypeBinding extends AbstractComplexEMFBinding {
-    public WFS_TransactionResponseTypeBinding(WfsFactory factory) {
-        super(factory);
+  public WFS_TransactionResponseTypeBinding(WfsFactory factory) {
+    super(factory);
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return WFS.WFS_TransactionResponseType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return TransactionResponseType.class;
+  }
+
+  @Override
+  public Object getProperty(Object object, QName name) throws Exception {
+    if ("InsertResult".equals(name.getLocalPart())) {
+      return ((TransactionResponseType) object).getInsertResults();
+    }
+    if ("TransactionResult".equals(name.getLocalPart())) {
+      return ((TransactionResponseType) object).getTransactionResults();
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WFS.WFS_TransactionResponseType;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return TransactionResponseType.class;
-    }
-    
-    @Override
-    public Object getProperty(Object object, QName name) throws Exception{
-        if ( "InsertResult".equals(name.getLocalPart()) ){
-            return ((TransactionResponseType) object).getInsertResults();
-        }
-        if ( "TransactionResult".equals(name.getLocalPart()) ){
-            return ((TransactionResponseType) object).getTransactionResults();
-        }
-        
-        return super.getProperty(object, name);
-    }
+    return super.getProperty(object, name);
+  }
 }

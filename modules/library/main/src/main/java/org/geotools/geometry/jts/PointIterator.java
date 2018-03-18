@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -16,92 +16,79 @@
  */
 package org.geotools.geometry.jts;
 
-import java.awt.geom.AffineTransform;
-
-
-
 import com.vividsolutions.jts.geom.Point;
-
+import java.awt.geom.AffineTransform;
 
 /**
  * A path iterator for the LiteShape class, specialized to iterate over Point objects.
  *
  * @author Andrea Aime
- *
- *
  * @source $URL$
  */
 public final class PointIterator extends AbstractLiteIterator {
-    /** Transform applied on the coordinates during iteration */
-    private AffineTransform at;
-    
-    /** The point we are going to provide when asked for coordinates */
-    private Point point;
-    
-    /** True when the point has been read once */
-    private boolean done;
-    
-    /** Current coordinate */
-    private boolean moved;
+  /** Transform applied on the coordinates during iteration */
+  private AffineTransform at;
 
-    /**
-     * Creates a new PointIterator object.
-     *
-     * @param point The point
-     * @param at The affine transform applied to coordinates during iteration
-     */
-    public PointIterator(Point point, AffineTransform at) {
-        if (at == null) {
-            at = new AffineTransform();
-        }
-        
-        this.at = at;
-        this.point = point;
-        done = false;
-        moved = false;
+  /** The point we are going to provide when asked for coordinates */
+  private Point point;
+
+  /** True when the point has been read once */
+  private boolean done;
+
+  /** Current coordinate */
+  private boolean moved;
+
+  /**
+   * Creates a new PointIterator object.
+   *
+   * @param point The point
+   * @param at The affine transform applied to coordinates during iteration
+   */
+  public PointIterator(Point point, AffineTransform at) {
+    if (at == null) {
+      at = new AffineTransform();
     }
 
-    /**
-     * Return the winding rule for determining the interior of the path.
-     *
-     * @return <code>WIND_EVEN_ODD</code> by default.
-     */
-    public int getWindingRule() {
-        return WIND_EVEN_ODD;
+    this.at = at;
+    this.point = point;
+    done = false;
+    moved = false;
+  }
+
+  /**
+   * Return the winding rule for determining the interior of the path.
+   *
+   * @return <code>WIND_EVEN_ODD</code> by default.
+   */
+  public int getWindingRule() {
+    return WIND_EVEN_ODD;
+  }
+
+  /** @see java.awt.geom.PathIterator#next() */
+  public void next() {
+    done = true;
+  }
+
+  /** @see java.awt.geom.PathIterator#isDone() */
+  public boolean isDone() {
+    return done && moved;
+  }
+
+  /** @see java.awt.geom.PathIterator#currentSegment(double[]) */
+  public int currentSegment(double[] coords) {
+    if (!done && !moved) {
+      coords[0] = point.getX();
+      coords[1] = point.getY();
+      at.transform(coords, 0, coords, 0, 1);
+
+      return SEG_MOVETO;
+    } else {
+      coords[0] = point.getX();
+      coords[1] = point.getY();
+      at.transform(coords, 0, coords, 0, 1);
+
+      moved = true;
+      return SEG_LINETO;
     }
-
-    /**
-     * @see java.awt.geom.PathIterator#next()
-     */
-    public void next() {
-        done = true;
-    }
-
-    /**
-     * @see java.awt.geom.PathIterator#isDone()
-     */
-    public boolean isDone() {
-        return done && moved;
-    }
-
-    /**
-     * @see java.awt.geom.PathIterator#currentSegment(double[])
-     */
-    public int currentSegment(double[] coords) {
-        if (!done && !moved) {
-            coords[0] = point.getX();
-            coords[1] = point.getY();
-            at.transform(coords, 0, coords, 0, 1);
-
-            return SEG_MOVETO;
-        } else {
-            coords[0] = point.getX();
-            coords[1] = point.getY();
-            at.transform(coords, 0, coords, 0, 1);
-
-            moved = true;
-            return SEG_LINETO;
-        }
-    }
-
+  }
 }

@@ -16,9 +16,9 @@
  */
 package org.geotools.data.oracle;
 
+import com.vividsolutions.jts.geom.Geometry;
 import java.sql.Date;
 import java.util.List;
-
 import org.geotools.data.DataUtilities;
 import org.geotools.data.DefaultTransaction;
 import org.geotools.data.Transaction;
@@ -36,124 +36,119 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.identity.FeatureId;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-import com.vividsolutions.jts.geom.Geometry;
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class OracleDataStoreOnlineTest extends JDBCDataStoreOnlineTest {
 
-    private OracleTestSetup oracleTestSetup;
+  private OracleTestSetup oracleTestSetup;
 
-    @Override
-    protected JDBCTestSetup createTestSetup() {
-        oracleTestSetup = new OracleTestSetup();
-        return oracleTestSetup;
-    }
-    
-    public void testCreateSchemaOSGBCrs() throws Exception {
-        SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
-        builder.setName(tname("ft2"));
-        builder.setNamespaceURI(dataStore.getNamespaceURI());
-        CoordinateReferenceSystem crs = CRS.decode("EPSG:27700");
-        builder.setCRS(crs);
-        builder.add(aname("geometry"), Geometry.class);
-        builder.add(aname("intProperty"), Integer.class);
-        builder.add(aname("dateProperty"), Date.class);
+  @Override
+  protected JDBCTestSetup createTestSetup() {
+    oracleTestSetup = new OracleTestSetup();
+    return oracleTestSetup;
+  }
 
-        SimpleFeatureType featureType = builder.buildFeatureType();
-        // used to fail here - with index creation error
-        dataStore.createSchema(featureType);
-    }
-    
-    public void testCreateSchemaWktCrs() throws Exception {
-        SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
-        builder.setName(tname("ft2"));
-        builder.setNamespaceURI(dataStore.getNamespaceURI());
-        CoordinateReferenceSystem crs = CRS.parseWKT("GEOGCS[\"NAD83\", \n" + 
-                "  DATUM[\"North American Datum 1983\", \n" + 
-                "    SPHEROID[\"GRS 1980\", 6378137.0, 298.257222101, AUTHORITY[\"EPSG\",\"7019\"]], \n" + 
-                "    TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], \n" + 
-                "    AUTHORITY[\"EPSG\",\"6269\"]], \n" + 
-                "  PRIMEM[\"Greenwich\", 0.0, AUTHORITY[\"EPSG\",\"8901\"]], \n" + 
-                "  UNIT[\"degree\", 0.017453292519943295], \n" + 
-                "  AXIS[\"Geodetic longitude\", EAST], \n" + 
-                "  AXIS[\"Geodetic latitude\", NORTH], \n" + 
-                "  AUTHORITY[\"EPSG\",\"4269\"]]");
-        builder.setCRS(crs);
-        builder.add(aname("geometry"), Geometry.class);
-        builder.add(aname("intProperty"), Integer.class);
-        builder.add(aname("dateProperty"), Date.class);
+  public void testCreateSchemaOSGBCrs() throws Exception {
+    SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+    builder.setName(tname("ft2"));
+    builder.setNamespaceURI(dataStore.getNamespaceURI());
+    CoordinateReferenceSystem crs = CRS.decode("EPSG:27700");
+    builder.setCRS(crs);
+    builder.add(aname("geometry"), Geometry.class);
+    builder.add(aname("intProperty"), Integer.class);
+    builder.add(aname("dateProperty"), Date.class);
 
-        SimpleFeatureType featureType = builder.buildFeatureType();
-        // used to fail here
-        dataStore.createSchema(featureType);
-    }
-    
-    public void testCreateSpatialIndexNameTooLong() throws Exception {
-        SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
-        builder.setName(tname("ft2"));
-        builder.setNamespaceURI(dataStore.getNamespaceURI());
-        builder.setCRS(DefaultGeographicCRS.WGS84);
-        builder.add(aname("geometry_one_two_three_four"), Geometry.class);
-        builder.add(aname("intProperty"), Integer.class);
-        builder.add(aname("dateProperty"), Date.class);
+    SimpleFeatureType featureType = builder.buildFeatureType();
+    // used to fail here - with index creation error
+    dataStore.createSchema(featureType);
+  }
 
-        SimpleFeatureType featureType = builder.buildFeatureType();
-        // used to fail here
-        dataStore.createSchema(featureType);
-    }
-    
-	public void testCreateLongVarChar() throws Exception {
-		SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
-		builder.setName(tname("longvar"));
-		builder.setNamespaceURI(dataStore.getNamespaceURI());
-		builder.setCRS(DefaultGeographicCRS.WGS84);
-		builder.add(aname("geometry_one_two_three_four"), Geometry.class);
-		builder.add(aname("longvar"), String.class);
+  public void testCreateSchemaWktCrs() throws Exception {
+    SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+    builder.setName(tname("ft2"));
+    builder.setNamespaceURI(dataStore.getNamespaceURI());
+    CoordinateReferenceSystem crs =
+        CRS.parseWKT(
+            "GEOGCS[\"NAD83\", \n"
+                + "  DATUM[\"North American Datum 1983\", \n"
+                + "    SPHEROID[\"GRS 1980\", 6378137.0, 298.257222101, AUTHORITY[\"EPSG\",\"7019\"]], \n"
+                + "    TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], \n"
+                + "    AUTHORITY[\"EPSG\",\"6269\"]], \n"
+                + "  PRIMEM[\"Greenwich\", 0.0, AUTHORITY[\"EPSG\",\"8901\"]], \n"
+                + "  UNIT[\"degree\", 0.017453292519943295], \n"
+                + "  AXIS[\"Geodetic longitude\", EAST], \n"
+                + "  AXIS[\"Geodetic latitude\", NORTH], \n"
+                + "  AUTHORITY[\"EPSG\",\"4269\"]]");
+    builder.setCRS(crs);
+    builder.add(aname("geometry"), Geometry.class);
+    builder.add(aname("intProperty"), Integer.class);
+    builder.add(aname("dateProperty"), Date.class);
 
-		SimpleFeatureType featureType = builder.buildFeatureType();
+    SimpleFeatureType featureType = builder.buildFeatureType();
+    // used to fail here
+    dataStore.createSchema(featureType);
+  }
 
-		dataStore.createSchema(featureType);
-		SimpleFeatureBuilder fBuilder = new SimpleFeatureBuilder(featureType);
-		fBuilder.add(null);
-		StringBuffer vBuffer = new StringBuffer(4000);
-		// to be honest I can't tell from the oracle docs if 4000 or 3999 is the
-		// actual limit but anything over 255 used to fail
-		for (int i = 0; i < 3999; i++) {
-			vBuffer.append("x");
-		}
+  public void testCreateSpatialIndexNameTooLong() throws Exception {
+    SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+    builder.setName(tname("ft2"));
+    builder.setNamespaceURI(dataStore.getNamespaceURI());
+    builder.setCRS(DefaultGeographicCRS.WGS84);
+    builder.add(aname("geometry_one_two_three_four"), Geometry.class);
+    builder.add(aname("intProperty"), Integer.class);
+    builder.add(aname("dateProperty"), Date.class);
 
-		fBuilder.add(vBuffer.toString());
-		SimpleFeature f = fBuilder.buildFeature(null);
-		// used to fail here
-		Transaction transaction = new DefaultTransaction("create");
-		SimpleFeatureSource featureSource = dataStore.getFeatureSource(featureType.getName().getLocalPart());
-		SimpleFeatureCollection collection = DataUtilities.collection(f);
-		SimpleFeatureStore outStore = (SimpleFeatureStore) featureSource;
-		outStore.setTransaction(transaction);
+    SimpleFeatureType featureType = builder.buildFeatureType();
+    // used to fail here
+    dataStore.createSchema(featureType);
+  }
 
-		try {
-			List<FeatureId> ids = outStore.addFeatures(collection);
+  public void testCreateLongVarChar() throws Exception {
+    SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+    builder.setName(tname("longvar"));
+    builder.setNamespaceURI(dataStore.getNamespaceURI());
+    builder.setCRS(DefaultGeographicCRS.WGS84);
+    builder.add(aname("geometry_one_two_three_four"), Geometry.class);
+    builder.add(aname("longvar"), String.class);
 
-			transaction.commit();
-		} catch (Exception problem) {
-			problem.printStackTrace();
-			transaction.rollback();
-		} finally {
-			transaction.close();
-			dataStore.removeSchema(tname("longvar"));
-		}
+    SimpleFeatureType featureType = builder.buildFeatureType();
 
-	}
-
-    @Override
-    protected void tearDownInternal() throws Exception {
-        
-        super.tearDownInternal();
-        oracleTestSetup.deleteSpatialTable(tname("longvar"));
+    dataStore.createSchema(featureType);
+    SimpleFeatureBuilder fBuilder = new SimpleFeatureBuilder(featureType);
+    fBuilder.add(null);
+    StringBuffer vBuffer = new StringBuffer(4000);
+    // to be honest I can't tell from the oracle docs if 4000 or 3999 is the
+    // actual limit but anything over 255 used to fail
+    for (int i = 0; i < 3999; i++) {
+      vBuffer.append("x");
     }
 
+    fBuilder.add(vBuffer.toString());
+    SimpleFeature f = fBuilder.buildFeature(null);
+    // used to fail here
+    Transaction transaction = new DefaultTransaction("create");
+    SimpleFeatureSource featureSource =
+        dataStore.getFeatureSource(featureType.getName().getLocalPart());
+    SimpleFeatureCollection collection = DataUtilities.collection(f);
+    SimpleFeatureStore outStore = (SimpleFeatureStore) featureSource;
+    outStore.setTransaction(transaction);
+
+    try {
+      List<FeatureId> ids = outStore.addFeatures(collection);
+
+      transaction.commit();
+    } catch (Exception problem) {
+      problem.printStackTrace();
+      transaction.rollback();
+    } finally {
+      transaction.close();
+      dataStore.removeSchema(tname("longvar"));
+    }
+  }
+
+  @Override
+  protected void tearDownInternal() throws Exception {
+
+    super.tearDownInternal();
+    oracleTestSetup.deleteSpatialTable(tname("longvar"));
+  }
 }

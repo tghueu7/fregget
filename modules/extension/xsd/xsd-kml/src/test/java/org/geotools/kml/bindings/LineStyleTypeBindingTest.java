@@ -23,35 +23,29 @@ import org.geotools.styling.LineSymbolizer;
 import org.geotools.styling.SLD;
 import org.geotools.xml.Binding;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class LineStyleTypeBindingTest extends KMLTestSupport {
-    public void testType() {
-        assertEquals(LineSymbolizer.class, binding(KML.LineStyleType).getType());
-    }
+  public void testType() {
+    assertEquals(LineSymbolizer.class, binding(KML.LineStyleType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.AFTER, binding(KML.LineStyleType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.AFTER, binding(KML.LineStyleType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        String xml = "<LineStyle>" + "<color>ffff0000</color>" + "<width>2</width>"
-            + "</LineStyle>";
+  public void testParse() throws Exception {
+    String xml = "<LineStyle>" + "<color>ffff0000</color>" + "<width>2</width>" + "</LineStyle>";
 
-        buildDocument(xml);
+    buildDocument(xml);
 
-        LineSymbolizer line = (LineSymbolizer) parse();
-        assertEquals(Color.RED, SLD.color(line));
-        assertEquals(2, SLD.width(line));
+    LineSymbolizer line = (LineSymbolizer) parse();
+    assertEquals(Color.RED, SLD.color(line));
+    assertEquals(2, SLD.width(line));
 
-        xml = "<LineStyle>" + "</LineStyle>";
-        buildDocument(xml);
-        line = (LineSymbolizer) parse();
-        assertEquals(Color.WHITE, SLD.color(line));
-        assertEquals(1, SLD.width(line));
-    }
+    xml = "<LineStyle>" + "</LineStyle>";
+    buildDocument(xml);
+    line = (LineSymbolizer) parse();
+    assertEquals(Color.WHITE, SLD.color(line));
+    assertEquals(1, SLD.width(line));
+  }
 }

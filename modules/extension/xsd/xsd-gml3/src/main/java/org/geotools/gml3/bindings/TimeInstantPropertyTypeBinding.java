@@ -16,17 +16,16 @@
  */
 package org.geotools.gml3.bindings;
 
+import javax.xml.namespace.QName;
 import org.geotools.gml3.GML;
 import org.geotools.xml.*;
 import org.opengis.temporal.Instant;
 
-import javax.xml.namespace.QName;
-
 /**
  * Binding object for the type http://www.opengis.net/gml:TimeInstantPropertyType.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *  <code>
  *  &lt;complexType name="TimeInstantPropertyType"&gt;
@@ -34,40 +33,39 @@ import javax.xml.namespace.QName;
  *          &lt;element ref="gml:TimeInstant"/&gt;
  *      &lt;/sequence&gt;
  *      &lt;attributeGroup ref="gml:AssociationAttributeGroup"/&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *  &lt;/complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
  */
 public class TimeInstantPropertyTypeBinding extends AbstractComplexBinding {
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.TimeInstantPropertyType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return GML.TimeInstantPropertyType;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Instant.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Instant.class;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        return node.getChildValue(Instant.class);
-    }
-
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return node.getChildValue(Instant.class);
+  }
 }

@@ -25,35 +25,30 @@ import org.geotools.xml.Binding;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class PointTypeBindingTest extends KMLTestSupport {
-    public void testType() {
-        assertEquals(Point.class, binding(KML.PointType).getType());
-    }
+  public void testType() {
+    assertEquals(Point.class, binding(KML.PointType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(KML.PointType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(KML.PointType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        buildDocument("<Point><coordinates>1,1</coordinates></Point>");
+  public void testParse() throws Exception {
+    buildDocument("<Point><coordinates>1,1</coordinates></Point>");
 
-        Point p = (Point) parse();
+    Point p = (Point) parse();
 
-        assertEquals(1d, p.getX(), 0.1);
-        assertEquals(1d, p.getY(), 0.2);
-    }
-    
-    public void testEncode() throws Exception {
-        Point p = new GeometryFactory().createPoint(new Coordinate(1,1));
-        Document dom = encode( p, KML.Point );
-        
-        Element coordinates = getElementByQName(dom, KML.coordinates );
-        assertNotNull( coordinates );
-    }
+    assertEquals(1d, p.getX(), 0.1);
+    assertEquals(1d, p.getY(), 0.2);
+  }
+
+  public void testEncode() throws Exception {
+    Point p = new GeometryFactory().createPoint(new Coordinate(1, 1));
+    Document dom = encode(p, KML.Point);
+
+    Element coordinates = getElementByQName(dom, KML.coordinates);
+    assertNotNull(coordinates);
+  }
 }

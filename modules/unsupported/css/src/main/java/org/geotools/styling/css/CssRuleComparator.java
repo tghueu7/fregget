@@ -21,22 +21,19 @@ import java.util.Comparator;
 
 /**
  * Orders rules by their selector selectivity
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 class CssRuleComparator implements Comparator<CssRule> {
 
-    public static final CssRuleComparator ASCENDING = new CssRuleComparator();
+  public static final CssRuleComparator ASCENDING = new CssRuleComparator();
 
-    public static final Comparator<CssRule> DESCENDING = Collections.reverseOrder(ASCENDING);
+  public static final Comparator<CssRule> DESCENDING = Collections.reverseOrder(ASCENDING);
 
-    private CssRuleComparator() {
+  private CssRuleComparator() {}
 
-    }
-
-    @Override
-    public int compare(CssRule o1, CssRule o2) {
-        return o1.getSelector().compareTo(o2.getSelector());
-    }
+  @Override
+  public int compare(CssRule o1, CssRule o2) {
+    return o1.getSelector().compareTo(o2.getSelector());
+  }
 }

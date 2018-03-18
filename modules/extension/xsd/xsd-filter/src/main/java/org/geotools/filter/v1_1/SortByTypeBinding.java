@@ -18,18 +18,18 @@ package org.geotools.filter.v1_1;
 
 import java.util.List;
 import javax.xml.namespace.QName;
-import org.opengis.filter.FilterFactory;
-import org.opengis.filter.sort.SortBy;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
-
+import org.opengis.filter.FilterFactory;
+import org.opengis.filter.sort.SortBy;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:SortByType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="SortByType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -39,60 +39,54 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SortByTypeBinding extends AbstractComplexBinding {
-    FilterFactory filterfactory;
+  FilterFactory filterfactory;
 
-    public SortByTypeBinding(FilterFactory filterfactory) {
-        this.filterfactory = filterfactory;
+  public SortByTypeBinding(FilterFactory filterfactory) {
+    this.filterfactory = filterfactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return OGC.SortByType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return SortBy[].class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // &lt;xsd:element maxOccurs="unbounded" name="SortProperty" type="ogc:SortPropertyType"/&gt;
+    List sortBy = node.getChildValues(SortBy.class);
+
+    return sortBy.toArray(new SortBy[sortBy.size()]);
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    if ("SortProperty".equals(name.getLocalPart())) {
+      SortBy[] sortBy = (SortBy[]) object;
+
+      return sortBy;
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.SortByType;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return SortBy[].class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //&lt;xsd:element maxOccurs="unbounded" name="SortProperty" type="ogc:SortPropertyType"/&gt;
-        List sortBy = node.getChildValues(SortBy.class);
-
-        return sortBy.toArray(new SortBy[sortBy.size()]);
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        if ("SortProperty".equals(name.getLocalPart())) {
-            SortBy[] sortBy = (SortBy[]) object;
-
-            return sortBy;
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

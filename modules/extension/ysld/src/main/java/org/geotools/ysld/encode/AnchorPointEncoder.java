@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -19,21 +19,19 @@ package org.geotools.ysld.encode;
 
 import org.geotools.styling.AnchorPoint;
 
-/**
- * Encodes an {@link AnchorPoint} as YSLD.
- */
+/** Encodes an {@link AnchorPoint} as YSLD. */
 public class AnchorPointEncoder extends YsldEncodeHandler<AnchorPoint> {
 
-    AnchorPointEncoder(AnchorPoint anchor) {
-        super(anchor);
-    }
+  AnchorPointEncoder(AnchorPoint anchor) {
+    super(anchor);
+  }
 
-    @Override
-    protected void encode(AnchorPoint anchor) {
-        if (nullIf(anchor.getAnchorPointX(), 0) == null
-                && nullIf(anchor.getAnchorPointY(), 0.5) == null) {
-            return;
-        }
-        put("anchor", anchor.getAnchorPointX(), anchor.getAnchorPointY());
+  @Override
+  protected void encode(AnchorPoint anchor) {
+    if (nullIf(anchor.getAnchorPointX(), 0) == null
+        && nullIf(anchor.getAnchorPointY(), 0.5) == null) {
+      return;
     }
+    put("anchor", anchor.getAnchorPointX(), anchor.getAnchorPointY());
+  }
 }

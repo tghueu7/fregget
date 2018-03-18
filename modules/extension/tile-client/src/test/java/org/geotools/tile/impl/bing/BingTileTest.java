@@ -25,34 +25,31 @@ import org.junit.Test;
 
 public class BingTileTest {
 
-    private Tile tile;
+  private Tile tile;
 
-    @Before
-    public void beforeTest() {
+  @Before
+  public void beforeTest() {
 
-        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
-        TileService service = new BingService("Road", baseURL);
-        BingTileIdentifier tileIdentifier = new BingTileIdentifier(10, 12,
-                new WebMercatorZoomLevel(5), service.getName());
+    String baseURL =
+        "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
+    TileService service = new BingService("Road", baseURL);
+    BingTileIdentifier tileIdentifier =
+        new BingTileIdentifier(10, 12, new WebMercatorZoomLevel(5), service.getName());
 
-        this.tile = new BingTile(tileIdentifier, service);
+    this.tile = new BingTile(tileIdentifier, service);
+  }
 
-    }
+  @Test
+  public void testConstructor() {
 
-    @Test
-    public void testConstructor() {
+    Assert.assertNotNull(this.tile);
+  }
 
-        Assert.assertNotNull(this.tile);
+  @Test
+  public void testGetURL() {
 
-    }
-
-    @Test
-    public void testGetURL() {
-
-        Assert.assertEquals(
-                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/03210?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z",
-                this.tile.getUrl().toString());
-
-    }
-
+    Assert.assertEquals(
+        "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/03210?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z",
+        this.tile.getUrl().toString());
+  }
 }

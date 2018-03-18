@@ -16,8 +16,8 @@
  */
 package org.geotools.gml2.simple;
 
+import com.vividsolutions.jts.geom.CoordinateSequence;
 import java.text.FieldPosition;
-
 import org.geotools.geometry.jts.coordinatesequence.CoordinateSequences;
 import org.geotools.gml.producer.CoordinateFormatter;
 import org.geotools.gml2.GML;
@@ -29,310 +29,299 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.NamespaceSupport;
 
-import com.vividsolutions.jts.geom.CoordinateSequence;
-
 /**
  * Helper class writing out GML elements and coordinates. Geared towards efficiency, write out
  * elements and ordinate lists with the minimim amount of garbage generation
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 public class GMLWriter {
 
-    static final QualifiedName COORDINATES = new QualifiedName(GML.NAMESPACE, "coordinates", "gml");
+  static final QualifiedName COORDINATES = new QualifiedName(GML.NAMESPACE, "coordinates", "gml");
 
-    static final QualifiedName POS_LIST = new QualifiedName(GML.NAMESPACE, "posList", "gml");
+  static final QualifiedName POS_LIST = new QualifiedName(GML.NAMESPACE, "posList", "gml");
 
-    /**
-     * The min value at which the decimal notation is used (below it, the computerized scientific
-     * one is used instead)
-     */
-    private static final double DECIMAL_MIN = Math.pow(10, -3);
+  /**
+   * The min value at which the decimal notation is used (below it, the computerized scientific one
+   * is used instead)
+   */
+  private static final double DECIMAL_MIN = Math.pow(10, -3);
 
-    /**
-     * The max value at which the decimal notation is used (above it, the computerized scientific
-     * one is used instead)
-     */
-    private static final double DECIMAL_MAX = Math.pow(10, 7);
+  /**
+   * The max value at which the decimal notation is used (above it, the computerized scientific one
+   * is used instead)
+   */
+  private static final double DECIMAL_MAX = Math.pow(10, 7);
 
-    /**
-     * Used in coordinate formatting
-     */
-    private static final FieldPosition ZERO = new FieldPosition(0);
-    private final CoordinateFormatter coordFormatter;
+  /** Used in coordinate formatting */
+  private static final FieldPosition ZERO = new FieldPosition(0);
 
-    /**
-     * The actual XML encoder
-     */
-    ContentHandler handler;
+  private final CoordinateFormatter coordFormatter;
 
-    /**
-     * All the namespaces known to the Encoder
-     */
-    NamespaceSupport namespaces;
+  /** The actual XML encoder */
+  ContentHandler handler;
 
-    /**
-     * We use a StringBuffer because the date formatters cannot take a StringBuilder
-     */
-    StringBuffer sb = new StringBuffer();
+  /** All the namespaces known to the Encoder */
+  NamespaceSupport namespaces;
 
-    /**
-     * The StringBuffer above gets dumped into this char buffer in order to pass the chars to the
-     * handler
-     */
-    char[] buffer;
+  /** We use a StringBuffer because the date formatters cannot take a StringBuilder */
+  StringBuffer sb = new StringBuffer();
 
-    /**
-     * Coordinates qualified name, with the right prefix
-     */
-    private QualifiedName coordinates;
+  /**
+   * The StringBuffer above gets dumped into this char buffer in order to pass the chars to the
+   * handler
+   */
+  char[] buffer;
 
-    /**
-     * posList qualified name, with the right prefix
-     */
-    private QualifiedName posList;
+  /** Coordinates qualified name, with the right prefix */
+  private QualifiedName coordinates;
 
-    /**
-     * Create a new content handler
-     * 
-     * @param delegate The actual XML writer
-     * @param namespaces The namespaces known to the Encoder
-     * @param numDecimals How many decimals to preserve when writing ordinates
-     * @param forceDecimal If xs:decimal compliant encoding should be used, or not
-     * @param gmlPrefix The GML namespace prefix
-     */
-    public GMLWriter(ContentHandler delegate, NamespaceSupport namespaces, int numDecimals,
-            boolean forceDecimal, String gmlPrefix) {
-        this.handler = delegate;
-        this.namespaces = namespaces;
+  /** posList qualified name, with the right prefix */
+  private QualifiedName posList;
 
-        String gmlUri = namespaces.getURI(gmlPrefix);
-        if (gmlUri == null) {
-            gmlUri = GML.NAMESPACE;
-        }
+  /**
+   * Create a new content handler
+   *
+   * @param delegate The actual XML writer
+   * @param namespaces The namespaces known to the Encoder
+   * @param numDecimals How many decimals to preserve when writing ordinates
+   * @param forceDecimal If xs:decimal compliant encoding should be used, or not
+   * @param gmlPrefix The GML namespace prefix
+   */
+  public GMLWriter(
+      ContentHandler delegate,
+      NamespaceSupport namespaces,
+      int numDecimals,
+      boolean forceDecimal,
+      String gmlPrefix) {
+    this.handler = delegate;
+    this.namespaces = namespaces;
 
-        this.coordinates = COORDINATES.derive(gmlPrefix, gmlUri);
-        this.posList = POS_LIST.derive(gmlPrefix, gmlUri);
-
-        this.coordFormatter = new CoordinateFormatter(numDecimals);
-        this.coordFormatter.setForcedDecimal(forceDecimal);
+    String gmlUri = namespaces.getURI(gmlPrefix);
+    if (gmlUri == null) {
+      gmlUri = GML.NAMESPACE;
     }
 
-    /**
-     * @param locator
-     * @see org.xml.sax.ContentHandler#setDocumentLocator(org.xml.sax.Locator)
-     */
-    public void setDocumentLocator(Locator locator) {
-        handler.setDocumentLocator(locator);
-    }
+    this.coordinates = COORDINATES.derive(gmlPrefix, gmlUri);
+    this.posList = POS_LIST.derive(gmlPrefix, gmlUri);
 
-    /**
-     * @throws SAXException
-     * @see org.xml.sax.ContentHandler#startDocument()
-     */
-    public void startDocument() throws SAXException {
-        handler.startDocument();
-    }
+    this.coordFormatter = new CoordinateFormatter(numDecimals);
+    this.coordFormatter.setForcedDecimal(forceDecimal);
+  }
 
-    /**
-     * @throws SAXException
-     * @see org.xml.sax.ContentHandler#endDocument()
-     */
-    public void endDocument() throws SAXException {
-        handler.endDocument();
-    }
+  /**
+   * @param locator
+   * @see org.xml.sax.ContentHandler#setDocumentLocator(org.xml.sax.Locator)
+   */
+  public void setDocumentLocator(Locator locator) {
+    handler.setDocumentLocator(locator);
+  }
 
-    /**
-     * @param prefix
-     * @param uri
-     * @throws SAXException
-     * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String, java.lang.String)
-     */
-    public void startPrefixMapping(String prefix, String uri) throws SAXException {
-        handler.startPrefixMapping(prefix, uri);
-    }
+  /**
+   * @throws SAXException
+   * @see org.xml.sax.ContentHandler#startDocument()
+   */
+  public void startDocument() throws SAXException {
+    handler.startDocument();
+  }
 
-    /**
-     * @param prefix
-     * @throws SAXException
-     * @see org.xml.sax.ContentHandler#endPrefixMapping(java.lang.String)
-     */
-    public void endPrefixMapping(String prefix) throws SAXException {
-        handler.endPrefixMapping(prefix);
-    }
+  /**
+   * @throws SAXException
+   * @see org.xml.sax.ContentHandler#endDocument()
+   */
+  public void endDocument() throws SAXException {
+    handler.endDocument();
+  }
 
-    /**
-     * @param uri
-     * @param localName
-     * @param qName
-     * @param atts
-     * @throws SAXException
-     * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
-     */
-    public void startElement(QualifiedName qn, Attributes atts) throws SAXException {
-        String qualifiedName = qn.getQualifiedName();
-        if (qualifiedName == null) {
-            qualifiedName = qualify(qn.getNamespaceURI(), qn.getLocalPart(), null);
-        }
-        if (atts == null) {
-            atts = new AttributesImpl();
-        }
-        if (qualifiedName != null) {
-            String localName = null;
-            if (qualifiedName.contains(":")) {
-                localName = qualifiedName.split(":")[1];
-            }
-            handler.startElement(qn.getNamespaceURI(), localName, qualifiedName, atts);
-        } else {
-            handler.startElement(qn.getNamespaceURI(), qn.getLocalPart(), null, atts);
-        }
-    }
+  /**
+   * @param prefix
+   * @param uri
+   * @throws SAXException
+   * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String, java.lang.String)
+   */
+  public void startPrefixMapping(String prefix, String uri) throws SAXException {
+    handler.startPrefixMapping(prefix, uri);
+  }
 
-    private String qualify(String uri, String localName, String qName) {
-        if (qName == null) {
-            String prefix = namespaces.getPrefix(uri);
-            if (prefix == null) {
-                return localName;
-            } else {
-                return prefix + ":" + localName;
-            }
-        }
-        return qName;
-    }
+  /**
+   * @param prefix
+   * @throws SAXException
+   * @see org.xml.sax.ContentHandler#endPrefixMapping(java.lang.String)
+   */
+  public void endPrefixMapping(String prefix) throws SAXException {
+    handler.endPrefixMapping(prefix);
+  }
 
-    /**
-     * @param uri
-     * @param localName
-     * @param qName
-     * @throws SAXException
-     * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String,
-     *      java.lang.String)
-     */
-    public void endElement(QualifiedName qn) throws SAXException {
-        String qualifiedName = qn.getQualifiedName();
-        if (qualifiedName == null) {
-            qualifiedName = qualify(qn.getNamespaceURI(), qn.getLocalPart(), null);
-        }
-        if (qualifiedName != null) {
-            handler.endElement(null, null, qualifiedName);
-        } else {
-            handler.endElement(qn.getNamespaceURI(), qn.getLocalPart(), null);
-        }
+  /**
+   * @param uri
+   * @param localName
+   * @param qName
+   * @param atts
+   * @throws SAXException
+   * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String,
+   *     java.lang.String, org.xml.sax.Attributes)
+   */
+  public void startElement(QualifiedName qn, Attributes atts) throws SAXException {
+    String qualifiedName = qn.getQualifiedName();
+    if (qualifiedName == null) {
+      qualifiedName = qualify(qn.getNamespaceURI(), qn.getLocalPart(), null);
     }
-
-    /**
-     * @param ch
-     * @param start
-     * @param length
-     * @throws SAXException
-     * @see org.xml.sax.ContentHandler#characters(char[], int, int)
-     */
-    private void characters(char[] ch, int start, int length) throws SAXException {
-        handler.characters(ch, start, length);
+    if (atts == null) {
+      atts = new AttributesImpl();
     }
-
-    void characters(StringBuffer sb) throws SAXException {
-        int length = sb.length();
-        if (buffer == null || buffer.length < length) {
-            buffer = new char[length];
-        }
-        sb.getChars(0, length, buffer, 0);
-        characters(buffer, 0, length);
+    if (qualifiedName != null) {
+      String localName = null;
+      if (qualifiedName.contains(":")) {
+        localName = qualifiedName.split(":")[1];
+      }
+      handler.startElement(qn.getNamespaceURI(), localName, qualifiedName, atts);
+    } else {
+      handler.startElement(qn.getNamespaceURI(), qn.getLocalPart(), null, atts);
     }
+  }
 
-    void characters(String s) throws SAXException {
-        s = XMLUtils.removeXMLInvalidChars(s);
-        int length = s.length();
-        if (buffer == null || buffer.length < length) {
-            buffer = new char[length];
-        }
-        s.getChars(0, length, buffer, 0);
-        characters(buffer, 0, length);
+  private String qualify(String uri, String localName, String qName) {
+    if (qName == null) {
+      String prefix = namespaces.getPrefix(uri);
+      if (prefix == null) {
+        return localName;
+      } else {
+        return prefix + ":" + localName;
+      }
     }
+    return qName;
+  }
 
-    /**
-     * Writes a GML2 coordinates element
-     * 
-     * @param cs
-     * @throws SAXException
-     */
-    public void coordinates(CoordinateSequence cs) throws SAXException {
-        startElement(coordinates, null);
-        coordinates(cs, ',', ' ', sb);
-        characters(sb);
-        endElement(coordinates);
+  /**
+   * @param uri
+   * @param localName
+   * @param qName
+   * @throws SAXException
+   * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String,
+   *     java.lang.String)
+   */
+  public void endElement(QualifiedName qn) throws SAXException {
+    String qualifiedName = qn.getQualifiedName();
+    if (qualifiedName == null) {
+      qualifiedName = qualify(qn.getNamespaceURI(), qn.getLocalPart(), null);
     }
-
-    /**
-     * Writes a single x/y position, without wrapping it in any element
-     * 
-     * @param x
-     * @param y
-     * @throws SAXException
-     */
-    public void position(double x, double y, double z) throws SAXException {
-        position(x, y, z, sb);
-        characters(sb);
+    if (qualifiedName != null) {
+      handler.endElement(null, null, qualifiedName);
+    } else {
+      handler.endElement(qn.getNamespaceURI(), qn.getLocalPart(), null);
     }
+  }
 
-    void position(double x, double y, double z, StringBuffer sb) {
-        sb.setLength(0);
-        coordFormatter.format(x, sb);
-        if (!Double.isNaN(y)) {
-            sb.append(" ");
-            coordFormatter.format(y, sb);
-        }
-        if (!Double.isNaN(z)) {
-            sb.append(" ");
-            coordFormatter.format(z, sb);
-        }
+  /**
+   * @param ch
+   * @param start
+   * @param length
+   * @throws SAXException
+   * @see org.xml.sax.ContentHandler#characters(char[], int, int)
+   */
+  private void characters(char[] ch, int start, int length) throws SAXException {
+    handler.characters(ch, start, length);
+  }
+
+  void characters(StringBuffer sb) throws SAXException {
+    int length = sb.length();
+    if (buffer == null || buffer.length < length) {
+      buffer = new char[length];
     }
+    sb.getChars(0, length, buffer, 0);
+    characters(buffer, 0, length);
+  }
 
-    void positions(CoordinateSequence coordinates) {
-        coordinates(coordinates, ' ', ' ', sb);
+  void characters(String s) throws SAXException {
+    s = XMLUtils.removeXMLInvalidChars(s);
+    int length = s.length();
+    if (buffer == null || buffer.length < length) {
+      buffer = new char[length];
     }
+    s.getChars(0, length, buffer, 0);
+    characters(buffer, 0, length);
+  }
 
-    void coordinates(CoordinateSequence coordinates, char cs, char ts, StringBuffer sb) {
-        sb.setLength(0);
-        int n = coordinates.size();
-        int dim = CoordinateSequences.coordinateDimension(coordinates);
-        for (int i = 0; i < n; i++) {
-            coordFormatter.format(coordinates.getX(i), sb).append(cs);
-            coordFormatter.format(coordinates.getY(i), sb);
-            if(dim == 3) {
-                sb.append(cs);
-                coordFormatter.format(coordinates.getOrdinate(i, 2), sb);
-            }
-            sb.append(ts);
-        }
-        sb.setLength(sb.length() - 1);
+  /**
+   * Writes a GML2 coordinates element
+   *
+   * @param cs
+   * @throws SAXException
+   */
+  public void coordinates(CoordinateSequence cs) throws SAXException {
+    startElement(coordinates, null);
+    coordinates(cs, ',', ' ', sb);
+    characters(sb);
+    endElement(coordinates);
+  }
+
+  /**
+   * Writes a single x/y position, without wrapping it in any element
+   *
+   * @param x
+   * @param y
+   * @throws SAXException
+   */
+  public void position(double x, double y, double z) throws SAXException {
+    position(x, y, z, sb);
+    characters(sb);
+  }
+
+  void position(double x, double y, double z, StringBuffer sb) {
+    sb.setLength(0);
+    coordFormatter.format(x, sb);
+    if (!Double.isNaN(y)) {
+      sb.append(" ");
+      coordFormatter.format(y, sb);
     }
-
-    /**
-     * Writes a single ordinate, without wrapping it inside any element
-     * 
-     * @param x
-     * @throws SAXException
-     */
-    public void ordinate(double x) throws SAXException {
-        sb.setLength(0);
-        coordFormatter.format(x, sb);
-        characters(sb);
+    if (!Double.isNaN(z)) {
+      sb.append(" ");
+      coordFormatter.format(z, sb);
     }
+  }
 
-    /**
-     * Write a GML3 posList
-     * 
-     * @param coordinateSequence
-     * @throws SAXException
-     */
-    public void posList(CoordinateSequence coordinateSequence) throws SAXException {
-        startElement(posList, null);
-        positions(coordinateSequence);
-        characters(sb);
-        endElement(posList);
+  void positions(CoordinateSequence coordinates) {
+    coordinates(coordinates, ' ', ' ', sb);
+  }
+
+  void coordinates(CoordinateSequence coordinates, char cs, char ts, StringBuffer sb) {
+    sb.setLength(0);
+    int n = coordinates.size();
+    int dim = CoordinateSequences.coordinateDimension(coordinates);
+    for (int i = 0; i < n; i++) {
+      coordFormatter.format(coordinates.getX(i), sb).append(cs);
+      coordFormatter.format(coordinates.getY(i), sb);
+      if (dim == 3) {
+        sb.append(cs);
+        coordFormatter.format(coordinates.getOrdinate(i, 2), sb);
+      }
+      sb.append(ts);
     }
+    sb.setLength(sb.length() - 1);
+  }
 
+  /**
+   * Writes a single ordinate, without wrapping it inside any element
+   *
+   * @param x
+   * @throws SAXException
+   */
+  public void ordinate(double x) throws SAXException {
+    sb.setLength(0);
+    coordFormatter.format(x, sb);
+    characters(sb);
+  }
+
+  /**
+   * Write a GML3 posList
+   *
+   * @param coordinateSequence
+   * @throws SAXException
+   */
+  public void posList(CoordinateSequence coordinateSequence) throws SAXException {
+    startElement(posList, null);
+    positions(coordinateSequence);
+    characters(sb);
+    endElement(posList);
+  }
 }

@@ -16,29 +16,28 @@
  */
 package org.geotools.filter.function;
 
-import org.opengis.filter.expression.Function;
-
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
+import org.opengis.filter.expression.Function;
 
 public class GeometryFunctionTest extends FunctionTestSupport {
 
-    public GeometryFunctionTest(String testName) {
-        super(testName);
-    }
+  public GeometryFunctionTest(String testName) {
+    super(testName);
+  }
 
-    public void testNull() {
-        Function geometry = ff.function("geometry");
-        assertNull(geometry.evaluate(null));
-    }
+  public void testNull() {
+    Function geometry = ff.function("geometry");
+    assertNull(geometry.evaluate(null));
+  }
 
-    public void testNonFeature() {
-        Function geometry = ff.function("geometry");
-        assertNull(geometry.evaluate(new Integer(10)));
-    }
+  public void testNonFeature() {
+    Function geometry = ff.function("geometry");
+    assertNull(geometry.evaluate(new Integer(10)));
+  }
 
-    public void testSimpleFeature() throws ParseException {
-        Function geometry = ff.function("geometry");
-        assertEquals(new WKTReader().read("POINT(4 4)"), geometry.evaluate(testFeatures[0]));
-    }
+  public void testSimpleFeature() throws ParseException {
+    Function geometry = ff.function("geometry");
+    assertEquals(new WKTReader().read("POINT(4 4)"), geometry.evaluate(testFeatures[0]));
+  }
 }

@@ -16,6 +16,9 @@
  */
 package org.geotools.data.geobuf;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import org.geotools.data.store.ContentDataStore;
 import org.geotools.data.store.ContentEntry;
 import org.geotools.data.store.ContentFeatureSource;
@@ -23,76 +26,72 @@ import org.geotools.feature.NameImpl;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.Name;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-
 public class GeobufDirectoryDataStore extends ContentDataStore {
 
-    private File directory;
+  private File directory;
 
-    private int precision = 6;
+  private int precision = 6;
 
-    private int dimension = 2;
+  private int dimension = 2;
 
-    public GeobufDirectoryDataStore(File directory, int precision, int dimension) {
-        this.directory = directory;
-        this.precision = precision;
-        this.dimension = dimension;
+  public GeobufDirectoryDataStore(File directory, int precision, int dimension) {
+    this.directory = directory;
+    this.precision = precision;
+    this.dimension = dimension;
+  }
+
+  protected File getDirectory() {
+    return directory;
+  }
+
+  @Override
+  public void removeSchema(Name typeName) throws IOException {
+    this.removeSchema(typeName.getLocalPart());
+  }
+
+  @Override
+  public void removeSchema(String typeName) throws IOException {
+    if (!typeName.endsWith(".pbf")) {
+      typeName = typeName + ".pbf";
     }
-
-    protected File getDirectory() {
-        return directory;
+    File file = new File(directory, typeName);
+    if (!file.exists()) {
+      throw new IOException(
+          "Can't delete " + file.getAbsolutePath() + " because it doesn't exist!");
     }
+    file.delete();
+  }
 
-    @Override
-    public void removeSchema(Name typeName) throws IOException {
-        this.removeSchema(typeName.getLocalPart());
-    }
+  protected GeobufDataStore getDataStore(String name) {
+    File file = new File(directory, name + ".pbf");
+    return new GeobufDataStore(file, precision, dimension);
+  }
 
-    @Override
-    public void removeSchema(String typeName) throws IOException {
-        if (!typeName.endsWith(".pbf")) {
-            typeName = typeName + ".pbf";
-        }
-        File file = new File(directory, typeName);
-        if (!file.exists()) {
-            throw new IOException("Can't delete " + file.getAbsolutePath() + " because it doesn't exist!");
-        }
-        file.delete();
-    }
-
-    protected GeobufDataStore getDataStore(String name) {
-        File file = new File(directory, name + ".pbf");
-        return new GeobufDataStore(file, precision, dimension);
-    }
-
-    @Override
-    protected List<Name> createTypeNames() throws IOException {
-        File[] files = directory.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
+  @Override
+  protected List<Name> createTypeNames() throws IOException {
+    File[] files =
+        directory.listFiles(
+            new FilenameFilter() {
+              @Override
+              public boolean accept(File dir, String name) {
                 return name.endsWith(".pbf");
-            }
-        });
-        List<Name> names = new ArrayList<>();
-        for (File file : files) {
-            String name = file.getName();
-            names.add(new NameImpl(name.substring(0, name.lastIndexOf('.'))));
-        }
-        return names;
+              }
+            });
+    List<Name> names = new ArrayList<>();
+    for (File file : files) {
+      String name = file.getName();
+      names.add(new NameImpl(name.substring(0, name.lastIndexOf('.'))));
     }
+    return names;
+  }
 
-    @Override
-    public void createSchema(SimpleFeatureType featureType) throws IOException {
-        getDataStore(featureType.getTypeName()).createSchema(featureType);
-    }
+  @Override
+  public void createSchema(SimpleFeatureType featureType) throws IOException {
+    getDataStore(featureType.getTypeName()).createSchema(featureType);
+  }
 
-    @Override
-    protected ContentFeatureSource createFeatureSource(ContentEntry contentEntry) throws IOException {
-        return getDataStore(contentEntry.getTypeName()).createFeatureSource(contentEntry);
-    }
-
-
-
+  @Override
+  protected ContentFeatureSource createFeatureSource(ContentEntry contentEntry) throws IOException {
+    return getDataStore(contentEntry.getTypeName()).createFeatureSource(contentEntry);
+  }
 }

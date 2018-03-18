@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.geotools.data.DataStore;
 import org.geotools.data.DataStoreFinder;
 import org.geotools.data.DefaultServiceInfo;
@@ -48,159 +47,148 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.Name;
 import org.opengis.filter.Filter;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class DirectoryDataStore implements DataStore {
-    
-    DirectoryTypeCache cache;
-    DirectoryLockingManager lm;
-    
-    public DirectoryDataStore(File directory, FileStoreFactory dialect) throws IOException {
-        cache = new DirectoryTypeCache(directory, dialect);
-    }
 
-    public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(
-            Query query, Transaction transaction) throws IOException {
-        String typeName = query.getTypeName();
-        return getDataStore(typeName).getFeatureReader(query, transaction);
-    }
+  DirectoryTypeCache cache;
+  DirectoryLockingManager lm;
 
-    public SimpleFeatureSource getFeatureSource(
-            String typeName) throws IOException {
-        SimpleFeatureSource fs = getDataStore(typeName).getFeatureSource(typeName);
-        if(fs instanceof SimpleFeatureLocking) {
-            return new DirectoryFeatureLocking((SimpleFeatureLocking) fs);
-        } else if(fs instanceof FeatureStore) {
-            return new DirectoryFeatureStore((SimpleFeatureStore) fs);
-        } else {
-            return new DirectoryFeatureSource((SimpleFeatureSource) fs);
-        }
-    }
+  public DirectoryDataStore(File directory, FileStoreFactory dialect) throws IOException {
+    cache = new DirectoryTypeCache(directory, dialect);
+  }
 
-    public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(
-            String typeName, Filter filter, Transaction transaction)
-            throws IOException {
-        return getDataStore(typeName).getFeatureWriter(typeName, filter, transaction);
-    }
+  public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(
+      Query query, Transaction transaction) throws IOException {
+    String typeName = query.getTypeName();
+    return getDataStore(typeName).getFeatureReader(query, transaction);
+  }
 
-    public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(
-            String typeName, Transaction transaction) throws IOException {
-        return getDataStore(typeName).getFeatureWriter(typeName, transaction);
+  public SimpleFeatureSource getFeatureSource(String typeName) throws IOException {
+    SimpleFeatureSource fs = getDataStore(typeName).getFeatureSource(typeName);
+    if (fs instanceof SimpleFeatureLocking) {
+      return new DirectoryFeatureLocking((SimpleFeatureLocking) fs);
+    } else if (fs instanceof FeatureStore) {
+      return new DirectoryFeatureStore((SimpleFeatureStore) fs);
+    } else {
+      return new DirectoryFeatureSource((SimpleFeatureSource) fs);
     }
+  }
 
-    public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriterAppend(
-            String typeName, Transaction transaction) throws IOException {
-        return getDataStore(typeName).getFeatureWriterAppend(typeName, transaction);
-    }
+  public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(
+      String typeName, Filter filter, Transaction transaction) throws IOException {
+    return getDataStore(typeName).getFeatureWriter(typeName, filter, transaction);
+  }
 
-    public LockingManager getLockingManager() {
-        if(lm == null) {
-            lm = new DirectoryLockingManager(cache);
-        }
-        return lm;
-    }
+  public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(
+      String typeName, Transaction transaction) throws IOException {
+    return getDataStore(typeName).getFeatureWriter(typeName, transaction);
+  }
 
-    public SimpleFeatureType getSchema(String typeName) throws IOException {
-        return getDataStore(typeName).getSchema(typeName);
-    }
+  public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriterAppend(
+      String typeName, Transaction transaction) throws IOException {
+    return getDataStore(typeName).getFeatureWriterAppend(typeName, transaction);
+  }
 
-    public String[] getTypeNames() throws IOException {
-        Set<String> typeNames = cache.getTypeNames();
-        return typeNames.toArray(new String[typeNames.size()]);
+  public LockingManager getLockingManager() {
+    if (lm == null) {
+      lm = new DirectoryLockingManager(cache);
     }
+    return lm;
+  }
 
-    public void updateSchema(String typeName, SimpleFeatureType featureType)
-            throws IOException {
-        getDataStore(typeName).updateSchema(typeName, featureType);
-    }
+  public SimpleFeatureType getSchema(String typeName) throws IOException {
+    return getDataStore(typeName).getSchema(typeName);
+  }
 
-    public void createSchema(SimpleFeatureType featureType) throws IOException {
-        File f = new File(cache.directory, featureType.getTypeName()+".shp");
-        
-        Map<String, Serializable> params = new HashMap<String, Serializable>();
-        params.put("url", URLs.fileToUrl(f));
-        params.put("filetype", "shapefile");
-        DataStore ds = null;
-        try {
-            ds = DataStoreFinder.getDataStore(params);
-            if(ds != null) {
-                ds.createSchema(featureType);
-                ds.dispose();
-                cache.refreshCacheContents();
-            } 
-        } catch(Exception e) {
-            throw (IOException) new IOException("Error creating new data store").initCause(e);
-        }
-        if(ds == null) {
-            throw new IOException("Could not find the shapefile data store in the classpath");
-        }
-    }
+  public String[] getTypeNames() throws IOException {
+    Set<String> typeNames = cache.getTypeNames();
+    return typeNames.toArray(new String[typeNames.size()]);
+  }
 
-    public void dispose() {
-        cache.dispose();
-    }
+  public void updateSchema(String typeName, SimpleFeatureType featureType) throws IOException {
+    getDataStore(typeName).updateSchema(typeName, featureType);
+  }
 
-    public SimpleFeatureSource getFeatureSource(
-            Name typeName) throws IOException {
-        return getFeatureSource(typeName.getLocalPart());
-    }
+  public void createSchema(SimpleFeatureType featureType) throws IOException {
+    File f = new File(cache.directory, featureType.getTypeName() + ".shp");
 
-    public ServiceInfo getInfo() {
-        DefaultServiceInfo info = new DefaultServiceInfo();
-        info.setDescription("Features from Directory " + cache.directory );
-        info.setSchema( FeatureTypes.DEFAULT_NAMESPACE );
-        info.setSource( cache.directory.toURI() );
-        try {
-            info.setPublisher( new URI(System.getProperty("user.name")) );
-        } catch (URISyntaxException e) {
-        }
-        return info;
+    Map<String, Serializable> params = new HashMap<String, Serializable>();
+    params.put("url", URLs.fileToUrl(f));
+    params.put("filetype", "shapefile");
+    DataStore ds = null;
+    try {
+      ds = DataStoreFinder.getDataStore(params);
+      if (ds != null) {
+        ds.createSchema(featureType);
+        ds.dispose();
+        cache.refreshCacheContents();
+      }
+    } catch (Exception e) {
+      throw (IOException) new IOException("Error creating new data store").initCause(e);
     }
+    if (ds == null) {
+      throw new IOException("Could not find the shapefile data store in the classpath");
+    }
+  }
 
-    public List<Name> getNames() throws IOException {
-        String[] typeNames = getTypeNames();
-        List<Name> names = new ArrayList<Name>(typeNames.length);
-        for (String typeName : typeNames) {
-            names.add(new NameImpl(typeName));
-        }
-        return names;
-    }
+  public void dispose() {
+    cache.dispose();
+  }
 
-    public SimpleFeatureType getSchema(Name name) throws IOException {
-        return getSchema(name.getLocalPart());
-    }
+  public SimpleFeatureSource getFeatureSource(Name typeName) throws IOException {
+    return getFeatureSource(typeName.getLocalPart());
+  }
 
-    public void updateSchema(Name typeName, SimpleFeatureType featureType)
-            throws IOException {
-        updateSchema(typeName.getLocalPart(), featureType);
+  public ServiceInfo getInfo() {
+    DefaultServiceInfo info = new DefaultServiceInfo();
+    info.setDescription("Features from Directory " + cache.directory);
+    info.setSchema(FeatureTypes.DEFAULT_NAMESPACE);
+    info.setSource(cache.directory.toURI());
+    try {
+      info.setPublisher(new URI(System.getProperty("user.name")));
+    } catch (URISyntaxException e) {
     }
-    
-    /**
-     * Returns the native store for a specified type name
-     * @param typeName
-     * @return
-     * @throws IOException
-     */
-    public DataStore getDataStore(String typeName) throws IOException {
-        // grab the store for a specific feature type, making sure it's actually there
-        DataStore store = cache.getDataStore(typeName, true);
-        if(store == null)
-            throw new IOException("Feature type " + typeName + " is unknown");
-        return store;
-    }
+    return info;
+  }
 
-    @Override
-    public void removeSchema(Name name) throws IOException {
-        removeSchema(name.getLocalPart());
-        
+  public List<Name> getNames() throws IOException {
+    String[] typeNames = getTypeNames();
+    List<Name> names = new ArrayList<Name>(typeNames.length);
+    for (String typeName : typeNames) {
+      names.add(new NameImpl(typeName));
     }
+    return names;
+  }
 
-    @Override
-    public void removeSchema(String name) throws IOException {
-        getDataStore(name).removeSchema(name);
-    }
+  public SimpleFeatureType getSchema(Name name) throws IOException {
+    return getSchema(name.getLocalPart());
+  }
 
+  public void updateSchema(Name typeName, SimpleFeatureType featureType) throws IOException {
+    updateSchema(typeName.getLocalPart(), featureType);
+  }
+
+  /**
+   * Returns the native store for a specified type name
+   *
+   * @param typeName
+   * @return
+   * @throws IOException
+   */
+  public DataStore getDataStore(String typeName) throws IOException {
+    // grab the store for a specific feature type, making sure it's actually there
+    DataStore store = cache.getDataStore(typeName, true);
+    if (store == null) throw new IOException("Feature type " + typeName + " is unknown");
+    return store;
+  }
+
+  @Override
+  public void removeSchema(Name name) throws IOException {
+    removeSchema(name.getLocalPart());
+  }
+
+  @Override
+  public void removeSchema(String name) throws IOException {
+    getDataStore(name).removeSchema(name);
+  }
 }

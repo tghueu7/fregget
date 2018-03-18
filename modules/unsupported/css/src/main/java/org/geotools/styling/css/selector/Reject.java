@@ -18,22 +18,19 @@ package org.geotools.styling.css.selector;
 
 public class Reject extends Selector {
 
-    Reject() {
+  Reject() {}
 
-    }
+  @Override
+  public String toString() {
+    return "EXCLUDE";
+  }
 
-    @Override
-    public String toString() {
-        return "EXCLUDE";
-    }
+  @Override
+  public Specificity getSpecificity() {
+    return Specificity.ZERO;
+  }
 
-    @Override
-    public Specificity getSpecificity() {
-        return Specificity.ZERO;
-    }
-
-    public Object accept(SelectorVisitor visitor) {
-        return visitor.visit(this);
-    }
-
+  public Object accept(SelectorVisitor visitor) {
+    return visitor.visit(this);
+  }
 }

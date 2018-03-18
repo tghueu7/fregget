@@ -17,7 +17,6 @@
 package org.geotools.sld.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.styling.ContrastEnhancement;
 import org.geotools.styling.ContrastMethodStrategy;
 import org.geotools.styling.StyleFactory;
@@ -27,12 +26,12 @@ import org.geotools.xml.Node;
 import org.opengis.filter.FilterFactory;
 import org.picocontainer.MutablePicoContainer;
 
-
 /**
  * Binding object for the element http://www.opengis.net/sld:ContrastEnhancement.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="ContrastEnhancement"&gt;
  *      &lt;xsd:annotation&gt;
@@ -55,84 +54,80 @@ import org.picocontainer.MutablePicoContainer;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDContrastEnhancementBinding extends AbstractComplexBinding {
-    StyleFactory styleFactory;
-    FilterFactory filterFactory;
+  StyleFactory styleFactory;
+  FilterFactory filterFactory;
 
-    public SLDContrastEnhancementBinding(StyleFactory styleFactory, FilterFactory filterFactory) {
-        this.styleFactory = styleFactory;
-        this.filterFactory = filterFactory;
+  public SLDContrastEnhancementBinding(StyleFactory styleFactory, FilterFactory filterFactory) {
+    this.styleFactory = styleFactory;
+    this.filterFactory = filterFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return SLD.CONTRASTENHANCEMENT;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return ContrastEnhancement.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    ContrastEnhancement ce = styleFactory.createContrastEnhancement();
+
+    if (node.getChildValue("GammaValue") != null) {
+      Double gamma = (Double) node.getChildValue("GammaValue");
+      ce.setGammaValue(filterFactory.literal(gamma.doubleValue()));
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.CONTRASTENHANCEMENT;
+    if (node.getChild("Normalize") != null) {
+      SLDNormalizeBinding binding = new SLDNormalizeBinding(styleFactory, filterFactory);
+      Node child = node.getChild("Normalize");
+      ce.setMethod((((ContrastMethodStrategy) binding.parse(instance, child, value)).getMethod()));
+    } else if (node.getChild("Histogram") != null) {
+      SLDHistogramBinding binding = new SLDHistogramBinding();
+      Node child = node.getChild("Histogram");
+      ce.setMethod((((ContrastMethodStrategy) binding.parse(instance, child, value)).getMethod()));
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return ContrastEnhancement.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        ContrastEnhancement ce = styleFactory.createContrastEnhancement();
-
-        if (node.getChildValue("GammaValue") != null) {
-            Double gamma = (Double) node.getChildValue("GammaValue");
-            ce.setGammaValue(filterFactory.literal(gamma.doubleValue()));
-        }
-
-        if (node.getChild("Normalize") != null) {
-            SLDNormalizeBinding binding = new SLDNormalizeBinding(styleFactory,filterFactory);
-            Node child = node.getChild("Normalize");
-            ce.setMethod((((ContrastMethodStrategy) binding.parse(instance, child, value)).getMethod()));
-        } else if (node.getChild("Histogram") != null) {
-            SLDHistogramBinding binding = new SLDHistogramBinding();
-            Node child = node.getChild("Histogram");
-            ce.setMethod((((ContrastMethodStrategy) binding.parse(instance, child, value)).getMethod()));
-        }
-
-        return ce;
-    }
+    return ce;
+  }
 }

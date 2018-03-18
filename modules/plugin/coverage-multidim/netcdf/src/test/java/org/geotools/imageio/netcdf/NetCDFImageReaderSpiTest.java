@@ -16,34 +16,31 @@
  */
 package org.geotools.imageio.netcdf;
 
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Random;
 import java.util.UUID;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 public final class NetCDFImageReaderSpiTest {
 
-    @Test
-    public void testFileIsProperlyClosed() throws Exception {
-        // create a temporary file and write some random bytes on it
-        Path path = Files.createTempFile(UUID.randomUUID().toString(), ".txt");
-        byte[] content = new byte[100];
-        Random random = new Random();
-        random.nextBytes(content);
-        Files.write(path, content);
-        // invoking the reader that will not be able to read the file
-        File file = path.toFile();
-        NetCDFImageReaderSpi reader = new NetCDFImageReaderSpi();
-        reader.canDecodeInput(file);
-        // check if the file as some lock on it
-        assertThat(file.delete(), is(true));
-    }
+  @Test
+  public void testFileIsProperlyClosed() throws Exception {
+    // create a temporary file and write some random bytes on it
+    Path path = Files.createTempFile(UUID.randomUUID().toString(), ".txt");
+    byte[] content = new byte[100];
+    Random random = new Random();
+    random.nextBytes(content);
+    Files.write(path, content);
+    // invoking the reader that will not be able to read the file
+    File file = path.toFile();
+    NetCDFImageReaderSpi reader = new NetCDFImageReaderSpi();
+    reader.canDecodeInput(file);
+    // check if the file as some lock on it
+    assertThat(file.delete(), is(true));
+  }
 }

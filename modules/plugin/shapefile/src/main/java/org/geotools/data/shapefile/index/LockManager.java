@@ -18,116 +18,106 @@ package org.geotools.data.shapefile.index;
 
 /**
  * DOCUMENT ME!
- * 
+ *
  * @author Tommaso Nolli
- *
- *
  * @source $URL$
  */
 public class LockManager {
-    private static final int EXCLUSIVE_LOCK_TIMEOUT = 20;
-    private static final int SHARED_LOCK_TIMEOUT = 10;
-    public static final short READ = 1;
-    public static final short WRITE = 2;
-    private Lock exclusiveLock;
-    private int leases;
+  private static final int EXCLUSIVE_LOCK_TIMEOUT = 20;
+  private static final int SHARED_LOCK_TIMEOUT = 10;
+  public static final short READ = 1;
+  public static final short WRITE = 2;
+  private Lock exclusiveLock;
+  private int leases;
 
-    public LockManager() {
+  public LockManager() {}
+
+  public synchronized void release(Lock lock) {
+    LockImpl li = (LockImpl) lock;
+
+    if (li.getType() == Lock.EXCLUSIVE) {
+      this.exclusiveLock = null;
+    } else {
+      this.leases--;
     }
 
-    public synchronized void release(Lock lock) {
-        LockImpl li = (LockImpl) lock;
+    this.notify();
+  }
 
-        if (li.getType() == Lock.EXCLUSIVE) {
-            this.exclusiveLock = null;
-        } else {
-            this.leases--;
-        }
+  /**
+   * DOCUMENT ME!
+   *
+   * @throws LockTimeoutException DOCUMENT ME!
+   */
+  public synchronized Lock aquireExclusive() throws LockTimeoutException {
+    int cnt = 0;
 
-        this.notify();
+    while (((this.exclusiveLock != null) || (this.leases > 0)) && (cnt < EXCLUSIVE_LOCK_TIMEOUT)) {
+      cnt++;
+
+      try {
+        this.wait(500);
+      } catch (InterruptedException e) {
+        throw new LockTimeoutException(e);
+      }
     }
+
+    if ((this.exclusiveLock != null) || (this.leases > 0)) {
+      throw new LockTimeoutException("Timeout aquiring exclusive lock");
+    }
+
+    this.exclusiveLock = new LockImpl(Lock.EXCLUSIVE);
+
+    return this.exclusiveLock;
+  }
+
+  /**
+   * DOCUMENT ME!
+   *
+   * @throws LockTimeoutException DOCUMENT ME!
+   */
+  public synchronized Lock aquireShared() throws LockTimeoutException {
+    int cnt = 0;
+
+    while ((this.exclusiveLock != null) && (cnt < SHARED_LOCK_TIMEOUT)) {
+      cnt++;
+
+      try {
+        this.wait(500);
+      } catch (InterruptedException e) {
+        throw new LockTimeoutException(e);
+      }
+    }
+
+    if (this.exclusiveLock != null) {
+      throw new LockTimeoutException("Timeout aquiring shared lock");
+    }
+
+    this.leases++;
+
+    return new LockImpl(Lock.SHARED);
+  }
+
+  /**
+   * DOCUMENT ME!
+   *
+   * @author Tommaso Nolli
+   */
+  private class LockImpl implements Lock {
+    private short type;
 
     /**
      * DOCUMENT ME!
-     * 
-     * 
-     * @throws LockTimeoutException
-     *                 DOCUMENT ME!
+     *
+     * @param type
      */
-    public synchronized Lock aquireExclusive() throws LockTimeoutException {
-        int cnt = 0;
-
-        while (((this.exclusiveLock != null) || (this.leases > 0))
-                && (cnt < EXCLUSIVE_LOCK_TIMEOUT)) {
-            cnt++;
-
-            try {
-                this.wait(500);
-            } catch (InterruptedException e) {
-                throw new LockTimeoutException(e);
-            }
-        }
-
-        if ((this.exclusiveLock != null) || (this.leases > 0)) {
-            throw new LockTimeoutException("Timeout aquiring exclusive lock");
-        }
-
-        this.exclusiveLock = new LockImpl(Lock.EXCLUSIVE);
-
-        return this.exclusiveLock;
+    public LockImpl(short type) {
+      this.type = type;
     }
 
-    /**
-     * DOCUMENT ME!
-     * 
-     * 
-     * @throws LockTimeoutException
-     *                 DOCUMENT ME!
-     */
-    public synchronized Lock aquireShared() throws LockTimeoutException {
-        int cnt = 0;
-
-        while ((this.exclusiveLock != null) && (cnt < SHARED_LOCK_TIMEOUT)) {
-            cnt++;
-
-            try {
-                this.wait(500);
-            } catch (InterruptedException e) {
-                throw new LockTimeoutException(e);
-            }
-        }
-
-        if (this.exclusiveLock != null) {
-            throw new LockTimeoutException("Timeout aquiring shared lock");
-        }
-
-        this.leases++;
-
-        return new LockImpl(Lock.SHARED);
+    /** @see org.geotools.index.Lock#getType() */
+    public short getType() {
+      return this.type;
     }
-
-    /**
-     * DOCUMENT ME!
-     * 
-     * @author Tommaso Nolli
-     */
-    private class LockImpl implements Lock {
-        private short type;
-
-        /**
-         * DOCUMENT ME!
-         * 
-         * @param type
-         */
-        public LockImpl(short type) {
-            this.type = type;
-        }
-
-        /**
-         * @see org.geotools.index.Lock#getType()
-         */
-        public short getType() {
-            return this.type;
-        }
-    }
+  }
 }

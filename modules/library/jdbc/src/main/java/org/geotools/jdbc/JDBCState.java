@@ -19,96 +19,77 @@ package org.geotools.jdbc;
 import org.geotools.data.store.ContentEntry;
 import org.geotools.data.store.ContentState;
 
-
 /**
- * State for jdbc datastore providing additional cached values such as primary
- * key and database connection.
+ * State for jdbc datastore providing additional cached values such as primary key and database
+ * connection.
  *
  * @author Jody Garnett, Refractions Research Inc.
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
  * @source $URL$
  */
 public final class JDBCState extends ContentState {
-    /**
-     * cached primary key
-     */
-    private PrimaryKey primaryKey;
-    
-    /**
-     * flag indicating wether columns which are part of the primary key 
-     * are exposed.
-     */
-    private boolean exposePrimaryKeyColumns;
-    
-    /**
-     * Creates the state from an existing one.
-     */
-    public JDBCState(JDBCState state) {
-        super(state);
+  /** cached primary key */
+  private PrimaryKey primaryKey;
 
-        //copy the primary key
-        primaryKey = state.getPrimaryKey();
-        exposePrimaryKeyColumns = state.isExposePrimaryKeyColumns();
-    }
+  /** flag indicating wether columns which are part of the primary key are exposed. */
+  private boolean exposePrimaryKeyColumns;
 
-    /**
-     * Creates a new state object.
-     */
-    public JDBCState(ContentEntry entry) {
-        super(entry);
-    }
+  /** Creates the state from an existing one. */
+  public JDBCState(JDBCState state) {
+    super(state);
 
-    /**
-     * The cached primary key.
-     */
-    public PrimaryKey getPrimaryKey() {
-        return primaryKey;
-    }
+    // copy the primary key
+    primaryKey = state.getPrimaryKey();
+    exposePrimaryKeyColumns = state.isExposePrimaryKeyColumns();
+  }
 
-    /**
-     * Sets the cached primary key.
-     * @param primaryKey
-     */
-    public void setPrimaryKey(PrimaryKey primaryKey) {
-        this.primaryKey = primaryKey;
-    }
+  /** Creates a new state object. */
+  public JDBCState(ContentEntry entry) {
+    super(entry);
+  }
 
-    /**
-     * Returns the flag indicating if columns which compose the primary key are exposed 
-     * via the feature type.
-     */
-    public boolean isExposePrimaryKeyColumns() {
-        return exposePrimaryKeyColumns;
-    }
-    
-    /**
-     * Sets the flag indicating if columns which compose the primary key are exposed 
-     * via the feature type.
-     */
-    public void setExposePrimaryKeyColumns(boolean exposePrimaryKeyColumns) {
-        if ( exposePrimaryKeyColumns != this.exposePrimaryKeyColumns ) {
-            //need to clear the feature type cache, as it will need to be rebuilt
-            featureType = null;
-        }
-        this.exposePrimaryKeyColumns = exposePrimaryKeyColumns;
-    }
-    
-    /**
-     * Flushes all cached state.
-     */
-    public void flush() {
-        primaryKey = null;
-        super.flush();
-    }
+  /** The cached primary key. */
+  public PrimaryKey getPrimaryKey() {
+    return primaryKey;
+  }
 
-    /**
-     * Copies the state.
-     */
-    public ContentState copy() {
-        return new JDBCState(this);
-    }
+  /**
+   * Sets the cached primary key.
+   *
+   * @param primaryKey
+   */
+  public void setPrimaryKey(PrimaryKey primaryKey) {
+    this.primaryKey = primaryKey;
+  }
 
+  /**
+   * Returns the flag indicating if columns which compose the primary key are exposed via the
+   * feature type.
+   */
+  public boolean isExposePrimaryKeyColumns() {
+    return exposePrimaryKeyColumns;
+  }
+
+  /**
+   * Sets the flag indicating if columns which compose the primary key are exposed via the feature
+   * type.
+   */
+  public void setExposePrimaryKeyColumns(boolean exposePrimaryKeyColumns) {
+    if (exposePrimaryKeyColumns != this.exposePrimaryKeyColumns) {
+      // need to clear the feature type cache, as it will need to be rebuilt
+      featureType = null;
+    }
+    this.exposePrimaryKeyColumns = exposePrimaryKeyColumns;
+  }
+
+  /** Flushes all cached state. */
+  public void flush() {
+    primaryKey = null;
+    super.flush();
+  }
+
+  /** Copies the state. */
+  public ContentState copy() {
+    return new JDBCState(this);
+  }
 }

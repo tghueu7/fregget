@@ -16,43 +16,37 @@
  */
 package org.geotools.xml.impl.jxpath;
 
-import org.apache.commons.jxpath.DynamicPropertyHandler;
 import java.util.List;
+import org.apache.commons.jxpath.DynamicPropertyHandler;
 import org.geotools.xml.Node;
-import org.geotools.xml.impl.NodeImpl;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class NodePropertyHandler implements DynamicPropertyHandler {
-    public Object getProperty(Object object, String property) {
-        Node node = (Node) object;
+  public Object getProperty(Object object, String property) {
+    Node node = (Node) object;
 
-        return node.getChildren(property);
+    return node.getChildren(property);
+  }
+
+  public String[] getPropertyNames(Object object) {
+    Node node = (Node) object;
+    List children = node.getChildren();
+
+    if ((children == null) || children.isEmpty()) {
+      return new String[] {};
     }
 
-    public String[] getPropertyNames(Object object) {
-        Node node = (Node) object;
-        List children = node.getChildren();
+    String[] propertyNames = new String[children.size()];
 
-        if ((children == null) || children.isEmpty()) {
-            return new String[] {  };
-        }
-
-        String[] propertyNames = new String[children.size()];
-
-        for (int i = 0; i < children.size(); i++) {
-            Node child = (Node) children.get(i);
-            propertyNames[i] = child.getComponent().getName();
-        }
-
-        return propertyNames;
+    for (int i = 0; i < children.size(); i++) {
+      Node child = (Node) children.get(i);
+      propertyNames[i] = child.getComponent().getName();
     }
 
-    public void setProperty(Object object, String property, Object value) {
-        throw new UnsupportedOperationException();
-    }
+    return propertyNames;
+  }
+
+  public void setProperty(Object object, String property, Object value) {
+    throw new UnsupportedOperationException();
+  }
 }

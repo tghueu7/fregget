@@ -21,46 +21,39 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
-
 import junit.framework.TestCase;
-
 import org.geotools.data.ows.Layer;
 import org.geotools.data.ows.WMSCapabilities;
 import org.geotools.data.wms.xml.WMSSchema;
 import org.geotools.test.TestData;
 import org.geotools.xml.DocumentFactory;
-import org.geotools.xml.SchemaFactory;
 import org.geotools.xml.handlers.DocumentHandler;
-import org.geotools.xml.schema.Schema;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class WMSInvalidSchemaLocationTest extends TestCase {
 
-    public void testGetCapabilities() throws Exception {
-        // pointing to a file that has an invalid schema location reference
-        File getCaps = TestData.file(this, "mapserverSchemaExtension.xml");
-        URL getCapsURL = getCaps.toURI().toURL();
+  public void testGetCapabilities() throws Exception {
+    // pointing to a file that has an invalid schema location reference
+    File getCaps = TestData.file(this, "mapserverSchemaExtension.xml");
+    URL getCapsURL = getCaps.toURI().toURL();
 
-        // disable schema validation to match the WebMapServer behavior (the caps documented
-        // tested is indeed not schema valid)
-        Map<String,Object> hints = new HashMap<>();
-        hints.put(DocumentHandler.DEFAULT_NAMESPACE_HINT_KEY, WMSSchema.getInstance());
-        hints.put(DocumentFactory.VALIDATION_HINT, Boolean.FALSE);
-        // used to blow up here due to the invalid schema reference (port -1 was chosen as a suitably
-        // invalid local url for tests, the real world case was an actual server that would never respond
-        // to the GetSchemaExtension request, forcing it to time out
-        Object object = DocumentFactory.getInstance(getCapsURL.openStream(), hints, Level.WARNING);
+    // disable schema validation to match the WebMapServer behavior (the caps documented
+    // tested is indeed not schema valid)
+    Map<String, Object> hints = new HashMap<>();
+    hints.put(DocumentHandler.DEFAULT_NAMESPACE_HINT_KEY, WMSSchema.getInstance());
+    hints.put(DocumentFactory.VALIDATION_HINT, Boolean.FALSE);
+    // used to blow up here due to the invalid schema reference (port -1 was chosen as a suitably
+    // invalid local url for tests, the real world case was an actual server that would never
+    // respond
+    // to the GetSchemaExtension request, forcing it to time out
+    Object object = DocumentFactory.getInstance(getCapsURL.openStream(), hints, Level.WARNING);
 
-        assertTrue("Capabilities failed to parse", object instanceof WMSCapabilities);
+    assertTrue("Capabilities failed to parse", object instanceof WMSCapabilities);
 
-        WMSCapabilities capabilities = (WMSCapabilities) object;
+    WMSCapabilities capabilities = (WMSCapabilities) object;
 
-        Layer Layer_with_Abstract_in_Style = (Layer) capabilities.getLayerList().get(1);
-        assertEquals(Layer_with_Abstract_in_Style.getName(), "states");
-        assertEquals(Layer_with_Abstract_in_Style.getTitle(), "states");
-    }
+    Layer Layer_with_Abstract_in_Style = (Layer) capabilities.getLayerList().get(1);
+    assertEquals(Layer_with_Abstract_in_Style.getName(), "states");
+    assertEquals(Layer_with_Abstract_in_Style.getTitle(), "states");
+  }
 }

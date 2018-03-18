@@ -16,6 +16,7 @@
  */
 package org.geotools.data.geobuf;
 
+import java.io.IOException;
 import org.geotools.data.*;
 import org.geotools.data.store.ContentEntry;
 import org.geotools.data.store.ContentFeatureStore;
@@ -26,93 +27,93 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.Name;
 
-import java.io.IOException;
-
 public class GeobufFeatureStore extends ContentFeatureStore {
 
-    private int precision = 6;
+  private int precision = 6;
 
-    private int dimension = 2;
+  private int dimension = 2;
 
-    public GeobufFeatureStore(ContentEntry entry, Query query, int precision, int dimension) {
-        super(entry, query);
-        this.precision = precision;
-        this.dimension = dimension;
-    }
+  public GeobufFeatureStore(ContentEntry entry, Query query, int precision, int dimension) {
+    super(entry, query);
+    this.precision = precision;
+    this.dimension = dimension;
+  }
 
-    GeobufFeatureSource delegate = new GeobufFeatureSource(entry, query, precision, dimension) {
+  GeobufFeatureSource delegate =
+      new GeobufFeatureSource(entry, query, precision, dimension) {
         @Override
         public void setTransaction(Transaction transaction) {
-            super.setTransaction(transaction);
-            GeobufFeatureStore.this.setTransaction(transaction);
+          super.setTransaction(transaction);
+          GeobufFeatureStore.this.setTransaction(transaction);
         }
-    };
+      };
 
-    @Override
-    public void setTransaction(Transaction transaction) {
-        super.setTransaction(transaction);
-        if( delegate.getTransaction() != transaction ){
-            delegate.setTransaction( transaction );
-        }
+  @Override
+  public void setTransaction(Transaction transaction) {
+    super.setTransaction(transaction);
+    if (delegate.getTransaction() != transaction) {
+      delegate.setTransaction(transaction);
     }
+  }
 
-    @Override
-    protected GeobufFeatureWriter getWriterInternal(Query query, int flags) throws IOException {
-        return new GeobufFeatureWriter(getState(), query, precision, dimension);
-    }
+  @Override
+  protected GeobufFeatureWriter getWriterInternal(Query query, int flags) throws IOException {
+    return new GeobufFeatureWriter(getState(), query, precision, dimension);
+  }
 
-    @Override
-    protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query) throws IOException {
-        return delegate.getReaderInternal(query);
-    }
+  @Override
+  protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query)
+      throws IOException {
+    return delegate.getReaderInternal(query);
+  }
 
-    @Override
-    protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
-        return delegate.getBoundsInternal(query);
-    }
+  @Override
+  protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
+    return delegate.getBoundsInternal(query);
+  }
 
-    @Override
-    protected int getCountInternal(Query query) throws IOException {
-        return delegate.getCountInternal(query);
-    }
+  @Override
+  protected int getCountInternal(Query query) throws IOException {
+    return delegate.getCountInternal(query);
+  }
 
-    @Override
-    protected SimpleFeatureType buildFeatureType() throws IOException {
-        return delegate.buildFeatureType();
-    }
+  @Override
+  protected SimpleFeatureType buildFeatureType() throws IOException {
+    return delegate.buildFeatureType();
+  }
 
-    @Override
-    protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {
-        return delegate.handleVisitor(query, visitor);
-    }
+  @Override
+  protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {
+    return delegate.handleVisitor(query, visitor);
+  }
 
-    @Override
-    public GeobufDataStore getDataStore() {
-        return delegate.getDataStore();
-    }
+  @Override
+  public GeobufDataStore getDataStore() {
+    return delegate.getDataStore();
+  }
 
-    @Override
-    public ContentEntry getEntry() {
-        return delegate.getEntry();
-    }
+  @Override
+  public ContentEntry getEntry() {
+    return delegate.getEntry();
+  }
 
-    public Transaction getTransaction() {
-        return delegate.getTransaction();
-    }
+  public Transaction getTransaction() {
+    return delegate.getTransaction();
+  }
 
-    public ContentState getState() {
-        return delegate.getState();
-    }
+  public ContentState getState() {
+    return delegate.getState();
+  }
 
-    public ResourceInfo getInfo() {
-        return delegate.getInfo();
-    }
+  public ResourceInfo getInfo() {
+    return delegate.getInfo();
+  }
 
-    public Name getName() {
-        return delegate.getName();
-    }
+  public Name getName() {
+    return delegate.getName();
+  }
 
-    public QueryCapabilities getQueryCapabilities() {
-        return delegate.getQueryCapabilities();
-    }
+  public QueryCapabilities getQueryCapabilities() {
+    return delegate.getQueryCapabilities();
+  }
 }

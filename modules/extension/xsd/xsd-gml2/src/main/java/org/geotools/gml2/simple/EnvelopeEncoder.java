@@ -16,37 +16,34 @@
  */
 package org.geotools.gml2.simple;
 
+import com.vividsolutions.jts.geom.Envelope;
 import org.geotools.geometry.jts.LiteCoordinateSequence;
 import org.geotools.gml2.GML;
 import org.geotools.xml.Encoder;
 import org.xml.sax.helpers.AttributesImpl;
 
-import com.vividsolutions.jts.geom.Envelope;
-
 /**
  * Encodes a GML2 Envelope
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */
 class EnvelopeEncoder extends ObjectEncoder<Envelope> {
 
-    static final QualifiedName BOX = new QualifiedName(GML.NAMESPACE, "Box", "gml");
+  static final QualifiedName BOX = new QualifiedName(GML.NAMESPACE, "Box", "gml");
 
-    QualifiedName box;
+  QualifiedName box;
 
-    protected EnvelopeEncoder(Encoder e, String gmlNamespace) {
-        super(e);
-        box = BOX.derive(gmlNamespace);
-    }
+  protected EnvelopeEncoder(Encoder e, String gmlNamespace) {
+    super(e);
+    box = BOX.derive(gmlNamespace);
+  }
 
-    @Override
-    public void encode(Envelope e, AttributesImpl atts, GMLWriter handler)
-            throws Exception {
-        handler.startElement(box, atts);
-        handler.coordinates(new LiteCoordinateSequence(e.getMinX(), e.getMinY(), e.getMaxX(), e
-                .getMaxY()));
-        handler.endElement(box);
-    }
-
+  @Override
+  public void encode(Envelope e, AttributesImpl atts, GMLWriter handler) throws Exception {
+    handler.startElement(box, atts);
+    handler.coordinates(
+        new LiteCoordinateSequence(e.getMinX(), e.getMinY(), e.getMaxX(), e.getMaxY()));
+    handler.endElement(box);
+  }
 }

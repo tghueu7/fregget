@@ -20,7 +20,6 @@ import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.Iterator;
-
 import org.geotools.TestData;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataStoreFactorySpi;
@@ -28,61 +27,52 @@ import org.geotools.data.DataStoreFinder;
 import org.junit.Test;
 
 /**
- * 
- *
- *
  * @source $URL$
  * @version $Id$
  * @author ian
  */
 public class ServiceTest extends TestCaseSupport {
 
-    final String TEST_FILE = "shapes/statepop.shp";
+  final String TEST_FILE = "shapes/statepop.shp";
 
-    /**
-     * Make sure that the loading mechanism is working properly.
-     */
-    @Test
-    public void testIsAvailable() {
-        Iterator list = DataStoreFinder.getAvailableDataStores();
-        boolean found = false;
-        while (list.hasNext()) {
-            DataStoreFactorySpi fac = (DataStoreFactorySpi) list.next();
-            if (fac instanceof ShapefileDataStoreFactory) {
-                found = true;
-                assertNotNull(fac.getDescription());
-                break;
-            }
-        }
-        assertTrue("ShapefileDataSourceFactory not registered", found);
+  /** Make sure that the loading mechanism is working properly. */
+  @Test
+  public void testIsAvailable() {
+    Iterator list = DataStoreFinder.getAvailableDataStores();
+    boolean found = false;
+    while (list.hasNext()) {
+      DataStoreFactorySpi fac = (DataStoreFactorySpi) list.next();
+      if (fac instanceof ShapefileDataStoreFactory) {
+        found = true;
+        assertNotNull(fac.getDescription());
+        break;
+      }
     }
+    assertTrue("ShapefileDataSourceFactory not registered", found);
+  }
 
-    /**
-     * Ensure that we can create a DataStore using url OR string url.
-     */
-    @Test
-    public void testShapefileDataStore() throws Exception {
-        HashMap params = new HashMap();
-        params.put("url", TestData.url(TEST_FILE));
-        DataStore ds = DataStoreFinder.getDataStore(params);
-        assertNotNull(ds);
-        params.put("url", TestData.url(TEST_FILE).toString());
-        assertNotNull(ds);
-        ds.dispose();
+  /** Ensure that we can create a DataStore using url OR string url. */
+  @Test
+  public void testShapefileDataStore() throws Exception {
+    HashMap params = new HashMap();
+    params.put("url", TestData.url(TEST_FILE));
+    DataStore ds = DataStoreFinder.getDataStore(params);
+    assertNotNull(ds);
+    params.put("url", TestData.url(TEST_FILE).toString());
+    assertNotNull(ds);
+    ds.dispose();
+  }
+
+  @Test
+  public void testBadURL() {
+    HashMap params = new HashMap();
+    params.put("url", "aaa://bbb.ccc");
+    try {
+      ShapefileDataStoreFactory f = new ShapefileDataStoreFactory();
+      f.createDataStore(params);
+      fail("did not throw error");
+    } catch (java.io.IOException ioe) {
+      // this is actually good
     }
-
-    @Test
-    public void testBadURL() {
-        HashMap params = new HashMap();
-        params.put("url", "aaa://bbb.ccc");
-        try {
-            ShapefileDataStoreFactory f = new ShapefileDataStoreFactory();
-            f.createDataStore(params);
-            fail("did not throw error");
-        } catch (java.io.IOException ioe) {
-            // this is actually good
-        }
-
-    }
-
+  }
 }

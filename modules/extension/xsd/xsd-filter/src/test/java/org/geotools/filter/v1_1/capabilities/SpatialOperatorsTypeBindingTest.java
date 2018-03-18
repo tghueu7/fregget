@@ -16,18 +16,18 @@
  */
 package org.geotools.filter.v1_1.capabilities;
 
-import org.w3c.dom.Document;
 import javax.xml.namespace.QName;
-import org.opengis.filter.capability.SpatialOperators;
 import org.geotools.filter.v1_1.OGC;
 import org.geotools.xml.Binding;
-
+import org.opengis.filter.capability.SpatialOperators;
+import org.w3c.dom.Document;
 
 /**
  * Binding test case for http://www.opengis.net/ogc:SpatialOperatorsType.
  *
  * <p>
- *  <pre>
+ *
+ * <pre>
  *   <code>
  *  &lt;xsd:complexType name="SpatialOperatorsType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -37,46 +37,45 @@ import org.geotools.xml.Binding;
  *
  *    </code>
  *   </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SpatialOperatorsTypeBindingTest extends OGCTestSupport {
-    public void testType() {
-        assertEquals(SpatialOperators.class, binding(OGC.SpatialOperatorsType).getType());
-    }
+  public void testType() {
+    assertEquals(SpatialOperators.class, binding(OGC.SpatialOperatorsType).getType());
+  }
 
-    public void testExectionMode() {
-        assertEquals(Binding.OVERRIDE, binding(OGC.SpatialOperatorsType).getExecutionMode());
-    }
+  public void testExectionMode() {
+    assertEquals(Binding.OVERRIDE, binding(OGC.SpatialOperatorsType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        FilterMockData.spatial(document, document);
+  public void testParse() throws Exception {
+    FilterMockData.spatial(document, document);
 
-        SpatialOperators spatial = (SpatialOperators) parse(OGC.SpatialOperatorsType);
+    SpatialOperators spatial = (SpatialOperators) parse(OGC.SpatialOperatorsType);
 
-        assertNotNull(spatial.getOperator("BBOX"));
-        assertNotNull(spatial.getOperator("Equals"));
-        assertNotNull(spatial.getOperator("Disjoint"));
-        assertNotNull(spatial.getOperator("Intersect"));
-        assertNotNull(spatial.getOperator("Touches"));
-        assertNotNull(spatial.getOperator("Crosses"));
-        assertNotNull(spatial.getOperator("Within"));
-        assertNotNull(spatial.getOperator("Contains"));
-        assertNotNull(spatial.getOperator("Overlaps"));
-        assertNotNull(spatial.getOperator("Beyond"));
-        assertNotNull(spatial.getOperator("DWithin"));
-    }
+    assertNotNull(spatial.getOperator("BBOX"));
+    assertNotNull(spatial.getOperator("Equals"));
+    assertNotNull(spatial.getOperator("Disjoint"));
+    assertNotNull(spatial.getOperator("Intersect"));
+    assertNotNull(spatial.getOperator("Touches"));
+    assertNotNull(spatial.getOperator("Crosses"));
+    assertNotNull(spatial.getOperator("Within"));
+    assertNotNull(spatial.getOperator("Contains"));
+    assertNotNull(spatial.getOperator("Overlaps"));
+    assertNotNull(spatial.getOperator("Beyond"));
+    assertNotNull(spatial.getOperator("DWithin"));
+  }
 
-    public void testEncode() throws Exception {
-        Document dom = encode(FilterMockData.spatial(),
-                new QName(OGC.NAMESPACE, "SpatialOperators"), OGC.SpatialOperatorsType);
+  public void testEncode() throws Exception {
+    Document dom =
+        encode(
+            FilterMockData.spatial(),
+            new QName(OGC.NAMESPACE, "SpatialOperators"),
+            OGC.SpatialOperatorsType);
 
-        assertEquals(11,
-            getElementsByQName(dom, new QName(OGC.NAMESPACE, "SpatialOperator")).getLength());
-    }
+    assertEquals(
+        11, getElementsByQName(dom, new QName(OGC.NAMESPACE, "SpatialOperator")).getLength());
+  }
 }

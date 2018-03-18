@@ -17,20 +17,18 @@
 package org.geotools.wfs.bindings;
 
 import javax.xml.namespace.QName;
-
 import net.opengis.wfs.WfsFactory;
-
 import org.geotools.wfs.WFS;
 import org.geotools.xml.AbstractComplexEMFBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-
 /**
  * Binding object for the type http://www.opengis.net/wfs:NativeType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="NativeType"&gt;
  *      &lt;xsd:attribute name="vendorId" type="xsd:string" use="required"&gt;
@@ -60,45 +58,40 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class NativeTypeBinding extends AbstractComplexEMFBinding {
-    public NativeTypeBinding(WfsFactory factory) {
-        super(factory);
-    }
+  public NativeTypeBinding(WfsFactory factory) {
+    super(factory);
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WFS.NativeType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return WFS.NativeType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return null;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return null;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //TODO: implement and remove call to super
-        return super.parse(instance, node, value);
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // TODO: implement and remove call to super
+    return super.parse(instance, node, value);
+  }
 }

@@ -17,69 +17,64 @@
 package org.geotools.filter.v1_0;
 
 import javax.xml.namespace.QName;
-import org.opengis.filter.FilterFactory;
-import org.opengis.filter.expression.Add;
-import org.opengis.filter.expression.Expression;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
-
+import org.opengis.filter.FilterFactory;
+import org.opengis.filter.expression.Add;
+import org.opengis.filter.expression.Expression;
 
 /**
  * Binding object for the element http://www.opengis.net/ogc:Add.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Add" substitutionGroup="ogc:expression" type="ogc:BinaryOperatorType"/&gt;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCAddBinding extends AbstractComplexBinding {
-    FilterFactory filterfactory;
+  FilterFactory filterfactory;
 
-    public OGCAddBinding(FilterFactory filterfactory) {
-        this.filterfactory = filterfactory;
-    }
+  public OGCAddBinding(FilterFactory filterfactory) {
+    this.filterfactory = filterfactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.Add;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return OGC.Add;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Add.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Add.class;
+  }
 
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return filterfactory.add((Expression) node.getChildValue(0),
-            (Expression) node.getChildValue(1));
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return filterfactory.add(
+        (Expression) node.getChildValue(0), (Expression) node.getChildValue(1));
+  }
 }

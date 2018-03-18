@@ -18,12 +18,9 @@ package org.geotools.data.wps.response;
 
 import java.io.IOException;
 import java.io.InputStream;
-
 import javax.xml.parsers.ParserConfigurationException;
-
 import net.opengis.ows11.ExceptionReportType;
 import net.opengis.wps10.ProcessDescriptionsType;
-
 import org.geotools.data.ows.HTTPResponse;
 import org.geotools.data.ows.Response;
 import org.geotools.ows.ServiceException;
@@ -32,88 +29,68 @@ import org.geotools.xml.Configuration;
 import org.geotools.xml.Parser;
 import org.xml.sax.SAXException;
 
-
 /**
- * Represents the response from a server after a DescribeProcess request
- * has been issued.
+ * Represents the response from a server after a DescribeProcess request has been issued.
  *
  * @author gdavis
- *
- *
  * @source $URL$
  */
-public class DescribeProcessResponse extends Response
-{
+public class DescribeProcessResponse extends Response {
 
-    private ProcessDescriptionsType processDescs;
-    private ExceptionReportType excepResponse;
+  private ProcessDescriptionsType processDescs;
+  private ExceptionReportType excepResponse;
 
-    /**
-     * @param contentType
-     * @param inputStream
-     * @throws ServiceException
-     * @throws SAXException
-     */
-    public DescribeProcessResponse(HTTPResponse httpResponse) throws IOException, ServiceException
-    {
-        super(httpResponse);
+  /**
+   * @param contentType
+   * @param inputStream
+   * @throws ServiceException
+   * @throws SAXException
+   */
+  public DescribeProcessResponse(HTTPResponse httpResponse) throws IOException, ServiceException {
+    super(httpResponse);
 
-        InputStream inputStream = null;
-        try
-        {
-            inputStream = httpResponse.getResponseStream();
+    InputStream inputStream = null;
+    try {
+      inputStream = httpResponse.getResponseStream();
 
-            // Map hints = new HashMap();
-            // hints.put(DocumentHandler.DEFAULT_NAMESPACE_HINT_KEY, WPSSchema.getInstance());
-            Configuration config = new WPSConfiguration();
-            Parser parser = new Parser(config);
+      // Map hints = new HashMap();
+      // hints.put(DocumentHandler.DEFAULT_NAMESPACE_HINT_KEY, WPSSchema.getInstance());
+      Configuration config = new WPSConfiguration();
+      Parser parser = new Parser(config);
 
-            Object object;
-            excepResponse = null;
-            processDescs = null;
-            try
-            {
-                // object = DocumentFactory.getInstance(inputStream, hints, Level.WARNING);
-                object = parser.parse(inputStream);
-            }
-            catch (SAXException e)
-            {
-                throw (IOException) new IOException().initCause(e);
-            }
-            catch (ParserConfigurationException e)
-            {
-                throw (IOException) new IOException().initCause(e);
-            }
+      Object object;
+      excepResponse = null;
+      processDescs = null;
+      try {
+        // object = DocumentFactory.getInstance(inputStream, hints, Level.WARNING);
+        object = parser.parse(inputStream);
+      } catch (SAXException e) {
+        throw (IOException) new IOException().initCause(e);
+      } catch (ParserConfigurationException e) {
+        throw (IOException) new IOException().initCause(e);
+      }
 
-            // try casting the response
-            if (object instanceof ProcessDescriptionsType)
-            {
-                processDescs = (ProcessDescriptionsType) object;
-            }
-            // exception caught on server and returned
-            else if (object instanceof ExceptionReportType)
-            {
-                excepResponse = (ExceptionReportType) object;
-            }
+      // try casting the response
+      if (object instanceof ProcessDescriptionsType) {
+        processDescs = (ProcessDescriptionsType) object;
+      }
+      // exception caught on server and returned
+      else if (object instanceof ExceptionReportType) {
+        excepResponse = (ExceptionReportType) object;
+      }
 
-        }
-        finally
-        {
-            if (inputStream != null)
-            {
-                inputStream.close();
-            }
-        }
+    } finally {
+      if (inputStream != null) {
+        inputStream.close();
+      }
     }
+  }
 
-    public ProcessDescriptionsType getProcessDesc()
-    {
-        return processDescs;
-    }
+  public ProcessDescriptionsType getProcessDesc() {
+    return processDescs;
+  }
 
-    public ExceptionReportType getExceptionResponse()
-    {
-        return excepResponse;
-    }
-
+  public ExceptionReportType getExceptionResponse() {
+    return excepResponse;
+  }
 }

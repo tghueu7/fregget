@@ -16,22 +16,20 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.MultiLineString;
 import javax.xml.namespace.QName;
-
 import org.geotools.gml2.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiLineString;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiLineStringType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiLineStringType"&gt;
  *      &lt;annotation&gt;
@@ -52,65 +50,60 @@ import com.vividsolutions.jts.geom.MultiLineString;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLMultiLineStringTypeBinding extends AbstractComplexBinding {
-    GeometryFactory gFactory;
+  GeometryFactory gFactory;
 
-    public GMLMultiLineStringTypeBinding(GeometryFactory gFactory) {
-        this.gFactory = gFactory;
+  public GMLMultiLineStringTypeBinding(GeometryFactory gFactory) {
+    this.gFactory = gFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.MultiLineString;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return MultiLineString.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return GML2ParsingUtils.GeometryCollectionType_parse(node, MultiLineString.class, gFactory);
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    if (GML.lineStringMember.equals(name)) {
+      return GML2ParsingUtils.asCollection((MultiLineString) object);
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.MultiLineString;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return OVERRIDE;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return MultiLineString.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return GML2ParsingUtils.GeometryCollectionType_parse(node, MultiLineString.class, gFactory);
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        if (GML.lineStringMember.equals(name)) {
-            return GML2ParsingUtils.asCollection((MultiLineString) object);
-        }
-
-        return GML2ParsingUtils.GeometryCollectionType_getProperty(object, name);
-    }
+    return GML2ParsingUtils.GeometryCollectionType_getProperty(object, name);
+  }
 }

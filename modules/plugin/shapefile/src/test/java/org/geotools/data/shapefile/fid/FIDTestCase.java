@@ -17,42 +17,36 @@
 package org.geotools.data.shapefile.fid;
 
 import java.io.File;
-
 import org.geotools.data.shapefile.TestCaseSupport;
 import org.geotools.data.shapefile.files.ShpFiles;
 import org.junit.Before;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public abstract class FIDTestCase extends TestCaseSupport {
 
-    protected final String TYPE_NAME = "archsites";
+  protected final String TYPE_NAME = "archsites";
 
-    protected File backshp;
-    protected File backdbf;
-    protected File backshx;
-    protected File backprj;
-    protected File backqix;
-    String filename;
-    protected File fixFile;
+  protected File backshp;
+  protected File backdbf;
+  protected File backshx;
+  protected File backprj;
+  protected File backqix;
+  String filename;
+  protected File fixFile;
 
-    protected ShpFiles shpFiles;
+  protected ShpFiles shpFiles;
 
-    @Before
-    public void setUpArchsites() throws Exception {
-        backshp = copyShapefiles("shapes/" + TYPE_NAME + ".shp");
+  @Before
+  public void setUpArchsites() throws Exception {
+    backshp = copyShapefiles("shapes/" + TYPE_NAME + ".shp");
 
-        backdbf = sibling(backshp, "dbf");
-        backshx = sibling(backshp, "shx");
-        backprj =  sibling(backshp, "prj");
-        backqix =  sibling(backshp, "qix");
+    backdbf = sibling(backshp, "dbf");
+    backshx = sibling(backshp, "shx");
+    backprj = sibling(backshp, "prj");
+    backqix = sibling(backshp, "qix");
 
-        fixFile =  sibling(backshp, "fix");
+    fixFile = sibling(backshp, "fix");
 
-        shpFiles = new ShpFiles(backshx);
-    }
-
+    shpFiles = new ShpFiles(backshx);
+  }
 }

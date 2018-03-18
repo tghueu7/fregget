@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -17,58 +17,53 @@
 
 package org.geotools.data.gen;
 
-/**
- * 
- *
- * @source $URL$
- */
-public class VerticalPreGeneralizedFeatureSourceTest extends
-        AbstractPreGeneralizedFeatureSourceTest {
+/** @source $URL$ */
+public class VerticalPreGeneralizedFeatureSourceTest
+    extends AbstractPreGeneralizedFeatureSourceTest {
 
-    static final String ConfigName = "src/test/resources/geninfo_vertical.xml";
+  static final String ConfigName = "src/test/resources/geninfo_vertical.xml";
 
-    public void testGetCount() {
-        testGetCount(ConfigName);
-    }
+  public void testGetCount() {
+    testGetCount(ConfigName);
+  }
 
-    public void testGetBounds() {
-        testGetBounds(ConfigName);
-    }
+  public void testGetBounds() {
+    testGetBounds(ConfigName);
+  }
 
-    public void testFeatureReader() {
-        testFeatureReader(ConfigName);
-    }
+  public void testFeatureReader() {
+    testFeatureReader(ConfigName);
+  }
 
-    public void testFeatureReaderWithoutGeom() {
-        testFeatureReaderWithoutGeom(ConfigName);
-    }
+  public void testFeatureReaderWithoutGeom() {
+    testFeatureReaderWithoutGeom(ConfigName);
+  }
 
-    public void testGetFeatures() {
-        testGetFeatures(ConfigName);
-    }
+  public void testGetFeatures() {
+    testGetFeatures(ConfigName);
+  }
 
-    public void testGetFeatures2() {
-        testGetFeatures2(ConfigName);
-    }
+  public void testGetFeatures2() {
+    testGetFeatures2(ConfigName);
+  }
 
-    public void testGetFeatures3() {
-        testGetFeatures3(ConfigName);
-    }
+  public void testGetFeatures3() {
+    testGetFeatures3(ConfigName);
+  }
 
-    public void testGetDataStore() {
-        testGetDataStore(ConfigName);
-    }
+  public void testGetDataStore() {
+    testGetDataStore(ConfigName);
+  }
 
-    public void testGetNameAndInfo() {
-        testNameAndInfo(ConfigName);
-    }
+  public void testGetNameAndInfo() {
+    testNameAndInfo(ConfigName);
+  }
 
-    public void testQueryCapabilities() {
-        testQueryCapabilities(ConfigName, false);
-    }
+  public void testQueryCapabilities() {
+    testQueryCapabilities(ConfigName, false);
+  }
 
-    public void testGetSchema() {
-        testGetSchema(ConfigName);
-    }
-
+  public void testGetSchema() {
+    testGetSchema(ConfigName);
+  }
 }

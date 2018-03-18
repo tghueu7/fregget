@@ -16,72 +16,71 @@
  */
 package org.geotools.filter.v1_1;
 
-import org.w3c.dom.Document;
+import org.geotools.xml.Binding;
 import org.opengis.filter.And;
 import org.opengis.filter.BinaryLogicOperator;
 import org.opengis.filter.Or;
-import org.geotools.xml.Binding;
+import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class BinaryLogicOpTypeBindingTest extends FilterTestSupport {
-    public void testBinaryLogicOpType() {
-        assertEquals(BinaryLogicOperator.class, binding(OGC.BinaryLogicOpType).getType());
-    }
+  public void testBinaryLogicOpType() {
+    assertEquals(BinaryLogicOperator.class, binding(OGC.BinaryLogicOpType).getType());
+  }
 
-    public void testAndType() {
-        assertEquals(And.class, binding(OGC.And).getType());
-    }
+  public void testAndType() {
+    assertEquals(And.class, binding(OGC.And).getType());
+  }
 
-    public void testAndExecutionMode() {
-        assertEquals(Binding.AFTER, binding(OGC.And).getExecutionMode());
-    }
+  public void testAndExecutionMode() {
+    assertEquals(Binding.AFTER, binding(OGC.And).getExecutionMode());
+  }
 
-    public void testAndParse() throws Exception {
-        FilterMockData.and(document, document);
+  public void testAndParse() throws Exception {
+    FilterMockData.and(document, document);
 
-        And and = (And) parse();
+    And and = (And) parse();
 
-        assertEquals(2, and.getChildren().size());
-    }
+    assertEquals(2, and.getChildren().size());
+  }
 
-    public void testAndEncode() throws Exception {
-        Document dom = encode(FilterMockData.and(), OGC.And);
-        assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsEqualTo.getLocalPart())
-               .getLength());
-        assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsNotEqualTo.getLocalPart())
-               .getLength());
-    }
+  public void testAndEncode() throws Exception {
+    Document dom = encode(FilterMockData.and(), OGC.And);
+    assertEquals(
+        1,
+        dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsEqualTo.getLocalPart())
+            .getLength());
+    assertEquals(
+        1,
+        dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsNotEqualTo.getLocalPart())
+            .getLength());
+  }
 
-    public void testOrType() {
-        assertEquals(Or.class, binding(OGC.Or).getType());
-    }
+  public void testOrType() {
+    assertEquals(Or.class, binding(OGC.Or).getType());
+  }
 
-    public void testOrExecutionMode() {
-        assertEquals(Binding.AFTER, binding(OGC.Or).getExecutionMode());
-    }
+  public void testOrExecutionMode() {
+    assertEquals(Binding.AFTER, binding(OGC.Or).getExecutionMode());
+  }
 
-    public void testOrParse() throws Exception {
-        FilterMockData.or(document, document);
+  public void testOrParse() throws Exception {
+    FilterMockData.or(document, document);
 
-        Or or = (Or) parse();
+    Or or = (Or) parse();
 
-        assertEquals(2, or.getChildren().size());
-    }
+    assertEquals(2, or.getChildren().size());
+  }
 
-    public void testOrEncode() throws Exception {
-        Document dom = encode(FilterMockData.or(), OGC.Or);
-        assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsEqualTo.getLocalPart())
-               .getLength());
-        assertEquals(1,
-            dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsNotEqualTo.getLocalPart())
-               .getLength());
-    }
+  public void testOrEncode() throws Exception {
+    Document dom = encode(FilterMockData.or(), OGC.Or);
+    assertEquals(
+        1,
+        dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsEqualTo.getLocalPart())
+            .getLength());
+    assertEquals(
+        1,
+        dom.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyIsNotEqualTo.getLocalPart())
+            .getLength());
+  }
 }

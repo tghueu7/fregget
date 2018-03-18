@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
- *        
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -19,7 +19,6 @@ package org.geotools.data.ogr;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Iterator;
-
 import org.geotools.factory.Hints;
 import org.geotools.util.ConverterFactory;
 import org.geotools.util.Converters;
@@ -83,7 +82,7 @@ import org.opengis.filter.temporal.TOverlaps;
 
 /**
  * Encodes a compliant filter to the "restricted where" syntax supported by OGR:
- * 
+ *
  * <pre>
  * @condition@ = @field_name@ @binary_operator@ @value@ | "(" @condition@ ")" @binary_logical_operator@
  *             "(" @condition@ ")"
@@ -93,451 +92,445 @@ import org.opengis.filter.temporal.TOverlaps;
  * @value@ = @string_token@ | @numeric_value@ | @string_value@
  * @string_value@ = "'" @characters@ "'"
  * </pre>
- * 
+ *
  * Implementation wise this is a widely cut down version of JDBC's module FilterToSQL
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class FilterToRestrictedWhere implements FilterVisitor, ExpressionVisitor {
-    /** error message for exceptions */
-    protected static final String IO_ERROR = "io problem writing filter";
+  /** error message for exceptions */
+  protected static final String IO_ERROR = "io problem writing filter";
 
-    /** the schema the encoder will be used to be encode sql for */
-    protected SimpleFeatureType featureType;
+  /** the schema the encoder will be used to be encode sql for */
+  protected SimpleFeatureType featureType;
 
-    StringWriter out = new StringWriter();
+  StringWriter out = new StringWriter();
 
-    public FilterToRestrictedWhere(SimpleFeatureType featureType) {
-        this.featureType = featureType;
+  public FilterToRestrictedWhere(SimpleFeatureType featureType) {
+    this.featureType = featureType;
+  }
+
+  public String getRestrictedWhere() {
+    return out.toString();
+  }
+
+  /**
+   * Writes the SQL for the PropertyIsBetween Filter.
+   *
+   * @param filter the Filter to be visited.
+   * @throws RuntimeException for io exception with writer
+   */
+  public Object visit(PropertyIsBetween filter, Object extraData) throws RuntimeException {
+    Expression expr = (Expression) filter.getExpression();
+    Expression lowerbounds = (Expression) filter.getLowerBoundary();
+    Expression upperbounds = (Expression) filter.getUpperBoundary();
+
+    Class context;
+    AttributeDescriptor attType = (AttributeDescriptor) expr.evaluate(featureType);
+    if (attType != null) {
+      context = attType.getType().getBinding();
+    } else {
+      context = String.class;
     }
 
-    public String getRestrictedWhere() {
-        return out.toString();
-    }
+    out.write("((");
+    expr.accept(this, extraData);
+    out.write(">=");
+    lowerbounds.accept(this, context);
+    out.write(") AND (");
+    expr.accept(this, extraData);
+    out.write("<=");
+    upperbounds.accept(this, context);
+    out.write("))");
 
-    /**
-     * Writes the SQL for the PropertyIsBetween Filter.
-     * 
-     * @param filter the Filter to be visited.
-     * 
-     * @throws RuntimeException for io exception with writer
-     */
-    public Object visit(PropertyIsBetween filter, Object extraData) throws RuntimeException {
-        Expression expr = (Expression) filter.getExpression();
-        Expression lowerbounds = (Expression) filter.getLowerBoundary();
-        Expression upperbounds = (Expression) filter.getUpperBoundary();
+    return extraData;
+  }
 
-        Class context;
-        AttributeDescriptor attType = (AttributeDescriptor) expr.evaluate(featureType);
-        if (attType != null) {
-            context = attType.getType().getBinding();
-        } else {
-            context = String.class;
-        }
+  /**
+   * Write the SQL for an And filter
+   *
+   * @param filter the filter to visit
+   * @param extraData extra data (unused by this method)
+   */
+  public Object visit(And filter, Object extraData) {
+    return visit((BinaryLogicOperator) filter, "AND");
+  }
 
-        out.write("((");
-        expr.accept(this, extraData);
-        out.write(">=");
-        lowerbounds.accept(this, context);
-        out.write(") AND (");
-        expr.accept(this, extraData);
-        out.write("<=");
-        upperbounds.accept(this, context);
-        out.write("))");
+  /**
+   * Write the SQL for an Or filter
+   *
+   * @param filter the filter to visit
+   * @param extraData extra data (unused by this method)
+   */
+  public Object visit(Or filter, Object extraData) {
+    return visit((BinaryLogicOperator) filter, "OR");
+  }
 
-        return extraData;
-    }
+  /**
+   * Common implementation for BinaryLogicOperator filters. This way they're all handled centrally.
+   *
+   * @param filter the logic statement to be turned into SQL.
+   * @param extraData extra filter data. Not modified directly by this method.
+   */
+  protected Object visit(BinaryLogicOperator filter, Object extraData) {
+    String type = (String) extraData;
+    out.write("(");
 
-    /**
-     * Write the SQL for an And filter
-     * 
-     * @param filter the filter to visit
-     * @param extraData extra data (unused by this method)
-     * 
-     */
-    public Object visit(And filter, Object extraData) {
-        return visit((BinaryLogicOperator) filter, "AND");
-    }
+    Iterator<Filter> list = filter.getChildren().iterator();
+    while (list.hasNext()) {
+      list.next().accept(this, extraData);
 
-    /**
-     * Write the SQL for an Or filter
-     * 
-     * @param filter the filter to visit
-     * @param extraData extra data (unused by this method)
-     * 
-     */
-    public Object visit(Or filter, Object extraData) {
-        return visit((BinaryLogicOperator) filter, "OR");
-    }
-
-    /**
-     * Common implementation for BinaryLogicOperator filters. This way they're all handled
-     * centrally.
-     * 
-     * @param filter the logic statement to be turned into SQL.
-     * @param extraData extra filter data. Not modified directly by this method.
-     */
-    protected Object visit(BinaryLogicOperator filter, Object extraData) {
-        String type = (String) extraData;
-        out.write("(");
-
-        Iterator<Filter> list = filter.getChildren().iterator();
-        while (list.hasNext()) {
-            list.next().accept(this, extraData);
-
-            if (list.hasNext()) {
-                out.write(" " + type + " ");
-            }
-        }
-        out.write(")");
-        return extraData;
-    }
-
-    public Object visit(PropertyIsEqualTo filter, Object extraData) {
-        visitBinaryComparisonOperator((BinaryComparisonOperator) filter, "=");
-        return extraData;
-    }
-
-    public Object visit(PropertyIsGreaterThanOrEqualTo filter, Object extraData) {
-        visitBinaryComparisonOperator((BinaryComparisonOperator) filter, ">=");
-        return extraData;
-    }
-
-    public Object visit(PropertyIsGreaterThan filter, Object extraData) {
-        visitBinaryComparisonOperator((BinaryComparisonOperator) filter, ">");
-        return extraData;
-    }
-
-    public Object visit(PropertyIsLessThan filter, Object extraData) {
-        visitBinaryComparisonOperator((BinaryComparisonOperator) filter, "<");
-        return extraData;
-    }
-
-    public Object visit(PropertyIsLessThanOrEqualTo filter, Object extraData) {
-        visitBinaryComparisonOperator((BinaryComparisonOperator) filter, "<=");
-        return extraData;
-    }
-
-    public Object visit(PropertyIsNotEqualTo filter, Object extraData) {
-        visitBinaryComparisonOperator((BinaryComparisonOperator) filter, "!=");
-        return extraData;
-    }
-
-    protected void visitBinaryComparisonOperator(BinaryComparisonOperator filter, Object extraData)
-            throws RuntimeException {
-        Expression left = filter.getExpression1();
-        Expression right = filter.getExpression2();
-
-        // see if we can get some indication on how to evaluate literals
-        Class leftContext = null, rightContext = null;
-        if (left instanceof PropertyName) {
-            AttributeDescriptor attType = (AttributeDescriptor) left.evaluate(featureType);
-            if (attType != null) {
-                rightContext = attType.getType().getBinding();
-            }
-        }
-        if (rightContext == null && right instanceof PropertyName) {
-            AttributeDescriptor attType = (AttributeDescriptor) right.evaluate(featureType);
-            if (attType != null) {
-                leftContext = attType.getType().getBinding();
-            }
-        }
-
-        String type = (String) extraData;
-        left.accept(this, leftContext);
+      if (list.hasNext()) {
         out.write(" " + type + " ");
-        right.accept(this, rightContext);
+      }
+    }
+    out.write(")");
+    return extraData;
+  }
+
+  public Object visit(PropertyIsEqualTo filter, Object extraData) {
+    visitBinaryComparisonOperator((BinaryComparisonOperator) filter, "=");
+    return extraData;
+  }
+
+  public Object visit(PropertyIsGreaterThanOrEqualTo filter, Object extraData) {
+    visitBinaryComparisonOperator((BinaryComparisonOperator) filter, ">=");
+    return extraData;
+  }
+
+  public Object visit(PropertyIsGreaterThan filter, Object extraData) {
+    visitBinaryComparisonOperator((BinaryComparisonOperator) filter, ">");
+    return extraData;
+  }
+
+  public Object visit(PropertyIsLessThan filter, Object extraData) {
+    visitBinaryComparisonOperator((BinaryComparisonOperator) filter, "<");
+    return extraData;
+  }
+
+  public Object visit(PropertyIsLessThanOrEqualTo filter, Object extraData) {
+    visitBinaryComparisonOperator((BinaryComparisonOperator) filter, "<=");
+    return extraData;
+  }
+
+  public Object visit(PropertyIsNotEqualTo filter, Object extraData) {
+    visitBinaryComparisonOperator((BinaryComparisonOperator) filter, "!=");
+    return extraData;
+  }
+
+  protected void visitBinaryComparisonOperator(BinaryComparisonOperator filter, Object extraData)
+      throws RuntimeException {
+    Expression left = filter.getExpression1();
+    Expression right = filter.getExpression2();
+
+    // see if we can get some indication on how to evaluate literals
+    Class leftContext = null, rightContext = null;
+    if (left instanceof PropertyName) {
+      AttributeDescriptor attType = (AttributeDescriptor) left.evaluate(featureType);
+      if (attType != null) {
+        rightContext = attType.getType().getBinding();
+      }
+    }
+    if (rightContext == null && right instanceof PropertyName) {
+      AttributeDescriptor attType = (AttributeDescriptor) right.evaluate(featureType);
+      if (attType != null) {
+        leftContext = attType.getType().getBinding();
+      }
     }
 
-    public Object visit(PropertyName expression, Object extraData) throws RuntimeException {
-        AttributeDescriptor attribute = null;
-        try {
-            attribute = (AttributeDescriptor) expression.evaluate(featureType);
-        } catch (Exception e) {
-            // just log and fall back on just encoding propertyName straight up
-            String msg = "Error occured mapping " + expression + " to feature type";
-        }
-        String name = null;
-        if (attribute != null) {
-            name = attribute.getLocalName();
-        } else {
-            name = expression.getPropertyName();
-        }
-        out.write(name);
+    String type = (String) extraData;
+    left.accept(this, leftContext);
+    out.write(" " + type + " ");
+    right.accept(this, rightContext);
+  }
 
-        return extraData;
+  public Object visit(PropertyName expression, Object extraData) throws RuntimeException {
+    AttributeDescriptor attribute = null;
+    try {
+      attribute = (AttributeDescriptor) expression.evaluate(featureType);
+    } catch (Exception e) {
+      // just log and fall back on just encoding propertyName straight up
+      String msg = "Error occured mapping " + expression + " to feature type";
+    }
+    String name = null;
+    if (attribute != null) {
+      name = attribute.getLocalName();
+    } else {
+      name = expression.getPropertyName();
+    }
+    out.write(name);
+
+    return extraData;
+  }
+
+  /**
+   * Export the contents of a Literal Expresion
+   *
+   * @param expression the Literal to export
+   * @throws RuntimeException for io exception with writer
+   */
+  public Object visit(Literal expression, Object context) throws RuntimeException {
+    // type to convert the literal to
+    Class target = null;
+    if (context instanceof Class) {
+      target = (Class) context;
     }
 
-    /**
-     * Export the contents of a Literal Expresion
-     * 
-     * @param expression the Literal to export
-     * 
-     * @throws RuntimeException for io exception with writer
-     */
-    public Object visit(Literal expression, Object context) throws RuntimeException {
-        // type to convert the literal to
-        Class target = null;
-        if (context instanceof Class) {
-            target = (Class) context;
-        }
+    // evaluate the expression
+    Object literal = evaluateLiteral(expression, target);
+    writeLiteral(literal);
+    return context;
+  }
 
-        // evaluate the expression
-        Object literal = evaluateLiteral(expression, target);
-        writeLiteral(literal);
-        return context;
+  protected Object evaluateLiteral(Literal expression, Class target) {
+    Object literal = null;
+
+    // HACK: let expression figure out the right value for numbers,
+    // since the context is almost always improperly set and the
+    // numeric converters try to force floating points to integrals
+    // JD: the above is no longer true, so instead do a safe conversion
+    if (target != null) {
+      // use the target type
+      if (Number.class.isAssignableFrom(target)) {
+        literal =
+            Converters.convert(
+                expression.evaluate(null),
+                target,
+                new Hints(ConverterFactory.SAFE_CONVERSION, true));
+      } else {
+        literal = expression.evaluate(null, target);
+      }
     }
+    // if the target was not known, of the conversion failed, try the
+    // type guessing dance literal expression does only for the following
+    // method call
+    if (literal == null) literal = expression.evaluate(null);
 
-    protected Object evaluateLiteral(Literal expression, Class target) {
-        Object literal = null;
+    // if that failed as well, grab the value as is
+    if (literal == null) literal = expression.getValue();
 
-        // HACK: let expression figure out the right value for numbers,
-        // since the context is almost always improperly set and the
-        // numeric converters try to force floating points to integrals
-        // JD: the above is no longer true, so instead do a safe conversion
-        if (target != null) {
-            // use the target type
-            if (Number.class.isAssignableFrom(target)) {
-                literal = Converters.convert(expression.evaluate(null), target, new Hints(
-                        ConverterFactory.SAFE_CONVERSION, true));
-            } else {
-                literal = expression.evaluate(null, target);
-            }
-        }
-        // if the target was not known, of the conversion failed, try the
-        // type guessing dance literal expression does only for the following
-        // method call
-        if (literal == null)
-            literal = expression.evaluate(null);
+    return literal;
+  }
 
-        // if that failed as well, grab the value as is
-        if (literal == null)
-            literal = expression.getValue();
+  /**
+   * Writes out a non null, non geometry literal. The base class properly handles null, numeric and
+   * booleans (true|false), and turns everything else into a string. Subclasses are expected to
+   * override this shall they need a different treatment (e.g. for dates)
+   *
+   * @param literal
+   * @throws IOException
+   */
+  protected void writeLiteral(Object literal) {
+    if (literal == null) {
+      out.write("NULL");
+    } else if (literal instanceof Number || literal instanceof Boolean) {
+      out.write(String.valueOf(literal));
+    } else {
+      // we don't know what this is, let's convert back to a string
+      String encoding = (String) Converters.convert(literal, String.class, null);
+      if (encoding == null) {
+        // could not convert back to string, use original l value
+        encoding = literal.toString();
+      }
 
-        return literal;
+      // sigle quotes must be escaped to have a valid sql string
+      String escaped = encoding.replaceAll("'", "''");
+      out.write("'" + escaped + "'");
     }
+  }
 
-    /**
-     * Writes out a non null, non geometry literal. The base class properly handles null, numeric
-     * and booleans (true|false), and turns everything else into a string. Subclasses are expected
-     * to override this shall they need a different treatment (e.g. for dates)
-     * 
-     * @param literal
-     * @throws IOException
-     */
-    protected void writeLiteral(Object literal) {
-        if (literal == null) {
-            out.write("NULL");
-        } else if (literal instanceof Number || literal instanceof Boolean) {
-            out.write(String.valueOf(literal));
-        } else {
-            // we don't know what this is, let's convert back to a string
-            String encoding = (String) Converters.convert(literal, String.class, null);
-            if (encoding == null) {
-                // could not convert back to string, use original l value
-                encoding = literal.toString();
-            }
+  @Override
+  public Object visit(NilExpression expression, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-            // sigle quotes must be escaped to have a valid sql string
-            String escaped = encoding.replaceAll("'", "''");
-            out.write("'" + escaped + "'");
-        }
-    }
+  @Override
+  public Object visit(Add expression, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(NilExpression expression, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Divide expression, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Add expression, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Function expression, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Divide expression, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Multiply expression, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Function expression, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Subtract expression, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Multiply expression, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visitNullFilter(Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Subtract expression, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(ExcludeFilter filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visitNullFilter(Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(IncludeFilter filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(ExcludeFilter filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Id filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(IncludeFilter filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Not filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Id filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
+  @Override
+  public Object visit(PropertyIsLike filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    }
+  @Override
+  public Object visit(PropertyIsNull filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Not filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(BBOX filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(PropertyIsLike filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Beyond filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(PropertyIsNull filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Contains filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(BBOX filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Crosses filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Beyond filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Disjoint filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Contains filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(DWithin filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Crosses filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
+  @Override
+  public Object visit(Equals filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    }
+  @Override
+  public Object visit(Intersects filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Disjoint filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Overlaps filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(DWithin filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Touches filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Equals filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Within filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Intersects filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(After after, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Overlaps filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(AnyInteracts anyInteracts, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Touches filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Before before, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Within filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Begins begins, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(After after, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(BegunBy begunBy, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(AnyInteracts anyInteracts, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(During during, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Before before, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(EndedBy endedBy, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Begins begins, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Ends ends, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(BegunBy begunBy, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(Meets meets, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(During during, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(MetBy metBy, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(EndedBy endedBy, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(OverlappedBy overlappedBy, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Ends ends, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(TContains contains, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(Meets meets, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(TEquals equals, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(MetBy metBy, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(TOverlaps contains, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 
-    @Override
-    public Object visit(OverlappedBy overlappedBy, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
-
-    @Override
-    public Object visit(TContains contains, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
-
-    @Override
-    public Object visit(TEquals equals, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
-
-    @Override
-    public Object visit(TOverlaps contains, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
-
-    @Override
-    public Object visit(PropertyIsNil filter, Object extraData) {
-        throw new UnsupportedOperationException("Can't encode this expression");
-    }
+  @Override
+  public Object visit(PropertyIsNil filter, Object extraData) {
+    throw new UnsupportedOperationException("Can't encode this expression");
+  }
 }

@@ -20,50 +20,47 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.geometry.BoundingBox;
 
-/**
- * A slice coverageDescriptor represents a feature in the {@link CoverageSlicesCatalog}.
- */
+/** A slice coverageDescriptor represents a feature in the {@link CoverageSlicesCatalog}. */
 public class CoverageSlice {
 
-    // Currently features contain 1 time and 1 elevation attributes. 
-    // We may consider adding endTime and endElevation attributes too.
-    public static class Attributes {
+  // Currently features contain 1 time and 1 elevation attributes.
+  // We may consider adding endTime and endElevation attributes too.
+  public static class Attributes {
 
-        public final static String INDEX = CoverageSlicesCatalog.IMAGE_INDEX_ATTR;
+    public static final String INDEX = CoverageSlicesCatalog.IMAGE_INDEX_ATTR;
 
-        public final static String LOCATION = "location";
+    public static final String LOCATION = "location";
 
-        public final static String TIME = "time";
+    public static final String TIME = "time";
 
-        public final static String ELEVATION = "elevation";
+    public static final String ELEVATION = "elevation";
 
-        public final static String GEOMETRY = "the_geom";
+    public static final String GEOMETRY = "the_geom";
 
-        public static final String BASE_SCHEMA = GEOMETRY + ":Polygon," + INDEX + ":Integer";
-        
-        public static final String BASE_SCHEMA_LOCATION = GEOMETRY + ":Polygon," + INDEX + ":Integer," + LOCATION + ":String";
+    public static final String BASE_SCHEMA = GEOMETRY + ":Polygon," + INDEX + ":Integer";
 
-        public static final String DEFAULT_SCHEMA = BASE_SCHEMA+"," + TIME + ":java.util.Date," + ELEVATION + ":Double";
-    }
+    public static final String BASE_SCHEMA_LOCATION =
+        GEOMETRY + ":Polygon," + INDEX + ":Integer," + LOCATION + ":String";
 
-    ReferencedEnvelope granuleBBOX;
+    public static final String DEFAULT_SCHEMA =
+        BASE_SCHEMA + "," + TIME + ":java.util.Date," + ELEVATION + ":Double";
+  }
 
-    SimpleFeature originator;
+  ReferencedEnvelope granuleBBOX;
 
-    /**
-     * @param feature
-     */
-    public CoverageSlice(final SimpleFeature feature) {
-        this.granuleBBOX = ReferencedEnvelope.reference(feature.getBounds());
-        this.originator = feature;
-    }
+  SimpleFeature originator;
 
-    public BoundingBox getGranuleBBOX() {
-        return granuleBBOX;
-    }
+  /** @param feature */
+  public CoverageSlice(final SimpleFeature feature) {
+    this.granuleBBOX = ReferencedEnvelope.reference(feature.getBounds());
+    this.originator = feature;
+  }
 
-    public SimpleFeature getOriginator() {
-        return originator;
-    }
+  public BoundingBox getGranuleBBOX() {
+    return granuleBBOX;
+  }
 
+  public SimpleFeature getOriginator() {
+    return originator;
+  }
 }

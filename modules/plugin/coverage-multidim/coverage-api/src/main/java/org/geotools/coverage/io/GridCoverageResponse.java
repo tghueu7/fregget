@@ -22,19 +22,18 @@ import org.geotools.util.NumberRange;
 import org.opengis.coverage.grid.GridCoverage;
 
 /**
- * An interface implementing {@link GridCoverage} with 
- * add of temporal extent and vertical extent
- * 
+ * An interface implementing {@link GridCoverage} with add of temporal extent and vertical extent
+ *
  * @author Daniele Romagnoli, GeoSolutions SAS
  */
 public interface GridCoverageResponse extends GridCoverage {
 
-    /** Return the temporal extent of this gridcoverage */
-    DateRange getTemporalExtent();
+  /** Return the temporal extent of this gridcoverage */
+  DateRange getTemporalExtent();
 
-    /** Return the vertical extent of this gridcoverage */
-    NumberRange<Double> getVerticalExtent();
+  /** Return the vertical extent of this gridcoverage */
+  NumberRange<Double> getVerticalExtent();
 
-    /** Return the underlying GridCoverage2D (responses are always 2D) */
-    GridCoverage2D getGridCoverage2D();
+  /** Return the underlying GridCoverage2D (responses are always 2D) */
+  GridCoverage2D getGridCoverage2D();
 }

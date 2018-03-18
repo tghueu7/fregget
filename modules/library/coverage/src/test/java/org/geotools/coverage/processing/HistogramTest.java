@@ -20,77 +20,71 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import javax.media.jai.Histogram;
-
 import org.geotools.coverage.grid.GridCoverage2D;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.opengis.parameter.ParameterValueGroup;
 
 public class HistogramTest extends GridProcessingTestBase {
-    /**
-     * The grid coverage to test.
-     */
-    private GridCoverage2D coverage;
-    
-    /**
-     * Set up common objects used for all tests.
-     */
-    @Before
-    public void setUp() {
-        coverage = EXAMPLES.get(0);
-    }
+  /** The grid coverage to test. */
+  private GridCoverage2D coverage;
 
-    @Test
-    public void testHistogram() throws Exception {
-        GridCoverage2D source = coverage;
-        CoverageProcessor processor = CoverageProcessor.getInstance();
+  /** Set up common objects used for all tests. */
+  @Before
+  public void setUp() {
+    coverage = EXAMPLES.get(0);
+  }
 
-        ParameterValueGroup param = processor.getOperation("Histogram").getParameters();
-        param.parameter("Source").setValue(source);
+  @Test
+  public void testHistogram() throws Exception {
+    GridCoverage2D source = coverage;
+    CoverageProcessor processor = CoverageProcessor.getInstance();
 
-        GridCoverage2D processed = (GridCoverage2D) processor.doOperation(param);
+    ParameterValueGroup param = processor.getOperation("Histogram").getParameters();
+    param.parameter("Source").setValue(source);
 
-        Histogram histo = (Histogram) processed.getProperty("histogram");
-        assertNotNull(histo);
+    GridCoverage2D processed = (GridCoverage2D) processor.doOperation(param);
 
-        assertEquals(256, histo.getNumBins()[0]);
-    }
+    Histogram histo = (Histogram) processed.getProperty("histogram");
+    assertNotNull(histo);
 
-    @Test
-    public void testHistogramWithNumBins() throws Exception {
-        GridCoverage2D source = coverage;
-        CoverageProcessor processor = CoverageProcessor.getInstance();
+    assertEquals(256, histo.getNumBins()[0]);
+  }
 
-        ParameterValueGroup param = processor.getOperation("Histogram").getParameters();
-        param.parameter("Source").setValue(source);
-        param.parameter("numBins").setValue(new int[]{10});
-        
-        GridCoverage2D processed = (GridCoverage2D) processor.doOperation(param);
+  @Test
+  public void testHistogramWithNumBins() throws Exception {
+    GridCoverage2D source = coverage;
+    CoverageProcessor processor = CoverageProcessor.getInstance();
 
-        Histogram histo = (Histogram) processed.getProperty("histogram");
-        assertNotNull(histo);
+    ParameterValueGroup param = processor.getOperation("Histogram").getParameters();
+    param.parameter("Source").setValue(source);
+    param.parameter("numBins").setValue(new int[] {10});
 
-        assertEquals(10, histo.getNumBins()[0]);
-    }
+    GridCoverage2D processed = (GridCoverage2D) processor.doOperation(param);
 
-    @Test
-    public void testHistogramWithHighLow() throws Exception {
-        GridCoverage2D source = coverage;
-        CoverageProcessor processor = CoverageProcessor.getInstance();
+    Histogram histo = (Histogram) processed.getProperty("histogram");
+    assertNotNull(histo);
 
-        ParameterValueGroup param = processor.getOperation("Histogram").getParameters();
-        param.parameter("Source").setValue(source);
-        param.parameter("numBins").setValue(new int[]{10});
-        param.parameter("lowValue").setValue(new double[]{100});
-        param.parameter("highValue").setValue(new double[]{200});
-        GridCoverage2D processed = (GridCoverage2D) processor.doOperation(param);
+    assertEquals(10, histo.getNumBins()[0]);
+  }
 
-        Histogram histo = (Histogram) processed.getProperty("histogram");
-        assertNotNull(histo);
+  @Test
+  public void testHistogramWithHighLow() throws Exception {
+    GridCoverage2D source = coverage;
+    CoverageProcessor processor = CoverageProcessor.getInstance();
 
-        assertEquals(10, histo.getNumBins()[0]);
-        assertEquals(100d, histo.getBinLowValue(0, 0), 0d);
-        assertEquals(200d, histo.getBinLowValue(0, 10), 0d);
-    }
+    ParameterValueGroup param = processor.getOperation("Histogram").getParameters();
+    param.parameter("Source").setValue(source);
+    param.parameter("numBins").setValue(new int[] {10});
+    param.parameter("lowValue").setValue(new double[] {100});
+    param.parameter("highValue").setValue(new double[] {200});
+    GridCoverage2D processed = (GridCoverage2D) processor.doOperation(param);
+
+    Histogram histo = (Histogram) processed.getProperty("histogram");
+    assertNotNull(histo);
+
+    assertEquals(10, histo.getNumBins()[0]);
+    assertEquals(100d, histo.getBinLowValue(0, 0), 0d);
+    assertEquals(200d, histo.getBinLowValue(0, 10), 0d);
+  }
 }

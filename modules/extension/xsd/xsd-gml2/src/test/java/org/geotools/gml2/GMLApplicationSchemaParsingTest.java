@@ -16,161 +16,151 @@
  */
 package org.geotools.gml2;
 
+import com.vividsolutions.jts.geom.Point;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import junit.framework.TestCase;
-
 import org.geotools.xml.Parser;
 import org.geotools.xml.StreamingParser;
 import org.opengis.feature.simple.SimpleFeature;
 import org.w3c.dom.Document;
 
-import com.vividsolutions.jts.geom.Point;
-
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GMLApplicationSchemaParsingTest extends TestCase {
-    public void testStreamFeatureWithIncorrectSchemaLocation()
-        throws Exception {
-        InputStream in = getClass().getResourceAsStream("feature.xml");
+  public void testStreamFeatureWithIncorrectSchemaLocation() throws Exception {
+    InputStream in = getClass().getResourceAsStream("feature.xml");
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    factory.setNamespaceAware(true);
 
-        Document document = factory.newDocumentBuilder().parse(in);
+    Document document = factory.newDocumentBuilder().parse(in);
 
-        //update hte schema location
-        document.getDocumentElement().removeAttribute("xsi:schemaLocation");
+    // update hte schema location
+    document.getDocumentElement().removeAttribute("xsi:schemaLocation");
 
-        //reserialize the document
-        File schemaFile = File.createTempFile("test", "xsd");
-        schemaFile.deleteOnExit();
+    // reserialize the document
+    File schemaFile = File.createTempFile("test", "xsd");
+    schemaFile.deleteOnExit();
 
-        Transformer tx = TransformerFactory.newInstance().newTransformer();
-        tx.transform(new DOMSource(document), new StreamResult(schemaFile));
+    Transformer tx = TransformerFactory.newInstance().newTransformer();
+    tx.transform(new DOMSource(document), new StreamResult(schemaFile));
 
-        in.close();
-        in = new FileInputStream(schemaFile);
+    in.close();
+    in = new FileInputStream(schemaFile);
 
-        GMLConfiguration configuration = new GMLConfiguration();
-        configuration.getProperties().add(Parser.Properties.IGNORE_SCHEMA_LOCATION);
-        configuration.getProperties().add(Parser.Properties.PARSE_UNKNOWN_ELEMENTS);
+    GMLConfiguration configuration = new GMLConfiguration();
+    configuration.getProperties().add(Parser.Properties.IGNORE_SCHEMA_LOCATION);
+    configuration.getProperties().add(Parser.Properties.PARSE_UNKNOWN_ELEMENTS);
 
-        StreamingParser parser = new StreamingParser(configuration, in, "//TestFeature");
+    StreamingParser parser = new StreamingParser(configuration, in, "//TestFeature");
 
-        for (int i = 0; i < 3; i++) {
-            SimpleFeature f = (SimpleFeature) parser.parse();
+    for (int i = 0; i < 3; i++) {
+      SimpleFeature f = (SimpleFeature) parser.parse();
 
-            assertNotNull(f);
-        }
-
-        assertNull(parser.parse());
-
-        try {
-            in.close();
-        } catch (IOException e) {
-            // nothing to do, but this throws an exception under java 6
-        }
+      assertNotNull(f);
     }
 
-    public void testStreamPointWithIncorrectSchemaLocation()
-        throws Exception {
-        InputStream in = getClass().getResourceAsStream("feature.xml");
+    assertNull(parser.parse());
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
+    try {
+      in.close();
+    } catch (IOException e) {
+      // nothing to do, but this throws an exception under java 6
+    }
+  }
 
-        Document document = factory.newDocumentBuilder().parse(in);
+  public void testStreamPointWithIncorrectSchemaLocation() throws Exception {
+    InputStream in = getClass().getResourceAsStream("feature.xml");
 
-        //update hte schema location
-        document.getDocumentElement().removeAttribute("xsi:schemaLocation");
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    factory.setNamespaceAware(true);
 
-        //reserialize the document
-        File schemaFile = File.createTempFile("test", "xsd");
-        schemaFile.deleteOnExit();
+    Document document = factory.newDocumentBuilder().parse(in);
 
-        Transformer tx = TransformerFactory.newInstance().newTransformer();
-        tx.transform(new DOMSource(document), new StreamResult(schemaFile));
+    // update hte schema location
+    document.getDocumentElement().removeAttribute("xsi:schemaLocation");
 
-        in.close();
-        in = new FileInputStream(schemaFile);
+    // reserialize the document
+    File schemaFile = File.createTempFile("test", "xsd");
+    schemaFile.deleteOnExit();
 
-        GMLConfiguration configuration = new GMLConfiguration();
-        configuration.getProperties().add(Parser.Properties.IGNORE_SCHEMA_LOCATION);
-        configuration.getProperties().add(Parser.Properties.PARSE_UNKNOWN_ELEMENTS);
+    Transformer tx = TransformerFactory.newInstance().newTransformer();
+    tx.transform(new DOMSource(document), new StreamResult(schemaFile));
 
-        StreamingParser parser = new StreamingParser(configuration, in, "//Point");
+    in.close();
+    in = new FileInputStream(schemaFile);
 
-        for (int i = 0; i < 3; i++) {
-            Point p = (Point) parser.parse();
+    GMLConfiguration configuration = new GMLConfiguration();
+    configuration.getProperties().add(Parser.Properties.IGNORE_SCHEMA_LOCATION);
+    configuration.getProperties().add(Parser.Properties.PARSE_UNKNOWN_ELEMENTS);
 
-            assertNotNull(p);
-            assertEquals(i, p.getX(), 0d);
-            assertEquals(i, p.getY(), 0d);
-        }
+    StreamingParser parser = new StreamingParser(configuration, in, "//Point");
 
-        assertNull(parser.parse());
+    for (int i = 0; i < 3; i++) {
+      Point p = (Point) parser.parse();
 
-        try {
-            in.close();
-        } catch (IOException e) {
-            // nothing to do, but this throws an exception under java 6
-        }
+      assertNotNull(p);
+      assertEquals(i, p.getX(), 0d);
+      assertEquals(i, p.getY(), 0d);
     }
 
-    public void testWithCorrectSchemaLocation() throws Exception {
-        InputStream in = getClass().getResourceAsStream("feature.xml");
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
+    assertNull(parser.parse());
 
-        Document document = factory.newDocumentBuilder().parse(in);
-
-        //update hte schema location
-        String schemaLocation = getClass().getResource("test.xsd").toString();
-        document.getDocumentElement()
-                .setAttribute("xsi:schemaLocation", TEST.NAMESPACE + " " + schemaLocation);
-
-        //reserialize the document
-        File schemaFile = File.createTempFile("test", "xsd");
-        schemaFile.deleteOnExit();
-
-        Transformer tx = TransformerFactory.newInstance().newTransformer();
-        tx.transform(new DOMSource(document), new StreamResult(schemaFile));
-
-        in.close();
-        in = new FileInputStream(schemaFile);
-
-        StreamingParser parser = new StreamingParser(new GMLConfiguration(), in, "//TestFeature");
-
-        for (int i = 0; i < 3; i++) {
-            SimpleFeature f = (SimpleFeature) parser.parse();
-            assertNotNull(f);
-
-            assertEquals(i + "", f.getID());
-            assertEquals(i, ((Point) f.getDefaultGeometry()).getX(), 0d);
-            assertEquals(i, ((Point) f.getDefaultGeometry()).getY(), 0d);
-            assertEquals(i, ((Integer) f.getAttribute("count")).intValue());
-        }
-
-        assertNull(parser.parse());
-
-        try {
-            in.close();
-        } catch (IOException e) {
-            // nothing to do, but this throws an exception under java 6
-        }
+    try {
+      in.close();
+    } catch (IOException e) {
+      // nothing to do, but this throws an exception under java 6
     }
+  }
+
+  public void testWithCorrectSchemaLocation() throws Exception {
+    InputStream in = getClass().getResourceAsStream("feature.xml");
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    factory.setNamespaceAware(true);
+
+    Document document = factory.newDocumentBuilder().parse(in);
+
+    // update hte schema location
+    String schemaLocation = getClass().getResource("test.xsd").toString();
+    document
+        .getDocumentElement()
+        .setAttribute("xsi:schemaLocation", TEST.NAMESPACE + " " + schemaLocation);
+
+    // reserialize the document
+    File schemaFile = File.createTempFile("test", "xsd");
+    schemaFile.deleteOnExit();
+
+    Transformer tx = TransformerFactory.newInstance().newTransformer();
+    tx.transform(new DOMSource(document), new StreamResult(schemaFile));
+
+    in.close();
+    in = new FileInputStream(schemaFile);
+
+    StreamingParser parser = new StreamingParser(new GMLConfiguration(), in, "//TestFeature");
+
+    for (int i = 0; i < 3; i++) {
+      SimpleFeature f = (SimpleFeature) parser.parse();
+      assertNotNull(f);
+
+      assertEquals(i + "", f.getID());
+      assertEquals(i, ((Point) f.getDefaultGeometry()).getX(), 0d);
+      assertEquals(i, ((Point) f.getDefaultGeometry()).getY(), 0d);
+      assertEquals(i, ((Integer) f.getAttribute("count")).intValue());
+    }
+
+    assertNull(parser.parse());
+
+    try {
+      in.close();
+    } catch (IOException e) {
+      // nothing to do, but this throws an exception under java 6
+    }
+  }
 }

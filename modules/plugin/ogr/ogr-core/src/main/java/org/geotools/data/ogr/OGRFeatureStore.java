@@ -16,8 +16,8 @@
  */
 package org.geotools.data.ogr;
 
+import com.vividsolutions.jts.geom.GeometryFactory;
 import java.io.IOException;
-
 import org.geotools.data.FeatureReader;
 import org.geotools.data.FeatureWriter;
 import org.geotools.data.Query;
@@ -33,135 +33,132 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.Name;
 
-import com.vividsolutions.jts.geom.GeometryFactory;
-
 /**
  * FeatureStore for the OGR store, based on the {@link ContentFeatureStore} framework
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 @SuppressWarnings("rawtypes")
 class OGRFeatureStore extends ContentFeatureStore {
 
-    OGRFeatureSource delegate;
-    OGR ogr;
+  OGRFeatureSource delegate;
+  OGR ogr;
 
-    public OGRFeatureStore(ContentEntry entry, Query query, OGR ogr) {
-        super(entry, query);
-        delegate = new OGRFeatureSource(entry, query, ogr);
-        this.ogr = ogr;
+  public OGRFeatureStore(ContentEntry entry, Query query, OGR ogr) {
+    super(entry, query);
+    delegate = new OGRFeatureSource(entry, query, ogr);
+    this.ogr = ogr;
+  }
+
+  @Override
+  protected FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterInternal(
+      Query query, int flags) throws IOException {
+    Object dataSource = null;
+    Object layer = null;
+    boolean cleanup = true;
+    try {
+      // grab the layer
+      String typeName = getEntry().getTypeName();
+      dataSource = getDataStore().openOGRDataSource(true);
+      layer = getDataStore().openOGRLayer(dataSource, typeName);
+
+      FeatureReader<SimpleFeatureType, SimpleFeature> reader =
+          delegate.getReaderInternal(dataSource, layer, query);
+      GeometryFactory gf = delegate.getGeometryFactory(query);
+      OGRDirectFeatureWriter result =
+          new OGRDirectFeatureWriter(dataSource, layer, reader, getSchema(), gf, ogr);
+      cleanup = false;
+      return result;
+    } finally {
+      if (cleanup) {
+        ogr.LayerRelease(layer);
+        ogr.DataSourceRelease(dataSource);
+      }
     }
+  }
 
-    @Override
-    protected FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterInternal(Query query,
-            int flags) throws IOException {
-        Object dataSource = null;
-        Object layer = null;
-        boolean cleanup = true;
-        try {
-            // grab the layer
-            String typeName = getEntry().getTypeName();
-            dataSource = getDataStore().openOGRDataSource(true);
-            layer = getDataStore().openOGRLayer(dataSource, typeName);
+  // ----------------------------------------------------------------------------------------
+  // METHODS DELEGATED TO OGRFeatureSource
+  // ----------------------------------------------------------------------------------------
 
-            FeatureReader<SimpleFeatureType, SimpleFeature> reader = delegate.getReaderInternal(
-                    dataSource, layer, query);
-            GeometryFactory gf = delegate.getGeometryFactory(query);
-            OGRDirectFeatureWriter result = new OGRDirectFeatureWriter(dataSource, layer, reader,
-                    getSchema(), gf, ogr);
-            cleanup = false;
-            return result;
-        } finally {
-            if (cleanup) {
-                ogr.LayerRelease(layer);
-                ogr.DataSourceRelease(dataSource);
-            }
-        }
+  public OGRDataStore getDataStore() {
+    return delegate.getDataStore();
+  }
+
+  public Transaction getTransaction() {
+    return delegate.getTransaction();
+  }
+
+  public ResourceInfo getInfo() {
+    return delegate.getInfo();
+  }
+
+  public QueryCapabilities getQueryCapabilities() {
+    return delegate.getQueryCapabilities();
+  }
+
+  @Override
+  protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
+    return delegate.getBoundsInternal(query);
+  }
+
+  @Override
+  protected int getCountInternal(Query query) throws IOException {
+    return delegate.getCountInternal(query);
+  }
+
+  @Override
+  protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query)
+      throws IOException {
+    return delegate.getReaderInternal(query);
+  }
+
+  @Override
+  protected SimpleFeatureType buildFeatureType() throws IOException {
+    return delegate.buildFeatureType();
+  }
+
+  @Override
+  public ContentEntry getEntry() {
+    return delegate.getEntry();
+  }
+
+  @Override
+  public Name getName() {
+    return delegate.getName();
+  }
+
+  @Override
+  public ContentState getState() {
+    return delegate.getState();
+  }
+
+  @Override
+  public void setTransaction(Transaction transaction) {
+    super.setTransaction(transaction);
+
+    if (delegate.getTransaction() != transaction) {
+      delegate.setTransaction(transaction);
     }
+  }
 
-    // ----------------------------------------------------------------------------------------
-    // METHODS DELEGATED TO OGRFeatureSource
-    // ----------------------------------------------------------------------------------------
+  @Override
+  protected boolean canFilter() {
+    return delegate.canFilter();
+  }
 
-    public OGRDataStore getDataStore() {
-        return delegate.getDataStore();
-    }
+  @Override
+  protected boolean canSort() {
+    return delegate.canSort();
+  }
 
-    public Transaction getTransaction() {
-        return delegate.getTransaction();
-    }
+  @Override
+  protected boolean canRetype() {
+    return delegate.canRetype();
+  }
 
-    public ResourceInfo getInfo() {
-        return delegate.getInfo();
-    }
-
-    public QueryCapabilities getQueryCapabilities() {
-        return delegate.getQueryCapabilities();
-    }
-
-    @Override
-    protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
-        return delegate.getBoundsInternal(query);
-    }
-
-    @Override
-    protected int getCountInternal(Query query) throws IOException {
-        return delegate.getCountInternal(query);
-    }
-
-    @Override
-    protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query)
-            throws IOException {
-        return delegate.getReaderInternal(query);
-    }
-
-    @Override
-    protected SimpleFeatureType buildFeatureType() throws IOException {
-        return delegate.buildFeatureType();
-    }
-
-    @Override
-    public ContentEntry getEntry() {
-        return delegate.getEntry();
-    }
-
-    @Override
-    public Name getName() {
-        return delegate.getName();
-    }
-
-    @Override
-    public ContentState getState() {
-        return delegate.getState();
-    }
-
-    @Override
-    public void setTransaction(Transaction transaction) {
-        super.setTransaction(transaction);
-
-        if (delegate.getTransaction() != transaction) {
-            delegate.setTransaction(transaction);
-        }
-    }
-
-    @Override
-    protected boolean canFilter() {
-        return delegate.canFilter();
-    }
-
-    @Override
-    protected boolean canSort() {
-        return delegate.canSort();
-    }
-
-    @Override
-    protected boolean canRetype() {
-        return delegate.canRetype();
-    }
-
-    @Override
-    protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {
-        return delegate.handleVisitor(query, visitor);
-    }
-
+  @Override
+  protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {
+    return delegate.handleVisitor(query, visitor);
+  }
 }

@@ -1,22 +1,19 @@
 package org.geotools.wmts.bindings;
 
-import org.geotools.wmts.WMTS;
-import org.geotools.xml.*;
-import org.geotools.xml.AbstractSimpleBinding;
-
+import java.math.BigInteger;
+import javax.xml.namespace.QName;
 import net.opengis.wmts.v_1.LegendURLType;
 import net.opengis.wmts.v_1.wmtsv_1Factory;
-
-import java.math.BigInteger;
-
-import javax.xml.namespace.QName;
+import org.geotools.wmts.WMTS;
+import org.geotools.xml.*;
 
 /**
  * Binding object for the element http://www.opengis.net/wmts/1.0:LegendURL.
  *
  * <p>
- *    <pre>
- *	 <code>
+ *
+ * <pre>
+ *  <code>
  *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="LegendURL" xmlns="http://www.w3.org/2001/XMLSchema"&gt;
  *  		&lt;annotation&gt;
  *  			&lt;documentation&gt;
@@ -68,63 +65,59 @@ import javax.xml.namespace.QName;
  *  		&lt;/complexType&gt;
  *  	&lt;/element&gt;
  *
- *	  </code>
+ *   </code>
  *    </pre>
- * </p>
  *
  * @generated
  */
-public class LegendURLBinding extends AbstractComplexBinding
-{
-    wmtsv_1Factory factory;
+public class LegendURLBinding extends AbstractComplexBinding {
+  wmtsv_1Factory factory;
 
-    public LegendURLBinding(wmtsv_1Factory factory) {
-        super();
-        this.factory = factory;
+  public LegendURLBinding(wmtsv_1Factory factory) {
+    super();
+    this.factory = factory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return WMTS.LegendURL;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return LegendURLType.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+
+    LegendURLType legendURL = factory.createLegendURLType();
+
+    legendURL.setFormat((String) node.getChildValue("format"));
+    legendURL.setHeight((BigInteger) node.getChildValue("height"));
+    legendURL.setWidth((BigInteger) node.getChildValue("width"));
+    legendURL.setHref((String) node.getChildValue("Href"));
+    Object childValue = node.getChildValue("maxScaleDenominator");
+    if (childValue != null) {
+      legendURL.setMaxScaleDenominator(((Double) childValue).doubleValue());
+    }
+    childValue = node.getChildValue("minScaleDenominator");
+    if (childValue != null) {
+      legendURL.setMinScaleDenominator(((Double) childValue).doubleValue());
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WMTS.LegendURL;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return LegendURLType.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-            throws Exception {
-
-        LegendURLType legendURL = factory.createLegendURLType();
-
-        legendURL.setFormat((String) node.getChildValue("format"));
-        legendURL.setHeight((BigInteger) node.getChildValue("height"));
-        legendURL.setWidth((BigInteger) node.getChildValue("width"));
-        legendURL.setHref((String) node.getChildValue("Href"));
-        Object childValue = node.getChildValue("maxScaleDenominator");
-        if (childValue != null) {
-            legendURL.setMaxScaleDenominator(((Double) childValue).doubleValue());
-        }
-        childValue = node.getChildValue("minScaleDenominator");
-        if (childValue != null) {
-            legendURL.setMinScaleDenominator(((Double) childValue).doubleValue());
-        }
-
-        return legendURL;
-    }
-
+    return legendURL;
+  }
 }

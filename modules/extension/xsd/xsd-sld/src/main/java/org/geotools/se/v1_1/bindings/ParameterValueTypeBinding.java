@@ -16,18 +16,17 @@
  */
 package org.geotools.se.v1_1.bindings;
 
+import javax.xml.namespace.QName;
 import org.geotools.se.v1_1.SE;
 import org.geotools.sld.bindings.SLDParameterValueTypeBinding;
 import org.geotools.xml.*;
 import org.opengis.filter.FilterFactory;
 
-import javax.xml.namespace.QName;
-
 /**
  * Binding object for the type http://www.opengis.net/se:ParameterValueType.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *  <code>
  *  &lt;xsd:complexType mixed="true" name="ParameterValueType"&gt;
@@ -41,28 +40,22 @@ import javax.xml.namespace.QName;
  *      &lt;xsd:sequence maxOccurs="unbounded" minOccurs="0"&gt;
  *          &lt;xsd:element ref="ogc:expression"/&gt;
  *      &lt;/xsd:sequence&gt;
- *  &lt;/xsd:complexType&gt; 
- * 	
+ *  &lt;/xsd:complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class ParameterValueTypeBinding extends SLDParameterValueTypeBinding {
 
-    public ParameterValueTypeBinding(FilterFactory filterFactory) {
-        super(filterFactory);
-    }
+  public ParameterValueTypeBinding(FilterFactory filterFactory) {
+    super(filterFactory);
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SE.ParameterValueType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return SE.ParameterValueType;
+  }
 }

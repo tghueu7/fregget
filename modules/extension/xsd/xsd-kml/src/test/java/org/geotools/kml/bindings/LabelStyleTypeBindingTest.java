@@ -23,27 +23,22 @@ import org.geotools.styling.SLD;
 import org.geotools.styling.TextSymbolizer;
 import org.geotools.xml.Binding;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class LabelStyleTypeBindingTest extends KMLTestSupport {
-    public void testType() {
-        assertEquals(TextSymbolizer.class, binding(KML.LabelStyleType).getType());
-    }
+  public void testType() {
+    assertEquals(TextSymbolizer.class, binding(KML.LabelStyleType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.AFTER, binding(KML.LabelStyleType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.AFTER, binding(KML.LabelStyleType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        String xml = "<LabelStyle>" + "<color>ffff0000</color>" + "</LabelStyle>";
+  public void testParse() throws Exception {
+    String xml = "<LabelStyle>" + "<color>ffff0000</color>" + "</LabelStyle>";
 
-        buildDocument(xml);
+    buildDocument(xml);
 
-        TextSymbolizer text = (TextSymbolizer) parse();
-        assertEquals(Color.RED, SLD.color(text.getFill()));
-    }
+    TextSymbolizer text = (TextSymbolizer) parse();
+    assertEquals(Color.RED, SLD.color(text.getFill()));
+  }
 }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2015, Boundless
  *
@@ -16,6 +16,9 @@
  *    Lesser General Public License for more details.
  */
 package org.geotools.data.mongodb.integration;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
@@ -34,23 +37,16 @@ import org.geotools.data.mongodb.MongoGeometryBuilder;
 import org.geotools.data.shapefile.ShapefileDataStore;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureIterator;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.opengis.feature.Feature;
 import org.opengis.feature.GeometryAttribute;
 import org.opengis.feature.Property;
 
-
-/**
- *
- * @author tkunicki@boundlessgeo.com
- */
-
+/** @author tkunicki@boundlessgeo.com */
 public class MongoTestUtil {
 
   static final int PORT;
-  
+
   static {
     String portAsString = System.getProperty("embedmongo.port");
     int port = 27017;
@@ -64,18 +60,18 @@ public class MongoTestUtil {
     PORT = port;
     System.out.println("EmbedMongo Port is " + PORT);
   }
-  
-  
+
   public void testConnect() throws UnknownHostException {
     MongoClient mc = new MongoClient("localhost", PORT);
     try {
       assertThat(mc, is(notNullValue()));
       DB db = mc.getDB("db");
       DBCollection coll = db.getCollection("dbc");
-      BasicDBObject bdo = new BasicDBObject("name", "MongoDB").
-                              append("type", "database").
-                              append("count", 1).
-                              append("info", new BasicDBObject("x", 203).append("y", 102));
+      BasicDBObject bdo =
+          new BasicDBObject("name", "MongoDB")
+              .append("type", "database")
+              .append("count", 1)
+              .append("info", new BasicDBObject("x", 203).append("y", 102));
 
       coll.insert(bdo);
       System.out.println(coll.findOne());
@@ -83,7 +79,7 @@ public class MongoTestUtil {
       mc.close();
     }
   }
-  
+
   @Test
   public void testLoad() throws IOException {
     MongoClient mc = new MongoClient("localhost", PORT);
@@ -95,21 +91,21 @@ public class MongoTestUtil {
       mc.close();
     }
   }
-  
-  public void loadFeatures(DBCollection coll, FeatureCollection<?,?> collection) {
+
+  public void loadFeatures(DBCollection coll, FeatureCollection<?, ?> collection) {
     MongoGeometryBuilder gBuilder = new MongoGeometryBuilder();
-    
+
     FeatureIterator<?> iterator = collection.features();
     while (iterator.hasNext()) {
       Feature f = iterator.next();
       Set<Property> pSet = new LinkedHashSet<Property>(f.getProperties());
       BasicDBObjectBuilder bdoBuilder = BasicDBObjectBuilder.start();
-      
+
       GeometryAttribute gAttr = f.getDefaultGeometryProperty();
       bdoBuilder.add("type", "feature");
-      bdoBuilder.add("geometry", gBuilder.toObject((Geometry)gAttr.getValue()));
+      bdoBuilder.add("geometry", gBuilder.toObject((Geometry) gAttr.getValue()));
       boolean removed = pSet.remove(gAttr);
-      
+
       bdoBuilder.push("properties");
       for (Property p : pSet) {
         if (p instanceof GeometryAttribute) {
@@ -123,27 +119,23 @@ public class MongoTestUtil {
       coll.createIndex(new BasicDBObject("geometry", "2dsphere"));
     }
   }
-  
-  
-  
+
   private ShapefileDataStore loadShapefile(String path) throws FileNotFoundException {
     URL url = TestData.url(path);
     assertThat(url, is(notNullValue()));
-    ShapefileDataStore store =  new ShapefileDataStore(url);
+    ShapefileDataStore store = new ShapefileDataStore(url);
     assertThat(store, is(notNullValue()));
     return store;
   }
-  
 
-  
-  private DBCollection grabDBCollection(MongoClient client, String dbName, String dbcName, boolean init) throws UnknownHostException {
-      DB db = client.getDB(dbName);
-      DBCollection dbc = db.getCollection(dbcName);
-      if (init) {
-        dbc.dropIndexes();
-        dbc.drop();
-      }
-      return dbc;
-   }
-
+  private DBCollection grabDBCollection(
+      MongoClient client, String dbName, String dbcName, boolean init) throws UnknownHostException {
+    DB db = client.getDB(dbName);
+    DBCollection dbc = db.getCollection(dbcName);
+    if (init) {
+      dbc.dropIndexes();
+      dbc.drop();
+    }
+    return dbc;
+  }
 }

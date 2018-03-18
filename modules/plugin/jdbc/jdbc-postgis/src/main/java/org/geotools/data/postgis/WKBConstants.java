@@ -1,9 +1,9 @@
 /*
  *  GeoTools - The Open Source Java GIS Toolkit
  *  http://geotools.org
- * 
+ *
  *  (C) 2015, Open Source Geospatial Foundation (OSGeo)
- * 
+ *
  * The JTS Topology Suite is a collection of Java classes that
  * implement the fundamental operations required to validate a given
  * geo-spatial data set to a known topological specification.
@@ -37,35 +37,33 @@
  */
 package org.geotools.data.postgis;
 
-/**
- * Constant values used by the WKB format
- */
+/** Constant values used by the WKB format */
 interface WKBConstants {
-    int wkbXDR = 0;
+  int wkbXDR = 0;
 
-    int wkbNDR = 1;
+  int wkbNDR = 1;
 
-    int wkbPoint = 1;
+  int wkbPoint = 1;
 
-    int wkbLineString = 2;
+  int wkbLineString = 2;
 
-    int wkbPolygon = 3;
+  int wkbPolygon = 3;
 
-    int wkbMultiPoint = 4;
+  int wkbMultiPoint = 4;
 
-    int wkbMultiLineString = 5;
+  int wkbMultiLineString = 5;
 
-    int wkbMultiPolygon = 6;
+  int wkbMultiPolygon = 6;
 
-    int wkbGeometryCollection = 7;
+  int wkbGeometryCollection = 7;
 
-    int wkbCircularString = 8;
+  int wkbCircularString = 8;
 
-    int wkbCompoundCurve = 9;
+  int wkbCompoundCurve = 9;
 
-    int wkbCurvePolygon = 10;
+  int wkbCurvePolygon = 10;
 
-    int wkbMultiCurve = 11;
+  int wkbMultiCurve = 11;
 
-    int wkbMultiSurface = 12;
+  int wkbMultiSurface = 12;
 }

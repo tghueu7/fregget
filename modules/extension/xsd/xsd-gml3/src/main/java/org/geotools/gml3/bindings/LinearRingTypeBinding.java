@@ -16,24 +16,22 @@
  */
 package org.geotools.gml3.bindings;
 
+import com.vividsolutions.jts.geom.CoordinateSequenceFactory;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.LinearRing;
 import javax.xml.namespace.QName;
-
 import org.geotools.gml3.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.CoordinateSequenceFactory;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.LinearRing;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:LinearRingType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="LinearRingType"&gt;
  *      &lt;annotation&gt;
@@ -76,61 +74,55 @@ import com.vividsolutions.jts.geom.LinearRing;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class LinearRingTypeBinding extends AbstractComplexBinding {
-    GeometryFactory gFactory;
-    CoordinateSequenceFactory csFactory;
+  GeometryFactory gFactory;
+  CoordinateSequenceFactory csFactory;
 
-    public LinearRingTypeBinding(GeometryFactory gFactory, CoordinateSequenceFactory csFactory) {
-        this.gFactory = gFactory;
-        this.csFactory = csFactory;
+  public LinearRingTypeBinding(GeometryFactory gFactory, CoordinateSequenceFactory csFactory) {
+    this.gFactory = gFactory;
+    this.csFactory = csFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.LinearRingType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return LinearRing.class;
+  }
+
+  public int getExecutionMode() {
+    return BEFORE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return GML3ParsingUtils.linearRing(node, gFactory, csFactory);
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    if ("posList".equals(name.getLocalPart())) {
+      return GML3EncodingUtils.positions((LineString) object);
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.LinearRingType;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return LinearRing.class;
-    }
-
-    public int getExecutionMode() {
-        return BEFORE;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return GML3ParsingUtils.linearRing(node, gFactory, csFactory);
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        if ("posList".equals(name.getLocalPart())) {
-            return GML3EncodingUtils.positions((LineString) object);
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

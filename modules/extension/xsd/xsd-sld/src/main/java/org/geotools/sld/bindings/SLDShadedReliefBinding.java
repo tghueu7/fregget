@@ -17,7 +17,6 @@
 package org.geotools.sld.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.styling.ShadedRelief;
 import org.geotools.styling.StyleFactory;
 import org.geotools.xml.AbstractComplexBinding;
@@ -27,12 +26,12 @@ import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Expression;
 import org.picocontainer.MutablePicoContainer;
 
-
 /**
  * Binding object for the element http://www.opengis.net/sld:ShadedRelief.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="ShadedRelief"&gt;
  *      &lt;xsd:annotation&gt;
@@ -52,81 +51,77 @@ import org.picocontainer.MutablePicoContainer;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDShadedReliefBinding extends AbstractComplexBinding {
-    StyleFactory styleFactory;
-    FilterFactory filterFactory;
+  StyleFactory styleFactory;
+  FilterFactory filterFactory;
 
-    public SLDShadedReliefBinding(StyleFactory styleFactory, FilterFactory filterFactory) {
-        this.styleFactory = styleFactory;
-        this.filterFactory = filterFactory;
+  public SLDShadedReliefBinding(StyleFactory styleFactory, FilterFactory filterFactory) {
+    this.styleFactory = styleFactory;
+    this.filterFactory = filterFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return SLD.SHADEDRELIEF;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return ShadedRelief.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Expression reliefFactor = null;
+
+    if (node.hasChild("ReliefFactor")) {
+      Double d = (Double) node.getChildValue("ReliefFactor");
+      reliefFactor = (Expression) filterFactory.literal(d.doubleValue());
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.SHADEDRELIEF;
+    ShadedRelief shadedRelief = styleFactory.createShadedRelief(reliefFactor);
+
+    if (node.hasChild("BrightnessOnly")) {
+      Boolean b = (Boolean) node.getChildValue("BrightnessOnly");
+      shadedRelief.setBrightnessOnly(b.booleanValue());
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return ShadedRelief.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Expression reliefFactor = null;
-
-        if (node.hasChild("ReliefFactor")) {
-            Double d = (Double) node.getChildValue("ReliefFactor");
-            reliefFactor = (Expression) filterFactory.literal(d.doubleValue());
-        }
-
-        ShadedRelief shadedRelief = styleFactory.createShadedRelief(reliefFactor);
-
-        if (node.hasChild("BrightnessOnly")) {
-            Boolean b = (Boolean) node.getChildValue("BrightnessOnly");
-            shadedRelief.setBrightnessOnly(b.booleanValue());
-        }
-
-        return shadedRelief;
-    }
+    return shadedRelief;
+  }
 }

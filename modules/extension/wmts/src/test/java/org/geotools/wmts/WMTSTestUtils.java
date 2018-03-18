@@ -16,33 +16,30 @@
  */
 package org.geotools.wmts;
 
-import java.io.File;
-import java.io.FileReader;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
+
+import java.io.File;
+import java.io.FileReader;
 import net.opengis.wmts.v_1.CapabilitiesType;
 import org.geotools.data.wmts.model.WMTSCapabilities;
 import org.geotools.test.TestData;
 import org.geotools.xml.Parser;
 
-/**
- *
- * @author Emanuele Tajariol (etj AT geo-solutions DOT it)
- */
+/** @author Emanuele Tajariol (etj AT geo-solutions DOT it) */
 public class WMTSTestUtils {
 
-    public static WMTSCapabilities createCapabilities(String capFile) throws Exception {
-        File getCaps = TestData.file(null, capFile);
-        assertNotNull(getCaps);
+  public static WMTSCapabilities createCapabilities(String capFile) throws Exception {
+    File getCaps = TestData.file(null, capFile);
+    assertNotNull(getCaps);
 
-        Parser parser = new Parser(new WMTSConfiguration());
+    Parser parser = new Parser(new WMTSConfiguration());
 
-        Object object = parser.parse(new FileReader(getCaps));
-        assertTrue("Capabilities failed to parse " + object.getClass(),
-                object instanceof CapabilitiesType);
+    Object object = parser.parse(new FileReader(getCaps));
+    assertTrue(
+        "Capabilities failed to parse " + object.getClass(), object instanceof CapabilitiesType);
 
-        WMTSCapabilities capabilities = new WMTSCapabilities((CapabilitiesType) object);
-        return capabilities;
-    }
-
+    WMTSCapabilities capabilities = new WMTSCapabilities((CapabilitiesType) object);
+    return capabilities;
+  }
 }

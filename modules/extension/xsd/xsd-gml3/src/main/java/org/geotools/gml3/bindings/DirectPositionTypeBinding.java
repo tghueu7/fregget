@@ -16,8 +16,9 @@
  */
 package org.geotools.gml3.bindings;
 
+import com.vividsolutions.jts.geom.CoordinateSequence;
+import com.vividsolutions.jts.geom.GeometryFactory;
 import javax.xml.namespace.QName;
-
 import org.geotools.geometry.DirectPosition1D;
 import org.geotools.geometry.DirectPosition2D;
 import org.geotools.geometry.DirectPosition3D;
@@ -31,15 +32,12 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.vividsolutions.jts.geom.CoordinateSequence;
-import com.vividsolutions.jts.geom.GeometryFactory;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:DirectPositionType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="DirectPositionType"&gt;
  *      &lt;annotation&gt;
@@ -57,110 +55,104 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class DirectPositionTypeBinding extends AbstractComplexBinding {
-    GeometryFactory factory;
+  GeometryFactory factory;
 
-    CoordinateFormatter formatter;
+  CoordinateFormatter formatter;
 
-    public DirectPositionTypeBinding(GeometryFactory factory) {
-        this.factory = factory;
+  public DirectPositionTypeBinding(GeometryFactory factory) {
+    this.factory = factory;
+  }
+
+  public DirectPositionTypeBinding(GeometryFactory factory, CoordinateFormatter formatter) {
+    this.factory = factory;
+    this.formatter = formatter;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.DirectPositionType;
+  }
+
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return CoordinateSequence.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    CoordinateReferenceSystem crs = GML3ParsingUtils.crs(node);
+
+    // double[] position = (double[]) value;
+    Double[] position = (Double[]) value;
+    DirectPosition dp = null;
+
+    if (position.length < 2) {
+      dp = (crs != null) ? new DirectPosition1D(crs) : new DirectPosition1D();
+      dp.setOrdinate(0, position[0].doubleValue());
+    } else if (position.length < 3) {
+      dp = (crs != null) ? new DirectPosition2D(crs) : new DirectPosition2D();
+      dp.setOrdinate(0, position[0].doubleValue());
+      dp.setOrdinate(1, position[1].doubleValue());
+    } else {
+      dp = (crs != null) ? new DirectPosition3D(crs) : new DirectPosition3D();
+      dp.setOrdinate(0, position[0].doubleValue());
+      dp.setOrdinate(1, position[1].doubleValue());
+      dp.setOrdinate(2, position[2].doubleValue());
     }
 
-    public DirectPositionTypeBinding(GeometryFactory factory, CoordinateFormatter formatter) {
-        this.factory = factory;
-        this.formatter = formatter;
-    }
+    return dp;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.DirectPositionType;
-    }
+  public Element encode(Object object, Document document, Element value) throws Exception {
+    CoordinateSequence cs = (CoordinateSequence) object;
 
-    public int getExecutionMode() {
-        return AFTER;
-    }
+    StringBuffer sb = new StringBuffer();
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return CoordinateSequence.class;
-    }
+    // assume either zero or one coordinate
+    if (cs.size() >= 1) {
+      int dim = cs.getDimension();
+      for (int d = 0; d < dim; d++) {
+        double v = cs.getOrdinate(0, d);
+        if (Double.isNaN(v) && d > 1) {
+          continue;
+        }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        CoordinateReferenceSystem crs = GML3ParsingUtils.crs(node);
-
-        //double[] position = (double[]) value;
-        Double[] position = (Double[]) value;
-        DirectPosition dp = null;
-
-        if (position.length < 2) {
-            dp = (crs != null) ? new DirectPosition1D(crs) : new DirectPosition1D();
-            dp.setOrdinate(0, position[0].doubleValue());
-        } else if (position.length < 3 ){
-            dp = (crs != null) ? new DirectPosition2D(crs) : new DirectPosition2D();
-            dp.setOrdinate(0, position[0].doubleValue());
-            dp.setOrdinate(1, position[1].doubleValue());
+        // separator char is a blank
+        if (formatter != null) {
+          formatter.format(v, sb);
         } else {
-        	dp = (crs != null) ? new DirectPosition3D(crs) : new DirectPosition3D();
-            dp.setOrdinate(0, position[0].doubleValue());
-            dp.setOrdinate(1, position[1].doubleValue());
-            dp.setOrdinate(2, position[2].doubleValue());
+          sb.append(String.valueOf(v));
         }
-
-        return dp;
+        sb.append(" ");
+      }
+      if (dim > 0) {
+        sb.setLength(sb.length() - 1);
+      }
     }
 
-    public Element encode(Object object, Document document, Element value)
-        throws Exception {
-        CoordinateSequence cs = (CoordinateSequence) object;
+    value.appendChild(document.createTextNode(sb.toString()));
 
-        StringBuffer sb = new StringBuffer();
-
-        // assume either zero or one coordinate
-        if (cs.size() >= 1) {
-            int dim = cs.getDimension();
-            for (int d = 0; d < dim; d++) {
-                double v = cs.getOrdinate(0, d);
-                if (Double.isNaN(v) && d > 1) {
-                    continue;
-                }
-
-                // separator char is a blank
-                if (formatter != null) {
-                    formatter.format(v, sb);
-                } else {
-                    sb.append(String.valueOf(v));
-                }
-                sb.append(" ");
-            }
-            if (dim > 0) {
-                sb.setLength(sb.length()-1);
-            }
-        }
-
-        value.appendChild(document.createTextNode(sb.toString()));
-
-        return value;
-    }
+    return value;
+  }
 }

@@ -17,31 +17,27 @@
 
 package org.geotools.swing.tool;
 
+import static org.junit.Assert.*;
+
 import java.awt.Dimension;
 import java.awt.Rectangle;
-
 import javax.swing.JFrame;
-
+import org.fest.swing.edt.GuiActionRunner;
+import org.fest.swing.edt.GuiQuery;
+import org.fest.swing.fixture.FrameFixture;
+import org.fest.swing.fixture.JPanelFixture;
 import org.geotools.map.Layer;
 import org.geotools.swing.JMapPane;
 import org.geotools.swing.event.MapPaneEvent;
 import org.geotools.swing.testutils.GraphicsTestBase;
 import org.geotools.swing.testutils.MockMapContent;
 import org.geotools.swing.testutils.WaitingMapPaneListener;
-
-import org.fest.swing.edt.GuiActionRunner;
-import org.fest.swing.edt.GuiQuery;
-import org.fest.swing.fixture.FrameFixture;
-import org.fest.swing.fixture.JPanelFixture;
-
 import org.junit.Before;
-import static org.junit.Assert.*;
 
 /**
- * Base class for tests of map pane cursor tools. Sets up the map pane and test data.
- * Extends {@linkplain GraphicsTestBase} to install the FEST error-detecting repaint
- * manager.
- * 
+ * Base class for tests of map pane cursor tools. Sets up the map pane and test data. Extends
+ * {@linkplain GraphicsTestBase} to install the FEST error-detecting repaint manager.
+ *
  * @author Michael Bedward
  * @since 8.0
  * @source $URL$
@@ -49,46 +45,49 @@ import static org.junit.Assert.*;
  */
 public abstract class CursorToolTestBase extends GraphicsTestBase {
 
-    // Allow a long time for initial rendering of the test data
-    protected static final long RENDERING_TIMEOUT = 5000;
-    
-    // Allow shorter time for event handling
-    protected static final long EVENT_TIMEOUT = 1000;
-    
-    protected static final Rectangle SCREEN = new Rectangle(300, 300);
-    
-    protected static final double TOL = 1.0e-8;
+  // Allow a long time for initial rendering of the test data
+  protected static final long RENDERING_TIMEOUT = 5000;
 
-    protected MockMapContent mapContent;
-    protected JMapPane mapPane;
-    protected JPanelFixture mapPaneFixture;
-    protected WaitingMapPaneListener listener;
+  // Allow shorter time for event handling
+  protected static final long EVENT_TIMEOUT = 1000;
 
+  protected static final Rectangle SCREEN = new Rectangle(300, 300);
 
-    @Before
-    public void setupPaneAndTool() throws Exception {
-        mapContent = new MockMapContent();
-        mapContent.addLayer(getTestLayer());
-        JFrame frame = GuiActionRunner.execute(new GuiQuery<JFrame>() {
+  protected static final double TOL = 1.0e-8;
 
-            @Override
-            protected JFrame executeInEDT() throws Throwable {
+  protected MockMapContent mapContent;
+  protected JMapPane mapPane;
+  protected JPanelFixture mapPaneFixture;
+  protected WaitingMapPaneListener listener;
+
+  @Before
+  public void setupPaneAndTool() throws Exception {
+    mapContent = new MockMapContent();
+    mapContent.addLayer(getTestLayer());
+    JFrame frame =
+        GuiActionRunner.execute(
+            new GuiQuery<JFrame>() {
+
+              @Override
+              protected JFrame executeInEDT() throws Throwable {
                 JFrame frame = new JFrame("Cursor tool test");
                 mapPane = new JMapPane(mapContent);
-                mapPane.setPreferredSize(new Dimension(ZoomInToolTest.SCREEN.width, ZoomInToolTest.SCREEN.height));
+                mapPane.setPreferredSize(
+                    new Dimension(ZoomInToolTest.SCREEN.width, ZoomInToolTest.SCREEN.height));
                 frame.add(mapPane);
                 return frame;
-            }
-        });
-        
-        listener = new WaitingMapPaneListener();
-        mapPane.addMapPaneListener(listener);
-        windowFixture = new FrameFixture(frame);
-        mapPaneFixture = new JPanelFixture(windowFixture.robot, mapPane);
-        listener.setExpected(MapPaneEvent.Type.RENDERING_STOPPED);
-        ((FrameFixture) windowFixture).show();
-        assertTrue(listener.await(MapPaneEvent.Type.RENDERING_STOPPED, ZoomInToolTest.RENDERING_TIMEOUT));
-    }
-    
-    protected abstract Layer getTestLayer() throws Exception;
+              }
+            });
+
+    listener = new WaitingMapPaneListener();
+    mapPane.addMapPaneListener(listener);
+    windowFixture = new FrameFixture(frame);
+    mapPaneFixture = new JPanelFixture(windowFixture.robot, mapPane);
+    listener.setExpected(MapPaneEvent.Type.RENDERING_STOPPED);
+    ((FrameFixture) windowFixture).show();
+    assertTrue(
+        listener.await(MapPaneEvent.Type.RENDERING_STOPPED, ZoomInToolTest.RENDERING_TIMEOUT));
+  }
+
+  protected abstract Layer getTestLayer() throws Exception;
 }

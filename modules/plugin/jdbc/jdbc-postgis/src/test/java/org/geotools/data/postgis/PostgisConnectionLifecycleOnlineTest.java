@@ -19,10 +19,9 @@ package org.geotools.data.postgis;
 import org.geotools.jdbc.JDBCConnectionLifecycleOnlineTest;
 import org.geotools.jdbc.JDBCTestSetup;
 
-
 public class PostgisConnectionLifecycleOnlineTest extends JDBCConnectionLifecycleOnlineTest {
-    
-    protected JDBCTestSetup createTestSetup() {
-        return new PostGISTestSetup();
-    }
+
+  protected JDBCTestSetup createTestSetup() {
+    return new PostGISTestSetup();
+  }
 }

@@ -22,12 +22,12 @@ import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xs.XS;
 
-
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:nonPositiveInteger.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="nonPositiveInteger" id="nonPositiveInteger"&gt;
  *      &lt;xs:annotation&gt;
@@ -40,89 +40,86 @@ import org.geotools.xs.XS;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSNonPositiveIntegerBinding implements SimpleBinding {
-    final BigInteger MIN_LONG = BigInteger.valueOf(Long.MIN_VALUE);
-    final BigInteger MIN_INTEGER = BigInteger.valueOf(Integer.MIN_VALUE);
+  final BigInteger MIN_LONG = BigInteger.valueOf(Long.MIN_VALUE);
+  final BigInteger MIN_INTEGER = BigInteger.valueOf(Integer.MIN_VALUE);
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return XS.NONPOSITIVEINTEGER;
+  /** @generated */
+  public QName getTarget() {
+    return XS.NONPOSITIVEINTEGER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link BigInteger}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return BigInteger.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   *
+   * @param instance
+   * @param value a BigInteger (after processing by parent)
+   * @return a Number that is not positive
+   *     <!-- end-user-doc -->
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    BigInteger number = (BigInteger) value;
+
+    if (BigInteger.ZERO.compareTo(number) < 0) {
+      throw new IllegalArgumentException(
+          "Value '" + number + "' must be non-positive (0 or below).");
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
+    if (MIN_INTEGER.compareTo(number) <= 0) {
+      return new Integer(number.intValue());
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link BigInteger}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return BigInteger.class;
+    if (MIN_LONG.compareTo(number) <= 0) {
+      return new Long(number.longValue());
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * @param instance
-     * @param value    a BigInteger (after processing by parent)
-     * @return a Number that is not positive
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        BigInteger number = (BigInteger) value;
+    return number;
+  }
 
-        if (BigInteger.ZERO.compareTo(number) < 0) {
-            throw new IllegalArgumentException("Value '" + number
-                + "' must be non-positive (0 or below).");
-        }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public String encode(Object object, String value) throws Exception {
+    Number number = (Number) object;
 
-        if (MIN_INTEGER.compareTo(number) <= 0) {
-            return new Integer(number.intValue());
-        }
-
-        if (MIN_LONG.compareTo(number) <= 0) {
-            return new Long(number.longValue());
-        }
-
-        return number;
+    if (number.longValue() > 0) {
+      throw new IllegalArgumentException(
+          "Value '" + number + "' must be non-positive (0 or below).");
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public String encode(Object object, String value) throws Exception {
-        Number number = (Number) object;
-
-        if (number.longValue() > 0) {
-            throw new IllegalArgumentException("Value '" + number
-                + "' must be non-positive (0 or below).");
-        }
-
-        return value;
-    }
+    return value;
+  }
 }

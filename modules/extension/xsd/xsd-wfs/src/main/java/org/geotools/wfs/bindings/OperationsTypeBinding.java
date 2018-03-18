@@ -17,21 +17,19 @@
 package org.geotools.wfs.bindings;
 
 import javax.xml.namespace.QName;
-
 import net.opengis.wfs.OperationsType;
 import net.opengis.wfs.WfsFactory;
-
 import org.geotools.wfs.WFS;
 import org.geotools.xml.AbstractComplexEMFBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-
 /**
  * Binding object for the type http://www.opengis.net/wfs:OperationsType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="OperationsType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -41,45 +39,40 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OperationsTypeBinding extends AbstractComplexEMFBinding {
-    public OperationsTypeBinding(WfsFactory factory) {
-        super(factory);
-    }
+  public OperationsTypeBinding(WfsFactory factory) {
+    super(factory);
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WFS.OperationsType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return WFS.OperationsType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return OperationsType.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return OperationsType.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //TODO: implement and remove call to super
-        return super.parse(instance, node, value);
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // TODO: implement and remove call to super
+    return super.parse(instance, node, value);
+  }
 }

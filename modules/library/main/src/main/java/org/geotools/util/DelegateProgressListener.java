@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,70 +24,69 @@ import org.opengis.util.InternationalString;
  * @source $URL$
  */
 public class DelegateProgressListener implements org.opengis.util.ProgressListener {
-    protected org.opengis.util.ProgressListener delegate;
-    private InternationalString task;
-    private boolean isCanceled;
+  protected org.opengis.util.ProgressListener delegate;
+  private InternationalString task;
+  private boolean isCanceled;
 
-    public DelegateProgressListener( org.opengis.util.ProgressListener progress ){
-        if( progress == null ) progress = new NullProgressListener();
-        this.delegate = progress;
-    }
+  public DelegateProgressListener(org.opengis.util.ProgressListener progress) {
+    if (progress == null) progress = new NullProgressListener();
+    this.delegate = progress;
+  }
 
-    public void started() {
-        delegate.started();        
-    }
-    public void complete() {
-        delegate.complete();
-    }
+  public void started() {
+    delegate.started();
+  }
 
-    public void dispose() {
-        delegate.dispose();
-        delegate = null;       
-    }
+  public void complete() {
+    delegate.complete();
+  }
 
-    public void exceptionOccurred( Throwable exception ) {
-        delegate.exceptionOccurred( exception );
-    }
+  public void dispose() {
+    delegate.dispose();
+    delegate = null;
+  }
 
-    public String getDescription() {
-        return delegate.getDescription();
-    }
+  public void exceptionOccurred(Throwable exception) {
+    delegate.exceptionOccurred(exception);
+  }
 
-    public InternationalString getTask() {
-        return delegate.getTask();
-    }
+  public String getDescription() {
+    return delegate.getDescription();
+  }
 
-    public boolean isCanceled() {
-        return delegate.isCanceled();
-    }
+  public InternationalString getTask() {
+    return delegate.getTask();
+  }
 
-    public void progress( float progress) {
-        delegate.progress( progress );
-    }
-    
-    public float getProgress() {
-        return delegate.getProgress();
-    }
-    
-    public void setCanceled( boolean cancel) {
-        delegate.setCanceled( cancel );
-        
-    }
+  public boolean isCanceled() {
+    return delegate.isCanceled();
+  }
 
-    public void setDescription( String description ) {
-        delegate.setDescription( description );
-    }
+  public void progress(float progress) {
+    delegate.progress(progress);
+  }
 
-    public void setTask( InternationalString task ) {
-        delegate.setTask( task );
-    }
+  public float getProgress() {
+    return delegate.getProgress();
+  }
 
-    public void warningOccurred( String source, String location, String warning ){
-        delegate.warningOccurred( source, location, warning );
-    }
+  public void setCanceled(boolean cancel) {
+    delegate.setCanceled(cancel);
+  }
 
-    public org.opengis.util.ProgressListener getDelegate() {
-        return delegate;
-    }
-    
+  public void setDescription(String description) {
+    delegate.setDescription(description);
+  }
+
+  public void setTask(InternationalString task) {
+    delegate.setTask(task);
+  }
+
+  public void warningOccurred(String source, String location, String warning) {
+    delegate.warningOccurred(source, location, warning);
+  }
+
+  public org.opengis.util.ProgressListener getDelegate() {
+    return delegate;
+  }
 }

@@ -16,8 +16,9 @@
  */
 package org.geotools.data.postgis;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
 import java.io.StringWriter;
-
 import org.geotools.data.jdbc.FilterToSQLException;
 import org.geotools.data.jdbc.SQLFilterTestSupport;
 import org.geotools.factory.CommonFactoryFinder;
@@ -37,101 +38,117 @@ import org.opengis.geometry.MismatchedDimensionException;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-
 public class PostgisFilterToSQLTest extends SQLFilterTestSupport {
 
-    public PostgisFilterToSQLTest(String name) {
-        super(name);
-    }
+  public PostgisFilterToSQLTest(String name) {
+    super(name);
+  }
 
-    private static FilterFactory2 ff;
+  private static FilterFactory2 ff;
 
-    private static GeometryFactory gf = new GeometryFactory();
+  private static GeometryFactory gf = new GeometryFactory();
 
-    private PostGISDialect dialect;
+  private PostGISDialect dialect;
 
-    PostgisFilterToSQL filterToSql;
+  PostgisFilterToSQL filterToSql;
 
-    StringWriter writer;
+  StringWriter writer;
 
-    @Before
-    public void setUp() throws IllegalAttributeException, SchemaException {
-        ff = CommonFactoryFinder.getFilterFactory2();
-        dialect = new PostGISDialect(null);
-        filterToSql = new PostgisFilterToSQL(dialect);
-        writer = new StringWriter();
-        filterToSql.setWriter(writer);
+  @Before
+  public void setUp() throws IllegalAttributeException, SchemaException {
+    ff = CommonFactoryFinder.getFilterFactory2();
+    dialect = new PostGISDialect(null);
+    filterToSql = new PostgisFilterToSQL(dialect);
+    writer = new StringWriter();
+    filterToSql.setWriter(writer);
 
-        prepareFeatures();
-    }
+    prepareFeatures();
+  }
 
-    /**
-     * Test for GEOS-5167.
-     * Checks that geometries are wrapped with ST_Envelope when used
-     * with overlapping operator, when the encodeBBOXFilterAsEnvelope is true. 
-     * 
-     * @throws FilterToSQLException
-     * 
-     */
-    @Test
-    public void testEncodeBBOXFilterAsEnvelopeEnabled() throws FilterToSQLException {
-        filterToSql.setEncodeBBOXFilterAsEnvelope(true);
-        filterToSql.setFeatureType(testSchema);
+  /**
+   * Test for GEOS-5167. Checks that geometries are wrapped with ST_Envelope when used with
+   * overlapping operator, when the encodeBBOXFilterAsEnvelope is true.
+   *
+   * @throws FilterToSQLException
+   */
+  @Test
+  public void testEncodeBBOXFilterAsEnvelopeEnabled() throws FilterToSQLException {
+    filterToSql.setEncodeBBOXFilterAsEnvelope(true);
+    filterToSql.setFeatureType(testSchema);
 
-        Intersects filter = ff.intersects(
-                ff.property("testGeometry"),
-                ff.literal(gf.createPolygon(gf.createLinearRing(new Coordinate[] {
-                        new Coordinate(0, 0), new Coordinate(0, 2), new Coordinate(2, 2),
-                        new Coordinate(2, 0), new Coordinate(0, 0) }))));
-        filterToSql.encode(filter);
-        assertTrue(writer.toString().toLowerCase().contains("st_envelope"));
-    }
+    Intersects filter =
+        ff.intersects(
+            ff.property("testGeometry"),
+            ff.literal(
+                gf.createPolygon(
+                    gf.createLinearRing(
+                        new Coordinate[] {
+                          new Coordinate(0, 0),
+                          new Coordinate(0, 2),
+                          new Coordinate(2, 2),
+                          new Coordinate(2, 0),
+                          new Coordinate(0, 0)
+                        }))));
+    filterToSql.encode(filter);
+    assertTrue(writer.toString().toLowerCase().contains("st_envelope"));
+  }
 
-    /**
-     * Test for GEOS-5167.
-     * Checks that geometries are NOT wrapped with ST_Envelope when used
-     * with overlapping operator, when the encodeBBOXFilterAsEnvelope is false.
-     * 
-     * @throws FilterToSQLException
-     * 
-     */
-    @Test
-    public void testEncodeBBOXFilterAsEnvelopeDisabled() throws FilterToSQLException {
-        filterToSql.setEncodeBBOXFilterAsEnvelope(false);
-        filterToSql.setFeatureType(testSchema);
+  /**
+   * Test for GEOS-5167. Checks that geometries are NOT wrapped with ST_Envelope when used with
+   * overlapping operator, when the encodeBBOXFilterAsEnvelope is false.
+   *
+   * @throws FilterToSQLException
+   */
+  @Test
+  public void testEncodeBBOXFilterAsEnvelopeDisabled() throws FilterToSQLException {
+    filterToSql.setEncodeBBOXFilterAsEnvelope(false);
+    filterToSql.setFeatureType(testSchema);
 
-        Intersects filter = ff.intersects(
-                ff.property("testGeometry"),
-                ff.literal(gf.createPolygon(gf.createLinearRing(new Coordinate[] {
-                        new Coordinate(0, 0), new Coordinate(0, 2), new Coordinate(2, 2),
-                        new Coordinate(2, 0), new Coordinate(0, 0) }))));
-        filterToSql.encode(filter);
-        assertFalse(writer.toString().toLowerCase().contains("st_envelope"));
-    }
+    Intersects filter =
+        ff.intersects(
+            ff.property("testGeometry"),
+            ff.literal(
+                gf.createPolygon(
+                    gf.createLinearRing(
+                        new Coordinate[] {
+                          new Coordinate(0, 0),
+                          new Coordinate(0, 2),
+                          new Coordinate(2, 2),
+                          new Coordinate(2, 0),
+                          new Coordinate(0, 0)
+                        }))));
+    filterToSql.encode(filter);
+    assertFalse(writer.toString().toLowerCase().contains("st_envelope"));
+  }
 
-    @Test
-    public void testEncodeBBOX3D() throws FilterToSQLException, MismatchedDimensionException, NoSuchAuthorityCodeException, FactoryException {
-        filterToSql.setFeatureType(testSchema);
-        BBOX3D bbox3d = ff.bbox("", new ReferencedEnvelope3D(2, 3, 1, 2, 0, 1, CRS.decode("EPSG:7415")));
-        filterToSql.encode(bbox3d);
-        String sql = writer.toString().toLowerCase();
-        assertEquals("where testgeometry &&& st_makeline(st_makepoint(2.0,1.0,0.0), st_makepoint(3.0,2.0,1.0))", sql);
-    }
+  @Test
+  public void testEncodeBBOX3D()
+      throws FilterToSQLException, MismatchedDimensionException, NoSuchAuthorityCodeException,
+          FactoryException {
+    filterToSql.setFeatureType(testSchema);
+    BBOX3D bbox3d =
+        ff.bbox("", new ReferencedEnvelope3D(2, 3, 1, 2, 0, 1, CRS.decode("EPSG:7415")));
+    filterToSql.encode(bbox3d);
+    String sql = writer.toString().toLowerCase();
+    assertEquals(
+        "where testgeometry &&& st_makeline(st_makepoint(2.0,1.0,0.0), st_makepoint(3.0,2.0,1.0))",
+        sql);
+  }
 
-    @Test
-    public void testBBOX3DCapabilities() throws Exception {
-        BBOX3D bbox3d = ff.bbox("", new ReferencedEnvelope3D(2, 3, 1, 2, 0, 1, CRS.decode("EPSG:7415")));
-        FilterCapabilities caps = filterToSql.getCapabilities();
-        PostPreProcessFilterSplittingVisitor splitter = new PostPreProcessFilterSplittingVisitor(caps, testSchema, null);
-        bbox3d.accept(splitter, null);
+  @Test
+  public void testBBOX3DCapabilities() throws Exception {
+    BBOX3D bbox3d =
+        ff.bbox("", new ReferencedEnvelope3D(2, 3, 1, 2, 0, 1, CRS.decode("EPSG:7415")));
+    FilterCapabilities caps = filterToSql.getCapabilities();
+    PostPreProcessFilterSplittingVisitor splitter =
+        new PostPreProcessFilterSplittingVisitor(caps, testSchema, null);
+    bbox3d.accept(splitter, null);
 
-        Filter[] split = new Filter[2];
-        split[0] = splitter.getFilterPre();
-        split[1] = splitter.getFilterPost();
+    Filter[] split = new Filter[2];
+    split[0] = splitter.getFilterPre();
+    split[1] = splitter.getFilterPost();
 
-        assertEquals(bbox3d, split[0]);
-        assertEquals(Filter.INCLUDE, split[1]);
-    }
+    assertEquals(bbox3d, split[0]);
+    assertEquals(Filter.INCLUDE, split[1]);
+  }
 }

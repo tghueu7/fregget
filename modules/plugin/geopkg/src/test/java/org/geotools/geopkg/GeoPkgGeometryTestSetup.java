@@ -18,20 +18,15 @@ package org.geotools.geopkg;
 
 import org.geotools.jdbc.JDBCGeometryTestSetup;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GeoPkgGeometryTestSetup extends JDBCGeometryTestSetup {
 
-    protected GeoPkgGeometryTestSetup() {
-        super(new GeoPkgTestSetup());
-    }
+  protected GeoPkgGeometryTestSetup() {
+    super(new GeoPkgTestSetup());
+  }
 
-    @Override
-    protected void dropSpatialTable(String tableName) throws Exception {
-        ((GeoPkgTestSetup)delegate).removeTable(tableName);
-    }
-
+  @Override
+  protected void dropSpatialTable(String tableName) throws Exception {
+    ((GeoPkgTestSetup) delegate).removeTable(tableName);
+  }
 }

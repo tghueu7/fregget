@@ -18,54 +18,40 @@ package org.geotools.data.wmts.response;
 
 import java.io.IOException;
 import java.net.URL;
-
 import org.geotools.data.ows.HTTPResponse;
 import org.geotools.data.ows.Response;
-import org.geotools.ows.ServiceException;
 import org.geotools.data.wmts.model.WMTSServiceType;
+import org.geotools.ows.ServiceException;
 
-/**
- * @author ian
- *
- */
+/** @author ian */
 public class GetTileResponse extends Response {
-    private WMTSServiceType type;
+  private WMTSServiceType type;
 
-    private URL requestURL;
+  private URL requestURL;
 
-    public GetTileResponse(HTTPResponse httpResponse, WMTSServiceType wmtsServiceType)
-            throws ServiceException, IOException {
-        super(httpResponse);
-        this.setType(wmtsServiceType);
-    }
+  public GetTileResponse(HTTPResponse httpResponse, WMTSServiceType wmtsServiceType)
+      throws ServiceException, IOException {
+    super(httpResponse);
+    this.setType(wmtsServiceType);
+  }
 
-    /**
-     * @return the type
-     */
-    public WMTSServiceType getType() {
-        return type;
-    }
+  /** @return the type */
+  public WMTSServiceType getType() {
+    return type;
+  }
 
-    /**
-     * @param type
-     *            the type to set
-     */
-    public void setType(WMTSServiceType type) {
-        this.type = type;
-    }
+  /** @param type the type to set */
+  public void setType(WMTSServiceType type) {
+    this.type = type;
+  }
 
-    /**
-     * @return the requestURL
-     */
-    public URL getRequestURL() {
-        return requestURL;
-    }
+  /** @return the requestURL */
+  public URL getRequestURL() {
+    return requestURL;
+  }
 
-    /**
-     * @param requestURL
-     *            the requestURL to set
-     */
-    public void setRequestURL(URL requestURL) {
-        this.requestURL = requestURL;
-    }
+  /** @param requestURL the requestURL to set */
+  public void setRequestURL(URL requestURL) {
+    this.requestURL = requestURL;
+  }
 }

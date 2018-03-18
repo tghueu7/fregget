@@ -16,22 +16,22 @@
  */
 package org.geotools.kml.bindings;
 
-import java.util.List;
-import javax.xml.namespace.QName;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Polygon;
+import java.util.List;
+import javax.xml.namespace.QName;
 import org.geotools.kml.KML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:PolygonType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="PolygonType"&gt;
  *      &lt;complexContent&gt;
@@ -48,73 +48,67 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class PolygonTypeBinding extends AbstractComplexBinding {
-    GeometryFactory geometryFactory;
+  GeometryFactory geometryFactory;
 
-    public PolygonTypeBinding(GeometryFactory geometryFactory) {
-        this.geometryFactory = geometryFactory;
+  public PolygonTypeBinding(GeometryFactory geometryFactory) {
+    this.geometryFactory = geometryFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return KML.PolygonType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Polygon.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    LinearRing outer = (LinearRing) node.getChildValue("outerBoundaryIs");
+    LinearRing[] inner = null;
+
+    if (node.hasChild("innerBoundaryIs")) {
+      List l = node.getChildValues("innerBoundaryIs");
+      inner = (LinearRing[]) l.toArray(new LinearRing[l.size()]);
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return KML.PolygonType;
-    }
+    return geometryFactory.createPolygon(outer, inner);
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Polygon.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        LinearRing outer = (LinearRing) node.getChildValue("outerBoundaryIs");
-        LinearRing[] inner = null;
-
-        if (node.hasChild("innerBoundaryIs")) {
-            List l = node.getChildValues("innerBoundaryIs");
-            inner = (LinearRing[]) l.toArray(new LinearRing[l.size()]);
+  public Object getProperty(Object object, QName name) throws Exception {
+    Polygon p = (Polygon) object;
+    if ("outerBoundaryIs".equals(name.getLocalPart())) {
+      return p.getExteriorRing();
+    } else if ("innerBoundaryIs".equals(name.getLocalPart())) {
+      if (p.getNumInteriorRing() > 0) {
+        LinearRing[] interior = new LinearRing[p.getNumInteriorRing()];
+        for (int i = 0; i < interior.length; i++) {
+          interior[i] = (LinearRing) p.getInteriorRingN(i);
         }
 
-        return geometryFactory.createPolygon(outer, inner);
+        return interior;
+      }
     }
-    
-    public Object getProperty(Object object, QName name) throws Exception {
-        Polygon p = (Polygon) object;
-        if ( "outerBoundaryIs".equals( name.getLocalPart() ) ) {
-            return p.getExteriorRing();
-        }
-        else if ( "innerBoundaryIs".equals( name.getLocalPart() ) ) {
-            if ( p.getNumInteriorRing() > 0 ) {
-                LinearRing[] interior = new LinearRing[p.getNumInteriorRing()];
-                for ( int i = 0; i < interior.length; i++ ) {
-                    interior[i] = (LinearRing) p.getInteriorRingN(i);
-                }
-                
-                return interior;
-            }
-        }
-        
-        return null;
-    }
+
+    return null;
+  }
 }

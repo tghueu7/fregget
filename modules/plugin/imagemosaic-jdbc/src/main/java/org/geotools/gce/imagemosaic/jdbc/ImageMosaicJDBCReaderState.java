@@ -15,62 +15,52 @@
  *    Lesser General Public License for more details.
  */
 
-
 package org.geotools.gce.imagemosaic.jdbc;
 
 import java.util.concurrent.LinkedBlockingQueue;
-
 import org.geotools.geometry.GeneralEnvelope;
 
-
 /**
- * Holds the state of the {@link ImageMosaicJDBCReader}
- * making the reader thread safe
- *  
+ * Holds the state of the {@link ImageMosaicJDBCReader} making the reader thread safe
+ *
  * @author mcr
  * @since 2.6
- * 
- *
- *
  * @source $URL$
-*/
+ */
 public class ImageMosaicJDBCReaderState {
 
-    private boolean xAxisSwitch = false;
-    private final LinkedBlockingQueue<TileQueueElement> tileQueue= 
-        new LinkedBlockingQueue<TileQueueElement>();
-    
-    
-    public GeneralEnvelope getRequestedEnvelope() {
-        return requestedEnvelope;
-    }
+  private boolean xAxisSwitch = false;
+  private final LinkedBlockingQueue<TileQueueElement> tileQueue =
+      new LinkedBlockingQueue<TileQueueElement>();
 
-    public void setRequestedEnvelope(GeneralEnvelope requestedEnvelope) {
-        this.requestedEnvelope = requestedEnvelope;
-    }
+  public GeneralEnvelope getRequestedEnvelope() {
+    return requestedEnvelope;
+  }
 
-    public GeneralEnvelope getRequestEnvelopeTransformed() {
-        return requestEnvelopeTransformed;
-    }
+  public void setRequestedEnvelope(GeneralEnvelope requestedEnvelope) {
+    this.requestedEnvelope = requestedEnvelope;
+  }
 
-    public void setRequestEnvelopeTransformed(GeneralEnvelope requestEnvelopeTransformed) {
-        this.requestEnvelopeTransformed = requestEnvelopeTransformed;
-    }
+  public GeneralEnvelope getRequestEnvelopeTransformed() {
+    return requestEnvelopeTransformed;
+  }
 
-    public LinkedBlockingQueue<TileQueueElement> getTileQueue() {
-        return tileQueue;
-    }
+  public void setRequestEnvelopeTransformed(GeneralEnvelope requestEnvelopeTransformed) {
+    this.requestEnvelopeTransformed = requestEnvelopeTransformed;
+  }
 
-    private GeneralEnvelope requestedEnvelope = null;
-    private GeneralEnvelope requestEnvelopeTransformed = null;
+  public LinkedBlockingQueue<TileQueueElement> getTileQueue() {
+    return tileQueue;
+  }
 
+  private GeneralEnvelope requestedEnvelope = null;
+  private GeneralEnvelope requestEnvelopeTransformed = null;
 
-    public boolean isXAxisSwitch() {
-        return xAxisSwitch;
-    }
+  public boolean isXAxisSwitch() {
+    return xAxisSwitch;
+  }
 
-    public void setXAxisSwitch(boolean axisSwitch) {
-        xAxisSwitch = axisSwitch;
-    }
-
+  public void setXAxisSwitch(boolean axisSwitch) {
+    xAxisSwitch = axisSwitch;
+  }
 }

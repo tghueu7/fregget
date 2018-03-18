@@ -17,38 +17,36 @@
 
 package org.geotools.gce.imagemosaic.acceptors;
 
+import static org.geotools.util.Utilities.toInstanceByClassNameMap;
+
 import java.util.Arrays;
 import java.util.Map;
-
 import org.geotools.factory.FactoryCreator;
 import org.geotools.factory.FactoryRegistry;
 
-import static org.geotools.util.Utilities.toInstanceByClassNameMap;
-
-/**
- * Helper to find GranuleFactorySPI instances
- */
+/** Helper to find GranuleFactorySPI instances */
 public class GranuleAcceptorFactorySPIFinder {
 
-    private static FactoryCreator registry;
+  private static FactoryCreator registry;
 
-    public static synchronized Map<String, GranuleAcceptorFactorySPI> getGranuleAcceptorFactorySPI() {
-        // get all GridFormatFactorySpi implementations
-        FactoryRegistry serviceRegistry = getServiceRegistry();
-        serviceRegistry.scanForPlugins();
-        return serviceRegistry
-                .getFactories(GranuleAcceptorFactorySPI.class, true)
-                .collect(toInstanceByClassNameMap());
-    }
+  public static synchronized Map<String, GranuleAcceptorFactorySPI> getGranuleAcceptorFactorySPI() {
+    // get all GridFormatFactorySpi implementations
+    FactoryRegistry serviceRegistry = getServiceRegistry();
+    serviceRegistry.scanForPlugins();
+    return serviceRegistry
+        .getFactories(GranuleAcceptorFactorySPI.class, true)
+        .collect(toInstanceByClassNameMap());
+  }
 
-    /**
-     * Returns the service registry. The registry will be created the first time this method is invoked.
-     */
-    private static FactoryRegistry getServiceRegistry() {
-        if (registry == null) {
-            registry = new FactoryCreator(
-                    Arrays.asList(new Class<?>[] { GranuleAcceptorFactorySPI.class }));
-        }
-        return registry;
+  /**
+   * Returns the service registry. The registry will be created the first time this method is
+   * invoked.
+   */
+  private static FactoryRegistry getServiceRegistry() {
+    if (registry == null) {
+      registry =
+          new FactoryCreator(Arrays.asList(new Class<?>[] {GranuleAcceptorFactorySPI.class}));
     }
+    return registry;
+  }
 }

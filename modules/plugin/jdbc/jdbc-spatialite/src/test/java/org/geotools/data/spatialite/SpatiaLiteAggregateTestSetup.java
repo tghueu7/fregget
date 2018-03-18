@@ -20,30 +20,32 @@ import org.geotools.jdbc.JDBCAggregateTestSetup;
 
 public class SpatiaLiteAggregateTestSetup extends JDBCAggregateTestSetup {
 
-    protected SpatiaLiteAggregateTestSetup() {
-        super(new SpatiaLiteTestSetup());
-    }
+  protected SpatiaLiteAggregateTestSetup() {
+    super(new SpatiaLiteTestSetup());
+  }
 
-    @Override
-    protected void createAggregateTable() throws Exception {
-        run( "CREATE TABLE aggregate (fid INTEGER PRIMARY KEY, id INTEGER)");
-        run( "SELECT AddGeometryColumn('aggregate','geom',4326,'POLYGON',2)");
-        run( "ALTER TABLE aggregate add name VARCHAR" );
-        run( "INSERT INTO aggregate VALUES (0, 0," +
-            "GeomFromText('POLYGON((12 6, 14 8, 16 6, 16 4, 14 4, 12 6))',4326),"
-                + "'muddy1')");
-        run( "INSERT INTO aggregate VALUES (1, 1," +
-                "GeomFromText('POLYGON((12 6, 14 8, 16 6, 16 4, 14 4, 12 6))',4326),"
-                    + "'muddy1')");
-        run( "INSERT INTO aggregate VALUES (2, 2," +
-                "GeomFromText('POLYGON((12 6, 14 8, 16 6, 16 4, 14 4, 12 6))',4326),"
-                    + "'muddy2')");
-    }
+  @Override
+  protected void createAggregateTable() throws Exception {
+    run("CREATE TABLE aggregate (fid INTEGER PRIMARY KEY, id INTEGER)");
+    run("SELECT AddGeometryColumn('aggregate','geom',4326,'POLYGON',2)");
+    run("ALTER TABLE aggregate add name VARCHAR");
+    run(
+        "INSERT INTO aggregate VALUES (0, 0,"
+            + "GeomFromText('POLYGON((12 6, 14 8, 16 6, 16 4, 14 4, 12 6))',4326),"
+            + "'muddy1')");
+    run(
+        "INSERT INTO aggregate VALUES (1, 1,"
+            + "GeomFromText('POLYGON((12 6, 14 8, 16 6, 16 4, 14 4, 12 6))',4326),"
+            + "'muddy1')");
+    run(
+        "INSERT INTO aggregate VALUES (2, 2,"
+            + "GeomFromText('POLYGON((12 6, 14 8, 16 6, 16 4, 14 4, 12 6))',4326),"
+            + "'muddy2')");
+  }
 
-    @Override
-    protected void dropAggregateTable() throws Exception {
-        run( "DROP TABLE aggregate");
-        run( "DELETE FROM geometry_columns WHERE f_table_name = 'aggregate'");
-    }
-
+  @Override
+  protected void dropAggregateTable() throws Exception {
+    run("DROP TABLE aggregate");
+    run("DELETE FROM geometry_columns WHERE f_table_name = 'aggregate'");
+  }
 }

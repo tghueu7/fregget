@@ -16,56 +16,48 @@
  */
 package org.geotools.gml2;
 
-import java.io.InputStream;
-
-import junit.framework.TestCase;
-
-import org.geotools.xml.Configuration;
-import org.geotools.xml.StreamingParser;
-
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
+import java.io.InputStream;
+import junit.framework.TestCase;
+import org.geotools.xml.Configuration;
+import org.geotools.xml.StreamingParser;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GMLGeometryStreamingTest extends TestCase {
-    public void testStreamByXpath() throws Exception {
-        Configuration configuration = new GMLConfiguration();
-        InputStream input = getClass().getResourceAsStream("geometry.xml");
-        String xpath = "/pointMember | /lineStringMember | /polygonMember";
+  public void testStreamByXpath() throws Exception {
+    Configuration configuration = new GMLConfiguration();
+    InputStream input = getClass().getResourceAsStream("geometry.xml");
+    String xpath = "/pointMember | /lineStringMember | /polygonMember";
 
-        //String xpath = "/child::*";
-        StreamingParser parser = new StreamingParser(configuration, input, xpath);
+    // String xpath = "/child::*";
+    StreamingParser parser = new StreamingParser(configuration, input, xpath);
 
-        makeAssertions(parser);
-    }
+    makeAssertions(parser);
+  }
 
-    //    public void testStreamByType() throws Exception {
-    //    	Configuration configuration = new GMLConfiguration();
-    //    	InputStream input = getClass().getResourceAsStream("geometry.xml");
-    //        StreamingParser parser = new StreamingParser(configuration, input , Geometry.class );
-    //        
-    //        makeAssertions( parser );
-    //    }
-    private void makeAssertions(StreamingParser parser) {
-        Object o = parser.parse();
-        assertNotNull(o);
-        assertTrue(o instanceof Point);
+  //    public void testStreamByType() throws Exception {
+  //    	Configuration configuration = new GMLConfiguration();
+  //    	InputStream input = getClass().getResourceAsStream("geometry.xml");
+  //        StreamingParser parser = new StreamingParser(configuration, input , Geometry.class );
+  //
+  //        makeAssertions( parser );
+  //    }
+  private void makeAssertions(StreamingParser parser) {
+    Object o = parser.parse();
+    assertNotNull(o);
+    assertTrue(o instanceof Point);
 
-        o = parser.parse();
-        assertNotNull(o);
-        assertTrue(o instanceof LineString);
+    o = parser.parse();
+    assertNotNull(o);
+    assertTrue(o instanceof LineString);
 
-        o = parser.parse();
-        assertNotNull(o);
-        assertTrue(o instanceof Polygon);
+    o = parser.parse();
+    assertNotNull(o);
+    assertTrue(o instanceof Polygon);
 
-        o = parser.parse();
-        assertNull(o);
-    }
+    o = parser.parse();
+    assertNull(o);
+  }
 }

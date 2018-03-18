@@ -17,267 +17,281 @@
 package org.geotools.data.ogr;
 
 import java.io.IOException;
-
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Encapsulates calls to the OGR library.
+ *
  * <p>
- * </p>
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  */
 public interface OGR {
 
-    //
-    // Global
-    //
-    int GetDriverCount();
+  //
+  // Global
+  //
+  int GetDriverCount();
 
-    Object GetDriver(int i);
+  Object GetDriver(int i);
 
-    Object GetDriverByName(String name);
+  Object GetDriverByName(String name);
 
-    Object OpenShared(String dataSourceName, int mode);
+  Object OpenShared(String dataSourceName, int mode);
 
-    Object Open(String dataSourceName, int mode);
+  Object Open(String dataSourceName, int mode);
 
-    /**
-     * Checks the ogr error status code and throws java exceptions accordingly.
-     * 
-     * @param code The ogr error code.
-     * @throws IOException
-     */
-    void CheckError(int code) throws IOException;
+  /**
+   * Checks the ogr error status code and throws java exceptions accordingly.
+   *
+   * @param code The ogr error code.
+   * @throws IOException
+   */
+  void CheckError(int code) throws IOException;
 
-    String GetLastErrorMsg();
+  String GetLastErrorMsg();
 
+  //
+  // Driver
+  //
+  String DriverGetName(Object driver);
 
-    //
-    //Driver
-    //
-    String DriverGetName(Object driver);
+  Object DriverOpen(Object driver, String dataSourceName, int mode);
 
-    Object DriverOpen(Object driver, String dataSourceName, int mode);
+  Object DriverCreateDataSource(Object driver, String dataSourceName, String[] opts);
 
-    Object DriverCreateDataSource(Object driver, String dataSourceName, String[] opts);
+  void DriverRelease(Object driver);
 
-    void DriverRelease(Object driver);
+  //
+  // DataSource
+  //
+  Object DataSourceGetDriver(Object dataSource);
 
-    //
-    // DataSource
-    //
-    Object DataSourceGetDriver(Object dataSource);
+  int DataSourceGetLayerCount(Object dataSource);
 
-    int DataSourceGetLayerCount(Object dataSource);
+  Object DataSourceGetLayer(Object dataSource, int i);
 
-    Object DataSourceGetLayer(Object dataSource, int i);
+  Object DataSourceGetLayerByName(Object dataSource, String name);
 
-    Object DataSourceGetLayerByName(Object dataSource, String name);
+  void DataSourceRelease(Object dataSource);
 
-    void DataSourceRelease(Object dataSource);
+  Object DataSourceCreateLayer(
+      Object dataSource, String name, Object spatialReference, long geomType, String[] opts);
 
-    Object DataSourceCreateLayer(Object dataSource, String name, Object spatialReference, 
-        long geomType, String[] opts);
+  Object DataSourceExecuteSQL(Object dataSource, String sql, Object spatialFilter);
 
-    Object DataSourceExecuteSQL(Object dataSource, String sql, Object spatialFilter);
+  //
+  // Layer
+  //
+  Object LayerGetLayerDefn(Object layer);
 
-    //
-    // Layer
-    //
-    Object LayerGetLayerDefn(Object layer);
+  int LayerGetFieldCount(Object layerDefn);
 
-    int LayerGetFieldCount(Object layerDefn);
+  Object LayerGetFieldDefn(Object layerDefn, int i);
 
-    Object LayerGetFieldDefn(Object layerDefn, int i);
+  String LayerGetName(Object layer);
 
-    String LayerGetName(Object layer);
+  long LayerGetGeometryType(Object layerDefn);
 
-    long LayerGetGeometryType(Object layerDefn);
+  Object LayerGetSpatialRef(Object layer);
 
-    Object LayerGetSpatialRef(Object layer);
+  Object LayerGetExtent(Object layer);
 
-    Object LayerGetExtent(Object layer);
+  long LayerGetFeatureCount(Object layer);
 
-    long LayerGetFeatureCount(Object layer);
+  void LayerRelease(Object layer);
 
-    void LayerRelease(Object layer);
+  void LayerReleaseLayerDefn(Object layerDefn);
 
-    void LayerReleaseLayerDefn(Object layerDefn);
+  boolean LayerCanDeleteFeature(Object layer);
 
-    boolean LayerCanDeleteFeature(Object layer);
+  boolean LayerCanWriteRandom(Object layer);
 
-    boolean LayerCanWriteRandom(Object layer);
+  boolean LayerCanWriteSequential(Object layer);
 
-    boolean LayerCanWriteSequential(Object layer);
+  boolean LayerCanCreateField(Object layer);
 
-    boolean LayerCanCreateField(Object layer);
+  boolean LayerCanIgnoreFields(Object layer);
 
-    boolean LayerCanIgnoreFields(Object layer);
+  void LayerCreateField(Object layer, Object fieldDefn, int approx);
 
-    void LayerCreateField(Object layer, Object fieldDefn, int approx);
+  void LayerSyncToDisk(Object layer);
 
-    void LayerSyncToDisk(Object layer);
+  Object LayerNewFeature(Object layerDefn);
 
-    Object LayerNewFeature(Object layerDefn);
+  ReferencedEnvelope toEnvelope(Object extent, CoordinateReferenceSystem crs);
 
-    ReferencedEnvelope toEnvelope(Object extent, CoordinateReferenceSystem crs);
+  void LayerSetSpatialFilter(Object layer, Object geometry);
 
-    void LayerSetSpatialFilter(Object layer, Object geometry);
+  void LayerSetAttributeFilter(Object layer, String attFilter);
 
-    void LayerSetAttributeFilter(Object layer, String attFilter);
+  int LayerSetIgnoredFields(Object layer, String[] fields);
 
-    int LayerSetIgnoredFields(Object layer, String[] fields);
-    
-    void LayerResetReading(Object layer);
+  void LayerResetReading(Object layer);
 
-    Object LayerGetNextFeature(Object layer);
+  Object LayerGetNextFeature(Object layer);
 
-    boolean LayerDeleteFeature(Object layer, long fid);
+  boolean LayerDeleteFeature(Object layer, long fid);
 
-    int LayerSetFeature(Object layer, Object feature);
-    
-    int LayerCreateFeature(Object layer, Object feature);
-    
-    String LayerGetFIDColumnName(Object layer);
-    
-    //
-    // Field
-    //
-    String FieldGetName(Object field);
+  int LayerSetFeature(Object layer, Object feature);
 
-    long FieldGetType(Object field);
+  int LayerCreateFeature(Object layer, Object feature);
 
-    int FieldGetWidth(Object field);
+  String LayerGetFIDColumnName(Object layer);
 
-    void FieldSetWidth(Object field, int width);
+  //
+  // Field
+  //
+  String FieldGetName(Object field);
 
-    void FieldSetJustifyRight(Object field);
+  long FieldGetType(Object field);
 
-    void FieldSetPrecision(Object field, int precision);
-    
-    boolean FieldIsIntegerType(long type);
+  int FieldGetWidth(Object field);
 
-    boolean FieldIsRealType(long type);
+  void FieldSetWidth(Object field, int width);
 
-    boolean FieldIsBinaryType(long type);
+  void FieldSetJustifyRight(Object field);
 
-    boolean FieldIsDateType(long type);
+  void FieldSetPrecision(Object field, int precision);
 
-    boolean FieldIsTimeType(long type);
+  boolean FieldIsIntegerType(long type);
 
-    boolean FieldIsDateTimeType(long type);
+  boolean FieldIsRealType(long type);
 
-    boolean FieldIsIntegerListType(long type);
+  boolean FieldIsBinaryType(long type);
 
-    boolean FieldIsRealListType(long type);
-    
-    Object CreateStringField(String name);
+  boolean FieldIsDateType(long type);
 
-    Object CreateIntegerField(String name);
+  boolean FieldIsTimeType(long type);
 
-    Object CreateRealField(String name);
+  boolean FieldIsDateTimeType(long type);
 
-    Object CreateBinaryField(String name);
+  boolean FieldIsIntegerListType(long type);
 
-    Object CreateDateField(String name);
+  boolean FieldIsRealListType(long type);
 
-    Object CreateTimeField(String name);
+  Object CreateStringField(String name);
 
-    Object CreateDateTimeField(String name);
+  Object CreateIntegerField(String name);
 
-    //
-    // Feature
-    //
+  Object CreateRealField(String name);
 
-    long FeatureGetFID(Object feature);
+  Object CreateBinaryField(String name);
 
-    boolean FeatureIsFieldSet(Object feature, int i);
+  Object CreateDateField(String name);
 
-    void FeatureSetGeometryDirectly(Object feature, Object geometry);
+  Object CreateTimeField(String name);
 
-    Object FeatureGetGeometry(Object feature);
+  Object CreateDateTimeField(String name);
 
-    void FeatureUnsetField(Object feature, int i);
+  //
+  // Feature
+  //
 
-    void FeatureSetFieldInteger(Object feature, int field, int value);
+  long FeatureGetFID(Object feature);
 
-    void FeatureSetFieldDouble(Object feature, int field, double value);
+  boolean FeatureIsFieldSet(Object feature, int i);
 
-    void FeatureSetFieldBinary(Object feature, int field, int length, byte[] value);
+  void FeatureSetGeometryDirectly(Object feature, Object geometry);
 
-    void FeatureSetFieldDateTime(Object feature, int field, int year, int month,
-            int day, int hour, int minute, int second, int tz);
+  Object FeatureGetGeometry(Object feature);
 
-    void FeatureSetFieldString(Object feature, int field, String str);
+  void FeatureUnsetField(Object feature, int i);
 
-    String FeatureGetFieldAsString(Object feature, int i);
+  void FeatureSetFieldInteger(Object feature, int field, int value);
 
-    int FeatureGetFieldAsInteger(Object feature, int i);
+  void FeatureSetFieldDouble(Object feature, int field, double value);
 
-    double FeatureGetFieldAsDouble(Object feature, int i);
+  void FeatureSetFieldBinary(Object feature, int field, int length, byte[] value);
 
-    void FeatureGetFieldAsDateTime(Object feature, int i, int[] year, int[] month, int[] day, 
-        int[] hour, int[] minute, int[] second, int[] tzFlag);
+  void FeatureSetFieldDateTime(
+      Object feature,
+      int field,
+      int year,
+      int month,
+      int day,
+      int hour,
+      int minute,
+      int second,
+      int tz);
 
-    void FeatureDestroy(Object feature);
+  void FeatureSetFieldString(Object feature, int field, String str);
 
-    //
-    // Geometry
-    //
-    long GetPointType();
+  String FeatureGetFieldAsString(Object feature, int i);
 
-    long GetPoint25DType();
+  int FeatureGetFieldAsInteger(Object feature, int i);
 
-    long GetLinearRingType();
+  double FeatureGetFieldAsDouble(Object feature, int i);
 
-    long GetLineStringType();
+  void FeatureGetFieldAsDateTime(
+      Object feature,
+      int i,
+      int[] year,
+      int[] month,
+      int[] day,
+      int[] hour,
+      int[] minute,
+      int[] second,
+      int[] tzFlag);
 
-    long GetLineString25DType();
+  void FeatureDestroy(Object feature);
 
-    long GetPolygonType();
+  //
+  // Geometry
+  //
+  long GetPointType();
 
-    long GetPolygon25DType();
+  long GetPoint25DType();
 
-    long GetMultiPointType();
+  long GetLinearRingType();
 
-    long GetMultiLineStringType();
+  long GetLineStringType();
 
-    long GetMultiLineString25DType();
+  long GetLineString25DType();
 
-    long GetMultiPolygonType();
+  long GetPolygonType();
 
-    long GetMultiPolygon25DType();
+  long GetPolygon25DType();
 
-    long GetGeometryCollectionType();
+  long GetMultiPointType();
 
-    long GetGeometryCollection25DType();
+  long GetMultiLineStringType();
 
-    long GetGeometryNoneType();
+  long GetMultiLineString25DType();
 
-    long GetGeometryUnknownType();
+  long GetMultiPolygonType();
 
-    int GeometryGetWkbSize(Object geom);
+  long GetMultiPolygon25DType();
 
-    int GeometryExportToWkb(Object geom, byte[] wkb);
+  long GetGeometryCollectionType();
 
-    Object GeometryCreateFromWkb(byte[] wkb, int[] ret);
+  long GetGeometryCollection25DType();
 
-    String GeometryExportToWkt(Object geom, int[] ret);
+  long GetGeometryNoneType();
 
-    Object GeometryCreateFromWkt(String wkt, int[] ret);
+  long GetGeometryUnknownType();
 
-    void GeometryDestroy(Object geometry);
+  int GeometryGetWkbSize(Object geom);
 
-    //
-    // SpatialReference
-    //
-    String SpatialRefGetAuthorityCode(Object spatialRef, String authority);
+  int GeometryExportToWkb(Object geom, byte[] wkb);
 
-    String SpatialRefExportToWkt(Object spatialRef);
+  Object GeometryCreateFromWkb(byte[] wkb, int[] ret);
 
-    void SpatialRefRelease(Object spatialRef);
+  String GeometryExportToWkt(Object geom, int[] ret);
 
-    Object NewSpatialRef(String wkt);
+  Object GeometryCreateFromWkt(String wkt, int[] ret);
+
+  void GeometryDestroy(Object geometry);
+
+  //
+  // SpatialReference
+  //
+  String SpatialRefGetAuthorityCode(Object spatialRef, String authority);
+
+  String SpatialRefExportToWkt(Object spatialRef);
+
+  void SpatialRefRelease(Object spatialRef);
+
+  Object NewSpatialRef(String wkt);
 }

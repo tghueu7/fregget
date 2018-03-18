@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,167 +20,117 @@
 package org.geotools.metadata.iso.citation;
 
 import java.util.Collection;
+import org.geotools.metadata.iso.MetadataEntity;
 import org.opengis.metadata.citation.Address;
 import org.opengis.util.InternationalString;
-import org.geotools.metadata.iso.MetadataEntity;
-
 
 /**
  * Location of the responsible individual or organization.
- *
- *
  *
  * @source $URL$
  * @version $Id$
  * @author Martin Desruisseaux (IRD)
  * @author Touraïvane
- *
  * @since 2.1
  */
 public class AddressImpl extends MetadataEntity implements Address {
-    /**
-     * Serial number for interoperability with different versions.
-     */
-    private static final long serialVersionUID = 2278687294173262546L;
+  /** Serial number for interoperability with different versions. */
+  private static final long serialVersionUID = 2278687294173262546L;
 
-    /**
-     * State, province of the location.
-     */
-    private InternationalString administrativeArea;
+  /** State, province of the location. */
+  private InternationalString administrativeArea;
 
-    /**
-     * The city of the location
-     */
-    private InternationalString city;
+  /** The city of the location */
+  private InternationalString city;
 
-   /**
-     * Country of the physical address.
-     */
-    private InternationalString country;
+  /** Country of the physical address. */
+  private InternationalString country;
 
-    /**
-     * ZIP or other postal code.
-     */
-    private String postalCode;
+  /** ZIP or other postal code. */
+  private String postalCode;
 
-    /**
-     * Address line for the location (as described in ISO 11180, Annex A).
-     */
-    private Collection<String> deliveryPoints;
+  /** Address line for the location (as described in ISO 11180, Annex A). */
+  private Collection<String> deliveryPoints;
 
-    /**
-     * Address of the electronic mailbox of the responsible organization or individual.
-     */
-    private Collection<String> electronicMailAddresses;
+  /** Address of the electronic mailbox of the responsible organization or individual. */
+  private Collection<String> electronicMailAddresses;
 
-    /**
-     * Constructs an initially empty address.
-     */
-    public AddressImpl() {
-    }
+  /** Constructs an initially empty address. */
+  public AddressImpl() {}
 
-    /**
-     * Constructs a metadata entity initialized with the values from the specified metadata.
-     *
-     * @since 2.4
-     */
-    public AddressImpl(final Address source) {
-        super(source);
-    }
+  /**
+   * Constructs a metadata entity initialized with the values from the specified metadata.
+   *
+   * @since 2.4
+   */
+  public AddressImpl(final Address source) {
+    super(source);
+  }
 
-    /**
-     * Return the state, province of the location.
-     * Returns {@code null} if unspecified.
-     */
-    public InternationalString getAdministrativeArea() {
-        return administrativeArea;
-    }
+  /** Return the state, province of the location. Returns {@code null} if unspecified. */
+  public InternationalString getAdministrativeArea() {
+    return administrativeArea;
+  }
 
-    /**
-     * Set the state, province of the location.
-     */
-    public synchronized void setAdministrativeArea(final InternationalString newValue) {
-        checkWritePermission();
-        administrativeArea = newValue;
-    }
+  /** Set the state, province of the location. */
+  public synchronized void setAdministrativeArea(final InternationalString newValue) {
+    checkWritePermission();
+    administrativeArea = newValue;
+  }
 
-    /**
-     * Returns the city of the location
-     * Returns {@code null} if unspecified.
-     */
-    public InternationalString getCity() {
-        return city;
-    }
+  /** Returns the city of the location Returns {@code null} if unspecified. */
+  public InternationalString getCity() {
+    return city;
+  }
 
-   /**
-     * Set the city of the location
-     */
-    public synchronized void setCity(final InternationalString newValue) {
-        checkWritePermission();
-        city = newValue;
-    }
+  /** Set the city of the location */
+  public synchronized void setCity(final InternationalString newValue) {
+    checkWritePermission();
+    city = newValue;
+  }
 
-    /**
-     * Returns the country of the physical address.
-     * Returns {@code null} if unspecified.
-     */
-    public InternationalString getCountry() {
-        return country;
-    }
+  /** Returns the country of the physical address. Returns {@code null} if unspecified. */
+  public InternationalString getCountry() {
+    return country;
+  }
 
-    /**
-     * set the country of the physical address.
-     */
-    public synchronized void setCountry(final InternationalString newValue) {
-        checkWritePermission();
-        country = newValue;
-    }
+  /** set the country of the physical address. */
+  public synchronized void setCountry(final InternationalString newValue) {
+    checkWritePermission();
+    country = newValue;
+  }
 
-    /**
-     * Returns the address line for the location (as described in ISO 11180, Annex A).
-     */
-    public synchronized Collection<String> getDeliveryPoints() {
-        return (deliveryPoints = nonNullCollection(deliveryPoints, String.class));
-    }
+  /** Returns the address line for the location (as described in ISO 11180, Annex A). */
+  public synchronized Collection<String> getDeliveryPoints() {
+    return (deliveryPoints = nonNullCollection(deliveryPoints, String.class));
+  }
 
-    /**
-     * Set the address line for the location (as described in ISO 11180, Annex A).
-     */
-    public synchronized void setDeliveryPoints(
-            final Collection<? extends String> newValues)
-    {
-        deliveryPoints = copyCollection(newValues, deliveryPoints, String.class);
-    }
-    
-    /**
-     * Returns the address of the electronic mailbox of the responsible organization or individual.
-     */
-    public synchronized Collection<String> getElectronicMailAddresses() {
-        return (electronicMailAddresses = nonNullCollection(electronicMailAddresses, String.class));
-    }
+  /** Set the address line for the location (as described in ISO 11180, Annex A). */
+  public synchronized void setDeliveryPoints(final Collection<? extends String> newValues) {
+    deliveryPoints = copyCollection(newValues, deliveryPoints, String.class);
+  }
 
-    /**
-     * Set the address of the electronic mailbox of the responsible organization or individual.
-     */
-    public synchronized void setElectronicMailAddresses(
-            final Collection<? extends String> newValues)
-    {
-        electronicMailAddresses = copyCollection(newValues, electronicMailAddresses, String.class);
-    }
+  /**
+   * Returns the address of the electronic mailbox of the responsible organization or individual.
+   */
+  public synchronized Collection<String> getElectronicMailAddresses() {
+    return (electronicMailAddresses = nonNullCollection(electronicMailAddresses, String.class));
+  }
 
-    /**
-     * Returns ZIP or other postal code.
-     * Returns {@code null} if unspecified.
-     */
-    public String getPostalCode() {
-        return postalCode;
-    }
+  /** Set the address of the electronic mailbox of the responsible organization or individual. */
+  public synchronized void setElectronicMailAddresses(
+      final Collection<? extends String> newValues) {
+    electronicMailAddresses = copyCollection(newValues, electronicMailAddresses, String.class);
+  }
 
-    /**
-     * Set ZIP or other postal code.
-     */
-    public synchronized void setPostalCode(final String newValue) {
-        checkWritePermission();
-        postalCode = newValue;
-    }
+  /** Returns ZIP or other postal code. Returns {@code null} if unspecified. */
+  public String getPostalCode() {
+    return postalCode;
+  }
+
+  /** Set ZIP or other postal code. */
+  public synchronized void setPostalCode(final String newValue) {
+    checkWritePermission();
+    postalCode = newValue;
+  }
 }

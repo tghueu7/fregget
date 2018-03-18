@@ -19,21 +19,17 @@ package org.geotools.filter;
 
 import org.opengis.feature.Attribute;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class IDFunctionExpression extends FunctionExpressionImpl {
-    public IDFunctionExpression() {
-        super("getID");
-    }
+  public IDFunctionExpression() {
+    super("getID");
+  }
 
-    public Object evaluate(Object obj) {
-        if (obj instanceof Attribute) {
-            Attribute att = (Attribute) obj;
-            return att.getIdentifier();
-        }
-        return null;
+  public Object evaluate(Object obj) {
+    if (obj instanceof Attribute) {
+      Attribute att = (Attribute) obj;
+      return att.getIdentifier();
     }
+    return null;
+  }
 }

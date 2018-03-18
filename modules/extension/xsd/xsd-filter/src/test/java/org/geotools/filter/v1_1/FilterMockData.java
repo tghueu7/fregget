@@ -16,12 +16,13 @@
  */
 package org.geotools.filter.v1_1;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashSet;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.filter.identity.ResourceIdImpl;
 import org.geotools.gml3.GML;
@@ -64,417 +65,411 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-
-
 /**
  * Mock data class used for filter binding tests.
  *
  * @author Justin Deoliveira, The Open Planning Project
- *
- *
- *
- *
  * @source $URL$
  */
 public class FilterMockData {
-    static FilterFactory2 f = (FilterFactory2) CommonFactoryFinder.getFilterFactory(null);
+  static FilterFactory2 f = (FilterFactory2) CommonFactoryFinder.getFilterFactory(null);
 
-    public static Id id() {
-        return f.id(new LinkedHashSet<Identifier>(Arrays.asList(
-            f.featureId("foo.1"), f.featureId("foo.2"), f.featureId("foo.3"))));
-    }
-    
-    public static Id resourceId() {
-        ResourceIdImpl resourceId = new ResourceIdImpl("foo.4","", new Version(Version.Action.NEXT));
-        
-        resourceId.setPreviousRid("previousRid");
-        resourceId.setStartTime( new Date(1000) );
-        resourceId.setEndTime(new Date(2000));
+  public static Id id() {
+    return f.id(
+        new LinkedHashSet<Identifier>(
+            Arrays.asList(f.featureId("foo.1"), f.featureId("foo.2"), f.featureId("foo.3"))));
+  }
 
-        Integer testInt = new Integer(1234567890);
-        
-        return f.id(new LinkedHashSet<Identifier>(Arrays.asList(
+  public static Id resourceId() {
+    ResourceIdImpl resourceId = new ResourceIdImpl("foo.4", "", new Version(Version.Action.NEXT));
+
+    resourceId.setPreviousRid("previousRid");
+    resourceId.setStartTime(new Date(1000));
+    resourceId.setEndTime(new Date(2000));
+
+    Integer testInt = new Integer(1234567890);
+
+    return f.id(
+        new LinkedHashSet<Identifier>(
+            Arrays.asList(
                 f.featureId("foo.1", "v1"),
-                f.resourceId("foo.2", "", new Version(new Date(1000))),//
-                f.resourceId("foo.3", "", new Version(testInt)),//
+                f.resourceId("foo.2", "", new Version(new Date(1000))), //
+                f.resourceId("foo.3", "", new Version(testInt)), //
                 resourceId)));
-    }
+  }
 
-    public static Element propertyName(Document document, Node parent) {
-        return propertyName("foo", document, parent);
-    }
+  public static Element propertyName(Document document, Node parent) {
+    return propertyName("foo", document, parent);
+  }
 
-    public static Element propertyName(String property, Document document, Node parent) {
-        Element propertyName = element(document, parent, OGC.PropertyName);
-        propertyName.appendChild(document.createTextNode(property));
+  public static Element propertyName(String property, Document document, Node parent) {
+    Element propertyName = element(document, parent, OGC.PropertyName);
+    propertyName.appendChild(document.createTextNode(property));
 
-        return propertyName;
-    }
+    return propertyName;
+  }
 
-    public static PropertyName propertyName() {
-        return propertyName("foo");
-    }
+  public static PropertyName propertyName() {
+    return propertyName("foo");
+  }
 
-    public static PropertyName propertyName(String property) {
-        return f.property(property);
-    }
+  public static PropertyName propertyName(String property) {
+    return f.property(property);
+  }
 
-    public static Element literal(Document document, Node parent) {
-        return literal("foo", document, parent);
-    }
+  public static Element literal(Document document, Node parent) {
+    return literal("foo", document, parent);
+  }
 
-    public static Element literal(String value, Document document, Node parent) {
-        Element literal = element(document, parent, OGC.Literal);
-        literal.appendChild(document.createTextNode(value));
+  public static Element literal(String value, Document document, Node parent) {
+    Element literal = element(document, parent, OGC.Literal);
+    literal.appendChild(document.createTextNode(value));
 
-        return literal;
-    }
+    return literal;
+  }
 
-    public static Literal literal() {
-        return literal("foo");
-    }
+  public static Literal literal() {
+    return literal("foo");
+  }
 
-    public static Literal literal(Object value) {
-        return f.literal(value);
-    }
-    
-    public static Function function() {
-        return f.function("abs", f.property("foo"));
-    }
-    
-    static PropertyIsLike propertyIsLike() {
-        return f.like(propertyName(), "foo", "x", "y", "z", false);
-    }
-    
-    static Element propertyIsLike(Document document, Node parent) {
-        Element isLike = element(document, parent, OGC.PropertyIsLike);
-
-        propertyName(document, isLike);
-        literal(document, isLike);
-
-        isLike.setAttribute("wildCard", "x");
-        isLike.setAttribute("singleChar", "y");
-        isLike.setAttribute("escape", "z");
-        isLike.setAttribute("matchCase", "false");
-
-        return isLike;
-    }
+  public static Literal literal(Object value) {
+    return f.literal(value);
+  }
 
-    public static Element propertyIsEqualTo(Document document, Node parent) {
-        return binaryComparisonOp(document, parent, OGC.PropertyIsEqualTo);
-    }
+  public static Function function() {
+    return f.function("abs", f.property("foo"));
+  }
 
-    public static PropertyIsEqualTo propertyIsEqualTo() {
-        return f.equals(propertyName(), literal());
-    }
+  static PropertyIsLike propertyIsLike() {
+    return f.like(propertyName(), "foo", "x", "y", "z", false);
+  }
 
-    public static Element propertyIsNotEqualTo(Document document, Node parent) {
-        return binaryComparisonOp(document, parent, OGC.PropertyIsNotEqualTo);
-    }
+  static Element propertyIsLike(Document document, Node parent) {
+    Element isLike = element(document, parent, OGC.PropertyIsLike);
 
-    public static PropertyIsNotEqualTo propertyIsNotEqualTo() {
-        return f.notEqual(propertyName(), literal(), false);
-    }
+    propertyName(document, isLike);
+    literal(document, isLike);
 
-    public static Element propertyIsLessThan(Document document, Node parent) {
-        return binaryComparisonOp(document, parent, OGC.PropertyIsLessThan);
-    }
+    isLike.setAttribute("wildCard", "x");
+    isLike.setAttribute("singleChar", "y");
+    isLike.setAttribute("escape", "z");
+    isLike.setAttribute("matchCase", "false");
 
-    public static PropertyIsLessThan propertyIsLessThan() {
-        return f.less(propertyName(), literal());
-    }
+    return isLike;
+  }
 
-    public static Element propertyIsLessThanOrEqualTo(Document document, Node parent) {
-        return binaryComparisonOp(document, parent, OGC.PropertyIsLessThanOrEqualTo);
-    }
+  public static Element propertyIsEqualTo(Document document, Node parent) {
+    return binaryComparisonOp(document, parent, OGC.PropertyIsEqualTo);
+  }
 
-    public static PropertyIsLessThanOrEqualTo propertyIsLessThanOrEqualTo() {
-        return f.lessOrEqual(propertyName(), literal());
-    }
+  public static PropertyIsEqualTo propertyIsEqualTo() {
+    return f.equals(propertyName(), literal());
+  }
 
-    public static Element propertyIsGreaterThan(Document document, Node parent) {
-        return binaryComparisonOp(document, parent, OGC.PropertyIsGreaterThan);
-    }
+  public static Element propertyIsNotEqualTo(Document document, Node parent) {
+    return binaryComparisonOp(document, parent, OGC.PropertyIsNotEqualTo);
+  }
 
-    public static PropertyIsGreaterThan propertyIsGreaterThan() {
-        return f.greater(propertyName(), literal());
-    }
+  public static PropertyIsNotEqualTo propertyIsNotEqualTo() {
+    return f.notEqual(propertyName(), literal(), false);
+  }
 
-    public static Element propertyIsGreaterThanOrEqualTo(Document document, Node parent) {
-        return binaryComparisonOp(document, parent, OGC.PropertyIsGreaterThanOrEqualTo);
-    }
+  public static Element propertyIsLessThan(Document document, Node parent) {
+    return binaryComparisonOp(document, parent, OGC.PropertyIsLessThan);
+  }
 
-    public static PropertyIsGreaterThanOrEqualTo propertyIsGreaterThanOrEqualTo() {
-        return f.greaterOrEqual(propertyName(), literal());
-    }
+  public static PropertyIsLessThan propertyIsLessThan() {
+    return f.less(propertyName(), literal());
+  }
 
-    public static Element binaryComparisonOp(Document document, Node parent, QName name) {
-        Element binaryComparisonOp = element(document, parent, name);
+  public static Element propertyIsLessThanOrEqualTo(Document document, Node parent) {
+    return binaryComparisonOp(document, parent, OGC.PropertyIsLessThanOrEqualTo);
+  }
 
-        propertyName(document, binaryComparisonOp);
-        literal(document, binaryComparisonOp);
+  public static PropertyIsLessThanOrEqualTo propertyIsLessThanOrEqualTo() {
+    return f.lessOrEqual(propertyName(), literal());
+  }
 
-        return binaryComparisonOp;
-    }
+  public static Element propertyIsGreaterThan(Document document, Node parent) {
+    return binaryComparisonOp(document, parent, OGC.PropertyIsGreaterThan);
+  }
 
-    public static Element and(Document document, Node parent) {
-        Element and = element(document, parent, OGC.And);
+  public static PropertyIsGreaterThan propertyIsGreaterThan() {
+    return f.greater(propertyName(), literal());
+  }
 
-        propertyIsEqualTo(document, and);
-        propertyIsNotEqualTo(document, and);
+  public static Element propertyIsGreaterThanOrEqualTo(Document document, Node parent) {
+    return binaryComparisonOp(document, parent, OGC.PropertyIsGreaterThanOrEqualTo);
+  }
 
-        return and;
-    }
+  public static PropertyIsGreaterThanOrEqualTo propertyIsGreaterThanOrEqualTo() {
+    return f.greaterOrEqual(propertyName(), literal());
+  }
 
-    public static And and() {
-        return f.and(propertyIsEqualTo(), propertyIsNotEqualTo());
-    }
+  public static Element binaryComparisonOp(Document document, Node parent, QName name) {
+    Element binaryComparisonOp = element(document, parent, name);
 
-    public static Element or(Document document, Node parent) {
-        Element or = element(document, parent, OGC.Or);
+    propertyName(document, binaryComparisonOp);
+    literal(document, binaryComparisonOp);
 
-        propertyIsEqualTo(document, or);
-        propertyIsNotEqualTo(document, or);
+    return binaryComparisonOp;
+  }
 
-        return or;
-    }
+  public static Element and(Document document, Node parent) {
+    Element and = element(document, parent, OGC.And);
 
-    public static Or or() {
-        return f.or(propertyIsEqualTo(), propertyIsNotEqualTo());
-    }
+    propertyIsEqualTo(document, and);
+    propertyIsNotEqualTo(document, and);
 
-    public static Not not() {
-        return f.not(propertyIsEqualTo());
-    }
+    return and;
+  }
 
-    public static Element not(Document document, Node parent) {
-        Element not = element(document, parent, OGC.Not);
-        propertyIsEqualTo(document, not);
+  public static And and() {
+    return f.and(propertyIsEqualTo(), propertyIsNotEqualTo());
+  }
 
-        return not;
-    }
+  public static Element or(Document document, Node parent) {
+    Element or = element(document, parent, OGC.Or);
 
-    public static BBOX bbox() {
-        return f.bbox(f.property("the_geom"), 5,5,100,100, "epsg:4326");
-    }
+    propertyIsEqualTo(document, or);
+    propertyIsNotEqualTo(document, or);
 
-    public static Beyond beyond() {
-        return f.beyond(f.property("the_geom"), f.literal(geometry()), 1.0d, "m");
-    }
+    return or;
+  }
 
-    public static DWithin dwithin() {
-        return f.dwithin(f.property("the_geom"), f.literal(geometry()), 1.0d, "m");
-    }
+  public static Or or() {
+    return f.or(propertyIsEqualTo(), propertyIsNotEqualTo());
+  }
 
-    public static Element beyond(Document document, Node parent) {
-        return distanceBufferOperator(document, parent, OGC.Beyond);
-    }
+  public static Not not() {
+    return f.not(propertyIsEqualTo());
+  }
 
-    public static Element dwithin(Document document, Node parent) {
-        return distanceBufferOperator(document, parent, OGC.DWithin);
-    }
+  public static Element not(Document document, Node parent) {
+    Element not = element(document, parent, OGC.Not);
+    propertyIsEqualTo(document, not);
 
-    public static Element distanceBufferOperator(Document document, Node parent, QName name) {
-        Element doperator = binarySpatialOperator(document, parent, name);
-        Element distance = element(document, doperator, new QName(OGC.NAMESPACE, "Distance"));
-        distance.appendChild(document.createTextNode("1.0"));
-        distance.setAttribute("units", "m");
+    return not;
+  }
 
-        return doperator;
-    }
+  public static BBOX bbox() {
+    return f.bbox(f.property("the_geom"), 5, 5, 100, 100, "epsg:4326");
+  }
 
-    public static Element contains(Document document, Node parent) {
-        return binarySpatialOperator(document, parent, OGC.Contains);
-    }
+  public static Beyond beyond() {
+    return f.beyond(f.property("the_geom"), f.literal(geometry()), 1.0d, "m");
+  }
 
-    public static Contains contains() {
-        return f.contains(f.property("the_geom"), f.literal(geometry()));
-    }
+  public static DWithin dwithin() {
+    return f.dwithin(f.property("the_geom"), f.literal(geometry()), 1.0d, "m");
+  }
 
-    public static Element crosses(Document document, Node parent) {
-        return binarySpatialOperator(document, parent, OGC.Crosses);
-    }
+  public static Element beyond(Document document, Node parent) {
+    return distanceBufferOperator(document, parent, OGC.Beyond);
+  }
 
-    public static Crosses crosses() {
-        return f.crosses(f.property("the_geom"), f.literal(geometry()));
-    }
+  public static Element dwithin(Document document, Node parent) {
+    return distanceBufferOperator(document, parent, OGC.DWithin);
+  }
 
-    public static Element disjoint(Document document, Node parent) {
-        return binarySpatialOperator(document, parent, OGC.Disjoint);
-    }
+  public static Element distanceBufferOperator(Document document, Node parent, QName name) {
+    Element doperator = binarySpatialOperator(document, parent, name);
+    Element distance = element(document, doperator, new QName(OGC.NAMESPACE, "Distance"));
+    distance.appendChild(document.createTextNode("1.0"));
+    distance.setAttribute("units", "m");
 
-    public static Disjoint disjoint() {
-        return f.disjoint(f.property("the_geom"), f.literal(geometry()));
-    }
+    return doperator;
+  }
 
-    public static Element equals(Document document, Node parent) {
-        return binarySpatialOperator(document, parent, OGC.Equals);
-    }
+  public static Element contains(Document document, Node parent) {
+    return binarySpatialOperator(document, parent, OGC.Contains);
+  }
 
-    public static Equals equals() {
-        return f.equal(f.property("the_geom"), f.literal(geometry()));
-    }
+  public static Contains contains() {
+    return f.contains(f.property("the_geom"), f.literal(geometry()));
+  }
 
-    public static Element intersects(Document document, Node parent) {
-        return binarySpatialOperator(document, parent, OGC.Intersects);
-    }
+  public static Element crosses(Document document, Node parent) {
+    return binarySpatialOperator(document, parent, OGC.Crosses);
+  }
 
-    public static Intersects intersects() {
-        return f.intersects(f.property("the_geom"), f.literal(geometry()));
-    }
+  public static Crosses crosses() {
+    return f.crosses(f.property("the_geom"), f.literal(geometry()));
+  }
 
-    public static Element overlaps(Document document, Node parent) {
-        return binarySpatialOperator(document, parent, OGC.Overlaps);
-    }
+  public static Element disjoint(Document document, Node parent) {
+    return binarySpatialOperator(document, parent, OGC.Disjoint);
+  }
 
-    public static Overlaps overlaps() {
-        return f.overlaps(f.property("the_geom"), f.literal(geometry()));
-    }
+  public static Disjoint disjoint() {
+    return f.disjoint(f.property("the_geom"), f.literal(geometry()));
+  }
 
-    public static Element touches(Document document, Node parent) {
-        return binarySpatialOperator(document, parent, OGC.Touches);
-    }
+  public static Element equals(Document document, Node parent) {
+    return binarySpatialOperator(document, parent, OGC.Equals);
+  }
 
-    public static Touches touches() {
-        return f.touches(f.property("the_geom"), f.literal(geometry()));
-    }
+  public static Equals equals() {
+    return f.equal(f.property("the_geom"), f.literal(geometry()));
+  }
 
-    public static Element within(Document document, Node parent) {
-        return binarySpatialOperator(document, parent, OGC.Within);
-    }
+  public static Element intersects(Document document, Node parent) {
+    return binarySpatialOperator(document, parent, OGC.Intersects);
+  }
 
-    public static Within within() {
-        return f.within(f.property("the_geom"), f.literal(geometry()));
-    }
+  public static Intersects intersects() {
+    return f.intersects(f.property("the_geom"), f.literal(geometry()));
+  }
 
-    public static Element binarySpatialOperator(Document document, Node parent, QName name) {
-        Element spatial = element(document, parent, name);
+  public static Element overlaps(Document document, Node parent) {
+    return binarySpatialOperator(document, parent, OGC.Overlaps);
+  }
 
-        propertyName(document, spatial);
-        geometry(document, spatial);
+  public static Overlaps overlaps() {
+    return f.overlaps(f.property("the_geom"), f.literal(geometry()));
+  }
 
-        return spatial;
-    }
+  public static Element touches(Document document, Node parent) {
+    return binarySpatialOperator(document, parent, OGC.Touches);
+  }
 
-    public static Geometry geometry() {
-        return new GeometryFactory().createPoint(new Coordinate(1, 1));
-    }
+  public static Touches touches() {
+    return f.touches(f.property("the_geom"), f.literal(geometry()));
+  }
 
-    public static Element geometry(Document document, Node parent) {
-        Element geometry = element(document, parent, GML.Point);
+  public static Element within(Document document, Node parent) {
+    return binarySpatialOperator(document, parent, OGC.Within);
+  }
 
-        Element pos = element(document, geometry, GML.pos);
-        pos.appendChild(document.createTextNode("1 1"));
+  public static Within within() {
+    return f.within(f.property("the_geom"), f.literal(geometry()));
+  }
 
-        return geometry;
-    }
+  public static Element binarySpatialOperator(Document document, Node parent, QName name) {
+    Element spatial = element(document, parent, name);
 
-    public static Element envelope(Document document, Node parent) {
-        Element envelope = element(document, parent, GML.Envelope);
+    propertyName(document, spatial);
+    geometry(document, spatial);
 
-        Element lower = element(document, envelope, new QName(GML.NAMESPACE, "lowerCorner"));
-        lower.appendChild(document.createTextNode("0 0"));
+    return spatial;
+  }
 
-        Element upper = element(document, envelope, new QName(GML.NAMESPACE, "upperCorner"));
-        upper.appendChild(document.createTextNode("1 1"));
+  public static Geometry geometry() {
+    return new GeometryFactory().createPoint(new Coordinate(1, 1));
+  }
 
-        return envelope;
-    }
+  public static Element geometry(Document document, Node parent) {
+    Element geometry = element(document, parent, GML.Point);
 
-    public static Element add(Document document, Node parent) {
-        return binaryExpression(document, parent, OGC.Add);
-    }
+    Element pos = element(document, geometry, GML.pos);
+    pos.appendChild(document.createTextNode("1 1"));
 
-    public static Add add() {
-        return f.add(f.literal(1), f.literal(2));
-    }
+    return geometry;
+  }
 
-    public static Element sub(Document document, Node parent) {
-        return binaryExpression(document, parent, OGC.Sub);
-    }
+  public static Element envelope(Document document, Node parent) {
+    Element envelope = element(document, parent, GML.Envelope);
 
-    public static Subtract sub() {
-        return f.subtract(f.literal(1), f.literal(2));
-    }
+    Element lower = element(document, envelope, new QName(GML.NAMESPACE, "lowerCorner"));
+    lower.appendChild(document.createTextNode("0 0"));
 
-    public static Element mul(Document document, Node parent) {
-        return binaryExpression(document, parent, OGC.Mul);
-    }
+    Element upper = element(document, envelope, new QName(GML.NAMESPACE, "upperCorner"));
+    upper.appendChild(document.createTextNode("1 1"));
 
-    public static Multiply mul() {
-        return f.multiply(f.literal(1), f.literal(2));
-    }
+    return envelope;
+  }
 
-    public static Element div(Document document, Node parent) {
-        return binaryExpression(document, parent, OGC.Div);
-    }
+  public static Element add(Document document, Node parent) {
+    return binaryExpression(document, parent, OGC.Add);
+  }
 
-    public static Divide div() {
-        return f.divide(f.literal(1), f.literal(2));
-    }
+  public static Add add() {
+    return f.add(f.literal(1), f.literal(2));
+  }
 
-    public static Element binaryExpression(Document document, Node parent, QName name) {
-        Element binaryExpression = element(document, parent, name);
-        literal(document, binaryExpression);
-        literal(document, binaryExpression);
+  public static Element sub(Document document, Node parent) {
+    return binaryExpression(document, parent, OGC.Sub);
+  }
 
-        return binaryExpression;
-    }
+  public static Subtract sub() {
+    return f.subtract(f.literal(1), f.literal(2));
+  }
 
-    // Identifiers
-    public static Element gmlObjectId(Document document, Node parent) {
-        Element gmlObjectId = element(document, parent, OGC.GmlObjectId);
-        gmlObjectId.setAttributeNS(GML.NAMESPACE, "id", "foo");
+  public static Element mul(Document document, Node parent) {
+    return binaryExpression(document, parent, OGC.Mul);
+  }
 
-        return gmlObjectId;
-    }
+  public static Multiply mul() {
+    return f.multiply(f.literal(1), f.literal(2));
+  }
 
-    public static GmlObjectId gmlObjectId() {
-        return f.gmlObjectId("foo");
-    }
+  public static Element div(Document document, Node parent) {
+    return binaryExpression(document, parent, OGC.Div);
+  }
 
-    //sorting
-    public static Element sortBy(Document document, Node parent) {
-        Element sortBy = element(document, parent, OGC.SortBy);
-        sortProperty(document, sortBy);
-        sortProperty(document, sortBy);
+  public static Divide div() {
+    return f.divide(f.literal(1), f.literal(2));
+  }
 
-        return sortBy;
-    }
+  public static Element binaryExpression(Document document, Node parent, QName name) {
+    Element binaryExpression = element(document, parent, name);
+    literal(document, binaryExpression);
+    literal(document, binaryExpression);
 
-    public static SortBy[] sortBy() {
-        return new SortBy[] { sortProperty(), sortProperty() };
-    }
+    return binaryExpression;
+  }
 
-    public static Element sortProperty(Document document, Node parent) {
-        Element sortProperty = element(document, parent, new QName(OGC.NAMESPACE, "SortProperty"));
-        propertyName(document, sortProperty);
-        sortOrder(document, sortProperty);
+  // Identifiers
+  public static Element gmlObjectId(Document document, Node parent) {
+    Element gmlObjectId = element(document, parent, OGC.GmlObjectId);
+    gmlObjectId.setAttributeNS(GML.NAMESPACE, "id", "foo");
 
-        return sortProperty;
-    }
+    return gmlObjectId;
+  }
 
-    public static SortBy sortProperty() {
-        return f.sort("foo", SortOrder.ASCENDING);
-    }
+  public static GmlObjectId gmlObjectId() {
+    return f.gmlObjectId("foo");
+  }
 
-    public static Element sortOrder(Document document, Node parent) {
-        Element sortOrder = element(document, parent, new QName(OGC.NAMESPACE, "SortOrder"));
-        sortOrder.appendChild(document.createTextNode("ASC"));
+  // sorting
+  public static Element sortBy(Document document, Node parent) {
+    Element sortBy = element(document, parent, OGC.SortBy);
+    sortProperty(document, sortBy);
+    sortProperty(document, sortBy);
 
-        return sortOrder;
-    }
+    return sortBy;
+  }
+
+  public static SortBy[] sortBy() {
+    return new SortBy[] {sortProperty(), sortProperty()};
+  }
 
-    public static Element element(Document document, Node parent, QName name) {
-        Element element = document.createElementNS(name.getNamespaceURI(), name.getLocalPart());
+  public static Element sortProperty(Document document, Node parent) {
+    Element sortProperty = element(document, parent, new QName(OGC.NAMESPACE, "SortProperty"));
+    propertyName(document, sortProperty);
+    sortOrder(document, sortProperty);
 
-        if (parent != null) {
-            parent.appendChild(element);
-        }
+    return sortProperty;
+  }
 
-        return element;
+  public static SortBy sortProperty() {
+    return f.sort("foo", SortOrder.ASCENDING);
+  }
+
+  public static Element sortOrder(Document document, Node parent) {
+    Element sortOrder = element(document, parent, new QName(OGC.NAMESPACE, "SortOrder"));
+    sortOrder.appendChild(document.createTextNode("ASC"));
+
+    return sortOrder;
+  }
+
+  public static Element element(Document document, Node parent, QName name) {
+    Element element = document.createElementNS(name.getNamespaceURI(), name.getLocalPart());
+
+    if (parent != null) {
+      parent.appendChild(element);
     }
+
+    return element;
+  }
 }

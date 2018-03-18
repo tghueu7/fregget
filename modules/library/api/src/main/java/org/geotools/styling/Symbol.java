@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,18 +22,14 @@
  */
 package org.geotools.styling;
 
-
-
 /**
  * This an empty interface for styling symbol objects to implement
  *
  * @author iant
- *
- *
  * @source $URL$
  */
-public interface Symbol extends org.opengis.style.GraphicalSymbol{
-    public static final Symbol[] SYMBOLS_EMPTY = new Symbol[0];
+public interface Symbol extends org.opengis.style.GraphicalSymbol {
+  public static final Symbol[] SYMBOLS_EMPTY = new Symbol[0];
 
-    void accept(org.geotools.styling.StyleVisitor visitor);
+  void accept(org.geotools.styling.StyleVisitor visitor);
 }

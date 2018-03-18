@@ -18,24 +18,19 @@ package org.geotools.sld.bindings;
 
 import org.geotools.styling.Extent;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDExtentBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(Extent.class, new SLDExtentBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(Extent.class, new SLDExtentBinding(null).getType());
+  }
 
-    public void testNormal() throws Exception {
-        SLDMockData.extent(document, document);
+  public void testNormal() throws Exception {
+    SLDMockData.extent(document, document);
 
-        Extent extent = (Extent) parse();
+    Extent extent = (Extent) parse();
 
-        assertNotNull(extent);
-        assertEquals("theName", extent.getName());
-        assertEquals("theValue", extent.getValue());
-    }
+    assertNotNull(extent);
+    assertEquals("theName", extent.getName());
+    assertEquals("theValue", extent.getValue());
+  }
 }

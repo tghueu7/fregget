@@ -21,7 +21,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.geotools.coverage.io.netcdf.NetCDFFormat;
 import org.geotools.factory.Hints;
 import org.geotools.imageio.netcdf.utilities.NetCDFUtilities;
@@ -34,72 +33,71 @@ import org.opengis.filter.Filter;
 import org.opengis.parameter.GeneralParameterDescriptor;
 import org.opengis.parameter.ParameterDescriptor;
 
-public class GRIBFormat extends NetCDFFormat{
+public class GRIBFormat extends NetCDFFormat {
 
-    public static final ParameterDescriptor<Filter> FILTER = new DefaultParameterDescriptor<Filter>("Filter", Filter.class, null, null);
+  public static final ParameterDescriptor<Filter> FILTER =
+      new DefaultParameterDescriptor<Filter>("Filter", Filter.class, null, null);
 
-    private final static Logger LOGGER = Logging
-            .getLogger("org.geotools.coverage.io.grib.GRIBFormat");
+  private static final Logger LOGGER =
+      Logging.getLogger("org.geotools.coverage.io.grib.GRIBFormat");
 
-    /**
-     * Creates an instance and sets the metadata.
-     */
-    public GRIBFormat() {
-        setInfo();
+  /** Creates an instance and sets the metadata. */
+  public GRIBFormat() {
+    setInfo();
+  }
+
+  /** Sets the metadata information. */
+  private void setInfo() {
+    final HashMap<String, String> info = new HashMap<String, String>();
+    info.put("name", "GRIB");
+    info.put("description", "GRIB store plugin");
+    info.put("vendor", "Geotools");
+    info.put("docURL", "");
+    info.put("version", "1.0");
+    mInfo = info;
+
+    // reading parameters
+    readParameters =
+        new ParameterGroup(
+            new DefaultParameterDescriptorGroup(
+                mInfo,
+                new GeneralParameterDescriptor[] {
+                  READ_GRIDGEOMETRY2D, TIME, ELEVATION, FILTER,
+                }));
+
+    // reading parameters
+    writeParameters = null;
+  }
+
+  @Override
+  public boolean accepts(Object source, Hints hints) {
+    File file = null;
+    if (source instanceof URL) {
+      file = URLs.urlToFile((URL) source);
+    } else if (source instanceof File) {
+      file = (File) source;
     }
-
-    /**
-     * Sets the metadata information.
-     */
-    private void setInfo() {
-        final HashMap<String,String> info = new HashMap<String,String> ();
-        info.put("name", "GRIB");
-        info.put("description", "GRIB store plugin");
-        info.put("vendor", "Geotools");
-        info.put("docURL", "");
-        info.put("version", "1.0");
-        mInfo = info;
-
-        // reading parameters
-        readParameters = new ParameterGroup(new DefaultParameterDescriptorGroup(mInfo,
-                new GeneralParameterDescriptor[]{
-                        READ_GRIDGEOMETRY2D,
-                TIME,
-                ELEVATION,
-                FILTER,
-        }));
-
-        // reading parameters
-        writeParameters = null;
-    }
-
-    @Override
-    public boolean accepts(Object source, Hints hints) {
-        File file = null;
-        if (source instanceof URL) {
-            file = URLs.urlToFile((URL) source);
-        } else if (source instanceof File ){
-            file = (File) source;
-        }
-        if (file != null) {
-            if (file.isDirectory()) {
-                return false;
-            }
-            String fileName = file.getName();
-
-            // Check if it is a GRIB data and if the GRIB library is available
-            boolean gribExtension = NetCDFUtilities.isGribAvailable() && (fileName.contains("grb") || fileName.contains("grib"));
-            
-            if (fileName.endsWith("ncml") || gribExtension){
-                if (LOGGER.isLoggable(Level.FINEST)) {
-                    LOGGER.finest("File is accepted: " + fileName);
-                }
-                return true;
-            }
-        }
-        if (LOGGER.isLoggable(Level.FINEST)) {
-            LOGGER.finest("Object is not accepted: " + source);
-        }
+    if (file != null) {
+      if (file.isDirectory()) {
         return false;
+      }
+      String fileName = file.getName();
+
+      // Check if it is a GRIB data and if the GRIB library is available
+      boolean gribExtension =
+          NetCDFUtilities.isGribAvailable()
+              && (fileName.contains("grb") || fileName.contains("grib"));
+
+      if (fileName.endsWith("ncml") || gribExtension) {
+        if (LOGGER.isLoggable(Level.FINEST)) {
+          LOGGER.finest("File is accepted: " + fileName);
+        }
+        return true;
+      }
     }
+    if (LOGGER.isLoggable(Level.FINEST)) {
+      LOGGER.finest("Object is not accepted: " + source);
+    }
+    return false;
+  }
 }

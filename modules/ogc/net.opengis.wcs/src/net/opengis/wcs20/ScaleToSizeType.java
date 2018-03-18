@@ -4,18 +4,17 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * Used in the WCS 2.0 scaling extension to specify a different rescaling for each axis 
- * 
+ * Used in the WCS 2.0 scaling extension to specify a different rescaling for each axis
+ *
  * @author Andrea Aime - GeoSolutions
  * @model
  */
 public interface ScaleToSizeType extends EObject {
 
-    /**
-     * The scale factor to be applied on all axis
-     * 
-     * @model
-     */
-    public EList<TargetAxisSizeType> getTargetAxisSize();
-
+  /**
+   * The scale factor to be applied on all axis
+   *
+   * @model
+   */
+  public EList<TargetAxisSizeType> getTargetAxisSize();
 }

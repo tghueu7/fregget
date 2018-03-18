@@ -19,46 +19,37 @@ package org.geotools.jdbc;
 import java.sql.SQLException;
 
 /**
- * Test setup for executing tests on tables with no data. 
- * 
+ * Test setup for executing tests on tables with no data.
+ *
  * @author Justin Deoliveira, OpenGEO
- *
- *
- *
- *
  * @source $URL$
  */
 public abstract class JDBCEmptyTestSetup extends JDBCDelegatingTestSetup {
 
-    protected JDBCEmptyTestSetup(JDBCTestSetup delegate) {
-        super(delegate);
+  protected JDBCEmptyTestSetup(JDBCTestSetup delegate) {
+    super(delegate);
+  }
+
+  protected final void setUpData() throws Exception {
+    // kill all the data
+    try {
+      dropEmptyTable();
+    } catch (SQLException e) {
     }
 
-    protected final void setUpData() throws Exception {
-        //kill all the data
-        try {
-            dropEmptyTable();
-        } catch (SQLException e) {
-        }
+    // create all the data
+    createEmptyTable();
+  }
 
-        //create all the data
-        createEmptyTable();
-    }
+  /**
+   * Creates a table with the following schema:
+   *
+   * <p>empty( id:Integer; geom: Geometry)
+   *
+   * <p>The table should be empty.
+   */
+  protected abstract void createEmptyTable() throws Exception;
 
-    /**
-     * Creates a table with the following schema:
-     * <p>
-     * empty( id:Integer; geom: Geometry)
-     * </p>
-     * <p>
-     * The table should be empty.
-     * </p>
-     */
-    protected abstract void createEmptyTable() throws Exception;
-
-    /**
-     * Drops the "empty" table previously created
-     */
-    protected abstract void dropEmptyTable() throws Exception;
-    
+  /** Drops the "empty" table previously created */
+  protected abstract void dropEmptyTable() throws Exception;
 }

@@ -18,25 +18,20 @@ package org.geotools.data.sqlserver;
 
 import org.geotools.jdbc.JDBCEmptyTestSetup;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SQLServerEmptyTestSetup extends JDBCEmptyTestSetup {
 
-    protected SQLServerEmptyTestSetup() {
-        super(new SQLServerTestSetup());
-    }
+  protected SQLServerEmptyTestSetup() {
+    super(new SQLServerTestSetup());
+  }
 
-    @Override
-    protected void createEmptyTable() throws Exception {
-        run("CREATE TABLE empty(id int, geom geometry)");
-    }
+  @Override
+  protected void createEmptyTable() throws Exception {
+    run("CREATE TABLE empty(id int, geom geometry)");
+  }
 
-    @Override
-    protected void dropEmptyTable() throws Exception {
-        runSafe( "DROP TABLE empty" );
-    }
-
+  @Override
+  protected void dropEmptyTable() throws Exception {
+    runSafe("DROP TABLE empty");
+  }
 }

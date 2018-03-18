@@ -20,8 +20,8 @@ import org.geotools.jdbc.JDBCInEncodingOnlineTest;
 import org.geotools.jdbc.JDBCTestSetup;
 
 public class GeoPkgInEncodingOnlineTest extends JDBCInEncodingOnlineTest {
-    @Override
-    protected JDBCTestSetup createTestSetup() {
-        return new GeoPkgTestSetup();
-    }
+  @Override
+  protected JDBCTestSetup createTestSetup() {
+    return new GeoPkgTestSetup();
+  }
 }

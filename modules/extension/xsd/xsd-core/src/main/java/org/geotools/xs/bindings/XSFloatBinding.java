@@ -21,12 +21,12 @@ import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xs.XS;
 
-
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:float.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="float" id="float"&gt;
  *      &lt;xs:annotation&gt;
@@ -52,74 +52,71 @@ import org.geotools.xs.XS;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSFloatBinding implements SimpleBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return XS.FLOAT;
+  /** @generated */
+  public QName getTarget() {
+    return XS.FLOAT;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link java.lang.Float}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Float.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link java.lang.Float}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    String text = (String) value;
+
+    if ("INF".equals(text)) {
+      return new Float(Float.POSITIVE_INFINITY);
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
+    return new Float((String) text);
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public String encode(Object object, String value) {
+    Float f = (Float) object;
+
+    if (f.floatValue() == Float.POSITIVE_INFINITY) {
+      return "INF";
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link java.lang.Float}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Float.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link java.lang.Float}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        String text = (String) value;
-
-        if ("INF".equals(text)) {
-            return new Float(Float.POSITIVE_INFINITY);
-        }
-
-        return new Float((String) text);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public String encode(Object object, String value) {
-        Float f = (Float) object;
-
-        if (f.floatValue() == Float.POSITIVE_INFINITY) {
-            return "INF";
-        }
-
-        return f.toString();
-    }
+    return f.toString();
+  }
 }

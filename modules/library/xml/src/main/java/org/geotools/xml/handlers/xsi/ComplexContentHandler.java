@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -21,121 +21,97 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
 
-
 /**
- * <p>
  * represents a complex content element
- * </p>
  *
  * @author dzwiers www.refractions.net
- *
- *
  * @source $URL$
  */
 public class ComplexContentHandler extends XSIElementHandler {
-    /** 'complexContent' */
-    public static final String LOCALNAME = "complexContent";
-    private String id;
-    private String mixed;
-    private Object child;
+  /** 'complexContent' */
+  public static final String LOCALNAME = "complexContent";
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    public int hashCode() {
-        return LOCALNAME.hashCode() * ((id == null) ? 1 : id.hashCode()) * ((mixed == null)
-        ? 2 : mixed.hashCode());
+  private String id;
+  private String mixed;
+  private Object child;
+
+  /** @see java.lang.Object#hashCode() */
+  public int hashCode() {
+    return LOCALNAME.hashCode()
+        * ((id == null) ? 1 : id.hashCode())
+        * ((mixed == null) ? 2 : mixed.hashCode());
+  }
+
+  /**
+   * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String, java.lang.String,
+   *     org.xml.sax.Attributes)
+   */
+  public void startElement(String namespaceURI, String localName, Attributes atts) {
+    id = atts.getValue("", "id");
+
+    if (id == null) {
+      id = atts.getValue(namespaceURI, "id");
     }
 
-    /**
-     * @see org.geotools.xml.XSIElementHandler#startElement(java.lang.String,
-     *      java.lang.String, org.xml.sax.Attributes)
-     */
-    public void startElement(String namespaceURI, String localName,
-        Attributes atts){
-        id = atts.getValue("", "id");
+    mixed = atts.getValue("", "mixed");
 
-        if (id == null) {
-            id = atts.getValue(namespaceURI, "id");
+    if (mixed == null) {
+      mixed = atts.getValue(namespaceURI, "mixed");
+    }
+  }
+
+  /** @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String, java.lang.String) */
+  public XSIElementHandler getHandler(String namespaceURI, String localName) throws SAXException {
+    if (SchemaHandler.namespaceURI.equalsIgnoreCase(namespaceURI)) {
+      // child types
+      //
+      // extension
+      if (ExtensionHandler.LOCALNAME.equalsIgnoreCase(localName)) {
+        ExtensionHandler sth = new ExtensionHandler();
+
+        if (child == null) {
+          child = sth;
+        } else {
+          throw new SAXNotRecognizedException(LOCALNAME + " may only have one child declaration.");
         }
 
-        mixed = atts.getValue("", "mixed");
+        return sth;
+      }
 
-        if (mixed == null) {
-            mixed = atts.getValue(namespaceURI, "mixed");
-        }
-    }
+      // restriction
+      if (RestrictionHandler.LOCALNAME.equalsIgnoreCase(localName)) {
+        RestrictionHandler sth = new RestrictionHandler();
 
-    /**
-     * @see org.geotools.xml.XSIElementHandler#getHandler(java.lang.String,
-     *      java.lang.String)
-     */
-    public XSIElementHandler getHandler(String namespaceURI, String localName)
-        throws SAXException {
-        if (SchemaHandler.namespaceURI.equalsIgnoreCase(namespaceURI)) {
-            // child types
-            //
-            // extension
-            if (ExtensionHandler.LOCALNAME.equalsIgnoreCase(localName)) {
-                ExtensionHandler sth = new ExtensionHandler();
-
-                if (child == null) {
-                    child = sth;
-                } else {
-                    throw new SAXNotRecognizedException(LOCALNAME
-                        + " may only have one child declaration.");
-                }
-
-                return sth;
-            }
-
-            // restriction
-            if (RestrictionHandler.LOCALNAME.equalsIgnoreCase(localName)) {
-                RestrictionHandler sth = new RestrictionHandler();
-
-                if (child == null) {
-                    child = sth;
-                } else {
-                    throw new SAXNotRecognizedException(LOCALNAME
-                        + " may only have one child declaration.");
-                }
-
-                return sth;
-            }
+        if (child == null) {
+          child = sth;
+        } else {
+          throw new SAXNotRecognizedException(LOCALNAME + " may only have one child declaration.");
         }
 
-        return null;
+        return sth;
+      }
     }
 
-    /**
-     * <p>
-     * getter for the complexContent's child
-     * </p>
-     *
-     */
-    public Object getChild() {
-        return child;
-    }
+    return null;
+  }
 
-    /**
-     * @see org.geotools.xml.XSIElementHandler#getLocalName()
-     */
-    public String getLocalName() {
-        return LOCALNAME;
-    }
+  /** getter for the complexContent's child */
+  public Object getChild() {
+    return child;
+  }
 
-    /**
-     * @see org.geotools.xml.XSIElementHandler#getHandlerType()
-     */
-    public int getHandlerType() {
-        return DEFAULT;
-    }
+  /** @see org.geotools.xml.XSIElementHandler#getLocalName() */
+  public String getLocalName() {
+    return LOCALNAME;
+  }
 
-    /**
-     * @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String,
-     *      java.lang.String)
-     */
-    public void endElement(String namespaceURI, String localName){
-        // do nothing
-    }
+  /** @see org.geotools.xml.XSIElementHandler#getHandlerType() */
+  public int getHandlerType() {
+    return DEFAULT;
+  }
+
+  /** @see org.geotools.xml.XSIElementHandler#endElement(java.lang.String, java.lang.String) */
+  public void endElement(String namespaceURI, String localName) {
+    // do nothing
+  }
 }

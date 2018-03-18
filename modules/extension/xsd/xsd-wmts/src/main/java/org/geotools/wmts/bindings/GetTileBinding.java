@@ -1,26 +1,23 @@
 package org.geotools.wmts.bindings;
 
-import org.geotools.wmts.WMTS;
-import org.geotools.xml.*;
-import org.geotools.xml.AbstractComplexBinding;
-
+import java.math.BigInteger;
+import java.util.List;
+import javax.xml.namespace.QName;
 import net.opengis.wmts.v_1.DimensionNameValueType;
 import net.opengis.wmts.v_1.DimensionType;
 import net.opengis.wmts.v_1.GetTileType;
 import net.opengis.wmts.v_1.wmtsv_1Factory;
-
-import java.math.BigInteger;
-import java.util.List;
-
-import javax.xml.namespace.QName;
+import org.geotools.wmts.WMTS;
+import org.geotools.xml.*;
+import org.geotools.xml.AbstractComplexBinding;
 
 /**
  * Binding object for the element http://www.opengis.net/wmts/1.0:GetTile.
  *
  * <p>
- * 
+ *
  * <pre>
- *	 <code>
+ *  <code>
  *  &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element name="GetTile" xmlns="http://www.w3.org/2001/XMLSchema"&gt;
  *  		&lt;complexType&gt;
  *  			&lt;sequence&gt;
@@ -68,62 +65,62 @@ import javax.xml.namespace.QName;
  *  			&lt;attribute fixed="WMTS" name="service" type="string" use="required"/&gt;
  *  			&lt;attribute fixed="1.0.0" name="version" type="string" use="required"/&gt;
  *  		&lt;/complexType&gt;
- *  	&lt;/element&gt; 
- *		
- *	  </code>
+ *  	&lt;/element&gt;
+ *
+ *   </code>
  * </pre>
- * </p>
  *
  * @generated
  */
 public class GetTileBinding extends AbstractComplexBinding {
 
-    wmtsv_1Factory factory;
+  wmtsv_1Factory factory;
 
-    public GetTileBinding(wmtsv_1Factory factory) {
-        super();
-        this.factory = factory;
+  public GetTileBinding(wmtsv_1Factory factory) {
+    super();
+    this.factory = factory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return WMTS.GetTile;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return GetTileType.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    GetTileType getTile = factory.createGetTileType();
+
+    getTile.setLayer((String) node.getChildValue("Layer"));
+    getTile.setStyle((String) node.getChildValue("Style"));
+    getTile.setFormat((String) node.getChildValue("Format"));
+    getTile.setService((String) node.getChildValue("service"));
+    getTile.setVersion((String) node.getChildValue("version"));
+    getTile.setTileCol((BigInteger) node.getChildValue("TileCol"));
+    getTile.setTileRow((BigInteger) node.getChildValue("TileRow"));
+    getTile.setTileMatrix((String) node.getChildValue("TileMatrix"));
+    getTile.setTileMatrixSet((String) node.getChildValue("TileMatrixSet"));
+    List<Node> children = node.getChildren(DimensionType.class);
+    for (Node c : children) {
+      getTile.getDimensionNameValue().add((DimensionNameValueType) c.getValue());
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WMTS.GetTile;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return GetTileType.class;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        GetTileType getTile = factory.createGetTileType();
-        
-        getTile.setLayer((String) node.getChildValue("Layer"));
-        getTile.setStyle((String) node.getChildValue("Style"));
-        getTile.setFormat((String) node.getChildValue("Format"));
-        getTile.setService((String) node.getChildValue("service"));
-        getTile.setVersion((String) node.getChildValue("version"));
-        getTile.setTileCol((BigInteger) node.getChildValue("TileCol"));
-        getTile.setTileRow((BigInteger) node.getChildValue("TileRow"));
-        getTile.setTileMatrix((String) node.getChildValue("TileMatrix"));
-        getTile.setTileMatrixSet((String) node.getChildValue("TileMatrixSet"));
-        List<Node> children = node.getChildren(DimensionType.class);
-        for(Node c:children) {  
-            getTile.getDimensionNameValue().add((DimensionNameValueType) c.getValue());
-        }
-        
-        return getTile;
-    }
-
+    return getTile;
+  }
 }

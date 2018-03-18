@@ -17,36 +17,28 @@
 package org.geotools.sld.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.styling.StyleFactory;
-import org.opengis.util.InternationalString;
 
 /**
- * <p>
- *        <pre>
- *         <code> 
+ *
+ *
+ * <pre>
+ *         <code>
  *    &lt;xsd:element name="Title" type="sld:InternationalStringType"/&gt;
  *          </code>
  *         </pre>
- * </p>
- *  
- * @author "Mauro Bartolomeoli - mauro.bartolomeoli@geo-solutions.it"
  *
+ * @author "Mauro Bartolomeoli - mauro.bartolomeoli@geo-solutions.it"
  */
 public class SLDTitleBinding extends SLDInternationalStringBinding {
 
-    /**
-     * @param styleFactory
-     */
-    public SLDTitleBinding(StyleFactory styleFactory) {
-        super(styleFactory);
-    }
+  /** @param styleFactory */
+  public SLDTitleBinding(StyleFactory styleFactory) {
+    super(styleFactory);
+  }
 
-    @Override
-    public QName getTarget() {
-        return SLD.TITLE;
-    }
-    
-    
-
+  @Override
+  public QName getTarget() {
+    return SLD.TITLE;
+  }
 }

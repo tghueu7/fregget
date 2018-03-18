@@ -16,12 +16,11 @@ package org.geotools.data.geojson;
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.logging.Logger;
-
-import org.geotools.data.Query;
 import org.geotools.feature.DefaultFeatureCollection;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureIterator;
@@ -29,79 +28,76 @@ import org.geotools.geojson.feature.FeatureJSON;
 import org.geotools.util.logging.Logging;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.type.FeatureType;
-import org.opengis.filter.Filter;
 
 /**
  * Utility class to provide a reader for GeoJSON streams
- * 
- * @author ian
  *
+ * @author ian
  */
 public class GeoJSONReader {
-    private static final Logger LOGGER = Logging.getLogger(GeoJSONReader.class.getName());
+  private static final Logger LOGGER = Logging.getLogger(GeoJSONReader.class.getName());
 
-    private FeatureJSON reader = new FeatureJSON();
+  private FeatureJSON reader = new FeatureJSON();
 
-    private InputStream inputStream;
+  private InputStream inputStream;
 
-    private URL url;
+  private URL url;
 
-    public GeoJSONReader(URL url) {
-        this.url = url;
+  public GeoJSONReader(URL url) {
+    this.url = url;
+  }
+
+  public boolean isConnected() {
+    try {
+      inputStream = url.openStream();
+      if (inputStream == null) {
+        url = new URL(url.toExternalForm());
+        inputStream = url.openStream();
+      }
+    } catch (IOException e) {
+      // whoops
+      return false;
     }
+    try {
+      if (inputStream.available() == 0) {
+        url = new URL(url.toExternalForm());
+        inputStream = url.openStream();
+      }
 
-    public boolean isConnected() {
-        try {
-            inputStream = url.openStream();
-            if(inputStream==null) {
-              url = new URL(url.toExternalForm());
-              inputStream = url.openStream();
-            }
-        } catch (IOException e) {
-            // whoops
-            return false;
-        }
-        try {
-            if(inputStream.available()==0) {
-              url = new URL(url.toExternalForm());
-              inputStream = url.openStream();
-            }
-        
-            LOGGER.finest("inputstream is " + inputStream);
-            return (inputStream != null) && (inputStream.available() > 0);
-        } catch (IOException e) {
-            // something went wrong
-            LOGGER.throwing(this.getClass().getName(), "isConnected", e);
-            return false;
-        }
+      LOGGER.finest("inputstream is " + inputStream);
+      return (inputStream != null) && (inputStream.available() > 0);
+    } catch (IOException e) {
+      // something went wrong
+      LOGGER.throwing(this.getClass().getName(), "isConnected", e);
+      return false;
     }
+  }
 
-    public FeatureCollection getFeatures() throws IOException {
-        if (!isConnected()) {
-            throw new IOException("not connected to " + url.toExternalForm());
-        }
-        reader = new FeatureJSON();
-        LOGGER.fine("reading features from " + url.toExternalForm() + " inputstream");
-        FeatureCollection collection = reader.readFeatureCollection(inputStream);
-        inputStream.close();
-        
-        return collection;
-
+  public FeatureCollection getFeatures() throws IOException {
+    if (!isConnected()) {
+      throw new IOException("not connected to " + url.toExternalForm());
     }
+    reader = new FeatureJSON();
+    LOGGER.fine("reading features from " + url.toExternalForm() + " inputstream");
+    FeatureCollection collection = reader.readFeatureCollection(inputStream);
+    inputStream.close();
 
-    public FeatureIterator<SimpleFeature> getIterator() throws IOException {
-        if (!isConnected()) {
-            return new DefaultFeatureCollection(null, null).features();
-        }
-        return reader.streamFeatureCollection(inputStream);
+    return collection;
+  }
+
+  public FeatureIterator<SimpleFeature> getIterator() throws IOException {
+    if (!isConnected()) {
+      return new DefaultFeatureCollection(null, null).features();
     }
+    return reader.streamFeatureCollection(inputStream);
+  }
 
-    public FeatureType getSchema() throws IOException {
-        if (!isConnected()) {
-            throw new IOException("not connected to " + url.toExternalForm());
-        }
-        FeatureType schema = reader.readFeatureCollection(inputStream).getSchema();
-
-        return schema;
+  public FeatureType getSchema() throws IOException {
+    if (!isConnected()) {
+      throw new IOException("not connected to " + url.toExternalForm());
     }
+    FeatureType schema = reader.readFeatureCollection(inputStream).getSchema();
+
+    return schema;
+  }
 }

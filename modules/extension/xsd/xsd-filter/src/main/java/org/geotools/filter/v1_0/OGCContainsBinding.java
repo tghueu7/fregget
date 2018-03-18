@@ -16,74 +16,69 @@
  */
 package org.geotools.filter.v1_0;
 
-import javax.xml.namespace.QName;
 import com.vividsolutions.jts.geom.GeometryFactory;
-import org.opengis.filter.FilterFactory2;
-import org.opengis.filter.expression.Expression;
-import org.opengis.filter.spatial.Contains;
+import javax.xml.namespace.QName;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
-
+import org.opengis.filter.FilterFactory2;
+import org.opengis.filter.expression.Expression;
+import org.opengis.filter.spatial.Contains;
 
 /**
  * Binding object for the element http://www.opengis.net/ogc:Contains.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Contains" substitutionGroup="ogc:spatialOps" type="ogc:BinarySpatialOpType"/&gt;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCContainsBinding extends AbstractComplexBinding {
-    FilterFactory2 filterFactory;
-    GeometryFactory geometryFactory;
+  FilterFactory2 filterFactory;
+  GeometryFactory geometryFactory;
 
-    public OGCContainsBinding(FilterFactory2 filterFactory, GeometryFactory geometryFactory) {
-        this.filterFactory = filterFactory;
-        this.geometryFactory = geometryFactory;
-    }
+  public OGCContainsBinding(FilterFactory2 filterFactory, GeometryFactory geometryFactory) {
+    this.filterFactory = filterFactory;
+    this.geometryFactory = geometryFactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.Contains;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return OGC.Contains;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Contains.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Contains.class;
+  }
 
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Expression[] operands = OGCUtils.spatial(node, filterFactory, geometryFactory);
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Expression[] operands = OGCUtils.spatial(node, filterFactory, geometryFactory);
 
-        return filterFactory.contains(operands[0], operands[1]);
-    }
+    return filterFactory.contains(operands[0], operands[1]);
+  }
 }

@@ -23,12 +23,12 @@ import org.geotools.xml.SimpleBinding;
 import org.geotools.xml.impl.DatatypeConverterImpl;
 import org.geotools.xs.XS;
 
-
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:QName.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="QName" id="QName"&gt;
  *      &lt;xs:annotation&gt;
@@ -53,110 +53,103 @@ import org.geotools.xs.XS;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSQNameBinding implements SimpleBinding {
-    protected NamespaceContext namespaceContext;
+  protected NamespaceContext namespaceContext;
 
-    public XSQNameBinding(NamespaceContext namespaceContext) {
-        this.namespaceContext = namespaceContext;
+  public XSQNameBinding(NamespaceContext namespaceContext) {
+    this.namespaceContext = namespaceContext;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return XS.QNAME;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link QName}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return QName.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link QName}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+
+    // if value passed in was null just return "null" qname
+    if (value == null) {
+      return new QName(null);
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return XS.QNAME;
+    QName qName = null;
+    try {
+      qName = DatatypeConverterImpl.getInstance().parseQName((String) value, namespaceContext);
+    } catch (Exception e) {
+      // could occur if a prefix that was not registered was found
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return OVERRIDE;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link QName}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return QName.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link QName}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        
-        //if value passed in was null just return "null" qname
-        if (value == null) {
-            return new QName(null);
+    // try to set the prefix
+    if (qName != null && (qName.getPrefix() == null || qName.getPrefix().equals(""))) {
+      if (qName.getNamespaceURI() != null && !"".equals(qName.getNamespaceURI())) {
+        String prefix = namespaceContext.getPrefix(qName.getNamespaceURI());
+        if (prefix != null && !"".equals(prefix)) {
+          qName = new QName(qName.getNamespaceURI(), qName.getLocalPart(), prefix);
         }
-        
-        QName qName = null;
-        try {
-            qName = DatatypeConverterImpl.getInstance().parseQName((String) value, namespaceContext);
-        }
-        catch( Exception e ) {
-            //could occur if a prefix that was not registered was found
-        }
-        
-        //try to set the prefix
-        if (qName != null && (qName.getPrefix() == null || qName.getPrefix().equals( "") ) ) {
-            if ( qName.getNamespaceURI() != null && !"".equals(qName.getNamespaceURI()) ) {
-                String prefix = namespaceContext.getPrefix(qName.getNamespaceURI());
-                if ( prefix != null && !"".equals( prefix ) ) {
-                    qName = new QName( qName.getNamespaceURI(), qName.getLocalPart(), prefix );
-                }
-            }
-            return qName;
-        }
-
-        //could not parse with convert, parse manually
-        String s = (String) value;
-        int i = s.indexOf(':');
-
-        if (i != -1) {
-            String prefix = s.substring(0, i);
-            String local = s.substring(i + 1);
-
-            return new QName(null, local, prefix);
-        }
-
-        return new QName(null, s);
+      }
+      return qName;
     }
 
-    public String encode(Object object, String value) throws Exception {
-        try {
-            return DatatypeConverterImpl.getInstance().printQName(
-                    (QName) object, namespaceContext);
-        } catch (Exception e) {
-            //will happen if a prefix is not in the context, serialize manually
-            QName qName = (QName) object;
-            if ( qName.getPrefix() == null || qName.getPrefix().equals( "") ) {
-                return qName.getLocalPart();
-            }
-            
-            return qName.getPrefix() + ":" + qName.getLocalPart();
-            
-        }        
+    // could not parse with convert, parse manually
+    String s = (String) value;
+    int i = s.indexOf(':');
+
+    if (i != -1) {
+      String prefix = s.substring(0, i);
+      String local = s.substring(i + 1);
+
+      return new QName(null, local, prefix);
     }
+
+    return new QName(null, s);
+  }
+
+  public String encode(Object object, String value) throws Exception {
+    try {
+      return DatatypeConverterImpl.getInstance().printQName((QName) object, namespaceContext);
+    } catch (Exception e) {
+      // will happen if a prefix is not in the context, serialize manually
+      QName qName = (QName) object;
+      if (qName.getPrefix() == null || qName.getPrefix().equals("")) {
+        return qName.getLocalPart();
+      }
+
+      return qName.getPrefix() + ":" + qName.getLocalPart();
+    }
+  }
 }

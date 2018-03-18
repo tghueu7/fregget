@@ -22,52 +22,42 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class MultiMap implements Map, Serializable {
-  
+
   private Map m_map = null;
   private Class m_collectionClass;
-  
-  public MultiMap(Map map, Class collectionClass)  {
+
+  public MultiMap(Map map, Class collectionClass) {
     m_map = map;
     m_collectionClass = collectionClass;
-  }  
-  
+  }
+
   public Object put(Object key, Object value) {
     Collection c = null;
-    
-    if ((c = (Collection)m_map.get(key)) == null) {
+
+    if ((c = (Collection) m_map.get(key)) == null) {
       try {
-        c = (Collection)m_collectionClass.newInstance();
-      } 
-      catch (InstantiationException e) {
-        throw new IllegalStateException(
-          e.getClass().getName() + ": " + e.getMessage()  
-        );
-      } 
-      catch (IllegalAccessException e) {
-        throw new IllegalStateException(
-          e.getClass().getName() + ": " + e.getMessage()  
-        );
+        c = (Collection) m_collectionClass.newInstance();
+      } catch (InstantiationException e) {
+        throw new IllegalStateException(e.getClass().getName() + ": " + e.getMessage());
+      } catch (IllegalAccessException e) {
+        throw new IllegalStateException(e.getClass().getName() + ": " + e.getMessage());
       }
-      
-      m_map.put(key, c);   
-    }  
-    
+
+      m_map.put(key, c);
+    }
+
     c.add(value);
-    return(c);
+    return (c);
   }
 
   public void putItems(Object key, Collection items) {
-    m_map.put(key, items);  
+    m_map.put(key, items);
   }
-  
+
   public int size() {
-    return(m_map.size());
+    return (m_map.size());
   }
 
   public void clear() {
@@ -75,38 +65,38 @@ public class MultiMap implements Map, Serializable {
   }
 
   public boolean isEmpty() {
-    return(m_map.isEmpty());
+    return (m_map.isEmpty());
   }
 
   public boolean containsKey(Object key) {
-    return(m_map.containsKey(key));
+    return (m_map.containsKey(key));
   }
 
   public boolean containsValue(Object value) {
-    for (Iterator itr = values().iterator(); itr.hasNext();) {
-      Collection c = (Collection)itr.next();
-      if (c.contains(value)) return(true);  
+    for (Iterator itr = values().iterator(); itr.hasNext(); ) {
+      Collection c = (Collection) itr.next();
+      if (c.contains(value)) return (true);
     }
-    return(false);
+    return (false);
   }
 
   public Collection values() {
-    return(m_map.values());
+    return (m_map.values());
   }
 
   public void putAll(Map t) {
-    for (Iterator itr = t.entrySet().iterator(); itr.hasNext();) {
-      Map.Entry entry = (Map.Entry)itr.next();
+    for (Iterator itr = t.entrySet().iterator(); itr.hasNext(); ) {
+      Map.Entry entry = (Map.Entry) itr.next();
       put(entry.getKey(), entry.getValue());
     }
   }
 
   public Set entrySet() {
-    return(m_map.entrySet());
+    return (m_map.entrySet());
   }
 
   public Set keySet() {
-    return(m_map.keySet());
+    return (m_map.keySet());
   }
 
   public Object get(Object key) {
@@ -114,28 +104,21 @@ public class MultiMap implements Map, Serializable {
     if ((obj = m_map.get(key)) == null) {
       try {
         obj = m_collectionClass.newInstance();
-      } 
-      catch (InstantiationException e) {
-        throw new IllegalStateException(
-          e.getClass().getName() + ": " + e.getMessage()  
-        );
-      } 
-      catch (IllegalAccessException e) {
-        throw new IllegalStateException(
-          e.getClass().getName() + ": " + e.getMessage()  
-        );
-      }    
-      putItems(key, (Collection)obj);
+      } catch (InstantiationException e) {
+        throw new IllegalStateException(e.getClass().getName() + ": " + e.getMessage());
+      } catch (IllegalAccessException e) {
+        throw new IllegalStateException(e.getClass().getName() + ": " + e.getMessage());
+      }
+      putItems(key, (Collection) obj);
     }
-    return(obj);
+    return (obj);
   }
 
   public Collection getItems(Object key) {
-    return((Collection)get(key));  
+    return ((Collection) get(key));
   }
-  
+
   public Object remove(Object key) {
-    return(m_map.remove(key));
+    return (m_map.remove(key));
   }
-    
 }

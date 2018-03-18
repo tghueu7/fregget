@@ -18,10 +18,7 @@ package org.geotools.data.wmts.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.geotools.data.ows.CRSEnvelope;
-
 import org.geotools.referencing.CRS;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
@@ -30,135 +27,124 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 /**
  * The geometry of the tiled space.
  *
- * In a tiled map layer, the representation of the space is constrained in a discrete set of
- * parameters. A tile matrix set defines these parameters. Each tile matrix set contains one
- * or more "tile matrices" defining the tiles that are available for that coordinate reference
- * system.
+ * <p>In a tiled map layer, the representation of the space is constrained in a discrete set of
+ * parameters. A tile matrix set defines these parameters. Each tile matrix set contains one or more
+ * "tile matrices" defining the tiles that are available for that coordinate reference system.
  *
  * @author Emanuele Tajariol (etj at geo-solutions dot it)
  */
 public class TileMatrixSet {
-    private static final CoordinateReferenceSystem WEB_MERCATOR_CRS;
+  private static final CoordinateReferenceSystem WEB_MERCATOR_CRS;
 
-    static {
-        CoordinateReferenceSystem tmpCrs = null;
+  static {
+    CoordinateReferenceSystem tmpCrs = null;
 
-        try {
-            tmpCrs = CRS.decode("EPSG:3857");
-        } catch (FactoryException e) {
-            throw new RuntimeException(e);
-        }
-        WEB_MERCATOR_CRS = tmpCrs;
+    try {
+      tmpCrs = CRS.decode("EPSG:3857");
+    } catch (FactoryException e) {
+      throw new RuntimeException(e);
+    }
+    WEB_MERCATOR_CRS = tmpCrs;
+  }
+
+  private String identifier;
+
+  private String crs;
+
+  private String wellKnownScaleSet;
+
+  CoordinateReferenceSystem coordinateReferenceSystem;
+
+  private CRSEnvelope bbox;
+
+  private ArrayList<TileMatrix> matrices = new ArrayList<>();
+
+  public void setIdentifier(String id) {
+    this.identifier = id;
+  }
+
+  public void setCRS(String crs) throws IllegalArgumentException {
+    try {
+      this.coordinateReferenceSystem = parseCoordinateReferenceSystem(crs);
+    } catch (Exception ex) {
+      throw new IllegalArgumentException("Can't parse crs " + crs + ":" + ex.getMessage(), ex);
     }
 
-    private String identifier;
+    this.crs = crs;
+  }
 
-    private String crs;
+  public void addMatrix(TileMatrix tileMatrix) {
+    matrices.add(tileMatrix);
+  }
 
-    private String wellKnownScaleSet;
+  /** @return the crs */
+  public String getCrs() {
+    return crs;
+  }
 
-    CoordinateReferenceSystem coordinateReferenceSystem;
+  public CoordinateReferenceSystem getCoordinateReferenceSystem() {
+    return coordinateReferenceSystem;
+  }
 
-    private CRSEnvelope bbox;
+  /**
+   * Try and parse the crs string.
+   *
+   * <p>Also takes care of including deprecated codes like EPSG:900913 replacing them with
+   * EPSG:3857.
+   */
+  protected CoordinateReferenceSystem parseCoordinateReferenceSystem(String crs)
+      throws NoSuchAuthorityCodeException, FactoryException {
 
-    private ArrayList<TileMatrix> matrices = new ArrayList<>();
-
-    public void setIdentifier(String id) {
-        this.identifier = id;
+    if (crs.equalsIgnoreCase("epsg:900913")
+        || crs.equalsIgnoreCase("urn:ogc:def:crs:EPSG::900913")) {
+      return WEB_MERCATOR_CRS;
     }
 
-    public void setCRS(String crs) throws IllegalArgumentException {
-        try {
-            this.coordinateReferenceSystem = parseCoordinateReferenceSystem(crs);
-        } catch (Exception ex) {
-            throw new IllegalArgumentException("Can't parse crs " + crs + ":" + ex.getMessage(),
-                    ex);
-        }
+    return CRS.decode(crs);
+  }
 
-        this.crs = crs;
+  /** @return the matrices */
+  public List<TileMatrix> getMatrices() {
+    return matrices;
+  }
+
+  /** @param matrices the matrices to set */
+  public void setMatrices(ArrayList<TileMatrix> matrices) {
+    this.matrices = matrices;
+  }
+
+  /** @return the identifier */
+  public String getIdentifier() {
+    return identifier;
+  }
+
+  public CRSEnvelope getBbox() {
+    return bbox;
+  }
+
+  public void setBbox(CRSEnvelope bbox) {
+    this.bbox = bbox;
+  }
+
+  public String getWellKnownScaleSet() {
+    return wellKnownScaleSet;
+  }
+
+  public void setWellKnownScaleSet(String wellKnownScaleSet) {
+    this.wellKnownScaleSet = wellKnownScaleSet;
+  }
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(getIdentifier()).append("\t").append(getCrs()).append("\n");
+    for (TileMatrix m : matrices) {
+      sb.append("\t").append(m.toString());
     }
+    return sb.toString();
+  }
 
-    public void addMatrix(TileMatrix tileMatrix) {
-        matrices.add(tileMatrix);
-    }
-
-    /**
-     * @return the crs
-     */
-    public String getCrs() {
-        return crs;
-    }
-
-    public CoordinateReferenceSystem getCoordinateReferenceSystem() {
-        return coordinateReferenceSystem;
-    }
-
-    /**
-     * Try and parse the crs string.
-     *
-     * Also takes care of including deprecated codes like EPSG:900913 replacing them with EPSG:3857.
-     */
-    protected CoordinateReferenceSystem parseCoordinateReferenceSystem(String crs)
-            throws NoSuchAuthorityCodeException, FactoryException {
-
-        if (crs.equalsIgnoreCase("epsg:900913")
-                || crs.equalsIgnoreCase("urn:ogc:def:crs:EPSG::900913")) {
-            return WEB_MERCATOR_CRS;
-        }
-
-        return CRS.decode(crs);
-    }
-
-    /**
-     * @return the matrices
-     */
-    public List<TileMatrix> getMatrices() {
-        return matrices;
-    }
-
-    /**
-     * @param matrices the matrices to set
-     */
-    public void setMatrices(ArrayList<TileMatrix> matrices) {
-        this.matrices = matrices;
-    }
-
-    /**
-     * @return the identifier
-     */
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public CRSEnvelope getBbox() {
-        return bbox;
-    }
-
-    public void setBbox(CRSEnvelope bbox) {
-        this.bbox = bbox;
-    }
-
-    public String getWellKnownScaleSet() {
-        return wellKnownScaleSet;
-    }
-
-    public void setWellKnownScaleSet(String wellKnownScaleSet) {
-        this.wellKnownScaleSet = wellKnownScaleSet;
-    }
-
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getIdentifier()).append("\t").append(getCrs()).append("\n");
-        for (TileMatrix m : matrices) {
-            sb.append("\t").append(m.toString());
-        }
-        return sb.toString();
-    }
-
-    /**
-     * @return the number of levels in this MatrixSet
-     */
-    public int size() {
-        return matrices.size();
-    }
+  /** @return the number of levels in this MatrixSet */
+  public int size() {
+    return matrices.size();
+  }
 }

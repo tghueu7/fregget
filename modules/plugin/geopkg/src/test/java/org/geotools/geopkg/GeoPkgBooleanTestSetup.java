@@ -19,37 +19,32 @@ package org.geotools.geopkg;
 import org.geotools.jdbc.JDBCBooleanTestSetup;
 import org.geotools.jdbc.JDBCTestSetup;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GeoPkgBooleanTestSetup extends JDBCBooleanTestSetup {
 
-    public GeoPkgBooleanTestSetup(JDBCTestSetup delegate) {
-        super(delegate);
-    }
+  public GeoPkgBooleanTestSetup(JDBCTestSetup delegate) {
+    super(delegate);
+  }
 
-    @Override
-    protected void createBooleanTable() throws Exception {
-        //drop old data
-        run( "CREATE TABLE b ( id INTEGER PRIMARY KEY, boolProperty BOOLEAN)" );
-        run( "INSERT INTO b (boolProperty) VALUES (0)");
-        run( "INSERT INTO b (boolProperty) VALUES (1)");
-        String sql = "INSERT INTO gpkg_geometry_columns VALUES ('b', 'geometry', 'POINT', 4326, 0, 0)";
-        run(sql);
-        
-        sql = "INSERT INTO gpkg_contents (table_name, data_type, identifier, srs_id) VALUES " +
-            "('b', 'features', 'b', 4326)";
-        run(sql);
-    }
+  @Override
+  protected void createBooleanTable() throws Exception {
+    // drop old data
+    run("CREATE TABLE b ( id INTEGER PRIMARY KEY, boolProperty BOOLEAN)");
+    run("INSERT INTO b (boolProperty) VALUES (0)");
+    run("INSERT INTO b (boolProperty) VALUES (1)");
+    String sql = "INSERT INTO gpkg_geometry_columns VALUES ('b', 'geometry', 'POINT', 4326, 0, 0)";
+    run(sql);
 
-    @Override
-    protected void dropBooleanTable() throws Exception {
-        runSafe( "DROP TABLE b");
-        runSafe("DELETE FROM gpkg_geometry_columns where table_name = 'b'");
-        runSafe("DELETE FROM gpkg_contents where table_name = 'b'");
-    }
-    
+    sql =
+        "INSERT INTO gpkg_contents (table_name, data_type, identifier, srs_id) VALUES "
+            + "('b', 'features', 'b', 4326)";
+    run(sql);
+  }
 
+  @Override
+  protected void dropBooleanTable() throws Exception {
+    runSafe("DROP TABLE b");
+    runSafe("DELETE FROM gpkg_geometry_columns where table_name = 'b'");
+    runSafe("DELETE FROM gpkg_contents where table_name = 'b'");
+  }
 }

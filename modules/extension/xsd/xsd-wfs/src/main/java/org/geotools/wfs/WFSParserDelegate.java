@@ -20,18 +20,14 @@ import org.geotools.xml.XSDParserDelegate;
 
 /**
  * Parser delegate for WFS.
- * 
+ *
  * @author Justin Deoliveira, OpenGEO
  * @since 2.6
- *
- *
- *
  * @source $URL$
  */
 public class WFSParserDelegate extends XSDParserDelegate {
 
-    public WFSParserDelegate() {
-        super(new org.geotools.wfs.v1_1.WFSConfiguration());
-    }
-
+  public WFSParserDelegate() {
+    super(new org.geotools.wfs.v1_1.WFSConfiguration());
+  }
 }

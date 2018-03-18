@@ -20,40 +20,36 @@ import org.geotools.jdbc.JDBCDataStore;
 import org.geotools.jdbc.JDBCGeometrylessTestSetup;
 import org.geotools.jdbc.JDBCTestSetup;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class H2GeometrylessTestSetup extends JDBCGeometrylessTestSetup {
 
-    protected H2GeometrylessTestSetup(JDBCTestSetup delegate) {
-        super(delegate);
-    }
+  protected H2GeometrylessTestSetup(JDBCTestSetup delegate) {
+    super(delegate);
+  }
 
-    @Override
-    protected void setUpDataStore(JDBCDataStore dataStore) {
-        super.setUpDataStore(dataStore);
-        
-        dataStore.setDatabaseSchema( null );
-    }
-    
-    @Override
-    protected void createPersonTable() throws Exception {
-        run("CREATE TABLE \"person\"(\"fid\" int AUTO_INCREMENT(0) PRIMARY KEY, \"id\" int, "
-                + "\"name\" varchar, \"age\" int)");
-        run("INSERT INTO \"person\" (\"id\",\"name\",\"age\") VALUES (0,'Paul',32)");
-        run("INSERT INTO \"person\" (\"id\",\"name\",\"age\") VALUES (0,'Anne',40)");
-    }
+  @Override
+  protected void setUpDataStore(JDBCDataStore dataStore) {
+    super.setUpDataStore(dataStore);
 
-    @Override
-    protected void dropPersonTable() throws Exception {
-        run("DROP TABLE \"person\"");
-    }
+    dataStore.setDatabaseSchema(null);
+  }
 
-    @Override
-    protected void dropZipCodeTable() throws Exception {
-        run("DROP TABLE \"zipcode\"");
-    }
+  @Override
+  protected void createPersonTable() throws Exception {
+    run(
+        "CREATE TABLE \"person\"(\"fid\" int AUTO_INCREMENT(0) PRIMARY KEY, \"id\" int, "
+            + "\"name\" varchar, \"age\" int)");
+    run("INSERT INTO \"person\" (\"id\",\"name\",\"age\") VALUES (0,'Paul',32)");
+    run("INSERT INTO \"person\" (\"id\",\"name\",\"age\") VALUES (0,'Anne',40)");
+  }
 
+  @Override
+  protected void dropPersonTable() throws Exception {
+    run("DROP TABLE \"person\"");
+  }
+
+  @Override
+  protected void dropZipCodeTable() throws Exception {
+    run("DROP TABLE \"zipcode\"");
+  }
 }

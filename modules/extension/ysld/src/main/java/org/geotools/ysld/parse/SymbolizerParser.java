@@ -4,7 +4,7 @@
  *
  *    (C) 2016 Open Source Geospatial Foundation (OSGeo)
  *    (C) 2014-2016 Boundless Spatial
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -24,30 +24,31 @@ import org.geotools.ysld.YamlMap;
 import org.geotools.ysld.YamlObject;
 
 /**
- * Base class for handling the parsing of Ysld "symbolizer" properties into {@link Symbolizer} objects. 
- * 
+ * Base class for handling the parsing of Ysld "symbolizer" properties into {@link Symbolizer}
+ * objects.
+ *
  * @param <T> The type of {@link Symbolizer} being parsed.
  */
 public class SymbolizerParser<T extends Symbolizer> extends YsldParseHandler {
 
-    protected T sym;
+  protected T sym;
 
-    protected SymbolizerParser(Rule rule, T sym, Factory factory) {
-        super(factory);
-        rule.symbolizers().add(this.sym = sym);
-    }
+  protected SymbolizerParser(Rule rule, T sym, Factory factory) {
+    super(factory);
+    rule.symbolizers().add(this.sym = sym);
+  }
 
-    @Override
-    public void handle(YamlObject<?> obj, YamlParseContext context) {
-        YamlMap map = obj.map();
-        sym.setName(map.str("name"));
-        if (map.has("geometry")) {
-            sym.setGeometry(Util.expression(map.str("geometry"), factory));
-        }
-        UomMapper uomMapper = (UomMapper) context.getDocHint(UomMapper.KEY);
-        if (map.has("uom")) {
-            sym.setUnitOfMeasure(uomMapper.getUnit(map.str("uom")));
-        }
-        sym.getOptions().putAll(Util.vendorOptions(map));
+  @Override
+  public void handle(YamlObject<?> obj, YamlParseContext context) {
+    YamlMap map = obj.map();
+    sym.setName(map.str("name"));
+    if (map.has("geometry")) {
+      sym.setGeometry(Util.expression(map.str("geometry"), factory));
     }
+    UomMapper uomMapper = (UomMapper) context.getDocHint(UomMapper.KEY);
+    if (map.has("uom")) {
+      sym.setUnitOfMeasure(uomMapper.getUnit(map.str("uom")));
+    }
+    sym.getOptions().putAll(Util.vendorOptions(map));
+  }
 }

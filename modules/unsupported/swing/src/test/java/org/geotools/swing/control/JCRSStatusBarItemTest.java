@@ -17,65 +17,64 @@
 
 package org.geotools.swing.control;
 
-import org.geotools.map.MapContent;
-import org.geotools.swing.MapPane;
-import org.geotools.swing.testutils.GraphicsTestRunner;
-import org.geotools.swing.testutils.GraphicsTestBase;
-import org.geotools.swing.testutils.MockMapPane;
+import static org.junit.Assert.*;
 
 import org.fest.swing.edt.GuiActionRunner;
 import org.fest.swing.edt.GuiTask;
-
+import org.geotools.map.MapContent;
+import org.geotools.swing.MapPane;
+import org.geotools.swing.testutils.GraphicsTestBase;
+import org.geotools.swing.testutils.GraphicsTestRunner;
+import org.geotools.swing.testutils.MockMapPane;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.junit.Assert.*;
 
 /**
  * Unit tests for JCRSStatusBarItem.
  *
  * @author Michael Bedward
  * @since 8.0
- *
  * @source $URL$
  * @version $Id$
  */
 @RunWith(GraphicsTestRunner.class)
 public class JCRSStatusBarItemTest extends GraphicsTestBase {
 
-    private MapPane mapPane;
-    private JCRSStatusBarItem item;
+  private MapPane mapPane;
+  private JCRSStatusBarItem item;
 
-    @Before
-    public void setup() {
-        GuiActionRunner.execute(new GuiTask() {
-            @Override
-            protected void executeInEDT() throws Throwable {
-                mapPane = new MockMapPane();
-            }
+  @Before
+  public void setup() {
+    GuiActionRunner.execute(
+        new GuiTask() {
+          @Override
+          protected void executeInEDT() throws Throwable {
+            mapPane = new MockMapPane();
+          }
         });
-    }
-    
-    @Test
-    public void createItemWhenMapContentHasBeenSet() {
-        MapContent mapContent = new MapContent();
-        mapPane.setMapContent(mapContent);
-        createItemInEDT();
-    }
+  }
 
-    @Test
-    public void canCreateItemBeforeMapContentIsSet() {
-        assertNull(mapPane.getMapContent());
-        createItemInEDT();
-    }
+  @Test
+  public void createItemWhenMapContentHasBeenSet() {
+    MapContent mapContent = new MapContent();
+    mapPane.setMapContent(mapContent);
+    createItemInEDT();
+  }
 
-    private void createItemInEDT() {
-        GuiActionRunner.execute(new GuiTask() {
-            @Override
-            protected void executeInEDT() throws Throwable {
-                item = new JCRSStatusBarItem(mapPane);
-            }
+  @Test
+  public void canCreateItemBeforeMapContentIsSet() {
+    assertNull(mapPane.getMapContent());
+    createItemInEDT();
+  }
+
+  private void createItemInEDT() {
+    GuiActionRunner.execute(
+        new GuiTask() {
+          @Override
+          protected void executeInEDT() throws Throwable {
+            item = new JCRSStatusBarItem(mapPane);
+          }
         });
-    }
-    
+  }
 }

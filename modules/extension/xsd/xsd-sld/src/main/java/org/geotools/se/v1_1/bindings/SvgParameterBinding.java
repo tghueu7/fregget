@@ -16,18 +16,17 @@
  */
 package org.geotools.se.v1_1.bindings;
 
+import javax.xml.namespace.QName;
 import org.geotools.se.v1_1.SE;
 import org.geotools.sld.bindings.SLDCssParameterBinding;
 import org.geotools.xml.*;
 import org.opengis.filter.FilterFactory;
 
-import javax.xml.namespace.QName;
-
 /**
  * Binding object for the element http://www.opengis.net/se:SvgParameter.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *  <code>
  *  &lt;xsd:element name="SvgParameter" type="se:SvgParameterType"&gt;
@@ -38,28 +37,22 @@ import javax.xml.namespace.QName;
  *          and the content of the element gives the SVG/CSS-coded value.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class SvgParameterBinding extends SLDCssParameterBinding {
 
-    public SvgParameterBinding(FilterFactory filterFactory) {
-        super(filterFactory);
-    }
+  public SvgParameterBinding(FilterFactory filterFactory) {
+    super(filterFactory);
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SE.SvgParameter;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return SE.SvgParameter;
+  }
 }

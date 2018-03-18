@@ -17,22 +17,20 @@
 package org.geotools.wfs.v1_0;
 
 import javax.xml.namespace.QName;
-
 import net.opengis.wfs.OperationType;
 import net.opengis.wfs.OperationsType;
 import net.opengis.wfs.WfsFactory;
-
 import org.geotools.wfs.WFS;
 import org.geotools.xml.AbstractComplexEMFBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-
 /**
  * Binding object for the type http://www.opengis.net/wfs:OperationsType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="OperationsType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -42,54 +40,49 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OperationsTypeBinding extends AbstractComplexEMFBinding {
-    
-    private WfsFactory factory;
-    
-    public OperationsTypeBinding(WfsFactory factory) {
-        super(factory);
-        this.factory = factory;
-    }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WFS.OperationsType;
-    }
+  private WfsFactory factory;
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return OperationsType.class;
-    }
+  public OperationsTypeBinding(WfsFactory factory) {
+    super(factory);
+    this.factory = factory;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {                
-        OperationsType om = factory.createOperationsType();        
-        for (Object ob : OperationType.VALUES){
-            if (node.getChild(((OperationType) ob).getName()) != null){
-                om.getOperation().add(ob);
-            }
-        }        
-        return om;        
-    } 
+  /** @generated */
+  public QName getTarget() {
+    return WFS.OperationsType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return OperationsType.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    OperationsType om = factory.createOperationsType();
+    for (Object ob : OperationType.VALUES) {
+      if (node.getChild(((OperationType) ob).getName()) != null) {
+        om.getOperation().add(ob);
+      }
+    }
+    return om;
+  }
 }

@@ -25,43 +25,39 @@ import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.util.URLs;
 import org.junit.Test;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class FidIndexerTest extends FIDTestCase {
 
-    /*
-     * Test method for 'org.geotools.index.fid.FidIndexer.generate(URL)'
-     */
-    @Test
-    public void testGenerate() throws Exception {
-        ShpFiles shpFiles = new ShpFiles(backshp.toURI().toURL());
-        FidIndexer.generate(shpFiles);
+  /*
+   * Test method for 'org.geotools.index.fid.FidIndexer.generate(URL)'
+   */
+  @Test
+  public void testGenerate() throws Exception {
+    ShpFiles shpFiles = new ShpFiles(backshp.toURI().toURL());
+    FidIndexer.generate(shpFiles);
 
-        ShapefileDataStore ds = new ShapefileDataStore(URLs.fileToUrl(backshp));
+    ShapefileDataStore ds = new ShapefileDataStore(URLs.fileToUrl(backshp));
 
-        SimpleFeatureSource fs = ds.getFeatureSource();
-        int features = fs.getCount(Query.ALL);
+    SimpleFeatureSource fs = ds.getFeatureSource();
+    int features = fs.getCount(Query.ALL);
 
-        IndexedFidReader reader = new IndexedFidReader(shpFiles);
+    IndexedFidReader reader = new IndexedFidReader(shpFiles);
 
-        try {
-            assertEquals(features, reader.getCount());
+    try {
+      assertEquals(features, reader.getCount());
 
-            int i = 1;
+      int i = 1;
 
-            while (reader.hasNext()) {
-                assertEquals(shpFiles.getTypeName() + "." + i, reader.next());
-                assertEquals(shpFiles.getTypeName() + "." + i, i - 1, reader.currentSHXIndex());
-                i++;
-            }
+      while (reader.hasNext()) {
+        assertEquals(shpFiles.getTypeName() + "." + i, reader.next());
+        assertEquals(shpFiles.getTypeName() + "." + i, i - 1, reader.currentSHXIndex());
+        i++;
+      }
 
-            assertEquals(features, i - 1);
-        } finally {
-            reader.close();
-            ds.dispose();
-        }
+      assertEquals(features, i - 1);
+    } finally {
+      reader.close();
+      ds.dispose();
     }
+  }
 }

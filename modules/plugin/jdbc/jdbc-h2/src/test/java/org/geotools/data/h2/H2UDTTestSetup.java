@@ -19,34 +19,29 @@ package org.geotools.data.h2;
 import org.geotools.jdbc.JDBCDataStore;
 import org.geotools.jdbc.JDBCUDTTestSetup;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class H2UDTTestSetup extends JDBCUDTTestSetup {
 
-    public H2UDTTestSetup() {
-        super(new H2TestSetup());
-    }
+  public H2UDTTestSetup() {
+    super(new H2TestSetup());
+  }
 
-    @Override
-    protected void setUpDataStore(JDBCDataStore dataStore) {
-        super.setUpDataStore(dataStore);
-        dataStore.setDatabaseSchema( null );
-    }
-    
-    @Override
-    protected void createUdtTable() throws Exception {
-        run("CREATE DOMAIN \"foo\" AS text CHECK (VALUE REGEXP '\\d{2}\\D{2}');");
-        run("CREATE TABLE \"udt\" (\"id\" integer PRIMARY KEY, \"ut\" \"foo\");");
-        run("INSERT INTO \"udt\" VALUES (0, '12ab');");
-    }
+  @Override
+  protected void setUpDataStore(JDBCDataStore dataStore) {
+    super.setUpDataStore(dataStore);
+    dataStore.setDatabaseSchema(null);
+  }
 
-    @Override
-    protected void dropUdtTable() throws Exception {
-        runSafe("DROP TABLE \"udt\"");
-        runSafe("DROP DOMAIN \"foo\"");
-}
+  @Override
+  protected void createUdtTable() throws Exception {
+    run("CREATE DOMAIN \"foo\" AS text CHECK (VALUE REGEXP '\\d{2}\\D{2}');");
+    run("CREATE TABLE \"udt\" (\"id\" integer PRIMARY KEY, \"ut\" \"foo\");");
+    run("INSERT INTO \"udt\" VALUES (0, '12ab');");
+  }
 
+  @Override
+  protected void dropUdtTable() throws Exception {
+    runSafe("DROP TABLE \"udt\"");
+    runSafe("DROP DOMAIN \"foo\"");
+  }
 }

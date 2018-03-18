@@ -22,30 +22,29 @@ import org.junit.Test;
 
 public class TileFactoryTest {
 
-    protected TileFactory factory;
+  protected TileFactory factory;
 
-    @Before
-    public void setUp() {
-        this.factory = createFactory();
-    }
+  @Before
+  public void setUp() {
+    this.factory = createFactory();
+  }
 
-    @Test
-    public void testNormalizeDegreeValue() {
+  @Test
+  public void testNormalizeDegreeValue() {
 
-        double value1 = TileFactory.normalizeDegreeValue(-210, 180);
-        Assert.assertEquals(150, value1, 0.00001);
-        double value2 = TileFactory.normalizeDegreeValue(-91, 90);
-        Assert.assertEquals(89, value2, 0.00001);
+    double value1 = TileFactory.normalizeDegreeValue(-210, 180);
+    Assert.assertEquals(150, value1, 0.00001);
+    double value2 = TileFactory.normalizeDegreeValue(-91, 90);
+    Assert.assertEquals(89, value2, 0.00001);
 
-        double value3 = TileFactory.normalizeDegreeValue(210, 180);
-        Assert.assertEquals(-150, value3, 0.00001);
-        double value4 = TileFactory.normalizeDegreeValue(91, 90);
-        Assert.assertEquals(-89, value4, 0.00001);
+    double value3 = TileFactory.normalizeDegreeValue(210, 180);
+    Assert.assertEquals(-150, value3, 0.00001);
+    double value4 = TileFactory.normalizeDegreeValue(91, 90);
+    Assert.assertEquals(-89, value4, 0.00001);
+  }
 
-    }
-
-    protected TileFactory createFactory() {
-        // not used in this test
-        return null;
-    }
+  protected TileFactory createFactory() {
+    // not used in this test
+    return null;
+  }
 }

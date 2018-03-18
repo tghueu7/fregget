@@ -17,19 +17,17 @@
 package org.geotools.wfs.bindings;
 
 import javax.xml.namespace.QName;
-
 import net.opengis.wfs.GMLObjectTypeListType;
 import net.opengis.wfs.WfsFactory;
-
 import org.geotools.wfs.WFS;
 import org.geotools.xml.AbstractComplexEMFBinding;
-
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:GMLObjectTypeListType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="GMLObjectTypeListType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -45,33 +43,28 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLObjectTypeListTypeBinding extends AbstractComplexEMFBinding {
-    public GMLObjectTypeListTypeBinding(WfsFactory factory) {
-        super(factory);
-    }
+  public GMLObjectTypeListTypeBinding(WfsFactory factory) {
+    super(factory);
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WFS.GMLObjectTypeListType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return WFS.GMLObjectTypeListType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return GMLObjectTypeListType.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return GMLObjectTypeListType.class;
+  }
 }

@@ -18,7 +18,6 @@ package org.geotools.gce.imagemosaic.catalog.oracle;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.geotools.data.DataAccess;
 import org.geotools.data.DataStore;
 import org.geotools.data.simple.SimpleFeatureStore;
@@ -30,15 +29,16 @@ import org.opengis.feature.type.Name;
 
 public class OracleTransformFeatureStore extends TransformFeatureStore {
 
-    DataStore datastore;
+  DataStore datastore;
 
-    public OracleTransformFeatureStore(SimpleFeatureStore store, Name name,
-            List<Definition> definitions, DataStore datastore) throws IOException {
-        super(store, name, definitions);
-        this.datastore = datastore;
-    }
+  public OracleTransformFeatureStore(
+      SimpleFeatureStore store, Name name, List<Definition> definitions, DataStore datastore)
+      throws IOException {
+    super(store, name, definitions);
+    this.datastore = datastore;
+  }
 
-    public DataAccess<SimpleFeatureType, SimpleFeature> getDataStore() {
-        return datastore;
-    }
+  public DataAccess<SimpleFeatureType, SimpleFeature> getDataStore() {
+    return datastore;
+  }
 }

@@ -16,6 +16,8 @@
  */
 package org.geotools.gml3.simple;
 
+import com.vividsolutions.jts.geom.MultiPoint;
+import com.vividsolutions.jts.geom.Point;
 import org.geotools.gml2.simple.GMLWriter;
 import org.geotools.gml2.simple.GeometryEncoder;
 import org.geotools.gml2.simple.QualifiedName;
@@ -23,46 +25,42 @@ import org.geotools.gml3.GML;
 import org.geotools.xml.Encoder;
 import org.xml.sax.helpers.AttributesImpl;
 
-import com.vividsolutions.jts.geom.MultiPoint;
-import com.vividsolutions.jts.geom.Point;
-
 /**
  * Encodes a GML3 multi point
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */
 class MultiPointEncoder extends GeometryEncoder<MultiPoint> {
-    static final QualifiedName MULTI_POINT = new QualifiedName(GML.NAMESPACE, "MultiPoint", "gml");
+  static final QualifiedName MULTI_POINT = new QualifiedName(GML.NAMESPACE, "MultiPoint", "gml");
 
-    static final QualifiedName POINT_MEMBER = new QualifiedName(GML.NAMESPACE, "pointMember", "gml");
+  static final QualifiedName POINT_MEMBER = new QualifiedName(GML.NAMESPACE, "pointMember", "gml");
 
-    PointEncoder pe;
+  PointEncoder pe;
 
-    QualifiedName multiPoint;
+  QualifiedName multiPoint;
 
-    QualifiedName pointMember;
+  QualifiedName pointMember;
 
-    protected MultiPointEncoder(Encoder encoder, String gmlPrefix, String gmlUri) {
-        super(encoder);
-        pe = new PointEncoder(encoder, gmlPrefix, gmlUri);
-        multiPoint = MULTI_POINT.derive(gmlPrefix, gmlUri);
-        pointMember = POINT_MEMBER.derive(gmlPrefix, gmlUri);
+  protected MultiPointEncoder(Encoder encoder, String gmlPrefix, String gmlUri) {
+    super(encoder);
+    pe = new PointEncoder(encoder, gmlPrefix, gmlUri);
+    multiPoint = MULTI_POINT.derive(gmlPrefix, gmlUri);
+    pointMember = POINT_MEMBER.derive(gmlPrefix, gmlUri);
+  }
+
+  @Override
+  public void encode(MultiPoint geometry, AttributesImpl atts, GMLWriter handler, String gmlId)
+      throws Exception {
+    atts = cloneWithGmlId(atts, gmlId);
+    handler.startElement(multiPoint, atts);
+
+    for (int i = 0; i < geometry.getNumGeometries(); i++) {
+      handler.startElement(pointMember, null);
+      pe.encode((Point) geometry.getGeometryN(i), null, handler, gmlId + "." + (i + 1));
+      handler.endElement(pointMember);
     }
 
-    @Override
-    public void encode(MultiPoint geometry, AttributesImpl atts, GMLWriter handler, String gmlId)
-            throws Exception {
-        atts = cloneWithGmlId(atts, gmlId);
-        handler.startElement(multiPoint, atts);
-
-        for (int i = 0; i < geometry.getNumGeometries(); i++) {
-            handler.startElement(pointMember, null);
-            pe.encode((Point) geometry.getGeometryN(i), null, handler, gmlId + "." + (i + 1));
-            handler.endElement(pointMember);
-        }
-
-        handler.endElement(multiPoint);
-    }
-
+    handler.endElement(multiPoint);
+  }
 }

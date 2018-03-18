@@ -21,9 +21,8 @@ import org.geotools.jdbc.JDBCJoinTestSetup;
 
 public class H2JoinTest extends JDBCJoinOnlineTest {
 
-    @Override
-    protected JDBCJoinTestSetup createTestSetup() {
-        return new H2JoinTestSetup();
-    }
-
+  @Override
+  protected JDBCJoinTestSetup createTestSetup() {
+    return new H2JoinTestSetup();
+  }
 }

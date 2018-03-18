@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -13,114 +13,109 @@
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
- *    
+ *
  */
 package org.geotools.process.geometry;
-
-import java.util.logging.Level;
-
-import org.geotools.geometry.jts.GeometryBuilder;
 
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.operation.distance.DistanceOp;
-
+import org.geotools.geometry.jts.GeometryBuilder;
 
 /**
  * Based on Vladimir Agafonkin's Algorithm https://www.mapbox.com/blog/polygon-center/
- * 
- * Implementation of quadtree cells for "Pole of inaccessibility". 
- * 
+ *
+ * <p>Implementation of quadtree cells for "Pole of inaccessibility".
+ *
  * @author Ian Turton
  * @author Casper Børgesen
- * 
  */
 public class Cell implements Comparable<Cell> {
-    static final private GeometryBuilder GB = new GeometryBuilder();
+  private static final GeometryBuilder GB = new GeometryBuilder();
 
-    private static final double SQRT2 = 1.4142135623730951;
+  private static final double SQRT2 = 1.4142135623730951;
 
-    private double x;
+  private double x;
 
-    private double y;
+  private double y;
 
-    private double h;
+  private double h;
 
-    private double d;
+  private double d;
 
-    private double max;
+  private double max;
 
-    Cell(double x, double y, double h, MultiPolygon polygon) {
+  Cell(double x, double y, double h, MultiPolygon polygon) {
 
-        this.setX(x); // cell center x
-        this.setY(y); // cell center y
-        this.setH(h); // half the cell size
-        Point p = GB.point(x, y);
+    this.setX(x); // cell center x
+    this.setY(y); // cell center y
+    this.setH(h); // half the cell size
+    Point p = GB.point(x, y);
 
-        // distance from cell center to polygon
-        this.setD(pointToPolygonDist(p, polygon)); 
-        
-        // max distance to polygon within a cell
-        this.setMax(this.getD() + this.getH() * SQRT2); 
-    }
+    // distance from cell center to polygon
+    this.setD(pointToPolygonDist(p, polygon));
 
-    @Override
-    public int compareTo(Cell o) {
+    // max distance to polygon within a cell
+    this.setMax(this.getD() + this.getH() * SQRT2);
+  }
 
-        return (int) (o.getMax() - getMax());
-    }
+  @Override
+  public int compareTo(Cell o) {
 
-    public Point getPoint() {
-        return GB.point(x, y);
-    }
+    return (int) (o.getMax() - getMax());
+  }
 
-    // signed distance from point to polygon outline (negative if point is
-    // outside)
-    private double pointToPolygonDist(Point point, MultiPolygon polygon) {
-        boolean inside = polygon.contains(point);
-        double dist = DistanceOp.distance(point, polygon.getBoundary());
+  public Point getPoint() {
+    return GB.point(x, y);
+  }
 
-        // Points outside has a negative distance and thus will be weighted down later.
-        return (inside ? 1 : -1) * dist;
-    }
+  // signed distance from point to polygon outline (negative if point is
+  // outside)
+  private double pointToPolygonDist(Point point, MultiPolygon polygon) {
+    boolean inside = polygon.contains(point);
+    double dist = DistanceOp.distance(point, polygon.getBoundary());
 
-    public double getMax() {
-        return max;
-    }
+    // Points outside has a negative distance and thus will be weighted down later.
+    return (inside ? 1 : -1) * dist;
+  }
 
-    public void setMax(double max) {
-        this.max = max;
-    }
+  public double getMax() {
+    return max;
+  }
 
-    public double getD() {
-        return d;
-    }
+  public void setMax(double max) {
+    this.max = max;
+  }
 
-    public void setD(double d) {
-        this.d = d;
-    }
+  public double getD() {
+    return d;
+  }
 
-    public double getH() {
-        return h;
-    }
+  public void setD(double d) {
+    this.d = d;
+  }
 
-    public void setH(double h) {
-        this.h = h;
-    }
+  public double getH() {
+    return h;
+  }
 
-    public double getX() {
-        return x;
-    }
+  public void setH(double h) {
+    this.h = h;
+  }
 
-    public void setX(double x) {
-        this.x = x;
-    }
+  public double getX() {
+    return x;
+  }
 
-    public double getY() {
-        return y;
-    }
+  public void setX(double x) {
+    this.x = x;
+  }
 
-    public void setY(double y) {
-        this.y = y;
-    }
+  public double getY() {
+    return y;
+  }
+
+  public void setY(double y) {
+    this.y = y;
+  }
 }

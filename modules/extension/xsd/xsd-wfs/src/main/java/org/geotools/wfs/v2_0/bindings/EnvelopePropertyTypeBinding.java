@@ -18,9 +18,7 @@ package org.geotools.wfs.v2_0.bindings;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.gml3.v3_2.GML;
@@ -29,18 +27,18 @@ import org.geotools.xml.AbstractComplexBinding;
 
 public class EnvelopePropertyTypeBinding extends AbstractComplexBinding {
 
-    public QName getTarget() {
-        return WFS.EnvelopePropertyType;
-    }
+  public QName getTarget() {
+    return WFS.EnvelopePropertyType;
+  }
 
-    public Class getType() {
-        return ReferencedEnvelope.class;
-    }
+  public Class getType() {
+    return ReferencedEnvelope.class;
+  }
 
-    @Override
-    public List getProperties(Object object, XSDElementDeclaration element) throws Exception {
-        List l = new ArrayList();
-        l.add(new Object[]{GML.Envelope, object});
-        return l;
-    }
+  @Override
+  public List getProperties(Object object, XSDElementDeclaration element) throws Exception {
+    List l = new ArrayList();
+    l.add(new Object[] {GML.Envelope, object});
+    return l;
+  }
 }

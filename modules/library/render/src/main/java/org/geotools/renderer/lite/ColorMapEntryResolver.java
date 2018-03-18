@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -24,45 +24,38 @@ import org.opengis.filter.expression.Expression;
 import org.opengis.filter.expression.Literal;
 
 /**
- * Simple support class created with the intention of expanding env
- * function in raster symbolizer before passing it to another thread
- * for rendering
- * 
- * @author Andrea Aime - GeoSolutions
+ * Simple support class created with the intention of expanding env function in raster symbolizer
+ * before passing it to another thread for rendering
  *
+ * @author Andrea Aime - GeoSolutions
  */
 class ColorMapEntryResolver extends DuplicatingStyleVisitor {
-    
-    SimplifyingFilterVisitor simplifier = new SimplifyingFilterVisitor();
-    
 
-    protected Expression copyCqlExpression(Expression expression) {
-        if( expression == null  ) return null;
-        Expression simplified = null;
-        if(expression instanceof Literal) {
-            String value = expression.evaluate(null, String.class);
-            if(value != null && value.startsWith("${"));
-            expression = ExpressionExtractor.extractCqlExpressions(value);
-        } 
-        simplified = (Expression) expression.accept( simplifier, ff );
-        return simplified;
-    }
-    
-    public void visit(ColorMapEntry colorMapEntry) {
-        ColorMapEntry copy = sf.createColorMapEntry();
-        copy.setColor(copyCqlExpression(colorMapEntry.getColor()));
-        copy.setLabel(colorMapEntry.getLabel());
-        copy.setOpacity(copyCqlExpression(colorMapEntry.getOpacity()));
-        copy.setQuantity(copyCqlExpression(colorMapEntry.getQuantity()));
+  SimplifyingFilterVisitor simplifier = new SimplifyingFilterVisitor();
 
-        if (STRICT && !copy.equals(colorMapEntry)) {
-            throw new IllegalStateException("Was unable to duplicate provided ColorMapEntry:" + colorMapEntry);
-        }
-        pages.push(copy);
+  protected Expression copyCqlExpression(Expression expression) {
+    if (expression == null) return null;
+    Expression simplified = null;
+    if (expression instanceof Literal) {
+      String value = expression.evaluate(null, String.class);
+      if (value != null && value.startsWith("${")) ;
+      expression = ExpressionExtractor.extractCqlExpressions(value);
     }
-    
-    
-    
-    
-    
+    simplified = (Expression) expression.accept(simplifier, ff);
+    return simplified;
+  }
+
+  public void visit(ColorMapEntry colorMapEntry) {
+    ColorMapEntry copy = sf.createColorMapEntry();
+    copy.setColor(copyCqlExpression(colorMapEntry.getColor()));
+    copy.setLabel(colorMapEntry.getLabel());
+    copy.setOpacity(copyCqlExpression(colorMapEntry.getOpacity()));
+    copy.setQuantity(copyCqlExpression(colorMapEntry.getQuantity()));
+
+    if (STRICT && !copy.equals(colorMapEntry)) {
+      throw new IllegalStateException(
+          "Was unable to duplicate provided ColorMapEntry:" + colorMapEntry);
+    }
+    pages.push(copy);
+  }
 }

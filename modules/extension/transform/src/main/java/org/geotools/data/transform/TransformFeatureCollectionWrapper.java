@@ -19,7 +19,6 @@ package org.geotools.data.transform;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.collection.AbstractFeatureCollection;
@@ -32,79 +31,78 @@ import org.opengis.geometry.BoundingBox;
 
 /**
  * A reshaping collection based on a user provided feature collection
- * 
+ *
  * @author Andrea Aime - GeoSolution
  */
 class TransformFeatureCollectionWrapper extends AbstractFeatureCollection {
 
-    FeatureCollection<SimpleFeatureType, SimpleFeature> wrapped;
+  FeatureCollection<SimpleFeatureType, SimpleFeature> wrapped;
 
-    Transformer transformer;
+  Transformer transformer;
 
-    public TransformFeatureCollectionWrapper(
-            FeatureCollection<SimpleFeatureType, SimpleFeature> wrapped, Transformer transformer) {
-        super(wrapped.getSchema());
-        this.wrapped = wrapped;
-        this.transformer = transformer;
+  public TransformFeatureCollectionWrapper(
+      FeatureCollection<SimpleFeatureType, SimpleFeature> wrapped, Transformer transformer) {
+    super(wrapped.getSchema());
+    this.wrapped = wrapped;
+    this.transformer = transformer;
+  }
+
+  @Override
+  protected Iterator<SimpleFeature> openIterator() {
+    try {
+      return new SimpleFeatureIteratorIterator(
+          new TransformFeatureIteratorWrapper(wrapped.features(), transformer));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public int size() {
+    return wrapped.size();
+  }
+
+  @Override
+  public ReferencedEnvelope getBounds() {
+    // see if we can just reflect the original collection bounds
+    List<String> names = transformer.getGeometryPropertyNames();
+    if (names == null) {
+      return null;
+    }
+    boolean geometryTransformed = false;
+    for (String name : names) {
+      Expression expression = transformer.getExpression(name);
+      if (expression != null && !(expression instanceof PropertyName)) {
+        geometryTransformed = true;
+      }
+    }
+    if (!geometryTransformed) {
+      return wrapped.getBounds();
     }
 
-    @Override
-    protected Iterator<SimpleFeature> openIterator() {
-        try {
-            return new SimpleFeatureIteratorIterator(new TransformFeatureIteratorWrapper(
-                    wrapped.features(), transformer));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    // sigh, fall back to brute force computation
+    SimpleFeatureIterator fi = null;
+    ReferencedEnvelope re = null;
+    try {
+      fi = features();
+      while (fi.hasNext()) {
+        SimpleFeature f = fi.next();
+        BoundingBox bb = f.getBounds();
+        if (bb != null) {
+          ReferencedEnvelope ref = ReferencedEnvelope.reference(bb);
+          if (re == null) {
+            re = ref;
+          } else {
+            re.expandToInclude(ref);
+          }
         }
+      }
+
+      return re;
+    } finally {
+      if (fi != null) {
+        fi.close();
+      }
     }
-
-    @Override
-    public int size() {
-        return wrapped.size();
-    }
-
-    @Override
-    public ReferencedEnvelope getBounds() {
-        // see if we can just reflect the original collection bounds
-        List<String> names = transformer.getGeometryPropertyNames();
-        if (names == null) {
-            return null;
-        }
-        boolean geometryTransformed = false;
-        for (String name : names) {
-            Expression expression = transformer.getExpression(name);
-            if (expression != null && !(expression instanceof PropertyName)) {
-                geometryTransformed = true;
-
-            }
-        }
-        if (!geometryTransformed) {
-            return wrapped.getBounds();
-        }
-
-        // sigh, fall back to brute force computation
-        SimpleFeatureIterator fi = null;
-        ReferencedEnvelope re = null;
-        try {
-            fi = features();
-            while (fi.hasNext()) {
-                SimpleFeature f = fi.next();
-                BoundingBox bb = f.getBounds();
-                if (bb != null) {
-                    ReferencedEnvelope ref = ReferencedEnvelope.reference(bb);
-                    if (re == null) {
-                        re = ref;
-                    } else {
-                        re.expandToInclude(ref);
-                    }
-                }
-            }
-
-            return re;
-        } finally {
-            if (fi != null) {
-                fi.close();
-            }
-        }
-    }
+  }
 }

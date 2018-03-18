@@ -20,8 +20,8 @@ import org.geotools.kml.bindings.DocumentTypeBinding;
 import org.geotools.kml.v22.KML;
 
 public class DocumentTypeV22Binding extends DocumentTypeBinding {
-    @Override
-    protected Object getPlacemarkName() {
-        return KML.Placemark;
-    }
+  @Override
+  protected Object getPlacemarkName() {
+    return KML.Placemark;
+  }
 }

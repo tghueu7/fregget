@@ -21,83 +21,73 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.opengis.feature.Attribute;
 
 /**
  * @author Russell Petty (GeoScience Victoria)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  */
 public class PathAttributeList {
-   
-private Map<String, List<Pair>> elements = new HashMap<String, List<Pair>>();
 
-private Map<String, String> labelToXpath = new HashMap<String, String>();
+  private Map<String, List<Pair>> elements = new HashMap<String, List<Pair>>();
 
-    /**
-     * Store information for labelled attributes.
-     * 
-     * @param key
-     *            AttributeMapping label
-     * @param xpath
-     *            full input xpath from web service including itemXpath + instanceXpath
-     * @param attribute
-     *            Attribute instance that is created for the AttributeMapping
-     */
-    public void put(String key, String xpath, Attribute attribute) {
-        List<Pair> ls = null;
-        if (elements.containsKey(key)) {
-            ls = elements.get(key);
-        } else {
-            ls = new ArrayList<Pair>();
-            elements.put(key, ls);
-            labelToXpath.put(key, xpath);
-        }
-        ls.add(new Pair(xpath, attribute));
+  private Map<String, String> labelToXpath = new HashMap<String, String>();
+
+  /**
+   * Store information for labelled attributes.
+   *
+   * @param key AttributeMapping label
+   * @param xpath full input xpath from web service including itemXpath + instanceXpath
+   * @param attribute Attribute instance that is created for the AttributeMapping
+   */
+  public void put(String key, String xpath, Attribute attribute) {
+    List<Pair> ls = null;
+    if (elements.containsKey(key)) {
+      ls = elements.get(key);
+    } else {
+      ls = new ArrayList<Pair>();
+      elements.put(key, ls);
+      labelToXpath.put(key, xpath);
     }
-    
-    /**
-     * Get full input xpath based on the label.
-     * 
-     * @param label
-     *            AttributeMapping label
-     * @return full input xpath from web service including itemXpath + instanceXpath
-     */
-    public String getPath(String label) {
-        return labelToXpath.get(label);
-    }
+    ls.add(new Pair(xpath, attribute));
+  }
 
-    /**
-     * Return list of matching source input xpath - Attribute pair based on the label.
-     * 
-     * @param key
-     *            The attribute label
-     * @return full input xpath - Attribute pair
-     */
-    public List<Pair> get(String key) {
-        return elements.get(key);
-    }
+  /**
+   * Get full input xpath based on the label.
+   *
+   * @param label AttributeMapping label
+   * @return full input xpath from web service including itemXpath + instanceXpath
+   */
+  public String getPath(String label) {
+    return labelToXpath.get(label);
+  }
 
-public class Pair {
+  /**
+   * Return list of matching source input xpath - Attribute pair based on the label.
+   *
+   * @param key The attribute label
+   * @return full input xpath - Attribute pair
+   */
+  public List<Pair> get(String key) {
+    return elements.get(key);
+  }
+
+  public class Pair {
     private String xpath;
     private Attribute attribute;
 
     public Pair(String xpath, Attribute attribute) {
-        this.xpath = xpath;
-        this.attribute = attribute;
+      this.xpath = xpath;
+      this.attribute = attribute;
     }
 
     public String getXpath() {
-        return xpath;
+      return xpath;
     }
 
     public Attribute getAttribute() {
-        return attribute;
+      return attribute;
     }
-    
-}
+  }
 }

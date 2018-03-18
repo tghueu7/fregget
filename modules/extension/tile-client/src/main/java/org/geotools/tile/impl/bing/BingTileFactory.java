@@ -29,25 +29,24 @@ import org.geotools.tile.impl.ZoomLevel;
  */
 class BingTileFactory extends WebMercatorTileFactory {
 
-    public Tile findTileAtCoordinate(double lon, double lat, ZoomLevel zoomLevel,
-            TileService service) {
+  public Tile findTileAtCoordinate(
+      double lon, double lat, ZoomLevel zoomLevel, TileService service) {
 
-        int[] tileXY = BingTileUtil.lonLatToPixelXY(lon, lat, zoomLevel.getZoomLevel());
+    int[] tileXY = BingTileUtil.lonLatToPixelXY(lon, lat, zoomLevel.getZoomLevel());
 
-        int colX = (int) Math.floor(tileXY[0] / BingTile.DEFAULT_TILE_SIZE);
-        int rowY = (int) Math.floor(tileXY[1] / BingTile.DEFAULT_TILE_SIZE);
+    int colX = (int) Math.floor(tileXY[0] / BingTile.DEFAULT_TILE_SIZE);
+    int rowY = (int) Math.floor(tileXY[1] / BingTile.DEFAULT_TILE_SIZE);
 
-        return new BingTile(colX, rowY, zoomLevel, service);
-    }
+    return new BingTile(colX, rowY, zoomLevel, service);
+  }
 
-    @Override
-    public Tile findRightNeighbour(Tile tile, TileService service) {
-        return new BingTile(tile.getTileIdentifier().getRightNeighbour(), service);
-    }
+  @Override
+  public Tile findRightNeighbour(Tile tile, TileService service) {
+    return new BingTile(tile.getTileIdentifier().getRightNeighbour(), service);
+  }
 
-    @Override
-    public Tile findLowerNeighbour(Tile tile, TileService service) {
-        return new BingTile(tile.getTileIdentifier().getLowerNeighbour(), service);
-    }
-
+  @Override
+  public Tile findLowerNeighbour(Tile tile, TileService service) {
+    return new BingTile(tile.getTileIdentifier().getLowerNeighbour(), service);
+  }
 }

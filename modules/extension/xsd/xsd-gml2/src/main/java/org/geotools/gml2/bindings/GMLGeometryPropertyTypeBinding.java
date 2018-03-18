@@ -16,24 +16,21 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.Geometry;
 import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.geotools.gml2.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.Geometry;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:GeometryPropertyType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="GeometryPropertyType"&gt;
  *      &lt;annotation&gt;
@@ -51,61 +48,56 @@ import com.vividsolutions.jts.geom.Geometry;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLGeometryPropertyTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.GEOMETRYPROPERTYTYPE;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return GML.GEOMETRYPROPERTYTYPE;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Geometry.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Geometry.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return (Geometry) value;
-    }
-    
-    @Override
-    public Object getProperty(Object object, QName name) throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperty((Geometry)object, name);
-    }
-    
-    @Override
-    public List getProperties(Object object, XSDElementDeclaration element)
-            throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperties((Geometry)object);
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return (Geometry) value;
+  }
+
+  @Override
+  public Object getProperty(Object object, QName name) throws Exception {
+    return GML2EncodingUtils.GeometryPropertyType_getProperty((Geometry) object, name);
+  }
+
+  @Override
+  public List getProperties(Object object, XSDElementDeclaration element) throws Exception {
+    return GML2EncodingUtils.GeometryPropertyType_getProperties((Geometry) object);
+  }
 }

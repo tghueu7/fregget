@@ -16,35 +16,33 @@
  */
 package org.geotools.data.mongodb.complex;
 
+import static org.geotools.filter.capability.FunctionNameImpl.parameter;
+
 import org.geotools.feature.NameImpl;
 import org.geotools.filter.AttributeExpressionImpl;
 import org.geotools.filter.FunctionExpressionImpl;
 import org.geotools.filter.capability.FunctionNameImpl;
 import org.opengis.filter.capability.FunctionName;
 
-import static org.geotools.filter.capability.FunctionNameImpl.parameter;
-
-/**
- * Extracts all the values of a given JSON path.
- */
+/** Extracts all the values of a given JSON path. */
 public class JsonSelectAllFunction extends FunctionExpressionImpl {
 
-    public static FunctionName DEFINITION = new FunctionNameImpl(
-            "jsonSelectAll", parameter("path", String.class));
+  public static FunctionName DEFINITION =
+      new FunctionNameImpl("jsonSelectAll", parameter("path", String.class));
 
-    public JsonSelectAllFunction() {
-        super(DEFINITION);
-    }
+  public JsonSelectAllFunction() {
+    super(DEFINITION);
+  }
 
-    public Object evaluate(Object object) {
-        String path = (String) this.params.get(0).evaluate(object);
-        if (object == null) {
-            return new AttributeExpressionImpl(new NameImpl(path));
-        }
-        return MongoComplexUtilities.getValues(object, path);
+  public Object evaluate(Object object) {
+    String path = (String) this.params.get(0).evaluate(object);
+    if (object == null) {
+      return new AttributeExpressionImpl(new NameImpl(path));
     }
+    return MongoComplexUtilities.getValues(object, path);
+  }
 
-    public String getJsonPath() {
-        return (String) this.params.get(0).evaluate(null);
-    }
+  public String getJsonPath() {
+    return (String) this.params.get(0).evaluate(null);
+  }
 }

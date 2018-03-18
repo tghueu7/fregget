@@ -23,7 +23,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import org.geotools.coverage.GridSampleDimension;
 import org.geotools.coverage.io.range.FieldType;
 import org.geotools.coverage.io.range.RangeType;
@@ -33,45 +32,41 @@ import org.junit.Test;
 import org.opengis.coverage.SampleDimension;
 import org.opengis.feature.type.Name;
 
-/**
- * 
- * @author Nicola Lagomarsini Geosolutions
- *
- */
+/** @author Nicola Lagomarsini Geosolutions */
 public class TypeTest {
 
-    @Test
-    public void testTypes() {
-        // Creation of a default field type
-        Set<SampleDimension> sampleDims = new HashSet<SampleDimension>();
-        GridSampleDimension sampleDim = new GridSampleDimension("test");
-        sampleDims.add(sampleDim);
-        NameImpl name = new NameImpl("test");
-        SimpleInternationalString description = new SimpleInternationalString("test");
-        FieldType fieldType = new DefaultFieldType(name, description, sampleDims);
-        
-        // Getting the input data and checking if they are equals
-        assertSame(name, fieldType.getName());
-        assertSame(description, fieldType.getDescription());
-        assertTrue(fieldType.getSampleDimensions().contains(sampleDim));
-        
-        // Creation of a RangeType
-        RangeType rangeType = new DefaultRangeType("test", "test", fieldType);
-        
-        assertTrue(rangeType.getName().equals(name));
-        assertTrue(description.compareTo(rangeType.getDescription()) == 0);
-        assertEquals(1, rangeType.getNumFieldTypes());
-        assertSame(fieldType, rangeType.getFieldType("test"));
-        
-        Set<Name> names = rangeType.getFieldTypeNames();
-        assertNotNull(names);
-        assertTrue(names.size() == 1);
-        assertTrue(names.contains(name));
-        
-        Set<FieldType> fieldTypes = rangeType.getFieldTypes();
-        assertNotNull(fieldTypes);
-        assertTrue(fieldTypes.size() == 1);
-        assertTrue(fieldTypes.contains(fieldType));
-        assertTrue(rangeType.toString().contains(fieldType.toString()));
-    }
+  @Test
+  public void testTypes() {
+    // Creation of a default field type
+    Set<SampleDimension> sampleDims = new HashSet<SampleDimension>();
+    GridSampleDimension sampleDim = new GridSampleDimension("test");
+    sampleDims.add(sampleDim);
+    NameImpl name = new NameImpl("test");
+    SimpleInternationalString description = new SimpleInternationalString("test");
+    FieldType fieldType = new DefaultFieldType(name, description, sampleDims);
+
+    // Getting the input data and checking if they are equals
+    assertSame(name, fieldType.getName());
+    assertSame(description, fieldType.getDescription());
+    assertTrue(fieldType.getSampleDimensions().contains(sampleDim));
+
+    // Creation of a RangeType
+    RangeType rangeType = new DefaultRangeType("test", "test", fieldType);
+
+    assertTrue(rangeType.getName().equals(name));
+    assertTrue(description.compareTo(rangeType.getDescription()) == 0);
+    assertEquals(1, rangeType.getNumFieldTypes());
+    assertSame(fieldType, rangeType.getFieldType("test"));
+
+    Set<Name> names = rangeType.getFieldTypeNames();
+    assertNotNull(names);
+    assertTrue(names.size() == 1);
+    assertTrue(names.contains(name));
+
+    Set<FieldType> fieldTypes = rangeType.getFieldTypes();
+    assertNotNull(fieldTypes);
+    assertTrue(fieldTypes.size() == 1);
+    assertTrue(fieldTypes.contains(fieldType));
+    assertTrue(rangeType.toString().contains(fieldType.toString()));
+  }
 }

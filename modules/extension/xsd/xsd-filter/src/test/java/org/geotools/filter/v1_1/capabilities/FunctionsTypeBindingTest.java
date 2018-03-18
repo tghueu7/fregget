@@ -16,19 +16,19 @@
  */
 package org.geotools.filter.v1_1.capabilities;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import javax.xml.namespace.QName;
-import org.opengis.filter.capability.Functions;
 import org.geotools.filter.v1_1.OGC;
 import org.geotools.xml.Binding;
-
+import org.opengis.filter.capability.Functions;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Binding test case for http://www.opengis.net/ogc:FunctionsType.
  *
  * <p>
- *  <pre>
+ *
+ * <pre>
  *   <code>
  *  &lt;xsd:complexType name="FunctionsType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -38,37 +38,33 @@ import org.geotools.xml.Binding;
  *
  *    </code>
  *   </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class FunctionsTypeBindingTest extends OGCTestSupport {
-    public void testType() {
-        assertEquals(Functions.class, binding(OGC.FunctionsType).getType());
-    }
+  public void testType() {
+    assertEquals(Functions.class, binding(OGC.FunctionsType).getType());
+  }
 
-    public void testExectionMode() {
-        assertEquals(Binding.OVERRIDE, binding(OGC.FunctionsType).getExecutionMode());
-    }
+  public void testExectionMode() {
+    assertEquals(Binding.OVERRIDE, binding(OGC.FunctionsType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        Element element = FilterMockData.element(document, document,
-                new QName(OGC.NAMESPACE, "Functions"));
-        FilterMockData.functionNames(document, element);
+  public void testParse() throws Exception {
+    Element element =
+        FilterMockData.element(document, document, new QName(OGC.NAMESPACE, "Functions"));
+    FilterMockData.functionNames(document, element);
 
-        Functions functions = (Functions) parse(OGC.FunctionsType);
-        assertEquals(2, functions.getFunctionNames().size());
-    }
+    Functions functions = (Functions) parse(OGC.FunctionsType);
+    assertEquals(2, functions.getFunctionNames().size());
+  }
 
-    public void testEncode() throws Exception {
-        Functions functions = FilterMockData.functions();
-        Document dom = encode(functions, new QName(OGC.NAMESPACE, "Functions"), OGC.FunctionsType);
+  public void testEncode() throws Exception {
+    Functions functions = FilterMockData.functions();
+    Document dom = encode(functions, new QName(OGC.NAMESPACE, "Functions"), OGC.FunctionsType);
 
-        assertEquals(1, dom.getElementsByTagNameNS(OGC.NAMESPACE, "FunctionNames").getLength());
-        assertEquals(2, dom.getElementsByTagNameNS(OGC.NAMESPACE, "FunctionName").getLength());
-    }
+    assertEquals(1, dom.getElementsByTagNameNS(OGC.NAMESPACE, "FunctionNames").getLength());
+    assertEquals(2, dom.getElementsByTagNameNS(OGC.NAMESPACE, "FunctionName").getLength());
+  }
 }

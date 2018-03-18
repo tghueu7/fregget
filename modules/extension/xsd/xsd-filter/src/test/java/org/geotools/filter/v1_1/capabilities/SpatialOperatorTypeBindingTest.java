@@ -16,18 +16,18 @@
  */
 package org.geotools.filter.v1_1.capabilities;
 
-import org.w3c.dom.Document;
 import javax.xml.namespace.QName;
-import org.opengis.filter.capability.SpatialOperator;
 import org.geotools.filter.v1_1.OGC;
 import org.geotools.xml.Binding;
-
+import org.opengis.filter.capability.SpatialOperator;
+import org.w3c.dom.Document;
 
 /**
  * Binding test case for http://www.opengis.net/ogc:SpatialOperatorType.
  *
  * <p>
- *  <pre>
+ *
+ * <pre>
  *   <code>
  *  &lt;xsd:complexType name="SpatialOperatorType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -38,34 +38,33 @@ import org.geotools.xml.Binding;
  *
  *    </code>
  *   </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SpatialOperatorTypeBindingTest extends OGCTestSupport {
-    public void testType() {
-        assertEquals(SpatialOperator.class, binding(OGC.SpatialOperatorType).getType());
-    }
+  public void testType() {
+    assertEquals(SpatialOperator.class, binding(OGC.SpatialOperatorType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(OGC.SpatialOperatorType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(OGC.SpatialOperatorType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        FilterMockData.spatialOperator(document, document, "Intersect");
+  public void testParse() throws Exception {
+    FilterMockData.spatialOperator(document, document, "Intersect");
 
-        SpatialOperator sop = (SpatialOperator) parse(OGC.SpatialOperatorType);
+    SpatialOperator sop = (SpatialOperator) parse(OGC.SpatialOperatorType);
 
-        assertEquals("Intersect", sop.getName());
-    }
+    assertEquals("Intersect", sop.getName());
+  }
 
-    public void testEncode() throws Exception {
-        Document dom = encode(FilterMockData.spatialOperator("Intersect"),
-                new QName(OGC.NAMESPACE, "SpatialOperator"), OGC.SpatialOperatorType);
-        assertEquals("Intersect", dom.getDocumentElement().getAttribute("name"));
-    }
+  public void testEncode() throws Exception {
+    Document dom =
+        encode(
+            FilterMockData.spatialOperator("Intersect"),
+            new QName(OGC.NAMESPACE, "SpatialOperator"),
+            OGC.SpatialOperatorType);
+    assertEquals("Intersect", dom.getDocumentElement().getAttribute("name"));
+  }
 }

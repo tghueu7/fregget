@@ -20,22 +20,20 @@ import org.geotools.gml3.GML;
 import org.geotools.gml3.GML3TestSupport;
 import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class CurvePropertyTypeBindingTest extends GML3TestSupport {
 
-    @Override
-    protected boolean enableExtendedArcSurfaceSupport() {
-        return true;
-    }
+  @Override
+  protected boolean enableExtendedArcSurfaceSupport() {
+    return true;
+  }
 
-    public void testEncode() throws Exception {
-        Document dom = encode(GML3MockData.multiLineString(), GML.curveProperty);
-        // print(dom);
-        assertEquals(1, dom.getElementsByTagName("gml:Curve").getLength() + dom.getElementsByTagName("gml:LineString").getLength() );
-    }
+  public void testEncode() throws Exception {
+    Document dom = encode(GML3MockData.multiLineString(), GML.curveProperty);
+    // print(dom);
+    assertEquals(
+        1,
+        dom.getElementsByTagName("gml:Curve").getLength()
+            + dom.getElementsByTagName("gml:LineString").getLength());
+  }
 }

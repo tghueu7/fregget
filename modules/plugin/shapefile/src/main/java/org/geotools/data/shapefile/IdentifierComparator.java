@@ -17,34 +17,33 @@
 package org.geotools.data.shapefile;
 
 import java.util.Comparator;
-
 import org.opengis.filter.identity.Identifier;
 
 /**
  * Compares two filter identifiers
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class IdentifierComparator implements Comparator<Identifier> {
 
-    String prefix;
+  String prefix;
 
-    public IdentifierComparator(String typeName) {
-        this.prefix = typeName + ".";
-    }
+  public IdentifierComparator(String typeName) {
+    this.prefix = typeName + ".";
+  }
 
-    public int compare(Identifier o1, Identifier o2) {
-        String s1 = o1.toString();
-        String s2 = o2.toString();
-        if (s1.startsWith(prefix) && s2.startsWith(prefix)) {
-            try {
-                int i1 = Integer.parseInt(s1.substring(prefix.length()));
-                int i2 = Integer.parseInt(s2.substring(prefix.length()));
-                return i1 - i2;
-            } catch (NumberFormatException e) {
-                // it's ok, we want to fall back to string comparison
-            }
-        }
-        return s1.compareTo(s2);
+  public int compare(Identifier o1, Identifier o2) {
+    String s1 = o1.toString();
+    String s2 = o2.toString();
+    if (s1.startsWith(prefix) && s2.startsWith(prefix)) {
+      try {
+        int i1 = Integer.parseInt(s1.substring(prefix.length()));
+        int i2 = Integer.parseInt(s2.substring(prefix.length()));
+        return i1 - i2;
+      } catch (NumberFormatException e) {
+        // it's ok, we want to fall back to string comparison
+      }
     }
+    return s1.compareTo(s2);
+  }
 }

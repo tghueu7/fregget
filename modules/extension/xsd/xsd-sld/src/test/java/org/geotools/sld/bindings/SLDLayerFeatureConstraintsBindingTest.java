@@ -18,24 +18,19 @@ package org.geotools.sld.bindings;
 
 import org.geotools.styling.LayerFeatureConstraints;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDLayerFeatureConstraintsBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(LayerFeatureConstraints.class,
-            new SLDLayerFeatureConstraintsBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(
+        LayerFeatureConstraints.class, new SLDLayerFeatureConstraintsBinding(null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.layerFeatureConstraints(document, document);
+  public void test() throws Exception {
+    SLDMockData.layerFeatureConstraints(document, document);
 
-        LayerFeatureConstraints lfc = (LayerFeatureConstraints) parse();
-        assertNotNull(lfc);
+    LayerFeatureConstraints lfc = (LayerFeatureConstraints) parse();
+    assertNotNull(lfc);
 
-        assertEquals(2, lfc.getFeatureTypeConstraints().length);
-    }
+    assertEquals(2, lfc.getFeatureTypeConstraints().length);
+  }
 }

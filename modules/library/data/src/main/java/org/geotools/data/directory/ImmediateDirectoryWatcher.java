@@ -19,29 +19,27 @@ package org.geotools.data.directory;
 import java.io.File;
 
 /**
- * Performs a last updated check each time isStale is called. Accurate, but will
- * incur in scalability issues under heavy multithreaded load on servers (file
- * access is typically expensive as it requires a switch to kernel space)
- * 
+ * Performs a last updated check each time isStale is called. Accurate, but will incur in
+ * scalability issues under heavy multithreaded load on servers (file access is typically expensive
+ * as it requires a switch to kernel space)
+ *
  * @author Andrea Aime
- * 
  */
 class ImmediateDirectoryWatcher implements DirectoryWatcher {
 
-    File directory;
+  File directory;
 
-    Long lastUpdated;
+  Long lastUpdated;
 
-    public ImmediateDirectoryWatcher(File directory) {
-        this.directory = directory;
-    }
+  public ImmediateDirectoryWatcher(File directory) {
+    this.directory = directory;
+  }
 
-    public synchronized boolean isStale() {
-        return lastUpdated == null || lastUpdated < directory.lastModified();
-    }
+  public synchronized boolean isStale() {
+    return lastUpdated == null || lastUpdated < directory.lastModified();
+  }
 
-    public synchronized void mark() {
-        lastUpdated = directory.lastModified();
-    }
-
+  public synchronized void mark() {
+    lastUpdated = directory.lastModified();
+  }
 }

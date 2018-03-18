@@ -22,9 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.imageio.spi.ImageReaderSpi;
-
 import org.geotools.coverage.grid.io.AbstractGridCoverage2DReader;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
 import org.geotools.coverage.grid.io.imageio.GeoToolsWriteParams;
@@ -39,155 +37,140 @@ import org.opengis.parameter.GeneralParameterDescriptor;
 import org.opengis.parameter.GeneralParameterValue;
 
 /**
- * A Base abstract class implementing {@link Format}, to be extended by Formats
- * leveraging on GDAL.
- * 
+ * A Base abstract class implementing {@link Format}, to be extended by Formats leveraging on GDAL.
+ *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini, GeoSolutions
- * 
- *
- *
  * @source $URL$
  */
-public abstract class BaseGDALGridFormat extends AbstractGridFormat implements
-        Format {
+public abstract class BaseGDALGridFormat extends AbstractGridFormat implements Format {
 
-    protected static class InfoWrapper {
-        public InfoWrapper(String description, String name) {
-            this.description = description;
-            this.name = name;
-        }
-        String description;
-        String name;
+  protected static class InfoWrapper {
+    public InfoWrapper(String description, String name) {
+      this.description = description;
+      this.name = name;
     }
 
-    private final static Logger LOGGER = org.geotools.util.logging.Logging
-            .getLogger("org.geotools.coverageio.gdal");
+    String description;
+    String name;
+  }
 
-    /** The inner {@code ImageReaderSpi} */
-    private final ImageReaderSpi spi;
+  private static final Logger LOGGER =
+      org.geotools.util.logging.Logging.getLogger("org.geotools.coverageio.gdal");
 
-    /**
-     * Constructor for the {@code BaseGDALGridFormat}. It is invoked by the
-     * underlying implementations.
-     * 
-     * @param spi
-     *                the format specific {@code ImageReaderSpi} instance
-     */
-    protected BaseGDALGridFormat(ImageReaderSpi spi) {
-        this.spi = spi;
-        setInfo();
+  /** The inner {@code ImageReaderSpi} */
+  private final ImageReaderSpi spi;
+
+  /**
+   * Constructor for the {@code BaseGDALGridFormat}. It is invoked by the underlying
+   * implementations.
+   *
+   * @param spi the format specific {@code ImageReaderSpi} instance
+   */
+  protected BaseGDALGridFormat(ImageReaderSpi spi) {
+    this.spi = spi;
+    setInfo();
+  }
+
+  /** The {@code String} representing the parameter to customize multithreading use */
+  private static final String USE_MT = "USE_MULTITHREADING";
+
+  /**
+   * This {@link GeneralParameterValue} can be provided to the {@link GridCoverageReader}s through
+   * the {@link GridCoverageReader#read(GeneralParameterValue[])} method in order to specify to use
+   * multithreading when leveraging on a JAI ImageRead operation. This will be achieved with the use
+   * of the ImageReadMT operation of the ImageIO-Ext.
+   */
+  public static final DefaultParameterDescriptor<Boolean> USE_MULTITHREADING =
+      new DefaultParameterDescriptor<Boolean>(
+          USE_MT, Boolean.class, new Boolean[] {Boolean.TRUE, Boolean.FALSE}, Boolean.FALSE);
+
+  /** Base Parameter Descriptor */
+  protected static final GeneralParameterDescriptor[] PARAM_DESCRIPTOR =
+      new GeneralParameterDescriptor[] {
+        READ_GRIDGEOMETRY2D,
+        USE_JAI_IMAGEREAD,
+        USE_MULTITHREADING,
+        SUGGESTED_TILE_SIZE,
+        FOOTPRINT_BEHAVIOR
+      };
+
+  /** Each plugin needs to implement this method defining format specific properties */
+  protected abstract void setInfo();
+
+  /**
+   * @see org.geotools.data.coverage.grid.AbstractGridFormat#createWriter(java.lang.Object
+   *     destination)
+   *     <p>Actually, the plugin does not support write capabilities. The method throws an {@code
+   *     UnsupportedOperationException}.
+   */
+  @Override
+  public GridCoverageWriter getWriter(Object destination) {
+    throw new UnsupportedOperationException("This plugin does not support writing at this time.");
+  }
+
+  /**
+   * @see org.geotools.data.coverage.grid.AbstractGridFormat#getDefaultImageIOWriteParameters
+   *     <p>Actually, the plugin does not support write capabilities. The method throws an {@code
+   *     UnsupportedOperationException}.
+   */
+  @Override
+  public GeoToolsWriteParams getDefaultImageIOWriteParameters() {
+    throw new UnsupportedOperationException("This plugin does not support writing parameters");
+  }
+
+  /**
+   * @see org.geotools.data.coverage.grid.AbstractGridFormat#createWriter(java.lang.Object
+   *     destination,Hints hints)
+   *     <p>Actually, the plugin does not support write capabilities. The method throws an {@code
+   *     UnsupportedOperationException}.
+   */
+  public GridCoverageWriter getWriter(Object destination, Hints hints) {
+    throw new UnsupportedOperationException("This plugin does not support writing at this time.");
+  }
+
+  /** @see org.geotools.data.coverage.grid.AbstractGridFormat#accepts(java.lang.Object input) */
+  @Override
+  public boolean accepts(Object input, Hints hints) {
+    try {
+      return spi.canDecodeInput(input);
+    } catch (IOException e) {
+      if (LOGGER.isLoggable(Level.FINE)) {
+        LOGGER.log(Level.FINE, e.getLocalizedMessage(), e);
+      }
+      return false;
     }
+  }
 
-    /**
-     * The {@code String} representing the parameter to customize multithreading
-     * use
-     */
-    private static final String USE_MT = "USE_MULTITHREADING";
+  /**
+   * Return a ParameterGroup with default General Parameter Descriptors.
+   *
+   * @param mInfo Set of properties info
+   * @return a {@link ParameterGroup} with Default {@link GeneralParameterDescriptors}.
+   */
+  protected static ParameterGroup getDefaultParameterGroup(Map<String, String> mInfo) {
+    return new ParameterGroup(new DefaultParameterDescriptorGroup(mInfo, PARAM_DESCRIPTOR));
+  }
 
-    /**
-     * This {@link GeneralParameterValue} can be provided to the
-     * {@link GridCoverageReader}s through the
-     * {@link GridCoverageReader#read(GeneralParameterValue[])} method in order
-     * to specify to use multithreading when leveraging on a JAI ImageRead
-     * operation. This will be achieved with the use of the ImageReadMT
-     * operation of the ImageIO-Ext.
-     */
-    public static final DefaultParameterDescriptor<Boolean> USE_MULTITHREADING = new DefaultParameterDescriptor<Boolean>(
-            USE_MT, Boolean.class, new Boolean[] { Boolean.TRUE, Boolean.FALSE }, Boolean.FALSE);
+  /** @see org.geotools.data.coverage.grid.AbstractGridFormat#getReader(Object source) */
+  @Override
+  public AbstractGridCoverage2DReader getReader(Object source) {
+    return getReader(source, null);
+  }
 
-    /** Base Parameter Descriptor */
-    protected static final GeneralParameterDescriptor[] PARAM_DESCRIPTOR = new GeneralParameterDescriptor[] {
-            READ_GRIDGEOMETRY2D, USE_JAI_IMAGEREAD, USE_MULTITHREADING, SUGGESTED_TILE_SIZE, FOOTPRINT_BEHAVIOR };
+  protected void setInfo(InfoWrapper infoWrapper) {
+    final HashMap<String, String> info = new HashMap<String, String>();
+    info.put("name", infoWrapper.name);
+    info.put("description", infoWrapper.description);
+    info.put("vendor", "Geotools");
+    info.put("docURL", "");
+    info.put("version", "1.0");
+    mInfo = Collections.unmodifiableMap(info);
 
-    /**
-     * Each plugin needs to implement this method defining format specific
-     * properties
-     */
-    protected abstract void setInfo();
+    // writing parameters
+    writeParameters = null;
 
-    /**
-     * @see org.geotools.data.coverage.grid.AbstractGridFormat#createWriter(java.lang.Object
-     *      destination)
-     * 
-     * Actually, the plugin does not support write capabilities. The method
-     * throws an {@code UnsupportedOperationException}.
-     */
-    @Override
-    public GridCoverageWriter getWriter(Object destination) {
-        throw new UnsupportedOperationException(
-                "This plugin does not support writing at this time.");
-    }
-
-    /**
-     * @see org.geotools.data.coverage.grid.AbstractGridFormat#getDefaultImageIOWriteParameters
-     * 
-     * Actually, the plugin does not support write capabilities. The method
-     * throws an {@code UnsupportedOperationException}.
-     */
-    @Override
-    public GeoToolsWriteParams getDefaultImageIOWriteParameters() {
-        throw new UnsupportedOperationException("This plugin does not support writing parameters");
-    }
-
-    /**
-     * @see org.geotools.data.coverage.grid.AbstractGridFormat#createWriter(java.lang.Object
-     *      destination,Hints hints)
-     * 
-     * Actually, the plugin does not support write capabilities. The method
-     * throws an {@code UnsupportedOperationException}.
-     */
-    public GridCoverageWriter getWriter(Object destination, Hints hints) {
-        throw new UnsupportedOperationException("This plugin does not support writing at this time.");
-    }
-
-    /**
-     * @see org.geotools.data.coverage.grid.AbstractGridFormat#accepts(java.lang.Object input)
-     */
-    @Override
-    public boolean accepts(Object input,Hints hints) {
-        try {
-            return spi.canDecodeInput(input);
-        } catch (IOException e) {
-            if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.log(Level.FINE, e.getLocalizedMessage(), e);
-            }
-            return false;
-        }
-    }
-    
-    /**
-     * Return a ParameterGroup with default General Parameter Descriptors.
-     * @param mInfo Set of properties info
-     * @return a {@link ParameterGroup} with Default {@link GeneralParameterDescriptors}.
-     */
-    protected static ParameterGroup getDefaultParameterGroup(Map<String,String> mInfo){
-        return new ParameterGroup(new DefaultParameterDescriptorGroup(mInfo, PARAM_DESCRIPTOR));
-    }
-
-    /**
-     * @see org.geotools.data.coverage.grid.AbstractGridFormat#getReader(Object
-     *      source)
-     */
-    @Override
-    public AbstractGridCoverage2DReader getReader(Object source) {
-        return getReader(source, null);
-    }
-
-    protected void setInfo(InfoWrapper infoWrapper) {
-        final HashMap<String, String> info = new HashMap<String, String>();
-        info.put("name", infoWrapper.name);
-        info.put("description", infoWrapper.description);
-        info.put("vendor", "Geotools");
-        info.put("docURL", ""); 
-        info.put("version", "1.0");
-        mInfo = Collections.unmodifiableMap(info);
-
-        // writing parameters
-        writeParameters = null;
-
-        // reading parameters
-        readParameters = getDefaultParameterGroup(info);
-    }
-
+    // reading parameters
+    readParameters = getDefaultParameterGroup(info);
+  }
 }

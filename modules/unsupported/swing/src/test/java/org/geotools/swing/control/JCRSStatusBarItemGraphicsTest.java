@@ -17,50 +17,48 @@
 
 package org.geotools.swing.control;
 
-import java.awt.Frame;
+import static org.junit.Assert.*;
+
 import java.awt.BorderLayout;
-
+import java.awt.Frame;
 import javax.swing.JFrame;
-
 import org.fest.swing.edt.GuiActionRunner;
 import org.fest.swing.edt.GuiQuery;
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.fixture.JButtonFixture;
-
 import org.geotools.map.MapContent;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.swing.MapPane;
 import org.geotools.swing.testutils.GraphicsTestBase;
 import org.geotools.swing.testutils.GraphicsTestRunner;
 import org.geotools.swing.testutils.MockMapPane;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.junit.Assert.*;
 
 /**
  * Unit tests for JCRSStatusBarItem which require graphics.
  *
  * @author Michael Bedward
  * @since 8.0
- *
  * @source $URL$
  * @version $Id$
  */
 @RunWith(GraphicsTestRunner.class)
 public class JCRSStatusBarItemGraphicsTest extends GraphicsTestBase<Frame> {
 
-    private MapContent mapContent;
-    private MapPane mapPane;
-    private JCRSStatusBarItem item;
+  private MapContent mapContent;
+  private MapPane mapPane;
+  private JCRSStatusBarItem item;
 
-    @Before
-    public void setup() {
-        JFrame frame = GuiActionRunner.execute(new GuiQuery<JFrame>() {
+  @Before
+  public void setup() {
+    JFrame frame =
+        GuiActionRunner.execute(
+            new GuiQuery<JFrame>() {
 
-            @Override
-            protected JFrame executeInEDT() throws Throwable {
+              @Override
+              protected JFrame executeInEDT() throws Throwable {
                 JFrame frame = new JFrame();
                 frame.setLayout(new BorderLayout());
                 mapContent = new MapContent();
@@ -71,20 +69,20 @@ public class JCRSStatusBarItemGraphicsTest extends GraphicsTestBase<Frame> {
                 frame.add(item, BorderLayout.CENTER);
                 frame.pack();
                 return frame;
-            }
-        });
-        
-        windowFixture = new FrameFixture(frame);
-        ((FrameFixture) windowFixture).show();
-    }
-    
-    @Test
-    public void displaysCorrectCRSName() {
-        String name = mapContent.getCoordinateReferenceSystem().getName().getCode();
-        
-        JButtonFixture button = windowFixture.button();
-        assertNotNull(button);
-        
-        button.requireText(name);
-    }
+              }
+            });
+
+    windowFixture = new FrameFixture(frame);
+    ((FrameFixture) windowFixture).show();
+  }
+
+  @Test
+  public void displaysCorrectCRSName() {
+    String name = mapContent.getCoordinateReferenceSystem().getName().getCode();
+
+    JButtonFixture button = windowFixture.button();
+    assertNotNull(button);
+
+    button.requireText(name);
+  }
 }

@@ -17,10 +17,7 @@
 package org.geotools.wps;
 
 import java.math.BigInteger;
-
 import javax.xml.namespace.QName;
-
-import junit.framework.TestCase;
 import net.opengis.ows11.CodeType;
 import net.opengis.ows11.LanguageStringType;
 import net.opengis.ows11.Ows11Factory;
@@ -38,7 +35,6 @@ import net.opengis.wps10.ProcessOutputsType1;
 import net.opengis.wps10.ProcessStartedType;
 import net.opengis.wps10.StatusType;
 import net.opengis.wps10.Wps10Factory;
-
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.xml.Configuration;
 import org.geotools.xml.Encoder;
@@ -50,122 +46,121 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class ExecuteTest extends XMLTestSupport {
 
-    public void testExecuteEncode() throws Exception {
-        Wps10Factory f = Wps10Factory.eINSTANCE;
-        ExecuteType ex = f.createExecuteType();
+  public void testExecuteEncode() throws Exception {
+    Wps10Factory f = Wps10Factory.eINSTANCE;
+    ExecuteType ex = f.createExecuteType();
 
-        CodeType id = Ows11Factory.eINSTANCE.createCodeType();
-        ex.setIdentifier(id);
-        id.setValue("foo");
+    CodeType id = Ows11Factory.eINSTANCE.createCodeType();
+    ex.setIdentifier(id);
+    id.setValue("foo");
 
-        DataInputsType1 inputs = f.createDataInputsType1();
-        ex.setDataInputs(inputs);
+    DataInputsType1 inputs = f.createDataInputsType1();
+    ex.setDataInputs(inputs);
 
-        InputType in = f.createInputType();
-        inputs.getInput().add(in);
+    InputType in = f.createInputType();
+    inputs.getInput().add(in);
 
-        DataType data = f.createDataType();
-        in.setData(data);
+    DataType data = f.createDataType();
+    in.setData(data);
 
-        ComplexDataType cd = f.createComplexDataType();
-        data.setComplexData(cd);
+    ComplexDataType cd = f.createComplexDataType();
+    data.setComplexData(cd);
 
-        //cd.getData().add(new GeometryFactory().createPoint(new Coordinate(1, 2)));
+    // cd.getData().add(new GeometryFactory().createPoint(new Coordinate(1, 2)));
 
-        Encoder e = new Encoder(new WPSConfiguration());
-        e.setIndenting(true);
-        e.encode(ex, WPS.Execute, System.out);
-    }
+    Encoder e = new Encoder(new WPSConfiguration());
+    e.setIndenting(true);
+    e.encode(ex, WPS.Execute, System.out);
+  }
 
-    public void testExecuteResponse() throws Exception {
-        Wps10Factory f = Wps10Factory.eINSTANCE;
-        ExecuteResponseType response = f.createExecuteResponseType();
+  public void testExecuteResponse() throws Exception {
+    Wps10Factory f = Wps10Factory.eINSTANCE;
+    ExecuteResponseType response = f.createExecuteResponseType();
 
-        ProcessOutputsType1 outputs = f.createProcessOutputsType1();
-        response.setProcessOutputs(outputs);
+    ProcessOutputsType1 outputs = f.createProcessOutputsType1();
+    response.setProcessOutputs(outputs);
 
-        OutputDataType output = f.createOutputDataType();
-        outputs.getOutput().add(output);
+    OutputDataType output = f.createOutputDataType();
+    outputs.getOutput().add(output);
 
-        LanguageStringType title = Ows11Factory.eINSTANCE.createLanguageStringType();
-        output.setTitle(title);
-        title.setValue("foo");
+    LanguageStringType title = Ows11Factory.eINSTANCE.createLanguageStringType();
+    output.setTitle(title);
+    title.setValue("foo");
 
-        DataType data = f.createDataType();
-        output.setData(data);
+    DataType data = f.createDataType();
+    output.setData(data);
 
-        ComplexDataType cdata = f.createComplexDataType();
-        data.setComplexData(cdata);
-        //cdata.getData().add(new GeometryFactory().createPoint(new Coordinate(1, 1)));
+    ComplexDataType cdata = f.createComplexDataType();
+    data.setComplexData(cdata);
+    // cdata.getData().add(new GeometryFactory().createPoint(new Coordinate(1, 1)));
 
-        Encoder e = new Encoder(new WPSConfiguration());
-        e.setIndenting(true);
-        e.encode(response, WPS.ExecuteResponse, System.out);
-    }
-    
-    public void testExecuteResponseProgress() throws Exception {
-        Wps10Factory f = Wps10Factory.eINSTANCE;
-        ExecuteResponseType response = f.createExecuteResponseType();
-        StatusType status = f.createStatusType();
-        ProcessStartedType ps = f.createProcessStartedType();
-        ps.setPercentCompleted(new BigInteger("20"));
-        ps.setValue("Working really hard here");
-        status.setProcessStarted(ps);
-        response.setStatus(status);
+    Encoder e = new Encoder(new WPSConfiguration());
+    e.setIndenting(true);
+    e.encode(response, WPS.ExecuteResponse, System.out);
+  }
 
-        Document dom = encode(response, WPS.ExecuteResponse);
-        // print(dom);
-        NodeList nodes = dom.getElementsByTagName("wps:ProcessStarted");
-        assertEquals(1, nodes.getLength());
-        Node psNode = nodes.item(0);
-        assertEquals("Working really hard here", psNode.getTextContent());
-    }
+  public void testExecuteResponseProgress() throws Exception {
+    Wps10Factory f = Wps10Factory.eINSTANCE;
+    ExecuteResponseType response = f.createExecuteResponseType();
+    StatusType status = f.createStatusType();
+    ProcessStartedType ps = f.createProcessStartedType();
+    ps.setPercentCompleted(new BigInteger("20"));
+    ps.setValue("Working really hard here");
+    status.setProcessStarted(ps);
+    response.setStatus(status);
 
+    Document dom = encode(response, WPS.ExecuteResponse);
+    // print(dom);
+    NodeList nodes = dom.getElementsByTagName("wps:ProcessStarted");
+    assertEquals(1, nodes.getLength());
+    Node psNode = nodes.item(0);
+    assertEquals("Working really hard here", psNode.getTextContent());
+  }
 
-    public void testParserDelegateNamespaces() throws Exception {
-        Parser p = new Parser(new WPSConfiguration());
-        ExecuteType exec = (ExecuteType) 
+  public void testParserDelegateNamespaces() throws Exception {
+    Parser p = new Parser(new WPSConfiguration());
+    ExecuteType exec =
+        (ExecuteType)
             p.parse(getClass().getResourceAsStream("wpsExecute_inlineGetFeature_request.xml"));
-        assertNotNull(exec);
-        assertEquals(1, exec.getDataInputs().getInput().size());
+    assertNotNull(exec);
+    assertEquals(1, exec.getDataInputs().getInput().size());
 
-        InputType in = (InputType) exec.getDataInputs().getInput().get(0);
-        InputReferenceType ref = in.getReference();
-        assertNotNull(ref);
+    InputType in = (InputType) exec.getDataInputs().getInput().get(0);
+    InputReferenceType ref = in.getReference();
+    assertNotNull(ref);
 
-        assertTrue(ref.getBody() instanceof GetFeatureType);
-        GetFeatureType gft = (GetFeatureType) ref.getBody();
+    assertTrue(ref.getBody() instanceof GetFeatureType);
+    GetFeatureType gft = (GetFeatureType) ref.getBody();
 
-        QName typeName = (QName) ((QueryType)gft.getQuery().get(0)).getTypeName().get(0);
-        assertEquals("states", typeName.getLocalPart());
-        assertEquals("http://usa.org", typeName.getNamespaceURI());
-    }
-    
-    public void testFilterParserDelegate() throws Exception {
-        Parser p = new Parser(new WPSConfiguration());
-        ExecuteType exec = (ExecuteType) 
-            p.parse(getClass().getResourceAsStream("wpsExecuteFilterInline.xml"));
-        assertNotNull(exec);
-        assertEquals(1, exec.getDataInputs().getInput().size());
+    QName typeName = (QName) ((QueryType) gft.getQuery().get(0)).getTypeName().get(0);
+    assertEquals("states", typeName.getLocalPart());
+    assertEquals("http://usa.org", typeName.getNamespaceURI());
+  }
 
-        InputType in = (InputType) exec.getDataInputs().getInput().get(0);
-        ComplexDataType cd = in.getData().getComplexData();
-        assertNotNull(cd);
-        Filter filter = (Filter) cd.getData().get(0);
-        FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
-        Filter expected = ff.or(ff.greaterOrEqual(ff.property("PERSONS"), ff.literal("10000000")), ff.lessOrEqual(ff.property("PERSONS"), ff.literal("20000000")));
-        assertEquals(expected, filter);
-    }
+  public void testFilterParserDelegate() throws Exception {
+    Parser p = new Parser(new WPSConfiguration());
+    ExecuteType exec =
+        (ExecuteType) p.parse(getClass().getResourceAsStream("wpsExecuteFilterInline.xml"));
+    assertNotNull(exec);
+    assertEquals(1, exec.getDataInputs().getInput().size());
 
-    @Override
-    protected Configuration createConfiguration() {
-        return new WPSConfiguration();
-    }
+    InputType in = (InputType) exec.getDataInputs().getInput().get(0);
+    ComplexDataType cd = in.getData().getComplexData();
+    assertNotNull(cd);
+    Filter filter = (Filter) cd.getData().get(0);
+    FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
+    Filter expected =
+        ff.or(
+            ff.greaterOrEqual(ff.property("PERSONS"), ff.literal("10000000")),
+            ff.lessOrEqual(ff.property("PERSONS"), ff.literal("20000000")));
+    assertEquals(expected, filter);
+  }
+
+  @Override
+  protected Configuration createConfiguration() {
+    return new WPSConfiguration();
+  }
 }

@@ -16,7 +16,6 @@
  */
 package org.geotools.xs.bindings;
 
-import org.picocontainer.MutablePicoContainer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,13 +26,14 @@ import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 import org.geotools.xs.XS;
-
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:anyType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xs:complexType name="anyType" mixed="true"&gt;
  *      &lt;xs:annotation&gt;
@@ -48,131 +48,123 @@ import org.geotools.xs.XS;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSAnyTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return XS.ANYTYPE;
+  /** @generated */
+  public QName getTarget() {
+    return XS.ANYTYPE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type Map
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class<Object> getType() {
+    return Object.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * A quick approx of the available content:
+   *
+   * <p>This method returns a {@link Map} in which the names of children and attributes are keys,
+   * and the parsed children and attributes are the values. If the element being parsed contains
+   * child text, it is available under the <code>nulll</code> key.
+   *
+   * @return Map,
+   *     <!-- end-user-doc -->
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    String text = null;
+
+    if ((value != null) && value instanceof String) {
+      text = ((String) value);
+
+      if ("".equals(text.trim())) {
+        text = null;
+      }
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return OVERRIDE;
+    // if there is just some text, return it
+    if (node.getChildren().isEmpty() && node.getAttributes().isEmpty() && (text != null)) {
+      return text;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type Map
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class<Object> getType() {
-        return Object.class;
+    // if there is only a single child, return it
+    if ((node.getChildren().size() == 1) && node.getAttributes().isEmpty() && (text == null)) {
+      return node.getChildValue(0);
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
+    // if there is a single attribute, return it
+    if ((node.getAttributes().size() == 1) && node.getChildren().isEmpty() && (text == null)) {
+      return ((Node) node.getAttributes().get(0)).getValue();
     }
 
-    /**
-     *
-     * <!-- begin-user-doc -->
-     * A quick approx of the available content:
-     * <p>
-     * This method returns a {@link Map} in which the names of children and
-     * attributes are keys, and the parsed children and attributes are the
-     * values. If the element being parsed contains child text, it is available
-     * under the <code>nulll</code> key.
-     *
-     * @return Map,
-     * </p>
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        String text = null;
+    // create a map of the elements and attributes
+    Map<String, Object> map = new HashMap<>();
+    List attributes = node.getAttributes();
+    List children = node.getChildren();
+    mapBinding(map, attributes);
+    mapBinding(map, children);
 
-        if ((value != null) && value instanceof String) {
-            text = ((String) value);
-
-            if ("".equals(text.trim())) {
-                text = null;
-            }
-        }
-
-        //if there is just some text, return it
-        if (node.getChildren().isEmpty() && node.getAttributes().isEmpty() && (text != null)) {
-            return text;
-        }
-
-        //if there is only a single child, return it
-        if ((node.getChildren().size() == 1) && node.getAttributes().isEmpty() && (text == null)) {
-            return node.getChildValue(0);
-        }
-
-        //if there is a single attribute, return it
-        if ((node.getAttributes().size() == 1) && node.getChildren().isEmpty() && (text == null)) {
-            return ((Node) node.getAttributes().get(0)).getValue();
-        }
-
-        //create a map of the elements and attributes
-        Map<String, Object> map = new HashMap<>();
-        List attributes = node.getAttributes();
-        List children = node.getChildren();
-        mapBinding(map, attributes);
-        mapBinding(map, children);
-
-        if ((text != null) && !"".equals(text.trim())) {
-            map.put(null, text);
-        }
-
-        return map;
+    if ((text != null) && !"".equals(text.trim())) {
+      map.put(null, text);
     }
 
-    private void mapBinding(Map<String, Object> map, List attributes) {
-        for (Iterator i = attributes.iterator(); i.hasNext();) {
-            Node attribute = (Node) i.next();
-            String name = attribute.getComponent().getName();
-            Object value = attribute.getValue();
+    return map;
+  }
 
-            if (map.containsKey(name)) {
-                List<Object> values;
-                Object obj = map.get(name);
+  private void mapBinding(Map<String, Object> map, List attributes) {
+    for (Iterator i = attributes.iterator(); i.hasNext(); ) {
+      Node attribute = (Node) i.next();
+      String name = attribute.getComponent().getName();
+      Object value = attribute.getValue();
 
-                if (obj instanceof List) {
-                    values = (List<Object>) obj;
-                } else {
-                    values = new ArrayList<Object>();
-                    values.add(obj);
-                    map.put(name, values);
-                }
+      if (map.containsKey(name)) {
+        List<Object> values;
+        Object obj = map.get(name);
 
-                values.add(value);
-            } else {
-                map.put(name, value);
-            }
+        if (obj instanceof List) {
+          values = (List<Object>) obj;
+        } else {
+          values = new ArrayList<Object>();
+          values.add(obj);
+          map.put(name, values);
         }
+
+        values.add(value);
+      } else {
+        map.put(name, value);
+      }
     }
+  }
 }

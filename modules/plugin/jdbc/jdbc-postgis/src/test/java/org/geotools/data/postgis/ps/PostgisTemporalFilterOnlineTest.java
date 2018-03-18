@@ -6,9 +6,8 @@ import org.geotools.jdbc.JDBCTemporalFilterOnlineTest;
 
 public class PostgisTemporalFilterOnlineTest extends JDBCTemporalFilterOnlineTest {
 
-    @Override
-    protected JDBCDateTestSetup createTestSetup() {
-        return new PostgisDateTestSetup(new PostGISPSTestSetup());
-    }
-
+  @Override
+  protected JDBCDateTestSetup createTestSetup() {
+    return new PostgisDateTestSetup(new PostGISPSTestSetup());
+  }
 }

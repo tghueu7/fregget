@@ -16,98 +16,88 @@
  */
 package org.geotools.xml.impl;
 
-import org.eclipse.xsd.XSDSchemaContent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import javax.xml.namespace.QName;
+import org.eclipse.xsd.XSDSchemaContent;
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.Node;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class DocumentHandlerImpl extends HandlerImpl implements DocumentHandler {
-    /** factory used to create a handler for the root element **/
-    HandlerFactory factory;
+  /** factory used to create a handler for the root element * */
+  HandlerFactory factory;
 
-    /** root node of the parse tree */
-    Node tree;
+  /** root node of the parse tree */
+  Node tree;
 
-    //ElementHandler handler;
+  // ElementHandler handler;
 
-    /** the parser */
-    ParserHandler parser;
+  /** the parser */
+  ParserHandler parser;
 
-    public DocumentHandlerImpl(HandlerFactory factory, ParserHandler parser) {
-        this.factory = factory;
-        this.parser = parser;
+  public DocumentHandlerImpl(HandlerFactory factory, ParserHandler parser) {
+    this.factory = factory;
+    this.parser = parser;
+  }
+
+  public XSDSchemaContent getSchemaContent() {
+    return null;
+  }
+
+  public InstanceComponent getComponent() {
+    return null;
+  }
+
+  public Object getValue() {
+    // jsut return the root of the parse tree's value
+    if (tree != null) {
+      return tree.getValue();
     }
 
-    public XSDSchemaContent getSchemaContent() {
-        return null;
-    }
+    //    	//just return the root handler value
+    //        if (handler != null) {
+    //            return handler.getValue();
+    //        }
+    return null;
+  }
 
-    public InstanceComponent getComponent() {
-        return null;
-    }
+  public Node getParseNode() {
+    return tree;
+  }
 
-    public Object getValue() {
-        //jsut return the root of the parse tree's value
-        if (tree != null) {
-            return tree.getValue();
-        }
+  public Handler createChildHandler(QName qName) {
+    return factory.createElementHandler(qName, this, parser);
+  }
 
-        //    	//just return the root handler value
-        //        if (handler != null) {
-        //            return handler.getValue();
-        //        }
-        return null;
-    }
+  //    public List getChildHandlers() {
+  //    	if ( handler == null ) {
+  //    		return Collections.EMPTY_LIST;
+  //    	}
+  //
+  //    	ArrayList list = new ArrayList();
+  //    	list.add( handler );
+  //
+  //    	return list;
+  //    }
+  public void startChildHandler(Handler child) {
+    this.tree = child.getParseNode();
 
-    public Node getParseNode() {
-        return tree;
-    }
+    // this.handler = (ElementHandler) child;
+  }
 
-    public Handler createChildHandler(QName qName) {
-        return factory.createElementHandler(qName, this, parser);
-    }
+  public void endChildHandler(Handler child) {
+    // this.handler = null;
+  }
 
-    //    public List getChildHandlers() {
-    //    	if ( handler == null ) {
-    //    		return Collections.EMPTY_LIST;
-    //    	}
-    //    	
-    //    	ArrayList list = new ArrayList();
-    //    	list.add( handler );
-    //    	
-    //    	return list;
-    //    }
-    public void startChildHandler(Handler child) {
-        this.tree = child.getParseNode();
+  public Handler getParentHandler() {
+    // always null, this is the root handler
+    return null;
+  }
 
-        //this.handler = (ElementHandler) child;
-    }
+  //    public ElementHandler getDocumentElementHandler() {
+  //        return handler;
+  //    }
 
-    public void endChildHandler(Handler child) {
-        //this.handler = null;
-    }
+  public void startDocument() {}
 
-    public Handler getParentHandler() {
-        //always null, this is the root handler
-        return null;
-    }
-
-    //    public ElementHandler getDocumentElementHandler() {
-    //        return handler;
-    //    }
-    
-    public void startDocument() {
-    }
-    
-    public void endDocument() {
-    }
+  public void endDocument() {}
 }

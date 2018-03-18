@@ -18,18 +18,18 @@ package org.geotools.filter.v1_1.capabilities;
 
 import java.util.List;
 import javax.xml.namespace.QName;
+import org.geotools.filter.v1_1.OGC;
+import org.geotools.xml.*;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.capability.ComparisonOperators;
 import org.opengis.filter.capability.Operator;
-import org.geotools.filter.v1_1.OGC;
-import org.geotools.xml.*;
-
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:ComparisonOperatorsType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="ComparisonOperatorsType"&gt;
  *      &lt;xsd:sequence maxOccurs="unbounded"&gt;
@@ -39,59 +39,53 @@ import org.geotools.xml.*;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class ComparisonOperatorsTypeBinding extends AbstractComplexBinding {
-    FilterFactory factory;
+  FilterFactory factory;
 
-    public ComparisonOperatorsTypeBinding(FilterFactory factory) {
-        this.factory = factory;
+  public ComparisonOperatorsTypeBinding(FilterFactory factory) {
+    this.factory = factory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return OGC.ComparisonOperatorsType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return ComparisonOperators.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    List ops = node.getChildValues(Operator.class);
+
+    return factory.comparisonOperators((Operator[]) ops.toArray(new Operator[ops.size()]));
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    if ("ComparisonOperator".equals(name.getLocalPart())) {
+      ComparisonOperators ops = (ComparisonOperators) object;
+
+      return ops.getOperators();
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.ComparisonOperatorsType;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return ComparisonOperators.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        List ops = node.getChildValues(Operator.class);
-
-        return factory.comparisonOperators((Operator[]) ops.toArray(new Operator[ops.size()]));
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        if ("ComparisonOperator".equals(name.getLocalPart())) {
-            ComparisonOperators ops = (ComparisonOperators) object;
-
-            return ops.getOperators();
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

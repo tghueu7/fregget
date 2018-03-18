@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.geotools.data.DataAccess;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataUtilities;
@@ -49,139 +48,137 @@ import org.opengis.filter.Filter;
  */
 class DataAccessStoreWrapper implements DataStore {
 
-    DataAccess<FeatureType, Feature> delegate;
+  DataAccess<FeatureType, Feature> delegate;
 
-    public DataAccessStoreWrapper(DataAccess<FeatureType, Feature> delegate) {
-        this.delegate = delegate;
+  public DataAccessStoreWrapper(DataAccess<FeatureType, Feature> delegate) {
+    this.delegate = delegate;
+  }
+
+  public ServiceInfo getInfo() {
+    return delegate.getInfo();
+  }
+
+  public void createSchema(SimpleFeatureType featureType) throws IOException {
+    delegate.createSchema(featureType);
+  }
+
+  public void updateSchema(Name typeName, SimpleFeatureType featureType) throws IOException {
+    delegate.updateSchema(typeName, featureType);
+  }
+
+  public void removeSchema(Name typeName) throws IOException {
+    delegate.removeSchema(typeName);
+  }
+
+  public List getNames() throws IOException {
+    return delegate.getNames();
+  }
+
+  public SimpleFeatureType getSchema(Name name) throws IOException {
+    FeatureType schema = delegate.getSchema(name);
+    if (schema instanceof SimpleFeatureType) {
+      return (SimpleFeatureType) schema;
+    } else {
+      return null;
     }
+  }
 
-    public ServiceInfo getInfo() {
-        return delegate.getInfo();
+  public SimpleFeatureSource getFeatureSource(Name typeName) throws IOException {
+    return DataUtilities.simple(delegate.getFeatureSource(typeName));
+  }
+
+  public void dispose() {
+    delegate.dispose();
+  }
+
+  @Override
+  public void updateSchema(String typeName, SimpleFeatureType featureType) throws IOException {
+    Name name = getNameFromLocal(typeName);
+    delegate.updateSchema(name, featureType);
+  }
+
+  @Override
+  public void removeSchema(String typeName) throws IOException {
+    Name name = getNameFromLocal(typeName);
+    delegate.removeSchema(name);
+  }
+
+  @Override
+  public String[] getTypeNames() throws IOException {
+    List<Name> names = delegate.getNames();
+    String[] typeNames =
+        names.stream().map(name -> name.getLocalPart()).distinct().sorted().toArray(String[]::new);
+    return typeNames;
+  }
+
+  @Override
+  public SimpleFeatureType getSchema(String typeName) throws IOException {
+    Name name = getNameFromLocal(typeName);
+    return (SimpleFeatureType) delegate.getSchema(name);
+  }
+
+  @Override
+  public SimpleFeatureSource getFeatureSource(String typeName) throws IOException {
+    Name name = getNameFromLocal(typeName);
+    return DataUtilities.simple(delegate.getFeatureSource(name));
+  }
+
+  /**
+   * Returns a qualified name from an unqualified type name. Ensures a single value is found.
+   *
+   * @param typeName
+   * @return
+   * @throws IOException
+   */
+  private Name getNameFromLocal(String typeName) throws IOException {
+    // TODO: cache?
+    Stream<Name> stream = delegate.getNames().stream();
+    Set<Name> names =
+        stream.filter(name -> typeName.equals(name.getLocalPart())).collect(Collectors.toSet());
+    if (names.isEmpty()) {
+      throw new IOException("Could not find a type name '" + typeName + "'");
+    } else if (names.size() > 1) {
+      throw new IOException("Found multiple matches for '" + typeName + "': " + names);
+    } else {
+      return names.iterator().next();
     }
+  }
 
-    public void createSchema(SimpleFeatureType featureType) throws IOException {
-        delegate.createSchema(featureType);
+  @Override
+  public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(
+      Query query, Transaction transaction) throws IOException {
+    SimpleFeatureSource fs = getFeatureSource(query.getTypeName());
+    if (fs == null) {
+      throw new IOException(
+          "Could not find feature type mentioned in query: '" + query.getTypeName() + "'");
     }
-
-    public void updateSchema(Name typeName, SimpleFeatureType featureType) throws IOException {
-        delegate.updateSchema(typeName, featureType);
+    if (fs instanceof SimpleFeatureStore) {
+      ((SimpleFeatureStore) fs).setTransaction(transaction);
     }
+    SimpleFeatureIterator iterator = fs.getFeatures().features();
+    return new DelegateFeatureReader<SimpleFeatureType, SimpleFeature>(fs.getSchema(), iterator);
+  }
 
-    public void removeSchema(Name typeName) throws IOException {
-        delegate.removeSchema(typeName);
-    }
+  @Override
+  public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(
+      String typeName, Filter filter, Transaction transaction) throws IOException {
+    throw new UnsupportedOperationException();
+  }
 
-    public List getNames() throws IOException {
-        return delegate.getNames();
-    }
+  @Override
+  public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(
+      String typeName, Transaction transaction) throws IOException {
+    throw new UnsupportedOperationException();
+  }
 
-    public SimpleFeatureType getSchema(Name name) throws IOException {
-        FeatureType schema = delegate.getSchema(name);
-        if (schema instanceof SimpleFeatureType) {
-            return (SimpleFeatureType) schema;
-        } else {
-            return null;
-        }
-    }
+  @Override
+  public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriterAppend(
+      String typeName, Transaction transaction) throws IOException {
+    throw new UnsupportedOperationException();
+  }
 
-    public SimpleFeatureSource getFeatureSource(Name typeName) throws IOException {
-        return DataUtilities.simple(delegate.getFeatureSource(typeName));
-    }
-
-    public void dispose() {
-        delegate.dispose();
-    }
-
-    @Override
-    public void updateSchema(String typeName, SimpleFeatureType featureType) throws IOException {
-        Name name = getNameFromLocal(typeName);
-        delegate.updateSchema(name, featureType);
-    }
-
-    @Override
-    public void removeSchema(String typeName) throws IOException {
-        Name name = getNameFromLocal(typeName);
-        delegate.removeSchema(name);
-    }
-
-    @Override
-    public String[] getTypeNames() throws IOException {
-        List<Name> names = delegate.getNames();
-        String[] typeNames = names.stream().map(name -> name.getLocalPart()).distinct().sorted()
-                .toArray(String[]::new);
-        return typeNames;
-    }
-
-    @Override
-    public SimpleFeatureType getSchema(String typeName) throws IOException {
-        Name name = getNameFromLocal(typeName);
-        return (SimpleFeatureType) delegate.getSchema(name);
-    }
-
-    @Override
-    public SimpleFeatureSource getFeatureSource(String typeName) throws IOException {
-        Name name = getNameFromLocal(typeName);
-        return DataUtilities.simple(delegate.getFeatureSource(name));
-    }
-
-    /**
-     * Returns a qualified name from an unqualified type name. Ensures a single value is found.
-     * 
-     * @param typeName
-     * @return
-     * @throws IOException
-     */
-    private Name getNameFromLocal(String typeName) throws IOException {
-        // TODO: cache?
-        Stream<Name> stream = delegate.getNames().stream();
-        Set<Name> names = stream.filter(name -> typeName.equals(name.getLocalPart()))
-                .collect(Collectors.toSet());
-        if (names.isEmpty()) {
-            throw new IOException("Could not find a type name '" + typeName + "'");
-        } else if (names.size() > 1) {
-            throw new IOException("Found multiple matches for '" + typeName + "': " + names);
-        } else {
-            return names.iterator().next();
-        }
-    }
-
-    @Override
-    public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(Query query,
-            Transaction transaction) throws IOException {
-        SimpleFeatureSource fs = getFeatureSource(query.getTypeName());
-        if (fs == null) {
-            throw new IOException("Could not find feature type mentioned in query: '"
-                    + query.getTypeName() + "'");
-        }
-        if (fs instanceof SimpleFeatureStore) {
-            ((SimpleFeatureStore) fs).setTransaction(transaction);
-        }
-        SimpleFeatureIterator iterator = fs.getFeatures().features();
-        return new DelegateFeatureReader<SimpleFeatureType, SimpleFeature>(fs.getSchema(),
-                iterator);
-    }
-
-    @Override
-    public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-            Filter filter, Transaction transaction) throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-            Transaction transaction) throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriterAppend(String typeName,
-            Transaction transaction) throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public LockingManager getLockingManager() {
-        return null;
-    }
-
+  @Override
+  public LockingManager getLockingManager() {
+    return null;
+  }
 }

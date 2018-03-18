@@ -18,51 +18,44 @@ package org.geotools.data.spatialite;
 
 import java.util.Collections;
 import java.util.HashMap;
-
 import junit.framework.TestCase;
-
 import junit.framework.TestResult;
 import org.geotools.jdbc.JDBCDataStore;
 import org.geotools.jdbc.JDBCDataStoreFactory;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SpatiaLiteDataStoreFactoryTest extends TestCase {
 
-    SpatiaLiteDataStoreFactory factory;
-    HashMap params;
-    
-    protected void setUp() throws Exception {
-        factory = new SpatiaLiteDataStoreFactory();
-        params = new HashMap();
-        params.put(JDBCDataStoreFactory.NAMESPACE.key, "http://www.geotools.org/test");
-        params.put(JDBCDataStoreFactory.DATABASE.key, "target/geotools");
-        params.put(JDBCDataStoreFactory.DBTYPE.key, "spatialite");
-    }
+  SpatiaLiteDataStoreFactory factory;
+  HashMap params;
 
-    @Override
-    public void run(TestResult result) {
-        // only run if spatialite can load
-        try {
-            if (new SpatiaLiteDataStoreFactory().isAvailable()) {
-                super.run(result);
-            }
-        }
-        catch(Throwable t) {
-            t.printStackTrace();
-        }
-    }
+  protected void setUp() throws Exception {
+    factory = new SpatiaLiteDataStoreFactory();
+    params = new HashMap();
+    params.put(JDBCDataStoreFactory.NAMESPACE.key, "http://www.geotools.org/test");
+    params.put(JDBCDataStoreFactory.DATABASE.key, "target/geotools");
+    params.put(JDBCDataStoreFactory.DBTYPE.key, "spatialite");
+  }
 
-    public void testCanProcess() throws Exception {
-        assertFalse(factory.canProcess(Collections.EMPTY_MAP));
-        assertTrue(factory.canProcess(params));
+  @Override
+  public void run(TestResult result) {
+    // only run if spatialite can load
+    try {
+      if (new SpatiaLiteDataStoreFactory().isAvailable()) {
+        super.run(result);
+      }
+    } catch (Throwable t) {
+      t.printStackTrace();
     }
-    
-    public void testCreateDataStore() throws Exception {
-        JDBCDataStore ds = factory.createDataStore( params );
-        assertNotNull( ds );
-    }
+  }
+
+  public void testCanProcess() throws Exception {
+    assertFalse(factory.canProcess(Collections.EMPTY_MAP));
+    assertTrue(factory.canProcess(params));
+  }
+
+  public void testCreateDataStore() throws Exception {
+    JDBCDataStore ds = factory.createDataStore(params);
+    assertNotNull(ds);
+  }
 }

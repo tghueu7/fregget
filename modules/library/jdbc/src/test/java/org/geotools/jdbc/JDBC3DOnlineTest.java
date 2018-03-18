@@ -18,36 +18,32 @@ package org.geotools.jdbc;
 
 /**
  * Tests the ability of the datastore to cope with 3D data
- * 
+ *
  * @author Andrea Aime - OpenGeo
  * @author Martin Davis - OpenGeo
- * 
- * 
- * 
  * @source $URL$
  */
 public abstract class JDBC3DOnlineTest extends JDBCGeneric3DOnlineTest {
 
-    protected abstract JDBC3DTestSetup createTestSetup();
+  protected abstract JDBC3DTestSetup createTestSetup();
 
-    @Override
-    protected int getEpsgCode() {
-        return 4326;
-    }
-    
-    @Override
-    protected String getLine3d() {
-        return "line3d";
-    }
+  @Override
+  protected int getEpsgCode() {
+    return 4326;
+  }
 
-    @Override
-    protected String getPoint3d() {
-        return "point3d";
-    }
+  @Override
+  protected String getLine3d() {
+    return "line3d";
+  }
 
-    @Override
-    protected String getPoly3d() {
-        return "poly3d";
-    }
+  @Override
+  protected String getPoint3d() {
+    return "point3d";
+  }
 
+  @Override
+  protected String getPoly3d() {
+    return "poly3d";
+  }
 }

@@ -19,49 +19,39 @@ package org.geotools.jdbc;
 import java.sql.SQLException;
 
 /**
- *  
  * @author Andrea Aime
- *
- *
- *
  * @source $URL$
  */
 public abstract class JDBCSkipColumnTestSetup extends JDBCDelegatingTestSetup {
 
-    protected JDBCSkipColumnTestSetup(JDBCTestSetup delegate) {
-        super(delegate);
-    }
-    
-    protected final void setUpData() throws Exception {
-        //kill all the data
-        try {
-            dropSkipColumnTable();
-        } catch (SQLException e) {
-        }
+  protected JDBCSkipColumnTestSetup(JDBCTestSetup delegate) {
+    super(delegate);
+  }
 
-        //create all the data
-        createSkipColumnTable();
+  protected final void setUpData() throws Exception {
+    // kill all the data
+    try {
+      dropSkipColumnTable();
+    } catch (SQLException e) {
     }
 
-    /**
-     * Creates a table with the following schema:
-     * <p>
-     * skipcolumn( id:Integer; geom: Point; weird: unrecognizedType, name: String )
-     * </p>
-     * <p>
-     * The table should be populated with the following data:<br>
-     *  0 | Point(0,0) | null | GeoTools<br>
-     * <p>
-     * UnrecognizedType can be any type the datastore is not able to 
-     * recognize (array, blob, whatever will force the column to be ignored)
-     * </p>
-     */
-    protected abstract void createSkipColumnTable() throws Exception;
+    // create all the data
+    createSkipColumnTable();
+  }
 
-    /**
-     * Drops the "skipcolumn" table previously created
-     */
-    protected abstract void dropSkipColumnTable() throws Exception;
-    
+  /**
+   * Creates a table with the following schema:
+   *
+   * <p>skipcolumn( id:Integer; geom: Point; weird: unrecognizedType, name: String )
+   *
+   * <p>The table should be populated with the following data:<br>
+   * 0 | Point(0,0) | null | GeoTools<br>
+   *
+   * <p>UnrecognizedType can be any type the datastore is not able to recognize (array, blob,
+   * whatever will force the column to be ignored)
+   */
+  protected abstract void createSkipColumnTable() throws Exception;
 
+  /** Drops the "skipcolumn" table previously created */
+  protected abstract void dropSkipColumnTable() throws Exception;
 }

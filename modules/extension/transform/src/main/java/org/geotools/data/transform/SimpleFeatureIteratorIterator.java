@@ -17,43 +17,40 @@
 package org.geotools.data.transform;
 
 import java.util.Iterator;
-
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * Turns a {@link SimpleFeatureIterator} into a Iterator<SimpleFeature>
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  */
 class SimpleFeatureIteratorIterator implements Iterator<SimpleFeature>, SimpleFeatureIterator {
-    
-    SimpleFeatureIterator fi;
-    
-    public SimpleFeatureIteratorIterator(SimpleFeatureIterator fi) {
-        super();
-        this.fi = fi;
-    }
 
-    @Override
-    public boolean hasNext() {
-        return fi.hasNext();
-    }
+  SimpleFeatureIterator fi;
 
-    @Override
-    public SimpleFeature next() {
-        return fi.next();
-    }
+  public SimpleFeatureIteratorIterator(SimpleFeatureIterator fi) {
+    super();
+    this.fi = fi;
+  }
 
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
-    
-    @Override
-    public void close() {
-        fi.close();
-    }
+  @Override
+  public boolean hasNext() {
+    return fi.hasNext();
+  }
 
+  @Override
+  public SimpleFeature next() {
+    return fi.next();
+  }
+
+  @Override
+  public void remove() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void close() {
+    fi.close();
+  }
 }

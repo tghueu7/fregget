@@ -17,9 +17,9 @@
  */
 package org.geotools.process.vector;
 
+import com.vividsolutions.jts.geom.Polygon;
 import java.io.IOException;
 import java.util.Map;
-
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
@@ -37,113 +37,124 @@ import org.geotools.process.factory.DescribeResult;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-import com.vividsolutions.jts.geom.Polygon;
-
 /**
  * A process that builds a regular grid as a feature collection
- * 
- * @author Andrea Aime - GeoSolutions
  *
+ * @author Andrea Aime - GeoSolutions
  * @source $URL$
  */
-@DescribeProcess(title = "Grid", description = "Generates a georeferenced regular grid of cells.  Output contains the attributes: cell - the cell polygon; id - a unique identifier; centerX and centerY - the ordinates of the cell center.")
+@DescribeProcess(
+  title = "Grid",
+  description =
+      "Generates a georeferenced regular grid of cells.  Output contains the attributes: cell - the cell polygon; id - a unique identifier; centerX and centerY - the ordinates of the cell center."
+)
 public class GridProcess implements VectorProcess {
 
-    public enum GridMode {
-        Rectangular, HexagonFlat, HexagonAngled
-    };
+  public enum GridMode {
+    Rectangular,
+    HexagonFlat,
+    HexagonAngled
+  };
 
-    @DescribeResult(name = "result", description = "Generated grid cells as features")
-    public SimpleFeatureCollection execute(
-            @DescribeParameter(name = "bounds", description = "Bounds of the grid") ReferencedEnvelope bounds,
-            @DescribeParameter(name = "width", description = "Width of a cell (in units of the grid CRS)") double width,
-            @DescribeParameter(name = "height", description = "Height of a cell (in units of the grid CRS).  Only for rectangular grid, defaults to equal width.", min = 0) Double height,
-            @DescribeParameter(name = "vertexSpacing", description = "Distance between vertices along cell sides (in units of the grid CRS)", min = 0) Double vertexSpacing,
-            @DescribeParameter(name = "mode", description = "Type of grid to be generated.  Specifies shape of cells in grid.", defaultValue = "Rectangular") GridMode mode)
-            throws ProcessException {
-        final GridFeatureBuilder builder = new GridFeatureBuilderImpl(bounds
-                .getCoordinateReferenceSystem());
-        double h = height != null ? height : width;
+  @DescribeResult(name = "result", description = "Generated grid cells as features")
+  public SimpleFeatureCollection execute(
+      @DescribeParameter(name = "bounds", description = "Bounds of the grid")
+          ReferencedEnvelope bounds,
+      @DescribeParameter(name = "width", description = "Width of a cell (in units of the grid CRS)")
+          double width,
+      @DescribeParameter(
+            name = "height",
+            description =
+                "Height of a cell (in units of the grid CRS).  Only for rectangular grid, defaults to equal width.",
+            min = 0
+          )
+          Double height,
+      @DescribeParameter(
+            name = "vertexSpacing",
+            description = "Distance between vertices along cell sides (in units of the grid CRS)",
+            min = 0
+          )
+          Double vertexSpacing,
+      @DescribeParameter(
+            name = "mode",
+            description = "Type of grid to be generated.  Specifies shape of cells in grid.",
+            defaultValue = "Rectangular"
+          )
+          GridMode mode)
+      throws ProcessException {
+    final GridFeatureBuilder builder =
+        new GridFeatureBuilderImpl(bounds.getCoordinateReferenceSystem());
+    double h = height != null ? height : width;
 
-        SimpleFeatureSource source;
-        if (mode == null || mode == GridMode.Rectangular) {
-            source = Oblongs.createGrid(bounds, width, h, builder);
-        } else if (mode == GridMode.HexagonFlat) {
-            source = Hexagons.createGrid(bounds, width, HexagonOrientation.FLAT, builder);
-        } else {
-            source = Hexagons.createGrid(bounds, width, HexagonOrientation.ANGLED, builder);
-        }
+    SimpleFeatureSource source;
+    if (mode == null || mode == GridMode.Rectangular) {
+      source = Oblongs.createGrid(bounds, width, h, builder);
+    } else if (mode == GridMode.HexagonFlat) {
+      source = Hexagons.createGrid(bounds, width, HexagonOrientation.FLAT, builder);
+    } else {
+      source = Hexagons.createGrid(bounds, width, HexagonOrientation.ANGLED, builder);
+    }
 
-        try {
-            return source.getFeatures();
-        } catch (IOException e) {
-            throw new ProcessException("Unexpected exception while grabbing features", e);
-        }
+    try {
+      return source.getFeatures();
+    } catch (IOException e) {
+      throw new ProcessException("Unexpected exception while grabbing features", e);
+    }
+  }
+
+  /**
+   * Builds the feature attributes providing the cell center and a stable id
+   *
+   * @author Andrea Aime - GeoSolutions
+   */
+  static final class GridFeatureBuilderImpl extends GridFeatureBuilder {
+    private int id;
+
+    /**
+     * Creates the feature TYPE
+     *
+     * @param typeName name for the feature TYPE; if {@code null} or empty, {@linkplain
+     *     #DEFAULT_TYPE_NAME} will be used
+     * @param crs coordinate reference system (may be {@code null})
+     * @return the feature TYPE
+     */
+    protected static SimpleFeatureType createType(CoordinateReferenceSystem crs) {
+      SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
+      tb.setName("grid");
+      tb.add("cell", Polygon.class, crs);
+      tb.add("id", Integer.class);
+      tb.add("centerX", Double.class);
+      tb.add("centerY", Double.class);
+      return tb.buildFeatureType();
     }
 
     /**
-     * Builds the feature attributes providing the cell center and a stable id
-     * 
-     * @author Andrea Aime - GeoSolutions
+     * Creates a new instance.
+     *
+     * @param crs coordinate reference system (may be {@code null})
      */
-    static final class GridFeatureBuilderImpl extends GridFeatureBuilder {
-        private int id;
-
-        /**
-         * Creates the feature TYPE
-         * 
-         * @param typeName
-         *            name for the feature TYPE; if {@code null} or empty,
-         *            {@linkplain #DEFAULT_TYPE_NAME} will be used
-         * 
-         * @param crs
-         *            coordinate reference system (may be {@code null})
-         * 
-         * @return the feature TYPE
-         */
-        protected static SimpleFeatureType createType(CoordinateReferenceSystem crs) {
-            SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
-            tb.setName("grid");
-            tb.add("cell", Polygon.class, crs);
-            tb.add("id", Integer.class);
-            tb.add("centerX", Double.class);
-            tb.add("centerY", Double.class);
-            return tb.buildFeatureType();
-        }
-
-        /**
-         * Creates a new instance.
-         * 
-         * @param crs
-         *            coordinate reference system (may be {@code null})
-         */
-        public GridFeatureBuilderImpl(CoordinateReferenceSystem crs) {
-            super(createType(crs));
-        }
-
-        @Override
-        public String getFeatureID(GridElement ge) {
-            return String.valueOf("grid." + (id++));
-        }
-
-        /**
-         * Overrides {@linkplain GridFeatureBuilder#setAttributes(GridElement, Map)} to assign a
-         * sequential integer id value to each grid element feature as it is constructed.
-         * 
-         * @param el
-         *            the element from which the new feature is being constructed
-         * 
-         * @param attributes
-         *            a {@code Map} with the single key "id"
-         */
-        @Override
-        public void setAttributes(GridElement ge, Map<String, Object> attributes) {
-        	PolygonElement pe = (PolygonElement) ge;
-            attributes.put("id", id);
-            attributes.put("centerX", pe.getCenter().x);
-            attributes.put("centerY", pe.getCenter().y);
-        }
-
+    public GridFeatureBuilderImpl(CoordinateReferenceSystem crs) {
+      super(createType(crs));
     }
 
+    @Override
+    public String getFeatureID(GridElement ge) {
+      return String.valueOf("grid." + (id++));
+    }
+
+    /**
+     * Overrides {@linkplain GridFeatureBuilder#setAttributes(GridElement, Map)} to assign a
+     * sequential integer id value to each grid element feature as it is constructed.
+     *
+     * @param el the element from which the new feature is being constructed
+     * @param attributes a {@code Map} with the single key "id"
+     */
+    @Override
+    public void setAttributes(GridElement ge, Map<String, Object> attributes) {
+      PolygonElement pe = (PolygonElement) ge;
+      attributes.put("id", id);
+      attributes.put("centerX", pe.getCenter().x);
+      attributes.put("centerY", pe.getCenter().y);
+    }
+  }
 }

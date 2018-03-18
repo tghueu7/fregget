@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,14 +21,11 @@ import static java.awt.RenderingHints.*;
 import java.awt.Font;
 import java.awt.RenderingHints;
 import java.io.File;
-
 import org.geotools.data.property.PropertyDataStore;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.map.DefaultMapContext;
 import org.geotools.map.FeatureLayer;
 import org.geotools.map.MapContent;
-import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.renderer.style.FontCache;
 import org.geotools.styling.Style;
 import org.geotools.test.TestData;
@@ -37,75 +34,69 @@ import org.junit.Test;
 
 /**
  * Tests for rendering and reprojection
- * 
+ *
  * @author jandm
- * 
- *
- *
- *
  * @source $URL$
  */
 public class TileTest {
-    private static final long TIME = 4000;
+  private static final long TIME = 4000;
 
-    SimpleFeatureSource polyfs;
+  SimpleFeatureSource polyfs;
 
-    SimpleFeatureSource linefs;
+  SimpleFeatureSource linefs;
 
-    ReferencedEnvelope leftTileBounds;
+  ReferencedEnvelope leftTileBounds;
 
-    ReferencedEnvelope rightTileBounds;
+  ReferencedEnvelope rightTileBounds;
 
-    @Before
-    public void setUp() throws Exception {
-        File property = new File(TestData.getResource(this, "tilerect.properties").toURI());
-        PropertyDataStore ds = new PropertyDataStore(property.getParentFile());
-        polyfs = ds.getFeatureSource("tilerect");
-        property = new File(TestData.getResource(this, "tilelines.properties").toURI());
-        ds = new PropertyDataStore(property.getParentFile());
-        linefs = ds.getFeatureSource("tilelines");
+  @Before
+  public void setUp() throws Exception {
+    File property = new File(TestData.getResource(this, "tilerect.properties").toURI());
+    PropertyDataStore ds = new PropertyDataStore(property.getParentFile());
+    polyfs = ds.getFeatureSource("tilerect");
+    property = new File(TestData.getResource(this, "tilelines.properties").toURI());
+    ds = new PropertyDataStore(property.getParentFile());
+    linefs = ds.getFeatureSource("tilelines");
 
-        leftTileBounds = new ReferencedEnvelope(0, 10, 0, 10, polyfs.getBounds()
-                .getCoordinateReferenceSystem());
-        rightTileBounds = new ReferencedEnvelope(10, 20, 0, 10, polyfs.getBounds()
-                .getCoordinateReferenceSystem());
+    leftTileBounds =
+        new ReferencedEnvelope(0, 10, 0, 10, polyfs.getBounds().getCoordinateReferenceSystem());
+    rightTileBounds =
+        new ReferencedEnvelope(10, 20, 0, 10, polyfs.getBounds().getCoordinateReferenceSystem());
 
-        // load font
-        Font f = Font.createFont(Font.TRUETYPE_FONT, TestData.getResource(this, "recreate.ttf")
-                .openStream());
-        FontCache.getDefaultInstance().registerFont(f);
+    // load font
+    Font f =
+        Font.createFont(
+            Font.TRUETYPE_FONT, TestData.getResource(this, "recreate.ttf").openStream());
+    FontCache.getDefaultInstance().registerFont(f);
 
-        // System.setProperty("org.geotools.test.interactive", "true");
-    }
+    // System.setProperty("org.geotools.test.interactive", "true");
+  }
 
-    @Test
-    public void testFillAlignment() throws Exception {
-        Style style = RendererBaseTest.loadStyle(this, "fillCross.sld");
+  @Test
+  public void testFillAlignment() throws Exception {
+    Style style = RendererBaseTest.loadStyle(this, "fillCross.sld");
 
-        MapContent mc = new MapContent();
-        mc.addLayer(new FeatureLayer(polyfs, style));
+    MapContent mc = new MapContent();
+    mc.addLayer(new FeatureLayer(polyfs, style));
 
-        StreamingRenderer renderer = new StreamingRenderer();
-        renderer.setMapContent(mc);
-        renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
+    StreamingRenderer renderer = new StreamingRenderer();
+    renderer.setMapContent(mc);
+    renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
 
-        RendererBaseTest.showRender("FillAlignment", renderer, TIME, leftTileBounds,
-                rightTileBounds);
-    }
+    RendererBaseTest.showRender("FillAlignment", renderer, TIME, leftTileBounds, rightTileBounds);
+  }
 
-    @Test
-    public void testStrokeAlignment() throws Exception {
-        Style style = RendererBaseTest.loadStyle(this, "dotsStars.sld");
+  @Test
+  public void testStrokeAlignment() throws Exception {
+    Style style = RendererBaseTest.loadStyle(this, "dotsStars.sld");
 
-        MapContent mc = new MapContent();
-        mc.addLayer(new FeatureLayer(linefs, style));
+    MapContent mc = new MapContent();
+    mc.addLayer(new FeatureLayer(linefs, style));
 
-        StreamingRenderer renderer = new StreamingRenderer();
-        renderer.setMapContent(mc);
-        renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
+    StreamingRenderer renderer = new StreamingRenderer();
+    renderer.setMapContent(mc);
+    renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
 
-        RendererBaseTest.showRender("StrokeAlignment", renderer, TIME, leftTileBounds,
-                rightTileBounds);
-    }
-
+    RendererBaseTest.showRender("StrokeAlignment", renderer, TIME, leftTileBounds, rightTileBounds);
+  }
 }

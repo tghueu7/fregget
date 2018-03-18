@@ -17,9 +17,7 @@
 package org.geotools.gml2.bindings;
 
 import java.util.Collection;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.gml2.GML;
@@ -28,12 +26,12 @@ import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 import org.opengis.feature.simple.SimpleFeature;
 
-
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractFeatureCollectionType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="AbstractFeatureCollectionType" abstract="true"&gt;
  *      &lt;annotation&gt;
@@ -51,61 +49,57 @@ import org.opengis.feature.simple.SimpleFeature;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLAbstractFeatureCollectionTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.AbstractFeatureCollectionType;
+  /** @generated */
+  public QName getTarget() {
+    return GML.AbstractFeatureCollectionType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return FeatureCollection.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // call "super"
+    SimpleFeatureCollection fc = (SimpleFeatureCollection) value;
+
+    // add all feature member children
+    if (fc instanceof Collection) {
+      ((Collection) fc).addAll(node.getChildValues(SimpleFeature.class));
+    } else {
+      throw new IllegalStateException(
+          "Please provide DefaultFeatureCollection or ListFeatureCollection");
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return FeatureCollection.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //call "super"
-        SimpleFeatureCollection fc = (SimpleFeatureCollection) value;
-
-        //add all feature member children
-        if( fc instanceof Collection){
-            ((Collection)fc).addAll(node.getChildValues(SimpleFeature.class));
-        }
-        else {
-            throw new IllegalStateException("Please provide DefaultFeatureCollection or ListFeatureCollection");
-        }
-
-        return fc;
-    }
+    return fc;
+  }
 }

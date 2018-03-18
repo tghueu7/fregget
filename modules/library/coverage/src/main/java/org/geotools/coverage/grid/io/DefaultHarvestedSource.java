@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2013, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -16,44 +16,48 @@
  */
 package org.geotools.coverage.grid.io;
 
-
 /**
  * Default implementation of the {@link HarvestedSource} interface
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class DefaultHarvestedSource implements HarvestedSource {
 
-    Object source;
+  Object source;
 
-    boolean success;
+  boolean success;
 
-    String message;
+  String message;
 
-    public DefaultHarvestedSource(Object source, boolean success, String message) {
-        this.source = source;
-        this.success = success;
-        this.message = message;
-    }
+  public DefaultHarvestedSource(Object source, boolean success, String message) {
+    this.source = source;
+    this.success = success;
+    this.message = message;
+  }
 
-    @Override
-    public Object getSource() {
-        return source;
-    }
+  @Override
+  public Object getSource() {
+    return source;
+  }
 
-    @Override
-    public boolean success() {
-        return success;
-    }
+  @Override
+  public boolean success() {
+    return success;
+  }
 
-    @Override
-    public String getMessage() {
-        return message;
-    }
+  @Override
+  public String getMessage() {
+    return message;
+  }
 
-    @Override
-    public String toString() {
-        return "DefaultHarvestedSource [source=" + source + ", success=" + success + ", message="
-                + message + "]";
-    }
+  @Override
+  public String toString() {
+    return "DefaultHarvestedSource [source="
+        + source
+        + ", success="
+        + success
+        + ", message="
+        + message
+        + "]";
+  }
 }

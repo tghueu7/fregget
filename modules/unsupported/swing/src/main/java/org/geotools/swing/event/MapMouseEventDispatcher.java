@@ -24,55 +24,50 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 /**
- * Takes Java AWT mouse events received by a map pane and converts them to 
- * {@code MapMouseEvents} which add world location data. The resulting events are then
- * dispatched to {@code MapMouseListeners} by the methods overriden from the 
- * AWT listener interfaces.
- * 
+ * Takes Java AWT mouse events received by a map pane and converts them to {@code MapMouseEvents}
+ * which add world location data. The resulting events are then dispatched to {@code
+ * MapMouseListeners} by the methods overriden from the AWT listener interfaces.
+ *
  * @author Michael Bedward
  * @since 8.0
- *
  * @source $URL$
  * @version $Id$
  */
-public interface MapMouseEventDispatcher 
-        extends MouseListener, MouseMotionListener, MouseWheelListener {
+public interface MapMouseEventDispatcher
+    extends MouseListener, MouseMotionListener, MouseWheelListener {
 
-    /**
-     * Adds a listener for map pane mouse events.
-     *
-     * @param listener the new listener
-     * @return true if successful; false otherwise
-     * @throws IllegalArgumentException if the {@code listener} is {@code null}
-     */
-    boolean addMouseListener(MapMouseListener listener);
+  /**
+   * Adds a listener for map pane mouse events.
+   *
+   * @param listener the new listener
+   * @return true if successful; false otherwise
+   * @throws IllegalArgumentException if the {@code listener} is {@code null}
+   */
+  boolean addMouseListener(MapMouseListener listener);
 
-    /**
-     * Removes the given listener.
-     *
-     * @param listener the listener to remove
-     * @return true if successful; false otherwise
-     * @throws IllegalArgumentException if the {@code listener} is {@code null}
-     */
-    boolean removeMouseListener(MapMouseListener listener);
+  /**
+   * Removes the given listener.
+   *
+   * @param listener the listener to remove
+   * @return true if successful; false otherwise
+   * @throws IllegalArgumentException if the {@code listener} is {@code null}
+   */
+  boolean removeMouseListener(MapMouseListener listener);
 
-    /**
-     * Removes all listeners.
-     */
-    void removeAllListeners();
+  /** Removes all listeners. */
+  void removeAllListeners();
 
-    /**
-     * Converts an incoming Java AWT mouse event to a {@linkplain MapMouseEvent}.
-     * 
-     * @param ev the input event
-     */
-    MapMouseEvent convertEvent(MouseEvent ev);
-    
-    /**
-     * Converts an incoming Java AWT mouse wheel event to a {@linkplain MapMouseEvent}.
-     * 
-     * @param ev the input event
-     */
-    MapMouseEvent convertEvent(MouseWheelEvent ev);
+  /**
+   * Converts an incoming Java AWT mouse event to a {@linkplain MapMouseEvent}.
+   *
+   * @param ev the input event
+   */
+  MapMouseEvent convertEvent(MouseEvent ev);
 
+  /**
+   * Converts an incoming Java AWT mouse wheel event to a {@linkplain MapMouseEvent}.
+   *
+   * @param ev the input event
+   */
+  MapMouseEvent convertEvent(MouseWheelEvent ev);
 }

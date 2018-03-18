@@ -22,18 +22,16 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-/**
- * Tests for {@link AzimuthalEquidistant}.
- */
+/** Tests for {@link AzimuthalEquidistant}. */
 public class AzimuthalEquidistantTest {
 
-    /**
-     * Test that parameter values are correctly converted to WKT.
-     */
-    @Test
-    public void toWKT() throws Exception {
-        // @formatter:off
-        CoordinateReferenceSystem crs = CRS.parseWKT("PROJCS[\"unnamed\", "
+  /** Test that parameter values are correctly converted to WKT. */
+  @Test
+  public void toWKT() throws Exception {
+    // @formatter:off
+    CoordinateReferenceSystem crs =
+        CRS.parseWKT(
+            "PROJCS[\"unnamed\", "
                 + "GEOGCS[\"unnamed ellipse\", "
                 + "DATUM[\"unknown\", SPHEROID[\"unnamed\",6370841.391468334,0]], "
                 + "PRIMEM[\"Greenwich\",0], "
@@ -44,13 +42,12 @@ public class AzimuthalEquidistantTest {
                 + "PARAMETER[\"false_easting\",100000], "
                 + "PARAMETER[\"false_northing\",200000],"
                 + "UNIT[\"metre\", 1, AUTHORITY[\"EPSG\",\"9001\"]]]");
-        // @formatter:on
-        String wkt = crs.toWKT();
-        Assert.assertTrue(wkt.contains("PROJECTION[\"Azimuthal_Equidistant\"]"));
-        Assert.assertTrue(wkt.contains("PARAMETER[\"latitude_of_center\", 42.42]"));
-        Assert.assertTrue(wkt.contains("PARAMETER[\"longitude_of_center\", 16.16]"));
-        Assert.assertTrue(wkt.contains("PARAMETER[\"false_easting\", 100000.0]"));
-        Assert.assertTrue(wkt.contains("PARAMETER[\"false_northing\", 200000.0]"));
-    }
-
+    // @formatter:on
+    String wkt = crs.toWKT();
+    Assert.assertTrue(wkt.contains("PROJECTION[\"Azimuthal_Equidistant\"]"));
+    Assert.assertTrue(wkt.contains("PARAMETER[\"latitude_of_center\", 42.42]"));
+    Assert.assertTrue(wkt.contains("PARAMETER[\"longitude_of_center\", 16.16]"));
+    Assert.assertTrue(wkt.contains("PARAMETER[\"false_easting\", 100000.0]"));
+    Assert.assertTrue(wkt.contains("PARAMETER[\"false_northing\", 200000.0]"));
+  }
 }

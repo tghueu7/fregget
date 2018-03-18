@@ -17,46 +17,38 @@
 package org.geotools.gml3.bindings;
 
 import java.util.Set;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.gml3.GML;
 import org.geotools.xml.XSD;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public final class TEST extends XSD {
-    private static TEST instance = new TEST();
-    public static String NAMESPACE = "http://www.geotools.org/test";
+  private static TEST instance = new TEST();
+  public static String NAMESPACE = "http://www.geotools.org/test";
 
-    //types
-    public static QName TestFeatureType = new QName(NAMESPACE, "TestFeatureType");
-    public static QName TestFeatureCollectionType = new QName(NAMESPACE, "TestFeatureCollectionType");
+  // types
+  public static QName TestFeatureType = new QName(NAMESPACE, "TestFeatureType");
+  public static QName TestFeatureCollectionType = new QName(NAMESPACE, "TestFeatureCollectionType");
 
-    //elements
-    public static QName TestFeature = new QName(NAMESPACE, "TestFeature");
-    public static QName TestFeatureCollection = new QName(NAMESPACE, "TestFeatureCollection");
+  // elements
+  public static QName TestFeature = new QName(NAMESPACE, "TestFeature");
+  public static QName TestFeatureCollection = new QName(NAMESPACE, "TestFeatureCollection");
 
-    private TEST() {
-    }
+  private TEST() {}
 
-    public static TEST getInstance() {
-        return instance;
-    }
+  public static TEST getInstance() {
+    return instance;
+  }
 
-    protected void addDependencies(Set dependencies) {
-        dependencies.add(GML.getInstance());
-    }
+  protected void addDependencies(Set dependencies) {
+    dependencies.add(GML.getInstance());
+  }
 
-    public String getNamespaceURI() {
-        return NAMESPACE;
-    }
+  public String getNamespaceURI() {
+    return NAMESPACE;
+  }
 
-    public String getSchemaLocation() {
-        return getClass().getResource("test.xsd").toString();
-    }
+  public String getSchemaLocation() {
+    return getClass().getResource("test.xsd").toString();
+  }
 }

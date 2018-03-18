@@ -16,23 +16,19 @@
  */
 package org.geotools.sld.bindings;
 
-import org.picocontainer.MutablePicoContainer;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import java.net.URI;
 import java.net.URL;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.styling.ResourceLocator;
 import org.geotools.xml.*;
-
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:OnlineResource.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="OnlineResource"&gt;
  *      &lt;xsd:annotation&gt;
@@ -46,75 +42,71 @@ import org.geotools.xml.*;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDOnlineResourceBinding extends AbstractComplexBinding {
 
-    ResourceLocator resourceLocator;
+  ResourceLocator resourceLocator;
 
-    public SLDOnlineResourceBinding(ResourceLocator resourceLocator) {
-        this.resourceLocator = resourceLocator;
-    }
+  public SLDOnlineResourceBinding(ResourceLocator resourceLocator) {
+    this.resourceLocator = resourceLocator;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.ONLINERESOURCE;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return SLD.ONLINERESOURCE;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return URI.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return URI.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //just grab the URI and pass it back
-        Object href = node.getAttributeValue("href");
-        if (href != null) {
-            URL located = resourceLocator.locateResource(href.toString());
-            if (located != null) {
-                //return as a uri
-                return located.toURI();
-            }
-        }
-        return href;
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // just grab the URI and pass it back
+    Object href = node.getAttributeValue("href");
+    if (href != null) {
+      URL located = resourceLocator.locateResource(href.toString());
+      if (located != null) {
+        // return as a uri
+        return located.toURI();
+      }
     }
+    return href;
+  }
 }

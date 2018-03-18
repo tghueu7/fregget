@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,49 +17,42 @@
 package org.geotools.data.jdbc.datasource;
 
 import java.sql.SQLException;
-
 import javax.sql.DataSource;
-
 import org.apache.commons.dbcp.BasicDataSource;
 
 /**
  * A closeable wrapper around {@link BasicDataSource}
- * 
+ *
  * @author Administrator
- * 
- *
- *
- *
  * @source $URL$
  */
 public class DBCPDataSource extends AbstractManageableDataSource {
 
-    public DBCPDataSource(BasicDataSource wrapped) {
-        super(wrapped);
+  public DBCPDataSource(BasicDataSource wrapped) {
+    super(wrapped);
+  }
 
-    }
+  public DataSource getWrapped() {
+    return wrapped;
+  }
 
-    public DataSource getWrapped() {
-        return wrapped;
-    }
+  public void close() throws SQLException {
+    ((BasicDataSource) wrapped).close();
+  }
 
-    public void close() throws SQLException {
-        ((BasicDataSource) wrapped).close();
+  @Override
+  public boolean isWrapperFor(Class c) throws SQLException {
+    if (DataSource.class.isAssignableFrom(c)) {
+      return true;
     }
+    return false;
+  }
 
-    @Override
-    public boolean isWrapperFor(Class c) throws SQLException {
-        if (DataSource.class.isAssignableFrom(c)) {
-            return true;
-        }
-        return false;
+  @Override
+  public Object unwrap(Class c) throws SQLException {
+    if (isWrapperFor(c)) {
+      return getWrapped();
     }
-    
-    @Override
-    public Object unwrap(Class c) throws SQLException {
-        if (isWrapperFor(c)) {
-            return getWrapped();
-        }
-        return null;
-    }
+    return null;
+  }
 }

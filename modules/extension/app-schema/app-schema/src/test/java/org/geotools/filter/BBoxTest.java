@@ -25,7 +25,6 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.geotools.data.DataAccess;
 import org.geotools.data.DataAccessFinder;
 import org.geotools.data.FeatureSource;
@@ -43,108 +42,98 @@ import org.xml.sax.helpers.NamespaceSupport;
 
 /**
  * This is to test bounding box query that previously didn't work for app-schema.
- * 
+ *
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- *
- *
- *
  * @source $URL$
  */
 public class BBoxTest extends AppSchemaTestSupport {
-    private static FilterFactoryImpl ff;
+  private static FilterFactoryImpl ff;
 
-    private static DataAccess<FeatureType, Feature> dataAccess;
+  private static DataAccess<FeatureType, Feature> dataAccess;
 
-    private static FeatureSource<FeatureType, Feature> fSource;
+  private static FeatureSource<FeatureType, Feature> fSource;
 
-    @BeforeClass
-    public static void onetimeSetUp() throws Exception {
+  @BeforeClass
+  public static void onetimeSetUp() throws Exception {
 
-        final String GSML_URI = "urn:cgi:xmlns:CGI:GeoSciML:2.0";
-        /**
-         * Set up filter factory
-         */
-        NamespaceSupport namespaces = new NamespaceSupport();
-        namespaces.declarePrefix("gsml", GSML_URI);
-        namespaces.declarePrefix("gml", "http://www.opengis.net/gml");
-        ff = new FilterFactoryImplNamespaceAware(namespaces);
+    final String GSML_URI = "urn:cgi:xmlns:CGI:GeoSciML:2.0";
+    /** Set up filter factory */
+    NamespaceSupport namespaces = new NamespaceSupport();
+    namespaces.declarePrefix("gsml", GSML_URI);
+    namespaces.declarePrefix("gml", "http://www.opengis.net/gml");
+    ff = new FilterFactoryImplNamespaceAware(namespaces);
 
-        /**
-         * Load data access
-         */
-        final Name FEATURE_TYPE = Types.typeName(GSML_URI, "MappedFeature");
-        final String schemaBase = "/test-data/";
-        Map<String, Serializable> dsParams = new HashMap<String, Serializable>();
-        dsParams.put("dbtype", "app-schema");
-        URL url = BBoxTest.class.getResource(schemaBase + "MappedFeatureAsOccurrence.xml");
-        assertNotNull(url);
-        dsParams.put("url", url.toExternalForm());
-        dataAccess = DataAccessFinder.getDataStore(dsParams);
+    /** Load data access */
+    final Name FEATURE_TYPE = Types.typeName(GSML_URI, "MappedFeature");
+    final String schemaBase = "/test-data/";
+    Map<String, Serializable> dsParams = new HashMap<String, Serializable>();
+    dsParams.put("dbtype", "app-schema");
+    URL url = BBoxTest.class.getResource(schemaBase + "MappedFeatureAsOccurrence.xml");
+    assertNotNull(url);
+    dsParams.put("url", url.toExternalForm());
+    dataAccess = DataAccessFinder.getDataStore(dsParams);
 
-        fSource = (FeatureSource<FeatureType, Feature>) dataAccess.getFeatureSource(FEATURE_TYPE);
+    fSource = (FeatureSource<FeatureType, Feature>) dataAccess.getFeatureSource(FEATURE_TYPE);
+  }
+
+  @Test
+  /*
+   * Test BBox function with the property name specified.
+   */
+  public void testBBoxWithPropertyName() throws Exception {
+    // property name exists and is a geometry attribute
+    BBOX filter = ff.bbox(ff.property("gsml:shape"), -1.1, 52.5, -1.1, 52.6, null);
+    FeatureCollection<FeatureType, Feature> features = fSource.getFeatures(filter);
+    assertEquals(2, size(features));
+    FeatureIterator<Feature> iterator = features.features();
+    try {
+      Feature f = iterator.next();
+      assertEquals("mf1", f.getIdentifier().toString());
+      f = iterator.next();
+      assertEquals("mf3", f.getIdentifier().toString());
+    } finally {
+      iterator.close();
     }
+    // prove that it would fail when property name is not a geometry attribute
+    filter = ff.bbox(ff.property("gml:name[1]"), -1.2, 52.5, -1.1, 52.6, null);
+    features = fSource.getFeatures(filter);
+    assertEquals(0, size(features));
+  }
 
-    @Test
-    /*
-     * Test BBox function with the property name specified.
-     */
-    public void testBBoxWithPropertyName() throws Exception {
-        // property name exists and is a geometry attribute
-        BBOX filter = ff.bbox(ff.property("gsml:shape"), -1.1, 52.5, -1.1, 52.6, null);
-        FeatureCollection<FeatureType, Feature> features = fSource.getFeatures(filter);
-        assertEquals(2, size(features));
-        FeatureIterator<Feature> iterator = features.features();
-        try {
-            Feature f = iterator.next();
-            assertEquals("mf1", f.getIdentifier().toString());
-            f = iterator.next();
-            assertEquals("mf3", f.getIdentifier().toString());
-        }
-        finally {
-            iterator.close();
-        }
-        // prove that it would fail when property name is not a geometry attribute
-        filter = ff.bbox(ff.property("gml:name[1]"), -1.2, 52.5, -1.1, 52.6, null);
-        features = fSource.getFeatures(filter);
-        assertEquals(0, size(features));
+  @Test
+  /*
+   * Test Bbox function with no property name specified. The default geometry should be used.
+   */
+  public void testBBoxWithNoPropertyName() throws IOException {
+    // default geometry exists
+    // in theory, when property name is not specified, the filter should apply to all the
+    // geometry attributes,
+    // but it wouldn't work until the bug in GeometryFilterImpl is fixed
+    // and our test data only have 1 geometry, so it doesn't test multiple geometries case
+    BBOX filter = ff.bbox(ff.property(""), -1.1, 52.5, -1.1, 52.6, null);
+    FeatureCollection<FeatureType, Feature> features = fSource.getFeatures(filter);
+    assertEquals(2, size(features));
+    FeatureIterator<Feature> iterator = features.features();
+    try {
+      Feature f = iterator.next();
+      assertEquals(f.getIdentifier().toString(), "mf1");
+      f = iterator.next();
+      assertEquals(f.getIdentifier().toString(), "mf3");
+    } finally {
+      iterator.close();
     }
+  }
 
-    @Test
-    /*
-     * Test Bbox function with no property name specified. The default geometry should be used.
-     */
-    public void testBBoxWithNoPropertyName() throws IOException {
-        // default geometry exists
-        // in theory, when property name is not specified, the filter should apply to all the
-        // geometry attributes,
-        // but it wouldn't work until the bug in GeometryFilterImpl is fixed
-        // and our test data only have 1 geometry, so it doesn't test multiple geometries case
-        BBOX filter = ff.bbox(ff.property(""), -1.1, 52.5, -1.1, 52.6, null);
-        FeatureCollection<FeatureType, Feature> features = fSource.getFeatures(filter);
-        assertEquals(2, size(features));
-        FeatureIterator<Feature> iterator = features.features();
-        try {
-            Feature f = iterator.next();
-            assertEquals(f.getIdentifier().toString(), "mf1");
-            f = iterator.next();
-            assertEquals(f.getIdentifier().toString(), "mf3");
-        }
-        finally {
-            iterator.close();
-        }
+  private int size(FeatureCollection<FeatureType, Feature> features) {
+    int size = 0;
+    FeatureIterator<Feature> i = features.features();
+    try {
+      for (; i.hasNext(); i.next()) {
+        size++;
+      }
+    } finally {
+      i.close();
     }
-
-    private int size(FeatureCollection<FeatureType, Feature> features) {
-        int size = 0;
-        FeatureIterator<Feature> i = features.features();
-        try {
-            for (; i.hasNext(); i.next()) {
-                size++;
-            }
-        }
-        finally {
-            i.close();
-        }
-        return size;
-    }
+    return size;
+  }
 }

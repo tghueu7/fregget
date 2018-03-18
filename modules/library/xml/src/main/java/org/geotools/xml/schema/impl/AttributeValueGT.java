@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -20,45 +20,37 @@ import org.geotools.xml.schema.Attribute;
 import org.geotools.xml.schema.AttributeValue;
 
 /**
- * <p>
  * DOCUMENT ME!
- * </p>
  *
  * @author dzwiers
- *
- *
  * @source $URL$
  */
 public class AttributeValueGT implements AttributeValue {
-    private String value;
-    private Attribute attribute;
+  private String value;
+  private Attribute attribute;
 
-    private AttributeValueGT() {
-        // do nothing
-    }
+  private AttributeValueGT() {
+    // do nothing
+  }
 
-    /**
-     * Creates a new AttributeValueGT object.
-     *
-     * @param attribute DOCUMENT ME!
-     * @param value DOCUMENT ME!
-     */
-    public AttributeValueGT(Attribute attribute, String value) {
-        this.attribute = attribute;
-        this.value = value;
-    }
+  /**
+   * Creates a new AttributeValueGT object.
+   *
+   * @param attribute DOCUMENT ME!
+   * @param value DOCUMENT ME!
+   */
+  public AttributeValueGT(Attribute attribute, String value) {
+    this.attribute = attribute;
+    this.value = value;
+  }
 
-    /**
-     * @see org.geotools.xml.schema.AttributeValue#getValue()
-     */
-    public String getValue() {
-        return value;
-    }
+  /** @see org.geotools.xml.schema.AttributeValue#getValue() */
+  public String getValue() {
+    return value;
+  }
 
-    /**
-     * @see org.geotools.xml.schema.AttributeValue#getAttribute()
-     */
-    public Attribute getAttribute() {
-        return attribute;
-    }
+  /** @see org.geotools.xml.schema.AttributeValue#getAttribute() */
+  public Attribute getAttribute() {
+    return attribute;
+  }
 }

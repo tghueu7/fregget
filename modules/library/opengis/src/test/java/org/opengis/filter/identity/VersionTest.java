@@ -8,82 +8,80 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Date;
-
 import org.junit.Test;
 import org.opengis.filter.identity.Version.Action;
 
 public class VersionTest {
 
-    @Test
-    public void bitwise() {
-        for (Action action : Action.values()) {
-            long encoded = Version.UNION_ACTION | ((long) action.ordinal());
-            
-            assertTrue( (encoded & Version.UNION_ACTION) > 0 );
-            long decoded = Version.UNION_MASK & ((long)encoded);
-            
-            Action found = Action.lookup((int)decoded);
-            assertEquals( action, found );
-        }
+  @Test
+  public void bitwise() {
+    for (Action action : Action.values()) {
+      long encoded = Version.UNION_ACTION | ((long) action.ordinal());
 
+      assertTrue((encoded & Version.UNION_ACTION) > 0);
+      long decoded = Version.UNION_MASK & ((long) encoded);
+
+      Action found = Action.lookup((int) decoded);
+      assertEquals(action, found);
+    }
+  }
+
+  @Test
+  public void versionInteger() {
+    try {
+      new Version(-1);
+      fail("Expected IAE on negative version");
+    } catch (IllegalArgumentException e) {
+      assertTrue(true);
+    }
+    try {
+      new Version(0);
+      fail("Expected IAE");
+    } catch (IllegalArgumentException e) {
+      assertTrue(true);
     }
 
-    @Test
-    public void versionInteger() {
-        try {
-            new Version(-1);
-            fail("Expected IAE on negative version");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
-        try {
-            new Version(0);
-            fail("Expected IAE");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
-        
-        Integer testInt = new Integer(1234567890);
-        Version version = new Version(testInt);
+    Integer testInt = new Integer(1234567890);
+    Version version = new Version(testInt);
 
-        assertNotNull(version.getIndex());
-        assertTrue( version.isIndex() );
-        assertEquals(1234567890, (int) version.getIndex());
+    assertNotNull(version.getIndex());
+    assertTrue(version.isIndex());
+    assertEquals(1234567890, (int) version.getIndex());
 
-        assertFalse( version.isVersionAction() );
-        assertNull(version.getVersionAction());
-        
-        assertNull(version.getDateTime());
-    }
+    assertFalse(version.isVersionAction());
+    assertNull(version.getVersionAction());
 
-    @Test
-    public void versionDate() {
-        Date now = new Date();
+    assertNull(version.getDateTime());
+  }
 
-        Version version = new Version(now);
+  @Test
+  public void versionDate() {
+    Date now = new Date();
 
-        assertTrue( version.isDateTime() );
-        assertEquals(now, version.getDateTime());
-        assertNull(version.getIndex());
-        assertNull(version.getVersionAction());
-    }
+    Version version = new Version(now);
 
-    @Test
-    public void versionAction() {
-        Version version = new Version(Version.Action.ALL);
+    assertTrue(version.isDateTime());
+    assertEquals(now, version.getDateTime());
+    assertNull(version.getIndex());
+    assertNull(version.getVersionAction());
+  }
 
-        assertEquals(Version.Action.ALL, version.getVersionAction());
-        
-        assertTrue(version.isVersionAction());
+  @Test
+  public void versionAction() {
+    Version version = new Version(Version.Action.ALL);
 
-        assertNull(version.getIndex());
-        assertNull(version.getDateTime());
-    }
-    @Test
-    public void versionEmpty() {
-        Version version = new Version();
+    assertEquals(Version.Action.ALL, version.getVersionAction());
 
-        assertTrue(version.isEmpty());
-    }
+    assertTrue(version.isVersionAction());
 
+    assertNull(version.getIndex());
+    assertNull(version.getDateTime());
+  }
+
+  @Test
+  public void versionEmpty() {
+    Version version = new Version();
+
+    assertTrue(version.isEmpty());
+  }
 }

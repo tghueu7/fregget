@@ -18,27 +18,22 @@ package org.geotools.data.sqlserver;
 
 import org.geotools.jdbc.JDBCBooleanTestSetup;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SQLServerBooleanTestSetup extends JDBCBooleanTestSetup {
 
-    protected SQLServerBooleanTestSetup() {
-        super(new SQLServerTestSetup());
-    }
+  protected SQLServerBooleanTestSetup() {
+    super(new SQLServerTestSetup());
+  }
 
-    @Override
-    protected void createBooleanTable() throws Exception {
-        run("CREATE TABLE b (id int IDENTITY(1,1) PRIMARY KEY, boolProperty BIT)");
-        run("INSERT INTO b (boolProperty) VALUES (0)");
-        run("INSERT INTO b (boolProperty) VALUES (1)");
-    }
+  @Override
+  protected void createBooleanTable() throws Exception {
+    run("CREATE TABLE b (id int IDENTITY(1,1) PRIMARY KEY, boolProperty BIT)");
+    run("INSERT INTO b (boolProperty) VALUES (0)");
+    run("INSERT INTO b (boolProperty) VALUES (1)");
+  }
 
-    @Override
-    protected void dropBooleanTable() throws Exception {
-        run( "DROP TABLE b");
-    }
-
+  @Override
+  protected void dropBooleanTable() throws Exception {
+    run("DROP TABLE b");
+  }
 }

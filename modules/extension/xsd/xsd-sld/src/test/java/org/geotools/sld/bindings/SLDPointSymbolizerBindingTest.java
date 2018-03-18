@@ -19,33 +19,28 @@ package org.geotools.sld.bindings;
 import org.geotools.styling.PointSymbolizer;
 import org.opengis.filter.expression.Function;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDPointSymbolizerBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(PointSymbolizer.class, new SLDPointSymbolizerBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(PointSymbolizer.class, new SLDPointSymbolizerBinding(null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.pointSymbolizer(document, document);
+  public void test() throws Exception {
+    SLDMockData.pointSymbolizer(document, document);
 
-        PointSymbolizer ps = (PointSymbolizer) parse();
-        assertNotNull(ps);
-        assertNotNull(ps.getGeometryPropertyName());
-        assertNotNull(ps.getGraphic());
-    }
-    
-    public void testTransform() throws Exception {
-        SLDMockData.transformedPointSymbolizer(document, document);
+    PointSymbolizer ps = (PointSymbolizer) parse();
+    assertNotNull(ps);
+    assertNotNull(ps.getGeometryPropertyName());
+    assertNotNull(ps.getGraphic());
+  }
 
-        PointSymbolizer ps = (PointSymbolizer) parse();
-        assertNotNull(ps);
-        assertNotNull(ps.getGeometry());
-        Function tx = (Function) ps.getGeometry();
-        assertEquals("buffer", tx.getName());
-    }
+  public void testTransform() throws Exception {
+    SLDMockData.transformedPointSymbolizer(document, document);
+
+    PointSymbolizer ps = (PointSymbolizer) parse();
+    assertNotNull(ps);
+    assertNotNull(ps.getGeometry());
+    Function tx = (Function) ps.getGeometry();
+    assertEquals("buffer", tx.getName());
+  }
 }

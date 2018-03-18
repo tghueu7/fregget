@@ -17,7 +17,6 @@
 package org.geotools.swt.action;
 
 import java.io.File;
-
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Display;
@@ -37,41 +36,38 @@ import org.geotools.swt.utils.ImageCache;
 
 /**
  * Action to open geotiff files.
- * 
+ *
  * @author Andrea Antonello (www.hydrologis.com)
- *
- *
- *
  * @source $URL$
  */
 public class OpenGeotiffAction extends MapAction implements ISelectionChangedListener {
 
-    public OpenGeotiffAction() {
-        super("Open Image", "Load an image file into the viewer.", ImageCache.getInstance().getImage(ImageCache.OPEN));
+  public OpenGeotiffAction() {
+    super(
+        "Open Image",
+        "Load an image file into the viewer.",
+        ImageCache.getInstance().getImage(ImageCache.OPEN));
+  }
+
+  public void run() {
+    Display display = Display.getCurrent();
+    Shell shell = new Shell(display);
+    File openFile = JFileImageChooser.showOpenFile(shell);
+
+    if (openFile != null && openFile.exists()) {
+      AbstractGridFormat format = GridFormatFinder.findFormat(openFile);
+      AbstractGridCoverage2DReader tiffReader = format.getReader(openFile);
+      StyleFactoryImpl sf = new StyleFactoryImpl();
+      RasterSymbolizer symbolizer = sf.getDefaultRasterSymbolizer();
+      Style defaultStyle = SLD.wrapSymbolizers(symbolizer);
+
+      MapContent mapContent = mapPane.getMapContent();
+      Layer layer = new GridReaderLayer(tiffReader, defaultStyle);
+      layer.setTitle(openFile.getName());
+      mapContent.addLayer(layer);
+      mapPane.redraw();
     }
+  }
 
-    public void run() {
-        Display display = Display.getCurrent();
-        Shell shell = new Shell(display);
-        File openFile = JFileImageChooser.showOpenFile(shell);
-
-        if (openFile != null && openFile.exists()) {
-            AbstractGridFormat format = GridFormatFinder.findFormat(openFile);
-            AbstractGridCoverage2DReader tiffReader = format.getReader(openFile);
-            StyleFactoryImpl sf = new StyleFactoryImpl();
-            RasterSymbolizer symbolizer = sf.getDefaultRasterSymbolizer();
-            Style defaultStyle = SLD.wrapSymbolizers(symbolizer);
-
-            MapContent mapContent = mapPane.getMapContent();
-            Layer layer = new GridReaderLayer(tiffReader, defaultStyle);
-            layer.setTitle(openFile.getName());
-            mapContent.addLayer(layer);
-            mapPane.redraw();
-        }
-    }
-
-    public void selectionChanged( SelectionChangedEvent arg0 ) {
-
-    }
-
+  public void selectionChanged(SelectionChangedEvent arg0) {}
 }

@@ -1,22 +1,20 @@
 package org.geotools.gml4wcs.bindings;
 
+import com.vividsolutions.jts.geom.Geometry;
 import javax.xml.namespace.QName;
-
 import org.geotools.gml4wcs.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-import com.vividsolutions.jts.geom.Geometry;
-
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractGeometryType.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
- *	 <code>
+ *  <code>
  *  &lt;complexType abstract=&quot;true&quot; name=&quot;AbstractGeometryType&quot;&gt;
  *      &lt;annotation&gt;
  *          &lt;documentation&gt;All geometry elements are derived directly or indirectly from this abstract supertype. A geometry element may have an identifying attribute (&quot;id&quot;), a name (attribute &quot;name&quot;) and a description (attribute &quot;description&quot;). It may be associated with a spatial reference system (attribute &quot;srsName&quot;). The following rules shall be adhered: - Every geometry type shall derive from this abstract type. - Every geometry element (i.e. an element of a geometry type) shall be directly or indirectly in the substitution group of _Geometry.&lt;/documentation&gt;
@@ -31,78 +29,74 @@ import com.vividsolutions.jts.geom.Geometry;
  *              &lt;/attribute&gt;
  *          &lt;/extension&gt;
  *      &lt;/complexContent&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *  &lt;/complexType&gt;
+ *
  * </code>
- *	 </pre>
- * 
- * </p>
- * 
+ *  </pre>
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class AbstractGeometryTypeBinding extends AbstractComplexBinding {
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.AbstractGeometryType;
+  /** @generated */
+  public QName getTarget() {
+    return GML.AbstractGeometryType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Geometry.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // set the crs
+    if (value instanceof Geometry) {
+      CoordinateReferenceSystem crs = GML3ParsingUtils.crs(node);
+
+      if (crs != null) {
+        Geometry geometry = (Geometry) value;
+        geometry.setUserData(crs);
+      }
     }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Geometry.class;
+    return value;
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    Geometry geometry = (Geometry) object;
+    if ("srsName".equals(name.getLocalPart())) {
+      CoordinateReferenceSystem crs = GML3EncodingUtils.getCRS(geometry);
+
+      if (crs != null) {
+        return GML3EncodingUtils.crs(crs);
+      }
     }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-            throws Exception {
-        // set the crs
-        if (value instanceof Geometry) {
-            CoordinateReferenceSystem crs = GML3ParsingUtils.crs(node);
-
-            if (crs != null) {
-                Geometry geometry = (Geometry) value;
-                geometry.setUserData(crs);
-            }
-        }
-
-        return value;
+    if (GML.id.equals(name)) {
+      return GML3EncodingUtils.getID(geometry);
     }
 
-    public Object getProperty(Object object, QName name) throws Exception {
-        Geometry geometry = (Geometry) object;
-        if ("srsName".equals(name.getLocalPart())) {
-            CoordinateReferenceSystem crs = GML3EncodingUtils.getCRS(geometry);
-
-            if (crs != null) {
-                return GML3EncodingUtils.crs(crs);
-            }
-        }
-
-        if (GML.id.equals(name)) {
-            return GML3EncodingUtils.getID(geometry);
-        }
-
-        if (GML.name.equals(name)) {
-            return GML3EncodingUtils.getName(geometry);
-        }
-
-        if (GML.description.equals(name)) {
-            return GML3EncodingUtils.getDescription(geometry);
-        }
-        return null;
+    if (GML.name.equals(name)) {
+      return GML3EncodingUtils.getName(geometry);
     }
 
+    if (GML.description.equals(name)) {
+      return GML3EncodingUtils.getDescription(geometry);
+    }
+    return null;
+  }
 }

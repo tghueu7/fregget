@@ -22,7 +22,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
 /**
  * A command-line option.
  *
@@ -35,24 +34,24 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Option {
-    /**
-     * The argument name. The default is the same name than the field.
-     *
-     * @return The argument name, or {@code ""} for the default.
-     */
-    String name() default "";
+  /**
+   * The argument name. The default is the same name than the field.
+   *
+   * @return The argument name, or {@code ""} for the default.
+   */
+  String name() default "";
 
-    /**
-     * {@code true} if this option is mandatory. Options are optional by default.
-     *
-     * @return Whatever this option is mandatory or optional.
-     */
-    boolean mandatory() default false;
+  /**
+   * {@code true} if this option is mandatory. Options are optional by default.
+   *
+   * @return Whatever this option is mandatory or optional.
+   */
+  boolean mandatory() default false;
 
-    /**
-     * A description of this option to be printed when the {@code --help} option is provided.
-     *
-     * @return The description, or {@code ""} for none.
-     */
-    String description() default "";
+  /**
+   * A description of this option to be printed when the {@code --help} option is provided.
+   *
+   * @return The description, or {@code ""} for none.
+   */
+  String description() default "";
 }

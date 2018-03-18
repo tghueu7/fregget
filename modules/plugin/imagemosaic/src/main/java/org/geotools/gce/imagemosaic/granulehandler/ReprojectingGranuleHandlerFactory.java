@@ -17,13 +17,11 @@
 
 package org.geotools.gce.imagemosaic.granulehandler;
 
-/**
- * Factory for the Reprojecting granule handler
- */
+/** Factory for the Reprojecting granule handler */
 public class ReprojectingGranuleHandlerFactory implements GranuleHandlerFactorySPI {
 
-    @Override
-    public GranuleHandler create() {
-        return new ReprojectingGranuleHandler();
-    }
+  @Override
+  public GranuleHandler create() {
+    return new ReprojectingGranuleHandler();
+  }
 }

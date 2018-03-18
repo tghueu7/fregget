@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -33,249 +33,237 @@ import org.opengis.filter.expression.PropertyName;
 
 /**
  * Unit Test for Comparison Predicate
- * <p>
- * By default test executes the test parsing Comparison Predicate using
- * the CQL compiler.
- * </p>
- * <p>
- * The subclass could use this as default and add more test cases with different language. 
- * </p>
+ *
+ * <p>By default test executes the test parsing Comparison Predicate using the CQL compiler.
+ *
+ * <p>The subclass could use this as default and add more test cases with different language.
  *
  * @author Mauricio Pazos (Axios Engineering)
  * @since 2.5
- *
- *
- *
  * @source $URL$
  */
 public class CQLComparisonPredicateTest {
-    
-    protected final Language language;
 
-    public CQLComparisonPredicateTest(){
-        
-        this(Language.CQL);
-    }
+  protected final Language language;
 
-    protected CQLComparisonPredicateTest(final Language language){
-        
-        assert language != null: "language cannot be null value";
-        
-        this.language = language;
-    }
-    
-    /**
-     * Test Comparison Predicate
-     * <p>
-     *
-     * <pre>
-     * &lt;comparison predicate &gt; ::=
-     *      &lt;attribute name &gt;  &lt;comp op &gt;  &lt;literal &gt;
-     * </pre>
-     *
-     * </p>
-     */
-    @Test
-    public void comparisonOperators() throws Exception {
-        Filter expected;
-        Filter actual;
-        // attr1 < 5
-        expected = FilterCQLSample.getSample(FilterCQLSample.LESS_FILTER_SAMPLE);
+  public CQLComparisonPredicateTest() {
 
-        actual = CompilerUtil.parseFilter(this.language, FilterCQLSample.LESS_FILTER_SAMPLE);
+    this(Language.CQL);
+  }
 
-        Assert.assertNotNull("expects filter not null", actual);
+  protected CQLComparisonPredicateTest(final Language language) {
 
-        Assert.assertEquals("less than compare filter error", expected, actual);
+    assert language != null : "language cannot be null value";
 
-        // attr1 <= 5
-        expected = FilterCQLSample.getSample(FilterCQLSample.LESS_EQ_FILTER_SAMPLE);
+    this.language = language;
+  }
 
-        actual = CompilerUtil.parseFilter(this.language, FilterCQLSample.LESS_EQ_FILTER_SAMPLE);
+  /**
+   * Test Comparison Predicate
+   *
+   * <p>
+   *
+   * <pre>
+   * &lt;comparison predicate &gt; ::=
+   *      &lt;attribute name &gt;  &lt;comp op &gt;  &lt;literal &gt;
+   * </pre>
+   */
+  @Test
+  public void comparisonOperators() throws Exception {
+    Filter expected;
+    Filter actual;
+    // attr1 < 5
+    expected = FilterCQLSample.getSample(FilterCQLSample.LESS_FILTER_SAMPLE);
 
-        Assert.assertNotNull("expects filter not null", actual);
+    actual = CompilerUtil.parseFilter(this.language, FilterCQLSample.LESS_FILTER_SAMPLE);
 
-        Assert.assertEquals("less or equal compare filter error", expected, actual);
+    Assert.assertNotNull("expects filter not null", actual);
 
-        // attr <> 5
-        expected = FilterCQLSample.getSample(FilterCQLSample.NOT_EQ_FILTER);
+    Assert.assertEquals("less than compare filter error", expected, actual);
 
-        actual = CompilerUtil.parseFilter(this.language, FilterCQLSample.NOT_EQ_FILTER);
+    // attr1 <= 5
+    expected = FilterCQLSample.getSample(FilterCQLSample.LESS_EQ_FILTER_SAMPLE);
 
-        Assert.assertNotNull("expects filter not null", actual);
+    actual = CompilerUtil.parseFilter(this.language, FilterCQLSample.LESS_EQ_FILTER_SAMPLE);
 
-        Assert.assertEquals("not equal compare filter error", expected, actual);
+    Assert.assertNotNull("expects filter not null", actual);
 
-        // attr = 5
-        expected = FilterCQLSample.getSample(FilterCQLSample.EQ_FILTER);
+    Assert.assertEquals("less or equal compare filter error", expected, actual);
 
-        actual = CompilerUtil.parseFilter(this.language, FilterCQLSample.EQ_FILTER);
+    // attr <> 5
+    expected = FilterCQLSample.getSample(FilterCQLSample.NOT_EQ_FILTER);
 
-        Assert.assertNotNull("expects filter not null", actual);
+    actual = CompilerUtil.parseFilter(this.language, FilterCQLSample.NOT_EQ_FILTER);
 
-        Assert.assertEquals("equal compare filter error", expected, actual);
-    }
-    
-    /**
-     * Equals predicate sample
-     * 
-     * @see ECQLComparisonPredicateTest
-     * 
-     * @throws Exception
-     * @Deprecated
-     */
-    @Test
-    public void deprecatedPredicate() throws Exception{
+    Assert.assertNotNull("expects filter not null", actual);
 
-        CQL.toFilter("POP_RANK eq 6"); 
-        CQL.toFilter("POP_RANK neq 6"); 
-        CQL.toFilter("POP_RANK lte 6");
-        CQL.toFilter("! (POP_RANK = 6)");
-    }
-    
-    
-    /**
-     * Tests attribute names in comparison predicate
-     * <pre>
-     * Sample: gmd:aa:bb.gmd:cc.gmd:dd
-     * </pre>
-     * 
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void attributeName()throws Exception{
-        
-        // "gmd:aa:bb.gmd:cc.gmd:dd"
-      final String prop = "gmd:aa:bb.gmd:cc.gmd:dd";
-      final String propExpected = "gmd:aa:bb/gmd:cc/gmd:dd";
-      
-      Filter actual = CompilerUtil.parseFilter(this.language, prop + " < 100");
-    
-      Assert.assertTrue("PropertyIsLessThan filter was expected", actual instanceof PropertyIsLessThan);
-    
-      PropertyIsLessThan lessFilter = (PropertyIsLessThan) actual;
-      Expression property = lessFilter.getExpression1();
-    
-      Assert.assertEquals(propExpected, property.toString());
+    Assert.assertEquals("not equal compare filter error", expected, actual);
 
-    }
-    
-    
+    // attr = 5
+    expected = FilterCQLSample.getSample(FilterCQLSample.EQ_FILTER);
 
-    /**
-     * Test comparison Predicate.
-     * <p>
-     *
-     * <pre>
-     * &lt;comparison predicate &gt; ::=
-     *      &lt;attrsibute name &gt;  &lt;comp op &gt;  &lt;literal &gt;
-     * </pre>
-     *
-     * </p>
-     */
-    @Test
-    public void propertyComparisonSimpleExpressions()
-            throws Exception {
-        Filter expected;
-        Filter actual;
+    actual = CompilerUtil.parseFilter(this.language, FilterCQLSample.EQ_FILTER);
 
-        expected = FilterCQLSample.getSample(FilterCQLSample.FILTER_SIMPLE_EXPR);
-        actual = CompilerUtil.parseFilter(this.language, FilterCQLSample.FILTER_SIMPLE_EXPR);
+    Assert.assertNotNull("expects filter not null", actual);
 
-        Assert.assertNotNull("expects filter not null", actual);
+    Assert.assertEquals("equal compare filter error", expected, actual);
+  }
 
-        Assert.assertEquals("not equal compare filter error", expected, actual);
-    }
-    
-    /**
-     * Comparison with boolean values
-     * @throws Exception
-     */
-    @Test
-    public void booleanLiteral() throws Exception {
-       
-        Filter filter;
-        PropertyIsEqualTo eqFilter;
-        
-        //test true value
-        filter = CompilerUtil.parseFilter(this.language, "attr = true");
-        Assert.assertNotNull(filter);
-        Assert.assertTrue(filter instanceof PropertyIsEqualTo);
+  /**
+   * Equals predicate sample
+   *
+   * @see ECQLComparisonPredicateTest
+   * @throws Exception @Deprecated
+   */
+  @Test
+  public void deprecatedPredicate() throws Exception {
 
-        eqFilter = (PropertyIsEqualTo) filter;
-        Assert.assertEquals("attr", ((PropertyName) eqFilter.getExpression1()).getPropertyName());
-        Assert.assertEquals(Boolean.TRUE, ((Literal) eqFilter.getExpression2()).getValue());
+    CQL.toFilter("POP_RANK eq 6");
+    CQL.toFilter("POP_RANK neq 6");
+    CQL.toFilter("POP_RANK lte 6");
+    CQL.toFilter("! (POP_RANK = 6)");
+  }
 
-        //test false value
-        filter = CompilerUtil.parseFilter(this.language, "attr = false");
-        Assert.assertNotNull(filter);
-        Assert.assertTrue(filter instanceof PropertyIsEqualTo);
+  /**
+   * Tests attribute names in comparison predicate
+   *
+   * <pre>
+   * Sample: gmd:aa:bb.gmd:cc.gmd:dd
+   * </pre>
+   *
+   * @throws Exception
+   */
+  @Test
+  public void attributeName() throws Exception {
 
-        eqFilter = (PropertyIsEqualTo) filter;
-        Assert.assertEquals("attr", ((PropertyName) eqFilter.getExpression1()).getPropertyName());
-        Assert.assertEquals(Boolean.FALSE, ((Literal) eqFilter.getExpression2()).getValue());
-    }
+    // "gmd:aa:bb.gmd:cc.gmd:dd"
+    final String prop = "gmd:aa:bb.gmd:cc.gmd:dd";
+    final String propExpected = "gmd:aa:bb/gmd:cc/gmd:dd";
 
-    @Test
-    public void longLiteral() throws Exception {
-       
-        Filter filter;
-        PropertyIsEqualTo eqFilter;
-        
-        //test true value
-        final String expectedValue = Long.toString(Long.MAX_VALUE);
-        filter = CompilerUtil.parseFilter(this.language, "attr = " + expectedValue );
-        Assert.assertNotNull(filter);
-        Assert.assertTrue(filter instanceof PropertyIsEqualTo);
+    Filter actual = CompilerUtil.parseFilter(this.language, prop + " < 100");
 
-        eqFilter = (PropertyIsEqualTo) filter;
-        Assert.assertEquals("attr", ((PropertyName) eqFilter.getExpression1()).getPropertyName());
-        Assert.assertEquals(Long.parseLong(expectedValue), ((Literal) eqFilter.getExpression2()).getValue());
-    }
+    Assert.assertTrue(
+        "PropertyIsLessThan filter was expected", actual instanceof PropertyIsLessThan);
 
-    @Test
-    public void parenRoundtripExpression() throws Exception {
-        // ATTR1 > ((1 + 2) / 3)
-        testEqualsExpressions(FilterCQLSample.FILTER_WITH_PAREN_ROUNDTRIP_EXPR);
+    PropertyIsLessThan lessFilter = (PropertyIsLessThan) actual;
+    Expression property = lessFilter.getExpression1();
 
-        // "ATTR1 < (1 + ((2 / 3) * 4))"
-        testEqualsExpressions(FilterCQLSample.FILTER_WITH_NESTED_PAREN_EXPR);
-    }
+    Assert.assertEquals(propExpected, property.toString());
+  }
 
-    @Test
-    public void bracketRoundtripFilter() throws Exception {
+  /**
+   * Test comparison Predicate.
+   *
+   * <p>
+   *
+   * <pre>
+   * &lt;comparison predicate &gt; ::=
+   *      &lt;attrsibute name &gt;  &lt;comp op &gt;  &lt;literal &gt;
+   * </pre>
+   */
+  @Test
+  public void propertyComparisonSimpleExpressions() throws Exception {
+    Filter expected;
+    Filter actual;
 
-        testEqualsExpressions(FilterCQLSample.FILTER_WITH_BRACKET_ROUNDTRIP_EXPR);
+    expected = FilterCQLSample.getSample(FilterCQLSample.FILTER_SIMPLE_EXPR);
+    actual = CompilerUtil.parseFilter(this.language, FilterCQLSample.FILTER_SIMPLE_EXPR);
 
-        Filter f1 = CompilerUtil.parseFilter(this.language,"[[[ X < 4 ] AND NOT [ Y < 4 ]] AND [ Z < 4 ]]");
-        Assert.assertTrue(f1 instanceof And);
-        
-        Filter f2 = CompilerUtil.parseFilter(this.language, "[X<4 AND Y<4 ] OR Z<4");
-        Or orf2 = (Or) f2;
-        Filter leftf2 =  orf2.getChildren().get(0);
-        Assert.assertTrue(leftf2 instanceof And);
-        
-        Filter rightf2 = orf2.getChildren().get(1);
-        Assert.assertTrue(rightf2 instanceof PropertyIsLessThan);
+    Assert.assertNotNull("expects filter not null", actual);
 
-        Filter f3 = CompilerUtil.parseFilter(this.language,"[([ X < 4 ] AND NOT [ Y < 4 ]) AND [ Z < 4 ]]");
-        Assert.assertTrue(f3 instanceof And);
+    Assert.assertEquals("not equal compare filter error", expected, actual);
+  }
 
-    }
+  /**
+   * Comparison with boolean values
+   *
+   * @throws Exception
+   */
+  @Test
+  public void booleanLiteral() throws Exception {
 
-    /**
-     * General test for cql expressions
-     *
-     * @param cqlSample
-     * @throws Exception
-     */
-    private void testEqualsExpressions(final String cqlSample)
-        throws Exception {
-        Filter expected = FilterCQLSample.getSample(cqlSample);
-        Filter actual = CompilerUtil.parseFilter(language, cqlSample);
+    Filter filter;
+    PropertyIsEqualTo eqFilter;
 
-        Assert.assertNotNull("expects filter not null", actual);
-        Assert.assertEquals("this is not the filter expected", expected, actual);
-    }
+    // test true value
+    filter = CompilerUtil.parseFilter(this.language, "attr = true");
+    Assert.assertNotNull(filter);
+    Assert.assertTrue(filter instanceof PropertyIsEqualTo);
+
+    eqFilter = (PropertyIsEqualTo) filter;
+    Assert.assertEquals("attr", ((PropertyName) eqFilter.getExpression1()).getPropertyName());
+    Assert.assertEquals(Boolean.TRUE, ((Literal) eqFilter.getExpression2()).getValue());
+
+    // test false value
+    filter = CompilerUtil.parseFilter(this.language, "attr = false");
+    Assert.assertNotNull(filter);
+    Assert.assertTrue(filter instanceof PropertyIsEqualTo);
+
+    eqFilter = (PropertyIsEqualTo) filter;
+    Assert.assertEquals("attr", ((PropertyName) eqFilter.getExpression1()).getPropertyName());
+    Assert.assertEquals(Boolean.FALSE, ((Literal) eqFilter.getExpression2()).getValue());
+  }
+
+  @Test
+  public void longLiteral() throws Exception {
+
+    Filter filter;
+    PropertyIsEqualTo eqFilter;
+
+    // test true value
+    final String expectedValue = Long.toString(Long.MAX_VALUE);
+    filter = CompilerUtil.parseFilter(this.language, "attr = " + expectedValue);
+    Assert.assertNotNull(filter);
+    Assert.assertTrue(filter instanceof PropertyIsEqualTo);
+
+    eqFilter = (PropertyIsEqualTo) filter;
+    Assert.assertEquals("attr", ((PropertyName) eqFilter.getExpression1()).getPropertyName());
+    Assert.assertEquals(
+        Long.parseLong(expectedValue), ((Literal) eqFilter.getExpression2()).getValue());
+  }
+
+  @Test
+  public void parenRoundtripExpression() throws Exception {
+    // ATTR1 > ((1 + 2) / 3)
+    testEqualsExpressions(FilterCQLSample.FILTER_WITH_PAREN_ROUNDTRIP_EXPR);
+
+    // "ATTR1 < (1 + ((2 / 3) * 4))"
+    testEqualsExpressions(FilterCQLSample.FILTER_WITH_NESTED_PAREN_EXPR);
+  }
+
+  @Test
+  public void bracketRoundtripFilter() throws Exception {
+
+    testEqualsExpressions(FilterCQLSample.FILTER_WITH_BRACKET_ROUNDTRIP_EXPR);
+
+    Filter f1 =
+        CompilerUtil.parseFilter(this.language, "[[[ X < 4 ] AND NOT [ Y < 4 ]] AND [ Z < 4 ]]");
+    Assert.assertTrue(f1 instanceof And);
+
+    Filter f2 = CompilerUtil.parseFilter(this.language, "[X<4 AND Y<4 ] OR Z<4");
+    Or orf2 = (Or) f2;
+    Filter leftf2 = orf2.getChildren().get(0);
+    Assert.assertTrue(leftf2 instanceof And);
+
+    Filter rightf2 = orf2.getChildren().get(1);
+    Assert.assertTrue(rightf2 instanceof PropertyIsLessThan);
+
+    Filter f3 =
+        CompilerUtil.parseFilter(this.language, "[([ X < 4 ] AND NOT [ Y < 4 ]) AND [ Z < 4 ]]");
+    Assert.assertTrue(f3 instanceof And);
+  }
+
+  /**
+   * General test for cql expressions
+   *
+   * @param cqlSample
+   * @throws Exception
+   */
+  private void testEqualsExpressions(final String cqlSample) throws Exception {
+    Filter expected = FilterCQLSample.getSample(cqlSample);
+    Filter actual = CompilerUtil.parseFilter(language, cqlSample);
+
+    Assert.assertNotNull("expects filter not null", actual);
+    Assert.assertEquals("this is not the filter expected", expected, actual);
+  }
 }

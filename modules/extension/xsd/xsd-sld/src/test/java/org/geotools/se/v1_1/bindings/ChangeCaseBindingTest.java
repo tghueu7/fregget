@@ -19,22 +19,18 @@ package org.geotools.se.v1_1.bindings;
 import org.geotools.se.v1_1.SETestSupport;
 import org.opengis.filter.expression.Function;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class ChangeCaseBindingTest extends SETestSupport {
 
-    public void testParseLower() throws Exception {
-        SEMockData.changeCase(document, document, true);
-        Function f = (Function) parse();
-        assertEquals("hello", f.evaluate(null, String.class));
-    }
+  public void testParseLower() throws Exception {
+    SEMockData.changeCase(document, document, true);
+    Function f = (Function) parse();
+    assertEquals("hello", f.evaluate(null, String.class));
+  }
 
-    public void testParseUpper() throws Exception {
-        SEMockData.changeCase(document, document, false);
-        Function f = (Function) parse();
-        assertEquals("HELLO", f.evaluate(null, String.class));
-    }
+  public void testParseUpper() throws Exception {
+    SEMockData.changeCase(document, document, false);
+    Function f = (Function) parse();
+    assertEquals("HELLO", f.evaluate(null, String.class));
+  }
 }

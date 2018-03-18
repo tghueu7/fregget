@@ -22,23 +22,24 @@ import org.opengis.filter.expression.Expression;
 import org.opengis.filter.expression.Function;
 
 /**
- * A filter visitor subclass that does not consider the env function already bound, and thus, assumes it's still variable
- * 
+ * A filter visitor subclass that does not consider the env function already bound, and thus,
+ * assumes it's still variable
+ *
  * @author Andrea Aime - GeoSolutions
  */
 public class UnboundSimplifyingFilterVisitor extends SimplifyingFilterVisitor {
 
-    @Override
-    protected boolean isVolatileFunction(Function function) {
-        return function instanceof EnvFunction || super.isVolatileFunction(function);
-    }
+  @Override
+  protected boolean isVolatileFunction(Function function) {
+    return function instanceof EnvFunction || super.isVolatileFunction(function);
+  }
 
-    @Override
-    protected boolean isConstant(Expression ex) {
-        if (ex instanceof EnvFunction) {
-            return false;
-        } else {
-            return super.isConstant(ex);
-        }
+  @Override
+  protected boolean isConstant(Expression ex) {
+    if (ex instanceof EnvFunction) {
+      return false;
+    } else {
+      return super.isConstant(ex);
     }
+  }
 }

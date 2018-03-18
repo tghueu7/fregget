@@ -16,32 +16,25 @@
  */
 package org.geotools.wfs.bindings;
 
-import java.math.BigInteger;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-
 import javax.xml.namespace.QName;
-
 import net.opengis.ows10.KeywordsType;
 import net.opengis.ows10.Ows10Factory;
-import net.opengis.ows10.WGS84BoundingBoxType;
 import net.opengis.wfs.FeatureTypeType;
 import net.opengis.wfs.WfsFactory;
-
 import org.eclipse.emf.ecore.EObject;
 import org.geotools.wfs.WFS;
 import org.geotools.xml.AbstractComplexEMFBinding;
-
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:FeatureTypeType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="FeatureTypeType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -122,68 +115,63 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class FeatureTypeTypeBinding extends AbstractComplexEMFBinding {
-    public FeatureTypeTypeBinding(WfsFactory factory) {
-        super(factory);
-    }
+  public FeatureTypeTypeBinding(WfsFactory factory) {
+    super(factory);
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WFS.FeatureTypeType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return WFS.FeatureTypeType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return FeatureTypeType.class;
-    }
-    
-    @SuppressWarnings({ "unchecked", "nls" })
-    @Override
-    protected void setProperty(EObject eObject, String property, Object value, boolean lax) {
-        if ("OtherSRS".equals(property)) {
-            if (value instanceof Collection) {
-                Collection<URI> formatListAsUris = (Collection<URI>) value;
-                List<String> formatListAsString = new ArrayList<String>();
-                for (URI uri : formatListAsUris) {
-                    formatListAsString.add(uri.toString());
-                }
-                value = formatListAsString;
-            } else {
-                URI uri = (URI) value;
-                value = uri.toString();
-            }
-        } else if ("DefaultCRS".equals(property) || "SRS".equals(property)) { // WFS 1.0
-            String crs = value == null ? null : String.valueOf(value);
-            ((FeatureTypeType) eObject).setDefaultSRS(crs);
-        } else if ("Keywords".equals(property)){
-            if (value instanceof String) {
-                String[] split = ((String) value).split(",");
-                KeywordsType kwd = Ows10Factory.eINSTANCE.createKeywordsType();
-                for(int i = 0; i < split.length; i++){
-                    String kw = split[i].trim();
-                    kwd.getKeyword().add(kw);
-                }
-                ((FeatureTypeType) eObject).getKeywords().add(kwd);
-                return;
-            }
-        } else if ("LatLongBoundingBox".equals(property)){ // WFS 1.0
-            property = "WGS84BoundingBox";
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return FeatureTypeType.class;
+  }
+
+  @SuppressWarnings({"unchecked", "nls"})
+  @Override
+  protected void setProperty(EObject eObject, String property, Object value, boolean lax) {
+    if ("OtherSRS".equals(property)) {
+      if (value instanceof Collection) {
+        Collection<URI> formatListAsUris = (Collection<URI>) value;
+        List<String> formatListAsString = new ArrayList<String>();
+        for (URI uri : formatListAsUris) {
+          formatListAsString.add(uri.toString());
         }
-        super.setProperty(eObject, property, value, lax);
+        value = formatListAsString;
+      } else {
+        URI uri = (URI) value;
+        value = uri.toString();
+      }
+    } else if ("DefaultCRS".equals(property) || "SRS".equals(property)) { // WFS 1.0
+      String crs = value == null ? null : String.valueOf(value);
+      ((FeatureTypeType) eObject).setDefaultSRS(crs);
+    } else if ("Keywords".equals(property)) {
+      if (value instanceof String) {
+        String[] split = ((String) value).split(",");
+        KeywordsType kwd = Ows10Factory.eINSTANCE.createKeywordsType();
+        for (int i = 0; i < split.length; i++) {
+          String kw = split[i].trim();
+          kwd.getKeyword().add(kw);
+        }
+        ((FeatureTypeType) eObject).getKeywords().add(kwd);
+        return;
+      }
+    } else if ("LatLongBoundingBox".equals(property)) { // WFS 1.0
+      property = "WGS84BoundingBox";
     }
+    super.setProperty(eObject, property, value, lax);
+  }
 }

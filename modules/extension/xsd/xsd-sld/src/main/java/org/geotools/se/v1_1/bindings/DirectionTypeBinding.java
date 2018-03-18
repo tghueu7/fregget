@@ -16,16 +16,15 @@
  */
 package org.geotools.se.v1_1.bindings;
 
+import javax.xml.namespace.QName;
 import org.geotools.se.v1_1.SE;
 import org.geotools.xml.*;
 
-import javax.xml.namespace.QName;
-
 /**
  * Binding object for the type http://www.opengis.net/se:directionType.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *  <code>
  *  &lt;xsd:simpleType name="directionType"&gt;
@@ -33,47 +32,44 @@ import javax.xml.namespace.QName;
  *          &lt;xsd:enumeration value="toUpper"/&gt;
  *          &lt;xsd:enumeration value="toLower"/&gt;
  *      &lt;/xsd:restriction&gt;
- *  &lt;/xsd:simpleType&gt; 
- * 	
+ *  &lt;/xsd:simpleType&gt;
+ *
  *   </code>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class DirectionTypeBinding extends AbstractSimpleBinding {
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SE.directionType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return SE.directionType;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return String.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return String.class;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value) throws Exception {
-        String val = (String) value;
-        if (!"toUpper".equalsIgnoreCase(val) && !"toLower".equalsIgnoreCase(val)) {
-            throw new IllegalStateException(val + " not supported, must be one of 'toUpper', 'toLower'");
-        }
-        return val;
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    String val = (String) value;
+    if (!"toUpper".equalsIgnoreCase(val) && !"toLower".equalsIgnoreCase(val)) {
+      throw new IllegalStateException(val + " not supported, must be one of 'toUpper', 'toLower'");
     }
-
+    return val;
+  }
 }

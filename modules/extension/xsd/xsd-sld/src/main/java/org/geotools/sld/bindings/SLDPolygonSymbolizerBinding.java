@@ -17,27 +17,23 @@
 package org.geotools.sld.bindings;
 
 import java.util.List;
-
-import org.picocontainer.MutablePicoContainer;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import javax.xml.namespace.QName;
-
-import org.opengis.filter.expression.Expression;
-import org.opengis.filter.expression.PropertyName;
 import org.geotools.sld.CssParameter;
 import org.geotools.styling.Fill;
 import org.geotools.styling.PolygonSymbolizer;
 import org.geotools.styling.Stroke;
 import org.geotools.styling.StyleFactory;
 import org.geotools.xml.*;
-
+import org.opengis.filter.expression.Expression;
+import org.opengis.filter.expression.PropertyName;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:PolygonSymbolizer.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="PolygonSymbolizer" substitutionGroup="sld:Symbolizer"&gt;
  *      &lt;xsd:annotation&gt;
@@ -60,93 +56,89 @@ import org.geotools.xml.*;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDPolygonSymbolizerBinding extends AbstractComplexBinding {
-    StyleFactory styleFactory;
+  StyleFactory styleFactory;
 
-    public SLDPolygonSymbolizerBinding(StyleFactory styleFactory) {
-        this.styleFactory = styleFactory;
+  public SLDPolygonSymbolizerBinding(StyleFactory styleFactory) {
+    this.styleFactory = styleFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return SLD.POLYGONSYMBOLIZER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return PolygonSymbolizer.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    PolygonSymbolizer ps = styleFactory.createPolygonSymbolizer();
+
+    // &lt;xsd:element ref="sld:Geometry" minOccurs="0"/&gt;
+    if (node.hasChild("Geometry")) {
+      Expression geometry = (Expression) node.getChildValue("Geometry");
+      if (geometry instanceof PropertyName) {
+        PropertyName propertyName = (PropertyName) geometry;
+        ps.setGeometryPropertyName(propertyName.getPropertyName());
+      } else {
+        ps.setGeometry(geometry);
+      }
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.POLYGONSYMBOLIZER;
+    // &lt;xsd:element ref="sld:Fill" minOccurs="0"/&gt;
+    if (node.hasChild(Fill.class)) {
+      ps.setFill((Fill) node.getChildValue(Fill.class));
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
+    // &lt;xsd:element ref="sld:Stroke" minOccurs="0"/&gt;
+    if (node.hasChild(Stroke.class)) {
+      ps.setStroke((Stroke) node.getChildValue(Stroke.class));
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return PolygonSymbolizer.class;
+    // &lt;xsd:element ref="sld:VendorOption" minOccurs="0" maxOccurs="unbounded"/&gt;
+    for (CssParameter param : (List<CssParameter>) node.getChildValues(CssParameter.class)) {
+      ps.getOptions().put(param.getName(), param.getExpression().evaluate(null, String.class));
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        PolygonSymbolizer ps = styleFactory.createPolygonSymbolizer();
-
-        //&lt;xsd:element ref="sld:Geometry" minOccurs="0"/&gt;
-        if(node.hasChild("Geometry")) {
-            Expression geometry = (Expression) node.getChildValue("Geometry");
-            if(geometry instanceof PropertyName) {
-                PropertyName propertyName = (PropertyName) geometry;
-                ps.setGeometryPropertyName(propertyName.getPropertyName());
-            } else {
-                ps.setGeometry(geometry);
-            }
-        }
-
-        //&lt;xsd:element ref="sld:Fill" minOccurs="0"/&gt;
-        if (node.hasChild(Fill.class)) {
-            ps.setFill((Fill) node.getChildValue(Fill.class));
-        }
-
-        //&lt;xsd:element ref="sld:Stroke" minOccurs="0"/&gt;
-        if (node.hasChild(Stroke.class)) {
-            ps.setStroke((Stroke) node.getChildValue(Stroke.class));
-        }
-        
-        //&lt;xsd:element ref="sld:VendorOption" minOccurs="0" maxOccurs="unbounded"/&gt;
-        for (CssParameter param : (List<CssParameter>) node.getChildValues(CssParameter.class)) {
-            ps.getOptions().put(param.getName(), param.getExpression().evaluate(null, String.class));
-        }
-
-        return ps;
-    }
+    return ps;
+  }
 }

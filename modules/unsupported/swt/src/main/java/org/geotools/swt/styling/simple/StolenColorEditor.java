@@ -30,128 +30,129 @@ import org.eclipse.swt.widgets.Display;
 /**
  * A "button" of a certain color determined by the color picker.
  *
- *
- *
  * @source $URL$
  */
 public class StolenColorEditor {
 
-    private Point fExtent;
-    private Image fImage;
-    private RGB fColorValue;
-    private Color fColor;
-    private Button fButton;
-    private SelectionListener listener;
+  private Point fExtent;
+  private Image fImage;
+  private RGB fColorValue;
+  private Color fColor;
+  private Button fButton;
+  private SelectionListener listener;
 
-    public StolenColorEditor( Composite parent ) {
-        this( parent, null );
-    }
-    public StolenColorEditor( Composite parent, SelectionListener parentListener ) {
-        this.listener = parentListener;
-        fButton = new Button(parent, SWT.PUSH);
-        fExtent = computeImageSize(parent);
-        fImage = new Image(parent.getDisplay(), fExtent.x, fExtent.y);
+  public StolenColorEditor(Composite parent) {
+    this(parent, null);
+  }
 
-        GC gc = new GC(fImage);
-        gc.setBackground(fButton.getBackground());
-        gc.fillRectangle(0, 0, fExtent.x, fExtent.y);
-        gc.dispose();
+  public StolenColorEditor(Composite parent, SelectionListener parentListener) {
+    this.listener = parentListener;
+    fButton = new Button(parent, SWT.PUSH);
+    fExtent = computeImageSize(parent);
+    fImage = new Image(parent.getDisplay(), fExtent.x, fExtent.y);
 
-        fButton.setImage(fImage);
-        fButton.addSelectionListener(new SelectionAdapter(){
-            public void widgetSelected( SelectionEvent event ) {
-                ColorDialog colorDialog = new ColorDialog(fButton.getShell());
-                colorDialog.setRGB(fColorValue);
-                RGB newColor = colorDialog.open();
-                if (newColor != null) {
-                    fColorValue = newColor;
-                    updateColorImage();
-                }
-                notifyParent(event);
+    GC gc = new GC(fImage);
+    gc.setBackground(fButton.getBackground());
+    gc.fillRectangle(0, 0, fExtent.x, fExtent.y);
+    gc.dispose();
+
+    fButton.setImage(fImage);
+    fButton.addSelectionListener(
+        new SelectionAdapter() {
+          public void widgetSelected(SelectionEvent event) {
+            ColorDialog colorDialog = new ColorDialog(fButton.getShell());
+            colorDialog.setRGB(fColorValue);
+            RGB newColor = colorDialog.open();
+            if (newColor != null) {
+              fColorValue = newColor;
+              updateColorImage();
             }
+            notifyParent(event);
+          }
         });
 
-        fButton.addDisposeListener(new DisposeListener(){
-            public void widgetDisposed( DisposeEvent event ) {
-                if (fImage != null) {
-                    fImage.dispose();
-                    fImage = null;
-                }
-                if (fColor != null) {
-                    fColor.dispose();
-                    fColor = null;
-                }
+    fButton.addDisposeListener(
+        new DisposeListener() {
+          public void widgetDisposed(DisposeEvent event) {
+            if (fImage != null) {
+              fImage.dispose();
+              fImage = null;
             }
+            if (fColor != null) {
+              fColor.dispose();
+              fColor = null;
+            }
+          }
         });
-    }
+  }
 
-    public void setListener( SelectionListener newListener ) {
-        listener = newListener;
-    }
-    
-    private void notifyParent( SelectionEvent event ) {
-        if( listener != null )
-            listener.widgetSelected(event);
-    }
+  public void setListener(SelectionListener newListener) {
+    listener = newListener;
+  }
 
-    public java.awt.Color getColor(){
-        RGB rgb = getColorValue();
-        return new java.awt.Color( rgb.red, rgb.green, rgb.blue);
+  private void notifyParent(SelectionEvent event) {
+    if (listener != null) listener.widgetSelected(event);
+  }
+
+  public java.awt.Color getColor() {
+    RGB rgb = getColorValue();
+    return new java.awt.Color(rgb.red, rgb.green, rgb.blue);
+  }
+
+  public void setColor(java.awt.Color color) {
+    if (color == null) {
+      setColorValue(null);
+    } else {
+      RGB rgb = new RGB(color.getRed(), color.getGreen(), color.getBlue());
+      setColorValue(rgb);
     }
-    public void setColor( java.awt.Color color ){
-        if( color == null ){
-            setColorValue( null );
-        }
-        else {
-            RGB rgb = new RGB(color.getRed(), color.getGreen(), color.getBlue() );
-            setColorValue( rgb );    
-        }                
+  }
+
+  public void setEnabled(boolean isEnabled) {
+    getButton().setEnabled(isEnabled);
+  }
+
+  public RGB getColorValue() {
+    return fColorValue;
+  }
+
+  public void setColorValue(RGB rgb) {
+    if (rgb == null) {
+      rgb = new RGB(0, 0, 0);
     }
-    public void setEnabled( boolean isEnabled ){
-        getButton().setEnabled( isEnabled );
-    }
-    public RGB getColorValue() {
-        return fColorValue;
-    }
+    fColorValue = rgb;
+    updateColorImage();
+  }
 
-    public void setColorValue( RGB rgb ) {
-        if( rgb == null ){
-            rgb = new RGB(0,0,0);
-        }
-        fColorValue = rgb;
-        updateColorImage();
-    }
+  public Button getButton() {
+    return fButton;
+  }
 
-    public Button getButton() {
-        return fButton;
-    }
+  protected void updateColorImage() {
 
-    protected void updateColorImage() {
+    Display display = fButton.getDisplay();
 
-        Display display = fButton.getDisplay();
+    GC gc = new GC(fImage);
+    gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
+    gc.drawRectangle(0, 2, fExtent.x - 1, fExtent.y - 4);
 
-        GC gc = new GC(fImage);
-        gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
-        gc.drawRectangle(0, 2, fExtent.x - 1, fExtent.y - 4);
+    if (fColor != null) fColor.dispose();
 
-        if (fColor != null)
-            fColor.dispose();
+    fColor = new Color(display, fColorValue);
+    gc.setBackground(fColor);
+    gc.fillRectangle(1, 3, fExtent.x - 2, fExtent.y - 5);
+    gc.dispose();
 
-        fColor = new Color(display, fColorValue);
-        gc.setBackground(fColor);
-        gc.fillRectangle(1, 3, fExtent.x - 2, fExtent.y - 5);
-        gc.dispose();
+    fButton.setImage(fImage);
+  }
 
-        fButton.setImage(fImage);
-    }
-
-    protected Point computeImageSize( Control window ) {
-        GC gc = new GC(window);
-        Font f = JFaceResources.getFontRegistry().get(JFaceResources.DEFAULT_FONT);
-        gc.setFont(f);
-        int height = gc.getFontMetrics().getHeight();
-        gc.dispose();
-        Point p = new Point(height * 3 - 6, height);
-        return p;
-    }
+  protected Point computeImageSize(Control window) {
+    GC gc = new GC(window);
+    Font f = JFaceResources.getFontRegistry().get(JFaceResources.DEFAULT_FONT);
+    gc.setFont(f);
+    int height = gc.getFontMetrics().getHeight();
+    gc.dispose();
+    Point p = new Point(height * 3 - 6, height);
+    return p;
+  }
 }

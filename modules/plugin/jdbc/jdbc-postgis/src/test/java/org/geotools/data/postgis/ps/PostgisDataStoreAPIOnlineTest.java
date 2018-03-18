@@ -20,20 +20,16 @@ import org.geotools.data.postgis.PostgisDataStoreAPITestSetup;
 import org.geotools.jdbc.JDBCDataStoreAPIOnlineTest;
 import org.geotools.jdbc.JDBCDataStoreAPITestSetup;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class PostgisDataStoreAPIOnlineTest extends JDBCDataStoreAPIOnlineTest {
 
-    @Override
-    protected JDBCDataStoreAPITestSetup createTestSetup() {
-        return new PostgisDataStoreAPITestSetup(new PostGISPSTestSetup());
-    }
+  @Override
+  protected JDBCDataStoreAPITestSetup createTestSetup() {
+    return new PostgisDataStoreAPITestSetup(new PostGISPSTestSetup());
+  }
 
-    @Override
-    public void testGetFeatureWriterConcurrency() throws Exception {
-        // postgis will lock indefinitely, won't throw an exception
-    }
+  @Override
+  public void testGetFeatureWriterConcurrency() throws Exception {
+    // postgis will lock indefinitely, won't throw an exception
+  }
 }

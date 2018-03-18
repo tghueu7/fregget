@@ -19,7 +19,6 @@ package org.geotools.tile.impl.bing;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.geotools.tile.Tile;
 import org.geotools.tile.TileIdentifier;
 import org.geotools.tile.TileService;
@@ -29,47 +28,46 @@ import org.geotools.util.logging.Logging;
 
 /**
  * The BingTile, for the Bing Maps family
- * 
+ *
  * @author Tobias Sauerwein
  * @author Ugo Taddei
  * @since 12
  */
 public class BingTile extends Tile {
 
-    public static final int DEFAULT_TILE_SIZE = 256;
+  public static final int DEFAULT_TILE_SIZE = 256;
 
-    private static final Logger LOGGER = Logging.getLogger(BingTile.class.getPackage().getName());
+  private static final Logger LOGGER = Logging.getLogger(BingTile.class.getPackage().getName());
 
-    private TileService service;
+  private TileService service;
 
-    /**
-     * Creates a new BingTile.
-     *
-     * @param extent
-     * @param tileName
-     * @param service
-     */
-    public BingTile(int x, int y, ZoomLevel zoomLevel, TileService service) {
-        this(new BingTileIdentifier(x, y, zoomLevel, service.getName()), service);
+  /**
+   * Creates a new BingTile.
+   *
+   * @param extent
+   * @param tileName
+   * @param service
+   */
+  public BingTile(int x, int y, ZoomLevel zoomLevel, TileService service) {
+    this(new BingTileIdentifier(x, y, zoomLevel, service.getName()), service);
+  }
+
+  public BingTile(TileIdentifier tileName, TileService service) {
+
+    super(tileName, WebMercatorTileFactory.getExtentFromTileName(tileName), DEFAULT_TILE_SIZE);
+
+    // this.tileIdentifier = tileName;
+    this.service = service;
+  }
+
+  public URL getUrl() {
+    String url = this.service.getBaseUrl().replace("${code}", getTileIdentifier().getCode());
+    try {
+      return new URL(url);
+    } catch (Exception e) {
+      final String mesg = "Cannot create URL from " + url;
+      LOGGER.log(Level.SEVERE, mesg, e);
+      throw new RuntimeException(mesg, e);
     }
-
-    public BingTile(TileIdentifier tileName, TileService service) {
-
-        super(tileName, WebMercatorTileFactory.getExtentFromTileName(tileName), DEFAULT_TILE_SIZE);
-
-        // this.tileIdentifier = tileName;
-        this.service = service;
-    }
-
-    public URL getUrl() {
-        String url = this.service.getBaseUrl().replace("${code}", getTileIdentifier().getCode());
-        try {
-            return new URL(url);
-        } catch (Exception e) {
-            final String mesg = "Cannot create URL from " + url;
-            LOGGER.log(Level.SEVERE, mesg, e);
-            throw new RuntimeException(mesg, e);
-        }
-
-    }
+  }
 }

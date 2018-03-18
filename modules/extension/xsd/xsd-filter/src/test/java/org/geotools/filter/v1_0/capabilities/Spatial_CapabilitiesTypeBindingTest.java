@@ -16,38 +16,36 @@
  */
 package org.geotools.filter.v1_0.capabilities;
 
-import org.w3c.dom.Document;
 import javax.xml.namespace.QName;
-import org.opengis.filter.capability.SpatialCapabilities;
 import org.geotools.xml.Binding;
+import org.opengis.filter.capability.SpatialCapabilities;
+import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class Spatial_CapabilitiesTypeBindingTest extends FilterCapabilitiesTestSupport {
-    public void testType() {
-        assertEquals(SpatialCapabilities.class, binding(OGC.Spatial_CapabilitiesType).getType());
-    }
+  public void testType() {
+    assertEquals(SpatialCapabilities.class, binding(OGC.Spatial_CapabilitiesType).getType());
+  }
 
-    public void testExectionMode() {
-        assertEquals(Binding.OVERRIDE, binding(OGC.Spatial_CapabilitiesType).getExecutionMode());
-    }
+  public void testExectionMode() {
+    assertEquals(Binding.OVERRIDE, binding(OGC.Spatial_CapabilitiesType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        FilterMockData.spatialCapabilities(document, document);
+  public void testParse() throws Exception {
+    FilterMockData.spatialCapabilities(document, document);
 
-        SpatialCapabilities scalar = (SpatialCapabilities) parse(OGC.Spatial_CapabilitiesType);
+    SpatialCapabilities scalar = (SpatialCapabilities) parse(OGC.Spatial_CapabilitiesType);
 
-        assertNotNull(scalar.getSpatialOperators());
-    }
+    assertNotNull(scalar.getSpatialOperators());
+  }
 
-    public void testEncode() throws Exception {
-        Document dom = encode(FilterMockData.spatialCapabilities(),
-                new QName(OGC.NAMESPACE, "Spatial_Capabilities"), OGC.Spatial_CapabilitiesType);
+  public void testEncode() throws Exception {
+    Document dom =
+        encode(
+            FilterMockData.spatialCapabilities(),
+            new QName(OGC.NAMESPACE, "Spatial_Capabilities"),
+            OGC.Spatial_CapabilitiesType);
 
-        assertNotNull(getElementByQName(dom, new QName(OGC.NAMESPACE, "Spatial_Operators")));
-    }
+    assertNotNull(getElementByQName(dom, new QName(OGC.NAMESPACE, "Spatial_Operators")));
+  }
 }

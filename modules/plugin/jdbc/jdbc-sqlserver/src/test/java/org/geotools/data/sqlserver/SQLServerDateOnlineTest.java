@@ -21,9 +21,8 @@ import org.geotools.jdbc.JDBCDateTestSetup;
 
 public class SQLServerDateOnlineTest extends JDBCDateOnlineTest {
 
-    @Override
-    protected JDBCDateTestSetup createTestSetup() {
-        return new SQLServerDateTestSetup();
-    }
-
+  @Override
+  protected JDBCDateTestSetup createTestSetup() {
+    return new SQLServerDateTestSetup();
+  }
 }

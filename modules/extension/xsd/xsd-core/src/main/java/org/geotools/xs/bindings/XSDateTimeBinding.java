@@ -20,21 +20,19 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.util.Converters;
 import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xml.impl.DatatypeConverterImpl;
 import org.geotools.xs.XS;
 
-
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:dateTime.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="dateTime" id="dateTime"&gt;
  *      &lt;xs:annotation&gt;
@@ -60,68 +58,65 @@ import org.geotools.xs.XS;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSDateTimeBinding implements SimpleBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return XS.DATETIME;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return XS.DATETIME;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return OVERRIDE;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link Timestamp}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Timestamp.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link Timestamp}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Timestamp.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link Calendar}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Timestamp parse(InstanceComponent instance, Object value)
-        throws Exception {
-        Calendar calendar = DatatypeConverterImpl.getInstance().parseDateTime((String) value, true);
-        Timestamp dateTime = new Timestamp(calendar.getTimeInMillis());
-        return dateTime;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link Calendar}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Timestamp parse(InstanceComponent instance, Object value) throws Exception {
+    Calendar calendar = DatatypeConverterImpl.getInstance().parseDateTime((String) value, true);
+    Timestamp dateTime = new Timestamp(calendar.getTimeInMillis());
+    return dateTime;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public String encode(Object object, String value) {
-        final Date timestamp = Converters.convert(object, Date.class);
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-        cal.clear();
-        cal.setTimeInMillis(timestamp.getTime());
-        return DatatypeConverterImpl.getInstance().printDateTime(cal);
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public String encode(Object object, String value) {
+    final Date timestamp = Converters.convert(object, Date.class);
+    Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+    cal.clear();
+    cal.setTimeInMillis(timestamp.getTime());
+    return DatatypeConverterImpl.getInstance().printDateTime(cal);
+  }
 }

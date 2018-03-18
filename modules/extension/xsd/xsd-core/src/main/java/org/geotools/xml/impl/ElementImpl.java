@@ -18,65 +18,60 @@ package org.geotools.xml.impl;
 
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDSchemaContent;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.geotools.xml.AttributeInstance;
 import org.geotools.xml.ElementInstance;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class ElementImpl extends InstanceComponentImpl implements ElementInstance {
-    /** declaration **/
-    XSDElementDeclaration declaration;
+  /** declaration * */
+  XSDElementDeclaration declaration;
 
-    /** attributes **/
-    AttributeInstance[] atts;
+  /** attributes * */
+  AttributeInstance[] atts;
 
-    public ElementImpl(XSDElementDeclaration declaration) {
-        this.declaration = declaration;
-    }
+  public ElementImpl(XSDElementDeclaration declaration) {
+    this.declaration = declaration;
+  }
 
-    public XSDTypeDefinition getTypeDefinition() {
-        return declaration.getTypeDefinition();
-    }
+  public XSDTypeDefinition getTypeDefinition() {
+    return declaration.getTypeDefinition();
+  }
 
-    public XSDNamedComponent getDeclaration() {
-        return getElementDeclaration();
-    }
+  public XSDNamedComponent getDeclaration() {
+    return getElementDeclaration();
+  }
 
-    public XSDElementDeclaration getElementDeclaration() {
-        return declaration;
-    }
+  public XSDElementDeclaration getElementDeclaration() {
+    return declaration;
+  }
 
-    public AttributeInstance[] getAttributes() {
-        return atts;
-    }
+  public AttributeInstance[] getAttributes() {
+    return atts;
+  }
 
-    public void setAttributes(AttributeInstance[] atts) {
-        this.atts = atts;
-    }
-    @Override
-    public String toString() {
-        StringBuffer buf = new StringBuffer();
-        buf.append(name);
+  public void setAttributes(AttributeInstance[] atts) {
+    this.atts = atts;
+  }
+
+  @Override
+  public String toString() {
+    StringBuffer buf = new StringBuffer();
+    buf.append(name);
+    buf.append(" ");
+    buf.append(namespace);
+    if (atts != null) {
+      for (AttributeInstance att : atts) {
         buf.append(" ");
-        buf.append(namespace);        
-        if( atts != null ){
-            for( AttributeInstance att : atts ){
-                buf.append(" ");
-                buf.append( att.getName() );
-                buf.append( "=");
-                buf.append( att.getText() );
-            }
-        }
-        if( text != null ){
-            buf.append("\n\t");
-            buf.append( text );
-        }
-        return buf.toString();
+        buf.append(att.getName());
+        buf.append("=");
+        buf.append(att.getText());
+      }
     }
+    if (text != null) {
+      buf.append("\n\t");
+      buf.append(text);
+    }
+    return buf.toString();
+  }
 }

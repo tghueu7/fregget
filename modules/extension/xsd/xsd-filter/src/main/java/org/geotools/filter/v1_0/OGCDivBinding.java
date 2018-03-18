@@ -17,69 +17,64 @@
 package org.geotools.filter.v1_0;
 
 import javax.xml.namespace.QName;
-import org.opengis.filter.FilterFactory;
-import org.opengis.filter.expression.Divide;
-import org.opengis.filter.expression.Expression;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
-
+import org.opengis.filter.FilterFactory;
+import org.opengis.filter.expression.Divide;
+import org.opengis.filter.expression.Expression;
 
 /**
  * Binding object for the element http://www.opengis.net/ogc:Div.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Div" substitutionGroup="ogc:expression" type="ogc:BinaryOperatorType"/&gt;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCDivBinding extends AbstractComplexBinding {
-    FilterFactory filterfactory;
+  FilterFactory filterfactory;
 
-    public OGCDivBinding(FilterFactory filterfactory) {
-        this.filterfactory = filterfactory;
-    }
+  public OGCDivBinding(FilterFactory filterfactory) {
+    this.filterfactory = filterfactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.Div;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return OGC.Div;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Divide.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Divide.class;
+  }
 
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return filterfactory.divide((Expression) node.getChildValue(0),
-            (Expression) node.getChildValue(1));
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return filterfactory.divide(
+        (Expression) node.getChildValue(0), (Expression) node.getChildValue(1));
+  }
 }

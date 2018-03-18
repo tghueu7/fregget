@@ -18,32 +18,28 @@
 package org.geotools.data.wmts.response;
 
 import java.io.IOException;
-
 import org.geotools.data.ows.HTTPResponse;
 import org.geotools.data.ows.Response;
 import org.geotools.ows.ServiceException;
 
 /**
- * 
  * (Based on existing work by rgould for WMS service)
- * 
+ *
  * @author ian
  * @author Emanuele Tajariol (etj at geo-solutions dot it)
  */
 public class GetLegendGraphicResponse extends Response {
 
-    public GetLegendGraphicResponse(HTTPResponse httpResponse)
-            throws ServiceException, IOException {
-        super(httpResponse);
+  public GetLegendGraphicResponse(HTTPResponse httpResponse) throws ServiceException, IOException {
+    super(httpResponse);
 
-        String contentType = getContentType();
-        if (contentType != null && contentType.toLowerCase().indexOf("text/xml") != -1) {
-            try {
-                throw parseException(getInputStream());
-            } finally {
-                dispose();
-            }
-        }
+    String contentType = getContentType();
+    if (contentType != null && contentType.toLowerCase().indexOf("text/xml") != -1) {
+      try {
+        throw parseException(getInputStream());
+      } finally {
+        dispose();
+      }
     }
-
+  }
 }

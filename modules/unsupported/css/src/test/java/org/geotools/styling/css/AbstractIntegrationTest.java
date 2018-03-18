@@ -25,10 +25,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.geotools.factory.CommonFactoryFinder;
@@ -50,142 +48,151 @@ import org.xml.sax.SAXParseException;
 
 /**
  * Reads and translates all tests checking for errors in the process
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
  */
 @RunWith(Parameterized.class)
 public abstract class AbstractIntegrationTest extends CssBaseTest {
 
-    private static final StyleFactory STYLE_FACTORY = CommonFactoryFinder.getStyleFactory();
+  private static final StyleFactory STYLE_FACTORY = CommonFactoryFinder.getStyleFactory();
 
-    File file;
+  File file;
 
-    boolean exclusiveRulesEnabled;
+  boolean exclusiveRulesEnabled;
 
-    public AbstractIntegrationTest(String name, File file, Boolean exclusiveRulesEnabled) {
-        this.file = file;
-        this.exclusiveRulesEnabled = exclusiveRulesEnabled;
+  public AbstractIntegrationTest(String name, File file, Boolean exclusiveRulesEnabled) {
+    this.file = file;
+    this.exclusiveRulesEnabled = exclusiveRulesEnabled;
+  }
+
+  @Test
+  public void translateTest() throws Exception {
+    String css = FileUtils.readFileToString(file);
+    if (!exclusiveRulesEnabled) {
+      css = "@mode \"Simple\";\n" + css;
     }
 
-    @Test
-    public void translateTest() throws Exception {
-        String css = FileUtils.readFileToString(file);
-        if (!exclusiveRulesEnabled) {
-            css = "@mode \"Simple\";\n" + css;
-        }
+    testTranslation(css);
+    if (css.contains("-gt-")) {
+      String cssNoLegacyPrefix = css.replace("-gt-", "");
+      testTranslation(cssNoLegacyPrefix);
+    }
+  }
 
-        testTranslation(css);
-        if (css.contains("-gt-")) {
-            String cssNoLegacyPrefix = css.replace("-gt-", "");
-            testTranslation(cssNoLegacyPrefix);
-        }
+  private void testTranslation(String css)
+      throws TransformerException, IOException, FileNotFoundException, SAXException,
+          ParserConfigurationException {
+    File sldFile =
+        new File(
+            file.getParentFile(),
+            FilenameUtils.getBaseName(file.getName())
+                + (exclusiveRulesEnabled ? "" : "-first")
+                + ".sld");
+
+    // Java 9 pretty-print has slightly different indentation
+    File sldFile_java9 =
+        new File(
+            file.getParentFile(),
+            FilenameUtils.getBaseName(file.getName())
+                + (exclusiveRulesEnabled ? "" : "-first")
+                + "_java9.sld");
+
+    if (!sldFile.exists()) {
+      Stylesheet ss = CssParser.parse(css);
+      CssTranslator tx = new CssTranslator();
+      Style style = tx.translate(ss);
+      writeStyle(style, sldFile);
+      // throw new IllegalStateException("Could not locate sample sld file " +
+      // sldFile.getPath());
     }
 
-    private void testTranslation(String css) throws TransformerException, IOException,
-            FileNotFoundException, SAXException, ParserConfigurationException {
-        File sldFile = new File(file.getParentFile(), FilenameUtils.getBaseName(file.getName())
-                + (exclusiveRulesEnabled ? "" : "-first") + ".sld");
+    Style actual = cssToSld(css);
+    File sldFile2 = new File("./target/css", FilenameUtils.getBaseName(file.getName()) + ".sld");
+    writeStyle(actual, sldFile2);
+    String actualSld = FileUtils.readFileToString(sldFile2);
 
-        //Java 9 pretty-print has slightly different indentation
-        File sldFile_java9 = new File(file.getParentFile(), FilenameUtils.getBaseName(file.getName())
-                + (exclusiveRulesEnabled ? "" : "-first") + "_java9.sld");
-
-        if (!sldFile.exists()) {
-            Stylesheet ss = CssParser.parse(css);
-            CssTranslator tx = new CssTranslator();
-            Style style = tx.translate(ss);
-            writeStyle(style, sldFile);
-            // throw new IllegalStateException("Could not locate sample sld file " +
-            // sldFile.getPath());
+    List validationErrors = validateSLD(actualSld);
+    if (!validationErrors.isEmpty()) {
+      System.out.println("Validation failed, errors are: ");
+      for (Object e : validationErrors) {
+        if (e instanceof SAXParseException) {
+          SAXParseException se = (SAXParseException) e;
+          System.out.println("line " + se.getLineNumber() + ": " + se.getLocalizedMessage());
+        } else {
+          System.out.println(e);
         }
-
-        Style actual = cssToSld(css);
-        File sldFile2 = new File("./target/css",
-                FilenameUtils.getBaseName(file.getName()) + ".sld");
-        writeStyle(actual, sldFile2);
-        String actualSld = FileUtils.readFileToString(sldFile2);
-
-        List validationErrors = validateSLD(actualSld);
-        if (!validationErrors.isEmpty()) {
-            System.out.println("Validation failed, errors are: ");
-            for (Object e : validationErrors) {
-                if (e instanceof SAXParseException) {
-                    SAXParseException se = (SAXParseException) e;
-                    System.out.println(
-                            "line " + se.getLineNumber() + ": " + se.getLocalizedMessage());
-                } else {
-                    System.out.println(e);
-                }
-
-            }
-            System.err.println("Validation failed, the two files are: " + sldFile.getAbsolutePath()
-                    + " " + sldFile2.getAbsolutePath());
-            fail("Validation failed");
-        }
-
-        String expectedSld = FileUtils.readFileToString(sldFile);
-        StyledLayerDescriptor expectedSLD = parseToSld(expectedSld);
-        StyledLayerDescriptor actualSLD = parseToSld(actualSld);
-        // Document expectedDom = XMLUnit.buildControlDocument(expectedSld);
-        // Document actualDom = XMLUnit.buildControlDocument(actualSld);
-        // Diff diff = new Diff(expectedDom, actualDom);
-        // if (!diff.identical()) {
-        if (!expectedSLD.equals(actualSLD)) {
-            String message = "Comparison failed, the two files are: " + sldFile.getAbsolutePath()
-                    + " " + sldFile2.getAbsolutePath();
-
-            //Try the java9 version
-            if (sldFile_java9.exists()) {
-                expectedSLD = parseToSld(FileUtils.readFileToString(sldFile_java9));
-                if (expectedSLD.equals(actualSLD)) {
-                    return;
-                }
-            }
-
-
-            System.err.println(message);
-            fail(message);
-        }
+      }
+      System.err.println(
+          "Validation failed, the two files are: "
+              + sldFile.getAbsolutePath()
+              + " "
+              + sldFile2.getAbsolutePath());
+      fail("Validation failed");
     }
 
-    StyledLayerDescriptor parseToSld(String sld) {
-        SLDParser parser = new SLDParser(CommonFactoryFinder.getStyleFactory());
-        parser.setInput(new StringReader(sld));
-        return parser.parseSLD();
-    }
+    String expectedSld = FileUtils.readFileToString(sldFile);
+    StyledLayerDescriptor expectedSLD = parseToSld(expectedSld);
+    StyledLayerDescriptor actualSLD = parseToSld(actualSld);
+    // Document expectedDom = XMLUnit.buildControlDocument(expectedSld);
+    // Document actualDom = XMLUnit.buildControlDocument(actualSld);
+    // Diff diff = new Diff(expectedDom, actualDom);
+    // if (!diff.identical()) {
+    if (!expectedSLD.equals(actualSLD)) {
+      String message =
+          "Comparison failed, the two files are: "
+              + sldFile.getAbsolutePath()
+              + " "
+              + sldFile2.getAbsolutePath();
 
-    private List validateSLD(String sld)
-            throws IOException, SAXException, ParserConfigurationException {
-        Parser parser = new Parser(new SLDConfiguration());
-        parser.validate(new StringReader(sld));
-        return parser.getValidationErrors();
-    }
-
-    private void writeStyle(Style s, File sldFile)
-            throws TransformerException, IOException, FileNotFoundException {
-        StyledLayerDescriptor sld = STYLE_FACTORY.createStyledLayerDescriptor();
-        NamedLayer layer = STYLE_FACTORY.createNamedLayer();
-        layer.addStyle((org.geotools.styling.Style) s);
-        sld.layers().add(layer);
-        if (!sldFile.getParentFile().exists()) {
-            assertTrue(sldFile.getParentFile().mkdirs());
+      // Try the java9 version
+      if (sldFile_java9.exists()) {
+        expectedSLD = parseToSld(FileUtils.readFileToString(sldFile_java9));
+        if (expectedSLD.equals(actualSLD)) {
+          return;
         }
-        try (FileOutputStream fos = new FileOutputStream(sldFile)) {
-            SLDTransformer tx = new SLDTransformer();
-            tx.setIndentation(2);
-            tx.transform(sld, fos);
-        }
+      }
+
+      System.err.println(message);
+      fail(message);
     }
+  }
 
-    private Style cssToSld(String css) {
-        ParsingResult<Stylesheet> result = new ReportingParseRunner<Stylesheet>(parser.StyleSheet())
-                .run(css);
+  StyledLayerDescriptor parseToSld(String sld) {
+    SLDParser parser = new SLDParser(CommonFactoryFinder.getStyleFactory());
+    parser.setInput(new StringReader(sld));
+    return parser.parseSLD();
+  }
 
-        assertNoErrors(result);
-        Stylesheet ss = result.parseTreeRoot.getValue();
-        CssTranslator translator = new CssTranslator();
-        return translator.translate(ss);
+  private List validateSLD(String sld)
+      throws IOException, SAXException, ParserConfigurationException {
+    Parser parser = new Parser(new SLDConfiguration());
+    parser.validate(new StringReader(sld));
+    return parser.getValidationErrors();
+  }
+
+  private void writeStyle(Style s, File sldFile)
+      throws TransformerException, IOException, FileNotFoundException {
+    StyledLayerDescriptor sld = STYLE_FACTORY.createStyledLayerDescriptor();
+    NamedLayer layer = STYLE_FACTORY.createNamedLayer();
+    layer.addStyle((org.geotools.styling.Style) s);
+    sld.layers().add(layer);
+    if (!sldFile.getParentFile().exists()) {
+      assertTrue(sldFile.getParentFile().mkdirs());
     }
+    try (FileOutputStream fos = new FileOutputStream(sldFile)) {
+      SLDTransformer tx = new SLDTransformer();
+      tx.setIndentation(2);
+      tx.transform(sld, fos);
+    }
+  }
 
+  private Style cssToSld(String css) {
+    ParsingResult<Stylesheet> result =
+        new ReportingParseRunner<Stylesheet>(parser.StyleSheet()).run(css);
+
+    assertNoErrors(result);
+    Stylesheet ss = result.parseTreeRoot.getValue();
+    CssTranslator translator = new CssTranslator();
+    return translator.translate(ss);
+  }
 }

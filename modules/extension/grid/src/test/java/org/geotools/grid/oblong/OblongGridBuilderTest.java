@@ -19,85 +19,80 @@ package org.geotools.grid.oblong;
 
 import static org.junit.Assert.assertNotNull;
 
+import com.vividsolutions.jts.geom.Coordinate;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.grid.Neighbor;
 import org.geotools.grid.TestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.vividsolutions.jts.geom.Coordinate;
-
 /**
  * Unit tests for the OblongGridBuilder class.
  *
  * @author mbedward
  * @since 2.7
- *
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class OblongGridBuilderTest extends TestBase {
 
-    private static final ReferencedEnvelope bounds = new ReferencedEnvelope(0, 100, 0, 100, null);
-    private static final double WIDTH = 10;
-    private static final double HEIGHT = 5;
+  private static final ReferencedEnvelope bounds = new ReferencedEnvelope(0, 100, 0, 100, null);
+  private static final double WIDTH = 10;
+  private static final double HEIGHT = 5;
 
-    private OblongBuilder gridBuilder;
+  private OblongBuilder gridBuilder;
 
-    @Before
-    public void setup() {
-        gridBuilder = new OblongBuilder(bounds, WIDTH, HEIGHT);
+  @Before
+  public void setup() {
+    gridBuilder = new OblongBuilder(bounds, WIDTH, HEIGHT);
+  }
+
+  @Test
+  public void createNeighbor() {
+    Oblong neighbor = null;
+
+    class Shift {
+
+      double dx;
+      double dy;
+
+      public Shift(double dx, double dy) {
+        this.dx = dx;
+        this.dy = dy;
+      }
     }
 
-    @Test
-    public void createNeighbor() {
-        Oblong neighbor = null;
+    Map<Neighbor, Shift> shifts = new HashMap<Neighbor, Shift>();
+    shifts.put(Neighbor.LOWER, new Shift(0.0, -HEIGHT));
+    shifts.put(Neighbor.LOWER_LEFT, new Shift(-WIDTH, -HEIGHT));
+    shifts.put(Neighbor.LOWER_RIGHT, new Shift(WIDTH, -HEIGHT));
+    shifts.put(Neighbor.LEFT, new Shift(-WIDTH, 0.0));
+    shifts.put(Neighbor.RIGHT, new Shift(WIDTH, 0.0));
+    shifts.put(Neighbor.UPPER, new Shift(0.0, HEIGHT));
+    shifts.put(Neighbor.UPPER_LEFT, new Shift(-WIDTH, HEIGHT));
+    shifts.put(Neighbor.UPPER_RIGHT, new Shift(WIDTH, HEIGHT));
 
-        class Shift {
+    Oblong oblong = Oblongs.create(0.0, 0.0, WIDTH, HEIGHT, null);
 
-            double dx;
-            double dy;
+    for (Neighbor n : Neighbor.values()) {
+      neighbor = gridBuilder.createNeighbor(oblong, n);
 
-            public Shift(double dx, double dy) {
-                this.dx = dx;
-                this.dy = dy;
-            }
-        }
-
-        Map<Neighbor, Shift> shifts = new HashMap<Neighbor, Shift>();
-        shifts.put(Neighbor.LOWER, new Shift(0.0, -HEIGHT));
-        shifts.put(Neighbor.LOWER_LEFT, new Shift(-WIDTH, -HEIGHT));
-        shifts.put(Neighbor.LOWER_RIGHT, new Shift(WIDTH, -HEIGHT));
-        shifts.put(Neighbor.LEFT, new Shift(-WIDTH, 0.0));
-        shifts.put(Neighbor.RIGHT, new Shift(WIDTH, 0.0));
-        shifts.put(Neighbor.UPPER, new Shift(0.0, HEIGHT));
-        shifts.put(Neighbor.UPPER_LEFT, new Shift(-WIDTH, HEIGHT));
-        shifts.put(Neighbor.UPPER_RIGHT, new Shift(WIDTH, HEIGHT));
-
-        Oblong oblong = Oblongs.create(0.0, 0.0, WIDTH, HEIGHT, null);
-
-        for (Neighbor n : Neighbor.values()) {
-            neighbor = gridBuilder.createNeighbor(oblong, n);
-
-            Shift shift = shifts.get(n);
-            assertNotNull("Error in test code", shift);
-            assertNeighbor(oblong, neighbor, shift.dx, shift.dy);
-        }
+      Shift shift = shifts.get(n);
+      assertNotNull("Error in test code", shift);
+      assertNeighbor(oblong, neighbor, shift.dx, shift.dy);
     }
+  }
 
-    private void assertNeighbor(Oblong refEl, Oblong neighbor, double dx, double dy) {
-        Coordinate[] refCoords = refEl.getVertices();
-        Coordinate[] neighborCoords = neighbor.getVertices();
+  private void assertNeighbor(Oblong refEl, Oblong neighbor, double dx, double dy) {
+    Coordinate[] refCoords = refEl.getVertices();
+    Coordinate[] neighborCoords = neighbor.getVertices();
 
-        for (int i = 0; i < refCoords.length; i++) {
-            refCoords[i].x += dx;
-            refCoords[i].y += dy;
-            assertCoordinate(refCoords[i], neighborCoords[i]);
-        }
+    for (int i = 0; i < refCoords.length; i++) {
+      refCoords[i].x += dx;
+      refCoords[i].y += dy;
+      assertCoordinate(refCoords[i], neighborCoords[i]);
     }
+  }
 }

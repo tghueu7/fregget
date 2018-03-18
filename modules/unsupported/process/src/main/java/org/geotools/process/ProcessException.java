@@ -18,28 +18,24 @@ package org.geotools.process;
 
 /**
  * A runtime exception used when executing a process.
- * 
+ *
  * @author Michael Bedward
  * @since 2.6
  * @version 8.0
- *
  * @source $URL$
  */
 public class ProcessException extends RuntimeException {
-    private static final long serialVersionUID = -3953993149819064102L;
+  private static final long serialVersionUID = -3953993149819064102L;
 
-    public ProcessException(Throwable cause) {
-        super(cause);
-    }
+  public ProcessException(Throwable cause) {
+    super(cause);
+  }
 
-    public ProcessException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public ProcessException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public ProcessException(String message) {
-        super(message);
-    }
-
+  public ProcessException(String message) {
+    super(message);
+  }
 }
-
-

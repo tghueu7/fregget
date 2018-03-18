@@ -29,15 +29,12 @@ import org.opengis.filter.FilterFactory;
  */
 final class CQLCompilerFactory extends AbstractCompilerFactory {
 
-    /* (non-Javadoc)
-     * @see org.geotools.filter.text.commons.AbstractCompilerFactory#createCompiler(java.lang.String, org.opengis.filter.FilterFactory)
-     */
-    @Override
-    protected ICompiler createCompiler(
-            final String predicate,
-            final FilterFactory filterFactory) {
-        
-        return new CQLCompiler(predicate, filterFactory);
-    }
+  /* (non-Javadoc)
+   * @see org.geotools.filter.text.commons.AbstractCompilerFactory#createCompiler(java.lang.String, org.opengis.filter.FilterFactory)
+   */
+  @Override
+  protected ICompiler createCompiler(final String predicate, final FilterFactory filterFactory) {
 
+    return new CQLCompiler(predicate, filterFactory);
+  }
 }

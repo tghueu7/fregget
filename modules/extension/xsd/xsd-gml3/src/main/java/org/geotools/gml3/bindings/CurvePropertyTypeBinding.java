@@ -16,17 +16,17 @@
  */
 package org.geotools.gml3.bindings;
 
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.LineString;
 import javax.xml.namespace.QName;
 import org.geotools.gml3.GML;
 import org.geotools.gml3.XSDIdRegistry;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.LineString;
 
 /**
  * Binding object for the type http://www.opengis.net/gml:CurvePropertyType.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *         <code>
  *  &lt;complexType name="CurvePropertyType"&gt;
@@ -49,35 +49,27 @@ import com.vividsolutions.jts.geom.LineString;
  *          &lt;/annotation&gt;
  *      &lt;/attributeGroup&gt;
  *  &lt;/complexType&gt;
- * 
+ *
  *          </code>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
- * 
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/extension/xsd/xsd-gml3/src/main/java/org
- *         /geotools/gml3/bindings/CurvePropertyTypeBinding.java $
+ *     http://svn.osgeo.org/geotools/trunk/modules/extension/xsd/xsd-gml3/src/main/java/org
+ *     /geotools/gml3/bindings/CurvePropertyTypeBinding.java $
  */
 public class CurvePropertyTypeBinding extends GeometryPropertyTypeBindingBase {
 
-    public CurvePropertyTypeBinding(GML3EncodingUtils encodingUtils, XSDIdRegistry idRegistry) {
-        super(encodingUtils, idRegistry);
-    }
+  public CurvePropertyTypeBinding(GML3EncodingUtils encodingUtils, XSDIdRegistry idRegistry) {
+    super(encodingUtils, idRegistry);
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.CurvePropertyType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return GML.CurvePropertyType;
+  }
 
-    public Class<? extends Geometry> getGeometryType() {
-        return LineString.class;
-    }
-
+  public Class<? extends Geometry> getGeometryType() {
+    return LineString.class;
+  }
 }

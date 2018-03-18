@@ -18,107 +18,92 @@
 package org.geotools.swing.event;
 
 import java.util.EventObject;
-
 import org.geotools.swing.MapPane;
 
 /**
- * An event class used by {@code MapPane} to signal changes of
- * state to listeners.
+ * An event class used by {@code MapPane} to signal changes of state to listeners.
  *
  * @see MapPaneListener
- * 
  * @author Michael Bedward
  * @since 2.6
- *
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class MapPaneEvent extends EventObject {
-    /**
-     * Type of MapPane event
-     */
-    public static enum Type {
-        /**
-         * A new {@code MapContent} has been set for the map pane.
-         */
-        NEW_MAPCONTENT,
-
-        /**
-         * The display area has been changed. This can
-         * include both changes in bounds and in the
-         * coordinate reference system.
-         */
-        DISPLAY_AREA_CHANGED,
-
-        /**
-         * The map pane has started rendering features.
-         */
-        RENDERING_STARTED,
-
-        /**
-         * The map pane has stopped rendering features.
-         */
-        RENDERING_STOPPED,
-    }
-
-    /** Type of mappane event */
-    private Type type;
-
-    /** Data associated with some event types */
-    private Object data;
+  /** Type of MapPane event */
+  public static enum Type {
+    /** A new {@code MapContent} has been set for the map pane. */
+    NEW_MAPCONTENT,
 
     /**
-     * Constructor for an event with no associated data
-     *
-     * @param source the map pane issuing this event
-     * @param type the type of event
+     * The display area has been changed. This can include both changes in bounds and in the
+     * coordinate reference system.
      */
-    public MapPaneEvent(MapPane source, Type type) {
-        super(source);
-        this.type = type;
-    }
+    DISPLAY_AREA_CHANGED,
 
-    /**
-     * Constructor for an event with associated data. The new event
-     * object takes ownership of the data object.
-     *
-     * @param source the map pane issuing this event
-     * @param type the type of event
-     * @param data the event data
-     */
-    public MapPaneEvent(MapPane source, Type type, Object data) {
-        super(source);
-        this.type = type;
-        this.data = data;
-    }
+    /** The map pane has started rendering features. */
+    RENDERING_STARTED,
 
-    /**
-     * Gets the map pane which published this event.
-     *
-     * @return the source map pane
-     */
-    @Override
-    public MapPane getSource() {
-        return (MapPane) super.getSource();
-    }
+    /** The map pane has stopped rendering features. */
+    RENDERING_STOPPED,
+  }
 
-    /**
-     * Get the type of this event
-     * @return event type 
-     */
-    public Type getType() {
-        return type;
-    }
+  /** Type of mappane event */
+  private Type type;
 
-    /**
-     * Get the data associated with this event, if any
-     *
-     * @return event data or {@code null} if not applicable
-     */
-    public Object getData() {
-        return data;
-    }
+  /** Data associated with some event types */
+  private Object data;
 
+  /**
+   * Constructor for an event with no associated data
+   *
+   * @param source the map pane issuing this event
+   * @param type the type of event
+   */
+  public MapPaneEvent(MapPane source, Type type) {
+    super(source);
+    this.type = type;
+  }
+
+  /**
+   * Constructor for an event with associated data. The new event object takes ownership of the data
+   * object.
+   *
+   * @param source the map pane issuing this event
+   * @param type the type of event
+   * @param data the event data
+   */
+  public MapPaneEvent(MapPane source, Type type, Object data) {
+    super(source);
+    this.type = type;
+    this.data = data;
+  }
+
+  /**
+   * Gets the map pane which published this event.
+   *
+   * @return the source map pane
+   */
+  @Override
+  public MapPane getSource() {
+    return (MapPane) super.getSource();
+  }
+
+  /**
+   * Get the type of this event
+   *
+   * @return event type
+   */
+  public Type getType() {
+    return type;
+  }
+
+  /**
+   * Get the data associated with this event, if any
+   *
+   * @return event data or {@code null} if not applicable
+   */
+  public Object getData() {
+    return data;
+  }
 }

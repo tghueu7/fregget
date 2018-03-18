@@ -26,12 +26,12 @@ import org.geotools.xml.Binding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:LabelStyleType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="LabelStyleType"&gt;
  *      &lt;complexContent&gt;
@@ -45,55 +45,50 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class LabelStyleTypeBinding extends AbstractComplexBinding {
-    StyleBuilder sb;
+  StyleBuilder sb;
 
-    public LabelStyleTypeBinding(StyleBuilder sb) {
-        this.sb = sb;
-    }
+  public LabelStyleTypeBinding(StyleBuilder sb) {
+    this.sb = sb;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return KML.LabelStyleType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return KML.LabelStyleType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return TextSymbolizer.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return TextSymbolizer.class;
+  }
 
-    public int getExecutionMode() {
-        return Binding.AFTER;
-    }
+  public int getExecutionMode() {
+    return Binding.AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Color color = (Color) value;
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Color color = (Color) value;
 
-        TextSymbolizer textSymbolizer = sb.createTextSymbolizer();
-        textSymbolizer.setFill(sb.createFill(color));
+    TextSymbolizer textSymbolizer = sb.createTextSymbolizer();
+    textSymbolizer.setFill(sb.createFill(color));
 
-        return textSymbolizer;
-    }
+    return textSymbolizer;
+  }
 }

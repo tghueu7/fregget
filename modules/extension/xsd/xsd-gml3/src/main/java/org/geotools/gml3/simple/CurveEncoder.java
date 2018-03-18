@@ -16,6 +16,7 @@
  */
 package org.geotools.gml3.simple;
 
+import com.vividsolutions.jts.geom.LineString;
 import org.geotools.geometry.jts.CompoundCurvedGeometry;
 import org.geotools.geometry.jts.LiteCoordinateSequence;
 import org.geotools.geometry.jts.SingleCurvedGeometry;
@@ -26,90 +27,84 @@ import org.geotools.gml3.GML;
 import org.geotools.xml.Encoder;
 import org.xml.sax.helpers.AttributesImpl;
 
-import com.vividsolutions.jts.geom.LineString;
-
 /**
  * Encodes a GML3 Curve
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class CurveEncoder extends GeometryEncoder<LineString> {
 
-    static final QualifiedName CURVE = new QualifiedName(GML.NAMESPACE, "Curve", "gml");
+  static final QualifiedName CURVE = new QualifiedName(GML.NAMESPACE, "Curve", "gml");
 
-    static final QualifiedName SEGMENTS = new QualifiedName(GML.NAMESPACE, "segments", "gml");
+  static final QualifiedName SEGMENTS = new QualifiedName(GML.NAMESPACE, "segments", "gml");
 
-    static final QualifiedName LINE_STRING_SEGMENT = new QualifiedName(GML.NAMESPACE,
-            "LineStringSegment", "gml");
+  static final QualifiedName LINE_STRING_SEGMENT =
+      new QualifiedName(GML.NAMESPACE, "LineStringSegment", "gml");
 
-    static final QualifiedName ARC_STRING = new QualifiedName(GML.NAMESPACE, "ArcString", "gml");
+  static final QualifiedName ARC_STRING = new QualifiedName(GML.NAMESPACE, "ArcString", "gml");
 
-    QualifiedName curve;
+  QualifiedName curve;
 
-    QualifiedName segments;
+  QualifiedName segments;
 
-    QualifiedName lineStringSegment;
+  QualifiedName lineStringSegment;
 
-    QualifiedName arcString;
+  QualifiedName arcString;
 
-    protected CurveEncoder(Encoder e, String gmlPrefix, String gmlUri) {
-        super(e);
-        this.curve = CURVE.derive(gmlPrefix, gmlUri);
-        this.segments = SEGMENTS.derive(gmlPrefix, gmlUri);
-        this.lineStringSegment = LINE_STRING_SEGMENT.derive(gmlPrefix, gmlUri);
-        this.arcString = ARC_STRING.derive(gmlPrefix, gmlUri);
+  protected CurveEncoder(Encoder e, String gmlPrefix, String gmlUri) {
+    super(e);
+    this.curve = CURVE.derive(gmlPrefix, gmlUri);
+    this.segments = SEGMENTS.derive(gmlPrefix, gmlUri);
+    this.lineStringSegment = LINE_STRING_SEGMENT.derive(gmlPrefix, gmlUri);
+    this.arcString = ARC_STRING.derive(gmlPrefix, gmlUri);
+  }
+
+  public void encode(LineString geometry, AttributesImpl atts, GMLWriter handler, String gmlId)
+      throws Exception {
+    if (gmlId != null) {
+      atts = cloneWithGmlId(atts, gmlId);
     }
 
-    public void encode(LineString geometry, AttributesImpl atts, GMLWriter handler, String gmlId)
-            throws Exception {
-        if ( gmlId != null) {
-            atts = cloneWithGmlId(atts, gmlId);
-        }
-        
-        handler.startElement(curve, atts);
-        handler.startElement(segments, null);
+    handler.startElement(curve, atts);
+    handler.startElement(segments, null);
 
-        encodeContents(geometry, handler);
+    encodeContents(geometry, handler);
 
-        handler.endElement(segments);
-        handler.endElement(curve);
+    handler.endElement(segments);
+    handler.endElement(curve);
+  }
+
+  private void encodeContents(LineString geometry, GMLWriter handler) throws Exception {
+    if (geometry instanceof SingleCurvedGeometry) {
+      SingleCurvedGeometry curve = (SingleCurvedGeometry) geometry;
+      encodeCurve(curve, handler);
+    } else if (geometry instanceof CompoundCurvedGeometry) {
+      CompoundCurvedGeometry<LineString> compound = (CompoundCurvedGeometry) geometry;
+      for (LineString component : compound.getComponents()) {
+        encodeContents(component, handler);
+      }
+    } else {
+      encodeLinestring(geometry, handler);
     }
+  }
 
-    private void encodeContents(LineString geometry, GMLWriter handler)
-            throws Exception {
-        if (geometry instanceof SingleCurvedGeometry) {
-            SingleCurvedGeometry curve = (SingleCurvedGeometry) geometry;
-            encodeCurve(curve, handler);
-        } else if (geometry instanceof CompoundCurvedGeometry) {
-            CompoundCurvedGeometry<LineString> compound = (CompoundCurvedGeometry) geometry;
-            for (LineString component : compound.getComponents()) {
-                encodeContents(component, handler);
-            }
-        } else {
-            encodeLinestring(geometry, handler);
-        }
-    }
+  private void encodeLinestring(LineString geometry, GMLWriter handler) throws Exception {
+    AttributesImpl atts = new AttributesImpl();
+    atts.addAttribute(GML.NAMESPACE, "interpolation", "interpolation", "", "linear");
+    handler.startElement(lineStringSegment, atts);
 
-    private void encodeLinestring(LineString geometry, GMLWriter handler)
-            throws Exception {
-        AttributesImpl atts = new AttributesImpl();
-        atts.addAttribute(GML.NAMESPACE, "interpolation", "interpolation", "", "linear");
-        handler.startElement(lineStringSegment, atts);
+    handler.posList(geometry.getCoordinateSequence());
 
-        handler.posList(geometry.getCoordinateSequence());
+    handler.endElement(lineStringSegment);
+  }
 
-        handler.endElement(lineStringSegment);
-    }
+  private void encodeCurve(SingleCurvedGeometry curve, GMLWriter handler) throws Exception {
+    AttributesImpl atts = new AttributesImpl();
+    atts.addAttribute(GML.NAMESPACE, "interpolation", "interpolation", "", "circularArc3Points");
+    handler.startElement(arcString, atts);
 
-    private void encodeCurve(SingleCurvedGeometry curve, GMLWriter handler)
-            throws Exception {
-        AttributesImpl atts = new AttributesImpl();
-        atts.addAttribute(GML.NAMESPACE, "interpolation", "interpolation", "", "circularArc3Points");
-        handler.startElement(arcString, atts);
+    handler.posList(new LiteCoordinateSequence(curve.getControlPoints()));
 
-        handler.posList(new LiteCoordinateSequence(curve.getControlPoints()));
-
-        handler.endElement(arcString);
-
-    }
+    handler.endElement(arcString);
+  }
 }

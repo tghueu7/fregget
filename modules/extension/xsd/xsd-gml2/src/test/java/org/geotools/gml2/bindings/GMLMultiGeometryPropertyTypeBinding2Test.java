@@ -16,23 +16,17 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.GeometryCollection;
 import org.geotools.gml2.GML;
 import org.geotools.xml.Binding;
 
-import com.vividsolutions.jts.geom.GeometryCollection;
-
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GMLMultiGeometryPropertyTypeBinding2Test extends GMLTestSupport {
-    public void testType() {
-        assertEquals(GeometryCollection.class, binding(GML.MultiGeometryPropertyType).getType());
-    }
+  public void testType() {
+    assertEquals(GeometryCollection.class, binding(GML.MultiGeometryPropertyType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.AFTER, binding(GML.MultiGeometryPropertyType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.AFTER, binding(GML.MultiGeometryPropertyType).getExecutionMode());
+  }
 }

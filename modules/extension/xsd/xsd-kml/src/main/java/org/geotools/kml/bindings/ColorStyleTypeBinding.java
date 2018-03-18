@@ -23,12 +23,12 @@ import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:ColorStyleType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType abstract="true" name="ColorStyleType"&gt;
  *      &lt;complexContent&gt;
@@ -43,48 +43,43 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class ColorStyleTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return KML.ColorStyleType;
+  /** @generated */
+  public QName getTarget() {
+    return KML.ColorStyleType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Color.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Color color = null;
+
+    if (node.hasChild(Color.class)) {
+      color = (Color) node.getChildValue(Color.class);
+    } else {
+      color = Color.WHITE;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Color.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Color color = null;
-
-        if (node.hasChild(Color.class)) {
-            color = (Color) node.getChildValue(Color.class);
-        } else {
-            color = Color.WHITE;
-        }
-
-        return color;
-    }
+    return color;
+  }
 }

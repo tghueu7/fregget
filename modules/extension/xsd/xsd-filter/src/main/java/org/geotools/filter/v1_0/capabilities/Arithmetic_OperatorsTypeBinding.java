@@ -17,18 +17,17 @@
 package org.geotools.filter.v1_0.capabilities;
 
 import javax.xml.namespace.QName;
+import org.geotools.xml.*;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.capability.ArithmeticOperators;
-import org.opengis.filter.capability.FunctionName;
 import org.opengis.filter.capability.Functions;
-import org.geotools.xml.*;
-
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:Arithmetic_OperatorsType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="Arithmetic_OperatorsType"&gt;
  *      &lt;xsd:choice maxOccurs="unbounded"&gt;
@@ -39,70 +38,64 @@ import org.geotools.xml.*;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class Arithmetic_OperatorsTypeBinding extends AbstractComplexBinding {
-    FilterFactory factory;
+  FilterFactory factory;
 
-    public Arithmetic_OperatorsTypeBinding(FilterFactory factory) {
-        this.factory = factory;
+  public Arithmetic_OperatorsTypeBinding(FilterFactory factory) {
+    this.factory = factory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return OGC.Arithmetic_OperatorsType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return ArithmeticOperators.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // &lt;xsd:element ref="ogc:Simple_Arithmetic"/&gt;
+    boolean simpleArithmetic =
+        node.hasChild("Simple_Arithmetic") || node.hasChild("SimpleArithmetic"); // 1.1
+
+    // &lt;xsd:element name="Functions" type="ogc:FunctionsType"/&gt;
+    Functions functions = (Functions) node.getChildValue(Functions.class);
+
+    return factory.arithmeticOperators(simpleArithmetic, functions);
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    ArithmeticOperators arithmetic = (ArithmeticOperators) object;
+
+    if ((name.equals(OGC.Simple_Arithmetic)
+            || name.equals(org.geotools.filter.v1_1.OGC.SimpleArithmetic))
+        && arithmetic.hasSimpleArithmetic()) {
+      return new Object();
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.Arithmetic_OperatorsType;
+    if (name.getLocalPart().equals("Functions")) {
+      return arithmetic.getFunctions();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return ArithmeticOperators.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //&lt;xsd:element ref="ogc:Simple_Arithmetic"/&gt;
-        boolean simpleArithmetic = node.hasChild("Simple_Arithmetic")
-            || node.hasChild("SimpleArithmetic"); //1.1
-
-        //&lt;xsd:element name="Functions" type="ogc:FunctionsType"/&gt;
-        Functions functions = (Functions) node.getChildValue(Functions.class);
-
-        return factory.arithmeticOperators(simpleArithmetic, functions);
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        ArithmeticOperators arithmetic = (ArithmeticOperators) object;
-
-        if ((name.equals(OGC.Simple_Arithmetic)
-                || name.equals(org.geotools.filter.v1_1.OGC.SimpleArithmetic))
-                && arithmetic.hasSimpleArithmetic()) {
-            return new Object();
-        }
-
-        if (name.getLocalPart().equals("Functions")) {
-            return arithmetic.getFunctions();
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

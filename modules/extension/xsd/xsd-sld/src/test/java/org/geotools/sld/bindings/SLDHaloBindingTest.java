@@ -19,32 +19,27 @@ package org.geotools.sld.bindings;
 import org.geotools.filter.Filters;
 import org.geotools.styling.Halo;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDHaloBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(Halo.class, new SLDHaloBinding(null, null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(Halo.class, new SLDHaloBinding(null, null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.halo(document, document, true);
+  public void test() throws Exception {
+    SLDMockData.halo(document, document, true);
 
-        Halo halo = (Halo) parse();
-        assertNotNull(halo);
-        assertNotNull(halo.getFill());
-        assertEquals(1.0d, Filters.asDouble(halo.getRadius()), 0d);
-    }
-    
-    public void testDefaults() throws Exception {
-        SLDMockData.halo(document, document, false);
+    Halo halo = (Halo) parse();
+    assertNotNull(halo);
+    assertNotNull(halo.getFill());
+    assertEquals(1.0d, Filters.asDouble(halo.getRadius()), 0d);
+  }
 
-        Halo halo = (Halo) parse();
-        assertNotNull(halo);
-        assertNotNull(halo.getFill());
-        assertEquals(1.0d, Filters.asDouble(halo.getRadius()), 0d);
-    }
+  public void testDefaults() throws Exception {
+    SLDMockData.halo(document, document, false);
+
+    Halo halo = (Halo) parse();
+    assertNotNull(halo);
+    assertNotNull(halo.getFill());
+    assertEquals(1.0d, Filters.asDouble(halo.getRadius()), 0d);
+  }
 }

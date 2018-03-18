@@ -23,48 +23,44 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Records the base name of a properties file and the {@code Locales}
- * that it supports.
- * 
+ * Records the base name of a properties file and the {@code Locales} that it supports.
+ *
  * @author Michael Bedward
  * @since 8.0
- *
  * @source $URL$
  * @version $Id$
  */
 public class PropertiesFileInfo {
-    private final String baseName;
-    private final List<Locale> locales;
+  private final String baseName;
+  private final List<Locale> locales;
 
-    /**
-     * Creates a new instance.
-     * 
-     * @param baseName file base name
-     * @param locales supported locales
-     */
-    public PropertiesFileInfo(String baseName, List<Locale> locales) {
-        this.baseName = baseName;
-        this.locales = new ArrayList<Locale>(locales);
-    }
+  /**
+   * Creates a new instance.
+   *
+   * @param baseName file base name
+   * @param locales supported locales
+   */
+  public PropertiesFileInfo(String baseName, List<Locale> locales) {
+    this.baseName = baseName;
+    this.locales = new ArrayList<Locale>(locales);
+  }
 
-    /**
-     * Gets the file base name.
-     * 
-     * @return file base name
-     */
-    public String getBaseName() {
-        return baseName;
-    }
+  /**
+   * Gets the file base name.
+   *
+   * @return file base name
+   */
+  public String getBaseName() {
+    return baseName;
+  }
 
-    
-    /**
-     * Gets an unmodifiable view of the list of supported locales. This
-     * will always contain at least {@linkplain Locale#ROOT}.
-     * 
-     * @return list of supported locales
-     */
-    public List<Locale> getLocales() {
-        return Collections.unmodifiableList(locales);
-    }
-    
+  /**
+   * Gets an unmodifiable view of the list of supported locales. This will always contain at least
+   * {@linkplain Locale#ROOT}.
+   *
+   * @return list of supported locales
+   */
+  public List<Locale> getLocales() {
+    return Collections.unmodifiableList(locales);
+  }
 }

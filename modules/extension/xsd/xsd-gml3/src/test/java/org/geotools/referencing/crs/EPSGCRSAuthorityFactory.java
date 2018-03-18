@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2010, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -18,7 +18,6 @@
 package org.geotools.referencing.crs;
 
 import java.util.Set;
-
 import org.geotools.factory.AbstractFactory;
 import org.geotools.metadata.iso.citation.CitationImpl;
 import org.geotools.metadata.iso.citation.Citations;
@@ -45,94 +44,92 @@ import org.opengis.util.InternationalString;
  * the right thing and does not include the provider at test time, but Eclipse captures it as a
  * transitive dependency, causing the wrong provider to be used for srsName encoding. The presence
  * of this class allows gt-xsd-gml3 unit tests to pass in Eclipse.
- * 
+ *
  * @author Ben Caradoc-Davies, CSIRO Earth Science and Resource Engineering
  * @see <a href="http://jira.codehaus.org/browse/GEOT-3112">GEOT-3112</a>
- *
- *
  * @source $URL$
  */
 public class EPSGCRSAuthorityFactory extends AbstractFactory implements CRSAuthorityFactory {
 
-    private static final String EXCEPTION_MESSAGE = "Factory disabled for gt-xsd-gml3 testing (see GEOT-3112)";
+  private static final String EXCEPTION_MESSAGE =
+      "Factory disabled for gt-xsd-gml3 testing (see GEOT-3112)";
 
-    public EPSGCRSAuthorityFactory() {
-        super(MINIMUM_PRIORITY);
-    }
+  public EPSGCRSAuthorityFactory() {
+    super(MINIMUM_PRIORITY);
+  }
 
-    public Citation getAuthority() {
-        CitationImpl c = new CitationImpl(EXCEPTION_MESSAGE);
-        c.freeze();
-        return c;
-    }
+  public Citation getAuthority() {
+    CitationImpl c = new CitationImpl(EXCEPTION_MESSAGE);
+    c.freeze();
+    return c;
+  }
 
-    public Set<String> getAuthorityCodes(Class<? extends IdentifiedObject> type)
-            throws FactoryException {
-        throw new FactoryException(EXCEPTION_MESSAGE);
-    }
+  public Set<String> getAuthorityCodes(Class<? extends IdentifiedObject> type)
+      throws FactoryException {
+    throw new FactoryException(EXCEPTION_MESSAGE);
+  }
 
-    public InternationalString getDescriptionText(String code) throws NoSuchAuthorityCodeException,
-            FactoryException {
-        throw new FactoryException(EXCEPTION_MESSAGE);
-    }
+  public InternationalString getDescriptionText(String code)
+      throws NoSuchAuthorityCodeException, FactoryException {
+    throw new FactoryException(EXCEPTION_MESSAGE);
+  }
 
-    public IdentifiedObject createObject(String code) throws NoSuchAuthorityCodeException,
-            FactoryException {
-        throw new FactoryException(EXCEPTION_MESSAGE);
-    }
+  public IdentifiedObject createObject(String code)
+      throws NoSuchAuthorityCodeException, FactoryException {
+    throw new FactoryException(EXCEPTION_MESSAGE);
+  }
 
-    public Citation getVendor() {
-        return Citations.GEOTOOLS;
-    }
+  public Citation getVendor() {
+    return Citations.GEOTOOLS;
+  }
 
-    public CoordinateReferenceSystem createCoordinateReferenceSystem(String code)
-            throws NoSuchAuthorityCodeException, FactoryException {
-        throw new FactoryException(EXCEPTION_MESSAGE);
-    }
+  public CoordinateReferenceSystem createCoordinateReferenceSystem(String code)
+      throws NoSuchAuthorityCodeException, FactoryException {
+    throw new FactoryException(EXCEPTION_MESSAGE);
+  }
 
-    public CompoundCRS createCompoundCRS(String code) throws NoSuchAuthorityCodeException,
-            FactoryException {
-        throw new FactoryException(EXCEPTION_MESSAGE);
-    }
+  public CompoundCRS createCompoundCRS(String code)
+      throws NoSuchAuthorityCodeException, FactoryException {
+    throw new FactoryException(EXCEPTION_MESSAGE);
+  }
 
-    public DerivedCRS createDerivedCRS(String code) throws NoSuchAuthorityCodeException,
-            FactoryException {
-        throw new FactoryException(EXCEPTION_MESSAGE);
-    }
+  public DerivedCRS createDerivedCRS(String code)
+      throws NoSuchAuthorityCodeException, FactoryException {
+    throw new FactoryException(EXCEPTION_MESSAGE);
+  }
 
-    public EngineeringCRS createEngineeringCRS(String code) throws NoSuchAuthorityCodeException,
-            FactoryException {
-        throw new FactoryException(EXCEPTION_MESSAGE);
-    }
+  public EngineeringCRS createEngineeringCRS(String code)
+      throws NoSuchAuthorityCodeException, FactoryException {
+    throw new FactoryException(EXCEPTION_MESSAGE);
+  }
 
-    public GeographicCRS createGeographicCRS(String code) throws NoSuchAuthorityCodeException,
-            FactoryException {
-        throw new FactoryException(EXCEPTION_MESSAGE);
-    }
+  public GeographicCRS createGeographicCRS(String code)
+      throws NoSuchAuthorityCodeException, FactoryException {
+    throw new FactoryException(EXCEPTION_MESSAGE);
+  }
 
-    public GeocentricCRS createGeocentricCRS(String code) throws NoSuchAuthorityCodeException,
-            FactoryException {
-        throw new FactoryException(EXCEPTION_MESSAGE);
-    }
+  public GeocentricCRS createGeocentricCRS(String code)
+      throws NoSuchAuthorityCodeException, FactoryException {
+    throw new FactoryException(EXCEPTION_MESSAGE);
+  }
 
-    public ImageCRS createImageCRS(String code) throws NoSuchAuthorityCodeException,
-            FactoryException {
-        throw new FactoryException(EXCEPTION_MESSAGE);
-    }
+  public ImageCRS createImageCRS(String code)
+      throws NoSuchAuthorityCodeException, FactoryException {
+    throw new FactoryException(EXCEPTION_MESSAGE);
+  }
 
-    public ProjectedCRS createProjectedCRS(String code) throws NoSuchAuthorityCodeException,
-            FactoryException {
-        throw new FactoryException(EXCEPTION_MESSAGE);
-    }
+  public ProjectedCRS createProjectedCRS(String code)
+      throws NoSuchAuthorityCodeException, FactoryException {
+    throw new FactoryException(EXCEPTION_MESSAGE);
+  }
 
-    public TemporalCRS createTemporalCRS(String code) throws NoSuchAuthorityCodeException,
-            FactoryException {
-        throw new FactoryException(EXCEPTION_MESSAGE);
-    }
+  public TemporalCRS createTemporalCRS(String code)
+      throws NoSuchAuthorityCodeException, FactoryException {
+    throw new FactoryException(EXCEPTION_MESSAGE);
+  }
 
-    public VerticalCRS createVerticalCRS(String code) throws NoSuchAuthorityCodeException,
-            FactoryException {
-        throw new FactoryException(EXCEPTION_MESSAGE);
-    }
-
+  public VerticalCRS createVerticalCRS(String code)
+      throws NoSuchAuthorityCodeException, FactoryException {
+    throw new FactoryException(EXCEPTION_MESSAGE);
+  }
 }

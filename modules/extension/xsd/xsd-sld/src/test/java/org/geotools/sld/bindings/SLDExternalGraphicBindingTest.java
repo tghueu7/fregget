@@ -16,37 +16,32 @@
  */
 package org.geotools.sld.bindings;
 
-import org.w3c.dom.Element;
 import org.geotools.styling.ExternalGraphic;
 import org.geotools.xlink.XLINK;
+import org.w3c.dom.Element;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDExternalGraphicBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(ExternalGraphic.class, new SLDExternalGraphicBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(ExternalGraphic.class, new SLDExternalGraphicBinding(null).getType());
+  }
 
-    public void testNormal() throws Exception {
-        document.appendChild(document.createElementNS(SLD.NAMESPACE, "ExternalGraphic"));
+  public void testNormal() throws Exception {
+    document.appendChild(document.createElementNS(SLD.NAMESPACE, "ExternalGraphic"));
 
-        Element r = document.createElementNS(SLD.NAMESPACE, "OnlineResource");
-        r.setAttributeNS(XLINK.NAMESPACE, "href", getClass().getResource("eclipse.png").toString());
+    Element r = document.createElementNS(SLD.NAMESPACE, "OnlineResource");
+    r.setAttributeNS(XLINK.NAMESPACE, "href", getClass().getResource("eclipse.png").toString());
 
-        Element f = document.createElementNS(SLD.NAMESPACE, "Format");
-        f.appendChild(document.createTextNode("image/png"));
+    Element f = document.createElementNS(SLD.NAMESPACE, "Format");
+    f.appendChild(document.createTextNode("image/png"));
 
-        document.getDocumentElement().appendChild(r);
-        document.getDocumentElement().appendChild(f);
+    document.getDocumentElement().appendChild(r);
+    document.getDocumentElement().appendChild(f);
 
-        ExternalGraphic externalGraphic = (ExternalGraphic) parse();
-        assertNotNull(externalGraphic);
+    ExternalGraphic externalGraphic = (ExternalGraphic) parse();
+    assertNotNull(externalGraphic);
 
-        assertEquals(getClass().getResource("eclipse.png"), externalGraphic.getLocation());
-        assertEquals("image/png", externalGraphic.getFormat());
-    }
+    assertEquals(getClass().getResource("eclipse.png"), externalGraphic.getLocation());
+    assertEquals("image/png", externalGraphic.getFormat());
+  }
 }

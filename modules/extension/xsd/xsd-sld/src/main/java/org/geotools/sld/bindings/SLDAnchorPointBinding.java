@@ -17,7 +17,6 @@
 package org.geotools.sld.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.styling.AnchorPoint;
 import org.geotools.styling.StyleFactory;
 import org.geotools.xml.AbstractComplexBinding;
@@ -26,12 +25,12 @@ import org.geotools.xml.Node;
 import org.opengis.filter.expression.Expression;
 import org.picocontainer.MutablePicoContainer;
 
-
 /**
  * Binding object for the element http://www.opengis.net/sld:AnchorPoint.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="AnchorPoint"&gt;
  *      &lt;xsd:annotation&gt;
@@ -50,68 +49,64 @@ import org.picocontainer.MutablePicoContainer;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDAnchorPointBinding extends AbstractComplexBinding {
-    StyleFactory styleFactory;
+  StyleFactory styleFactory;
 
-    public SLDAnchorPointBinding(StyleFactory styleFactory) {
-        this.styleFactory = styleFactory;
-    }
+  public SLDAnchorPointBinding(StyleFactory styleFactory) {
+    this.styleFactory = styleFactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.ANCHORPOINT;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return SLD.ANCHORPOINT;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return AnchorPoint.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return AnchorPoint.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Expression x = (Expression) node.getChildValue("AnchorPointX");
-        Expression y = (Expression) node.getChildValue("AnchorPointY");
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Expression x = (Expression) node.getChildValue("AnchorPointX");
+    Expression y = (Expression) node.getChildValue("AnchorPointY");
 
-        return styleFactory.createAnchorPoint(x, y);
-    }
+    return styleFactory.createAnchorPoint(x, y);
+  }
 }

@@ -16,24 +16,21 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.Polygon;
 import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.geotools.gml2.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.Polygon;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:PolygonPropertyType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="PolygonPropertyType"&gt;
  *      &lt;annotation&gt;
@@ -53,52 +50,46 @@ import com.vividsolutions.jts.geom.Polygon;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLPolygonPropertyTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.POLYGONPROPERTYTYPE;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return GML.POLYGONPROPERTYTYPE;
+  }
 
   /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Polygon.class;
-    }
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Polygon.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This object returns an object of type @link com.vividsolutions.jts.geom.Polygon
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return node.getChildValue(Polygon.class);
-    }
-    
-    @Override
-    public Object getProperty(Object object, QName name) throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperty((Polygon)object,name,false);
-    }
-    
-    @Override
-    public List getProperties(Object object, XSDElementDeclaration element)
-            throws Exception {
-        return GML2EncodingUtils.GeometryPropertyType_getProperties((Polygon)object);
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This object returns an object of type @link com.vividsolutions.jts.geom.Polygon
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return node.getChildValue(Polygon.class);
+  }
+
+  @Override
+  public Object getProperty(Object object, QName name) throws Exception {
+    return GML2EncodingUtils.GeometryPropertyType_getProperty((Polygon) object, name, false);
+  }
+
+  @Override
+  public List getProperties(Object object, XSDElementDeclaration element) throws Exception {
+    return GML2EncodingUtils.GeometryPropertyType_getProperties((Polygon) object);
+  }
 }

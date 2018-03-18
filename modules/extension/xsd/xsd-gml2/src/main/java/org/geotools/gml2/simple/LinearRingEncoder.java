@@ -21,16 +21,15 @@ import org.geotools.xml.Encoder;
 
 /**
  * Encodes a GML2 linear ring
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */
-
 class LinearRingEncoder extends LineStringEncoder {
 
-    static final QualifiedName LINEAR_RING = new QualifiedName(GML.NAMESPACE, "LinearRing", "gml");
+  static final QualifiedName LINEAR_RING = new QualifiedName(GML.NAMESPACE, "LinearRing", "gml");
 
-    protected LinearRingEncoder(Encoder encoder, String gmlPrefix) {
-        super(encoder, LINEAR_RING.derive(gmlPrefix));
-    }
+  protected LinearRingEncoder(Encoder encoder, String gmlPrefix) {
+    super(encoder, LINEAR_RING.derive(gmlPrefix));
+  }
 }

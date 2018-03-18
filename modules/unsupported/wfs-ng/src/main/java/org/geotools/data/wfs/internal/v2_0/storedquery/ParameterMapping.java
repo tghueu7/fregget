@@ -18,6 +18,7 @@
 package org.geotools.data.wfs.internal.v2_0.storedquery;
 
 public interface ParameterMapping {
-    public boolean isForcible();
-    public String getParameterName();
+  public boolean isForcible();
+
+  public String getParameterName();
 }

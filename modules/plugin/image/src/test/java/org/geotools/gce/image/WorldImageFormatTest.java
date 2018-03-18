@@ -18,34 +18,31 @@ package org.geotools.gce.image;
 
 import junit.framework.TestCase;
 
-
 /**
  * DOCUMENT ME!
  *
  * @author rgoulds
- *
- *
  * @source $URL$
  */
 public class WorldImageFormatTest extends TestCase {
-    private WorldImageFormatTest format;
+  private WorldImageFormatTest format;
 
-    public WorldImageFormatTest(String name) {
-        super(name);
-    }
+  public WorldImageFormatTest(String name) {
+    super(name);
+  }
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        format = new WorldImageFormatTest("test");
-		assertNotNull(format);
-    }
+  protected void setUp() throws Exception {
+    super.setUp();
+    format = new WorldImageFormatTest("test");
+    assertNotNull(format);
+  }
 
-    public void testGetWorldExtension() {
-        assertTrue(WorldImageFormat.getWorldExtension("png").contains(".pgw"));
-        assertTrue(WorldImageFormat.getWorldExtension("gif").contains( ".gfw"));
-        assertTrue(WorldImageFormat.getWorldExtension("jpg").contains( ".jgw"));
-        assertTrue(WorldImageFormat.getWorldExtension("jpeg").contains( ".jgw"));
-        assertTrue(WorldImageFormat.getWorldExtension("tif").contains( ".tfw"));
-        assertTrue(WorldImageFormat.getWorldExtension("tiff").contains( ".tfw"));
-    }
+  public void testGetWorldExtension() {
+    assertTrue(WorldImageFormat.getWorldExtension("png").contains(".pgw"));
+    assertTrue(WorldImageFormat.getWorldExtension("gif").contains(".gfw"));
+    assertTrue(WorldImageFormat.getWorldExtension("jpg").contains(".jgw"));
+    assertTrue(WorldImageFormat.getWorldExtension("jpeg").contains(".jgw"));
+    assertTrue(WorldImageFormat.getWorldExtension("tif").contains(".tfw"));
+    assertTrue(WorldImageFormat.getWorldExtension("tiff").contains(".tfw"));
+  }
 }

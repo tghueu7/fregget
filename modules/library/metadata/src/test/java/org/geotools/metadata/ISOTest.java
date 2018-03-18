@@ -16,68 +16,55 @@
  */
 package org.geotools.metadata;
 
-import java.util.Collection;
-import java.util.Set;
-import java.util.HashSet;
-
-import org.opengis.util.CodeList;
-import org.opengis.metadata.MetaData;
-import org.opengis.metadata.extent.VerticalExtent;
-import org.opengis.metadata.citation.OnLineResource;
-import org.opengis.metadata.citation.CitationFactory;
-import org.opengis.metadata.content.ImagingCondition;
-import org.opengis.metadata.content.CoverageContentType;
-import org.opengis.metadata.maintenance.ScopeDescription;
-import org.opengis.metadata.identification.AggregateInformation;
-import org.opengis.metadata.identification.RepresentativeFraction;
-
-import org.geotools.resources.Classes;
-import org.geotools.util.CheckedCollection;
-import org.geotools.metadata.iso.MetaDataImpl;
-
-import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import org.geotools.metadata.iso.MetaDataImpl;
+import org.geotools.resources.Classes;
+import org.geotools.util.CheckedCollection;
+import org.junit.*;
+import org.opengis.metadata.MetaData;
+import org.opengis.metadata.citation.CitationFactory;
+import org.opengis.metadata.citation.OnLineResource;
+import org.opengis.metadata.content.CoverageContentType;
+import org.opengis.metadata.content.ImagingCondition;
+import org.opengis.metadata.extent.VerticalExtent;
+import org.opengis.metadata.identification.AggregateInformation;
+import org.opengis.metadata.identification.RepresentativeFraction;
+import org.opengis.metadata.maintenance.ScopeDescription;
+import org.opengis.util.CodeList;
 
 /**
  * Tests every implementation in the {@link org.geotools.metadata.iso} package.
  *
- *
- *
  * @source $URL$
  * @version $Id$
  * @author Martin Desruisseaux (Geomatys)
- *
- * @todo Current implementation relies on {@link MetaData} dependencies. This is probably
- *       not enough; we should provide an explicit list of metadata interface.
+ * @todo Current implementation relies on {@link MetaData} dependencies. This is probably not
+ *     enough; we should provide an explicit list of metadata interface.
  */
 public final class ISOTest {
-    /**
-     * {@code true} for displaying debugging informations.
-     */
-    private static final boolean VERBOSE = false;
+  /** {@code true} for displaying debugging informations. */
+  private static final boolean VERBOSE = false;
 
-    /**
-     * Root package for interfaces, with trailing dot.
-     */
-    private static final String INTERFACE_PACKAGE = "org.opengis.metadata.";
+  /** Root package for interfaces, with trailing dot. */
+  private static final String INTERFACE_PACKAGE = "org.opengis.metadata.";
 
-    /**
-     * Root package for implementations, with trailing dot.
-     */
-    private static final String IMPLEMENTATION_PACKAGE = "org.geotools.metadata.iso.";
+  /** Root package for implementations, with trailing dot. */
+  private static final String IMPLEMENTATION_PACKAGE = "org.geotools.metadata.iso.";
 
-    /**
-     * Suffix for implementation classes.
-     */
-    private static final String IMPLEMENTATION_SUFFIX = "Impl";
+  /** Suffix for implementation classes. */
+  private static final String IMPLEMENTATION_SUFFIX = "Impl";
 
-    /**
-     * List of GeoAPI interfaces to test. This list is not exclusive, since this test suite
-     * will automatically scans for dependencies even if an interface do not appears in this
-     * list. This list should not contains any {@link CodeList}.
-     */
-    private static final Class<?>[] TEST = new Class[] {
+  /**
+   * List of GeoAPI interfaces to test. This list is not exclusive, since this test suite will
+   * automatically scans for dependencies even if an interface do not appears in this list. This
+   * list should not contains any {@link CodeList}.
+   */
+  private static final Class<?>[] TEST =
+      new Class[] {
         org.opengis.metadata.ApplicationSchemaInformation.class,
         org.opengis.metadata.ExtendedElementInformation.class,
         org.opengis.metadata.FeatureTypeList.class,
@@ -165,152 +152,146 @@ public final class ISOTest {
         org.opengis.metadata.spatial.GridSpatialRepresentation.class,
         org.opengis.metadata.spatial.SpatialRepresentation.class,
         org.opengis.metadata.spatial.VectorSpatialRepresentation.class
-    };
+      };
 
-    /**
-     * GeoAPI interfaces that are know to be unimplemented at this stage.
-     */
-    private static final Class<?>[] UNIMPLEMENTED = new Class[] {
+  /** GeoAPI interfaces that are know to be unimplemented at this stage. */
+  private static final Class<?>[] UNIMPLEMENTED =
+      new Class[] {
         AggregateInformation.class,
         CoverageContentType.class,
         ImagingCondition.class,
-        CitationFactory.class,          // SHOULD THIS INTERFACE REALLY EXISTS IN GEOAPI?
-        RepresentativeFraction.class,   // Implemented on top of 'Number'.
-        VerticalExtent.class,           // Inconsistent 'verticalCRS' type in GeoAPI interface.
-        ScopeDescription.class,         // Only partially implemented (no references to Features).
-        OnLineResource.class            // No 'setProtocol' method.
-    };
+        CitationFactory.class, // SHOULD THIS INTERFACE REALLY EXISTS IN GEOAPI?
+        RepresentativeFraction.class, // Implemented on top of 'Number'.
+        VerticalExtent.class, // Inconsistent 'verticalCRS' type in GeoAPI interface.
+        ScopeDescription.class, // Only partially implemented (no references to Features).
+        OnLineResource.class // No 'setProtocol' method.
+      };
 
-    /**
-     * Ensures that the {@link #TEST} array do not contains code list.
-     */
-    @Test
-    public void testNoCodeList() {
-        for (int i=0; i<TEST.length; i++) {
-            final Class type = TEST[i];
-            assertFalse(type.getName(), CodeList.class.isAssignableFrom(type));
-        }
+  /** Ensures that the {@link #TEST} array do not contains code list. */
+  @Test
+  public void testNoCodeList() {
+    for (int i = 0; i < TEST.length; i++) {
+      final Class type = TEST[i];
+      assertFalse(type.getName(), CodeList.class.isAssignableFrom(type));
     }
+  }
 
-    /**
-     * Tests all dependencies starting from the {@link MetaDataImpl} class.
-     */
-    @Test
-    public void testDependencies() {
-        assertNull(getImplementation(Number.class));
-        assertSame(MetaDataImpl.class, getImplementation(MetaData.class));
-        final Set<Class<?>> done = new HashSet<Class<?>>();
-        for (int i=0; i<TEST.length; i++) {
-            final Class<?> type = TEST[i];
-            final Class<?> impl = getImplementation(type);
-            if (impl == null) {
-                if (isImplemented(type)) {
-                    fail(type.getName() + " is not implemented.");
-                }
-                continue;
-            }
-            assertSetters(new PropertyAccessor(impl, type), done);
+  /** Tests all dependencies starting from the {@link MetaDataImpl} class. */
+  @Test
+  public void testDependencies() {
+    assertNull(getImplementation(Number.class));
+    assertSame(MetaDataImpl.class, getImplementation(MetaData.class));
+    final Set<Class<?>> done = new HashSet<Class<?>>();
+    for (int i = 0; i < TEST.length; i++) {
+      final Class<?> type = TEST[i];
+      final Class<?> impl = getImplementation(type);
+      if (impl == null) {
+        if (isImplemented(type)) {
+          fail(type.getName() + " is not implemented.");
         }
-        if (VERBOSE) {
-            System.out.println(done);
-        }
+        continue;
+      }
+      assertSetters(new PropertyAccessor(impl, type), done);
     }
+    if (VERBOSE) {
+      System.out.println(done);
+    }
+  }
 
-    /**
-     * Recursively ensures that the specified metadata implementation has
-     * setters for every methods.
-     */
-    private static void assertSetters(final PropertyAccessor accessor, final Set<Class<?>> done) {
-        if (done.add(accessor.type)) {
-            /*
-             * Tries to instantiate the implementation. Every implementation should have a
-             * no-args constructor, and their instantiation should never fail. Note that
-             * this dummy will also be of some help later in this test.
-             */
-            final Object dummyInstance;
-            final boolean isImplemented = isImplemented(accessor.type);
-            if (isImplemented) try {
-                dummyInstance = accessor.implementation.getConstructor((Class[]) null).
-                        newInstance((Object[]) null);
-            } catch (Exception e) {
-                fail(e.toString());
-                return;
-            } else {
-                dummyInstance = null;
-            }
-            /*
-             * Iterates over all properties defined in the interface,
-             * and checks for the existences of a setter method.
-             */
-            final String classname = Classes.getShortName(accessor.type) + '.';
-            final int count = accessor.count();
-            for (int i=0; i<count; i++) {
-                final String name = accessor.name(i);
-                assertNotNull(String.valueOf(i), name);
-                final String fullname = classname + name;
-                assertEquals(fullname, i, accessor.indexOf(name));
-                if (!isImplemented) {
-                    continue;
-                }
-                // We can not continue below this point for
-                // implementations that are only partial.
-                assertTrue(fullname, accessor.isWritable(i));
-                /*
-                 * Get the property type. In the special case where the property type
-                 * is a collection, get an empty collection from the implementation.
-                 * This is needed in order to get the element type in the collection.
-                 */
-                Class<?> type = accessor.type(i);
-                if (Collection.class.isAssignableFrom(type)) {
-                    final Object example = accessor.get(i, dummyInstance);
-                    if (example instanceof CheckedCollection) {
-                        type = ((CheckedCollection) example).getElementType();
-                    }
-                }
-                final Class<?> impl = getImplementation(type);
-                if (impl != null) {
-                    assertSetters(new PropertyAccessor(impl, type), done);
-                }
-            }
+  /**
+   * Recursively ensures that the specified metadata implementation has setters for every methods.
+   */
+  private static void assertSetters(final PropertyAccessor accessor, final Set<Class<?>> done) {
+    if (done.add(accessor.type)) {
+      /*
+       * Tries to instantiate the implementation. Every implementation should have a
+       * no-args constructor, and their instantiation should never fail. Note that
+       * this dummy will also be of some help later in this test.
+       */
+      final Object dummyInstance;
+      final boolean isImplemented = isImplemented(accessor.type);
+      if (isImplemented)
+        try {
+          dummyInstance =
+              accessor.implementation.getConstructor((Class[]) null).newInstance((Object[]) null);
+        } catch (Exception e) {
+          fail(e.toString());
+          return;
         }
+      else {
+        dummyInstance = null;
+      }
+      /*
+       * Iterates over all properties defined in the interface,
+       * and checks for the existences of a setter method.
+       */
+      final String classname = Classes.getShortName(accessor.type) + '.';
+      final int count = accessor.count();
+      for (int i = 0; i < count; i++) {
+        final String name = accessor.name(i);
+        assertNotNull(String.valueOf(i), name);
+        final String fullname = classname + name;
+        assertEquals(fullname, i, accessor.indexOf(name));
+        if (!isImplemented) {
+          continue;
+        }
+        // We can not continue below this point for
+        // implementations that are only partial.
+        assertTrue(fullname, accessor.isWritable(i));
+        /*
+         * Get the property type. In the special case where the property type
+         * is a collection, get an empty collection from the implementation.
+         * This is needed in order to get the element type in the collection.
+         */
+        Class<?> type = accessor.type(i);
+        if (Collection.class.isAssignableFrom(type)) {
+          final Object example = accessor.get(i, dummyInstance);
+          if (example instanceof CheckedCollection) {
+            type = ((CheckedCollection) example).getElementType();
+          }
+        }
+        final Class<?> impl = getImplementation(type);
+        if (impl != null) {
+          assertSetters(new PropertyAccessor(impl, type), done);
+        }
+      }
     }
+  }
 
-    /**
-     * Returns the implementation class for the specified interface class,
-     * or {@code null} if none.
-     */
-    private static Class<?> getImplementation(final Class<?> type) {
-        if (!CodeList.class.isAssignableFrom(type)) {
-            String name = type.getName();
-            if (name.startsWith(INTERFACE_PACKAGE)) {
-                name = IMPLEMENTATION_PACKAGE +
-                        name.substring(INTERFACE_PACKAGE.length()) + IMPLEMENTATION_SUFFIX;
-                try {
-                    return Class.forName(name);
-                } catch (ClassNotFoundException e) {
-                    /*
-                     * Found a class which is not implemented. Before to report an error,
-                     * check if it is part of the list of known unimplemented interfaces.
-                     */
-                    if (isImplemented(type)) {
-                        fail(e.toString());
-                    }
-                }
-            }
+  /**
+   * Returns the implementation class for the specified interface class, or {@code null} if none.
+   */
+  private static Class<?> getImplementation(final Class<?> type) {
+    if (!CodeList.class.isAssignableFrom(type)) {
+      String name = type.getName();
+      if (name.startsWith(INTERFACE_PACKAGE)) {
+        name =
+            IMPLEMENTATION_PACKAGE
+                + name.substring(INTERFACE_PACKAGE.length())
+                + IMPLEMENTATION_SUFFIX;
+        try {
+          return Class.forName(name);
+        } catch (ClassNotFoundException e) {
+          /*
+           * Found a class which is not implemented. Before to report an error,
+           * check if it is part of the list of known unimplemented interfaces.
+           */
+          if (isImplemented(type)) {
+            fail(e.toString());
+          }
         }
-        return null;
+      }
     }
+    return null;
+  }
 
-    /**
-     * Returns {@code true} if the specified type is not in the list of
-     * known unimplemented types.
-     */
-    private static boolean isImplemented(final Class<?> type) {
-        for (int i=0; i<UNIMPLEMENTED.length; i++) {
-            if (type.equals(UNIMPLEMENTED[i])) {
-                return false;
-            }
-        }
-        return true;
+  /** Returns {@code true} if the specified type is not in the list of known unimplemented types. */
+  private static boolean isImplemented(final Class<?> type) {
+    for (int i = 0; i < UNIMPLEMENTED.length; i++) {
+      if (type.equals(UNIMPLEMENTED[i])) {
+        return false;
+      }
     }
+    return true;
+  }
 }

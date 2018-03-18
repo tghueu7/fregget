@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -18,43 +18,38 @@ package org.geotools.data;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
-
 import org.geotools.feature.IllegalAttributeException;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
-/**
- * 
- * @source $URL$
- */
-class TestReader implements FeatureReader<SimpleFeatureType, SimpleFeature>{
+/** @source $URL$ */
+class TestReader implements FeatureReader<SimpleFeatureType, SimpleFeature> {
 
-    /**
-	 * 
-	 */
-	private SimpleFeatureType type;
-	private SimpleFeature feature;
+  /** */
+  private SimpleFeatureType type;
 
-    public TestReader(SimpleFeatureType type, SimpleFeature f) {
-        this.type = type;
-		this.feature=f;
-    }
-    
-    public SimpleFeatureType getFeatureType() {
-        return type;
-    }
+  private SimpleFeature feature;
 
-    public SimpleFeature next() throws IOException, IllegalAttributeException, NoSuchElementException {
-        next=false;
-        return feature;
-    }
+  public TestReader(SimpleFeatureType type, SimpleFeature f) {
+    this.type = type;
+    this.feature = f;
+  }
 
-    boolean next=true;
-    public boolean hasNext() throws IOException {
-        return next;
-    }
+  public SimpleFeatureType getFeatureType() {
+    return type;
+  }
 
-    public void close() throws IOException {
-    }
-    
+  public SimpleFeature next()
+      throws IOException, IllegalAttributeException, NoSuchElementException {
+    next = false;
+    return feature;
+  }
+
+  boolean next = true;
+
+  public boolean hasNext() throws IOException {
+    return next;
+  }
+
+  public void close() throws IOException {}
 }

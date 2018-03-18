@@ -19,29 +19,26 @@ package org.geotools.data.h2;
 import org.geotools.jdbc.JDBCDataStore;
 import org.geotools.jdbc.JDBCEmptyTestSetup;
 
-/**
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class H2EmptyTestSetup extends JDBCEmptyTestSetup {
 
-    protected H2EmptyTestSetup() {
-        super(new H2TestSetup());
-    }
+  protected H2EmptyTestSetup() {
+    super(new H2TestSetup());
+  }
 
-    @Override
-    protected void setUpDataStore(JDBCDataStore dataStore) {
-        super.setUpDataStore(dataStore);
-    }
+  @Override
+  protected void setUpDataStore(JDBCDataStore dataStore) {
+    super.setUpDataStore(dataStore);
+  }
 
-    @Override
-    protected void createEmptyTable() throws Exception {
-        run( "CREATE TABLE \"geotools\".\"empty\" (id int, geom blob)");
-    }
+  @Override
+  protected void createEmptyTable() throws Exception {
+    run("CREATE TABLE \"geotools\".\"empty\" (id int, geom blob)");
+  }
 
-    @Override
-    protected void dropEmptyTable() throws Exception {
-        runSafe( "DELETE FROM geometry_columns WHERE f_table_name = 'empty'" );
-        runSafe( "DROP TABLE \"geotools\".\"empty\"" );
-    }
+  @Override
+  protected void dropEmptyTable() throws Exception {
+    runSafe("DELETE FROM geometry_columns WHERE f_table_name = 'empty'");
+    runSafe("DROP TABLE \"geotools\".\"empty\"");
+  }
 }

@@ -18,86 +18,76 @@ package org.geotools.validation.spatial;
 
 import org.geotools.validation.DefaultIntegrityValidation;
 
-
 /**
  * PointCoveredByLineValidation purpose.
- * 
- * <p>
- * Basic typeref functionality for a point-polygon validation.
- * </p>
+ *
+ * <p>Basic typeref functionality for a point-polygon validation.
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
  * @source $URL$
  * @version $Id$
  */
-public abstract class PointPolygonAbstractValidation
-    extends DefaultIntegrityValidation {
-    private String restrictedPolygonTypeRef;
-    private String pointTypeRef;
+public abstract class PointPolygonAbstractValidation extends DefaultIntegrityValidation {
+  private String restrictedPolygonTypeRef;
+  private String pointTypeRef;
 
-    /**
-     * PointCoveredByLineValidation constructor.
-     * 
-     * <p>
-     * Super
-     * </p>
-     */
-    public PointPolygonAbstractValidation() {
-        super();
+  /**
+   * PointCoveredByLineValidation constructor.
+   *
+   * <p>Super
+   */
+  public PointPolygonAbstractValidation() {
+    super();
+  }
+
+  /**
+   * Implementation of getTypeNames. Should be called by sub-classes is being overwritten.
+   *
+   * @return Array of typeNames, or empty array for all, null for disabled
+   * @see org.geotools.validation.Validation#getTypeNames()
+   */
+  public String[] getTypeRefs() {
+    if ((pointTypeRef == null) || (restrictedPolygonTypeRef == null)) {
+      return null;
     }
 
-    /**
-     * Implementation of getTypeNames. Should be called by sub-classes is being
-     * overwritten.
-     *
-     * @return Array of typeNames, or empty array for all, null for disabled
-     *
-     * @see org.geotools.validation.Validation#getTypeNames()
-     */
-    public String[] getTypeRefs() {
-        if ((pointTypeRef == null) || (restrictedPolygonTypeRef == null)) {
-            return null;
-        }
+    return new String[] {pointTypeRef, restrictedPolygonTypeRef};
+  }
 
-        return new String[] { pointTypeRef, restrictedPolygonTypeRef };
-    }
+  /**
+   * Access pointTypeRef property.
+   *
+   * @return Returns the pointTypeRef.
+   */
+  public final String getRestrictedPolygonTypeRef() {
+    return restrictedPolygonTypeRef;
+  }
 
-    /**
-     * Access pointTypeRef property.
-     *
-     * @return Returns the pointTypeRef.
-     */
-    public final String getRestrictedPolygonTypeRef() {
-        return restrictedPolygonTypeRef;
-    }
+  /**
+   * Set pointTypeRef to pointTypeRef.
+   *
+   * @param lineTypeRef The pointTypeRef to set.
+   */
+  public final void setRestrictedPolygonTypeRef(String lineTypeRef) {
+    this.restrictedPolygonTypeRef = lineTypeRef;
+  }
 
-    /**
-     * Set pointTypeRef to pointTypeRef.
-     *
-     * @param lineTypeRef The pointTypeRef to set.
-     */
-    public final void setRestrictedPolygonTypeRef(String lineTypeRef) {
-        this.restrictedPolygonTypeRef = lineTypeRef;
-    }
+  /**
+   * Access restrictedPolygonTypeRef property.
+   *
+   * @return Returns the restrictedPolygonTypeRef.
+   */
+  public final String getPointTypeRef() {
+    return pointTypeRef;
+  }
 
-    /**
-     * Access restrictedPolygonTypeRef property.
-     *
-     * @return Returns the restrictedPolygonTypeRef.
-     */
-    public final String getPointTypeRef() {
-        return pointTypeRef;
-    }
-
-    /**
-     * Set restrictedPolygonTypeRef to restrictedPolygonTypeRef.
-     *
-     * @param polygonTypeRef The restrictedPolygonTypeRef to set.
-     */
-    public final void setPointTypeRef(String polygonTypeRef) {
-        this.pointTypeRef = polygonTypeRef;
-    }
+  /**
+   * Set restrictedPolygonTypeRef to restrictedPolygonTypeRef.
+   *
+   * @param polygonTypeRef The restrictedPolygonTypeRef to set.
+   */
+  public final void setPointTypeRef(String polygonTypeRef) {
+    this.pointTypeRef = polygonTypeRef;
+  }
 }

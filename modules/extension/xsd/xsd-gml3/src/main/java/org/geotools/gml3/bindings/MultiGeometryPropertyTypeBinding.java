@@ -16,21 +16,18 @@
  */
 package org.geotools.gml3.bindings;
 
+import com.vividsolutions.jts.geom.GeometryCollection;
 import javax.xml.namespace.QName;
-
 import org.geotools.gml3.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.GeometryCollection;
-
 /**
- * Binding object for the type
- * http://www.opengis.net/gml/3.2:MultiGeometryPropertyType.
- * 
+ * Binding object for the type http://www.opengis.net/gml/3.2:MultiGeometryPropertyType.
+ *
  * <p>
- * 
+ *
  * <pre>
  * &lt;complexType name="MultiGeometryPropertyType">
  *   &lt;annotation>
@@ -47,50 +44,45 @@ import com.vividsolutions.jts.geom.GeometryCollection;
  *   &lt;/attributeGroup>
  * &lt;/complexType>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MultiGeometryPropertyTypeBinding extends AbstractComplexBinding {
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.MultiGeometryPropertyType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return GML.MultiGeometryPropertyType;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return GeometryCollection.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return GeometryCollection.class;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-            throws Exception {
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
 
-        return node.getChildValue(GeometryCollection.class);
-    }
-    
-    @Override
-    public Object getProperty(Object object, QName name) throws Exception {
-        if (GML._GeometricAggregate.equals(name)) {
-            return object;
-        }
-        return super.getProperty(object, name);
-    }
+    return node.getChildValue(GeometryCollection.class);
+  }
 
+  @Override
+  public Object getProperty(Object object, QName name) throws Exception {
+    if (GML._GeometricAggregate.equals(name)) {
+      return object;
+    }
+    return super.getProperty(object, name);
+  }
 }

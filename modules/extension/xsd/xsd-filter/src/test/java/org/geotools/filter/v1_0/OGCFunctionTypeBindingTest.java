@@ -16,41 +16,36 @@
  */
 package org.geotools.filter.v1_0;
 
-import org.w3c.dom.Document;
-import org.opengis.filter.expression.Function;
 import org.geotools.xml.Binding;
+import org.opengis.filter.expression.Function;
+import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class OGCFunctionTypeBindingTest extends FilterTestSupport {
-    public void testType() {
-        assertEquals(Function.class, binding(OGC.FunctionType).getType());
-    }
+  public void testType() {
+    assertEquals(Function.class, binding(OGC.FunctionType).getType());
+  }
 
-    public void testExectionMode() {
-        assertEquals(Binding.OVERRIDE, binding(OGC.FunctionType).getExecutionMode());
-    }
+  public void testExectionMode() {
+    assertEquals(Binding.OVERRIDE, binding(OGC.FunctionType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        FilterMockData.function(document, document);
+  public void testParse() throws Exception {
+    FilterMockData.function(document, document);
 
-        Function function = (Function) parse();
+    Function function = (Function) parse();
 
-        assertEquals("min", function.getName());
-        assertEquals(2, function.getParameters().size());
-    }
+    assertEquals("min", function.getName());
+    assertEquals(2, function.getParameters().size());
+  }
 
-    public void testEncode() throws Exception {
-        Document doc = encode(FilterMockData.function(), OGC.Function);
+  public void testEncode() throws Exception {
+    Document doc = encode(FilterMockData.function(), OGC.Function);
 
-        assertEquals("min", doc.getDocumentElement().getAttribute("name"));
-        assertEquals(1,
-            doc.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
-        assertEquals(1,
-            doc.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
-    }
+    assertEquals("min", doc.getDocumentElement().getAttribute("name"));
+    assertEquals(
+        1, doc.getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
+    assertEquals(
+        1, doc.getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+  }
 }

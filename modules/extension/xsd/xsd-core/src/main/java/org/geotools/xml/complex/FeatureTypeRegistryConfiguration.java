@@ -17,30 +17,27 @@
 package org.geotools.xml.complex;
 
 import java.util.Collection;
-
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.geotools.xml.Configuration;
 import org.opengis.feature.type.Schema;
 
 /**
- * Configuration for a Complex Feature Type Registry (see gt-complex module),
- * - tells the registry which schemas and configurations to use
- * - tells the registry when to create a Feature Type, a Geometry Type or set Identifiable
- * 
- * @author Niels Charlier
+ * Configuration for a Complex Feature Type Registry (see gt-complex module), - tells the registry
+ * which schemas and configurations to use - tells the registry when to create a Feature Type, a
+ * Geometry Type or set Identifiable
  *
+ * @author Niels Charlier
  */
 public interface FeatureTypeRegistryConfiguration {
-    
-    Collection<Schema> getSchemas();
-    
-    Collection<Configuration> getConfigurations();
 
-    boolean isFeatureType(XSDTypeDefinition typeDefinition);
+  Collection<Schema> getSchemas();
 
-    boolean isGeometryType(XSDTypeDefinition typeDefinition);
+  Collection<Configuration> getConfigurations();
 
-    boolean isIdentifiable(XSDComplexTypeDefinition typeDefinition);
+  boolean isFeatureType(XSDTypeDefinition typeDefinition);
 
+  boolean isGeometryType(XSDTypeDefinition typeDefinition);
+
+  boolean isIdentifiable(XSDComplexTypeDefinition typeDefinition);
 }

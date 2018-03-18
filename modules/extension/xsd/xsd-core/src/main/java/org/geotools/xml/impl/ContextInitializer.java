@@ -21,21 +21,20 @@ import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 import org.picocontainer.MutablePicoContainer;
 
-
 /**
- * Invokes the {@link ComplexBinding#initializeChildContext(ElementInstance, Node, MutablePicoContainer)} 
- * event/callback.
+ * Invokes the {@link ComplexBinding#initializeChildContext(ElementInstance, Node,
+ * MutablePicoContainer)} event/callback.
  *
  * @source $URL$
  */
 public class ContextInitializer extends ComplexBindingCallback {
 
-    public ContextInitializer(ElementInstance instance, Node node, MutablePicoContainer context) {
-        super(instance, node, context);
-    }
+  public ContextInitializer(ElementInstance instance, Node node, MutablePicoContainer context) {
+    super(instance, node, context);
+  }
 
-    @Override
-    protected void doCallback(ComplexBinding binding) {
-        binding.initializeChildContext(instance, node, context);
-    }
+  @Override
+  protected void doCallback(ComplexBinding binding) {
+    binding.initializeChildContext(instance, node, context);
+  }
 }

@@ -16,79 +16,75 @@
  */
 package org.geotools.gml3.bindings.ext;
 
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
 import javax.xml.namespace.QName;
-
 import org.geotools.gml3.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Polygon;
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SurfaceTypeBinding extends AbstractComplexBinding {
 
-    GeometryFactory gf;
-    
-    public SurfaceTypeBinding(GeometryFactory gf) {
-        this.gf = gf;
+  GeometryFactory gf;
+
+  public SurfaceTypeBinding(GeometryFactory gf) {
+    this.gf = gf;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.SurfaceType;
+  }
+
+  @Override
+  public int getExecutionMode() {
+    return BEFORE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return MultiPolygon.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Polygon[] patches = (Polygon[]) node.getChildValue(Polygon[].class);
+    MultiPolygon mp = (MultiPolygon) node.getChildValue(MultiPolygon.class);
+    if (mp != null) {
+      return mp;
+    } else {
+      return gf.createMultiPolygon(patches);
     }
-    
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.SurfaceType;
-    }
-    
-    @Override
-    public int getExecutionMode() {
-        return BEFORE;
+  }
+
+  @Override
+  public Object getProperty(Object object, QName name) throws Exception {
+    if ("patches".equals(name.getLocalPart())) {
+      MultiPolygon multiSurface = (MultiPolygon) object;
+      Polygon[] members = new Polygon[multiSurface.getNumGeometries()];
+
+      for (int i = 0; i < members.length; i++) {
+        members[i] = (Polygon) multiSurface.getGeometryN(i);
+      }
+
+      return members;
     }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return MultiPolygon.class;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        Polygon[] patches = (Polygon[])node.getChildValue(Polygon[].class);
-        MultiPolygon mp = (MultiPolygon)node.getChildValue(MultiPolygon.class);
-       if(mp != null){
-            return mp;
-        }else{
-            return gf.createMultiPolygon(patches);
-        }
-    }
-    
-    @Override
-    public Object getProperty(Object object, QName name) throws Exception {
-        if ("patches".equals(name.getLocalPart())) {
-            MultiPolygon multiSurface = (MultiPolygon) object;
-            Polygon[] members = new Polygon[multiSurface.getNumGeometries()];
-
-            for (int i = 0; i < members.length; i++) {
-                members[i] = (Polygon) multiSurface.getGeometryN(i);
-            }
-
-            return members;
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

@@ -16,10 +16,7 @@
  */
 package org.geotools.kml.bindings;
 
-import java.util.Collection;
 import javax.xml.namespace.QName;
-import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
@@ -28,13 +25,15 @@ import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.Binding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
-
+import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * Binding object for the type http://earth.google.com/kml/2.1:FolderType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType final="#all" name="FolderType"&gt;
  *      &lt;complexContent&gt;
@@ -48,70 +47,66 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class FolderTypeBinding extends AbstractComplexBinding {
-    public static final SimpleFeatureType FeatureType;
-    static {
-        SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
-        tb.init(FeatureTypeBinding.FeatureType);
-        tb.setName("folder");
+  public static final SimpleFeatureType FeatureType;
 
-        tb.add("name", String.class);
-        tb.add("description", String.class);
+  static {
+    SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
+    tb.init(FeatureTypeBinding.FeatureType);
+    tb.setName("folder");
 
-        //&lt;element maxOccurs="unbounded" minOccurs="0" ref="kml:Feature"/&gt;
-        tb.add("Feature", FeatureCollection.class);
+    tb.add("name", String.class);
+    tb.add("description", String.class);
 
-        FeatureType = tb.buildFeatureType();
-    }
+    // &lt;element maxOccurs="unbounded" minOccurs="0" ref="kml:Feature"/&gt;
+    tb.add("Feature", FeatureCollection.class);
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return KML.FolderType;
-    }
+    FeatureType = tb.buildFeatureType();
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return SimpleFeature.class;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return KML.FolderType;
+  }
 
-    public int getExecutionMode() {
-        return Binding.AFTER;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return SimpleFeature.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        SimpleFeatureBuilder b = new SimpleFeatureBuilder(FeatureType);
+  public int getExecutionMode() {
+    return Binding.AFTER;
+  }
 
-        SimpleFeature feature = (SimpleFeature) value;
-        b.init(feature);
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    SimpleFeatureBuilder b = new SimpleFeatureBuilder(FeatureType);
 
-        b.set("name", node.getChildValue("name"));
-        b.set("description", node.getChildValue("description"));
-        
-        //&lt;element maxOccurs="unbounded" minOccurs="0" ref="kml:Feature"/&gt;
-        b.set("Feature", node.getChildValues(SimpleFeature.class));
-        
-        return b.buildFeature(feature.getID());
-    }
+    SimpleFeature feature = (SimpleFeature) value;
+    b.init(feature);
+
+    b.set("name", node.getChildValue("name"));
+    b.set("description", node.getChildValue("description"));
+
+    // &lt;element maxOccurs="unbounded" minOccurs="0" ref="kml:Feature"/&gt;
+    b.set("Feature", node.getChildValues(SimpleFeature.class));
+
+    return b.buildFeature(feature.getID());
+  }
 }

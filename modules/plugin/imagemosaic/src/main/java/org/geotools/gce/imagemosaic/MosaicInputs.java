@@ -22,50 +22,52 @@ import java.util.List;
 /**
  * This class represents the inputs for a mosaic JAI operation.
  *
- * <p>
- * It contains
- * <ol>
- * <li>the images</li>
- * <li>their transparencies</li>
- * <li>the ROIs</li>
- * <li>source thresholds</li>
- * <li>indications on the alpha</li>
- * </ol>
- * 
- * @author Simone Giannecchini, GeoSolutions SAS
+ * <p>It contains
  *
+ * <ol>
+ *   <li>the images
+ *   <li>their transparencies
+ *   <li>the ROIs
+ *   <li>source thresholds
+ *   <li>indications on the alpha
+ * </ol>
+ *
+ * @author Simone Giannecchini, GeoSolutions SAS
  */
 public class MosaicInputs {
 
-    private final boolean doInputTransparency;
+  private final boolean doInputTransparency;
 
-    private final boolean hasAlpha;
+  private final boolean hasAlpha;
 
-    private final List<MosaicElement> sources;
+  private final List<MosaicElement> sources;
 
-    private final double[][] sourceThreshold;
+  private final double[][] sourceThreshold;
 
-    public MosaicInputs(boolean doInputTransparency, boolean hasAlpha, List<MosaicElement> sources,
-            double[][] sourceThreshold) {
-        this.doInputTransparency = doInputTransparency;
-        this.hasAlpha = hasAlpha;
-        this.sources = sources;
-        this.sourceThreshold = sourceThreshold;
-    }
+  public MosaicInputs(
+      boolean doInputTransparency,
+      boolean hasAlpha,
+      List<MosaicElement> sources,
+      double[][] sourceThreshold) {
+    this.doInputTransparency = doInputTransparency;
+    this.hasAlpha = hasAlpha;
+    this.sources = sources;
+    this.sourceThreshold = sourceThreshold;
+  }
 
-    public boolean isDoInputTransparency() {
-        return doInputTransparency;
-    }
+  public boolean isDoInputTransparency() {
+    return doInputTransparency;
+  }
 
-    public boolean isHasAlpha() {
-        return hasAlpha;
-    }
+  public boolean isHasAlpha() {
+    return hasAlpha;
+  }
 
-    public List<MosaicElement> getSources() {
-        return sources;
-    }
+  public List<MosaicElement> getSources() {
+    return sources;
+  }
 
-    public double[][] getSourceThreshold() {
-        return sourceThreshold;
-    }
+  public double[][] getSourceThreshold() {
+    return sourceThreshold;
+  }
 }

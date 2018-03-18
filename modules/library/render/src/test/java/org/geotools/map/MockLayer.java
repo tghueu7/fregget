@@ -21,7 +21,7 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 
 /**
  * Mock layer class for testing MapContent and friends.
- * 
+ *
  * @author Michael Bedward
  * @since 8.0
  * @source $URL: $
@@ -29,33 +29,32 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
  */
 public class MockLayer extends Layer {
 
-    private final ReferencedEnvelope bounds;
-    private boolean disposed;
+  private final ReferencedEnvelope bounds;
+  private boolean disposed;
 
-    MockLayer(ReferencedEnvelope bounds) {
-        if (bounds != null) {
-            this.bounds = new ReferencedEnvelope(bounds);
-        } else {
-            this.bounds = new ReferencedEnvelope();
-        }
-        
-        disposed = false;
+  MockLayer(ReferencedEnvelope bounds) {
+    if (bounds != null) {
+      this.bounds = new ReferencedEnvelope(bounds);
+    } else {
+      this.bounds = new ReferencedEnvelope();
     }
 
-    @Override
-    public ReferencedEnvelope getBounds() {
-        return bounds;
-    }
+    disposed = false;
+  }
 
-    @Override
-    public void dispose() {
-        preDispose();
-        super.dispose();
-        disposed = true;
-    }
+  @Override
+  public ReferencedEnvelope getBounds() {
+    return bounds;
+  }
 
-    public boolean isDisposed() {
-        return disposed;
-    }
-    
+  @Override
+  public void dispose() {
+    preDispose();
+    super.dispose();
+    disposed = true;
+  }
+
+  public boolean isDisposed() {
+    return disposed;
+  }
 }

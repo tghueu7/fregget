@@ -18,15 +18,12 @@ package org.geotools.data.shapefile.index;
 
 /**
  * @author Tommaso Nolli
- *
- *
  * @source $URL$
  */
 public interface Lock {
 
-    public static short SHARED = 1;
-    public static short EXCLUSIVE = 2;
+  public static short SHARED = 1;
+  public static short EXCLUSIVE = 2;
 
-    public short getType();
-
+  public short getType();
 }

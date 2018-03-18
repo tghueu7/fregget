@@ -18,49 +18,39 @@ package org.geotools.jdbc;
 
 import java.util.List;
 
-
 /**
  * Primary key of a table.
  *
  * @author Justin Deoliveira, The Open Planning Project, jdeolive@openplans.org
- *
- *
- *
- *
  * @source $URL$
  */
 public class PrimaryKey {
-    /**
-     * The columns making up the primary key.
-     */
-    List<PrimaryKeyColumn> columns;
-    
-    /**
-     * Table name
-     */
-    String tableName;
-   
-    public PrimaryKey( String tableName, List<PrimaryKeyColumn> columns ) {
-        this.tableName = tableName;
-        this.columns = columns;
-    }
-    
-    public List<PrimaryKeyColumn> getColumns() {
-        return columns;
-    }
-    
-    
-    public String getTableName() {
-        return tableName;
+  /** The columns making up the primary key. */
+  List<PrimaryKeyColumn> columns;
+
+  /** Table name */
+  String tableName;
+
+  public PrimaryKey(String tableName, List<PrimaryKeyColumn> columns) {
+    this.tableName = tableName;
+    this.columns = columns;
+  }
+
+  public List<PrimaryKeyColumn> getColumns() {
+    return columns;
+  }
+
+  public String getTableName() {
+    return tableName;
+  }
+
+  public PrimaryKeyColumn getColumn(String name) {
+    for (PrimaryKeyColumn col : columns) {
+      if (name.equals((col.getName()))) {
+        return col;
+      }
     }
 
-    public PrimaryKeyColumn getColumn(String name) {
-        for (PrimaryKeyColumn col : columns) {
-            if (name.equals((col.getName()))) {
-                return col;
-            }
-        }
-        
-        return null;
-    }
+    return null;
+  }
 }

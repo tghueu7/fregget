@@ -21,12 +21,12 @@ import org.geotools.xml.InstanceComponent;
 import org.geotools.xml.SimpleBinding;
 import org.geotools.xs.XS;
 
-
 /**
  * Binding object for the type http://www.w3.org/2001/XMLSchema:double.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xs:simpleType name="double" id="double"&gt;
  *      &lt;xs:annotation&gt;
@@ -52,73 +52,70 @@ import org.geotools.xs.XS;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class XSDoubleBinding implements SimpleBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return XS.DOUBLE;
+  /** @generated */
+  public QName getTarget() {
+    return XS.DOUBLE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link java.lang.Double}.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Double.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * This binding returns objects of type {@link java.lang.Double}. This is an override so value is
+   * null.
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    if ("INF".equals(value)) {
+      return new Double(Double.POSITIVE_INFINITY);
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return OVERRIDE;
+    return new Double((String) value);
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public String encode(Object object, String value) {
+    Double d = (Double) object;
+
+    if (Double.POSITIVE_INFINITY == d.doubleValue()) {
+      return "INF";
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link java.lang.Double}.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Double.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * This binding returns objects of type {@link java.lang.Double}. This is an
-     * override so value is null.
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        if ("INF".equals(value)) {
-            return new Double(Double.POSITIVE_INFINITY);
-        }
-
-        return new Double((String) value);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public String encode(Object object, String value) {
-        Double d = (Double) object;
-
-        if (Double.POSITIVE_INFINITY == d.doubleValue()) {
-            return "INF";
-        }
-
-        return d.toString();
-    }
+    return d.toString();
+  }
 }

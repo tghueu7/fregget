@@ -21,26 +21,22 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 
- *
- * @author Niels Charlier
- */
+/** @author Niels Charlier */
 public class ResolutionExtractorSPI implements PropertiesCollectorSPI {
 
-    public String getName() {
-        return getClass().getSimpleName();
-    }
+  public String getName() {
+    return getClass().getSimpleName();
+  }
 
-    public boolean isAvailable() {
-        return true;
-    }
+  public boolean isAvailable() {
+    return true;
+  }
 
-    public Map<Key, ?> getImplementationHints() {
-        return Collections.emptyMap();
-    }
+  public Map<Key, ?> getImplementationHints() {
+    return Collections.emptyMap();
+  }
 
-    public ResolutionExtractor create(final Object o, final List<String> propertyNames) {
-        return new ResolutionExtractor(this, propertyNames, ResolutionExtractor.Axis.BOTH);
-    }
+  public ResolutionExtractor create(final Object o, final List<String> propertyNames) {
+    return new ResolutionExtractor(this, propertyNames, ResolutionExtractor.Axis.BOTH);
+  }
 }

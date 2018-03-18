@@ -23,12 +23,12 @@ import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-
 /**
  * Strategy object for the type http://mails/refractions/net:mailsType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="mailsType"&gt;
  *      &lt;xsd:sequence maxOccurs="unbounded" minOccurs="0"&gt;
@@ -38,50 +38,44 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MLMailsTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return ML.MAILSTYPE;
+  /** @generated */
+  public QName getTarget() {
+    return ML.MAILSTYPE;
+  }
+
+  public Class getType() {
+    return List.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    ArrayList list = new ArrayList();
+    List children = node.getChildren();
+
+    for (int i = 0; i < children.size(); i++) {
+      list.add(((Node) children.get(i)).getValue());
     }
 
-    public Class getType() {
-        return List.class;
+    return list;
+  }
+
+  @Override
+  public Object getProperty(Object object, QName name) throws Exception {
+    if ("mail".equals(name.getLocalPart())) {
+      return object;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        ArrayList list = new ArrayList();
-        List children = node.getChildren();
-
-        for (int i = 0; i < children.size(); i++) {
-            list.add(((Node) children.get(i)).getValue());
-        }
-
-        return list;
-    }
-    
-    @Override
-    public Object getProperty(Object object, QName name) throws Exception {
-        if ( "mail".equals( name.getLocalPart() ) ) {
-            return object;
-        }
-        
-        return null;
-    }
+    return null;
+  }
 }

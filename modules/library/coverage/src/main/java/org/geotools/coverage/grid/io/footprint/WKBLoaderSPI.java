@@ -16,43 +16,39 @@
  */
 package org.geotools.coverage.grid.io.footprint;
 
-import java.io.File;
-import java.io.FileInputStream;
-
-import org.apache.commons.io.IOUtils;
-
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.InputStreamInStream;
 import com.vividsolutions.jts.io.WKBReader;
+import java.io.File;
+import java.io.FileInputStream;
+import org.apache.commons.io.IOUtils;
 
 public class WKBLoaderSPI implements FootprintLoaderSpi {
 
+  @Override
+  public FootprintLoader createLoader() {
+    return new WKBLoader();
+  }
+
+  /** Loads WKB files */
+  public class WKBLoader implements FootprintLoader {
+
+    WKBReader reader = new WKBReader();
+
     @Override
-    public FootprintLoader createLoader() {
-        return new WKBLoader();
-    }
-
-    /**
-     * Loads WKB files
-     */
-    public class WKBLoader implements FootprintLoader {
-
-        WKBReader reader = new WKBReader();
-
-        @Override
-        public Geometry loadFootprint(String pathNoExtension) throws Exception {
-            File file = new File(pathNoExtension + ".wkb");
-            if (file.exists()) {
-                FileInputStream is = null;
-                try {
-                    is = new FileInputStream(file);
-                    return reader.read(new InputStreamInStream(is));
-                } finally {
-                    IOUtils.closeQuietly(is);
-                }
-            }
-
-            return null;
+    public Geometry loadFootprint(String pathNoExtension) throws Exception {
+      File file = new File(pathNoExtension + ".wkb");
+      if (file.exists()) {
+        FileInputStream is = null;
+        try {
+          is = new FileInputStream(file);
+          return reader.read(new InputStreamInStream(is));
+        } finally {
+          IOUtils.closeQuietly(is);
         }
+      }
+
+      return null;
     }
+  }
 }

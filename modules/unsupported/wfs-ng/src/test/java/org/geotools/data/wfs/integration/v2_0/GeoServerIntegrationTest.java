@@ -19,8 +19,9 @@ package org.geotools.data.wfs.integration.v2_0;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
 import java.io.IOException;
-
 import org.geotools.data.DataStore;
 import org.geotools.data.DataUtilities;
 import org.geotools.data.ResourceInfo;
@@ -36,91 +37,96 @@ import org.geotools.referencing.CRS;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-
-
 public class GeoServerIntegrationTest extends AbstractIntegrationTest {
 
-    protected WFSClient wfs;
-    
-    @Override
-    public DataStore createDataStore() throws Exception {        
-        wfs = mockUpWfsClient();
+  protected WFSClient wfs;
 
-        WFSDataStore wfsds = new WFSDataStore(wfs);
-        return wfsds;
-    }
+  @Override
+  public DataStore createDataStore() throws Exception {
+    wfs = mockUpWfsClient();
 
-    private WFSClient mockUpWfsClient() throws Exception {
-        WFSConfig config = WFSTestData.getGmlCompatibleConfig();
-        String baseDirectory = "GeoServer_2.2.x/2.0.0/";
+    WFSDataStore wfsds = new WFSDataStore(wfs);
+    return wfsds;
+  }
 
-        return new IntegrationTestWFSClient(baseDirectory, config);
-    }
+  private WFSClient mockUpWfsClient() throws Exception {
+    WFSConfig config = WFSTestData.getGmlCompatibleConfig();
+    String baseDirectory = "GeoServer_2.2.x/2.0.0/";
 
-    @Override
-    public DataStore tearDownDataStore(DataStore data) throws Exception {
-        data.dispose();
-        return data;
-    }
-    
-    @Override
-    protected TestDataType createFirstType() throws Exception {
-        TestDataType testDataType = new TestDataType();
-                   
-        testDataType.featureType = DataUtilities.createType(
-                "roadsType", "the_geom:MultiLineString,cat:java.lang.Long,label:String");
-        testDataType.featureType = DataUtilities.createSubType(testDataType.featureType, null,
-                CRS.decode("urn:x-ogc:def:crs:EPSG:6.11.2:26713"));
-        
-        testDataType.stringAttribute = "label";
-        testDataType.numberOfFeatures = 3;
-        testDataType.typeName = "sf_roads";
-        testDataType.newFeature = SimpleFeatureBuilder.build(testDataType.featureType, new Object[] {                
-                new GeometryFactory().createLineString(new Coordinate[] {new Coordinate(1,2), new Coordinate(2,3)} ),
-                new Integer(4), "somekindofroad" }, "roads.4");
-                
-        return testDataType;
-    }
+    return new IntegrationTestWFSClient(baseDirectory, config);
+  }
 
-    @Override
-    protected TestDataType createSecondType() throws Exception {
-        TestDataType testDataType = new TestDataType();
-          
-        testDataType.featureType = DataUtilities.createType(
-                "archsitesType", "the_geom:Point,cat:java.lang.Long,str1:String");
-        testDataType.featureType = DataUtilities.createSubType(testDataType.featureType, null,
-                CRS.decode("urn:x-ogc:def:crs:EPSG:6.11.2:26713", true));
-        
-        testDataType.stringAttribute = "str1";
-        testDataType.numberOfFeatures = 3;
-        testDataType.typeName = "sf_archsites";
-        return testDataType;
-    }      
+  @Override
+  public DataStore tearDownDataStore(DataStore data) throws Exception {
+    data.dispose();
+    return data;
+  }
 
-    @Test
-    public void testInfo() throws IOException {
-        SimpleFeatureStore store1 = (SimpleFeatureStore) data.getFeatureSource(first.typeName);
-        
-        ResourceInfo info = store1.getInfo();
-       
-        assertEquals("sf_roads", info.getName());
-        assertEquals("Generated from sfRoads", info.getDescription());
-        assertTrue(info.getKeywords().contains("sfRoads roads"));
-        assertEquals("roads_Type", info.getTitle());
-        assertEquals("http://www.openplans.org/spearfish", info.getSchema().toString());
-        assertEquals(589275.24, info.getBounds().getMinX(), 0.01);
-        assertEquals("EPSG:NAD27 / UTM zone 13N", info.getCRS().getName().toString());
-    }
-    
-    @Override
-    @Ignore
-    @Test
-    public void testFeatureEvents() throws Exception {
-        // temporarily disabled until events issue solved
-    }
-     
+  @Override
+  protected TestDataType createFirstType() throws Exception {
+    TestDataType testDataType = new TestDataType();
 
+    testDataType.featureType =
+        DataUtilities.createType(
+            "roadsType", "the_geom:MultiLineString,cat:java.lang.Long,label:String");
+    testDataType.featureType =
+        DataUtilities.createSubType(
+            testDataType.featureType, null, CRS.decode("urn:x-ogc:def:crs:EPSG:6.11.2:26713"));
 
+    testDataType.stringAttribute = "label";
+    testDataType.numberOfFeatures = 3;
+    testDataType.typeName = "sf_roads";
+    testDataType.newFeature =
+        SimpleFeatureBuilder.build(
+            testDataType.featureType,
+            new Object[] {
+              new GeometryFactory()
+                  .createLineString(new Coordinate[] {new Coordinate(1, 2), new Coordinate(2, 3)}),
+              new Integer(4),
+              "somekindofroad"
+            },
+            "roads.4");
+
+    return testDataType;
+  }
+
+  @Override
+  protected TestDataType createSecondType() throws Exception {
+    TestDataType testDataType = new TestDataType();
+
+    testDataType.featureType =
+        DataUtilities.createType("archsitesType", "the_geom:Point,cat:java.lang.Long,str1:String");
+    testDataType.featureType =
+        DataUtilities.createSubType(
+            testDataType.featureType,
+            null,
+            CRS.decode("urn:x-ogc:def:crs:EPSG:6.11.2:26713", true));
+
+    testDataType.stringAttribute = "str1";
+    testDataType.numberOfFeatures = 3;
+    testDataType.typeName = "sf_archsites";
+    return testDataType;
+  }
+
+  @Test
+  public void testInfo() throws IOException {
+    SimpleFeatureStore store1 = (SimpleFeatureStore) data.getFeatureSource(first.typeName);
+
+    ResourceInfo info = store1.getInfo();
+
+    assertEquals("sf_roads", info.getName());
+    assertEquals("Generated from sfRoads", info.getDescription());
+    assertTrue(info.getKeywords().contains("sfRoads roads"));
+    assertEquals("roads_Type", info.getTitle());
+    assertEquals("http://www.openplans.org/spearfish", info.getSchema().toString());
+    assertEquals(589275.24, info.getBounds().getMinX(), 0.01);
+    assertEquals("EPSG:NAD27 / UTM zone 13N", info.getCRS().getName().toString());
+  }
+
+  @Override
+  @Ignore
+  @Test
+  public void testFeatureEvents() throws Exception {
+    // temporarily disabled until events issue solved
+  }
 }

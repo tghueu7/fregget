@@ -18,33 +18,29 @@ package org.geotools.data.mysql;
 
 import org.geotools.jdbc.JDBCGeometrylessTestSetup;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class MySQLGeometrylessTestSetup extends JDBCGeometrylessTestSetup {
 
-    protected MySQLGeometrylessTestSetup() {
-        super(new MySQLTestSetup());
-    }
+  protected MySQLGeometrylessTestSetup() {
+    super(new MySQLTestSetup());
+  }
 
-    @Override
-    protected void createPersonTable() throws Exception {
-        run("CREATE TABLE person(fid int AUTO_INCREMENT PRIMARY KEY, id int, "
-                + "name varchar(255), age int)");
-        run("INSERT INTO person (id,name,age) VALUES (0,'Paul',32)");
-        run("INSERT INTO person (id,name,age) VALUES (0,'Anne',40)");
-    }
+  @Override
+  protected void createPersonTable() throws Exception {
+    run(
+        "CREATE TABLE person(fid int AUTO_INCREMENT PRIMARY KEY, id int, "
+            + "name varchar(255), age int)");
+    run("INSERT INTO person (id,name,age) VALUES (0,'Paul',32)");
+    run("INSERT INTO person (id,name,age) VALUES (0,'Anne',40)");
+  }
 
-    @Override
-    protected void dropPersonTable() throws Exception {
-        run("DROP TABLE person");
-    }
+  @Override
+  protected void dropPersonTable() throws Exception {
+    run("DROP TABLE person");
+  }
 
-    @Override
-    protected void dropZipCodeTable() throws Exception {
-        run("DROP TABLE zipcode");
-    }
-
+  @Override
+  protected void dropZipCodeTable() throws Exception {
+    run("DROP TABLE zipcode");
+  }
 }

@@ -20,42 +20,41 @@ package org.geotools.data.wfs.internal.v2_0.storedquery;
 import java.io.Serializable;
 
 public class ParameterMappingDefaultValue implements ParameterMapping, Serializable {
-    private String defaultValue;
-    private String parameterName;
-    private boolean forcible;
+  private String defaultValue;
+  private String parameterName;
+  private boolean forcible;
 
-    public ParameterMappingDefaultValue(String name, boolean forcible, String defaultValue) {
-        setParameterName(name);
-        setForcible(forcible);
-        setDefaultValue(defaultValue);
-    }
+  public ParameterMappingDefaultValue(String name, boolean forcible, String defaultValue) {
+    setParameterName(name);
+    setForcible(forcible);
+    setDefaultValue(defaultValue);
+  }
 
-    public ParameterMappingDefaultValue() {
-    }
+  public ParameterMappingDefaultValue() {}
 
-    public void setForcible(boolean forcible) {
-        this.forcible = forcible;
-    }
+  public void setForcible(boolean forcible) {
+    this.forcible = forcible;
+  }
 
-    @Override
-    public boolean isForcible() {
-        return forcible;
-    }
+  @Override
+  public boolean isForcible() {
+    return forcible;
+  }
 
-    public void setParameterName(String parameterName) {
-        this.parameterName = parameterName;
-    }
+  public void setParameterName(String parameterName) {
+    this.parameterName = parameterName;
+  }
 
-    @Override
-    public String getParameterName() {
-        return parameterName;
-    }
+  @Override
+  public String getParameterName() {
+    return parameterName;
+  }
 
-    public void setDefaultValue(String defaultValue) {
-        this.defaultValue = defaultValue;
-    }
+  public void setDefaultValue(String defaultValue) {
+    this.defaultValue = defaultValue;
+  }
 
-    public String getDefaultValue() {
-        return defaultValue;
-    }
+  public String getDefaultValue() {
+    return defaultValue;
+  }
 }

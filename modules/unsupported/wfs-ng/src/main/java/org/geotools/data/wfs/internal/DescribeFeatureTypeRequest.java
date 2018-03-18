@@ -22,10 +22,9 @@ import javax.xml.namespace.QName;
 
 public class DescribeFeatureTypeRequest extends WFSRequest {
 
-    private QName typeName;
+  private QName typeName;
 
-    public DescribeFeatureTypeRequest(WFSConfig config, WFSStrategy strategy) {
-        super(DESCRIBE_FEATURETYPE, config, strategy);
-    }
-
+  public DescribeFeatureTypeRequest(WFSConfig config, WFSStrategy strategy) {
+    super(DESCRIBE_FEATURETYPE, config, strategy);
+  }
 }

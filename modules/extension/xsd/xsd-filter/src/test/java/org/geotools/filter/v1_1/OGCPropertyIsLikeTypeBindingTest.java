@@ -21,59 +21,58 @@ import org.opengis.filter.PropertyIsLike;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class OGCPropertyIsLikeTypeBindingTest extends FilterTestSupport {
 
-    public void testParse() throws Exception {
-        FilterMockData.propertyIsLike(document, document);
+  public void testParse() throws Exception {
+    FilterMockData.propertyIsLike(document, document);
 
-        PropertyIsLike isLike = (PropertyIsLike) parse();
+    PropertyIsLike isLike = (PropertyIsLike) parse();
 
-        assertNotNull(isLike.getExpression());
-        assertNotNull(isLike.getLiteral());
+    assertNotNull(isLike.getExpression());
+    assertNotNull(isLike.getLiteral());
 
-        assertEquals("x", isLike.getWildCard());
-        assertEquals("y", isLike.getSingleChar());
-        assertEquals("z", isLike.getEscape());
-        assertEquals(false, isLike.isMatchingCase());
-    }
-    
-    public void testEncode() throws Exception {
-        Document doc = encode(FilterMockData.propertyIsLike(), OGC.PropertyIsLike);
-        
-        Element pn = getElementByQName( doc, OGC.PropertyName );
-        assertNotNull(pn);
-        assertEquals( "foo", pn.getFirstChild().getNodeValue() );
-        
-        Element l = getElementByQName( doc, OGC.Literal );
-        assertEquals( "foo", l.getFirstChild().getNodeValue() );
-        
-        assertEquals("x", doc.getDocumentElement().getAttribute("wildCard"));
-        assertEquals("y", doc.getDocumentElement().getAttribute("singleChar"));
-        assertEquals("z", doc.getDocumentElement().getAttribute("escapeChar"));
-        assertEquals("false", doc.getDocumentElement().getAttribute("matchCase"));
-    }
-    
-    public void testEncodeAsFilter() throws Exception {
-        Document doc = encode(FilterMockData.propertyIsLike(), OGC.Filter);
-        // print(doc);
-        
-        assertEquals(1,
-            doc.getDocumentElement()
-               .getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart()).getLength());
-        assertEquals(1,
-            doc.getDocumentElement()
-               .getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart()).getLength());
+    assertEquals("x", isLike.getWildCard());
+    assertEquals("y", isLike.getSingleChar());
+    assertEquals("z", isLike.getEscape());
+    assertEquals(false, isLike.isMatchingCase());
+  }
 
-        Element e = getElementByQName( doc, OGC.PropertyIsLike);
-        assertEquals("x", e.getAttribute("wildCard"));
-        assertEquals("y", e.getAttribute("singleChar"));
-        assertEquals("z", e.getAttribute("escapeChar"));
-        assertEquals("false", e.getAttribute("matchCase"));
-    }
+  public void testEncode() throws Exception {
+    Document doc = encode(FilterMockData.propertyIsLike(), OGC.PropertyIsLike);
+
+    Element pn = getElementByQName(doc, OGC.PropertyName);
+    assertNotNull(pn);
+    assertEquals("foo", pn.getFirstChild().getNodeValue());
+
+    Element l = getElementByQName(doc, OGC.Literal);
+    assertEquals("foo", l.getFirstChild().getNodeValue());
+
+    assertEquals("x", doc.getDocumentElement().getAttribute("wildCard"));
+    assertEquals("y", doc.getDocumentElement().getAttribute("singleChar"));
+    assertEquals("z", doc.getDocumentElement().getAttribute("escapeChar"));
+    assertEquals("false", doc.getDocumentElement().getAttribute("matchCase"));
+  }
+
+  public void testEncodeAsFilter() throws Exception {
+    Document doc = encode(FilterMockData.propertyIsLike(), OGC.Filter);
+    // print(doc);
+
+    assertEquals(
+        1,
+        doc.getDocumentElement()
+            .getElementsByTagNameNS(OGC.NAMESPACE, OGC.PropertyName.getLocalPart())
+            .getLength());
+    assertEquals(
+        1,
+        doc.getDocumentElement()
+            .getElementsByTagNameNS(OGC.NAMESPACE, OGC.Literal.getLocalPart())
+            .getLength());
+
+    Element e = getElementByQName(doc, OGC.PropertyIsLike);
+    assertEquals("x", e.getAttribute("wildCard"));
+    assertEquals("y", e.getAttribute("singleChar"));
+    assertEquals("z", e.getAttribute("escapeChar"));
+    assertEquals("false", e.getAttribute("matchCase"));
+  }
 }

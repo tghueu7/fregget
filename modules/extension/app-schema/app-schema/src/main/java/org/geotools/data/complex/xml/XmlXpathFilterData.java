@@ -21,45 +21,43 @@ import org.jdom2.Document;
 import org.xml.sax.helpers.NamespaceSupport;
 
 /**
- * A DTO used to pass data to the XmlXPathPropertyAccessorFactory, to filter 
- * responses from the backend on the Geoserver side.
- * 
+ * A DTO used to pass data to the XmlXPathPropertyAccessorFactory, to filter responses from the
+ * backend on the Geoserver side.
+ *
  * @author Russell Petty (GeoScience Victoria)
  * @version $Id$
- *
- *
- *
  * @source $URL$
  */
 public class XmlXpathFilterData {
-    private NamespaceSupport namespaces;
+  private NamespaceSupport namespaces;
 
-    private Document doc;
+  private Document doc;
 
-    private int count;
+  private int count;
 
-    private String itemXpath;
+  private String itemXpath;
 
-    public XmlXpathFilterData(NamespaceSupport namespaces, Document doc, int count, String itemXpath) {
-        this.namespaces = namespaces;
-        this.doc = doc;
-        this.count = count;
-        this.itemXpath = itemXpath;
-    }
+  public XmlXpathFilterData(
+      NamespaceSupport namespaces, Document doc, int count, String itemXpath) {
+    this.namespaces = namespaces;
+    this.doc = doc;
+    this.count = count;
+    this.itemXpath = itemXpath;
+  }
 
-    public NamespaceSupport getNamespaces() {
-        return namespaces;
-    }
+  public NamespaceSupport getNamespaces() {
+    return namespaces;
+  }
 
-    public Document getDoc() {
-        return doc;
-    }
+  public Document getDoc() {
+    return doc;
+  }
 
-    public int getCount() {
-        return count;
-    }
+  public int getCount() {
+    return count;
+  }
 
-    public String getItemXpath() {
-        return itemXpath;
-    }
+  public String getItemXpath() {
+    return itemXpath;
+  }
 }

@@ -16,28 +16,23 @@
  */
 package org.geotools.filter.v1_1;
 
-import org.w3c.dom.Document;
 import org.opengis.filter.expression.Literal;
+import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class LiteralTypeBindingTest extends FilterTestSupport {
-    public void testParse() throws Exception {
-        FilterMockData.literal(document, document);
+  public void testParse() throws Exception {
+    FilterMockData.literal(document, document);
 
-        Literal literal = (Literal) parse();
-        assertNotNull(literal);
-        assertEquals("foo", literal.getValue());
-    }
+    Literal literal = (Literal) parse();
+    assertNotNull(literal);
+    assertEquals("foo", literal.getValue());
+  }
 
-    public void testEncode() throws Exception {
-        Literal literal = FilterMockData.literal();
-        Document dom = encode(literal, OGC.Literal);
+  public void testEncode() throws Exception {
+    Literal literal = FilterMockData.literal();
+    Document dom = encode(literal, OGC.Literal);
 
-        assertEquals("foo", dom.getDocumentElement().getFirstChild().getNodeValue());
-    }
+    assertEquals("foo", dom.getDocumentElement().getFirstChild().getNodeValue());
+  }
 }

@@ -17,7 +17,6 @@
 package org.geotools.gml2.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureCollections;
 import org.geotools.gml2.GML;
@@ -25,12 +24,12 @@ import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractFeatureCollectionBaseType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="AbstractFeatureCollectionBaseType" abstract="true"&gt;
  *      &lt;annotation&gt;
@@ -52,49 +51,44 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLAbstractFeatureCollectionBaseTypeBinding extends AbstractComplexBinding {
-    FeatureCollections fcFactory;
+  FeatureCollections fcFactory;
 
-    public GMLAbstractFeatureCollectionBaseTypeBinding(FeatureCollections fcFactory) {
-        this.fcFactory = fcFactory;
-    }
+  public GMLAbstractFeatureCollectionBaseTypeBinding(FeatureCollections fcFactory) {
+    this.fcFactory = fcFactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.AbstractFeatureCollectionBaseType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return GML.AbstractFeatureCollectionBaseType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return FeatureCollection.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return FeatureCollection.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //TODO: the geotools feature api doesn't allow for use to supply the 
-        // "correct" subclass without hacking, so for now we just create a 
-        // default feature collection.
-        return fcFactory.newCollection();
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // TODO: the geotools feature api doesn't allow for use to supply the
+    // "correct" subclass without hacking, so for now we just create a
+    // default feature collection.
+    return fcFactory.newCollection();
+  }
 }

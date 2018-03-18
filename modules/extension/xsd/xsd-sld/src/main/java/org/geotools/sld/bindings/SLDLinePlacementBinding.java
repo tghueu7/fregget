@@ -16,22 +16,18 @@
  */
 package org.geotools.sld.bindings;
 
-import org.opengis.filter.expression.Expression;
-import org.picocontainer.MutablePicoContainer;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import javax.xml.namespace.QName;
-
 import org.geotools.styling.LinePlacement;
 import org.geotools.styling.StyleFactory;
 import org.geotools.xml.*;
-
+import org.opengis.filter.expression.Expression;
 
 /**
  * Binding object for the element http://www.opengis.net/sld:LinePlacement.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="LinePlacement"&gt;
  *      &lt;xsd:annotation&gt;
@@ -48,62 +44,58 @@ import org.geotools.xml.*;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDLinePlacementBinding extends AbstractComplexBinding {
-    
-    StyleFactory styleFactory;
-    
-    public SLDLinePlacementBinding(StyleFactory styleFactory) {
-        this.styleFactory = styleFactory;
-    }
-    
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.LINEPLACEMENT;
-    }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  StyleFactory styleFactory;
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return LinePlacement.class;
-    }
+  public SLDLinePlacementBinding(StyleFactory styleFactory) {
+    this.styleFactory = styleFactory;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        
-        Expression offset = null;
-        if (node.hasChild("PerpendicularOffset")) {
-            offset = (Expression) node.getChildValue("PerpendicularOffset");
-        }
-        return styleFactory.createLinePlacement(offset);
+  /** @generated */
+  public QName getTarget() {
+    return SLD.LINEPLACEMENT;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return LinePlacement.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+
+    Expression offset = null;
+    if (node.hasChild("PerpendicularOffset")) {
+      offset = (Expression) node.getChildValue("PerpendicularOffset");
     }
+    return styleFactory.createLinePlacement(offset);
+  }
 }

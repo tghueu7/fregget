@@ -16,6 +16,11 @@
  */
 package org.geotools.data.oracle;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryCollection;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Point;
 import org.geotools.data.Query;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.factory.CommonFactoryFinder;
@@ -29,72 +34,61 @@ import org.opengis.filter.expression.PropertyName;
 import org.opengis.filter.spatial.BBOX;
 import org.opengis.filter.spatial.DWithin;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Point;
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class OracleSpatialFiltersOnlineTest extends JDBCSpatialFiltersOnlineTest {
 
-    @Override
-    protected JDBCDataStoreAPITestSetup createTestSetup() {
-        return new OracleDataStoreAPITestSetup(new OracleTestSetup());
-    }
+  @Override
+  protected JDBCDataStoreAPITestSetup createTestSetup() {
+    return new OracleDataStoreAPITestSetup(new OracleTestSetup());
+  }
 
-    public void testLooseBboxFilter() throws Exception {
-        ((OracleDialect) dataStore.getSQLDialect()).setLooseBBOXEnabled(true);
-        
-        FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
-        // should match only "r2"
-        BBOX bbox = ff.bbox(aname("geom"), 2, 3.5, 4, 4.5, "EPSG:4326");
-        FeatureCollection features = dataStore.getFeatureSource(tname("road")).getFeatures(bbox);
-        checkSingleResult(features, "r2");
-    }
+  public void testLooseBboxFilter() throws Exception {
+    ((OracleDialect) dataStore.getSQLDialect()).setLooseBBOXEnabled(true);
 
-    // As reported in GEOS-4384 (http://jira.codehaus.org/browse/GEOS-4384)
-    public void testSDODWithinOGCUnits() throws Exception {
-        // express the same distance in different ways and check results
-        validateOGCUnitUsage(10, "kilometers");
-        validateOGCUnitUsage(10, "km");
-        validateOGCUnitUsage(10, "kilometer");
-        // this one does not work... not sure why 
-        // validateOGCUnitUsage(10000 * 1000, "mm");
-        validateOGCUnitUsage(10000, "m");
-        validateOGCUnitUsage(10000, "metre");
-        validateOGCUnitUsage(10000, "meters");
-        validateOGCUnitUsage(10000 / 0.0254, "in");
-        validateOGCUnitUsage(10000 / 0.3048, "feet");
-        validateOGCUnitUsage(10000 / 0.3048, "foot");
-        validateOGCUnitUsage(10000 / 0.3048, "ft");
-        validateOGCUnitUsage(10000 / 1609.344, "mi");
-        validateOGCUnitUsage(10000 / 1609.344, "mile");
-        validateOGCUnitUsage(10000 / 1609.344, "miles");
-        validateOGCUnitUsage(10000 / 1852, "NM");
-      }
+    FilterFactory ff = CommonFactoryFinder.getFilterFactory(null);
+    // should match only "r2"
+    BBOX bbox = ff.bbox(aname("geom"), 2, 3.5, 4, 4.5, "EPSG:4326");
+    FeatureCollection features = dataStore.getFeatureSource(tname("road")).getFeatures(bbox);
+    checkSingleResult(features, "r2");
+  }
 
-    private void validateOGCUnitUsage(double distance, String unit) throws Exception {
-        Coordinate coordinate = new Coordinate(3.031, 2.754);
-        GeometryFactory factory = new GeometryFactory();
-        Point point = factory.createPoint(coordinate);
-        Geometry[] geometries = {point};
-        GeometryCollection geometry = new GeometryCollection(geometries, factory );
+  // As reported in GEOS-4384 (http://jira.codehaus.org/browse/GEOS-4384)
+  public void testSDODWithinOGCUnits() throws Exception {
+    // express the same distance in different ways and check results
+    validateOGCUnitUsage(10, "kilometers");
+    validateOGCUnitUsage(10, "km");
+    validateOGCUnitUsage(10, "kilometer");
+    // this one does not work... not sure why
+    // validateOGCUnitUsage(10000 * 1000, "mm");
+    validateOGCUnitUsage(10000, "m");
+    validateOGCUnitUsage(10000, "metre");
+    validateOGCUnitUsage(10000, "meters");
+    validateOGCUnitUsage(10000 / 0.0254, "in");
+    validateOGCUnitUsage(10000 / 0.3048, "feet");
+    validateOGCUnitUsage(10000 / 0.3048, "foot");
+    validateOGCUnitUsage(10000 / 0.3048, "ft");
+    validateOGCUnitUsage(10000 / 1609.344, "mi");
+    validateOGCUnitUsage(10000 / 1609.344, "mile");
+    validateOGCUnitUsage(10000 / 1609.344, "miles");
+    validateOGCUnitUsage(10000 / 1852, "NM");
+  }
 
-        FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
+  private void validateOGCUnitUsage(double distance, String unit) throws Exception {
+    Coordinate coordinate = new Coordinate(3.031, 2.754);
+    GeometryFactory factory = new GeometryFactory();
+    Point point = factory.createPoint(coordinate);
+    Geometry[] geometries = {point};
+    GeometryCollection geometry = new GeometryCollection(geometries, factory);
 
-        PropertyName geomName = ff.property(aname("geom"));
-        Literal lit = ff.literal(geometry);
-        
-        DWithin dwithinGeomFilter  = ((FilterFactory2) ff).dwithin(geomName, lit, distance, unit);
-        Query query = new Query(tname("road"), dwithinGeomFilter);
-        SimpleFeatureCollection features = dataStore.getFeatureSource(tname("road")).getFeatures(query);
-        assertEquals(1, features.size());
-        checkSingleResult(features, "r2");
-    }
+    FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
 
+    PropertyName geomName = ff.property(aname("geom"));
+    Literal lit = ff.literal(geometry);
+
+    DWithin dwithinGeomFilter = ((FilterFactory2) ff).dwithin(geomName, lit, distance, unit);
+    Query query = new Query(tname("road"), dwithinGeomFilter);
+    SimpleFeatureCollection features = dataStore.getFeatureSource(tname("road")).getFeatures(query);
+    assertEquals(1, features.size());
+    checkSingleResult(features, "r2");
+  }
 }

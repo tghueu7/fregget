@@ -19,28 +19,23 @@ package org.geotools.data.mysql;
 import static org.geotools.data.mysql.MySQLDataStoreFactory.*;
 
 import java.util.Map;
-
 import org.geotools.jdbc.JDBCJNDIDataStoreFactory;
 
 /**
  * JNDI DataStoreFactory for mysql database.
- * 
+ *
  * @author Christian Mueller
- * 
- *
- *
- *
  * @source $URL$
  */
 public class MySQLJNDIDataStoreFactory extends JDBCJNDIDataStoreFactory {
 
-    public MySQLJNDIDataStoreFactory() {
-        super(new MySQLDataStoreFactory());
-    }
-    
-    @Override
-    protected void setupParameters(Map parameters) {
-        super.setupParameters(parameters);
-        parameters.put(STORAGE_ENGINE.key, STORAGE_ENGINE);
-    }
+  public MySQLJNDIDataStoreFactory() {
+    super(new MySQLDataStoreFactory());
+  }
+
+  @Override
+  protected void setupParameters(Map parameters) {
+    super.setupParameters(parameters);
+    parameters.put(STORAGE_ENGINE.key, STORAGE_ENGINE);
+  }
 }

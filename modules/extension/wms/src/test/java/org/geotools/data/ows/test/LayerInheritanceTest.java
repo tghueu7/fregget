@@ -22,9 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-
 import junit.framework.TestCase;
-
 import org.geotools.data.ows.Layer;
 import org.geotools.data.ows.StyleImpl;
 import org.geotools.data.ows.WMSCapabilities;
@@ -35,70 +33,66 @@ import org.geotools.xml.SchemaFactory;
 import org.geotools.xml.handlers.DocumentHandler;
 import org.geotools.xml.schema.Schema;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class LayerInheritanceTest extends TestCase {
 
-    public void testInheritCapabilities() throws Exception {
+  public void testInheritCapabilities() throws Exception {
 
-        File getCaps = TestData.file(this, "inheritCap.xml");
-        URL getCapsURL = getCaps.toURI().toURL();
+    File getCaps = TestData.file(this, "inheritCap.xml");
+    URL getCapsURL = getCaps.toURI().toURL();
 
-        Map<String,Object> hints = new HashMap<>();
-        hints.put(DocumentHandler.DEFAULT_NAMESPACE_HINT_KEY, WMSSchema.getInstance());
-        Object object = DocumentFactory.getInstance(getCapsURL.openStream(), hints, Level.WARNING);
+    Map<String, Object> hints = new HashMap<>();
+    hints.put(DocumentHandler.DEFAULT_NAMESPACE_HINT_KEY, WMSSchema.getInstance());
+    Object object = DocumentFactory.getInstance(getCapsURL.openStream(), hints, Level.WARNING);
 
-        Schema schema = WMSSchema.getInstance();
-        SchemaFactory.getInstance(WMSSchema.NAMESPACE);
+    Schema schema = WMSSchema.getInstance();
+    SchemaFactory.getInstance(WMSSchema.NAMESPACE);
 
-        assertTrue("Capabilities failed to parse", object instanceof WMSCapabilities);
+    assertTrue("Capabilities failed to parse", object instanceof WMSCapabilities);
 
-        WMSCapabilities capabilities = (WMSCapabilities) object;
+    WMSCapabilities capabilities = (WMSCapabilities) object;
 
-        // Get first test layer
-        Layer layer = (Layer) capabilities.getLayerList().get(0);
-        assertNotNull(layer);
-        assertEquals(3,layer.getDimensions().size());
-        assertEquals("ISO8601",layer.getDimension("time").getUnits());
+    // Get first test layer
+    Layer layer = (Layer) capabilities.getLayerList().get(0);
+    assertNotNull(layer);
+    assertEquals(3, layer.getDimensions().size());
+    assertEquals("ISO8601", layer.getDimension("time").getUnits());
 
-        // Get next test layer, it's nested 3 deep
-        List<Layer> allLayers = capabilities.getLayerList();
-        
-        layer = (Layer) allLayers.get(2);
-        assertNotNull(layer);
-        assertNotNull(layer.getParent());
-        assertEquals(3,layer.getDimensions().size());
+    // Get next test layer, it's nested 3 deep
+    List<Layer> allLayers = capabilities.getLayerList();
 
-        // Should be false by default since not specified in layer or ancestors
-        assertFalse(layer.isQueryable());
-        assertEquals(layer.getTitle(), "Coastlines");
+    layer = (Layer) allLayers.get(2);
+    assertNotNull(layer);
+    assertNotNull(layer.getParent());
+    assertEquals(3, layer.getDimensions().size());
 
-        // Should be 5 total after accumulating all ancestors
-        assertEquals(5,layer.getSrs().size());
-        assertTrue(layer.getSrs().contains("EPSG:26906"));
-        assertTrue(layer.getSrs().contains("EPSG:26905"));
-        assertTrue(layer.getSrs().contains("EPSG:4326"));
-        assertTrue(layer.getSrs().contains("AUTO:42003"));
-        assertTrue(layer.getSrs().contains("AUTO:42005"));
+    // Should be false by default since not specified in layer or ancestors
+    assertFalse(layer.isQueryable());
+    assertEquals(layer.getTitle(), "Coastlines");
 
-        // 2 total, this layer plus top most layer
-        assertEquals(layer.getStyles().size(), 2);
-        assertTrue(layer.getStyles().contains(new StyleImpl("TestStyle")));
-        assertTrue(layer.getStyles().contains(new StyleImpl("default")));
+    // Should be 5 total after accumulating all ancestors
+    assertEquals(5, layer.getSrs().size());
+    assertTrue(layer.getSrs().contains("EPSG:26906"));
+    assertTrue(layer.getSrs().contains("EPSG:26905"));
+    assertTrue(layer.getSrs().contains("EPSG:4326"));
+    assertTrue(layer.getSrs().contains("AUTO:42003"));
+    assertTrue(layer.getSrs().contains("AUTO:42005"));
 
-        // Next test layer, nested 3 deep but different path
-        layer = (Layer) capabilities.getLayerList().get(4);
-        assertNotNull(layer);
-        assertNotNull(layer.getParent());
-        assertEquals(3, layer.getDimensions().size());
-        assertEquals(1, layer.getExtents().size());
-        assertEquals(layer.getExtent("time").getName(), "time");
+    // 2 total, this layer plus top most layer
+    assertEquals(layer.getStyles().size(), 2);
+    assertTrue(layer.getStyles().contains(new StyleImpl("TestStyle")));
+    assertTrue(layer.getStyles().contains(new StyleImpl("default")));
 
-        // Should be true by default since inherited from parent
-        assertEquals(layer.getName(), "RTOPO");
-        assertTrue(layer.isQueryable());
-    }
+    // Next test layer, nested 3 deep but different path
+    layer = (Layer) capabilities.getLayerList().get(4);
+    assertNotNull(layer);
+    assertNotNull(layer.getParent());
+    assertEquals(3, layer.getDimensions().size());
+    assertEquals(1, layer.getExtents().size());
+    assertEquals(layer.getExtent("time").getName(), "time");
+
+    // Should be true by default since inherited from parent
+    assertEquals(layer.getName(), "RTOPO");
+    assertTrue(layer.isQueryable());
+  }
 }

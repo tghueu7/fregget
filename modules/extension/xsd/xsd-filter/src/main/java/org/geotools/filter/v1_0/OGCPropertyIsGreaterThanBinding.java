@@ -17,72 +17,67 @@
 package org.geotools.filter.v1_0;
 
 import javax.xml.namespace.QName;
-import org.opengis.filter.FilterFactory;
-import org.opengis.filter.PropertyIsGreaterThan;
-import org.opengis.filter.expression.Expression;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
-
+import org.opengis.filter.FilterFactory;
+import org.opengis.filter.PropertyIsGreaterThan;
+import org.opengis.filter.expression.Expression;
 
 /**
  * Binding object for the element http://www.opengis.net/ogc:PropertyIsGreaterThan.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="PropertyIsGreaterThan"
  *      substitutionGroup="ogc:comparisonOps" type="ogc:BinaryComparisonOpType"/&gt;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCPropertyIsGreaterThanBinding extends AbstractComplexBinding {
-    FilterFactory filterfactory;
+  FilterFactory filterfactory;
 
-    public OGCPropertyIsGreaterThanBinding(FilterFactory filterfactory) {
-        this.filterfactory = filterfactory;
-    }
+  public OGCPropertyIsGreaterThanBinding(FilterFactory filterfactory) {
+    this.filterfactory = filterfactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.PropertyIsGreaterThan;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return OGC.PropertyIsGreaterThan;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return PropertyIsGreaterThan.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return PropertyIsGreaterThan.class;
+  }
 
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Expression e1 = (Expression) node.getChildValue(0);
-        Expression e2 = (Expression) node.getChildValue(1);
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Expression e1 = (Expression) node.getChildValue(0);
+    Expression e2 = (Expression) node.getChildValue(1);
 
-        return filterfactory.greater(e1, e2);
-    }
+    return filterfactory.greater(e1, e2);
+  }
 }

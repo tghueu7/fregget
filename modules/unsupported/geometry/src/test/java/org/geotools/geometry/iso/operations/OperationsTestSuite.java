@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,32 +19,26 @@ package org.geotools.geometry.iso.operations;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class OperationsTestSuite {
-	
-    public static Test suite() {
 
-        TestSuite suite = new TestSuite();
-	
-        suite.addTestSuite(SetOperationsTest.class);
-        suite.addTestSuite(RelateOperatorsTest.class);
-        suite.addTestSuite(IsSimpleOperationTest.class);
-        suite.addTestSuite(CentroidTest.class);
-        suite.addTestSuite(ConvexHullTest.class);
-        suite.addTestSuite(ClosureTest.class);
+  public static Test suite() {
 
-        return suite;
-    }
+    TestSuite suite = new TestSuite();
 
-    /**
-     * Runs the test suite using the textual runner.
-     */
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(suite());
-        DisplayGeometry.main(args);
-    }
+    suite.addTestSuite(SetOperationsTest.class);
+    suite.addTestSuite(RelateOperatorsTest.class);
+    suite.addTestSuite(IsSimpleOperationTest.class);
+    suite.addTestSuite(CentroidTest.class);
+    suite.addTestSuite(ConvexHullTest.class);
+    suite.addTestSuite(ClosureTest.class);
+
+    return suite;
+  }
+
+  /** Runs the test suite using the textual runner. */
+  public static void main(String[] args) {
+    junit.textui.TestRunner.run(suite());
+    DisplayGeometry.main(args);
+  }
 }

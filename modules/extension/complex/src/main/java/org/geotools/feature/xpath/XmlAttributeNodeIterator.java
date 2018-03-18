@@ -24,60 +24,42 @@ import org.opengis.feature.type.Name;
 
 /**
  * Special node iterator for {@link Attribute}.
- * 
+ *
  * @author Justin Deoliveira (The Open Planning Project)
  * @author Gabriel Roldan (Axios Engineering)
- * 
- *
- *
- *
- *
  * @source $URL$
  */
 public class XmlAttributeNodeIterator implements NodeIterator {
 
-    /**
-     * The feature node pointer
-     */
-    AttributeNodePointer pointer;
+  /** The feature node pointer */
+  AttributeNodePointer pointer;
 
-    /**
-     * The feature.
-     */
-    Attribute feature;
-    
-    /**
-     * The name
-     */
-    Name name;
-    
-    int position = 0;
+  /** The feature. */
+  Attribute feature;
 
+  /** The name */
+  Name name;
 
-    public XmlAttributeNodeIterator(AttributeNodePointer pointer, Name name) {
-        this.pointer = pointer;
-        this.name = name;
-        feature = pointer.getImmediateAttribute();
+  int position = 0;
 
-    }
+  public XmlAttributeNodeIterator(AttributeNodePointer pointer, Name name) {
+    this.pointer = pointer;
+    this.name = name;
+    feature = pointer.getImmediateAttribute();
+  }
 
-    /**
-     * Always return 1, only a single property.
-     */
-    public int getPosition() {
-        return position;
-    }
+  /** Always return 1, only a single property. */
+  public int getPosition() {
+    return position;
+  }
 
-    /**
-     * Return true if position == 1.
-     */
-    public boolean setPosition(int position) {
-        this.position = position;
-        return position < 2;
-    }
+  /** Return true if position == 1. */
+  public boolean setPosition(int position) {
+    this.position = position;
+    return position < 2;
+  }
 
-    public NodePointer getNodePointer() {
-        return new XmlAttributeNodePointer(pointer, feature, name);
-    }
-
+  public NodePointer getNodePointer() {
+    return new XmlAttributeNodePointer(pointer, feature, name);
+  }
 }

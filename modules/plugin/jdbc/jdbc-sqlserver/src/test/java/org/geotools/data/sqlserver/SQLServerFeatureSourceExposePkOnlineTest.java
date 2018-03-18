@@ -5,9 +5,8 @@ import org.geotools.jdbc.JDBCTestSetup;
 
 public class SQLServerFeatureSourceExposePkOnlineTest extends JDBCFeatureSourceExposePkOnlineTest {
 
-    @Override
-    protected JDBCTestSetup createTestSetup() {
-        return new SQLServerTestSetup();
-    }
-
+  @Override
+  protected JDBCTestSetup createTestSetup() {
+    return new SQLServerTestSetup();
+  }
 }

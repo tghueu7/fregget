@@ -18,7 +18,6 @@ package org.geotools.data.wfs;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
-
 import org.geotools.data.FeatureReader;
 import org.geotools.data.wfs.internal.GetFeatureParser;
 import org.geotools.data.wfs.internal.parsers.EmfAppSchemaParser;
@@ -32,66 +31,57 @@ import org.opengis.feature.type.FeatureType;
  */
 class WFSFeatureReader implements FeatureReader<SimpleFeatureType, SimpleFeature> {
 
-    private SimpleFeature next;
+  private SimpleFeature next;
 
-    private GetFeatureParser parser;
+  private GetFeatureParser parser;
 
-    private SimpleFeatureType featureType;
+  private SimpleFeatureType featureType;
 
-    public WFSFeatureReader(final GetFeatureParser parser) throws IOException {
-        this.parser = parser;
-        this.next = parser.parse();
-        if (this.next != null) {
-            FeatureType parsedType = next.getFeatureType();
-            if (parsedType instanceof SimpleFeatureType) {
-                this.featureType = (SimpleFeatureType) parsedType;
-            } else {
-                // this is the FeatureType as parsed by the StreamingParser, we need a simple view
-                this.featureType = EmfAppSchemaParser.toSimpleFeatureType(parsedType);
-            }
-        }
+  public WFSFeatureReader(final GetFeatureParser parser) throws IOException {
+    this.parser = parser;
+    this.next = parser.parse();
+    if (this.next != null) {
+      FeatureType parsedType = next.getFeatureType();
+      if (parsedType instanceof SimpleFeatureType) {
+        this.featureType = (SimpleFeatureType) parsedType;
+      } else {
+        // this is the FeatureType as parsed by the StreamingParser, we need a simple view
+        this.featureType = EmfAppSchemaParser.toSimpleFeatureType(parsedType);
+      }
     }
+  }
 
-    /**
-     * @see FeatureReader#close()
-     */
-    public void close() throws IOException {
-        final GetFeatureParser parser = this.parser;
-        this.parser = null;
-        this.next = null;
-        if (parser != null) {
-            parser.close();
-        }
+  /** @see FeatureReader#close() */
+  public void close() throws IOException {
+    final GetFeatureParser parser = this.parser;
+    this.parser = null;
+    this.next = null;
+    if (parser != null) {
+      parser.close();
     }
+  }
 
-    /**
-     * @see FeatureReader#getFeatureType()
-     */
-    public SimpleFeatureType getFeatureType() {
-        if (featureType == null) {
-            throw new IllegalStateException(
-                    "No features were retrieved, shouldn't be calling getFeatureType()");
-        }
-        return featureType;
+  /** @see FeatureReader#getFeatureType() */
+  public SimpleFeatureType getFeatureType() {
+    if (featureType == null) {
+      throw new IllegalStateException(
+          "No features were retrieved, shouldn't be calling getFeatureType()");
     }
+    return featureType;
+  }
 
-    /**
-     * @see FeatureReader#hasNext()
-     */
-    public boolean hasNext() throws IOException {
-        return next != null;
+  /** @see FeatureReader#hasNext() */
+  public boolean hasNext() throws IOException {
+    return next != null;
+  }
+
+  /** @see FeatureReader#next() */
+  public SimpleFeature next() throws IOException, NoSuchElementException {
+    if (this.next == null) {
+      throw new NoSuchElementException();
     }
-
-    /**
-     * @see FeatureReader#next()
-     */
-    public SimpleFeature next() throws IOException, NoSuchElementException {
-        if (this.next == null) {
-            throw new NoSuchElementException();
-        }
-        SimpleFeature current = this.next;
-        this.next = parser.parse();
-        return current;
-    }
-
+    SimpleFeature current = this.next;
+    this.next = parser.parse();
+    return current;
+  }
 }

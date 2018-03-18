@@ -18,143 +18,137 @@ package org.geotools.renderer;
 
 import junit.framework.TestCase;
 
-/**
- * 
- * 
- * @source $URL$
- */
+/** @source $URL$ */
 public class ScreenMapTest extends TestCase {
-    private int xmin;
+  private int xmin;
 
-    private int width;
+  private int width;
 
-    private int height;
+  private int height;
 
-    private int ymin;
+  private int ymin;
 
-    /*
-     * Test method for 'org.geotools.renderer.shape.ScreenMap.set(int, int)'
-     */
-    public void testSet() {
-        ymin = xmin = 0;
-        height = width = 8;
-        ScreenMap map = new ScreenMap(0, 0, 8, 8);
+  /*
+   * Test method for 'org.geotools.renderer.shape.ScreenMap.set(int, int)'
+   */
+  public void testSet() {
+    ymin = xmin = 0;
+    height = width = 8;
+    ScreenMap map = new ScreenMap(0, 0, 8, 8);
 
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                assertEquals(false, map.get(x, y));
-            }
+    for (int x = 0; x < 8; x++) {
+      for (int y = 0; y < 8; y++) {
+        assertEquals(false, map.get(x, y));
+      }
+    }
+
+    setOne(map, 0, 0, true, false);
+    setOne(map, 0, 0, false, true);
+    setOne(map, 3, 4, true, false);
+    setAll(map, true);
+    setAll(map, false);
+  }
+
+  private void setOne(
+      ScreenMap map, int xconst, int yconst, boolean bool, boolean expectedOldValue) {
+    assertEquals(expectedOldValue, map.get(xconst, yconst));
+    map.set(xconst, yconst, bool);
+
+    for (int x = xmin; x < width; x++) {
+      for (int y = ymin; y < height; y++) {
+        if ((x == xconst) && (y == yconst)) {
+          assertEquals("x=" + x + " y=" + y, bool, map.get(x, y));
+        } else {
+          assertEquals("x=" + x + " y=" + y, false, map.get(x, y));
         }
+      }
+    }
+  }
 
-        setOne(map, 0, 0, true, false);
-        setOne(map, 0, 0, false, true);
-        setOne(map, 3, 4, true, false);
-        setAll(map, true);
-        setAll(map, false);
+  private void setAll(ScreenMap map, boolean value) {
+    for (int x = xmin; x < width; x++) {
+      for (int y = ymin; y < height; y++) {
+        map.set(x, y, value);
+      }
     }
 
-    private void setOne(ScreenMap map, int xconst, int yconst, boolean bool,
-            boolean expectedOldValue) {
-        assertEquals(expectedOldValue, map.get(xconst, yconst));
-        map.set(xconst, yconst, bool);
-
-        for (int x = xmin; x < width; x++) {
-            for (int y = ymin; y < height; y++) {
-                if ((x == xconst) && (y == yconst)) {
-                    assertEquals("x=" + x + " y=" + y, bool, map.get(x, y));
-                } else {
-                    assertEquals("x=" + x + " y=" + y, false, map.get(x, y));
-                }
-            }
-        }
+    for (int x = xmin; x < width; x++) {
+      for (int y = ymin; y < height; y++) {
+        assertEquals(value, map.get(x, y));
+      }
     }
+  }
 
-    private void setAll(ScreenMap map, boolean value) {
-        for (int x = xmin; x < width; x++) {
-            for (int y = ymin; y < height; y++) {
-                map.set(x, y, value);
-            }
-        }
+  public void testSubsetScreen() throws Exception {
+    xmin = 478;
+    ymin = 0;
+    width = 283;
+    height = 452;
+    ScreenMap map = new ScreenMap(xmin, ymin, width + 1, height + 1);
 
-        for (int x = xmin; x < width; x++) {
-            for (int y = ymin; y < height; y++) {
-                assertEquals(value, map.get(x, y));
-            }
-        }
-    }
+    // test 4 corners
+    setOne(map, xmin, ymin, true, false);
+    setOne(map, xmin, ymin, false, true);
 
-    public void testSubsetScreen() throws Exception {
-        xmin = 478;
-        ymin = 0;
-        width = 283;
-        height = 452;
-        ScreenMap map = new ScreenMap(xmin, ymin, width + 1, height + 1);
+    setOne(map, xmin + width - 1, ymin, true, false);
+    setOne(map, xmin + width - 1, ymin, false, true);
 
-        // test 4 corners
-        setOne(map, xmin, ymin, true, false);
-        setOne(map, xmin, ymin, false, true);
+    setOne(map, xmin + width - 1, ymin + height - 1, true, false);
+    setOne(map, xmin + width - 1, ymin + height - 1, false, true);
 
-        setOne(map, xmin + width - 1, ymin, true, false);
-        setOne(map, xmin + width - 1, ymin, false, true);
+    setOne(map, xmin, ymin + height - 1, true, false);
+    setOne(map, xmin, ymin + height - 1, false, true);
 
-        setOne(map, xmin + width - 1, ymin + height - 1, true, false);
-        setOne(map, xmin + width - 1, ymin + height - 1, false, true);
+    // test a couple edges
+    setOne(map, xmin + 7, ymin, true, false);
+    setOne(map, xmin + 7, ymin, false, true);
 
-        setOne(map, xmin, ymin + height - 1, true, false);
-        setOne(map, xmin, ymin + height - 1, false, true);
+    setOne(map, xmin + width - 1, ymin + 10, true, false);
+    setOne(map, xmin + width - 1, ymin + 10, false, true);
 
-        // test a couple edges
-        setOne(map, xmin + 7, ymin, true, false);
-        setOne(map, xmin + 7, ymin, false, true);
+    setOne(map, xmin + 5, ymin + height - 1, true, false);
+    setOne(map, xmin + 5, ymin + height - 1, false, true);
 
-        setOne(map, xmin + width - 1, ymin + 10, true, false);
-        setOne(map, xmin + width - 1, ymin + 10, false, true);
+    setOne(map, xmin, ymin + 7, true, false);
+    setOne(map, xmin, ymin + 7, false, true);
 
-        setOne(map, xmin + 5, ymin + height - 1, true, false);
-        setOne(map, xmin + 5, ymin + height - 1, false, true);
+    // test the case I know fails
+    setOne(map, 728, 427, true, false);
 
-        setOne(map, xmin, ymin + 7, true, false);
-        setOne(map, xmin, ymin + 7, false, true);
+    setAll(map, true);
+    setAll(map, false);
+  }
 
-        // test the case I know fails
-        setOne(map, 728, 427, true, false);
+  public void testOutsideScreen() throws Exception {
+    xmin = 0;
+    ymin = 0;
+    width = 10;
+    height = 10;
+    ScreenMap map = new ScreenMap(xmin, ymin, width, height);
 
-        setAll(map, true);
-        setAll(map, false);
+    // check points outside the screen
+    assertFalse(map.checkAndSet(-10, -10));
+    assertFalse(map.checkAndSet(-10, -10));
+    assertFalse(map.checkAndSet(-10, 10));
+    assertFalse(map.checkAndSet(-10, 10));
+    assertFalse(map.checkAndSet(20, 10));
+    assertFalse(map.checkAndSet(20, 10));
+    assertFalse(map.checkAndSet(20, -10));
+    assertFalse(map.checkAndSet(20, -10));
 
-    }
+    // also control "get"
+    assertFalse(map.get(-10, -10));
+    assertFalse(map.get(-10, -10));
+    assertFalse(map.get(-10, 10));
+    assertFalse(map.get(-10, 10));
+    assertFalse(map.get(20, 10));
+    assertFalse(map.get(20, 10));
+    assertFalse(map.get(20, -10));
+    assertFalse(map.get(20, -10));
 
-    public void testOutsideScreen() throws Exception {
-        xmin = 0;
-        ymin = 0;
-        width = 10;
-        height = 10;
-        ScreenMap map = new ScreenMap(xmin, ymin, width, height);
-
-        // check points outside the screen
-        assertFalse(map.checkAndSet(-10, -10));
-        assertFalse(map.checkAndSet(-10, -10));
-        assertFalse(map.checkAndSet(-10, 10));
-        assertFalse(map.checkAndSet(-10, 10));
-        assertFalse(map.checkAndSet(20, 10));
-        assertFalse(map.checkAndSet(20, 10));
-        assertFalse(map.checkAndSet(20, -10));
-        assertFalse(map.checkAndSet(20, -10));
-        
-        // also control "get"
-        assertFalse(map.get(-10, -10));
-        assertFalse(map.get(-10, -10));
-        assertFalse(map.get(-10, 10));
-        assertFalse(map.get(-10, 10));
-        assertFalse(map.get(20, 10));
-        assertFalse(map.get(20, 10));
-        assertFalse(map.get(20, -10));
-        assertFalse(map.get(20, -10));
-
-
-        // compare with one inside
-        assertFalse(map.checkAndSet(0, 0));
-        assertTrue(map.checkAndSet(0, 0));
-        assertTrue(map.get(0, 0));
-    }
+    // compare with one inside
+    assertFalse(map.checkAndSet(0, 0));
+    assertTrue(map.checkAndSet(0, 0));
+    assertTrue(map.get(0, 0));
+  }
 }

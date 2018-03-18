@@ -19,29 +19,24 @@ package org.geotools.sld.bindings;
 import org.geotools.filter.Filters;
 import org.geotools.styling.PointPlacement;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDPointPlacementBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(PointPlacement.class, new SLDPointPlacementBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(PointPlacement.class, new SLDPointPlacementBinding(null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.pointPlacement(document, document);
+  public void test() throws Exception {
+    SLDMockData.pointPlacement(document, document);
 
-        PointPlacement pp = (PointPlacement) parse();
-        assertNotNull(pp);
+    PointPlacement pp = (PointPlacement) parse();
+    assertNotNull(pp);
 
-        assertEquals(1, Filters.asInt(pp.getAnchorPoint().getAnchorPointX()));
-        assertEquals(2, Filters.asInt(pp.getAnchorPoint().getAnchorPointY()));
+    assertEquals(1, Filters.asInt(pp.getAnchorPoint().getAnchorPointX()));
+    assertEquals(2, Filters.asInt(pp.getAnchorPoint().getAnchorPointY()));
 
-        assertEquals(1, Filters.asInt(pp.getDisplacement().getDisplacementX()));
-        assertEquals(2, Filters.asInt(pp.getDisplacement().getDisplacementY()));
+    assertEquals(1, Filters.asInt(pp.getDisplacement().getDisplacementX()));
+    assertEquals(2, Filters.asInt(pp.getDisplacement().getDisplacementY()));
 
-        assertEquals(90d, Filters.asDouble(pp.getRotation()), 0d);
-    }
+    assertEquals(90d, Filters.asDouble(pp.getRotation()), 0d);
+  }
 }

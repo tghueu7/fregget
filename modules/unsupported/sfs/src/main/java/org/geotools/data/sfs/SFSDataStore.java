@@ -16,6 +16,7 @@
  */
 package org.geotools.data.sfs;
 
+import com.vividsolutions.jts.geom.Envelope;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +35,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
-
 import org.apache.commons.codec.binary.Base64;
 import org.geotools.data.store.ContentDataStore;
 import org.geotools.data.store.ContentEntry;
@@ -52,292 +52,295 @@ import org.opengis.filter.spatial.BBOX;
 import org.opengis.filter.spatial.Intersects;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-import com.vividsolutions.jts.geom.Envelope;
-
 /**
- * This DataStore is based on OpenDataStore protocol using GeoJSON as the
- * encoding format loosely based on RESTFUL principles. This code expanded on 
- * from GeoREST in Unsupported Modules.
- * @author 
+ * This DataStore is based on OpenDataStore protocol using GeoJSON as the encoding format loosely
+ * based on RESTFUL principles. This code expanded on from GeoREST in Unsupported Modules.
  *
- *
- *
+ * @author
  * @source $URL$
  */
 public class SFSDataStore extends ContentDataStore {
-    
-    /**
-     *  The store filter capabilities
-     *  @return The filter capabilities, never <code>null</code>.
-     */
-    static FilterCapabilities ODS_FILTER_CAPABILITIES = new FilterCapabilities() {
+
+  /**
+   * The store filter capabilities
+   *
+   * @return The filter capabilities, never <code>null</code>.
+   */
+  static FilterCapabilities ODS_FILTER_CAPABILITIES =
+      new FilterCapabilities() {
 
         {
-            
-            addAll(FilterCapabilities.SIMPLE_COMPARISONS_OPENGIS);
+          addAll(FilterCapabilities.SIMPLE_COMPARISONS_OPENGIS);
 
-            addType(And.class);
-            
-            // TODO: check these two filters are actually supported in the encoder
-            addType(BBOX.class);
-            addType(Intersects.class);
-            
-            addType(IncludeFilter.class);
-            addType(ExcludeFilter.class);
-            addType(PropertyIsLike.class);
+          addType(And.class);
+
+          // TODO: check these two filters are actually supported in the encoder
+          addType(BBOX.class);
+          addType(Intersects.class);
+
+          addType(IncludeFilter.class);
+          addType(ExcludeFilter.class);
+          addType(PropertyIsLike.class);
         }
-    };
+      };
 
-    protected static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.data.simplefeatureservice");
-    String baseURL;
-    Map<Name, SFSLayer> layers = new LinkedHashMap<Name, SFSLayer>();
-    String user;
-    String password;
-    int timeout;
+  protected static final Logger LOGGER =
+      org.geotools.util.logging.Logging.getLogger("org.geotools.data.simplefeatureservice");
+  String baseURL;
+  Map<Name, SFSLayer> layers = new LinkedHashMap<Name, SFSLayer>();
+  String user;
+  String password;
+  int timeout;
 
-    /**
-     * Constructor -- it takes in the base URl and then appends "/capabilities"
-     * to pull the list of available layers
-     * @param URL 
-     * 
-     */
-    public SFSDataStore(URL fnURL, String namespaceURI) throws IOException {
-        String strURL = fnURL.toString();
-        this.baseURL = strURL + (strURL.endsWith("/") ? "" : "/");
-        if(baseURL.endsWith("capabilities/")) {
-            baseURL = baseURL.substring(0, baseURL.length() - "capabilities/".length());
+  /**
+   * Constructor -- it takes in the base URl and then appends "/capabilities" to pull the list of
+   * available layers
+   *
+   * @param URL
+   */
+  public SFSDataStore(URL fnURL, String namespaceURI) throws IOException {
+    String strURL = fnURL.toString();
+    this.baseURL = strURL + (strURL.endsWith("/") ? "" : "/");
+    if (baseURL.endsWith("capabilities/")) {
+      baseURL = baseURL.substring(0, baseURL.length() - "capabilities/".length());
+    }
+    this.namespaceURI = namespaceURI;
+    processCapabilities();
+  }
+
+  /**
+   * Constructor -- it takes in the base URl and then appends "/capabilities" to pull the list of
+   * available layers
+   *
+   * @param URL
+   */
+  public SFSDataStore(URL fnURL, String namespaceURI, String user, String password, int timeout)
+      throws IOException {
+    String strURL = fnURL.toString();
+    this.baseURL = strURL + (strURL.endsWith("/") ? "" : "/");
+    if (baseURL.endsWith("capabilities/")) {
+      baseURL = baseURL.substring(0, baseURL.length() - "capabilities/".length());
+    }
+    this.namespaceURI = namespaceURI;
+    this.user = user;
+    this.password = password;
+    this.timeout = timeout;
+    processCapabilities();
+  }
+
+  /**
+   * Constructor -- it simply uses the json response from the server to extract the layer
+   * information. Only used for testing, not exposing it to the whole world
+   *
+   * @param String
+   */
+  SFSDataStore(String json, String namespaceURI) throws IOException {
+    this.namespaceURI = namespaceURI;
+    processCapabilities(json);
+  }
+
+  /**
+   * It processes the incoming URL and gets the response in the form of stream. It then converts the
+   * stream into a string(it should be in json format)
+   *
+   * @param
+   */
+  public final void processCapabilities() throws IOException {
+    processCapabilities(resourceToString("capabilities", null));
+  }
+
+  /**
+   * This method processes the JSON from the server and extracts layer names and populates typeNames
+   *
+   * @param capabilitiesJSON
+   */
+  final void processCapabilities(String capabilitiesJSON) throws IOException {
+    JSONParser parser = new JSONParser();
+
+    try {
+      Object obj = parser.parse(capabilitiesJSON);
+      JSONArray array = (JSONArray) obj;
+
+      Iterator itr = array.iterator();
+      while (itr.hasNext()) {
+        Map tmpMap = (HashMap) itr.next();
+        String strName = ((String) tmpMap.get("name")).trim();
+        Name name = new NameImpl(namespaceURI, strName);
+
+        boolean xyOrder =
+            (!tmpMap.containsKey("axisorder")) ? true : (tmpMap.get("axisorder").equals("xy"));
+
+        String strCRS = null;
+        CoordinateReferenceSystem crs = null;
+        if (tmpMap.containsKey("crs")) {
+          strCRS = ((String) tmpMap.get("crs")).trim();
+          crs = SFSDataStoreUtil.decodeXY(strCRS);
         }
-        this.namespaceURI = namespaceURI;
-        processCapabilities();
-    }
-    
-    /**
-     * Constructor -- it takes in the base URl and then appends "/capabilities"
-     * to pull the list of available layers
-     * @param URL 
-     * 
-     */
-    public SFSDataStore(URL fnURL, String namespaceURI, String user, String password, int timeout) throws IOException {
-        String strURL = fnURL.toString();
-        this.baseURL = strURL + (strURL.endsWith("/") ? "" : "/");
-        if(baseURL.endsWith("capabilities/")) {
-            baseURL = baseURL.substring(0, baseURL.length() - "capabilities/".length());
+
+        Envelope envelope = null;
+        if (tmpMap.containsKey("bbox")) {
+          JSONArray boundingArray = (JSONArray) tmpMap.get("bbox");
+          if (!xyOrder) {
+            SFSDataStoreUtil.flipYXInsideTheBoundingBox(boundingArray);
+          }
+          envelope =
+              new Envelope(
+                  ((Number) boundingArray.get(0)).doubleValue(),
+                  ((Number) boundingArray.get(2)).doubleValue(),
+                  ((Number) boundingArray.get(1)).doubleValue(),
+                  ((Number) boundingArray.get(3)).doubleValue());
         }
-        this.namespaceURI = namespaceURI;
-        this.user = user;
-        this.password = password;
-        this.timeout = timeout;
-        processCapabilities();
+
+        SFSLayer layer = new SFSLayer(name, xyOrder, strCRS, crs, envelope);
+        layers.put(name, layer);
+      }
+    } catch (Exception e) {
+      LOGGER.log(Level.SEVERE, "Exception occurred while parsing the capabilities", e);
+      throw (IOException) new IOException().initCause(e);
     }
+  }
 
-    /**
-     * Constructor -- it simply uses the json response from the server to extract
-     * the layer information. Only used for testing, not exposing it to the whole world
-     * @param String
-     * 
-     */
-    SFSDataStore(String json, String namespaceURI) throws IOException {
-        this.namespaceURI = namespaceURI;
-        processCapabilities(json);
-    }
+  /**
+   * Return the Layer Names
+   *
+   * @param
+   * @return typeNames
+   * @throws IOException
+   */
+  public List<Name> createTypeNames() throws IOException {
+    return new ArrayList<Name>(layers.keySet());
+  }
 
-    /**
-     * It processes the incoming URL and gets the response in the form of stream.
-     * It then converts the stream into a string(it should be in json format)
-     * @param 
-     * 
-     */
-    public final void processCapabilities() throws IOException {
-        processCapabilities(resourceToString("capabilities", null));
-    }
+  /**
+   * Call FeatureSource
+   *
+   * @param ContentEntry
+   * @return ContentFeatureSource
+   * @throws IOException
+   */
+  protected ContentFeatureSource createFeatureSource(ContentEntry entry) throws IOException {
 
-    /**
-     * This method processes the JSON from the server and extracts layer names
-     * and populates typeNames
-     * @param capabilitiesJSON
-     * 
-     */
-    final void processCapabilities(String capabilitiesJSON) throws IOException {
-        JSONParser parser = new JSONParser();
+    return new SFSFeatureSource(entry);
+  }
 
-        try {
-            Object obj = parser.parse(capabilitiesJSON);
-            JSONArray array = (JSONArray) obj;
+  /**
+   * Returns the layer definition for the given name
+   *
+   * @param name
+   * @return
+   */
+  SFSLayer getLayer(Name name) {
+    return layers.get(name);
+  }
 
-            Iterator itr = array.iterator();
-            while (itr.hasNext()) {
-                Map tmpMap = (HashMap) itr.next();
-                String strName = ((String) tmpMap.get("name")).trim();
-                Name name = new NameImpl(namespaceURI, strName);
-                
-                boolean xyOrder = (!tmpMap.containsKey("axisorder")) ? true : (tmpMap.get("axisorder").equals("xy"));
-                
-                String strCRS = null;
-                CoordinateReferenceSystem crs = null;
-                if (tmpMap.containsKey("crs")) {
-                    strCRS = ((String) tmpMap.get("crs")).trim();
-                    crs = SFSDataStoreUtil.decodeXY(strCRS);
-                }
+  /**
+   * This method requests the response from the URL either through GET/POST and then converts the
+   * response to string and returns the string fnData is URL encoded string The request is going to
+   * be a POST one if postData is not null, a GET otherwise
+   *
+   * @param is
+   * @return String
+   * @throws IOException
+   */
+  String resourceToString(String resource, String postData) throws IOException {
+    InputStream is = resourceToStream(resource, postData);
 
-                Envelope envelope = null;
-                if (tmpMap.containsKey("bbox")) {
-                    JSONArray boundingArray = (JSONArray) tmpMap.get("bbox");
-                    if (!xyOrder) {
-                        SFSDataStoreUtil.flipYXInsideTheBoundingBox(boundingArray);
-                    }
-                    envelope = new Envelope(
-                            ((Number) boundingArray.get(0)).doubleValue(), 
-                            ((Number) boundingArray.get(2)).doubleValue(), 
-                            ((Number) boundingArray.get(1)).doubleValue(), 
-                            ((Number) boundingArray.get(3)).doubleValue()); 
-                } 
-
-                SFSLayer layer = new SFSLayer(name, xyOrder, strCRS, crs, envelope);
-                layers.put(name, layer);
-            }
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Exception occurred while parsing the capabilities", e);
-            throw (IOException) new IOException().initCause(e);
+    if (is != null) {
+      StringBuilder sb = new StringBuilder();
+      String line;
+      try {
+        BufferedReader reader =
+            new BufferedReader(new InputStreamReader(is, SFSDataStoreUtil.DEFAULT_ENCODING));
+        while ((line = reader.readLine()) != null) {
+          sb.append(line);
         }
+      } finally {
+        is.close();
+      }
+      return sb.toString();
     }
 
-    /**
-     * Return the Layer Names
-     * @param 
-     * @return typeNames
-     * @throws IOException
-     * 
-     */
-    public List<Name> createTypeNames() throws IOException {
-         return new ArrayList<Name>(layers.keySet());
+    return "";
+  }
+
+  /**
+   * This method requests the response from the URL either through GET/POST and returns the response
+   * as a stream The request is going to be a POST one if postData is not null, a GET otherwise
+   *
+   * @param is
+   * @return String
+   * @throws IOException
+   */
+  InputStream resourceToStream(String resource, String postData)
+      throws MalformedURLException, IOException, ProtocolException {
+    boolean doPost = false;
+    URL url;
+    if (postData != null && (baseURL.length() + resource.length() + postData.length() < 2048)) {
+      url = new URL(baseURL + resource + "?" + postData);
+    } else {
+      url = new URL(baseURL + resource);
     }
 
-    /**
-     * Call FeatureSource
-     * @param ContentEntry
-     * @return ContentFeatureSource
-     * @throws IOException
-     * 
-     */
-    protected ContentFeatureSource createFeatureSource(ContentEntry entry) throws IOException {
+    // TODO: use commons http client + persistent connections instead
+    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+    urlConnection.setRequestProperty("Accept-Encoding", "gzip");
 
-        return new SFSFeatureSource(entry);
+    // if we have username/password use them to setup basic auth
+    if (user != null && password != null) {
+      String combined = nullToEmpty(user) + ":" + nullToEmpty(password);
+      byte[] authBytes = combined.getBytes("US-ASCII");
+      String encoded = new String(Base64.encodeBase64(authBytes));
+      urlConnection.setRequestProperty("Authorization", "Basic " + encoded);
     }
 
-    
-    /**
-     * Returns the layer definition for the given name
-     * @param name
-     * @return
-     */
-    SFSLayer getLayer(Name name) {
-        return layers.get(name);
+    // enforce the timeout if we have one
+    if (timeout > 0) {
+      urlConnection.setConnectTimeout(timeout);
+      urlConnection.setReadTimeout(timeout);
     }
-    
-    
-    /**
-     * This method requests the response from the URL either through GET/POST
-     * and then converts the response to string and returns the string
-     * fnData is URL encoded string
-     * The request is going to be a POST one if postData is not null, a GET otherwise
-     * @param is
-     * @return String
-     * @throws IOException
-     */
-    String resourceToString(String resource, String postData) throws IOException {
-        InputStream is = resourceToStream(resource, postData);
 
-        if (is != null) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is, SFSDataStoreUtil.DEFAULT_ENCODING));
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                }
-            } finally {
-                is.close();
-            }
-            return sb.toString();
+    urlConnection.setDoInput(true);
+    if (doPost && postData != null && !"".equals(postData.trim())) {
+      urlConnection.setRequestMethod("POST");
+      urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+      urlConnection.setDoOutput(true);
+
+      /*write the data to server*/
+      OutputStreamWriter wr = null;
+      try {
+        wr = new OutputStreamWriter(urlConnection.getOutputStream());
+        wr.write(postData);
+        wr.flush();
+      } finally {
+        if (wr != null) {
+          wr.close();
         }
-        
-        return "";
+      }
+    } else {
+      urlConnection.setRequestMethod("GET");
     }
 
-    /**
-     * This method requests the response from the URL either through GET/POST
-     * and returns the response as a stream
-     * The request is going to be a POST one if postData is not null, a GET otherwise
-     * @param is
-     * @return String
-     * @throws IOException
-     */
-    InputStream resourceToStream(String resource, String postData) throws MalformedURLException,
-            IOException, ProtocolException {
-        boolean doPost = false;
-        URL url;
-        if(postData != null && (baseURL.length() + resource.length() + postData.length() < 2048)) {
-            url = new URL(baseURL + resource + "?" + postData);
-        } else {
-            url = new URL(baseURL + resource);
-        }
-        
-        // TODO: use commons http client + persistent connections instead
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        urlConnection.setRequestProperty("Accept-Encoding", "gzip");
-        
-        // if we have username/password use them to setup basic auth
-        if(user != null && password != null) {
-            String combined = nullToEmpty(user) + ":" + nullToEmpty(password);
-            byte[] authBytes = combined.getBytes("US-ASCII");
-            String encoded = new String(Base64.encodeBase64(authBytes));
-            urlConnection.setRequestProperty("Authorization",  "Basic " + encoded);
-        }
-        
-        // enforce the timeout if we have one
-        if(timeout > 0) {
-            urlConnection.setConnectTimeout(timeout);
-            urlConnection.setReadTimeout(timeout);
-        }
-        
-        urlConnection.setDoInput(true);
-        if(doPost && postData != null && !"".equals(postData.trim())) {
-            urlConnection.setRequestMethod("POST");
-            urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            urlConnection.setDoOutput(true);
-            
-            /*write the data to server*/
-            OutputStreamWriter wr = null;
-            try {
-                wr = new OutputStreamWriter(urlConnection.getOutputStream());
-                wr.write(postData);
-                wr.flush();
-            } finally {
-                if(wr != null) {
-                    wr.close();
-                }
-            }
-        } else {
-            urlConnection.setRequestMethod("GET");
-        }
-        
-        /* Get the response from the server*/
-        if(urlConnection.getResponseCode() != 200) {
-            throw new IOException("Server reported and error with code " + 
-                    urlConnection.getResponseCode() + ": " + urlConnection.getResponseMessage() + " accessing resource " + url.toExternalForm());
-        } else {
-            InputStream is = urlConnection.getInputStream();
-            String encoding = urlConnection.getContentEncoding();
-            if ("gzip".equalsIgnoreCase(encoding)) {
-                is = new GZIPInputStream(is);
-            }
-            
-            return is;
-        }
-    }
+    /* Get the response from the server*/
+    if (urlConnection.getResponseCode() != 200) {
+      throw new IOException(
+          "Server reported and error with code "
+              + urlConnection.getResponseCode()
+              + ": "
+              + urlConnection.getResponseMessage()
+              + " accessing resource "
+              + url.toExternalForm());
+    } else {
+      InputStream is = urlConnection.getInputStream();
+      String encoding = urlConnection.getContentEncoding();
+      if ("gzip".equalsIgnoreCase(encoding)) {
+        is = new GZIPInputStream(is);
+      }
 
-    private String nullToEmpty(String string) {
-        return string != null ? string : "";
+      return is;
     }
+  }
 
+  private String nullToEmpty(String string) {
+    return string != null ? string : "";
+  }
 }

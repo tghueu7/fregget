@@ -5,9 +5,8 @@ import org.geotools.xml.test.XMLTestSupport;
 
 public abstract class KMLTestSupport extends XMLTestSupport {
 
-    @Override
-    protected Configuration createConfiguration() {
-        return new KMLConfiguration();
-    }
-
+  @Override
+  protected Configuration createConfiguration() {
+    return new KMLConfiguration();
+  }
 }

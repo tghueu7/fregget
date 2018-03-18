@@ -22,32 +22,32 @@ import org.junit.Test;
 
 public class DelayedSchemaFeatureCollectionTest extends DataTestCase {
 
-    public DelayedSchemaFeatureCollectionTest() {
-        super(DelayedSchemaFeatureCollectionTest.class.getSimpleName());
-    }
+  public DelayedSchemaFeatureCollectionTest() {
+    super(DelayedSchemaFeatureCollectionTest.class.getSimpleName());
+  }
 
-    @Test
-    public void testEmpty() {
-        DelayedSchemaFeatureCollection fc = new DelayedSchemaFeatureCollection();
-        assertEquals(DelayedSchemaFeatureCollection.PLACEHOLDER, fc.getSchema());
-        assertTrue(fc.getBounds().isEmpty());
-        fc.add(riverFeatures[0]);
-        assertFalse(fc.getBounds().isEmpty());
-        assertEquals(riverType, fc.getSchema());
+  @Test
+  public void testEmpty() {
+    DelayedSchemaFeatureCollection fc = new DelayedSchemaFeatureCollection();
+    assertEquals(DelayedSchemaFeatureCollection.PLACEHOLDER, fc.getSchema());
+    assertTrue(fc.getBounds().isEmpty());
+    fc.add(riverFeatures[0]);
+    assertFalse(fc.getBounds().isEmpty());
+    assertEquals(riverType, fc.getSchema());
+  }
+
+  @Test
+  public void testTwoTypes() {
+    DelayedSchemaFeatureCollection fc = new DelayedSchemaFeatureCollection();
+    fc.add(riverFeatures[0]);
+    fc.add(lakeFeatures[0]);
+    // the type is the one of the first feature
+    assertEquals(riverType, fc.getSchema());
+    // but we can get both un-modified
+    try (SimpleFeatureIterator it = fc.features()) {
+      assertEquals(riverFeatures[0], it.next());
+      assertEquals(lakeFeatures[0], it.next());
+      assertFalse(it.hasNext());
     }
-    
-    @Test
-    public void testTwoTypes() {
-        DelayedSchemaFeatureCollection fc = new DelayedSchemaFeatureCollection();
-        fc.add(riverFeatures[0]);
-        fc.add(lakeFeatures[0]);
-        // the type is the one of the first feature
-        assertEquals(riverType, fc.getSchema());
-        // but we can get both un-modified
-        try(SimpleFeatureIterator it = fc.features()) {
-            assertEquals(riverFeatures[0], it.next());
-            assertEquals(lakeFeatures[0], it.next());
-            assertFalse(it.hasNext());
-        }
-    }
+  }
 }

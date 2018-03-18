@@ -17,28 +17,27 @@
 package org.geotools.data.postgis;
 
 import java.util.Map;
-
 import org.geotools.factory.Hints;
 import org.geotools.util.Converter;
 import org.geotools.util.ConverterFactory;
 
 /**
  * ConverterFactory for handling Map of String to {@link HStore} conversion.
- * 
+ *
  * @author Daniele Romagnoli - GeoSolutions SAS
  */
 public class HStoreConverterFactory implements ConverterFactory {
 
-    @Override
-    public Converter createConverter(Class<?> source, Class<?> target, Hints hints) {
-        if (HStore.class.equals(target) && Map.class.isAssignableFrom(source)) {
-            return new Converter() {
+  @Override
+  public Converter createConverter(Class<?> source, Class<?> target, Hints hints) {
+    if (HStore.class.equals(target) && Map.class.isAssignableFrom(source)) {
+      return new Converter() {
 
-                public Object convert(Object source, Class target) throws Exception {
-                    return new HStore((Map<String, String>) source);
-                }
-            };
+        public Object convert(Object source, Class target) throws Exception {
+          return new HStore((Map<String, String>) source);
         }
-        return null;
+      };
     }
+    return null;
+  }
 }

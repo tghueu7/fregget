@@ -19,25 +19,23 @@ package org.geotools.coverage.io.grib;
 import java.awt.RenderingHints.Key;
 import java.util.Collections;
 import java.util.Map;
-
 import org.geotools.coverage.grid.io.AbstractGridFormat;
 import org.geotools.coverage.grid.io.GridFormatFactorySpi;
 
-public class GRIBFormatFactorySPI implements GridFormatFactorySpi{
+public class GRIBFormatFactorySPI implements GridFormatFactorySpi {
 
-    @Override
-    public boolean isAvailable() {
-        return true;
-    }
+  @Override
+  public boolean isAvailable() {
+    return true;
+  }
 
-    @Override
-    public Map<Key, ?> getImplementationHints() {
-        return Collections.EMPTY_MAP;
-    }
+  @Override
+  public Map<Key, ?> getImplementationHints() {
+    return Collections.EMPTY_MAP;
+  }
 
-    @Override
-    public AbstractGridFormat createFormat() {
-        return new GRIBFormat();
-    }
-
+  @Override
+  public AbstractGridFormat createFormat() {
+    return new GRIBFormat();
+  }
 }

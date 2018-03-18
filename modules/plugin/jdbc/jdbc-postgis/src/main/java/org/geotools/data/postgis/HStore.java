@@ -21,41 +21,41 @@ import java.util.Map;
 
 public class HStore extends HashMap<String, String> {
 
-    private static final long serialVersionUID = -2696388478311744741L;
+  private static final long serialVersionUID = -2696388478311744741L;
 
-    public final static String TYPENAME = "hstore";
+  public static final String TYPENAME = "hstore";
 
-    private final static String EMPTY = "{}";
+  private static final String EMPTY = "{}";
 
-    private final static String NULL = "null";
+  private static final String NULL = "null";
 
-    public HStore(Map<String, String> map) {
-        if (map != null) {
-            putAll(map);
-        }
+  public HStore(Map<String, String> map) {
+    if (map != null) {
+      putAll(map);
     }
+  }
 
-    @Override
-    public String toString() {
-        // Quick shortcut
-        if (isEmpty()) {
-            return EMPTY;
-        }
-        // Setup a json output via code, avoiding to include JSON artifacts dependencies
-        StringBuilder sb = new StringBuilder("{");
-        String prefix = "";
-        for (Map.Entry<String, String> entry : entrySet()) {
-            sb.append(prefix);
-            sb.append(doubleQuoteString(entry.getKey())).append(":")
-                    .append(doubleQuoteString(entry.getValue()));
-            prefix = ",";
-        }
-        sb.append("}");
-        return sb.toString();
+  @Override
+  public String toString() {
+    // Quick shortcut
+    if (isEmpty()) {
+      return EMPTY;
     }
-
-    private final static String doubleQuoteString(String string) {
-        return string != null ? ("\"" + string + "\"") : NULL;
+    // Setup a json output via code, avoiding to include JSON artifacts dependencies
+    StringBuilder sb = new StringBuilder("{");
+    String prefix = "";
+    for (Map.Entry<String, String> entry : entrySet()) {
+      sb.append(prefix);
+      sb.append(doubleQuoteString(entry.getKey()))
+          .append(":")
+          .append(doubleQuoteString(entry.getValue()));
+      prefix = ",";
     }
+    sb.append("}");
+    return sb.toString();
+  }
 
+  private static final String doubleQuoteString(String string) {
+    return string != null ? ("\"" + string + "\"") : NULL;
+  }
 }

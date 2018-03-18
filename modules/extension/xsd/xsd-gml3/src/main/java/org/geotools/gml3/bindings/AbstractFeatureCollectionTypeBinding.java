@@ -18,9 +18,7 @@ package org.geotools.gml3.bindings;
 
 import java.util.Collection;
 import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.data.DataUtilities;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.feature.FeatureCollection;
@@ -30,12 +28,12 @@ import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 import org.opengis.feature.simple.SimpleFeature;
 
-
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractFeatureCollectionType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType abstract="true" name="AbstractFeatureCollectionType"&gt;
  *      &lt;annotation&gt;
@@ -53,75 +51,70 @@ import org.opengis.feature.simple.SimpleFeature;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class AbstractFeatureCollectionTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.AbstractFeatureCollectionType;
+  /** @generated */
+  public QName getTarget() {
+    return GML.AbstractFeatureCollectionType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return FeatureCollection.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    SimpleFeatureCollection featureCollection =
+        (SimpleFeatureCollection) node.getChildValue(FeatureCollection.class);
+    if (featureCollection == null) {
+      featureCollection = new DelayedSchemaFeatureCollection();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return FeatureCollection.class;
+    // &lt;element maxOccurs="unbounded" minOccurs="0" ref="gml:featureMember"/&gt;
+    List<SimpleFeature> childValues = node.getChildValues(SimpleFeature.class);
+
+    // example DefaultFeatureCollections or ListFeatureCollection
+    Collection<SimpleFeature> collection = DataUtilities.collectionCast(featureCollection);
+    collection.addAll(childValues);
+
+    // &lt;element minOccurs="0" ref="gml:featureMembers"/&gt;
+    SimpleFeature[] featureMembers = (SimpleFeature[]) node.getChildValue(SimpleFeature[].class);
+
+    if (featureMembers != null) {
+      for (int i = 0; i < featureMembers.length; i++) {
+        collection.add(featureMembers[i]);
+      }
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        SimpleFeatureCollection featureCollection = 
-            (SimpleFeatureCollection) node.getChildValue(FeatureCollection.class);
-        if (featureCollection == null) {
-            featureCollection = new DelayedSchemaFeatureCollection();
-        }
+    return featureCollection;
+  }
 
-        //&lt;element maxOccurs="unbounded" minOccurs="0" ref="gml:featureMember"/&gt;
-        List<SimpleFeature> childValues = node.getChildValues(SimpleFeature.class);
-        
-        // example DefaultFeatureCollections or ListFeatureCollection
-        Collection<SimpleFeature> collection = DataUtilities.collectionCast( featureCollection );
-        collection.addAll(childValues);
+  public Object getProperty(Object object, QName name) {
+    // just return the features themselves
+    if (GML.featureMembers.equals(name)) {
+      SimpleFeatureCollection fc = (SimpleFeatureCollection) object;
 
-        //&lt;element minOccurs="0" ref="gml:featureMembers"/&gt;
-        SimpleFeature[] featureMembers = (SimpleFeature[]) node.getChildValue(SimpleFeature[].class);
+      return fc;
 
-        if (featureMembers != null) {
-            for (int i = 0; i < featureMembers.length; i++) {
-                collection.add(featureMembers[i]);
-            }
-        }
-
-        return featureCollection;
+      // return fc.toArray(new Feature[fc.size()]);
     }
 
-    public Object getProperty(Object object, QName name) {
-        //just return the features themselves
-        if (GML.featureMembers.equals(name)) {
-            SimpleFeatureCollection fc = (SimpleFeatureCollection) object;
-
-            return fc;
-
-            // return fc.toArray(new Feature[fc.size()]);
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

@@ -16,17 +16,13 @@
  */
 package org.geotools.ml;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class Header {
-    String value;
-    private String name;
+  String value;
+  private String name;
 
-    public Header(String name, String value) {
-        this.name = name;
-        this.value = value;
-    }
+  public Header(String name, String value) {
+    this.name = name;
+    this.value = value;
+  }
 }

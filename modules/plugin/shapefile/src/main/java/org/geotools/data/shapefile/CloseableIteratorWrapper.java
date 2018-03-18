@@ -18,33 +18,29 @@ package org.geotools.data.shapefile;
 
 import java.io.IOException;
 import java.util.Iterator;
-
 import org.geotools.data.CloseableIterator;
 
-/**
- * Wraps a plain iterator into a closeable one.
- */
+/** Wraps a plain iterator into a closeable one. */
 class CloseableIteratorWrapper<E> implements CloseableIterator<E> {
-    Iterator<E> delegate;
+  Iterator<E> delegate;
 
-    public CloseableIteratorWrapper(Iterator<E> delegate) {
-        this.delegate = delegate;
-    }
+  public CloseableIteratorWrapper(Iterator<E> delegate) {
+    this.delegate = delegate;
+  }
 
-    public boolean hasNext() {
-        return delegate.hasNext();
-    }
+  public boolean hasNext() {
+    return delegate.hasNext();
+  }
 
-    public E next() {
-        return delegate.next();
-    }
+  public E next() {
+    return delegate.next();
+  }
 
-    public void remove() {
-        delegate.remove();
-    }
+  public void remove() {
+    delegate.remove();
+  }
 
-    public void close() throws IOException {
-        // Just makes the API happy, the delegate does not really have a close method
-    }
-
+  public void close() throws IOException {
+    // Just makes the API happy, the delegate does not really have a close method
+  }
 }

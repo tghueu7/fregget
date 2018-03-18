@@ -16,40 +16,39 @@
  */
 package org.geotools.gml2.simple;
 
+import com.vividsolutions.jts.geom.Point;
 import org.geotools.gml2.GML;
 import org.geotools.xml.Encoder;
 import org.xml.sax.helpers.AttributesImpl;
 
-import com.vividsolutions.jts.geom.Point;
-
 /**
  * Encodes a GML2 point
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */
 class PointEncoder extends GeometryEncoder<Point> {
 
-    static final QualifiedName POINT = new QualifiedName(GML.NAMESPACE, "Point", "gml");
+  static final QualifiedName POINT = new QualifiedName(GML.NAMESPACE, "Point", "gml");
 
-    static final QualifiedName COORD = new QualifiedName(GML.NAMESPACE, "coord", "gml");
+  static final QualifiedName COORD = new QualifiedName(GML.NAMESPACE, "coord", "gml");
 
-    QualifiedName point;
+  QualifiedName point;
 
-    QualifiedName coord;
+  QualifiedName coord;
 
-    QualifiedName multiPolygon;
+  QualifiedName multiPolygon;
 
-    protected PointEncoder(Encoder encoder, String gmlPrefix) {
-        super(encoder);
-        point = POINT.derive(gmlPrefix);
-        coord = COORD.derive(gmlPrefix);
-    }
+  protected PointEncoder(Encoder encoder, String gmlPrefix) {
+    super(encoder);
+    point = POINT.derive(gmlPrefix);
+    coord = COORD.derive(gmlPrefix);
+  }
 
-    @Override
-    public void encode(Point geometry, AttributesImpl atts, GMLWriter handler) throws Exception {
-        handler.startElement(point, atts);
-        handler.coordinates(geometry.getCoordinateSequence());
-        handler.endElement(point);
-    }
+  @Override
+  public void encode(Point geometry, AttributesImpl atts, GMLWriter handler) throws Exception {
+    handler.startElement(point, atts);
+    handler.coordinates(geometry.getCoordinateSequence());
+    handler.endElement(point);
+  }
 }

@@ -20,31 +20,29 @@ import java.io.IOException;
 
 /**
  * DOCUMENT ME!
- * 
+ *
  * @author Tommaso Nolli
- *
- *
  * @source $URL$
  */
 public class StoreException extends IOException {
 
-    private static final long serialVersionUID = -3356954193373344773L;
+  private static final long serialVersionUID = -3356954193373344773L;
 
-    public StoreException() {
-        super();
-    }
+  public StoreException() {
+    super();
+  }
 
-    public StoreException(String message) {
-        super(message);
-    }
+  public StoreException(String message) {
+    super(message);
+  }
 
-    public StoreException(Throwable cause) {
-        super();
-        initCause(cause);
-    }
+  public StoreException(Throwable cause) {
+    super();
+    initCause(cause);
+  }
 
-    public StoreException(String message, Throwable cause) {
-        super(message);
-        initCause(cause);
-    }
+  public StoreException(String message, Throwable cause) {
+    super(message);
+    initCause(cause);
+  }
 }

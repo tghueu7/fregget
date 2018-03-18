@@ -21,34 +21,29 @@ import org.geotools.filter.Filters;
 import org.geotools.styling.Graphic;
 import org.geotools.styling.Mark;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDGraphicBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(Graphic.class, new SLDGraphicBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(Graphic.class, new SLDGraphicBinding(null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.graphic(document, document);
+  public void test() throws Exception {
+    SLDMockData.graphic(document, document);
 
-        Graphic graphic = (Graphic) parse();
-        assertNotNull(graphic);
+    Graphic graphic = (Graphic) parse();
+    assertNotNull(graphic);
 
-        assertEquals(graphic.getMarks().length, 1);
+    assertEquals(graphic.getMarks().length, 1);
 
-        Mark mark = graphic.getMarks()[0];
+    Mark mark = graphic.getMarks()[0];
 
-        Color c = org.geotools.styling.SLD.color(mark.getFill().getColor());
-        assertEquals(Integer.parseInt("12", 16), c.getRed());
-        assertEquals(Integer.parseInt("34", 16), c.getGreen());
-        assertEquals(Integer.parseInt("56", 16), c.getBlue());
+    Color c = org.geotools.styling.SLD.color(mark.getFill().getColor());
+    assertEquals(Integer.parseInt("12", 16), c.getRed());
+    assertEquals(Integer.parseInt("34", 16), c.getGreen());
+    assertEquals(Integer.parseInt("56", 16), c.getBlue());
 
-        assertEquals(1, Filters.asInt(graphic.getSize()));
-        assertEquals(1, Filters.asInt(graphic.getOpacity()));
-        assertEquals(90, Filters.asInt(graphic.getRotation()));
-    }
+    assertEquals(1, Filters.asInt(graphic.getSize()));
+    assertEquals(1, Filters.asInt(graphic.getOpacity()));
+    assertEquals(90, Filters.asInt(graphic.getRotation()));
+  }
 }

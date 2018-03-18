@@ -18,31 +18,23 @@ package org.geotools.xml.impl;
 
 import org.eclipse.xsd.XSDAttributeDeclaration;
 
-
 /**
- * Classes implementing this interace serve as handlers for attributes in an
- * instance document as it is parsed.
+ * Classes implementing this interace serve as handlers for attributes in an instance document as it
+ * is parsed.
  *
- * <p>
- * An attribute handler corresponds to a specific attribute in a schema.
- * </p>
+ * <p>An attribute handler corresponds to a specific attribute in a schema.
  *
  * @author Justin Deoliveira,Refractions Research Inc.,jdeolive@refractions.net
- *
- *
- *
  * @source $URL$
  */
 public interface AttributeHandler extends Handler {
-    /**
-     * @return The schema declaration of the attribute being handled.
-     */
-    XSDAttributeDeclaration getAttributeDeclaration();
+  /** @return The schema declaration of the attribute being handled. */
+  XSDAttributeDeclaration getAttributeDeclaration();
 
-    /**
-     * Sets the attribute instance being handled by the handler.
-     *
-     * @param value The value of the attribute from an instance document.
-     */
-    void handleAttribute(String value);
+  /**
+   * Sets the attribute instance being handled by the handler.
+   *
+   * @param value The value of the attribute from an instance document.
+   */
+  void handleAttribute(String value);
 }

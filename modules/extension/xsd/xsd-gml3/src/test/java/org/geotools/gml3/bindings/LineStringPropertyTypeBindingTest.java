@@ -16,39 +16,34 @@
  */
 package org.geotools.gml3.bindings;
 
+import com.vividsolutions.jts.geom.LineString;
 import org.geotools.gml3.GML;
 import org.geotools.gml3.GML3TestSupport;
 import org.geotools.xml.Binding;
 import org.w3c.dom.Document;
 
-import com.vividsolutions.jts.geom.LineString;
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class LineStringPropertyTypeBindingTest extends GML3TestSupport {
 
-    public void testType() {
-        assertEquals(LineString.class, binding(GML.LineStringPropertyType).getType());
-    }
+  public void testType() {
+    assertEquals(LineString.class, binding(GML.LineStringPropertyType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(GML.LineStringPropertyType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(GML.LineStringPropertyType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        GML3MockData.lineStringProperty(document, document);
+  public void testParse() throws Exception {
+    GML3MockData.lineStringProperty(document, document);
 
-        LineString line = (LineString) parse();
-        assertNotNull(line);
-    }
+    LineString line = (LineString) parse();
+    assertNotNull(line);
+  }
 
-    public void testEncode() throws Exception {
-        Document doc = encode(GML3MockData.lineString(), GML.lineStringProperty);
-        
-        assertEquals(1,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.LineString.getLocalPart()).getLength());
-    }
+  public void testEncode() throws Exception {
+    Document doc = encode(GML3MockData.lineString(), GML.lineStringProperty);
+
+    assertEquals(
+        1, doc.getElementsByTagNameNS(GML.NAMESPACE, GML.LineString.getLocalPart()).getLength());
+  }
 }

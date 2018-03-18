@@ -23,25 +23,21 @@ import com.vividsolutions.jts.geom.Coordinate;
  * Represents a {@code GridElement} that is a polygon.
  *
  * @author michael
- *
- *
- *
  * @source $URL$
  */
 public interface PolygonElement extends GridElement {
 
-    /**
-     * Gets the area of this grid element.
-     *
-     * @return the area
-     */
-    double getArea();
+  /**
+   * Gets the area of this grid element.
+   *
+   * @return the area
+   */
+  double getArea();
 
-    /**
-     * Gets the center coordinates of this grid element.
-     *
-     * @return the center coordinates
-     */
-    Coordinate getCenter();
-
+  /**
+   * Gets the center coordinates of this grid element.
+   *
+   * @return the center coordinates
+   */
+  Coordinate getCenter();
 }

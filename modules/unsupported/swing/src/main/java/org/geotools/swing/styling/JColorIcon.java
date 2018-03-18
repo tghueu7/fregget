@@ -20,7 +20,6 @@ package org.geotools.swing.styling;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
-
 import javax.swing.Icon;
 
 /**
@@ -28,72 +27,68 @@ import javax.swing.Icon;
  *
  * @author Michael Bedward
  * @since 2.6
- *
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class JColorIcon implements Icon {
-    
-    private int width;
-    private int height;
-    private Color color;
 
-    /**
-     * Construtor.
-     *
-     * @param width icon width
-     * @param height icon height
-     * @param color initial color
-     */
-    public JColorIcon(int width, int height, Color color) {
-        this.width = width;
-        this.height = height;
-        this.color = color;
-    }
+  private int width;
+  private int height;
+  private Color color;
 
-    /**
-     * Paint the icon using the current color. This method is
-     * invoked by the System.
-     *
-     * @param c arg presently ignored
-     * @param g graphics object
-     * @param x x position
-     * @param y y position
-     */
-    public void paintIcon(Component c, Graphics g, int x, int y) {
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
+  /**
+   * Construtor.
+   *
+   * @param width icon width
+   * @param height icon height
+   * @param color initial color
+   */
+  public JColorIcon(int width, int height, Color color) {
+    this.width = width;
+    this.height = height;
+    this.color = color;
+  }
 
-        g.setColor(Color.BLACK);
-        g.drawRect(x, y, width, height);
-    }
+  /**
+   * Paint the icon using the current color. This method is invoked by the System.
+   *
+   * @param c arg presently ignored
+   * @param g graphics object
+   * @param x x position
+   * @param y y position
+   */
+  public void paintIcon(Component c, Graphics g, int x, int y) {
+    g.setColor(color);
+    g.fillRect(x, y, width, height);
 
-    /**
-     * Get the icon's width
-     *
-     * @return width in pixels
-     */
-    public int getIconWidth() {
-        return width;
-    }
+    g.setColor(Color.BLACK);
+    g.drawRect(x, y, width, height);
+  }
 
-    /**
-     * Get the icon's height
-     *
-     * @return height in pixels
-     */
-    public int getIconHeight() {
-        return height;
-    }
+  /**
+   * Get the icon's width
+   *
+   * @return width in pixels
+   */
+  public int getIconWidth() {
+    return width;
+  }
 
-    /**
-     * Set the color
-     * @param color new color
-     */
-    public void setColor(Color color) {
-        this.color = color;
-    }
+  /**
+   * Get the icon's height
+   *
+   * @return height in pixels
+   */
+  public int getIconHeight() {
+    return height;
+  }
 
+  /**
+   * Set the color
+   *
+   * @param color new color
+   */
+  public void setColor(Color color) {
+    this.color = color;
+  }
 }

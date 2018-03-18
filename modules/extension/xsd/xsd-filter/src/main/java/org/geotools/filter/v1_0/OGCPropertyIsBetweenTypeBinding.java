@@ -16,21 +16,21 @@
  */
 package org.geotools.filter.v1_0;
 
-import org.picocontainer.MutablePicoContainer;
 import javax.xml.namespace.QName;
-import org.opengis.filter.FilterFactory;
-import org.opengis.filter.PropertyIsBetween;
-import org.opengis.filter.expression.Expression;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
-
+import org.opengis.filter.FilterFactory;
+import org.opengis.filter.PropertyIsBetween;
+import org.opengis.filter.expression.Expression;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:PropertyIsBetweenType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="PropertyIsBetweenType"&gt;
  *      &lt;xsd:complexContent&gt;
@@ -46,81 +46,75 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCPropertyIsBetweenTypeBinding extends AbstractComplexBinding {
-    private FilterFactory factory;
+  private FilterFactory factory;
 
-    public OGCPropertyIsBetweenTypeBinding(FilterFactory factory) {
-        this.factory = factory;
+  public OGCPropertyIsBetweenTypeBinding(FilterFactory factory) {
+    this.factory = factory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return OGC.PropertyIsBetweenType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return PropertyIsBetween.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Expression e = (Expression) node.getChildValue(0);
+    Expression l = (Expression) node.getChildValue(1);
+    Expression u = (Expression) node.getChildValue(2);
+
+    return factory.between(e, l, u);
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    PropertyIsBetween between = (PropertyIsBetween) object;
+
+    // &lt;xsd:element ref="ogc:expression"/&gt;
+    if (OGC.expression.equals(name)) {
+      return between.getExpression();
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.PropertyIsBetweenType;
+    // &lt;xsd:element name="LowerBoundary" type="ogc:LowerBoundaryType"/&gt;
+    if ("LowerBoundary".equals(name.getLocalPart())) {
+      return between.getLowerBoundary();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return PropertyIsBetween.class;
+    // &lt;xsd:element name="UpperBoundary" type="ogc:UpperBoundaryType"/&gt;
+    if ("UpperBoundary".equals(name.getLocalPart())) {
+      return between.getUpperBoundary();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Expression e = (Expression) node.getChildValue(0);
-        Expression l = (Expression) node.getChildValue(1);
-        Expression u = (Expression) node.getChildValue(2);
-
-        return factory.between(e, l, u);
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        PropertyIsBetween between = (PropertyIsBetween) object;
-
-        //&lt;xsd:element ref="ogc:expression"/&gt;
-        if (OGC.expression.equals(name)) {
-            return between.getExpression();
-        }
-
-        //&lt;xsd:element name="LowerBoundary" type="ogc:LowerBoundaryType"/&gt;
-        if ("LowerBoundary".equals(name.getLocalPart())) {
-            return between.getLowerBoundary();
-        }
-
-        //&lt;xsd:element name="UpperBoundary" type="ogc:UpperBoundaryType"/&gt;
-        if ("UpperBoundary".equals(name.getLocalPart())) {
-            return between.getUpperBoundary();
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

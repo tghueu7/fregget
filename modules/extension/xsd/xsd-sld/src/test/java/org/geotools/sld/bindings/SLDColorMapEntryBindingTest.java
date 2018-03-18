@@ -20,30 +20,25 @@ import java.awt.Color;
 import org.geotools.filter.Filters;
 import org.geotools.styling.ColorMapEntry;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDColorMapEntryBindingTest extends SLDTestSupport {
-    public void testType() {
-        assertEquals(ColorMapEntry.class, new SLDColorMapEntryBinding(null, null).getType());
-    }
+  public void testType() {
+    assertEquals(ColorMapEntry.class, new SLDColorMapEntryBinding(null, null).getType());
+  }
 
-    public void testNormal() throws Exception {
-        document.appendChild(document.createElementNS(SLD.NAMESPACE, "ColorMapEntry"));
+  public void testNormal() throws Exception {
+    document.appendChild(document.createElementNS(SLD.NAMESPACE, "ColorMapEntry"));
 
-        document.getDocumentElement().setAttributeNS(SLD.NAMESPACE, "color", "#000000");
-        document.getDocumentElement().setAttributeNS(SLD.NAMESPACE, "opacity", "1.2");
-        document.getDocumentElement().setAttributeNS(SLD.NAMESPACE, "quantity", "3.4");
-        document.getDocumentElement().setAttributeNS(SLD.NAMESPACE, "label", "someLabel");
+    document.getDocumentElement().setAttributeNS(SLD.NAMESPACE, "color", "#000000");
+    document.getDocumentElement().setAttributeNS(SLD.NAMESPACE, "opacity", "1.2");
+    document.getDocumentElement().setAttributeNS(SLD.NAMESPACE, "quantity", "3.4");
+    document.getDocumentElement().setAttributeNS(SLD.NAMESPACE, "label", "someLabel");
 
-        ColorMapEntry entry = (ColorMapEntry) parse();
-        assertNotNull(entry);
-        assertEquals(org.geotools.styling.SLD.color(entry.getColor()), Color.BLACK);
-        assertEquals(Filters.asDouble(entry.getOpacity()), 1.2d, 0d);
-        assertEquals(Filters.asDouble(entry.getQuantity()), 3.4d, 0d);
-        assertEquals(entry.getLabel(), "someLabel");
-    }
+    ColorMapEntry entry = (ColorMapEntry) parse();
+    assertNotNull(entry);
+    assertEquals(org.geotools.styling.SLD.color(entry.getColor()), Color.BLACK);
+    assertEquals(Filters.asDouble(entry.getOpacity()), 1.2d, 0d);
+    assertEquals(Filters.asDouble(entry.getQuantity()), 3.4d, 0d);
+    assertEquals(entry.getLabel(), "someLabel");
+  }
 }

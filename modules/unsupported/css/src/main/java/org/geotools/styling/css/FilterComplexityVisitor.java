@@ -26,23 +26,23 @@ import org.opengis.filter.Not;
  * @author Andrea Aime - GeoSolutions
  */
 class FilterComplexityVisitor extends AbstractFilterVisitor {
-    int count = 1;
+  int count = 1;
 
-    @Override
-    public Object visit(And filter, Object data) {
-        count += filter.getChildren().size();
-        return super.visit(filter, data);
-    }
+  @Override
+  public Object visit(And filter, Object data) {
+    count += filter.getChildren().size();
+    return super.visit(filter, data);
+  }
 
-    @Override
-    public Object visit(org.opengis.filter.Or filter, Object data) {
-        count += filter.getChildren().size();
-        return super.visit(filter, data);
-    }
+  @Override
+  public Object visit(org.opengis.filter.Or filter, Object data) {
+    count += filter.getChildren().size();
+    return super.visit(filter, data);
+  }
 
-    @Override
-    public Object visit(Not filter, Object data) {
-        count++;
-        return super.visit(filter, data);
-    }
+  @Override
+  public Object visit(Not filter, Object data) {
+    count++;
+    return super.visit(filter, data);
+  }
 }

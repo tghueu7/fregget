@@ -25,38 +25,36 @@ import org.geotools.xml.Binding;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class LineStringTypeBindingTest extends KMLTestSupport {
-    public void testType() {
-        assertEquals(LineString.class, binding(KML.LineStringType).getType());
-    }
+  public void testType() {
+    assertEquals(LineString.class, binding(KML.LineStringType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(KML.LineStringType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(KML.LineStringType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        buildDocument("<LineString><coordinates>1,1 2,2 3,3</coordinates></LineString>");
+  public void testParse() throws Exception {
+    buildDocument("<LineString><coordinates>1,1 2,2 3,3</coordinates></LineString>");
 
-        LineString l = (LineString) parse();
+    LineString l = (LineString) parse();
 
-        assertEquals(3, l.getNumPoints());
-        assertEquals(new Coordinate(1, 1), l.getCoordinateN(0));
-        assertEquals(new Coordinate(3, 3), l.getCoordinateN(2));
-    }
-    
-    public void testEncode() throws Exception {
-        LineString l = new GeometryFactory().createLineString(
-            new Coordinate[]{ new Coordinate(1,1), new Coordinate(2,2), new Coordinate(3,3)}
-        );
-        
-        Document dom = encode( l, KML.LineString );
-        Element coordinates = getElementByQName( dom, KML.coordinates );
-        assertNotNull( coordinates );
-    }
+    assertEquals(3, l.getNumPoints());
+    assertEquals(new Coordinate(1, 1), l.getCoordinateN(0));
+    assertEquals(new Coordinate(3, 3), l.getCoordinateN(2));
+  }
+
+  public void testEncode() throws Exception {
+    LineString l =
+        new GeometryFactory()
+            .createLineString(
+                new Coordinate[] {
+                  new Coordinate(1, 1), new Coordinate(2, 2), new Coordinate(3, 3)
+                });
+
+    Document dom = encode(l, KML.LineString);
+    Element coordinates = getElementByQName(dom, KML.coordinates);
+    assertNotNull(coordinates);
+  }
 }

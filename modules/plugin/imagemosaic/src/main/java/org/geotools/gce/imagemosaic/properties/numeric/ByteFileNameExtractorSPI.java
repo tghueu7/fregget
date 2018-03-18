@@ -17,26 +17,20 @@
 package org.geotools.gce.imagemosaic.properties.numeric;
 
 import java.util.List;
-
 import org.geotools.gce.imagemosaic.properties.PropertiesCollector;
 import org.geotools.gce.imagemosaic.properties.PropertiesCollectorSPI;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public final class ByteFileNameExtractorSPI extends NumericFileNameExtractorSPI
-        implements PropertiesCollectorSPI {
+    implements PropertiesCollectorSPI {
 
-    public ByteFileNameExtractorSPI() {
-        super("ByteFileNameExtractorSPI");
-    }
+  public ByteFileNameExtractorSPI() {
+    super("ByteFileNameExtractorSPI");
+  }
 
-    @Override
-    protected PropertiesCollector createInternal(PropertiesCollectorSPI spi,
-            List<String> propertyNames, String regex) {
-        return new NumericFileNameExtractor.ByteFileNameExtractor(spi, propertyNames, regex);
-    }
-
+  @Override
+  protected PropertiesCollector createInternal(
+      PropertiesCollectorSPI spi, List<String> propertyNames, String regex) {
+    return new NumericFileNameExtractor.ByteFileNameExtractor(spi, propertyNames, regex);
+  }
 }

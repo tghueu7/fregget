@@ -18,66 +18,57 @@ package org.geotools.validation.spatial;
 
 import org.geotools.validation.DefaultIntegrityValidation;
 
-
 /**
  * PointCoveredByLineValidation purpose.
- * 
- * <p>
- * Basic typeref functionality for a line validation.
- * </p>
+ *
+ * <p>Basic typeref functionality for a line validation.
  *
  * @author dzwiers, Refractions Research, Inc.
  * @author $Author: dmzwiers $ (last modification)
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public abstract class LineAbstractValidation extends DefaultIntegrityValidation {
-    private String lineTypeRef;
+  private String lineTypeRef;
 
-    /**
-     * PointCoveredByLineValidation constructor.
-     * 
-     * <p>
-     * Super
-     * </p>
-     */
-    public LineAbstractValidation() {
-        super();
+  /**
+   * PointCoveredByLineValidation constructor.
+   *
+   * <p>Super
+   */
+  public LineAbstractValidation() {
+    super();
+  }
+
+  /**
+   * Implementation of getTypeNames. Should be called by sub-classes is being overwritten.
+   *
+   * @return Array of typeNames, or empty array for all, null for disabled
+   * @see org.geotools.validation.Validation#getTypeNames()
+   */
+  public String[] getTypeRefs() {
+    if (lineTypeRef == null) {
+      return null;
     }
 
-    /**
-     * Implementation of getTypeNames. Should be called by sub-classes is being
-     * overwritten.
-     *
-     * @return Array of typeNames, or empty array for all, null for disabled
-     *
-     * @see org.geotools.validation.Validation#getTypeNames()
-     */
-    public String[] getTypeRefs() {
-        if (lineTypeRef == null) {
-            return null;
-        }
+    return new String[] {lineTypeRef};
+  }
 
-        return new String[] { lineTypeRef };
-    }
+  /**
+   * Access lineTypeRef property.
+   *
+   * @return Returns the lineTypeRef.
+   */
+  public final String getLineTypeRef() {
+    return lineTypeRef;
+  }
 
-    /**
-     * Access lineTypeRef property.
-     *
-     * @return Returns the lineTypeRef.
-     */
-    public final String getLineTypeRef() {
-        return lineTypeRef;
-    }
-
-    /**
-     * Set lineTypeRef to lineTypeRef.
-     *
-     * @param lineTypeRef The lineTypeRef to set.
-     */
-    public final void setLineTypeRef(String lineTypeRef) {
-        this.lineTypeRef = lineTypeRef;
-    }
+  /**
+   * Set lineTypeRef to lineTypeRef.
+   *
+   * @param lineTypeRef The lineTypeRef to set.
+   */
+  public final void setLineTypeRef(String lineTypeRef) {
+    this.lineTypeRef = lineTypeRef;
+  }
 }

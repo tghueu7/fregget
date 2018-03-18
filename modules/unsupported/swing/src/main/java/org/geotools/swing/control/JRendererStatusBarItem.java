@@ -19,65 +19,62 @@ package org.geotools.swing.control;
 
 import java.awt.Dimension;
 import java.awt.Insets;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
-import org.geotools.swing.locale.LocaleUtils;
 import org.geotools.swing.MapPane;
 import org.geotools.swing.event.MapPaneAdapter;
 import org.geotools.swing.event.MapPaneEvent;
+import org.geotools.swing.locale.LocaleUtils;
 
 /**
  * A status bar item that displays an animated icon to indicate renderer activity.
  *
  * @see JMapStatusBar
- *
  * @author Michael Bedward
  * @since 8.0
- *
  * @source $URL$
  * @version $Id$
  */
 public class JRendererStatusBarItem extends StatusBarItem {
-    private static final String TOOL_TIP = LocaleUtils.getValue("StatusBar", "RendererTooltip");
-    private static final String BUSY_IMAGE = "icons/busy.gif";
-    private static final String IDLE_IMAGE = "icons/idle.gif";
+  private static final String TOOL_TIP = LocaleUtils.getValue("StatusBar", "RendererTooltip");
+  private static final String BUSY_IMAGE = "icons/busy.gif";
+  private static final String IDLE_IMAGE = "icons/idle.gif";
 
-    private final ImageIcon busyIcon;
-    private final ImageIcon idleIcon;
+  private final ImageIcon busyIcon;
+  private final ImageIcon idleIcon;
 
-    /*
-     * Creates a new item associated with teh given map.
-     */
-    public JRendererStatusBarItem(MapPane mapPane) {
-        super("Busy", false);
+  /*
+   * Creates a new item associated with teh given map.
+   */
+  public JRendererStatusBarItem(MapPane mapPane) {
+    super("Busy", false);
 
-        busyIcon = new ImageIcon(JRendererStatusBarItem.class.getResource(BUSY_IMAGE));
-        idleIcon = new ImageIcon(JRendererStatusBarItem.class.getResource(IDLE_IMAGE));
+    busyIcon = new ImageIcon(JRendererStatusBarItem.class.getResource(BUSY_IMAGE));
+    idleIcon = new ImageIcon(JRendererStatusBarItem.class.getResource(IDLE_IMAGE));
 
-        final JLabel renderLabel = new JLabel();
-        renderLabel.setIcon(idleIcon);
-        renderLabel.setToolTipText(TOOL_TIP);
+    final JLabel renderLabel = new JLabel();
+    renderLabel.setIcon(idleIcon);
+    renderLabel.setToolTipText(TOOL_TIP);
 
-        Insets insets = getInsets();
-        renderLabel.setMinimumSize(new Dimension(
-                busyIcon.getIconWidth() + insets.left + insets.right,
-                busyIcon.getIconHeight() + insets.top + insets.bottom));
+    Insets insets = getInsets();
+    renderLabel.setMinimumSize(
+        new Dimension(
+            busyIcon.getIconWidth() + insets.left + insets.right,
+            busyIcon.getIconHeight() + insets.top + insets.bottom));
 
-        add(renderLabel);
+    add(renderLabel);
 
-        mapPane.addMapPaneListener(new MapPaneAdapter() {
-            @Override
-            public void onRenderingStarted(MapPaneEvent ev) {
-                renderLabel.setIcon(busyIcon);
-            }
+    mapPane.addMapPaneListener(
+        new MapPaneAdapter() {
+          @Override
+          public void onRenderingStarted(MapPaneEvent ev) {
+            renderLabel.setIcon(busyIcon);
+          }
 
-            @Override
-            public void onRenderingStopped(MapPaneEvent ev) {
-                renderLabel.setIcon(idleIcon);
-            }
+          @Override
+          public void onRenderingStopped(MapPaneEvent ev) {
+            renderLabel.setIcon(idleIcon);
+          }
         });
-    }
-
+  }
 }

@@ -18,7 +18,6 @@
 package org.geotools.tile.impl.osm;
 
 import java.net.URL;
-
 import org.geotools.tile.Tile;
 import org.geotools.tile.TileIdentifier;
 import org.geotools.tile.TileService;
@@ -27,35 +26,35 @@ import org.geotools.tile.impl.ZoomLevel;
 
 /**
  * The tile implementation for the OpenStreetMap family
- * 
+ *
  * @author Tobias Sauerwein
  * @author Ugo Taddei
  * @since 12
  */
 public class OSMTile extends Tile {
 
-    public static final int DEFAULT_TILE_SIZE = 256;
+  public static final int DEFAULT_TILE_SIZE = 256;
 
-    private TileService service;
+  private TileService service;
 
-    public OSMTile(int x, int y, ZoomLevel zoomLevel, TileService service) {
-        this(new OSMTileIdentifier(x, y, zoomLevel, service.getName()), service);
+  public OSMTile(int x, int y, ZoomLevel zoomLevel, TileService service) {
+    this(new OSMTileIdentifier(x, y, zoomLevel, service.getName()), service);
+  }
+
+  public OSMTile(TileIdentifier tileName, TileService service) {
+    super(tileName, WebMercatorTileFactory.getExtentFromTileName(tileName), DEFAULT_TILE_SIZE);
+
+    this.service = service;
+  }
+
+  @Override
+  public URL getUrl() {
+    String url = this.service.getBaseUrl() + getTileIdentifier().getCode() + ".png";
+    try {
+      return new URL(url);
+    } catch (Exception e) {
+      final String mesg = "Cannot create URL from " + url;
+      throw new RuntimeException(mesg, e);
     }
-
-    public OSMTile(TileIdentifier tileName, TileService service) {
-        super(tileName, WebMercatorTileFactory.getExtentFromTileName(tileName), DEFAULT_TILE_SIZE);
-
-        this.service = service;
-    }
-
-    @Override
-    public URL getUrl() {
-        String url = this.service.getBaseUrl() + getTileIdentifier().getCode() + ".png";
-        try {
-            return new URL(url);
-        } catch (Exception e) {
-            final String mesg = "Cannot create URL from " + url;
-            throw new RuntimeException(mesg, e);
-        }
-    }
+  }
 }

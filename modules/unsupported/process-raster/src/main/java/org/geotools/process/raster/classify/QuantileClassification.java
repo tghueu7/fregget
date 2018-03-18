@@ -16,54 +16,51 @@
  */
 package org.geotools.process.raster.classify;
 
-import org.geotools.process.classify.ClassificationMethod;
-
 import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.geotools.process.classify.ClassificationMethod;
 
-/**
- * Helper class used for raster quantile classification.
- */
+/** Helper class used for raster quantile classification. */
 public class QuantileClassification extends Classification {
 
-    int[] counts;
-    SortedMap<Double, Integer>[] tables;
+  int[] counts;
+  SortedMap<Double, Integer>[] tables;
 
-    public QuantileClassification(int numBands) {
-        super(ClassificationMethod.QUANTILE, numBands);
-        counts = new int[numBands];
-        tables = new SortedMap[numBands];
+  public QuantileClassification(int numBands) {
+    super(ClassificationMethod.QUANTILE, numBands);
+    counts = new int[numBands];
+    tables = new SortedMap[numBands];
+  }
+
+  public void count(double value, int band) {
+    counts[band]++;
+
+    SortedMap<Double, Integer> table = getTable(band);
+
+    Integer count = table.get(value);
+    table.put(value, count != null ? new Integer(count + 1) : new Integer(1));
+  }
+
+  public SortedMap<Double, Integer> getTable(int band) {
+    SortedMap<Double, Integer> table = tables[band];
+    if (table == null) {
+      table = new TreeMap<Double, Integer>();
+      tables[band] = table;
     }
+    return table;
+  }
 
-    public void count(double value, int band) {
-        counts[band]++;
+  public int getCount(int band) {
+    return counts[band];
+  }
 
-        SortedMap<Double, Integer> table = getTable(band);
-
-        Integer count = table.get(value);
-        table.put(value, count != null ? new Integer(count + 1) : new Integer(1));
+  void printTable() {
+    for (int i = 0; i < tables.length; i++) {
+      SortedMap<Double, Integer> table = getTable(i);
+      for (Entry<Double, Integer> e : table.entrySet()) {
+        System.out.println(String.format("%f: %d", e.getKey(), e.getValue()));
+      }
     }
-
-    public SortedMap<Double, Integer> getTable(int band) {
-        SortedMap<Double, Integer> table = tables[band];
-        if (table == null) {
-            table = new TreeMap<Double, Integer>();
-            tables[band] = table;
-        }
-        return table;
-    }
-
-    public int getCount(int band) {
-        return counts[band];
-    }
-
-    void printTable() {
-        for (int i = 0; i < tables.length; i++) {
-            SortedMap<Double, Integer> table = getTable(i);
-            for (Entry<Double, Integer> e : table.entrySet()) {
-                System.out.println(String.format("%f: %d", e.getKey(), e.getValue()));
-            }
-        }
-    }
+  }
 }

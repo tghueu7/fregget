@@ -27,38 +27,34 @@ import org.junit.Test;
  *
  * @author mbedward
  * @since 2.7
- *
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class EnvelopesTest {
 
-    private static final double TOL = 1.0e-8d;
+  private static final double TOL = 1.0e-8d;
 
-    @Test
-    public void expand() {
-        ReferencedEnvelope env = new ReferencedEnvelope(2.6, 9.4, 2.4, 9.6, null);
-        ReferencedEnvelope result = Envelopes.expandToInclude(env, 1.0);
-        ReferencedEnvelope expected = new ReferencedEnvelope(2.0, 10.0, 2.0, 10.0, null);
-        assertTrue(expected.boundsEquals2D(result, TOL));
-    }
+  @Test
+  public void expand() {
+    ReferencedEnvelope env = new ReferencedEnvelope(2.6, 9.4, 2.4, 9.6, null);
+    ReferencedEnvelope result = Envelopes.expandToInclude(env, 1.0);
+    ReferencedEnvelope expected = new ReferencedEnvelope(2.0, 10.0, 2.0, 10.0, null);
+    assertTrue(expected.boundsEquals2D(result, TOL));
+  }
 
-    @Test
-    public void expandNegativeX() {
-        ReferencedEnvelope env = new ReferencedEnvelope(-2.6, -9.4, 2.4, 9.6, null);
-        ReferencedEnvelope result = Envelopes.expandToInclude(env, 1.0);
-        ReferencedEnvelope expected = new ReferencedEnvelope(-2.0, -10.0, 2.0, 10.0, null);
-        assertTrue(expected.boundsEquals2D(result, TOL));
-    }
+  @Test
+  public void expandNegativeX() {
+    ReferencedEnvelope env = new ReferencedEnvelope(-2.6, -9.4, 2.4, 9.6, null);
+    ReferencedEnvelope result = Envelopes.expandToInclude(env, 1.0);
+    ReferencedEnvelope expected = new ReferencedEnvelope(-2.0, -10.0, 2.0, 10.0, null);
+    assertTrue(expected.boundsEquals2D(result, TOL));
+  }
 
-    @Test
-    public void expandNegativeY() {
-        ReferencedEnvelope env = new ReferencedEnvelope(2.6, 9.4, -2.4, -9.6, null);
-        ReferencedEnvelope result = Envelopes.expandToInclude(env, 1.0);
-        ReferencedEnvelope expected = new ReferencedEnvelope(2.0, 10.0, -2.0, -10.0, null);
-        assertTrue(expected.boundsEquals2D(result, TOL));
-    }
-
+  @Test
+  public void expandNegativeY() {
+    ReferencedEnvelope env = new ReferencedEnvelope(2.6, 9.4, -2.4, -9.6, null);
+    ReferencedEnvelope result = Envelopes.expandToInclude(env, 1.0);
+    ReferencedEnvelope expected = new ReferencedEnvelope(2.0, 10.0, -2.0, -10.0, null);
+    assertTrue(expected.boundsEquals2D(result, TOL));
+  }
 }

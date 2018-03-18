@@ -8,16 +8,17 @@
  */
 package org.geotools.tutorial.csv2;
 
+import com.csvreader.CsvReader;
+import com.csvreader.CsvWriter;
+import com.vividsolutions.jts.geom.Point;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.geotools.data.Query;
 import org.geotools.data.store.ContentDataStore;
 import org.geotools.data.store.ContentEntry;
@@ -30,87 +31,82 @@ import org.opengis.feature.type.AttributeDescriptor;
 import org.opengis.feature.type.GeometryDescriptor;
 import org.opengis.feature.type.Name;
 
-import com.csvreader.CsvReader;
-import com.csvreader.CsvWriter;
-import com.vividsolutions.jts.geom.Point;
-
 /**
  * DataStore for Comma Separated Value (CSV) files.
- * 
+ *
  * @author Jody Garnett (Boundless)
  */
 public class CSVDataStore extends ContentDataStore {
- // header end
+  // header end
 
-    // constructor start
-    File file;
+  // constructor start
+  File file;
 
-    public CSVDataStore( File file ){
-        this.file = file;
+  public CSVDataStore(File file) {
+    this.file = file;
+  }
+  // constructor end
+
+  // reader start
+  /**
+   * Allow read access to file; for our package visible "friends". Please close the reader when
+   * done.
+   *
+   * @return CsvReader for file
+   */
+  CsvReader read() throws IOException {
+    Reader reader = new FileReader(file);
+    CsvReader csvReader = new CsvReader(reader);
+    return csvReader;
+  }
+  // reader end
+
+  // createTypeNames start
+  protected List<Name> createTypeNames() throws IOException {
+    String name = file.getName();
+    name = name.substring(0, name.lastIndexOf('.'));
+
+    Name typeName = new NameImpl(name);
+    return Collections.singletonList(typeName);
+  }
+  // createTypeNames end
+
+  // createSchema start
+  @Override
+  public void createSchema(SimpleFeatureType featureType) throws IOException {
+    List<String> header = new ArrayList<>();
+    GeometryDescriptor geometryDescrptor = featureType.getGeometryDescriptor();
+    if (geometryDescrptor != null
+        && CRS.equalsIgnoreMetadata(
+            DefaultGeographicCRS.WGS84, geometryDescrptor.getCoordinateReferenceSystem())
+        && geometryDescrptor.getType().getBinding().isAssignableFrom(Point.class)) {
+      header.add("LAT");
+      header.add("LON");
+    } else {
+      throw new IOException("Unable use LAT/LON to represent " + geometryDescrptor);
     }
-    // constructor end
-
-    // reader start
-    /**
-     * Allow read access to file; for our package visible "friends".
-     * Please close the reader when done.
-     * @return CsvReader for file
-     */
-    CsvReader read() throws IOException {
-        Reader reader = new FileReader(file);
-        CsvReader csvReader = new CsvReader(reader);
-        return csvReader;
+    for (AttributeDescriptor descriptor : featureType.getAttributeDescriptors()) {
+      if (descriptor instanceof GeometryDescriptor) continue;
+      header.add(descriptor.getLocalName());
     }
-    // reader end
-
-    // createTypeNames start
-    protected List<Name> createTypeNames() throws IOException {
-        String name = file.getName();
-        name = name.substring(0, name.lastIndexOf('.'));
-
-        Name typeName = new NameImpl( name );
-        return Collections.singletonList(typeName);
+    // Write out header, producing an empty file of the correct type
+    CsvWriter writer = new CsvWriter(new FileWriter(file), ',');
+    try {
+      writer.writeRecord(header.toArray(new String[header.size()]));
+    } finally {
+      writer.close();
     }
-    // createTypeNames end
-    
-    // createSchema start
-    @Override
-    public void createSchema(SimpleFeatureType featureType) throws IOException {
-        List<String> header = new ArrayList<>();
-        GeometryDescriptor geometryDescrptor = featureType.getGeometryDescriptor();
-        if (geometryDescrptor != null
-                && CRS.equalsIgnoreMetadata(DefaultGeographicCRS.WGS84,
-                        geometryDescrptor.getCoordinateReferenceSystem())
-                && geometryDescrptor.getType().getBinding().isAssignableFrom(Point.class)) {
-            header.add("LAT");
-            header.add("LON");
-        } else {
-            throw new IOException("Unable use LAT/LON to represent " + geometryDescrptor);
-        }
-        for (AttributeDescriptor descriptor : featureType.getAttributeDescriptors()) {
-            if (descriptor instanceof GeometryDescriptor)
-                continue;
-            header.add(descriptor.getLocalName());
-        }
-        // Write out header, producing an empty file of the correct type
-        CsvWriter writer = new CsvWriter(new FileWriter(file),',');
-        try {
-            writer.writeRecord( header.toArray(new String[header.size()]));
-        }
-        finally {
-            writer.close();
-        }
-    }
-    // createSchema end
+  }
+  // createSchema end
 
-    // createFeatureSource start
-    @Override
-    protected ContentFeatureSource createFeatureSource(ContentEntry entry) throws IOException {
-        if (file.canWrite()) {
-            return new CSVFeatureStore(entry, Query.ALL);
-        } else {
-            return new CSVFeatureSource(entry, Query.ALL);
-        }
+  // createFeatureSource start
+  @Override
+  protected ContentFeatureSource createFeatureSource(ContentEntry entry) throws IOException {
+    if (file.canWrite()) {
+      return new CSVFeatureStore(entry, Query.ALL);
+    } else {
+      return new CSVFeatureSource(entry, Query.ALL);
     }
-    // createFeatureSource end
+  }
+  // createFeatureSource end
 }

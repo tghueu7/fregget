@@ -16,27 +16,21 @@
  */
 package org.geotools.sld.bindings;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.sld.CssParameter;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
-import org.geotools.xml.Text;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Expression;
 import org.picocontainer.MutablePicoContainer;
-
 
 /**
  * Binding object for the element http://www.opengis.net/sld:CssParameter.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="CssParameter"&gt;
  *      &lt;xsd:annotation&gt;
@@ -57,69 +51,65 @@ import org.picocontainer.MutablePicoContainer;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDCssParameterBinding extends AbstractComplexBinding {
-    FilterFactory filterFactory;
+  FilterFactory filterFactory;
 
-    public SLDCssParameterBinding(FilterFactory filterFactory) {
-        this.filterFactory = filterFactory;
-    }
+  public SLDCssParameterBinding(FilterFactory filterFactory) {
+    this.filterFactory = filterFactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.CSSPARAMETER;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return SLD.CSSPARAMETER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return CssParameter.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return CssParameter.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        
-        CssParameter parameter = new CssParameter((String) node.getAttributeValue("name"));
-        parameter.setExpression((Expression)value);
-        
-        return parameter;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+
+    CssParameter parameter = new CssParameter((String) node.getAttributeValue("name"));
+    parameter.setExpression((Expression) value);
+
+    return parameter;
+  }
 }

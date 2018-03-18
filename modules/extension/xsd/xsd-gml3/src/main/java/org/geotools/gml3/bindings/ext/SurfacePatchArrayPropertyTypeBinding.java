@@ -16,52 +16,47 @@
  */
 package org.geotools.gml3.bindings.ext;
 
+import com.vividsolutions.jts.geom.Polygon;
 import java.util.List;
-
 import javax.xml.namespace.QName;
-
-import org.geotools.gml3.GML;
-import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.Polygon;
-
-/**
- * 
- *
- * @source $URL$
- */
-public class SurfacePatchArrayPropertyTypeBinding 
+/** @source $URL$ */
+public class SurfacePatchArrayPropertyTypeBinding
     extends org.geotools.gml3.bindings.SurfacePatchArrayPropertyTypeBinding {
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Polygon[].class;
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Polygon[].class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    List l = node.getChildValues(Polygon.class);
+    return l.toArray(new Polygon[l.size()]);
+  }
+
+  @Override
+  public Object getProperty(Object object, QName name) {
+    if ("_SurfacePatch".equals(name.getLocalPart())
+        || "AbstractSurfacePatch".equals(name.getLocalPart())) {
+      Polygon[] patches = (Polygon[]) object;
+      return patches;
     }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        List l = node.getChildValues(Polygon.class);
-        return l.toArray(new Polygon[l.size()]);
-    }
-    
-    @Override
-    public Object getProperty(Object object, QName name) {
-        if ("_SurfacePatch".equals(name.getLocalPart()) || "AbstractSurfacePatch".equals(name.getLocalPart())) {
-            Polygon[] patches = (Polygon[]) object;
-            return patches;
-        }
-
-        return null;
-    }
-
+    return null;
+  }
 }

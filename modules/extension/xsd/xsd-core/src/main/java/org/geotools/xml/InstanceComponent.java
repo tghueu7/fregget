@@ -17,60 +17,46 @@
 package org.geotools.xml;
 
 import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDSchemaContent;
 import org.eclipse.xsd.XSDTypeDefinition;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public interface InstanceComponent {
-    /**
-     * @return The object containing the type definiton of the instance.
-     */
-    XSDTypeDefinition getTypeDefinition();
+  /** @return The object containing the type definiton of the instance. */
+  XSDTypeDefinition getTypeDefinition();
 
-    /**
-     * @return The feature describing the component instance.
-     */
-    XSDNamedComponent getDeclaration();
+  /** @return The feature describing the component instance. */
+  XSDNamedComponent getDeclaration();
 
-    /**
-     * @return The namespace of the element;
-     */
-    String getNamespace();
+  /** @return The namespace of the element; */
+  String getNamespace();
 
-    /**
-     * Sets the namespace of the element.
-     *
-     * @param namespace The new namespace.
-     */
-    void setNamespace(String namespace);
+  /**
+   * Sets the namespace of the element.
+   *
+   * @param namespace The new namespace.
+   */
+  void setNamespace(String namespace);
 
-    /**
-     * @return The name of the element.
-     */
-    String getName();
+  /** @return The name of the element. */
+  String getName();
 
-    /**
-     * Sets the name of the element.
-     *
-     * @param name The new name.
-     */
-    void setName(String name);
+  /**
+   * Sets the name of the element.
+   *
+   * @param name The new name.
+   */
+  void setName(String name);
 
-    /**
-     * @return The text inside of the component, or the empty string if the
-     * component does not contain any text.
-     */
-    String getText();
+  /**
+   * @return The text inside of the component, or the empty string if the component does not contain
+   *     any text.
+   */
+  String getText();
 
-    /**
-     * Sets the text of the element.
-     *
-     * @param text The new text
-     */
-    void setText(String text);
+  /**
+   * Sets the text of the element.
+   *
+   * @param text The new text
+   */
+  void setText(String text);
 }

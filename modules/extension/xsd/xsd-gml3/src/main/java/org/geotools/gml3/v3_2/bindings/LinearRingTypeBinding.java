@@ -19,24 +19,19 @@ package org.geotools.gml3.v3_2.bindings;
 import com.vividsolutions.jts.geom.CoordinateSequenceFactory;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class LinearRingTypeBinding extends org.geotools.gml3.bindings.LinearRingTypeBinding {
 
-    public LinearRingTypeBinding(GeometryFactory gFactory, CoordinateSequenceFactory csFactory) {
-        super(gFactory, csFactory);
-    }
+  public LinearRingTypeBinding(GeometryFactory gFactory, CoordinateSequenceFactory csFactory) {
+    super(gFactory, csFactory);
+  }
 
-    @Override
-    /**
-     * In gml 3.2 LinearRing does not extend from AbstractGeometryType... so we change BEFORE to 
-     * OVERRIDE
-     */
-    public int getExecutionMode() {
-        return OVERRIDE;
-    }
-
+  @Override
+  /**
+   * In gml 3.2 LinearRing does not extend from AbstractGeometryType... so we change BEFORE to
+   * OVERRIDE
+   */
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
 }

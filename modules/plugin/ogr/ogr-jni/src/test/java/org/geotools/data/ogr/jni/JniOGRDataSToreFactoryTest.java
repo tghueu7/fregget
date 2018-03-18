@@ -4,8 +4,7 @@ import org.geotools.data.ogr.OGRDataStoreFactoryTest;
 
 public class JniOGRDataSToreFactoryTest extends OGRDataStoreFactoryTest {
 
-    public JniOGRDataSToreFactoryTest() {
-        super(JniOGRDataStoreFactory.class);
-    }
-
+  public JniOGRDataSToreFactoryTest() {
+    super(JniOGRDataStoreFactory.class);
+  }
 }

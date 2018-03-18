@@ -22,7 +22,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 import org.geotools.coverage.io.CoverageAccess;
 import org.geotools.coverage.io.Driver;
 import org.geotools.coverage.io.driver.TestDriver.TestCoverageAccess;
@@ -33,38 +32,37 @@ import org.junit.Test;
 
 public class CoverageIOTest extends Assert {
 
-    @Test
-    public void testCoverageIO() throws IOException {
+  @Test
+  public void testCoverageIO() throws IOException {
 
-        // Test on Drivers lookup
-        final Driver[] drivers = CoverageIO.getAvailableDriversArray();
-        assertNotNull(drivers);
-        assertTrue(drivers[0] instanceof TestDriver);
-        final TestDriver testDriver = (TestDriver) drivers[0];
+    // Test on Drivers lookup
+    final Driver[] drivers = CoverageIO.getAvailableDriversArray();
+    assertNotNull(drivers);
+    assertTrue(drivers[0] instanceof TestDriver);
+    final TestDriver testDriver = (TestDriver) drivers[0];
 
-        final URL testURL = new URL(TestDriver.TEST_URL);
+    final URL testURL = new URL(TestDriver.TEST_URL);
 
-        final Driver driver = CoverageIO.findDriver(testURL);
-        assertEquals(testDriver, driver);
-        final Set<Driver> driversSet = CoverageIO.findDrivers(testURL);
-        assertSame(testDriver, driversSet.iterator().next());
+    final Driver driver = CoverageIO.findDriver(testURL);
+    assertEquals(testDriver, driver);
+    final Set<Driver> driversSet = CoverageIO.findDrivers(testURL);
+    assertSame(testDriver, driversSet.iterator().next());
 
-        // Connecting to the only coverageAccess supported by the TestDriver
-        Map<String, Serializable> connectionParams = new HashMap<String, Serializable>();
-        connectionParams.put(DefaultFileDriver.URL.key, testURL);
-        boolean canConnect = CoverageIO.canConnect(connectionParams);
-        CoverageAccess access = CoverageIO.connect(connectionParams);
-        assertNotNull(access);
-        assertTrue(access instanceof TestCoverageAccess);
-        assertTrue(canConnect);
+    // Connecting to the only coverageAccess supported by the TestDriver
+    Map<String, Serializable> connectionParams = new HashMap<String, Serializable>();
+    connectionParams.put(DefaultFileDriver.URL.key, testURL);
+    boolean canConnect = CoverageIO.canConnect(connectionParams);
+    CoverageAccess access = CoverageIO.connect(connectionParams);
+    assertNotNull(access);
+    assertTrue(access instanceof TestCoverageAccess);
+    assertTrue(canConnect);
 
-        // Trying to connect to coverageAccess not being supported by the testDriver
-        connectionParams = new HashMap<String, Serializable>();
-        connectionParams.put(DefaultFileDriver.URL.key, new URL("file:///unsupportedCoverage"));
-        canConnect = CoverageIO.canConnect(connectionParams);
-        assertFalse(canConnect);
-        access = CoverageIO.connect(connectionParams);
-        assertNull(access);
-
-    }
+    // Trying to connect to coverageAccess not being supported by the testDriver
+    connectionParams = new HashMap<String, Serializable>();
+    connectionParams.put(DefaultFileDriver.URL.key, new URL("file:///unsupportedCoverage"));
+    canConnect = CoverageIO.canConnect(connectionParams);
+    assertFalse(canConnect);
+    access = CoverageIO.connect(connectionParams);
+    assertNull(access);
+  }
 }

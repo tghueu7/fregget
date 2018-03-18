@@ -4,7 +4,7 @@
  *
  *    (C) 2011, Open Source Geospatial Foundation (OSGeo)
  *    (C) 2003-2005, Open Geospatial Consortium Inc.
- *    
+ *
  *    All Rights Reserved. http://www.opengis.org/legal/
  */
 package org.opengis.geometry;
@@ -46,22 +46,21 @@ package org.opengis.geometry;
  */
 public interface PrecisionFactory {
 
-    /**
-     * Creates a Precision of the provided type, scale is used for
-     * PrecisionType.FIXED.
-     * <p>
-     * Here are a couple of examples:
-     *
-     * <pre><code>
-     * factory.createPrecision(PrecisionType.FIXED, 1000); // three significant digits
-     * factory.createPrecision(PrecisionType.FLOAT, 0); // float precision - 6 digits
-     * factory.createPrecision(PrecisionType.DOUBLE, 0); // double precision - 16 digits
-     * <code></pre>
-     *
-     * @param type PercisionType The rounding policy used
-     * @param scale Multiplying factor used to obtain a precise coordinate
-     * @return Precision capable of rounding as described by type and scale
-     */
-    Precision createFixedPrecision(PrecisionType code, double scale);
-
+  /**
+   * Creates a Precision of the provided type, scale is used for
+   * PrecisionType.FIXED.
+   * <p>
+   * Here are a couple of examples:
+   *
+   * <pre><code>
+   * factory.createPrecision(PrecisionType.FIXED, 1000); // three significant digits
+   * factory.createPrecision(PrecisionType.FLOAT, 0); // float precision - 6 digits
+   * factory.createPrecision(PrecisionType.DOUBLE, 0); // double precision - 16 digits
+   * <code></pre>
+   *
+   * @param type PercisionType The rounding policy used
+   * @param scale Multiplying factor used to obtain a precise coordinate
+   * @return Precision capable of rounding as described by type and scale
+   */
+  Precision createFixedPrecision(PrecisionType code, double scale);
 }

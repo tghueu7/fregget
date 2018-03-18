@@ -21,29 +21,22 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.geotools.gce.imagemosaic.properties.PropertiesCollector;
-import org.geotools.gce.imagemosaic.properties.PropertiesCollectorSPI;
-
-/**
- * 
- *
- * @author Niels Charlier
- */
+/** @author Niels Charlier */
 public class FSDateExtractorSPI implements PropertiesCollectorSPI {
 
-    public String getName() {
-        return "FSDateExtractorSPI";
-    }
+  public String getName() {
+    return "FSDateExtractorSPI";
+  }
 
-    public boolean isAvailable() {
-        return true;
-    }
+  public boolean isAvailable() {
+    return true;
+  }
 
-    public Map<Key, ?> getImplementationHints() {
-        return Collections.emptyMap();
-    }
+  public Map<Key, ?> getImplementationHints() {
+    return Collections.emptyMap();
+  }
 
-    public PropertiesCollector create(final Object o, final List<String> propertyNames) {
-        return new FSDateExtractor(this, propertyNames);
-    }
+  public PropertiesCollector create(final Object o, final List<String> propertyNames) {
+    return new FSDateExtractor(this, propertyNames);
+  }
 }

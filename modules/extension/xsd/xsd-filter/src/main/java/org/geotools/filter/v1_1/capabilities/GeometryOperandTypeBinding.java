@@ -18,17 +18,17 @@ package org.geotools.filter.v1_1.capabilities;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
-import org.opengis.filter.capability.GeometryOperand;
 import org.geotools.filter.v1_1.OGC;
 import org.geotools.xml.*;
 import org.geotools.xs.bindings.XSQNameBinding;
-
+import org.opengis.filter.capability.GeometryOperand;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:GeometryOperandType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:simpleType name="GeometryOperandType"&gt;
  *      &lt;xsd:restriction base="xsd:QName"&gt;
@@ -56,55 +56,50 @@ import org.geotools.xs.bindings.XSQNameBinding;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GeometryOperandTypeBinding extends AbstractSimpleBinding {
-    NamespaceContext namespaceContext;
+  NamespaceContext namespaceContext;
 
-    public GeometryOperandTypeBinding(NamespaceContext namespaceContext) {
-        this.namespaceContext = namespaceContext;
-    }
+  public GeometryOperandTypeBinding(NamespaceContext namespaceContext) {
+    this.namespaceContext = namespaceContext;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.GeometryOperandType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return OGC.GeometryOperandType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return GeometryOperand.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return GeometryOperand.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        QName name = (QName) value;
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    QName name = (QName) value;
 
-        return GeometryOperand.get(name.getNamespaceURI(), name.getLocalPart());
-    }
+    return GeometryOperand.get(name.getNamespaceURI(), name.getLocalPart());
+  }
 
-    public String encode(Object object, String value) throws Exception {
-        GeometryOperand operand = (GeometryOperand) object;
+  public String encode(Object object, String value) throws Exception {
+    GeometryOperand operand = (GeometryOperand) object;
 
-        return new XSQNameBinding(namespaceContext).encode(new QName(operand.getNamespaceURI(),
-                operand.getLocalPart()), value);
-    }
+    return new XSQNameBinding(namespaceContext)
+        .encode(new QName(operand.getNamespaceURI(), operand.getLocalPart()), value);
+  }
 }

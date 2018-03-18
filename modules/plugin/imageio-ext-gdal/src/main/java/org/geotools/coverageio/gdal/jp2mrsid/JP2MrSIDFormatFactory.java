@@ -17,69 +17,64 @@
 package org.geotools.coverageio.gdal.jp2mrsid;
 
 import it.geosolutions.imageio.plugins.jp2mrsid.JP2GDALMrSidImageReaderSpi;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.geotools.coverage.grid.io.GridFormatFactorySpi;
 import org.geotools.coverageio.BaseGridFormatFactorySPI;
 import org.opengis.coverage.grid.Format;
 
-
 /**
- * Implementation of the {@link Format} service provider interface for JP2K
- * files.
+ * Implementation of the {@link Format} service provider interface for JP2K files.
  *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
  * @since 2.5.x
- *
- *
  * @source $URL$
  */
-public final class JP2MrSIDFormatFactory extends BaseGridFormatFactorySPI implements GridFormatFactorySpi {
-    /** Logger. */
-    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
-            "org.geotools.coverageio.gdal.jp2mrisd");
+public final class JP2MrSIDFormatFactory extends BaseGridFormatFactorySPI
+    implements GridFormatFactorySpi {
+  /** Logger. */
+  private static final Logger LOGGER =
+      org.geotools.util.logging.Logging.getLogger("org.geotools.coverageio.gdal.jp2mrisd");
 
-    /**
-     * Tells me if the coverage plugin to access JP2K via MrSID driver is available or not.
-     *
-     * @return {@code true} if the plugin is available, {@code false} otherwise.
-     */
-    public boolean isAvailable() {
-        boolean available = true;
+  /**
+   * Tells me if the coverage plugin to access JP2K via MrSID driver is available or not.
+   *
+   * @return {@code true} if the plugin is available, {@code false} otherwise.
+   */
+  public boolean isAvailable() {
+    boolean available = true;
 
-        // if these classes are here, then the runtime environment has
-        // access to JAI and the JAI ImageI/O toolbox.
-        try {
-            Class.forName("it.geosolutions.imageio.plugins.jp2mrsid.JP2GDALMrSidImageReaderSpi");
-            available = new JP2GDALMrSidImageReaderSpi().isAvailable();
+    // if these classes are here, then the runtime environment has
+    // access to JAI and the JAI ImageI/O toolbox.
+    try {
+      Class.forName("it.geosolutions.imageio.plugins.jp2mrsid.JP2GDALMrSidImageReaderSpi");
+      available = new JP2GDALMrSidImageReaderSpi().isAvailable();
 
-            if (LOGGER.isLoggable(Level.FINE)) {
-                if (available) {
-                    LOGGER.fine("JP2MrSIDFormatFactory is availaible.");
-                } else {
-                    LOGGER.fine("JP2MrSIDFormatFactory is not availaible.");
-                }
-            }
-        } catch (ClassNotFoundException cnf) {
-            if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.fine("JP2MrSIDFormatFactory is not availaible.");
-            }
-
-            available = false;
+      if (LOGGER.isLoggable(Level.FINE)) {
+        if (available) {
+          LOGGER.fine("JP2MrSIDFormatFactory is availaible.");
+        } else {
+          LOGGER.fine("JP2MrSIDFormatFactory is not availaible.");
         }
+      }
+    } catch (ClassNotFoundException cnf) {
+      if (LOGGER.isLoggable(Level.FINE)) {
+        LOGGER.fine("JP2MrSIDFormatFactory is not availaible.");
+      }
 
-        return available;
+      available = false;
     }
 
-    /**
-     * Creating a {@link JP2MrSIDFormat}.
-     *
-     * @return A {@link JP2MrSIDFormat}.;
-     */
-    public JP2MrSIDFormat createFormat() {
-        return new JP2MrSIDFormat();
-    }
+    return available;
+  }
+
+  /**
+   * Creating a {@link JP2MrSIDFormat}.
+   *
+   * @return A {@link JP2MrSIDFormat}.;
+   */
+  public JP2MrSIDFormat createFormat() {
+    return new JP2MrSIDFormat();
+  }
 }

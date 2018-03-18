@@ -16,26 +16,17 @@
  */
 package org.geotools.kml;
 
-import junit.framework.TestCase;
-
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.stream.StreamSource;
-
-import org.opengis.feature.simple.SimpleFeature;
-import org.w3c.dom.Document;
+import junit.framework.TestCase;
 import org.geotools.feature.DefaultFeatureCollection;
-import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.kml.bindings.DocumentTypeBinding;
@@ -44,118 +35,109 @@ import org.geotools.styling.Symbolizer;
 import org.geotools.xml.Encoder;
 import org.geotools.xml.Parser;
 import org.geotools.xml.StreamingParser;
+import org.opengis.feature.simple.SimpleFeature;
+import org.w3c.dom.Document;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class KMLParsingTest extends TestCase {
-    
-   public void testParse() throws Exception {
-        Parser parser = new Parser(new KMLConfiguration());
-        SimpleFeature f = (SimpleFeature) parser.parse(getClass().getResourceAsStream("states.kml"));
-        assertNotNull(f);
 
-        assertEquals("topp:states", f.getAttribute("name"));
+  public void testParse() throws Exception {
+    Parser parser = new Parser(new KMLConfiguration());
+    SimpleFeature f = (SimpleFeature) parser.parse(getClass().getResourceAsStream("states.kml"));
+    assertNotNull(f);
 
-        Collection placemarks = (Collection) f.getAttribute("Feature");
-        assertEquals(49, placemarks.size());
+    assertEquals("topp:states", f.getAttribute("name"));
+
+    Collection placemarks = (Collection) f.getAttribute("Feature");
+    assertEquals(49, placemarks.size());
+  }
+
+  public void testStream() throws Exception {
+    StreamingParser parser =
+        new StreamingParser(
+            new KMLConfiguration(), getClass().getResourceAsStream("states.kml"), KML.Placemark);
+    int count = 0;
+    SimpleFeature f = null;
+
+    while ((f = (SimpleFeature) parser.parse()) != null) {
+      FeatureTypeStyle style = (FeatureTypeStyle) f.getAttribute("Style");
+      assertNotNull(style);
+
+      Symbolizer[] syms = style.rules().get(0).getSymbolizers();
+      assertEquals(3, syms.length);
+
+      count++;
     }
 
-    public void testStream() throws Exception {
-        StreamingParser parser = new StreamingParser(new KMLConfiguration(),
-                getClass().getResourceAsStream("states.kml"), KML.Placemark);
-        int count = 0;
-        SimpleFeature f = null;
+    assertEquals(49, count);
+  }
 
-        while ((f = (SimpleFeature) parser.parse()) != null) {
-            FeatureTypeStyle style = (FeatureTypeStyle) f.getAttribute("Style");
-            assertNotNull(style);
+  public void testEncodeFeatureCollection() throws Exception {
+    SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
+    tb.setName("foo");
+    tb.add("name", String.class);
+    tb.add("description", String.class);
+    tb.add("geometry", Geometry.class);
 
-            Symbolizer[] syms = style.rules().get(0).getSymbolizers();
-            assertEquals(3, syms.length);
+    GeometryFactory gf = new GeometryFactory();
+    SimpleFeatureBuilder sb = new SimpleFeatureBuilder(tb.buildFeatureType());
+    DefaultFeatureCollection features = new DefaultFeatureCollection();
 
-            count++;
-        }
+    sb.add("one");
+    sb.add("the first feature");
+    sb.add(gf.createPoint(new Coordinate(1, 1)));
+    features.add(sb.buildFeature("1"));
 
-        assertEquals(49, count);
-    }
-    
-    public void testEncodeFeatureCollection() throws Exception {
-        SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
-        tb.setName( "foo" );
-        tb.add( "name", String.class );
-        tb.add( "description", String.class );
-        tb.add( "geometry", Geometry.class );
-        
-        GeometryFactory gf = new GeometryFactory();
-        SimpleFeatureBuilder sb = new SimpleFeatureBuilder( tb.buildFeatureType() );
-        DefaultFeatureCollection features = new DefaultFeatureCollection();
-        
-        sb.add( "one" );
-        sb.add( "the first feature");
-        sb.add( gf.createPoint( new Coordinate(1, 1) ) ) ;
-        features.add( sb.buildFeature("1"));
-        
-        sb.add( "two" );
-        sb.add( "the second feature");
-        sb.add( gf.createPoint( new Coordinate(2, 2) ) ) ;
-        features.add( sb.buildFeature("2"));
-        
-        Encoder encoder = new Encoder(new KMLConfiguration());
-        encoder.setIndenting(true);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        encoder.encode(features, KML.kml, out );
-        System.out.println( new String( out.toByteArray() ));
-        
-        DocumentBuilder db = 
-            DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document d = db.parse( new ByteArrayInputStream( out.toByteArray() ) );
-        assertEquals( "kml:kml", d.getDocumentElement().getNodeName() );
-        assertEquals( 2, d.getElementsByTagName( "kml:Placemark").getLength() );
-        
-    }
-    
-    public void XtestEncodeFeature() throws Exception { 
-        SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
-        tb.setName( "foo" );
-        tb.add( "name", String.class );
-        tb.add( "description", String.class );
-        tb.add( "geometry", Geometry.class );
-        
-        GeometryFactory gf = new GeometryFactory();
-        SimpleFeatureBuilder sb = new SimpleFeatureBuilder( tb.buildFeatureType() );
-        ArrayList features = new ArrayList();
-        
-        sb.add( "one" );
-        sb.add( "the first feature");
-        sb.add( gf.createPoint( new Coordinate(1, 1) ) ) ;
-        features.add( sb.buildFeature("1"));
-        
-        sb.add( "two" );
-        sb.add( "the second feature");
-        sb.add( gf.createPoint( new Coordinate(2, 2) ) ) ;
-        features.add( sb.buildFeature("2"));
-        
-        sb = new SimpleFeatureBuilder(DocumentTypeBinding.FeatureType);
-        sb.set( "Feature", features );
-        SimpleFeature f = sb.buildFeature("kml");
-        
-        Encoder encoder = new Encoder(new KMLConfiguration());
-        encoder.setIndenting(true);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        encoder.encode(f, KML.kml, out );
-        
-        DocumentBuilder db = 
-            DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document d = db.parse( new ByteArrayInputStream( out.toByteArray() ) );
-        assertEquals( "kml:kml", d.getDocumentElement().getNodeName() );
-        assertEquals( 2, d.getElementsByTagName( "kml:Placemark").getLength() );
-    }
+    sb.add("two");
+    sb.add("the second feature");
+    sb.add(gf.createPoint(new Coordinate(2, 2)));
+    features.add(sb.buildFeature("2"));
+
+    Encoder encoder = new Encoder(new KMLConfiguration());
+    encoder.setIndenting(true);
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    encoder.encode(features, KML.kml, out);
+    System.out.println(new String(out.toByteArray()));
+
+    DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+    Document d = db.parse(new ByteArrayInputStream(out.toByteArray()));
+    assertEquals("kml:kml", d.getDocumentElement().getNodeName());
+    assertEquals(2, d.getElementsByTagName("kml:Placemark").getLength());
+  }
+
+  public void XtestEncodeFeature() throws Exception {
+    SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
+    tb.setName("foo");
+    tb.add("name", String.class);
+    tb.add("description", String.class);
+    tb.add("geometry", Geometry.class);
+
+    GeometryFactory gf = new GeometryFactory();
+    SimpleFeatureBuilder sb = new SimpleFeatureBuilder(tb.buildFeatureType());
+    ArrayList features = new ArrayList();
+
+    sb.add("one");
+    sb.add("the first feature");
+    sb.add(gf.createPoint(new Coordinate(1, 1)));
+    features.add(sb.buildFeature("1"));
+
+    sb.add("two");
+    sb.add("the second feature");
+    sb.add(gf.createPoint(new Coordinate(2, 2)));
+    features.add(sb.buildFeature("2"));
+
+    sb = new SimpleFeatureBuilder(DocumentTypeBinding.FeatureType);
+    sb.set("Feature", features);
+    SimpleFeature f = sb.buildFeature("kml");
+
+    Encoder encoder = new Encoder(new KMLConfiguration());
+    encoder.setIndenting(true);
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    encoder.encode(f, KML.kml, out);
+
+    DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+    Document d = db.parse(new ByteArrayInputStream(out.toByteArray()));
+    assertEquals("kml:kml", d.getDocumentElement().getNodeName());
+    assertEquals(2, d.getElementsByTagName("kml:Placemark").getLength());
+  }
 }

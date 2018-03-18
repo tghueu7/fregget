@@ -21,30 +21,29 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
  * Tests data reading when we expose primary keys as attributes
+ *
  * @author Andrea Aime
- *
- *
  * @source $URL$
  */
 public abstract class JDBCFeatureSourceExposePkOnlineTest extends JDBCFeatureSourceOnlineTest {
-    
-    @Override
-    protected void connect() throws Exception {
-        super.connect();
-        ((JDBCFeatureStore) featureSource).setExposePrimaryKeyColumns(true);
-    }
 
-    public void testSchema() throws Exception {
-        SimpleFeatureType schema = featureSource.getSchema();
-        assertEquals(tname("ft1"), schema.getTypeName());
-        assertEquals(dataStore.getNamespaceURI(), schema.getName().getNamespaceURI());
-        assertTrue(areCRSEqual(CRS.decode("EPSG:4326"), schema.getCoordinateReferenceSystem()));
+  @Override
+  protected void connect() throws Exception {
+    super.connect();
+    ((JDBCFeatureStore) featureSource).setExposePrimaryKeyColumns(true);
+  }
 
-        assertEquals(5, schema.getAttributeCount());
-        assertNotNull(schema.getDescriptor(aname("id")));
-        assertNotNull(schema.getDescriptor(aname("geometry")));
-        assertNotNull(schema.getDescriptor(aname("intProperty")));
-        assertNotNull(schema.getDescriptor(aname("stringProperty")));
-        assertNotNull(schema.getDescriptor(aname("doubleProperty")));
-    }
+  public void testSchema() throws Exception {
+    SimpleFeatureType schema = featureSource.getSchema();
+    assertEquals(tname("ft1"), schema.getTypeName());
+    assertEquals(dataStore.getNamespaceURI(), schema.getName().getNamespaceURI());
+    assertTrue(areCRSEqual(CRS.decode("EPSG:4326"), schema.getCoordinateReferenceSystem()));
+
+    assertEquals(5, schema.getAttributeCount());
+    assertNotNull(schema.getDescriptor(aname("id")));
+    assertNotNull(schema.getDescriptor(aname("geometry")));
+    assertNotNull(schema.getDescriptor(aname("intProperty")));
+    assertNotNull(schema.getDescriptor(aname("stringProperty")));
+    assertNotNull(schema.getDescriptor(aname("doubleProperty")));
+  }
 }

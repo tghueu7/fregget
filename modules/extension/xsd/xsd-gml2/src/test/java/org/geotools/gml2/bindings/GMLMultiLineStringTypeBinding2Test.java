@@ -16,39 +16,33 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.MultiLineString;
 import org.geotools.gml2.GML;
 import org.geotools.xml.Binding;
 import org.w3c.dom.Document;
 
-import com.vividsolutions.jts.geom.MultiLineString;
-
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GMLMultiLineStringTypeBinding2Test extends GMLTestSupport {
-    public void testType() {
-        assertEquals(MultiLineString.class, binding(GML.MultiLineStringType).getType());
-    }
+  public void testType() {
+    assertEquals(MultiLineString.class, binding(GML.MultiLineStringType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(GML.MultiLineStringType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(GML.MultiLineStringType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        GML2MockData.multiLineString(document, document);
+  public void testParse() throws Exception {
+    GML2MockData.multiLineString(document, document);
 
-        MultiLineString mp = (MultiLineString) parse();
-        assertEquals(2, mp.getNumGeometries());
-    }
+    MultiLineString mp = (MultiLineString) parse();
+    assertEquals(2, mp.getNumGeometries());
+  }
 
-    public void testEncode() throws Exception {
-        Document doc = encode(GML2MockData.multiLineString(), GML.MultiLineString);
+  public void testEncode() throws Exception {
+    Document doc = encode(GML2MockData.multiLineString(), GML.MultiLineString);
 
-        assertEquals(2,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.lineStringMember.getLocalPart())
-               .getLength());
-    }
+    assertEquals(
+        2,
+        doc.getElementsByTagNameNS(GML.NAMESPACE, GML.lineStringMember.getLocalPart()).getLength());
+  }
 }

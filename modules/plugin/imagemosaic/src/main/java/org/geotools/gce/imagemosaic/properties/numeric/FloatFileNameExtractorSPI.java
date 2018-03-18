@@ -17,26 +17,20 @@
 package org.geotools.gce.imagemosaic.properties.numeric;
 
 import java.util.List;
-
 import org.geotools.gce.imagemosaic.properties.PropertiesCollector;
 import org.geotools.gce.imagemosaic.properties.PropertiesCollectorSPI;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public final class FloatFileNameExtractorSPI extends NumericFileNameExtractorSPI
-        implements PropertiesCollectorSPI {
+    implements PropertiesCollectorSPI {
 
-    public FloatFileNameExtractorSPI() {
-        super("FloatFileNameExtractorSPI");
-    }
+  public FloatFileNameExtractorSPI() {
+    super("FloatFileNameExtractorSPI");
+  }
 
-    @Override
-    protected PropertiesCollector createInternal(PropertiesCollectorSPI spi,
-            List<String> propertyNames, String regex) {
-        return new NumericFileNameExtractor.FloatFileNameExtractor(spi, propertyNames, regex);
-    }
-
+  @Override
+  protected PropertiesCollector createInternal(
+      PropertiesCollectorSPI spi, List<String> propertyNames, String regex) {
+    return new NumericFileNameExtractor.FloatFileNameExtractor(spi, propertyNames, regex);
+  }
 }

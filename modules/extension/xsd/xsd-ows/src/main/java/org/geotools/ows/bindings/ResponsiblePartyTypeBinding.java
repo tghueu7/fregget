@@ -16,18 +16,17 @@
  */
 package org.geotools.ows.bindings;
 
-import net.opengis.ows10.Ows10Factory;
-import net.opengis.ows10.ResponsiblePartyType;
 import javax.xml.namespace.QName;
+import net.opengis.ows10.Ows10Factory;
 import org.geotools.ows.OWS;
 import org.geotools.xml.*;
-
 
 /**
  * Binding object for the type http://www.opengis.net/ows:ResponsiblePartyType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="ResponsiblePartyType"&gt;
  *      &lt;annotation&gt;
@@ -44,45 +43,40 @@ import org.geotools.xml.*;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class ResponsiblePartyTypeBinding extends AbstractComplexEMFBinding {
-    public ResponsiblePartyTypeBinding(Ows10Factory factory) {
-        super(factory);
-    }
+  public ResponsiblePartyTypeBinding(Ows10Factory factory) {
+    super(factory);
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OWS.ResponsiblePartyType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return OWS.ResponsiblePartyType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return super.getType();
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return super.getType();
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //TODO: implement and remove call to super
-        return super.parse(instance, node, value);
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // TODO: implement and remove call to super
+    return super.parse(instance, node, value);
+  }
 }

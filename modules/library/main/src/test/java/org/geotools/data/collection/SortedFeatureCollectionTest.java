@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,7 +17,6 @@
 package org.geotools.data.collection;
 
 import java.util.Comparator;
-
 import org.geotools.data.DataUtilities;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.store.FeatureCollectionWrapperTestSupport;
@@ -30,46 +29,45 @@ import org.opengis.filter.sort.SortOrder;
 
 public class SortedFeatureCollectionTest extends FeatureCollectionWrapperTestSupport {
 
-    FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
+  FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
 
-    public void testNaturalSort() throws Exception {
-        SortedSimpleFeatureCollection sorted = new SortedSimpleFeatureCollection(delegate,
-                new SortBy[] { SortBy.NATURAL_ORDER });
-        checkSorted(sorted, DataUtilities.sortComparator(SortBy.NATURAL_ORDER));
-    }
+  public void testNaturalSort() throws Exception {
+    SortedSimpleFeatureCollection sorted =
+        new SortedSimpleFeatureCollection(delegate, new SortBy[] {SortBy.NATURAL_ORDER});
+    checkSorted(sorted, DataUtilities.sortComparator(SortBy.NATURAL_ORDER));
+  }
 
-    public void testReverseSort() throws Exception {
-        SortedSimpleFeatureCollection sorted = new SortedSimpleFeatureCollection(delegate,
-                new SortBy[] { SortBy.REVERSE_ORDER });
-        checkSorted(sorted, DataUtilities.sortComparator(SortBy.REVERSE_ORDER));
-    }
+  public void testReverseSort() throws Exception {
+    SortedSimpleFeatureCollection sorted =
+        new SortedSimpleFeatureCollection(delegate, new SortBy[] {SortBy.REVERSE_ORDER});
+    checkSorted(sorted, DataUtilities.sortComparator(SortBy.REVERSE_ORDER));
+  }
 
-    public void testSortAttribute() throws Exception {
-        SortBy sort = ff.sort("someAtt", SortOrder.ASCENDING);
-        SortedSimpleFeatureCollection sorted = new SortedSimpleFeatureCollection(delegate,
-                new SortBy[] { sort });
-        checkSorted(sorted, DataUtilities.sortComparator(sort));
-    }
-    
-    public void testSortAttributeDescending() throws Exception {
-        SortBy sort = ff.sort("someAtt", SortOrder.DESCENDING);
-        SortedSimpleFeatureCollection sorted = new SortedSimpleFeatureCollection(delegate,
-                new SortBy[] { sort });
-        checkSorted(sorted, DataUtilities.sortComparator(sort));
-    }
+  public void testSortAttribute() throws Exception {
+    SortBy sort = ff.sort("someAtt", SortOrder.ASCENDING);
+    SortedSimpleFeatureCollection sorted =
+        new SortedSimpleFeatureCollection(delegate, new SortBy[] {sort});
+    checkSorted(sorted, DataUtilities.sortComparator(sort));
+  }
 
-    private void checkSorted(SortedSimpleFeatureCollection sorted,
-            Comparator<SimpleFeature> comparator) {
-        SimpleFeatureIterator fi = sorted.features();
-        SimpleFeature prev = null;
-        while (fi.hasNext()) {
-            SimpleFeature curr = fi.next();
-            if (prev != null) {
-                assertTrue("Failed on " + prev + " / " + curr, comparator.compare(prev, curr) <= 0);
-            }
-            prev = curr;
-        }
-        fi.close();
-    }
+  public void testSortAttributeDescending() throws Exception {
+    SortBy sort = ff.sort("someAtt", SortOrder.DESCENDING);
+    SortedSimpleFeatureCollection sorted =
+        new SortedSimpleFeatureCollection(delegate, new SortBy[] {sort});
+    checkSorted(sorted, DataUtilities.sortComparator(sort));
+  }
 
+  private void checkSorted(
+      SortedSimpleFeatureCollection sorted, Comparator<SimpleFeature> comparator) {
+    SimpleFeatureIterator fi = sorted.features();
+    SimpleFeature prev = null;
+    while (fi.hasNext()) {
+      SimpleFeature curr = fi.next();
+      if (prev != null) {
+        assertTrue("Failed on " + prev + " / " + curr, comparator.compare(prev, curr) <= 0);
+      }
+      prev = curr;
+    }
+    fi.close();
+  }
 }

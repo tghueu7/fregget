@@ -25,72 +25,70 @@ import org.opengis.filter.expression.PropertyName;
 import org.opengis.filter.spatial.BinarySpatialOperator;
 import org.opengis.filter.spatial.DistanceBufferOperator;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class PostgisPSFilterToSql extends PreparedFilterToSQL {
-    
-    FilterToSqlHelper helper;
-    boolean functionEncodingEnabled;
-    
-    public PostgisPSFilterToSql(PostGISPSDialect dialect) {
-        super(dialect);
-        helper = new FilterToSqlHelper(this);
-    }
 
-    public boolean isLooseBBOXEnabled() {
-        return helper.looseBBOXEnabled;
-    }
+  FilterToSqlHelper helper;
+  boolean functionEncodingEnabled;
 
-    public void setLooseBBOXEnabled(boolean looseBBOXEnabled) {
-        helper.looseBBOXEnabled = looseBBOXEnabled;
-    }
+  public PostgisPSFilterToSql(PostGISPSDialect dialect) {
+    super(dialect);
+    helper = new FilterToSqlHelper(this);
+  }
 
-    public boolean isEncodeBBOXFilterAsEnvelope(boolean encodeBBOXFilterAsEnvelope) {
-        return helper.encodeBBOXFilterAsEnvelope;
-    }
-    
-    public void setEncodeBBOXFilterAsEnvelope(boolean encodeBBOXFilterAsEnvelope) {
-        helper.encodeBBOXFilterAsEnvelope = encodeBBOXFilterAsEnvelope;
-    }
-    
-    @Override
-    protected FilterCapabilities createFilterCapabilities() {
-        return helper.createFilterCapabilities(functionEncodingEnabled);
-    }
+  public boolean isLooseBBOXEnabled() {
+    return helper.looseBBOXEnabled;
+  }
 
-    @Override
-    protected Object visitBinarySpatialOperator(BinarySpatialOperator filter,
-            PropertyName property, Literal geometry, boolean swapped,
-            Object extraData) {
-        helper.out = out;
-        return helper.visitBinarySpatialOperator(filter, property, geometry, swapped, extraData);
-    }
+  public void setLooseBBOXEnabled(boolean looseBBOXEnabled) {
+    helper.looseBBOXEnabled = looseBBOXEnabled;
+  }
 
-    protected Object visitBinarySpatialOperator(BinarySpatialOperator filter, Expression e1, 
-            Expression e2, Object extraData) {
-        helper.out = out;
-        return helper.visitBinarySpatialOperator(filter, e1, e2, extraData);
-    }
+  public boolean isEncodeBBOXFilterAsEnvelope(boolean encodeBBOXFilterAsEnvelope) {
+    return helper.encodeBBOXFilterAsEnvelope;
+  }
 
-    GeometryDescriptor getCurrentGeometry() {
-        return currentGeometry;
-    }
+  public void setEncodeBBOXFilterAsEnvelope(boolean encodeBBOXFilterAsEnvelope) {
+    helper.encodeBBOXFilterAsEnvelope = encodeBBOXFilterAsEnvelope;
+  }
 
-    public void setFunctionEncodingEnabled(boolean functionEncodingEnabled) {
-        this.functionEncodingEnabled = functionEncodingEnabled;
-    }
-    
-    @Override
-    public double getDistanceInMeters(DistanceBufferOperator operator) {
-        return super.getDistanceInMeters(operator);
-    }
+  @Override
+  protected FilterCapabilities createFilterCapabilities() {
+    return helper.createFilterCapabilities(functionEncodingEnabled);
+  }
 
-    @Override
-    public double getDistanceInNativeUnits(DistanceBufferOperator operator) {
-        return super.getDistanceInNativeUnits(operator);
-    }
+  @Override
+  protected Object visitBinarySpatialOperator(
+      BinarySpatialOperator filter,
+      PropertyName property,
+      Literal geometry,
+      boolean swapped,
+      Object extraData) {
+    helper.out = out;
+    return helper.visitBinarySpatialOperator(filter, property, geometry, swapped, extraData);
+  }
 
+  protected Object visitBinarySpatialOperator(
+      BinarySpatialOperator filter, Expression e1, Expression e2, Object extraData) {
+    helper.out = out;
+    return helper.visitBinarySpatialOperator(filter, e1, e2, extraData);
+  }
+
+  GeometryDescriptor getCurrentGeometry() {
+    return currentGeometry;
+  }
+
+  public void setFunctionEncodingEnabled(boolean functionEncodingEnabled) {
+    this.functionEncodingEnabled = functionEncodingEnabled;
+  }
+
+  @Override
+  public double getDistanceInMeters(DistanceBufferOperator operator) {
+    return super.getDistanceInMeters(operator);
+  }
+
+  @Override
+  public double getDistanceInNativeUnits(DistanceBufferOperator operator) {
+    return super.getDistanceInNativeUnits(operator);
+  }
 }

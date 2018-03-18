@@ -4,8 +4,7 @@ import org.geotools.data.ogr.OGRPeformanceTest;
 
 public class BridjOGRPerformanceTest extends OGRPeformanceTest {
 
-    public BridjOGRPerformanceTest() {
-        super(BridjOGRDataStoreFactory.class);
-    }
-
+  public BridjOGRPerformanceTest() {
+    super(BridjOGRDataStoreFactory.class);
+  }
 }

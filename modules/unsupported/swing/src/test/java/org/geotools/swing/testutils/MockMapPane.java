@@ -21,9 +21,7 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JPanel;
-
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.MapContent;
 import org.geotools.swing.MapPane;
@@ -36,125 +34,127 @@ import org.opengis.geometry.Envelope;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * Mock map pane class for testing in a headless environment. 
- * 
+ * Mock map pane class for testing in a headless environment.
+ *
  * @author Michael Bedward
  * @since 8.0
- *
  * @source $URL$
  * @version $Id$
  */
 public class MockMapPane extends JPanel implements MapPane {
-    private MapContent mapContent;
-    private List<MapPaneListener> mapPaneListeners;
-    private MapMouseEventDispatcher mouseEventDispatcher;
+  private MapContent mapContent;
+  private List<MapPaneListener> mapPaneListeners;
+  private MapMouseEventDispatcher mouseEventDispatcher;
 
-    public MockMapPane() {
-        mapPaneListeners = new ArrayList<MapPaneListener>();
-        mouseEventDispatcher = new DefaultMapMouseEventDispatcher(this);
-    }
-    
-    @Override
-    public void setMapContent(MapContent content) {
-        mapContent = content;
-        mapContent.getViewport().setMatchingAspectRatio(true);
-    }
+  public MockMapPane() {
+    mapPaneListeners = new ArrayList<MapPaneListener>();
+    mouseEventDispatcher = new DefaultMapMouseEventDispatcher(this);
+  }
 
-    @Override
-    public MapContent getMapContent() {
-        return mapContent;
-    }
+  @Override
+  public void setMapContent(MapContent content) {
+    mapContent = content;
+    mapContent.getViewport().setMatchingAspectRatio(true);
+  }
 
-    @Override
-    public ReferencedEnvelope getDisplayArea() {
-        return mapContent.getViewport().getBounds();
-    }
+  @Override
+  public MapContent getMapContent() {
+    return mapContent;
+  }
 
-    @Override
-    public void setDisplayArea(Envelope envelope) {
-        CoordinateReferenceSystem crs = envelope.getCoordinateReferenceSystem();
-        if (crs == null) {
-            // assume that it is the current CRS
-            crs = mapContent.getCoordinateReferenceSystem();
-        }
-        ReferencedEnvelope refEnv = new ReferencedEnvelope(
-                envelope.getMinimum(0), envelope.getMaximum(0), 
-                envelope.getMinimum(1), envelope.getMaximum(1), crs);
-        mapContent.getViewport().setBounds(refEnv);
-    }
-    
-    public void setScreenArea(Rectangle screenArea) {
-        mapContent.getViewport().setScreenArea(screenArea);
-    }
+  @Override
+  public ReferencedEnvelope getDisplayArea() {
+    return mapContent.getViewport().getBounds();
+  }
 
-    @Override
-    public void reset() {
-        // do nothing
+  @Override
+  public void setDisplayArea(Envelope envelope) {
+    CoordinateReferenceSystem crs = envelope.getCoordinateReferenceSystem();
+    if (crs == null) {
+      // assume that it is the current CRS
+      crs = mapContent.getCoordinateReferenceSystem();
     }
+    ReferencedEnvelope refEnv =
+        new ReferencedEnvelope(
+            envelope.getMinimum(0),
+            envelope.getMaximum(0),
+            envelope.getMinimum(1),
+            envelope.getMaximum(1),
+            crs);
+    mapContent.getViewport().setBounds(refEnv);
+  }
 
-    @Override
-    public AffineTransform getScreenToWorldTransform() {
-        return mapContent.getViewport().getScreenToWorld();
-    }
+  public void setScreenArea(Rectangle screenArea) {
+    mapContent.getViewport().setScreenArea(screenArea);
+  }
 
-    @Override
-    public AffineTransform getWorldToScreenTransform() {
-        return mapContent.getViewport().getWorldToScreen();
-    }
-    
-    @Override
-    public void addMapPaneListener(MapPaneListener listener) {
-        if (listener == null) {
-            throw new IllegalArgumentException("null listener arg");
-        }
-        mapPaneListeners.add(listener);
-    }
+  @Override
+  public void reset() {
+    // do nothing
+  }
 
-    @Override
-    public void removeMapPaneListener(MapPaneListener listener) {
-        if (listener != null) {
-            mapPaneListeners.remove(listener);
-        }
-    }
+  @Override
+  public AffineTransform getScreenToWorldTransform() {
+    return mapContent.getViewport().getScreenToWorld();
+  }
 
-    @Override
-    public void addMouseListener(MapMouseListener listener) {
-        if (listener == null) {
-            throw new IllegalArgumentException("null listener arg");
-        }
-        mouseEventDispatcher.addMouseListener(listener);
-    }
+  @Override
+  public AffineTransform getWorldToScreenTransform() {
+    return mapContent.getViewport().getWorldToScreen();
+  }
 
-    @Override
-    public void removeMouseListener(MapMouseListener listener) {
-        if (listener != null) {
-            mouseEventDispatcher.removeMouseListener(listener);
-        }
+  @Override
+  public void addMapPaneListener(MapPaneListener listener) {
+    if (listener == null) {
+      throw new IllegalArgumentException("null listener arg");
     }
+    mapPaneListeners.add(listener);
+  }
 
-    @Override
-    public CursorTool getCursorTool() {
-        return null;
+  @Override
+  public void removeMapPaneListener(MapPaneListener listener) {
+    if (listener != null) {
+      mapPaneListeners.remove(listener);
     }
+  }
 
-    @Override
-    public void setCursorTool(CursorTool tool) {
-        // empty method
+  @Override
+  public void addMouseListener(MapMouseListener listener) {
+    if (listener == null) {
+      throw new IllegalArgumentException("null listener arg");
     }
+    mouseEventDispatcher.addMouseListener(listener);
+  }
 
-    @Override
-    public void moveImage(int dx, int dy) {
-        // empty method
+  @Override
+  public void removeMouseListener(MapMouseListener listener) {
+    if (listener != null) {
+      mouseEventDispatcher.removeMouseListener(listener);
     }
+  }
 
-    @Override
-    public MapMouseEventDispatcher getMouseEventDispatcher() {
-        return mouseEventDispatcher;
-    }
+  @Override
+  public CursorTool getCursorTool() {
+    return null;
+  }
 
-    @Override
-    public void setMouseEventDispatcher(MapMouseEventDispatcher dispatcher) {
-        mouseEventDispatcher = dispatcher;
-    }
+  @Override
+  public void setCursorTool(CursorTool tool) {
+    // empty method
+  }
 
+  @Override
+  public void moveImage(int dx, int dy) {
+    // empty method
+  }
+
+  @Override
+  public MapMouseEventDispatcher getMouseEventDispatcher() {
+    return mouseEventDispatcher;
+  }
+
+  @Override
+  public void setMouseEventDispatcher(MapMouseEventDispatcher dispatcher) {
+    mouseEventDispatcher = dispatcher;
+  }
 }

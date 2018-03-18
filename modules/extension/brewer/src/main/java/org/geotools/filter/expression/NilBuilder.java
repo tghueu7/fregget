@@ -20,27 +20,22 @@ import org.geotools.Builder;
 import org.opengis.filter.expression.Expression;
 import org.opengis.filter.expression.NilExpression;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class NilBuilder implements Builder<NilExpression> {
-    
-    public NilExpression build() {
-        return (NilExpression) Expression.NIL;
-    }
 
-    public Builder<NilExpression> reset() {
-        return this;
-    }
+  public NilExpression build() {
+    return (NilExpression) Expression.NIL;
+  }
 
-    public Builder<NilExpression> reset(NilExpression original) {
-        return this;
-    }
+  public Builder<NilExpression> reset() {
+    return this;
+  }
 
-    public Builder<NilExpression> unset() {
-        return this;
-    }
+  public Builder<NilExpression> reset(NilExpression original) {
+    return this;
+  }
 
+  public Builder<NilExpression> unset() {
+    return this;
+  }
 }

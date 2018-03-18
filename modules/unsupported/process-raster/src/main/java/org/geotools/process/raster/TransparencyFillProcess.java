@@ -18,10 +18,8 @@ package org.geotools.process.raster;
 
 import java.awt.RenderingHints;
 import java.awt.image.RenderedImage;
-
 import javax.media.jai.RenderedOp;
 import javax.media.jai.operator.ExtremaDescriptor;
-
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.processing.CoverageProcessor;
 import org.geotools.process.ProcessException;
@@ -36,59 +34,57 @@ import org.opengis.util.ProgressListener;
 
 /**
  * A transparency holes-dashes filling process
- * 
- * @author Daniele Romagnoli - GeoSolutions
  *
+ * @author Daniele Romagnoli - GeoSolutions
  * @source $URL$
  */
 @DescribeProcess(title = "TransparencyFill", description = "Fill transparent pixels")
 public class TransparencyFillProcess implements RasterProcess {
 
-    private static final CoverageProcessor PROCESSOR = CoverageProcessor.getInstance();
+  private static final CoverageProcessor PROCESSOR = CoverageProcessor.getInstance();
 
-    @DescribeResult(name = "result", description = "The processed coverage")
-    public GridCoverage2D execute(
-            @DescribeParameter(name = "data", description = "Input coverage") GridCoverage2D coverage,
-//            @DescribeParameter(name = "type", description = "Type of filling algorithm", min = 0) FillType type,
-            ProgressListener listener) throws ProcessException {
+  @DescribeResult(name = "result", description = "The processed coverage")
+  public GridCoverage2D execute(
+      @DescribeParameter(name = "data", description = "Input coverage") GridCoverage2D coverage,
+      //            @DescribeParameter(name = "type", description = "Type of filling algorithm", min
+      // = 0) FillType type,
+      ProgressListener listener)
+      throws ProcessException {
 
-        if (coverage == null) {
-            throw new ProcessException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, "coverage"));
-        }
-
-        RenderedImage ri = coverage.getRenderedImage();
-
-        // If no transparency is involved, no need to do the checks
-        boolean hasTransparency = ri != null ? ri.getColorModel().hasAlpha() : false;
-        if (!hasTransparency) {
-            return coverage;
-        }
-        int numBands = ri.getSampleModel().getNumBands();
-        RenderingHints renderingHints = null;
-
-        if (numBands == 4 || numBands == 2) {
-            // Looking for statistics on alpha channel
-            renderingHints = ImageUtilities.getRenderingHints(ri);
-            RenderedOp extremaOp = ExtremaDescriptor.create(ri, null, 1, 1, false, 1,
-                    renderingHints);
-            double[][] extrema = (double[][]) extremaOp.getProperty("Extrema");
-            double[] mins = extrema[0];
-            // check if alpha is 255 on every pixel (fully opaque)
-            hasTransparency = !(mins[mins.length - 1] == 255); // fully opaque
-        }
-
-        if (!hasTransparency) {
-            return coverage;
-        }
-
-        // Do the transparency fill operation
-        final ParameterValueGroup param = PROCESSOR.getOperation("TransparencyFill")
-                .getParameters();
-        param.parameter("source").setValue(coverage);
-//        if (type != null && type instanceof FillType) { 
-//            param.parameter("type").setValue(type);
-//        }
-        return (GridCoverage2D) PROCESSOR.doOperation(param);
+    if (coverage == null) {
+      throw new ProcessException(Errors.format(ErrorKeys.NULL_ARGUMENT_$1, "coverage"));
     }
 
+    RenderedImage ri = coverage.getRenderedImage();
+
+    // If no transparency is involved, no need to do the checks
+    boolean hasTransparency = ri != null ? ri.getColorModel().hasAlpha() : false;
+    if (!hasTransparency) {
+      return coverage;
+    }
+    int numBands = ri.getSampleModel().getNumBands();
+    RenderingHints renderingHints = null;
+
+    if (numBands == 4 || numBands == 2) {
+      // Looking for statistics on alpha channel
+      renderingHints = ImageUtilities.getRenderingHints(ri);
+      RenderedOp extremaOp = ExtremaDescriptor.create(ri, null, 1, 1, false, 1, renderingHints);
+      double[][] extrema = (double[][]) extremaOp.getProperty("Extrema");
+      double[] mins = extrema[0];
+      // check if alpha is 255 on every pixel (fully opaque)
+      hasTransparency = !(mins[mins.length - 1] == 255); // fully opaque
+    }
+
+    if (!hasTransparency) {
+      return coverage;
+    }
+
+    // Do the transparency fill operation
+    final ParameterValueGroup param = PROCESSOR.getOperation("TransparencyFill").getParameters();
+    param.parameter("source").setValue(coverage);
+    //        if (type != null && type instanceof FillType) {
+    //            param.parameter("type").setValue(type);
+    //        }
+    return (GridCoverage2D) PROCESSOR.doOperation(param);
+  }
 }

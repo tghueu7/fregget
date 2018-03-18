@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2006-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,31 +17,27 @@
 package org.geotools.xml.gml;
 
 import java.util.Map;
-
 import org.geotools.xml.FlowHandler;
 import org.geotools.xml.XMLHandlerHints;
 
 /**
  * Allows the XMLSAXHandler to abort parsing of GML.
- * 
+ *
  * @author Richard Gould
- *
- *
- *
  * @source $URL$
  */
 public class FCFlowHandler implements FlowHandler {
-    public boolean shouldStop(Map hints) {
-        if ((hints != null) && (hints.get(XMLHandlerHints.STREAM_HINT) != null)) {
-            FCBuffer buffer = (FCBuffer) hints.get(XMLHandlerHints.STREAM_HINT);
+  public boolean shouldStop(Map hints) {
+    if ((hints != null) && (hints.get(XMLHandlerHints.STREAM_HINT) != null)) {
+      FCBuffer buffer = (FCBuffer) hints.get(XMLHandlerHints.STREAM_HINT);
 
-            if (buffer.getInternalState() == FCBuffer.STOP) {
-                return true;
-            }
+      if (buffer.getInternalState() == FCBuffer.STOP) {
+        return true;
+      }
 
-            buffer.resetTimer();
-        }
-
-        return false;
+      buffer.resetTimer();
     }
+
+    return false;
+  }
 }

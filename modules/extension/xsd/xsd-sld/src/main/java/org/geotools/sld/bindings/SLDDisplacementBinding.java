@@ -17,7 +17,6 @@
 package org.geotools.sld.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.styling.Displacement;
 import org.geotools.styling.StyleFactory;
 import org.geotools.xml.AbstractComplexBinding;
@@ -26,12 +25,12 @@ import org.geotools.xml.Node;
 import org.opengis.filter.expression.Expression;
 import org.picocontainer.MutablePicoContainer;
 
-
 /**
  * Binding object for the element http://www.opengis.net/sld:Displacement.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Displacement"&gt;
  *      &lt;xsd:annotation&gt;
@@ -49,73 +48,69 @@ import org.picocontainer.MutablePicoContainer;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDDisplacementBinding extends AbstractComplexBinding {
-    StyleFactory styleFactory;
+  StyleFactory styleFactory;
 
-    public SLDDisplacementBinding(StyleFactory styleFactory) {
-        this.styleFactory = styleFactory;
+  public SLDDisplacementBinding(StyleFactory styleFactory) {
+    this.styleFactory = styleFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return SLD.DISPLACEMENT;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Displacement.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Expression x = (Expression) node.getChildValue("DisplacementX");
+    Expression y = (Expression) node.getChildValue("DisplacementY");
+
+    if ((x == null) || (y == null)) {
+      String msg = "DisplacementX and DisplacementY required";
+      throw new RuntimeException(msg);
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.DISPLACEMENT;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Displacement.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Expression x = (Expression) node.getChildValue("DisplacementX");
-        Expression y = (Expression) node.getChildValue("DisplacementY");
-
-        if ((x == null) || (y == null)) {
-            String msg = "DisplacementX and DisplacementY required";
-            throw new RuntimeException(msg);
-        }
-
-        return styleFactory.createDisplacement(x, y);
-    }
+    return styleFactory.createDisplacement(x, y);
+  }
 }

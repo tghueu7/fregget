@@ -22,9 +22,8 @@ import org.geotools.jdbc.JDBCJoinTestSetup;
 
 public class PostgisJoinOnlineTest extends JDBCJoinOnlineTest {
 
-    @Override
-    protected JDBCJoinTestSetup createTestSetup() {
-        return new PostgisJoinTestSetup(new PostGISPSTestSetup());
-    }
-
+  @Override
+  protected JDBCJoinTestSetup createTestSetup() {
+    return new PostgisJoinTestSetup(new PostGISPSTestSetup());
+  }
 }

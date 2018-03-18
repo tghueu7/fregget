@@ -16,8 +16,6 @@
  */
 package org.geotools.data.ogr;
 
-import java.io.IOException;
-
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.io.ParseException;
@@ -25,109 +23,107 @@ import com.vividsolutions.jts.io.WKBReader;
 import com.vividsolutions.jts.io.WKBWriter;
 import com.vividsolutions.jts.io.WKTReader;
 import com.vividsolutions.jts.io.WKTWriter;
+import java.io.IOException;
 
 /**
  * Converts between JTS and OGR geometries
- * 
+ *
  * @author Andrea Aime - GeoSolutions
- * 
- * 
  * @source $URL:
- *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/ogr/src/main/java/org/geotools
- *         /data/ogr/GeometryMapper.java $
+ *     http://svn.osgeo.org/geotools/trunk/modules/unsupported/ogr/src/main/java/org/geotools
+ *     /data/ogr/GeometryMapper.java $
  */
 @SuppressWarnings("rawtypes")
 abstract class GeometryMapper {
 
-    protected OGR ogr;
+  protected OGR ogr;
 
-    protected GeometryMapper(OGR ogr) {
-        this.ogr = ogr;
+  protected GeometryMapper(OGR ogr) {
+    this.ogr = ogr;
+  }
+
+  abstract Geometry parseOgrGeometry(Object geom) throws IOException;
+
+  abstract Object parseGTGeometry(Geometry geometry) throws IOException;
+
+  static class WKB extends GeometryMapper {
+    GeometryFactory geomFactory;
+
+    WKBReader wkbReader;
+
+    WKBWriter wkbWriter;
+
+    public WKB(GeometryFactory geomFactory, OGR ogr) {
+      super(ogr);
+      this.geomFactory = geomFactory;
+      this.wkbReader = new WKBReader(geomFactory);
+      this.wkbWriter = new WKBWriter();
     }
 
-    abstract Geometry parseOgrGeometry(Object geom) throws IOException;
-
-    abstract Object parseGTGeometry(Geometry geometry) throws IOException;
-
-    static class WKB extends GeometryMapper {
-        GeometryFactory geomFactory;
-
-        WKBReader wkbReader;
-
-        WKBWriter wkbWriter;
-
-        public WKB(GeometryFactory geomFactory, OGR ogr) {
-            super(ogr);
-            this.geomFactory = geomFactory;
-            this.wkbReader = new WKBReader(geomFactory);
-            this.wkbWriter = new WKBWriter();
-        }
-
-        /**
-         * Reads the current feature's geometry using wkb encoding. A wkbReader should be provided
-         * since it's not thread safe by design.
-         * 
-         * @throws IOException
-         */
-        Geometry parseOgrGeometry(Object geom) throws IOException {
-            int wkbSize = ogr.GeometryGetWkbSize(geom);
-            byte[] wkb = new byte[wkbSize];
-            ogr.CheckError(ogr.GeometryExportToWkb(geom, wkb));
-            try {
-                Geometry g = wkbReader.read(wkb);
-                return g;
-            } catch (ParseException pe) {
-                throw new IOException("Could not parse the current Geometry in WKB format.", pe);
-            }
-        }
-
-        Object parseGTGeometry(Geometry geometry) throws IOException {
-            byte[] wkb = wkbWriter.write(geometry);
-            int[] ret = new int[1];
-            Object result = ogr.GeometryCreateFromWkb(wkb, ret);
-            ogr.CheckError(ret[0]);
-            return result;
-        }
+    /**
+     * Reads the current feature's geometry using wkb encoding. A wkbReader should be provided since
+     * it's not thread safe by design.
+     *
+     * @throws IOException
+     */
+    Geometry parseOgrGeometry(Object geom) throws IOException {
+      int wkbSize = ogr.GeometryGetWkbSize(geom);
+      byte[] wkb = new byte[wkbSize];
+      ogr.CheckError(ogr.GeometryExportToWkb(geom, wkb));
+      try {
+        Geometry g = wkbReader.read(wkb);
+        return g;
+      } catch (ParseException pe) {
+        throw new IOException("Could not parse the current Geometry in WKB format.", pe);
+      }
     }
 
-    static class WKT extends GeometryMapper {
-        GeometryFactory geomFactory;
-
-        WKTReader wktReader;
-
-        WKTWriter wktWriter;
-
-        public WKT(GeometryFactory geomFactory, OGR ogr) {
-            super(ogr);
-            this.geomFactory = geomFactory;
-            this.wktReader = new WKTReader(geomFactory);
-            this.wktWriter = new WKTWriter();
-        }
-
-        /**
-         * Reads the current feature's geometry using wkb encoding. A wkbReader should be provided
-         * since it's not thread safe by design.
-         * 
-         * @throws IOException
-         */
-        Geometry parseOgrGeometry(Object geom) throws IOException {
-            int[] ret = new int[1];
-            String wkt = ogr.GeometryExportToWkt(geom, ret);
-            ogr.CheckError(ret[0]);
-            try {
-                return wktReader.read(wkt);
-            } catch (ParseException pe) {
-                throw new IOException("Could not parse the current Geometry in WKT format.", pe);
-            }
-        }
-
-        Object parseGTGeometry(Geometry geometry) throws IOException {
-            String wkt = wktWriter.write(geometry);
-            int[] ret = new int[1];
-            Object result = ogr.GeometryCreateFromWkt(wkt, ret);
-            ogr.CheckError(ret[0]);
-            return result;
-        }
-
+    Object parseGTGeometry(Geometry geometry) throws IOException {
+      byte[] wkb = wkbWriter.write(geometry);
+      int[] ret = new int[1];
+      Object result = ogr.GeometryCreateFromWkb(wkb, ret);
+      ogr.CheckError(ret[0]);
+      return result;
     }
+  }
+
+  static class WKT extends GeometryMapper {
+    GeometryFactory geomFactory;
+
+    WKTReader wktReader;
+
+    WKTWriter wktWriter;
+
+    public WKT(GeometryFactory geomFactory, OGR ogr) {
+      super(ogr);
+      this.geomFactory = geomFactory;
+      this.wktReader = new WKTReader(geomFactory);
+      this.wktWriter = new WKTWriter();
+    }
+
+    /**
+     * Reads the current feature's geometry using wkb encoding. A wkbReader should be provided since
+     * it's not thread safe by design.
+     *
+     * @throws IOException
+     */
+    Geometry parseOgrGeometry(Object geom) throws IOException {
+      int[] ret = new int[1];
+      String wkt = ogr.GeometryExportToWkt(geom, ret);
+      ogr.CheckError(ret[0]);
+      try {
+        return wktReader.read(wkt);
+      } catch (ParseException pe) {
+        throw new IOException("Could not parse the current Geometry in WKT format.", pe);
+      }
+    }
+
+    Object parseGTGeometry(Geometry geometry) throws IOException {
+      String wkt = wktWriter.write(geometry);
+      int[] ret = new int[1];
+      Object result = ogr.GeometryCreateFromWkt(wkt, ret);
+      ogr.CheckError(ret[0]);
+      return result;
+    }
+  }
 }

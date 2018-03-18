@@ -17,17 +17,16 @@
 package org.geotools.gml3.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.gml3.GML;
 import org.geotools.xml.AbstractSimpleBinding;
 import org.geotools.xml.InstanceComponent;
-
 
 /**
  * Binding object for the type http://www.opengis.net/gml:integerList.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;simpleType name="integerList"&gt;
  *      &lt;annotation&gt;
@@ -38,47 +37,42 @@ import org.geotools.xml.InstanceComponent;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class IntegerListBinding extends AbstractSimpleBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.integerList;
+  /** @generated */
+  public QName getTarget() {
+    return GML.integerList;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return int[].class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(InstanceComponent instance, Object value) throws Exception {
+    String[] values = ((String) value).split(" +");
+    int[] integers = new int[values.length];
+
+    for (int i = 0; i < values.length; i++) {
+      integers[i] = Integer.parseInt(values[i]);
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return int[].class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(InstanceComponent instance, Object value)
-        throws Exception {
-        String[] values = ((String) value).split(" +");
-        int[] integers = new int[values.length];
-
-        for (int i = 0; i < values.length; i++) {
-            integers[i] = Integer.parseInt(values[i]);
-        }
-
-        return integers;
-    }
+    return integers;
+  }
 }

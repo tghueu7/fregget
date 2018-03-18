@@ -24,53 +24,52 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 /**
- * Subclass of {@link ListFeatureCollection} that computes the target schema from the
- * first entry as needed, instead of eagerly requesting one at construction time
+ * Subclass of {@link ListFeatureCollection} that computes the target schema from the first entry as
+ * needed, instead of eagerly requesting one at construction time
  */
 class DelayedSchemaFeatureCollection extends ListFeatureCollection {
-    
-    static final SimpleFeatureType PLACEHOLDER;
-    
-    static {
-        SimpleFeatureType placeholder = null;
-        try {
-            placeholder = DataUtilities.createType("PLACEHOLDER", "");
-        } catch(SchemaException e) {
-            // unexpected
-            throw new RuntimeException(e);
-        }
-        PLACEHOLDER = placeholder;
-    }
 
-    public DelayedSchemaFeatureCollection() {
-        super((SimpleFeatureType) null);
-    }
+  static final SimpleFeatureType PLACEHOLDER;
 
-    @Override
-    public SimpleFeatureType getSchema() {
-        if(schema == null) {
-            if(isEmpty()) {
-                return PLACEHOLDER;
-            } else {
-                schema =  list.get(0).getFeatureType();
-            }
-        }
-        return schema;
+  static {
+    SimpleFeatureType placeholder = null;
+    try {
+      placeholder = DataUtilities.createType("PLACEHOLDER", "");
+    } catch (SchemaException e) {
+      // unexpected
+      throw new RuntimeException(e);
     }
-    
-    @Override
-    public boolean add(SimpleFeature f) {
-        // maintain the bounds
-        this.bounds = null;
-        return this.list.add(f);
-    }
-    
-    protected ReferencedEnvelope calculateBounds() {
-        if(list.isEmpty()) {
-            return new ReferencedEnvelope();
-        } else {
-            return super.calculateBounds();
-        }
-    }
+    PLACEHOLDER = placeholder;
+  }
 
+  public DelayedSchemaFeatureCollection() {
+    super((SimpleFeatureType) null);
+  }
+
+  @Override
+  public SimpleFeatureType getSchema() {
+    if (schema == null) {
+      if (isEmpty()) {
+        return PLACEHOLDER;
+      } else {
+        schema = list.get(0).getFeatureType();
+      }
+    }
+    return schema;
+  }
+
+  @Override
+  public boolean add(SimpleFeature f) {
+    // maintain the bounds
+    this.bounds = null;
+    return this.list.add(f);
+  }
+
+  protected ReferencedEnvelope calculateBounds() {
+    if (list.isEmpty()) {
+      return new ReferencedEnvelope();
+    } else {
+      return super.calculateBounds();
+    }
+  }
 }

@@ -22,19 +22,16 @@ package org.geotools.grid;
  *
  * @author mbedward
  * @since 2.7
- *
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public enum Neighbor {
-    UPPER,
-    UPPER_LEFT,
-    UPPER_RIGHT,
-    LOWER,
-    LOWER_LEFT,
-    LOWER_RIGHT,
-    LEFT,
-    RIGHT
+  UPPER,
+  UPPER_LEFT,
+  UPPER_RIGHT,
+  LOWER,
+  LOWER_LEFT,
+  LOWER_RIGHT,
+  LEFT,
+  RIGHT
 }

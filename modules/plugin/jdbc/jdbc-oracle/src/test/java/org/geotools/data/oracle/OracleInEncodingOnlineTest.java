@@ -16,20 +16,19 @@
  */
 package org.geotools.data.oracle;
 
+import java.io.IOException;
 import org.geotools.jdbc.JDBCInEncodingOnlineTest;
 import org.geotools.jdbc.JDBCTestSetup;
 
-import java.io.IOException;
-
 public class OracleInEncodingOnlineTest extends JDBCInEncodingOnlineTest {
-    
-    @Override
-    protected JDBCTestSetup createTestSetup() {
-        return new OracleTestSetup();
-    }
 
-    @Override
-    public void testGreater() throws IOException {
-        // Oracle cannot handle this "odd" case
-    }
+  @Override
+  protected JDBCTestSetup createTestSetup() {
+    return new OracleTestSetup();
+  }
+
+  @Override
+  public void testGreater() throws IOException {
+    // Oracle cannot handle this "odd" case
+  }
 }

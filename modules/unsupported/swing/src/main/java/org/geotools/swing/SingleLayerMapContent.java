@@ -21,76 +21,70 @@ import org.geotools.map.Layer;
 import org.geotools.map.MapContent;
 
 /**
- * Used by {@linkplain DefaultRenderingExecutor} to hold a single {@code Layer}
- * that is being passed to a renderer. Calling the {@code dispose} method of 
- * this class does not dispose of the layer unlike {@linkplain MapContent#dispose()}.
- * It does not permit subsequent changes to its layer list.
- * 
+ * Used by {@linkplain DefaultRenderingExecutor} to hold a single {@code Layer} that is being passed
+ * to a renderer. Calling the {@code dispose} method of this class does not dispose of the layer
+ * unlike {@linkplain MapContent#dispose()}. It does not permit subsequent changes to its layer
+ * list.
+ *
  * @author Michael Bedward
  * @since 8.0
- *
  * @source $URL$
  * @version $Id$
  */
 public class SingleLayerMapContent extends MapContent {
 
-    /**
-     * Creates a new instance to hold the given layer.
-     * 
-     * @param layer the layer
-     * @throws IllegalArgumentException if {@code layer} is {@code null}
-     */
-    public SingleLayerMapContent(Layer layer) {
-        if (layer == null) {
-            throw new IllegalArgumentException("layer must not be null");
-        }
-        super.addLayer(layer);
+  /**
+   * Creates a new instance to hold the given layer.
+   *
+   * @param layer the layer
+   * @throws IllegalArgumentException if {@code layer} is {@code null}
+   */
+  public SingleLayerMapContent(Layer layer) {
+    if (layer == null) {
+      throw new IllegalArgumentException("layer must not be null");
     }
+    super.addLayer(layer);
+  }
 
-    /**
-     * Throws an {@code UnsupportedOperationException} if called.
-     * 
-     * @return 
-     */
-    @Override
-    public boolean addLayer(Layer layer) {
-        throw new UnsupportedOperationException("Should not be called");
-    }
+  /**
+   * Throws an {@code UnsupportedOperationException} if called.
+   *
+   * @return
+   */
+  @Override
+  public boolean addLayer(Layer layer) {
+    throw new UnsupportedOperationException("Should not be called");
+  }
 
-    /**
-     * Throws an {@code UnsupportedOperationException} if called.
-     * 
-     * @return 
-     */
-    @Override
-    public void moveLayer(int sourcePosition, int destPosition) {
-        throw new UnsupportedOperationException("Should not be called");
-    }
+  /**
+   * Throws an {@code UnsupportedOperationException} if called.
+   *
+   * @return
+   */
+  @Override
+  public void moveLayer(int sourcePosition, int destPosition) {
+    throw new UnsupportedOperationException("Should not be called");
+  }
 
-    /**
-     * Throws an {@code UnsupportedOperationException} if called.
-     * 
-     * @return 
-     */
-    @Override
-    public boolean removeLayer(Layer layer) {
-        throw new UnsupportedOperationException("Should not be called");
-    }
-    
-    /**
-     * Does nothing.
-     */
-    @Override
-    public void dispose() {
-        // does nothing
-    }
+  /**
+   * Throws an {@code UnsupportedOperationException} if called.
+   *
+   * @return
+   */
+  @Override
+  public boolean removeLayer(Layer layer) {
+    throw new UnsupportedOperationException("Should not be called");
+  }
 
-    /**
-     * Does nothing.
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        // does nothing
-    }
-    
+  /** Does nothing. */
+  @Override
+  public void dispose() {
+    // does nothing
+  }
+
+  /** Does nothing. */
+  @Override
+  protected void finalize() throws Throwable {
+    // does nothing
+  }
 }

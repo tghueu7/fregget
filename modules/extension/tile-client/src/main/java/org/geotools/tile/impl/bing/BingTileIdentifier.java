@@ -20,51 +20,51 @@ import org.geotools.tile.TileIdentifier;
 import org.geotools.tile.impl.ZoomLevel;
 
 /**
- * <p>
- * The TileIdentifier implementation for the BingMaps family. This identifier
- * follows the grid logic of similar implementations. The different
- * characteristic of a BingTileIdentifier is the use of quadkey to locate a tile
- * in the grid space. Please refer to <a
- * href="https://msdn.microsoft.com/en-us/library/bb259689.aspx>Bing Maps Tile
- * System</a>.
- * </p>
- * 
+ * The TileIdentifier implementation for the BingMaps family. This identifier follows the grid logic
+ * of similar implementations. The different characteristic of a BingTileIdentifier is the use of
+ * quadkey to locate a tile in the grid space. Please refer to <a
+ * href="https://msdn.microsoft.com/en-us/library/bb259689.aspx>Bing Maps Tile System</a>.
+ *
  * @author Ugo Taddei
  * @since 12
  */
 public class BingTileIdentifier extends TileIdentifier {
 
-    /**
-     * Creates a new BingTileIdentifier.
-     *
-     * @param zoomLevel
-     * @param x
-     * @param y
-     * @param serviceName
-     */
-    public BingTileIdentifier(int x, int y, ZoomLevel zoomLevel, String serviceName) {
-        super(x, y, zoomLevel, serviceName);
-    }
+  /**
+   * Creates a new BingTileIdentifier.
+   *
+   * @param zoomLevel
+   * @param x
+   * @param y
+   * @param serviceName
+   */
+  public BingTileIdentifier(int x, int y, ZoomLevel zoomLevel, String serviceName) {
+    super(x, y, zoomLevel, serviceName);
+  }
 
-    public BingTileIdentifier getRightNeighbour() {
+  public BingTileIdentifier getRightNeighbour() {
 
-        return new BingTileIdentifier(
-                TileIdentifier.arithmeticMod((getX() + 1), getZoomLevel().getMaxTilePerRowNumber()),
-                getY(), getZoomLevel(), getServiceName());
-    }
+    return new BingTileIdentifier(
+        TileIdentifier.arithmeticMod((getX() + 1), getZoomLevel().getMaxTilePerRowNumber()),
+        getY(),
+        getZoomLevel(),
+        getServiceName());
+  }
 
-    public BingTileIdentifier getLowerNeighbour() {
+  public BingTileIdentifier getLowerNeighbour() {
 
-        return new BingTileIdentifier(getX(),
-                TileIdentifier.arithmeticMod((getY() + 1), getZoomLevel().getMaxTilePerRowNumber()),
-                getZoomLevel(), getServiceName());
-    }
+    return new BingTileIdentifier(
+        getX(),
+        TileIdentifier.arithmeticMod((getY() + 1), getZoomLevel().getMaxTilePerRowNumber()),
+        getZoomLevel(),
+        getServiceName());
+  }
 
-    public String getId() {
-        return getServiceName() + "_" + getCode();
-    }
+  public String getId() {
+    return getServiceName() + "_" + getCode();
+  }
 
-    public String getCode() {
-        return BingTileUtil.tileXYToQuadKey(this.getX(), this.getY(), this.getZ());
-    }
+  public String getCode() {
+    return BingTileUtil.tileXYToQuadKey(this.getX(), this.getY(), this.getZ());
+  }
 }

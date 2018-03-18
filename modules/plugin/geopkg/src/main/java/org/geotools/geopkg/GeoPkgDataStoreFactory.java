@@ -16,6 +16,11 @@
  */
 package org.geotools.geopkg;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
+import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.geotools.data.Parameter;
 import org.geotools.geopkg.geom.GeoPkgGeomWriter;
@@ -25,177 +30,175 @@ import org.geotools.jdbc.SQLDialect;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.javax.SQLiteConnectionPoolDataSource;
 
-import javax.sql.DataSource;
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
-
 /**
  * The GeoPackage DataStore Factory.
- * 
+ *
  * @author Justin Deoliveira
  * @author Niels Charlier
- *
  */
 public class GeoPkgDataStoreFactory extends JDBCDataStoreFactory {
 
-    /** parameter for database type */
-    public static final Param DBTYPE = new Param("dbtype", String.class, "Type", true, "geopkg",
-            Collections.singletonMap(Parameter.LEVEL, "program"));
+  /** parameter for database type */
+  public static final Param DBTYPE =
+      new Param(
+          "dbtype",
+          String.class,
+          "Type",
+          true,
+          "geopkg",
+          Collections.singletonMap(Parameter.LEVEL, "program"));
 
-    /** parameter for database instance */
-    public static final Param DATABASE = new Param("database", File.class, "Database", true );
+  /** parameter for database instance */
+  public static final Param DATABASE = new Param("database", File.class, "Database", true);
 
-    /**
-     * base location to store database files
-     */
-    File baseDirectory = null;
-        
-    GeoPkgGeomWriter.Configuration writerConfig;
-    
-    public GeoPkgDataStoreFactory() {
-        this.writerConfig = new GeoPkgGeomWriter.Configuration();
+  /** base location to store database files */
+  File baseDirectory = null;
+
+  GeoPkgGeomWriter.Configuration writerConfig;
+
+  public GeoPkgDataStoreFactory() {
+    this.writerConfig = new GeoPkgGeomWriter.Configuration();
+  }
+
+  public GeoPkgDataStoreFactory(GeoPkgGeomWriter.Configuration writerConfig) {
+    this.writerConfig = writerConfig;
+  }
+
+  /**
+   * Sets the base location to store database files.
+   *
+   * @param baseDirectory A directory.
+   */
+  public void setBaseDirectory(File baseDirectory) {
+    this.baseDirectory = baseDirectory;
+  }
+
+  @Override
+  protected String getDatabaseID() {
+    return "geopkg";
+  }
+
+  @Override
+  public String getDescription() {
+    return "GeoPackage";
+  }
+
+  @Override
+  protected String getDriverClassName() {
+    return "org.sqlite.JDBC";
+  }
+
+  @Override
+  protected SQLDialect createSQLDialect(JDBCDataStore dataStore) {
+    return new GeoPkgDialect(dataStore, writerConfig);
+  }
+
+  @Override
+  protected String getValidationQuery() {
+    return "SELECT 1";
+  }
+
+  @Override
+  protected String getJDBCUrl(Map params) throws IOException {
+    File db = (File) DATABASE.lookUp(params);
+    if (db.getPath().startsWith("file:")) {
+      db = new File(db.getPath().substring(5));
     }
-    
-    public GeoPkgDataStoreFactory(GeoPkgGeomWriter.Configuration writerConfig) {
-        this.writerConfig = writerConfig;
+    if (baseDirectory != null) {
+      // check for a relative path
+      if (!db.isAbsolute()) {
+        db = new File(baseDirectory, db.getPath());
+      }
     }
+    return "jdbc:sqlite:" + db;
+  }
 
-    /**
-     * Sets the base location to store database files.
-     *
-     * @param baseDirectory A directory.
-     */
-    public void setBaseDirectory(File baseDirectory) {
-        this.baseDirectory = baseDirectory;
+  @Override
+  protected void setupParameters(Map parameters) {
+    super.setupParameters(parameters);
+
+    // remove unnecessary parameters
+    parameters.remove(HOST.key);
+    parameters.remove(PORT.key);
+    parameters.remove(SCHEMA.key);
+    parameters.remove(USER.key); // sqlite has no user, just a password
+    parameters.remove(MAXCONN.key);
+    parameters.remove(MINCONN.key);
+    parameters.remove(MAXWAIT.key);
+    parameters.remove(VALIDATECONN.key);
+    parameters.remove(TEST_WHILE_IDLE.key);
+    parameters.remove(TIME_BETWEEN_EVICTOR_RUNS.key);
+    parameters.remove(MIN_EVICTABLE_TIME.key);
+    parameters.remove(EVICTOR_TESTS_PER_RUN.key);
+
+    // replace database with File database
+    parameters.put(DATABASE.key, DATABASE);
+    // replace dbtype
+    parameters.put(DBTYPE.key, DBTYPE);
+  }
+
+  /**
+   * This is left for public API compatibility but it's not as efficient as using the GeoPackage
+   * internal pool
+   *
+   * @param params Map of connection parameter.
+   * @return
+   * @throws IOException
+   */
+  @Override
+  public BasicDataSource createDataSource(Map params) throws IOException {
+    // create a datasource
+    BasicDataSource dataSource = new BasicDataSource();
+
+    // driver
+    dataSource.setDriverClassName(getDriverClassName());
+
+    // url
+    dataSource.setUrl(getJDBCUrl(params));
+
+    addConnectionProperties(dataSource);
+
+    dataSource.setAccessToUnderlyingConnectionAllowed(true);
+
+    return dataSource;
+  }
+
+  @Override
+  protected DataSource createDataSource(Map params, SQLDialect dialect) throws IOException {
+    SQLiteConfig config = new SQLiteConfig();
+    config.setSharedCache(true);
+    config.enableLoadExtension(true);
+    String password = (String) PASSWD.lookUp(params);
+    // support for encrypted databases has been ddded after 3.20.1, we'll have to
+    // wait for a future release of sqlite-jdbc
+    // if(password != null) {
+    //     config.setPragma(SQLiteConfig.Pragma.PASSWORD, password);
+    // }
+    // TODO: add this and make configurable once we upgrade to a sqlitejdbc exposing mmap_size
+    // config.setPragma(SQLiteConfig.Pragma.MMAP_SIZE, String.valueOf(1024 * 1024 * 1000));
+
+    // use native "pool", which is actually not pooling anything (that's fast and
+    // has less scalability overhead)
+    SQLiteConnectionPoolDataSource ds = new SQLiteConnectionPoolDataSource(config);
+    ds.setUrl(getJDBCUrl(params));
+
+    return ds;
+  }
+
+  static void addConnectionProperties(BasicDataSource dataSource) {
+    SQLiteConfig config = new SQLiteConfig();
+    config.setSharedCache(true);
+    config.enableLoadExtension(true);
+
+    for (Map.Entry e : config.toProperties().entrySet()) {
+      dataSource.addConnectionProperty((String) e.getKey(), (String) e.getValue());
     }
+  }
 
-    @Override
-    protected String getDatabaseID() {
-        return "geopkg";
-    }
-
-    @Override
-    public String getDescription() {
-        return "GeoPackage";
-    }
-
-    @Override
-    protected String getDriverClassName() {
-        return "org.sqlite.JDBC";
-    }
-
-    @Override
-    protected SQLDialect createSQLDialect(JDBCDataStore dataStore) {
-        return new GeoPkgDialect(dataStore, writerConfig);
-    }
-
-    @Override
-    protected String getValidationQuery() {
-        return "SELECT 1";
-    }
-
-    @Override
-    protected String getJDBCUrl(Map params) throws IOException {
-        File db = (File) DATABASE.lookUp(params);
-        if (db.getPath().startsWith("file:")) {
-            db = new File(db.getPath().substring(5));
-        }
-        if (baseDirectory != null) {
-            // check for a relative path
-            if (!db.isAbsolute()) {
-                db = new File(baseDirectory, db.getPath());
-            }
-        }
-        return "jdbc:sqlite:" + db;
-    }
-
-    @Override
-    protected void setupParameters(Map parameters) {
-        super.setupParameters(parameters);
-        
-        // remove unnecessary parameters
-        parameters.remove(HOST.key);
-        parameters.remove(PORT.key);
-        parameters.remove(SCHEMA.key);
-        parameters.remove(USER.key); // sqlite has no user, just a password
-        parameters.remove(MAXCONN.key);
-        parameters.remove(MINCONN.key);
-        parameters.remove(MAXWAIT.key);
-        parameters.remove(VALIDATECONN.key);
-        parameters.remove(TEST_WHILE_IDLE.key);
-        parameters.remove(TIME_BETWEEN_EVICTOR_RUNS.key);
-        parameters.remove(MIN_EVICTABLE_TIME.key);
-        parameters.remove(EVICTOR_TESTS_PER_RUN.key);
-
-        // replace database with File database
-        parameters.put(DATABASE.key, DATABASE);
-        // replace dbtype
-        parameters.put(DBTYPE.key, DBTYPE);
-    }
-
-    /**
-     * This is left for public API compatibility but it's not as efficient as using the GeoPackage internal pool
-     * @param params Map of connection parameter.
-     * @return
-     * @throws IOException
-     */
-    @Override
-    public BasicDataSource createDataSource(Map params) throws IOException {
-        //create a datasource
-        BasicDataSource dataSource = new BasicDataSource();
-
-        // driver
-        dataSource.setDriverClassName(getDriverClassName());
-
-        // url
-        dataSource.setUrl(getJDBCUrl(params));
-
-        addConnectionProperties(dataSource);
-
-        dataSource.setAccessToUnderlyingConnectionAllowed(true);
-
-        return dataSource;
-    }
-
-
-    @Override
-    protected DataSource createDataSource(Map params, SQLDialect dialect) throws IOException {
-        SQLiteConfig config = new SQLiteConfig();
-        config.setSharedCache(true);
-        config.enableLoadExtension(true);
-        String password = (String) PASSWD.lookUp(params);
-        // support for encrypted databases has been ddded after 3.20.1, we'll have to 
-        // wait for a future release of sqlite-jdbc
-        // if(password != null) {
-        //     config.setPragma(SQLiteConfig.Pragma.PASSWORD, password);
-        // }
-        // TODO: add this and make configurable once we upgrade to a sqlitejdbc exposing mmap_size
-        // config.setPragma(SQLiteConfig.Pragma.MMAP_SIZE, String.valueOf(1024 * 1024 * 1000));
-        
-        // use native "pool", which is actually not pooling anything (that's fast and
-        // has less scalability overhead)
-        SQLiteConnectionPoolDataSource ds = new SQLiteConnectionPoolDataSource(config);
-        ds.setUrl(getJDBCUrl(params));
-                
-        return ds;
-    }
-
-    static void addConnectionProperties(BasicDataSource dataSource) {
-        SQLiteConfig config = new SQLiteConfig();
-        config.setSharedCache(true);
-        config.enableLoadExtension(true);
-
-        for (Map.Entry e : config.toProperties().entrySet()) {
-            dataSource.addConnectionProperty((String)e.getKey(), (String)e.getValue());
-        }
-    }
-
-    @Override
-    protected JDBCDataStore createDataStoreInternal(JDBCDataStore dataStore, Map params) throws IOException {
-        dataStore.setDatabaseSchema(null);
-        return dataStore;
-    }
-
+  @Override
+  protected JDBCDataStore createDataStoreInternal(JDBCDataStore dataStore, Map params)
+      throws IOException {
+    dataStore.setDatabaseSchema(null);
+    return dataStore;
+  }
 }

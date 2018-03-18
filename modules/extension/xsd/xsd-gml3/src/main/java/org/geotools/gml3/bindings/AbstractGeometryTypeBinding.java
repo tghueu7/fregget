@@ -16,8 +16,8 @@
  */
 package org.geotools.gml3.bindings;
 
+import com.vividsolutions.jts.geom.Geometry;
 import javax.xml.namespace.QName;
-
 import org.geotools.gml2.SrsSyntax;
 import org.geotools.gml2.bindings.GML2EncodingUtils;
 import org.geotools.gml3.GML;
@@ -27,14 +27,12 @@ import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-import com.vividsolutions.jts.geom.Geometry;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:AbstractGeometryType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType abstract="true" name="AbstractGeometryType"&gt;
  *      &lt;annotation&gt;
@@ -60,109 +58,103 @@ import com.vividsolutions.jts.geom.Geometry;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class AbstractGeometryTypeBinding extends AbstractComplexBinding {
-    Configuration config;
-    SrsSyntax srsSyntax;
+  Configuration config;
+  SrsSyntax srsSyntax;
 
-    public AbstractGeometryTypeBinding(Configuration config, SrsSyntax srsSyntax) {
-        this.config = config;
-        this.srsSyntax = srsSyntax;
+  public AbstractGeometryTypeBinding(Configuration config, SrsSyntax srsSyntax) {
+    this.config = config;
+    this.srsSyntax = srsSyntax;
+  }
+
+  public void setConfiguration(Configuration config) {
+    this.config = config;
+  }
+
+  public void setSrsSyntax(SrsSyntax srsSyntax) {
+    this.srsSyntax = srsSyntax;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.AbstractGeometryType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Geometry.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // set the crs
+    if (value instanceof Geometry) {
+      CoordinateReferenceSystem crs = GML3ParsingUtils.crs(node);
+
+      if (crs != null) {
+        Geometry geometry = (Geometry) value;
+        geometry.setUserData(crs);
+      }
     }
 
-    public void setConfiguration(Configuration config) {
-        this.config = config;
+    return value;
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    Geometry geometry = (Geometry) object;
+
+    if ("srsName".equals(name.getLocalPart())) {
+      CoordinateReferenceSystem crs = GML3EncodingUtils.getCRS(geometry);
+      if (crs != null) {
+        return GML3EncodingUtils.toURI(crs, srsSyntax);
+      }
     }
 
-    public void setSrsSyntax(SrsSyntax srsSyntax) {
-        this.srsSyntax = srsSyntax;
+    if ("srsDimension".equals(name.getLocalPart())) {
+      return GML2EncodingUtils.getGeometryDimension(geometry, config);
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.AbstractGeometryType;
+    // FIXME: should be gml:id, but which GML?
+    // Refactor bindings or introduce a new one for GML 3.2
+    if ("id".equals(name.getLocalPart())) {
+      return GML3EncodingUtils.getID(geometry);
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Geometry.class;
+    // FIXME: should be gml:name, but which GML?
+    // Refactor bindings or introduce a new one for GML 3.2
+    if ("name".equals(name.getLocalPart())) {
+      return GML3EncodingUtils.getName(geometry);
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //set the crs
-        if (value instanceof Geometry) {
-            CoordinateReferenceSystem crs = GML3ParsingUtils.crs(node);
-
-            if (crs != null) {
-                Geometry geometry = (Geometry) value;
-                geometry.setUserData(crs);
-            }
-        }
-
-        return value;
+    // FIXME: should be gml:description, but which GML?
+    // Refactor bindings or introduce a new one for GML 3.2
+    if ("description".equals(name.getLocalPart())) {
+      return GML3EncodingUtils.getDescription(geometry);
     }
-    
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        Geometry geometry = (Geometry) object;
-        
-        if ("srsName".equals(name.getLocalPart())) {
-            CoordinateReferenceSystem crs = GML3EncodingUtils.getCRS(geometry);
-            if (crs != null) {
-                return GML3EncodingUtils.toURI(crs, srsSyntax);
-            }
-        }
-
-        if ("srsDimension".equals(name.getLocalPart())) {
-            return GML2EncodingUtils.getGeometryDimension(geometry, config);
-        }
-
-        // FIXME: should be gml:id, but which GML?
-        // Refactor bindings or introduce a new one for GML 3.2
-        if ("id".equals(name.getLocalPart())) {
-            return GML3EncodingUtils.getID(geometry);
-        }
-
-        // FIXME: should be gml:name, but which GML?
-        // Refactor bindings or introduce a new one for GML 3.2
-        if ("name".equals(name.getLocalPart())) {
-            return GML3EncodingUtils.getName(geometry);
-        }
-        
-        // FIXME: should be gml:description, but which GML?
-        // Refactor bindings or introduce a new one for GML 3.2
-        if ("description".equals(name.getLocalPart())) {
-            return GML3EncodingUtils.getDescription(geometry);
-        }   
-        if ("uomLabels".equals(name.getLocalPart())) {
-            return GML3EncodingUtils.getUomLabels(geometry);
-        }
-
-        if ("axisLabels".equals(name.getLocalPart())) {
-            return GML3EncodingUtils.getAxisLabels(geometry);
-        }
-
-        return null;
+    if ("uomLabels".equals(name.getLocalPart())) {
+      return GML3EncodingUtils.getUomLabels(geometry);
     }
+
+    if ("axisLabels".equals(name.getLocalPart())) {
+      return GML3EncodingUtils.getAxisLabels(geometry);
+    }
+
+    return null;
+  }
 }

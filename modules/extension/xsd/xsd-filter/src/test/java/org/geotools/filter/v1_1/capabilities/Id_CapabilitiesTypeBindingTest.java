@@ -16,18 +16,18 @@
  */
 package org.geotools.filter.v1_1.capabilities;
 
-import org.w3c.dom.Document;
 import javax.xml.namespace.QName;
-import org.opengis.filter.capability.IdCapabilities;
 import org.geotools.filter.v1_1.OGC;
 import org.geotools.xml.Binding;
-
+import org.opengis.filter.capability.IdCapabilities;
+import org.w3c.dom.Document;
 
 /**
  * Binding test case for http://www.opengis.net/ogc:Id_CapabilitiesType.
  *
  * <p>
- *  <pre>
+ *
+ * <pre>
  *   <code>
  *  &lt;xsd:complexType name="Id_CapabilitiesType"&gt;
  *      &lt;xsd:choice maxOccurs="unbounded"&gt;
@@ -38,37 +38,36 @@ import org.geotools.xml.Binding;
  *
  *    </code>
  *   </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class Id_CapabilitiesTypeBindingTest extends OGCTestSupport {
-    public void testType() {
-        assertEquals(IdCapabilities.class, binding(OGC.Id_CapabilitiesType).getType());
-    }
+  public void testType() {
+    assertEquals(IdCapabilities.class, binding(OGC.Id_CapabilitiesType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(OGC.Id_CapabilitiesType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(OGC.Id_CapabilitiesType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        FilterMockData.idCapabilities(document, document);
+  public void testParse() throws Exception {
+    FilterMockData.idCapabilities(document, document);
 
-        IdCapabilities id = (IdCapabilities) parse(OGC.Id_CapabilitiesType);
+    IdCapabilities id = (IdCapabilities) parse(OGC.Id_CapabilitiesType);
 
-        assertTrue(id.hasEID());
-        assertTrue(id.hasFID());
-    }
+    assertTrue(id.hasEID());
+    assertTrue(id.hasFID());
+  }
 
-    public void testEncode() throws Exception {
-        Document dom = encode(FilterMockData.idCapabilities(),
-                new QName(OGC.NAMESPACE, "IdCapabilities"), OGC.Id_CapabilitiesType);
+  public void testEncode() throws Exception {
+    Document dom =
+        encode(
+            FilterMockData.idCapabilities(),
+            new QName(OGC.NAMESPACE, "IdCapabilities"),
+            OGC.Id_CapabilitiesType);
 
-        assertNotNull(getElementsByQName(dom, OGC.FID));
-        assertNotNull(getElementsByQName(dom, OGC.EID));
-    }
+    assertNotNull(getElementsByQName(dom, OGC.FID));
+    assertNotNull(getElementsByQName(dom, OGC.EID));
+  }
 }

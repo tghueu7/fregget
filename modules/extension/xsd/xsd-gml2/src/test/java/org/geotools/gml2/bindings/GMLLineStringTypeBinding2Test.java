@@ -16,39 +16,33 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.LineString;
 import org.geotools.gml2.GML;
 import org.geotools.xml.Binding;
 import org.w3c.dom.Document;
 
-import com.vividsolutions.jts.geom.LineString;
-
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GMLLineStringTypeBinding2Test extends GMLTestSupport {
-    public void testType() {
-        assertEquals(LineString.class, binding(GML.LineStringType).getType());
-    }
+  public void testType() {
+    assertEquals(LineString.class, binding(GML.LineStringType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.BEFORE, binding(GML.LineStringType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.BEFORE, binding(GML.LineStringType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        GML2MockData.lineString(document, document);
+  public void testParse() throws Exception {
+    GML2MockData.lineString(document, document);
 
-        LineString l = (LineString) parse();
+    LineString l = (LineString) parse();
 
-        assertEquals(2, l.getCoordinates().length);
-    }
+    assertEquals(2, l.getCoordinates().length);
+  }
 
-    public void testEncode() throws Exception {
-        Document doc = encode(GML2MockData.lineString(), GML.LineString);
+  public void testEncode() throws Exception {
+    Document doc = encode(GML2MockData.lineString(), GML.LineString);
 
-        assertEquals(1,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.coordinates.getLocalPart()).getLength());
-    }
+    assertEquals(
+        1, doc.getElementsByTagNameNS(GML.NAMESPACE, GML.coordinates.getLocalPart()).getLength());
+  }
 }

@@ -19,35 +19,30 @@ package org.geotools.sld.bindings;
 import org.geotools.styling.PolygonSymbolizer;
 import org.opengis.filter.expression.Function;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDPolygonSymbolizerBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(PolygonSymbolizer.class, new SLDPolygonSymbolizerBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(PolygonSymbolizer.class, new SLDPolygonSymbolizerBinding(null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.polygonSymbolizer(document, document);
+  public void test() throws Exception {
+    SLDMockData.polygonSymbolizer(document, document);
 
-        PolygonSymbolizer ps = (PolygonSymbolizer) parse();
-        assertNotNull(ps);
-        assertNotNull(ps.getFill());
-        assertNotNull(ps.getStroke());
-    }
-    
-    public void testTransform() throws Exception {
-        SLDMockData.transformedPolygonSymbolizer(document, document);
+    PolygonSymbolizer ps = (PolygonSymbolizer) parse();
+    assertNotNull(ps);
+    assertNotNull(ps.getFill());
+    assertNotNull(ps.getStroke());
+  }
 
-        PolygonSymbolizer ps = (PolygonSymbolizer) parse();
-        assertNotNull(ps);
-        assertNotNull(ps.getFill());
-        assertNotNull(ps.getStroke());
-        assertNotNull(ps.getGeometry());
-        Function tx = (Function) ps.getGeometry();
-        assertEquals("buffer", tx.getName());
-    }
+  public void testTransform() throws Exception {
+    SLDMockData.transformedPolygonSymbolizer(document, document);
+
+    PolygonSymbolizer ps = (PolygonSymbolizer) parse();
+    assertNotNull(ps);
+    assertNotNull(ps.getFill());
+    assertNotNull(ps.getStroke());
+    assertNotNull(ps.getGeometry());
+    Function tx = (Function) ps.getGeometry();
+    assertEquals("buffer", tx.getName());
+  }
 }

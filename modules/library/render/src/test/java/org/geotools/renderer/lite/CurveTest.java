@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2014, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -21,7 +21,6 @@ import static java.awt.RenderingHints.*;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
 import org.geotools.data.property.PropertyDataStore;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.geometry.jts.ReferencedEnvelope;
@@ -33,68 +32,62 @@ import org.geotools.test.TestData;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * 
- * 
- * @source $URL$
- */
+/** @source $URL$ */
 public class CurveTest {
-    private static final long TIME = 40000;
+  private static final long TIME = 40000;
 
-    @Before
-    public void setUp() throws Exception {
-        // System.setProperty("org.geotools.test.interactive", "true");
-    }
+  @Before
+  public void setUp() throws Exception {
+    // System.setProperty("org.geotools.test.interactive", "true");
+  }
 
-    @Test
-    public void testCurvePolygons() throws Exception {
-        File property = new File(TestData.getResource(this, "curvepolygons.properties").toURI());
-        PropertyDataStore ds = new PropertyDataStore(property.getParentFile());
-        SimpleFeatureSource fs = ds.getFeatureSource("curvepolygons");
-        ReferencedEnvelope bounds = fs.getBounds();
-        bounds.expandBy(1, 1);
+  @Test
+  public void testCurvePolygons() throws Exception {
+    File property = new File(TestData.getResource(this, "curvepolygons.properties").toURI());
+    PropertyDataStore ds = new PropertyDataStore(property.getParentFile());
+    SimpleFeatureSource fs = ds.getFeatureSource("curvepolygons");
+    ReferencedEnvelope bounds = fs.getBounds();
+    bounds.expandBy(1, 1);
 
-        Style style = RendererBaseTest.loadStyle(this, "fillSolid.sld");
+    Style style = RendererBaseTest.loadStyle(this, "fillSolid.sld");
 
-        MapContent mc = new MapContent();
-        mc.addLayer(new FeatureLayer(fs, style));
+    MapContent mc = new MapContent();
+    mc.addLayer(new FeatureLayer(fs, style));
 
-        StreamingRenderer renderer = new StreamingRenderer();
-        renderer.setMapContent(mc);
-        RenderingHints hints = new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
-        hints.add(new RenderingHints(KEY_STROKE_CONTROL, VALUE_STROKE_PURE));
-        renderer.setJava2DHints(hints);
+    StreamingRenderer renderer = new StreamingRenderer();
+    renderer.setMapContent(mc);
+    RenderingHints hints = new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
+    hints.add(new RenderingHints(KEY_STROKE_CONTROL, VALUE_STROKE_PURE));
+    renderer.setJava2DHints(hints);
 
-        BufferedImage image = RendererBaseTest
-                .showRender("Curved polygons", renderer, TIME, bounds);
-        File reference = new File(
-                "./src/test/resources/org/geotools/renderer/lite/test-data/curvedPolygons.png");
-        ImageAssert.assertEquals(reference, image, 100);
-    }
+    BufferedImage image = RendererBaseTest.showRender("Curved polygons", renderer, TIME, bounds);
+    File reference =
+        new File("./src/test/resources/org/geotools/renderer/lite/test-data/curvedPolygons.png");
+    ImageAssert.assertEquals(reference, image, 100);
+  }
 
-    @Test
-    public void testCurveLines() throws Exception {
-        File property = new File(TestData.getResource(this, "curvelines.properties").toURI());
-        PropertyDataStore ds = new PropertyDataStore(property.getParentFile());
-        SimpleFeatureSource fs = ds.getFeatureSource("curvelines");
-        ReferencedEnvelope bounds = fs.getBounds();
-        bounds.expandBy(1, 1);
+  @Test
+  public void testCurveLines() throws Exception {
+    File property = new File(TestData.getResource(this, "curvelines.properties").toURI());
+    PropertyDataStore ds = new PropertyDataStore(property.getParentFile());
+    SimpleFeatureSource fs = ds.getFeatureSource("curvelines");
+    ReferencedEnvelope bounds = fs.getBounds();
+    bounds.expandBy(1, 1);
 
-        Style style = RendererBaseTest.loadStyle(this, "lineGray.sld");
+    Style style = RendererBaseTest.loadStyle(this, "lineGray.sld");
 
-        MapContent mc = new MapContent();
-        mc.addLayer(new FeatureLayer(fs, style));
+    MapContent mc = new MapContent();
+    mc.addLayer(new FeatureLayer(fs, style));
 
-        StreamingRenderer renderer = new StreamingRenderer();
-        renderer.setMapContent(mc);
-        RenderingHints hints = new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
-        hints.add(new RenderingHints(KEY_STROKE_CONTROL, VALUE_STROKE_PURE));
-        renderer.setJava2DHints(hints);
+    StreamingRenderer renderer = new StreamingRenderer();
+    renderer.setMapContent(mc);
+    RenderingHints hints = new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
+    hints.add(new RenderingHints(KEY_STROKE_CONTROL, VALUE_STROKE_PURE));
+    renderer.setJava2DHints(hints);
 
-        BufferedImage image = RendererBaseTest.showRender("Curved lines", renderer, TIME, bounds);
-        File reference = new File(
-                "./src/test/resources/org/geotools/renderer/lite/test-data/curvedLines.png");
-        ImageAssert.assertEquals(reference, image, 100);
-    }
-
+    BufferedImage image = RendererBaseTest.showRender("Curved lines", renderer, TIME, bounds);
+    File reference =
+        new File("./src/test/resources/org/geotools/renderer/lite/test-data/curvedLines.png");
+    ImageAssert.assertEquals(reference, image, 100);
+  }
 }

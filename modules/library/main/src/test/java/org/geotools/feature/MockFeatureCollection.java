@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2003-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -20,7 +20,6 @@ package org.geotools.feature;
 
 import java.util.Collection;
 import java.util.Iterator;
-
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.geometry.jts.ReferencedEnvelope;
@@ -31,114 +30,102 @@ import org.opengis.filter.sort.SortBy;
 
 /**
  * @author jamesm
- *
- *
  * @source $URL$
  */
 public class MockFeatureCollection implements SimpleFeatureCollection {
 
-    /** Creates a new instance of MockFeatureCollection */
-    public MockFeatureCollection() {
-    }
+  /** Creates a new instance of MockFeatureCollection */
+  public MockFeatureCollection() {}
 
-    
-    public void accepts(org.opengis.feature.FeatureVisitor visitor,
-            org.opengis.util.ProgressListener progress) {
-    }
+  public void accepts(
+      org.opengis.feature.FeatureVisitor visitor, org.opengis.util.ProgressListener progress) {}
 
-    public void addListener(CollectionListener listener)
-            throws NullPointerException {
-    }
+  public void addListener(CollectionListener listener) throws NullPointerException {}
 
-    public void close(FeatureIterator<SimpleFeature> close) {
-    }
+  public void close(FeatureIterator<SimpleFeature> close) {}
 
-    public void close(Iterator close) {
-    }
+  public void close(Iterator close) {}
 
-    public SimpleFeatureIterator features() {
-        return null;
-    }
+  public SimpleFeatureIterator features() {
+    return null;
+  }
 
-    public SimpleFeatureType getSchema() {
-        return null;
-    }
+  public SimpleFeatureType getSchema() {
+    return null;
+  }
 
-    public void removeListener(CollectionListener listener)
-            throws NullPointerException {
-    }
+  public void removeListener(CollectionListener listener) throws NullPointerException {}
 
-    public SimpleFeatureCollection sort(SortBy order) {
-        return null;
-    }
+  public SimpleFeatureCollection sort(SortBy order) {
+    return null;
+  }
 
-    public SimpleFeatureCollection subCollection(Filter filter) {
-        return null;
-    }
+  public SimpleFeatureCollection subCollection(Filter filter) {
+    return null;
+  }
 
-    public Iterator iterator() {
-        return null;
-    }
+  public Iterator iterator() {
+    return null;
+  }
 
-    public void purge() {
-    }
+  public void purge() {}
 
-    public boolean add(SimpleFeature o) {
-        return false;
-    }
+  public boolean add(SimpleFeature o) {
+    return false;
+  }
 
-    public boolean addAll(Collection c) {
-        return false;
-    }
-    public boolean addAll(
-		FeatureCollection<? extends SimpleFeatureType, ? extends SimpleFeature> resource) {
-    	return false;
-    }
-    public void clear() {
-    }
+  public boolean addAll(Collection c) {
+    return false;
+  }
 
-    public boolean contains(Object o) {
-        return false;
-    }
+  public boolean addAll(
+      FeatureCollection<? extends SimpleFeatureType, ? extends SimpleFeature> resource) {
+    return false;
+  }
 
-    public boolean containsAll(Collection c) {
-        return false;
-    }
+  public void clear() {}
 
-    public boolean isEmpty() {
-        return false;
-    }
+  public boolean contains(Object o) {
+    return false;
+  }
 
-    public boolean remove(Object o) {
-        return false;
-    }
+  public boolean containsAll(Collection c) {
+    return false;
+  }
 
-    public boolean removeAll(Collection c) {
-        return false;
-    }
+  public boolean isEmpty() {
+    return false;
+  }
 
-    public boolean retainAll(Collection c) {
-        return false;
-    }
+  public boolean remove(Object o) {
+    return false;
+  }
 
-    public int size() {
-        return 0;
-    }
+  public boolean removeAll(Collection c) {
+    return false;
+  }
 
-    public Object[] toArray() {
-        return null;
-    }
+  public boolean retainAll(Collection c) {
+    return false;
+  }
 
-    public Object[] toArray(Object[] a) {
-        return null;
-    }
+  public int size() {
+    return 0;
+  }
 
-    public ReferencedEnvelope getBounds() {
-        return null;
-    }
+  public Object[] toArray() {
+    return null;
+  }
 
-    public String getID() {
-        return null;
-    }
-   
+  public Object[] toArray(Object[] a) {
+    return null;
+  }
+
+  public ReferencedEnvelope getBounds() {
+    return null;
+  }
+
+  public String getID() {
+    return null;
+  }
 }

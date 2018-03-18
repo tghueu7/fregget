@@ -18,29 +18,24 @@ package org.geotools.sld.bindings;
 
 import org.geotools.styling.RasterSymbolizer;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDRasterSymbolizerBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(RasterSymbolizer.class, new SLDRasterSymbolizerBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(RasterSymbolizer.class, new SLDRasterSymbolizerBinding(null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.rasterSymbolizer(document, document);
+  public void test() throws Exception {
+    SLDMockData.rasterSymbolizer(document, document);
 
-        RasterSymbolizer rs = (RasterSymbolizer) parse();
-        assertNotNull(rs);
-        assertNotNull(rs.getChannelSelection());
-        assertNotNull(rs.getColorMap());
-        assertNotNull(rs.getContrastEnhancement());
-        assertNotNull(rs.getImageOutline());
-        assertNotNull(rs.getOpacity());
-        assertNotNull(rs.getOverlap());
-        assertNotNull(rs.getGeometryPropertyName());
-        assertNotNull(rs.getShadedRelief());
-    }
+    RasterSymbolizer rs = (RasterSymbolizer) parse();
+    assertNotNull(rs);
+    assertNotNull(rs.getChannelSelection());
+    assertNotNull(rs.getColorMap());
+    assertNotNull(rs.getContrastEnhancement());
+    assertNotNull(rs.getImageOutline());
+    assertNotNull(rs.getOpacity());
+    assertNotNull(rs.getOverlap());
+    assertNotNull(rs.getGeometryPropertyName());
+    assertNotNull(rs.getShadedRelief());
+  }
 }

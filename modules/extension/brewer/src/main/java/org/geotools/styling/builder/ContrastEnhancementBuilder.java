@@ -18,131 +18,130 @@ package org.geotools.styling.builder;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.geotools.styling.ContrastEnhancement;
 import org.opengis.filter.expression.Expression;
 import org.opengis.style.ContrastMethod;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class ContrastEnhancementBuilder extends AbstractStyleBuilder<ContrastEnhancement> {
-    private Expression gamma = null;
+  private Expression gamma = null;
 
-    private ContrastMethod method;
+  private ContrastMethod method;
 
-    private Map<String, Expression> options = new HashMap<>();
-    public ContrastEnhancementBuilder() {
-        this(null);
-    }
+  private Map<String, Expression> options = new HashMap<>();
 
-    public ContrastEnhancementBuilder(AbstractStyleBuilder<?> parent) {
-        super(parent);
-        reset();
-    }
+  public ContrastEnhancementBuilder() {
+    this(null);
+  }
 
-    public ContrastEnhancementBuilder gamma(Expression gamma) {
-        this.gamma = gamma;
-        this.unset = false;
-        return this;
-    }
+  public ContrastEnhancementBuilder(AbstractStyleBuilder<?> parent) {
+    super(parent);
+    reset();
+  }
 
-    public ContrastEnhancementBuilder gamma(double gamma) {
-        return gamma(literal(gamma));
-    }
+  public ContrastEnhancementBuilder gamma(Expression gamma) {
+    this.gamma = gamma;
+    this.unset = false;
+    return this;
+  }
 
-    public ContrastEnhancementBuilder normalize(Map<String, Expression> constrastParameters) {
-        return contrastMethod("normalize", constrastParameters);
-    }
+  public ContrastEnhancementBuilder gamma(double gamma) {
+    return gamma(literal(gamma));
+  }
 
-    public ContrastEnhancementBuilder histogram(Map<String, Expression> constrastParameters) {
-        return contrastMethod("histogram", constrastParameters);
-    }
-    public ContrastEnhancementBuilder exponential(Map<String, Expression> constrastParameters) {
-        return contrastMethod("exponential", constrastParameters);
-    }
+  public ContrastEnhancementBuilder normalize(Map<String, Expression> constrastParameters) {
+    return contrastMethod("normalize", constrastParameters);
+  }
 
-    public ContrastEnhancementBuilder logarithmic(Map<String, Expression> constrastParameters) {
-        return contrastMethod("logarithm", constrastParameters);
-    }
-    private ContrastEnhancementBuilder contrastMethod(String name, Map<String, Expression> constrastParameters) {
-        /*if ("histogram".equals(name)) {
-            this.method = ContrastMethod.HISTOGRAM;
-        } else if ("normalize".equals(name)) {
-            this.method = ContrastMethod.NORMALIZE;
-        } else if ("logarithmic".equals(name)) {
-            this.method = ContrastMethod.LOGARITHMIC;
-        } else if ("exponential".equals(name)) {
-            this.method = ContrastMethod.EXPONENTIAL;
-        } else {
-            throw new IllegalArgumentException("Unexpected ContrastEnhamcement method " + name);
-        }*/
-        this.method = ContrastMethod.valueOf(name);
-        if(constrastParameters!=null) {
-            options = constrastParameters;
-        }
-        this.unset = false;
-        return this; 
-    }
-    public ContrastEnhancementBuilder gamma(String cqlExpression) {
-        return gamma(cqlExpression(cqlExpression));
-    }
+  public ContrastEnhancementBuilder histogram(Map<String, Expression> constrastParameters) {
+    return contrastMethod("histogram", constrastParameters);
+  }
 
-    public ContrastEnhancement build() {
-        if (unset) {
-            return null;
-        }
-        ContrastEnhancement contrastEnhancement = sf.contrastEnhancement(gamma, method);
-        contrastEnhancement.setOptions(options);
-        
-        return contrastEnhancement;
-    }
+  public ContrastEnhancementBuilder exponential(Map<String, Expression> constrastParameters) {
+    return contrastMethod("exponential", constrastParameters);
+  }
 
-    public ContrastEnhancementBuilder reset() {
-        gamma = null;
-        method = null;
-        unset = false;
-        return this;
-    }
+  public ContrastEnhancementBuilder logarithmic(Map<String, Expression> constrastParameters) {
+    return contrastMethod("logarithm", constrastParameters);
+  }
 
-    public ContrastEnhancementBuilder reset(ContrastEnhancement contrastEnhancement) {
-        if (contrastEnhancement == null) {
-            return reset();
-        }
-        gamma = contrastEnhancement.getGammaValue();
-        method = contrastEnhancement.getMethod();
-        options = contrastEnhancement.getOptions();
-        unset = false;
-        return this;
+  private ContrastEnhancementBuilder contrastMethod(
+      String name, Map<String, Expression> constrastParameters) {
+    /*if ("histogram".equals(name)) {
+        this.method = ContrastMethod.HISTOGRAM;
+    } else if ("normalize".equals(name)) {
+        this.method = ContrastMethod.NORMALIZE;
+    } else if ("logarithmic".equals(name)) {
+        this.method = ContrastMethod.LOGARITHMIC;
+    } else if ("exponential".equals(name)) {
+        this.method = ContrastMethod.EXPONENTIAL;
+    } else {
+        throw new IllegalArgumentException("Unexpected ContrastEnhamcement method " + name);
+    }*/
+    this.method = ContrastMethod.valueOf(name);
+    if (constrastParameters != null) {
+      options = constrastParameters;
     }
+    this.unset = false;
+    return this;
+  }
 
-    public ContrastEnhancementBuilder unset() {
-        return (ContrastEnhancementBuilder) super.unset();
-    }
+  public ContrastEnhancementBuilder gamma(String cqlExpression) {
+    return gamma(cqlExpression(cqlExpression));
+  }
 
-    @Override
-    protected void buildStyleInternal(StyleBuilder sb) {
-        throw new UnsupportedOperationException(
-                "Cannot build a meaningful style out of a contrast enhancement alone");
+  public ContrastEnhancement build() {
+    if (unset) {
+      return null;
+    }
+    ContrastEnhancement contrastEnhancement = sf.contrastEnhancement(gamma, method);
+    contrastEnhancement.setOptions(options);
 
-    }
+    return contrastEnhancement;
+  }
 
-    /**
-     * @return
-     */
-    public ContrastEnhancementBuilder normalize() {
-        return contrastMethod("normalize", null);
+  public ContrastEnhancementBuilder reset() {
+    gamma = null;
+    method = null;
+    unset = false;
+    return this;
+  }
+
+  public ContrastEnhancementBuilder reset(ContrastEnhancement contrastEnhancement) {
+    if (contrastEnhancement == null) {
+      return reset();
     }
-    public ContrastEnhancementBuilder histogram() {     
-        return contrastMethod("histogram", null);
-    }
-    public ContrastEnhancementBuilder logarithmic() {
-        return contrastMethod("logarithmic", null);
-    }
-    public ContrastEnhancementBuilder exponential() {
-        return contrastMethod("exponential", null);
-    }
-    
+    gamma = contrastEnhancement.getGammaValue();
+    method = contrastEnhancement.getMethod();
+    options = contrastEnhancement.getOptions();
+    unset = false;
+    return this;
+  }
+
+  public ContrastEnhancementBuilder unset() {
+    return (ContrastEnhancementBuilder) super.unset();
+  }
+
+  @Override
+  protected void buildStyleInternal(StyleBuilder sb) {
+    throw new UnsupportedOperationException(
+        "Cannot build a meaningful style out of a contrast enhancement alone");
+  }
+
+  /** @return */
+  public ContrastEnhancementBuilder normalize() {
+    return contrastMethod("normalize", null);
+  }
+
+  public ContrastEnhancementBuilder histogram() {
+    return contrastMethod("histogram", null);
+  }
+
+  public ContrastEnhancementBuilder logarithmic() {
+    return contrastMethod("logarithmic", null);
+  }
+
+  public ContrastEnhancementBuilder exponential() {
+    return contrastMethod("exponential", null);
+  }
 }

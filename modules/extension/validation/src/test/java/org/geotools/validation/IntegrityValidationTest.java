@@ -17,84 +17,74 @@
 package org.geotools.validation;
 
 import java.util.HashMap;
-
 import org.geotools.data.DataTestCase;
 import org.geotools.data.memory.MemoryDataStore;
 import org.geotools.validation.attributes.UniqueFIDValidation;
 
-
 /**
  * IntegrityValidationTest purpose.
- * 
+ *
+ * <p>Description of IntegrityValidationTest ...
+ *
  * <p>
- * Description of IntegrityValidationTest ...
- * </p>
- * 
- * <p></p>
  *
  * @author jgarnett, Refractions Research, Inc.
  * @author $Author: sploreg $ (last modification)
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class IntegrityValidationTest extends DataTestCase {
-    MemoryDataStore store;
+  MemoryDataStore store;
 
-    /**
-     * FeatureValidationTest constructor.
-     * 
-     * <p>
-     * Run test <code>testName</code>.
-     * </p>
-     *
-     * @param testName
-     */
-    public IntegrityValidationTest(String testName) {
-        super(testName);
-    }
+  /**
+   * FeatureValidationTest constructor.
+   *
+   * <p>Run test <code>testName</code>.
+   *
+   * @param testName
+   */
+  public IntegrityValidationTest(String testName) {
+    super(testName);
+  }
 
-    /**
-     * Construct data store for use.
-     *
-     * @throws Exception
-     *
-     * @see junit.framework.TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-        store = new MemoryDataStore();
-        store.addFeatures(roadFeatures);
-        store.addFeatures(riverFeatures);
-    }
+  /**
+   * Construct data store for use.
+   *
+   * @throws Exception
+   * @see junit.framework.TestCase#setUp()
+   */
+  protected void setUp() throws Exception {
+    super.setUp();
+    store = new MemoryDataStore();
+    store.addFeatures(roadFeatures);
+    store.addFeatures(riverFeatures);
+  }
 
-    /**
-     * Override tearDown.
-     *
-     * @throws Exception
-     *
-     * @see junit.framework.TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        store = null;
-        super.tearDown();
-    }
+  /**
+   * Override tearDown.
+   *
+   * @throws Exception
+   * @see junit.framework.TestCase#tearDown()
+   */
+  protected void tearDown() throws Exception {
+    store = null;
+    super.tearDown();
+  }
 
-    public void testUniqueFIDIntegrityValidation() throws Exception {
-        // the visitor
-        RoadValidationResults validationResults = new RoadValidationResults();
+  public void testUniqueFIDIntegrityValidation() throws Exception {
+    // the visitor
+    RoadValidationResults validationResults = new RoadValidationResults();
 
-        UniqueFIDValidation validator = new UniqueFIDValidation();
-        validator.setName("isValidRoad");
-        validator.setDescription("Tests to see if a road is valid");
-        validator.setTypeRef( "*" );
-        validationResults.setValidation(validator);
+    UniqueFIDValidation validator = new UniqueFIDValidation();
+    validator.setName("isValidRoad");
+    validator.setDescription("Tests to see if a road is valid");
+    validator.setTypeRef("*");
+    validationResults.setValidation(validator);
 
-        HashMap layers = new HashMap();
-        layers.put("road", store.getFeatureSource("road"));
-        layers.put("river", store.getFeatureSource("river"));
+    HashMap layers = new HashMap();
+    layers.put("road", store.getFeatureSource("road"));
+    layers.put("river", store.getFeatureSource("river"));
 
-        assertTrue(validator.validate(layers, null, validationResults)); // validate will return true
-    }
+    assertTrue(validator.validate(layers, null, validationResults)); // validate will return true
+  }
 }

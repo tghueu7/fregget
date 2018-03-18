@@ -16,58 +16,53 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.Envelope;
 import org.geotools.gml2.GML;
 import org.geotools.xml.Binding;
 import org.w3c.dom.Document;
 
-import com.vividsolutions.jts.geom.Envelope;
-
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GMLBoundingShapeTypeBindingTest extends GMLTestSupport {
-    public void testType() {
-        assertEquals(Envelope.class, binding(GML.BoundingShapeType).getType());
-    }
+  public void testType() {
+    assertEquals(Envelope.class, binding(GML.BoundingShapeType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(GML.BoundingShapeType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(GML.BoundingShapeType).getExecutionMode());
+  }
 
-    public void testParseWithBox() throws Exception {
-        GML2MockData.boundedBy(document, document);
+  public void testParseWithBox() throws Exception {
+    GML2MockData.boundedBy(document, document);
 
-        Envelope envelope = (Envelope) parse();
+    Envelope envelope = (Envelope) parse();
 
-        assertFalse(envelope.isNull());
-    }
+    assertFalse(envelope.isNull());
+  }
 
-    public void testParseWithNull() throws Exception {
-        GML2MockData.boundedByWithNull(document, document);
+  public void testParseWithNull() throws Exception {
+    GML2MockData.boundedByWithNull(document, document);
 
-        Envelope envelope = (Envelope) parse();
+    Envelope envelope = (Envelope) parse();
 
-        assertTrue(envelope.isNull());
-    }
+    assertTrue(envelope.isNull());
+  }
 
-    public void testEncodeWithBox() throws Exception {
-        Envelope envelope = new Envelope(1, 2, 3, 4);
-        Document doc = encode(envelope, GML.boundedBy);
+  public void testEncodeWithBox() throws Exception {
+    Envelope envelope = new Envelope(1, 2, 3, 4);
+    Document doc = encode(envelope, GML.boundedBy);
 
-        assertEquals(1,
-            doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Box.getLocalPart()).getLength());
-    }
+    assertEquals(1, doc.getElementsByTagNameNS(GML.NAMESPACE, GML.Box.getLocalPart()).getLength());
+  }
 
-    public void testEncodeWithNull() throws Exception {
-        Envelope envelope = new Envelope();
-        envelope.setToNull();
+  public void testEncodeWithNull() throws Exception {
+    Envelope envelope = new Envelope();
+    envelope.setToNull();
 
-        Document doc = encode(envelope, GML.boundedBy);
+    Document doc = encode(envelope, GML.boundedBy);
 
-        assertEquals(1, doc.getElementsByTagNameNS(GML.NAMESPACE, "null").getLength());
-        assertEquals("unknown", doc.getElementsByTagNameNS(GML.NAMESPACE, "null").item(0).getFirstChild().getTextContent() );
-    }
+    assertEquals(1, doc.getElementsByTagNameNS(GML.NAMESPACE, "null").getLength());
+    assertEquals(
+        "unknown",
+        doc.getElementsByTagNameNS(GML.NAMESPACE, "null").item(0).getFirstChild().getTextContent());
+  }
 }

@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +31,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.geotools.coverage.grid.io.FileSetManager;
 import org.geotools.coverage.io.CoverageAccess;
 import org.geotools.coverage.io.CoverageSource;
@@ -49,7 +47,6 @@ import org.geotools.feature.NameImpl;
 import org.geotools.gce.imagemosaic.Utils;
 import org.geotools.imageio.GeoSpatialImageReader;
 import org.geotools.imageio.netcdf.NetCDFImageReader;
-import org.geotools.imageio.netcdf.utilities.NetCDFUtilities;
 import org.geotools.util.NullProgressListener;
 import org.geotools.util.URLs;
 import org.geotools.util.logging.Logging;
@@ -58,194 +55,205 @@ import org.opengis.util.ProgressListener;
 
 /**
  * {@link CoverageAccess} implementation for NetCDF Data format.
- * 
- * @author Romagnoli Daniele, GeoSolutions SAS
- * 
  *
+ * @author Romagnoli Daniele, GeoSolutions SAS
  * @source $URL$
  */
-public class NetCDFAccess extends DefaultFileCoverageAccess implements CoverageAccess, FileSetManager {
+public class NetCDFAccess extends DefaultFileCoverageAccess
+    implements CoverageAccess, FileSetManager {
 
-    private final static Logger LOGGER = Logging.getLogger(NetCDFAccess.class.toString());
+  private static final Logger LOGGER = Logging.getLogger(NetCDFAccess.class.toString());
 
-    GeoSpatialImageReader reader = null;
+  GeoSpatialImageReader reader = null;
 
-    /**
-     * Constructor 
-     * 
-     * @param driver
-     * @param source
-     * @param additionalParameters
-     * @param hints
-     * @param listener
-     * @throws IOException
-     */
-    @SuppressWarnings("serial")
-    NetCDFAccess( Driver driver, URL source, Map<String, Serializable> additionalParameters, Hints hints,
-            ProgressListener listener ) throws DataSourceException {
+  /**
+   * Constructor
+   *
+   * @param driver
+   * @param source
+   * @param additionalParameters
+   * @param hints
+   * @param listener
+   * @throws IOException
+   */
+  @SuppressWarnings("serial")
+  NetCDFAccess(
+      Driver driver,
+      URL source,
+      Map<String, Serializable> additionalParameters,
+      Hints hints,
+      ProgressListener listener)
+      throws DataSourceException {
 
-        super(
-                driver,
-                EnumSet.of(AccessType.READ_ONLY),
-                new HashMap<String, Parameter< ? >>(){{put(DefaultFileDriver.URL.key, DefaultFileDriver.URL);}},
-                source,
-                additionalParameters);
+    super(
+        driver,
+        EnumSet.of(AccessType.READ_ONLY),
+        new HashMap<String, Parameter<?>>() {
+          {
+            put(DefaultFileDriver.URL.key, DefaultFileDriver.URL);
+          }
+        },
+        source,
+        additionalParameters);
 
-        // get the protocol
-        final String protocol = source.getProtocol();
+    // get the protocol
+    final String protocol = source.getProtocol();
 
-        // file
-        if (!(protocol.equalsIgnoreCase("file")||protocol.equalsIgnoreCase("http") || protocol.equalsIgnoreCase("dods"))) {
-            throw new DataSourceException("Wrong protocol for URL:"+source.toExternalForm().toString());
-        }
-        File sourceFile = null;
-        if (protocol.equalsIgnoreCase("file")){
-            // convert to file
-            sourceFile = URLs.urlToFile(source);
-            
-            // check that it is a file,exists and can be at least read
-            if (!sourceFile.exists() || !sourceFile.isFile() || !sourceFile.canRead()){
-                throw new DataSourceException("Invalid source");            
-            }
-        }
+    // file
+    if (!(protocol.equalsIgnoreCase("file")
+        || protocol.equalsIgnoreCase("http")
+        || protocol.equalsIgnoreCase("dods"))) {
+      throw new DataSourceException("Wrong protocol for URL:" + source.toExternalForm().toString());
+    }
+    File sourceFile = null;
+    if (protocol.equalsIgnoreCase("file")) {
+      // convert to file
+      sourceFile = URLs.urlToFile(source);
 
-        // initialize
-        // get the needed info from them to set the extent
-        try {
-            reader = (NetCDFImageReader) NetCDFDriver.SPI.createReaderInstance();
-
-            // Look for auxiliary paths from Hints and set them into the reader
-            setAuxiliaryEntries(hints);
-            reader.setInput(this.source);
-
-            if (names == null) {
-                names = new ArrayList<Name>();
-                final Collection<Name> originalNames = reader.getCoveragesNames();
-                for (Name name : originalNames) {
-                    Name coverageName = new NameImpl(/*namePrefix + */name.toString());
-                    names.add(coverageName);
-                }
-            }
-        } catch (Exception e) {
-            throw new DataSourceException(e);
-        }
+      // check that it is a file,exists and can be at least read
+      if (!sourceFile.exists() || !sourceFile.isFile() || !sourceFile.canRead()) {
+        throw new DataSourceException("Invalid source");
+      }
     }
 
-    /**
-     * Scan the provided hints (if any) and look for auxiliary entries to be
-     * set into the reader.
-     * 
-     * @param hints
-     */
-    private void setAuxiliaryEntries(Hints hints) {
-        String prefix = "";
-        if (hints != null) {
-            if (hints.containsKey(Utils.PARENT_DIR)) {
-                prefix = (String) hints.get(Utils.PARENT_DIR) + File.separatorChar;
-            }
-            if (hints.containsKey(Utils.AUXILIARY_FILES_PATH)) {
-                String filePath = (String) hints.get(Utils.AUXILIARY_FILES_PATH);
-                filePath = makeAbsolute(prefix, filePath);
-                reader.setAuxiliaryFilesPath(filePath);
-            }
-            if (hints.containsKey(Utils.AUXILIARY_DATASTORE_PATH)) {
-                String filePath = (String) hints.get(Utils.AUXILIARY_DATASTORE_PATH);
-                filePath = makeAbsolute(prefix, filePath);
-                reader.setAuxiliaryDatastorePath(filePath);
-            }
-            if (hints.containsKey(Hints.REPOSITORY)) {
-                reader.setRepository((Repository) hints.get(Hints.REPOSITORY));
-            }
+    // initialize
+    // get the needed info from them to set the extent
+    try {
+      reader = (NetCDFImageReader) NetCDFDriver.SPI.createReaderInstance();
+
+      // Look for auxiliary paths from Hints and set them into the reader
+      setAuxiliaryEntries(hints);
+      reader.setInput(this.source);
+
+      if (names == null) {
+        names = new ArrayList<Name>();
+        final Collection<Name> originalNames = reader.getCoveragesNames();
+        for (Name name : originalNames) {
+          Name coverageName = new NameImpl(/*namePrefix + */ name.toString());
+          names.add(coverageName);
         }
+      }
+    } catch (Exception e) {
+      throw new DataSourceException(e);
     }
+  }
 
-    private String makeAbsolute(String prefix, String filePath) {
-        if (!Paths.get(filePath).isAbsolute()) {
-            filePath = prefix + filePath;
-        }
-        return filePath;
+  /**
+   * Scan the provided hints (if any) and look for auxiliary entries to be set into the reader.
+   *
+   * @param hints
+   */
+  private void setAuxiliaryEntries(Hints hints) {
+    String prefix = "";
+    if (hints != null) {
+      if (hints.containsKey(Utils.PARENT_DIR)) {
+        prefix = (String) hints.get(Utils.PARENT_DIR) + File.separatorChar;
+      }
+      if (hints.containsKey(Utils.AUXILIARY_FILES_PATH)) {
+        String filePath = (String) hints.get(Utils.AUXILIARY_FILES_PATH);
+        filePath = makeAbsolute(prefix, filePath);
+        reader.setAuxiliaryFilesPath(filePath);
+      }
+      if (hints.containsKey(Utils.AUXILIARY_DATASTORE_PATH)) {
+        String filePath = (String) hints.get(Utils.AUXILIARY_DATASTORE_PATH);
+        filePath = makeAbsolute(prefix, filePath);
+        reader.setAuxiliaryDatastorePath(filePath);
+      }
+      if (hints.containsKey(Hints.REPOSITORY)) {
+        reader.setRepository((Repository) hints.get(Hints.REPOSITORY));
+      }
     }
+  }
 
-    @Override
-    public boolean delete(Name name, Map<String, Serializable> params, Hints hints)
-            throws IOException {
-        // Right now, simply delete the name
-        return names.remove(name);
+  private String makeAbsolute(String prefix, String filePath) {
+    if (!Paths.get(filePath).isAbsolute()) {
+      filePath = prefix + filePath;
     }
+    return filePath;
+  }
 
-    public CoverageSource access( Name name, Map<String, Serializable> params, AccessType accessType, Hints hints,
-            ProgressListener listener ) throws IOException {
-        if (listener == null) {
-            listener = new NullProgressListener();
-        }
-        listener.started();
-        try {
-            return new NetCDFSource((NetCDFImageReader)reader, name);
-        } catch (Throwable e) {
-            LOGGER.log(Level.SEVERE, "Failed to access the NetCDF source", e);
-            listener.exceptionOccurred(e);
-            return null;
-        }finally {
-            listener.complete();
-        }
+  @Override
+  public boolean delete(Name name, Map<String, Serializable> params, Hints hints)
+      throws IOException {
+    // Right now, simply delete the name
+    return names.remove(name);
+  }
+
+  public CoverageSource access(
+      Name name,
+      Map<String, Serializable> params,
+      AccessType accessType,
+      Hints hints,
+      ProgressListener listener)
+      throws IOException {
+    if (listener == null) {
+      listener = new NullProgressListener();
     }
-
-    @Override
-    public ServiceInfo getInfo( ProgressListener listener ) {
-        if (listener == null){
-            listener = new NullProgressListener();
-        }
-        listener.started();
-        final DefaultServiceInfo info = new DefaultServiceInfo();
-
-        // Fix that
-        Collection<Name> coverageNames = getNames(listener);
-        Iterator<Name> namesIterator = coverageNames.iterator();
-        if (namesIterator.hasNext()) {
-            info.setTitle(namesIterator.next().toString());
-        }
-        try {
-            info.setSource(source.toURI());
-        } catch (URISyntaxException e1) {
-
-        } finally {
-            listener.complete();
-        }
-        return info;
+    listener.started();
+    try {
+      return new NetCDFSource((NetCDFImageReader) reader, name);
+    } catch (Throwable e) {
+      LOGGER.log(Level.SEVERE, "Failed to access the NetCDF source", e);
+      listener.exceptionOccurred(e);
+      return null;
+    } finally {
+      listener.complete();
     }
+  }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-        if (reader != null) {
-            try {
-                reader.dispose();
-            } catch (Throwable t) {
-                
-            }
-        }
+  @Override
+  public ServiceInfo getInfo(ProgressListener listener) {
+    if (listener == null) {
+      listener = new NullProgressListener();
     }
+    listener.started();
+    final DefaultServiceInfo info = new DefaultServiceInfo();
 
-    @Override
-    public void addFile(String filePath) {
-        reader.addFile(filePath);
-        
+    // Fix that
+    Collection<Name> coverageNames = getNames(listener);
+    Iterator<Name> namesIterator = coverageNames.iterator();
+    if (namesIterator.hasNext()) {
+      info.setTitle(namesIterator.next().toString());
     }
+    try {
+      info.setSource(source.toURI());
+    } catch (URISyntaxException e1) {
 
-    @Override
-    public List<String> list() {
-        return reader.list();
+    } finally {
+      listener.complete();
     }
+    return info;
+  }
 
-    @Override
-    public void removeFile(String filePath) {
-        reader.removeFile(filePath);
-        
+  @Override
+  public void dispose() {
+    super.dispose();
+    if (reader != null) {
+      try {
+        reader.dispose();
+      } catch (Throwable t) {
+
+      }
     }
+  }
 
-    @Override
-    public void purge() {
-        reader.purge();
-    }
+  @Override
+  public void addFile(String filePath) {
+    reader.addFile(filePath);
+  }
 
+  @Override
+  public List<String> list() {
+    return reader.list();
+  }
+
+  @Override
+  public void removeFile(String filePath) {
+    reader.removeFile(filePath);
+  }
+
+  @Override
+  public void purge() {
+    reader.purge();
+  }
 }

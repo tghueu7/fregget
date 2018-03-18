@@ -16,9 +16,9 @@ package org.geotools.data.geojson;
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
+
 import java.io.IOException;
 import java.util.logging.Logger;
-
 import org.geotools.data.FeatureReader;
 import org.geotools.data.Query;
 import org.geotools.data.store.ContentEntry;
@@ -34,99 +34,98 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.AttributeDescriptor;
 
 public class GeoJSONFeatureSource extends ContentFeatureSource {
-    private static final Logger LOGGER = Logging.getLogger(GeoJSONFeatureSource.class.getName());
+  private static final Logger LOGGER = Logging.getLogger(GeoJSONFeatureSource.class.getName());
 
-    private FeatureCollection<?, ?> collection = null;
+  private FeatureCollection<?, ?> collection = null;
 
-    public GeoJSONFeatureSource(ContentEntry entry, Query query) {
-        super(entry, query);
-        if (schema == null) {
-            // first see if our datastore knows what the schema is
-            schema = getDataStore().schema;
-
-        }
-        if (schema == null) {
-            try {
-                // failing that we'll attempt to construct it from the features
-                schema = buildFeatureType();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+  public GeoJSONFeatureSource(ContentEntry entry, Query query) {
+    super(entry, query);
+    if (schema == null) {
+      // first see if our datastore knows what the schema is
+      schema = getDataStore().schema;
     }
-
-    public GeoJSONDataStore getDataStore() {
-        return (GeoJSONDataStore) super.getDataStore();
+    if (schema == null) {
+      try {
+        // failing that we'll attempt to construct it from the features
+        schema = buildFeatureType();
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
+  }
 
-    @Override
-    protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
+  public GeoJSONDataStore getDataStore() {
+    return (GeoJSONDataStore) super.getDataStore();
+  }
 
-        collection = fetchFeatures();
-        FeatureCollection<?, ?> sub = collection.subCollection(query.getFilter());
-        ReferencedEnvelope bounds = sub.getBounds();
-        if (bounds.getCoordinateReferenceSystem() == null) {
-            bounds = new ReferencedEnvelope(bounds, DefaultGeographicCRS.WGS84);
-        }
-        return bounds;
+  @Override
+  protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
+
+    collection = fetchFeatures();
+    FeatureCollection<?, ?> sub = collection.subCollection(query.getFilter());
+    ReferencedEnvelope bounds = sub.getBounds();
+    if (bounds.getCoordinateReferenceSystem() == null) {
+      bounds = new ReferencedEnvelope(bounds, DefaultGeographicCRS.WGS84);
     }
+    return bounds;
+  }
 
-    /**
-     * @param query
-     * @return
-     * @throws IOException
-     */
-    private FeatureCollection<?, ?> fetchFeatures() throws IOException {
-        // Ideally we would cache the features here but then things go badly when using transactions
-        LOGGER.fine("fetching reader from datastore");
-        GeoJSONReader reader = getDataStore().read();
-        collection = reader.getFeatures();
-        LOGGER.fine("Got " + collection.size() + " features");
+  /**
+   * @param query
+   * @return
+   * @throws IOException
+   */
+  private FeatureCollection<?, ?> fetchFeatures() throws IOException {
+    // Ideally we would cache the features here but then things go badly when using transactions
+    LOGGER.fine("fetching reader from datastore");
+    GeoJSONReader reader = getDataStore().read();
+    collection = reader.getFeatures();
+    LOGGER.fine("Got " + collection.size() + " features");
 
-        return collection;
+    return collection;
+  }
+
+  @Override
+  protected int getCountInternal(Query query) throws IOException {
+    collection = fetchFeatures();
+    FeatureCollection<?, ?> sub = collection.subCollection(query.getFilter());
+    return sub.size();
+  }
+
+  @Override
+  protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query)
+      throws IOException {
+
+    return new GeoJSONFeatureReader(getState(), query);
+  }
+
+  @Override
+  protected SimpleFeatureType buildFeatureType() throws IOException {
+    if (schema == null) {
+      FeatureCollection<?, ?> collection = fetchFeatures();
+      SimpleFeatureType sch = (SimpleFeatureType) collection.getSchema();
+      SimpleFeatureTypeBuilder sb = new SimpleFeatureTypeBuilder();
+      sb.setName(getState().getEntry().getTypeName());
+      for (AttributeDescriptor att : sch.getAttributeDescriptors()) {
+        sb.add(att);
+      }
+      if (sch.getCoordinateReferenceSystem() != null) {
+        sb.setCRS(sch.getCoordinateReferenceSystem());
+      } else {
+        sb.setCRS(DefaultGeographicCRS.WGS84);
+      }
+      sb.setDescription(sch.getDescription());
+      schema = sb.buildFeatureType();
     }
+    return schema;
+  }
 
-    @Override
-    protected int getCountInternal(Query query) throws IOException {
-        collection = fetchFeatures();
-        FeatureCollection<?, ?> sub = collection.subCollection(query.getFilter());
-        return sub.size();
-    }
-
-    @Override
-    protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query)
-            throws IOException {
-
-        return new GeoJSONFeatureReader(getState(), query);
-    }
-
-    @Override
-    protected SimpleFeatureType buildFeatureType() throws IOException {
-        if (schema == null) {
-            FeatureCollection<?, ?> collection = fetchFeatures();
-            SimpleFeatureType sch = (SimpleFeatureType) collection.getSchema();
-            SimpleFeatureTypeBuilder sb = new SimpleFeatureTypeBuilder();
-            sb.setName(getState().getEntry().getTypeName());
-            for (AttributeDescriptor att : sch.getAttributeDescriptors()) {
-                sb.add(att);
-            }
-            if (sch.getCoordinateReferenceSystem() != null) {
-                sb.setCRS(sch.getCoordinateReferenceSystem());
-            } else {
-                sb.setCRS(DefaultGeographicCRS.WGS84);
-            }
-            sb.setDescription(sch.getDescription());
-            schema = sb.buildFeatureType();
-        }
-        return schema;
-    }
-
-    /**
-     * Make handleVisitor package visible allowing CSVFeatureStore to delegate to this implementation.
-     */
-    @Override
-    protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {
-        return super.handleVisitor(query, visitor);
-    }
+  /**
+   * Make handleVisitor package visible allowing CSVFeatureStore to delegate to this implementation.
+   */
+  @Override
+  protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {
+    return super.handleVisitor(query, visitor);
+  }
 }

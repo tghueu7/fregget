@@ -26,7 +26,6 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.geotools.data.shapefile.ShapefileDataStore;
 import org.geotools.data.shapefile.files.ShpFiles;
 import org.geotools.data.shapefile.shp.IndexFile;
@@ -37,179 +36,174 @@ import org.junit.Before;
 import org.junit.Test;
 import org.opengis.feature.simple.SimpleFeature;
 
-/**
- * 
- * 
- * @source $URL$
- */
+/** @source $URL$ */
 public class IndexedFidReaderTest extends FIDTestCase {
 
-    private IndexedFidReader reader;
+  private IndexedFidReader reader;
 
-    private IndexFile indexFile;
+  private IndexFile indexFile;
 
-    private ShpFiles shpFiles;
+  private ShpFiles shpFiles;
 
-    @Before
-    public void setUpIndexedFidReaderTest() throws Exception {
-        shpFiles = new ShpFiles(backshp.toURI().toURL());
-        FidIndexer.generate(shpFiles);
+  @Before
+  public void setUpIndexedFidReaderTest() throws Exception {
+    shpFiles = new ShpFiles(backshp.toURI().toURL());
+    FidIndexer.generate(shpFiles);
 
-        indexFile = new IndexFile(shpFiles, false);
-        reader = new IndexedFidReader(shpFiles);
+    indexFile = new IndexFile(shpFiles, false);
+    reader = new IndexedFidReader(shpFiles);
+  }
+
+  @After
+  public void closeFiles() throws Exception {
+    reader.close();
+    indexFile.close();
+    shpFiles.dispose();
+
+    super.tearDown();
+  }
+
+  /*
+   * Test method for 'org.geotools.index.fid.IndexedFidReader.findFid(String)'
+   */
+  @Test
+  public void testFindFid() throws Exception {
+    long offset = reader.findFid(TYPE_NAME + ".4");
+    assertEquals(3, offset);
+
+    offset = reader.findFid(TYPE_NAME + ".1");
+    assertEquals(0, offset);
+
+    // test if the fid is too high
+    offset = reader.findFid(TYPE_NAME + ".10000000");
+    assertEquals(-1, offset);
+
+    // test if the fid is negative
+    offset = reader.findFid(TYPE_NAME + ".-1");
+    assertEquals(-1, offset);
+
+    // test if the fid does not match the <typeName>.<long> pattern
+    offset = reader.findFid(TYPE_NAME + ".1ABC");
+    assertEquals(-1, offset);
+
+    offset = reader.findFid("prefix" + TYPE_NAME + ".1");
+    assertEquals(-1, offset);
+  }
+
+  @Test
+  public void testFindAllFids() throws Exception {
+    int expectedCount = 0;
+    Set<String> expectedFids = new LinkedHashSet<String>();
+    {
+      ShapefileDataStore ds = new ShapefileDataStore(backshp.toURI().toURL());
+      SimpleFeatureSource featureSource = ds.getFeatureSource();
+      SimpleFeatureIterator features = featureSource.getFeatures().features();
+      while (features.hasNext()) {
+        SimpleFeature next = features.next();
+        expectedCount++;
+        expectedFids.add(next.getID());
+      }
+      features.close();
+      ds.dispose();
     }
 
-    @After
-    public void closeFiles() throws Exception {
-        reader.close();
-        indexFile.close();
-        shpFiles.dispose();
+    assertTrue(expectedCount > 0);
+    assertEquals(expectedCount, reader.getCount());
 
-        super.tearDown();
+    for (String fid : expectedFids) {
+      long offset = reader.findFid(fid);
+      assertFalse(-1 == offset);
+    }
+  }
+
+  @Test
+  public void testFindAllFidsReverseOrder() throws Exception {
+    int expectedCount = 0;
+    Set<String> expectedFids = new TreeSet<String>(Collections.reverseOrder());
+    {
+      ShapefileDataStore ds = new ShapefileDataStore(backshp.toURI().toURL());
+      SimpleFeatureSource featureSource = ds.getFeatureSource();
+      SimpleFeatureIterator features = featureSource.getFeatures().features();
+      while (features.hasNext()) {
+        SimpleFeature next = features.next();
+        expectedCount++;
+        expectedFids.add(next.getID());
+      }
+      features.close();
+      ds.dispose();
     }
 
-    /*
-     * Test method for 'org.geotools.index.fid.IndexedFidReader.findFid(String)'
-     */
-    @Test
-    public void testFindFid() throws Exception {
-        long offset = reader.findFid(TYPE_NAME + ".4");
-        assertEquals(3, offset);
+    assertTrue(expectedCount > 0);
+    assertEquals(expectedCount, reader.getCount());
 
-        offset = reader.findFid(TYPE_NAME + ".1");
-        assertEquals(0, offset);
+    assertFalse("findFid for archsites.5 returned -1", -1 == reader.findFid("archsites.5"));
+    assertFalse("findFid for archsites.25 returned -1", -1 == reader.findFid("archsites.25"));
 
-        // test if the fid is too high
-        offset = reader.findFid(TYPE_NAME + ".10000000");
-        assertEquals(-1, offset);
+    for (String fid : expectedFids) {
+      long offset = reader.findFid(fid);
+      assertNotNull(offset);
+      // System.out.print(fid + "=" + offset + ", ");
+      assertFalse("findFid for " + fid + " returned -1", -1 == offset);
+    }
+  }
 
-        // test if the fid is negative
-        offset = reader.findFid(TYPE_NAME + ".-1");
-        assertEquals(-1, offset);
+  // test if FID no longer exists.
+  @Test
+  public void testFindDeletedFID() throws Exception {
+    reader.close();
 
-        // test if the fid does not match the <typeName>.<long> pattern
-        offset = reader.findFid(TYPE_NAME + ".1ABC");
-        assertEquals(-1, offset);
-
-        offset = reader.findFid("prefix" + TYPE_NAME + ".1");
-        assertEquals(-1, offset);
+    ShpFiles shpFiles = new ShpFiles(fixFile);
+    IndexedFidWriter writer = new IndexedFidWriter(shpFiles);
+    try {
+      writer.next();
+      writer.next();
+      writer.next();
+      writer.remove();
+      while (writer.hasNext()) {
+        writer.next();
+      }
+    } finally {
+      writer.close();
+      reader.close();
     }
 
-    @Test
-    public void testFindAllFids() throws Exception {
-        int expectedCount = 0;
-        Set<String> expectedFids = new LinkedHashSet<String>();
-        {
-            ShapefileDataStore ds = new ShapefileDataStore(backshp.toURI().toURL());
-            SimpleFeatureSource featureSource = ds.getFeatureSource();
-            SimpleFeatureIterator features = featureSource.getFeatures().features();
-            while (features.hasNext()) {
-                SimpleFeature next = features.next();
-                expectedCount++;
-                expectedFids.add(next.getID());
-            }
-            features.close();
-            ds.dispose();
-        }
+    reader = new IndexedFidReader(shpFiles);
 
-        assertTrue(expectedCount > 0);
-        assertEquals(expectedCount, reader.getCount());
+    long offset = reader.findFid(TYPE_NAME + ".11");
+    assertEquals(9, offset);
 
-        for (String fid : expectedFids) {
-            long offset = reader.findFid(fid);
-            assertFalse(-1 == offset);
-        }
-    }
+    offset = reader.findFid(TYPE_NAME + ".4");
+    assertEquals(2, offset);
 
-    @Test
-    public void testFindAllFidsReverseOrder() throws Exception {
-        int expectedCount = 0;
-        Set<String> expectedFids = new TreeSet<String>(Collections.reverseOrder());
-        {
-            ShapefileDataStore ds = new ShapefileDataStore(backshp.toURI().toURL());
-            SimpleFeatureSource featureSource = ds.getFeatureSource();
-            SimpleFeatureIterator features = featureSource.getFeatures().features();
-            while (features.hasNext()) {
-                SimpleFeature next = features.next();
-                expectedCount++;
-                expectedFids.add(next.getID());
-            }
-            features.close();
-            ds.dispose();
-        }
+    offset = reader.findFid(TYPE_NAME + ".3");
+    assertEquals(-1, offset);
+  }
 
-        assertTrue(expectedCount > 0);
-        assertEquals(expectedCount, reader.getCount());
+  @Test
+  public void testHardToFindFid() throws Exception {
+    long offset = reader.search(5, 3, 7, 5);
+    assertEquals(4, offset);
+  }
 
-        assertFalse("findFid for archsites.5 returned -1", -1 == reader.findFid("archsites.5"));
-        assertFalse("findFid for archsites.25 returned -1", -1 == reader.findFid("archsites.25"));
+  /*
+   * Test method for 'org.geotools.index.fid.IndexedFidReader.goTo(int)'
+   */
+  @Test
+  public void testGoTo() throws IOException {
+    reader.goTo(10);
+    assertEquals(shpFiles.getTypeName() + ".11", reader.next());
+    assertTrue(reader.hasNext());
 
-        for (String fid : expectedFids) {
-            long offset = reader.findFid(fid);
-            assertNotNull(offset);
-            // System.out.print(fid + "=" + offset + ", ");
-            assertFalse("findFid for " + fid + " returned -1", -1 == offset);
-        }
-    }
+    reader.goTo(15);
+    assertEquals(shpFiles.getTypeName() + ".16", reader.next());
+    assertTrue(reader.hasNext());
 
-    // test if FID no longer exists.
-    @Test
-    public void testFindDeletedFID() throws Exception {
-        reader.close();
+    reader.goTo(0);
+    assertEquals(shpFiles.getTypeName() + ".1", reader.next());
+    assertTrue(reader.hasNext());
 
-        ShpFiles shpFiles = new ShpFiles(fixFile);
-        IndexedFidWriter writer = new IndexedFidWriter(shpFiles);
-        try {
-            writer.next();
-            writer.next();
-            writer.next();
-            writer.remove();
-            while (writer.hasNext()) {
-                writer.next();
-            }
-        } finally {
-            writer.close();
-            reader.close();
-        }
-
-        reader = new IndexedFidReader(shpFiles);
-
-        long offset = reader.findFid(TYPE_NAME + ".11");
-        assertEquals(9, offset);
-
-        offset = reader.findFid(TYPE_NAME + ".4");
-        assertEquals(2, offset);
-
-        offset = reader.findFid(TYPE_NAME + ".3");
-        assertEquals(-1, offset);
-
-    }
-
-    @Test
-    public void testHardToFindFid() throws Exception {
-        long offset = reader.search(5, 3, 7, 5);
-        assertEquals(4, offset);
-    }
-
-    /*
-     * Test method for 'org.geotools.index.fid.IndexedFidReader.goTo(int)'
-     */
-    @Test
-    public void testGoTo() throws IOException {
-        reader.goTo(10);
-        assertEquals(shpFiles.getTypeName() + ".11", reader.next());
-        assertTrue(reader.hasNext());
-
-        reader.goTo(15);
-        assertEquals(shpFiles.getTypeName() + ".16", reader.next());
-        assertTrue(reader.hasNext());
-
-        reader.goTo(0);
-        assertEquals(shpFiles.getTypeName() + ".1", reader.next());
-        assertTrue(reader.hasNext());
-
-        reader.goTo(3);
-        assertEquals(shpFiles.getTypeName() + ".4", reader.next());
-        assertTrue(reader.hasNext());
-    }
+    reader.goTo(3);
+    assertEquals(shpFiles.getTypeName() + ".4", reader.next());
+    assertTrue(reader.hasNext());
+  }
 }

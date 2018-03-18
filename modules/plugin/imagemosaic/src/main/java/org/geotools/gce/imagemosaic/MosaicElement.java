@@ -17,69 +17,66 @@
 
 package org.geotools.gce.imagemosaic;
 
+import it.geosolutions.imageio.pam.PAMDataset;
 import java.awt.image.RenderedImage;
-
 import javax.media.jai.PlanarImage;
 import javax.media.jai.ROI;
 
-import it.geosolutions.imageio.pam.PAMDataset;
-
 /**
- * Represents the input raster element for a mosaic operation, source {@link RenderedImage}, {@link ROI} and alpha channel.
+ * Represents the input raster element for a mosaic operation, source {@link RenderedImage}, {@link
+ * ROI} and alpha channel.
  *
- * <p>
- * This class is just a simple bean that holds a single element for the mosaic.
+ * <p>This class is just a simple bean that holds a single element for the mosaic.
  *
  * @author Simone Giannecchini, GeoSolutions SAS
- *
  */
 public class MosaicElement {
 
-    PlanarImage alphaChannel;
+  PlanarImage alphaChannel;
 
-    ROI roi;
+  ROI roi;
 
-    RenderedImage source;
+  RenderedImage source;
 
-    PAMDataset pamDataset;
+  PAMDataset pamDataset;
 
-    public MosaicElement(PlanarImage alphaChannel, ROI roi, RenderedImage source,
-            PAMDataset pamDataset) {
-        this.alphaChannel = alphaChannel;
-        this.roi = roi;
-        this.source = source;
-        this.pamDataset = pamDataset;
-    }
+  public MosaicElement(
+      PlanarImage alphaChannel, ROI roi, RenderedImage source, PAMDataset pamDataset) {
+    this.alphaChannel = alphaChannel;
+    this.roi = roi;
+    this.source = source;
+    this.pamDataset = pamDataset;
+  }
 
-    public PlanarImage getAlphaChannel() {
-        return alphaChannel;
-    }
+  public PlanarImage getAlphaChannel() {
+    return alphaChannel;
+  }
 
-    public void setAlphaChannel(PlanarImage alphaChannel) {
-        this.alphaChannel = alphaChannel;
-    }
+  public void setAlphaChannel(PlanarImage alphaChannel) {
+    this.alphaChannel = alphaChannel;
+  }
 
-    public ROI getRoi() {
-        return roi;
-    }
+  public ROI getRoi() {
+    return roi;
+  }
 
-    public void setRoi(ROI roi) {
-        this.roi = roi;
-    }
+  public void setRoi(ROI roi) {
+    this.roi = roi;
+  }
 
-    public RenderedImage getSource() {
-        return source;
-    }
+  public RenderedImage getSource() {
+    return source;
+  }
 
-    public void setSource(RenderedImage source) {
-        this.source = source;
-    }
+  public void setSource(RenderedImage source) {
+    this.source = source;
+  }
 
-    public PAMDataset getPamDataset() {
-        return pamDataset;
-    }
+  public PAMDataset getPamDataset() {
+    return pamDataset;
+  }
 
-    public void setPamDataset(PAMDataset pamDataset) {
-        this.pamDataset = pamDataset;
-    }
+  public void setPamDataset(PAMDataset pamDataset) {
+    this.pamDataset = pamDataset;
+  }
 }

@@ -17,36 +17,38 @@
 package org.geotools.kml.bindings;
 
 import java.util.Collection;
-import org.opengis.feature.simple.SimpleFeature;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.kml.KML;
 import org.geotools.kml.KMLTestSupport;
 import org.geotools.xml.Binding;
+import org.opengis.feature.simple.SimpleFeature;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class DocumentTypeBindingTest extends KMLTestSupport {
-    public void testType() throws Exception {
-        assertEquals(FeatureCollection.class, binding(KML.DocumentType).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(FeatureCollection.class, binding(KML.DocumentType).getType());
+  }
 
-    public void testExecutionMode() throws Exception {
-        assertEquals(Binding.AFTER, binding(KML.DocumentType).getExecutionMode());
-    }
+  public void testExecutionMode() throws Exception {
+    assertEquals(Binding.AFTER, binding(KML.DocumentType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        String xml = "<Document>" + "<name>document</name>" + "<Placemark>" + "<Point>"
-            + "<coordinates>0,0</coordinates>" + "</Point>" + "</Placemark>" + "</Document>";
-        buildDocument(xml);
+  public void testParse() throws Exception {
+    String xml =
+        "<Document>"
+            + "<name>document</name>"
+            + "<Placemark>"
+            + "<Point>"
+            + "<coordinates>0,0</coordinates>"
+            + "</Point>"
+            + "</Placemark>"
+            + "</Document>";
+    buildDocument(xml);
 
-        SimpleFeature document = (SimpleFeature) parse();
-        assertEquals("document", document.getAttribute("name"));
+    SimpleFeature document = (SimpleFeature) parse();
+    assertEquals("document", document.getAttribute("name"));
 
-        Collection features = (Collection) document.getAttribute("Feature");
-        assertEquals(1, features.size());
-    }
+    Collection features = (Collection) document.getAttribute("Feature");
+    assertEquals(1, features.size());
+  }
 }

@@ -21,46 +21,42 @@ import org.geotools.factory.Hints;
 
 /**
  * ConverterFactory for handling uuid (uniqueidentifier) conversions.
- * <p>
- * Supported conversions:
+ *
+ * <p>Supported conversions:
+ *
  * <ul>
- * <li>string -> UUID
- * <li>byte[] -> UUID
+ *   <li>string -> UUID
+ *   <li>byte[] -> UUID
  * </ul>
- * </p>
- * 
+ *
  * @author Andrea Briganti <kbyte@ciotoni.net>
- * 
  */
 public class UuidConverterFactory implements ConverterFactory {
 
-    public Converter createConverter(Class source, Class target, Hints hints) {
-        if (target.equals(UUID.class)) {
+  public Converter createConverter(Class source, Class target, Hints hints) {
+    if (target.equals(UUID.class)) {
 
-            // string to boolean
-            if (source.equals(String.class)) {
-                return new Converter() {
+      // string to boolean
+      if (source.equals(String.class)) {
+        return new Converter() {
 
-                    public Object convert(Object source, Class target) throws Exception {
-                        return UUID.fromString((String) source);
-                    }
-                };
-            }
+          public Object convert(Object source, Class target) throws Exception {
+            return UUID.fromString((String) source);
+          }
+        };
+      }
 
-            // integer to boolean
-            if (source.equals(byte[].class)) {
-                return new Converter() {
+      // integer to boolean
+      if (source.equals(byte[].class)) {
+        return new Converter() {
 
-                    public Object convert(Object source, Class target) throws Exception {
-                        return UUID.nameUUIDFromBytes((byte[]) source);
-                    }
-
-                };
-            }
-
-        }
-
-        return null;
+          public Object convert(Object source, Class target) throws Exception {
+            return UUID.nameUUIDFromBytes((byte[]) source);
+          }
+        };
+      }
     }
 
+    return null;
+  }
 }

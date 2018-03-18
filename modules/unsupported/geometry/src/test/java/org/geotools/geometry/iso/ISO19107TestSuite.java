@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -16,47 +16,41 @@
  */
 package org.geotools.geometry.iso;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.geotools.geometry.iso.aggregate.AggregateTestSuite;
 import org.geotools.geometry.iso.complex.ComplexTestSuite;
 import org.geotools.geometry.iso.coordinate.GeometryTestSuite;
 import org.geotools.geometry.iso.operations.OperationsTestSuite;
 import org.geotools.geometry.iso.primitive.PrimitiveTestSuite;
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class ISO19107TestSuite {
-	
-    public static Test suite() {
 
-        TestSuite suite = new TestSuite();
-	
-        // *** COORDINATES
-        suite.addTest(GeometryTestSuite.suite());
-        
-        // *** PRIMITIVES
-        suite.addTest(PrimitiveTestSuite.suite());
+  public static Test suite() {
 
-        // *** COMPLEXES
-        suite.addTest(ComplexTestSuite.suite());
+    TestSuite suite = new TestSuite();
 
-        // *** AGGREGATE
-        suite.addTest(AggregateTestSuite.suite());
+    // *** COORDINATES
+    suite.addTest(GeometryTestSuite.suite());
 
-        // *** OPERATIONS
-        suite.addTest(OperationsTestSuite.suite());
-        
-        return suite;
-    }
+    // *** PRIMITIVES
+    suite.addTest(PrimitiveTestSuite.suite());
 
-    /**
-     * Runs the test suite using the textual runner.
-     */
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
+    // *** COMPLEXES
+    suite.addTest(ComplexTestSuite.suite());
+
+    // *** AGGREGATE
+    suite.addTest(AggregateTestSuite.suite());
+
+    // *** OPERATIONS
+    suite.addTest(OperationsTestSuite.suite());
+
+    return suite;
+  }
+
+  /** Runs the test suite using the textual runner. */
+  public static void main(String[] args) {
+    junit.textui.TestRunner.run(suite());
+  }
 }

@@ -16,20 +16,19 @@
  */
 package org.geotools.filter.v1_0.capabilities;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import java.util.List;
 import javax.xml.namespace.QName;
+import org.geotools.xml.*;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.capability.FunctionName;
-import org.geotools.xml.*;
-
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:Function_NameType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="Function_NameType"&gt;
  *      &lt;xsd:simpleContent&gt;
@@ -41,64 +40,58 @@ import org.geotools.xml.*;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class Function_NameTypeBinding extends AbstractComplexBinding {
-    FilterFactory factory;
+  FilterFactory factory;
 
-    public Function_NameTypeBinding(FilterFactory factory) {
-        this.factory = factory;
-    }
+  public Function_NameTypeBinding(FilterFactory factory) {
+    this.factory = factory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.Function_NameType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return OGC.Function_NameType;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return FunctionName.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return FunctionName.class;
+  }
 
-    public int getExecutionMode() {
-        return OVERRIDE;
-    }
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        String name = (String) value;
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    String name = (String) value;
 
-        //&lt;xsd:attribute name="nArgs" type="xsd:string" use="required"/&gt;
-        String nargs = (String) node.getAttributeValue("nArgs");
+    // &lt;xsd:attribute name="nArgs" type="xsd:string" use="required"/&gt;
+    String nargs = (String) node.getAttributeValue("nArgs");
 
-        return factory.functionName(name, Integer.parseInt(nargs));
-    }
+    return factory.functionName(name, Integer.parseInt(nargs));
+  }
 
-    public Element encode(Object object, Document document, Element value)
-        throws Exception {
-        FunctionName function = (FunctionName) object;
-        value.appendChild(document.createTextNode(function.getName()));
-        value.setAttributeNS("", "nArgs", function.getArgumentCount() + "");
+  public Element encode(Object object, Document document, Element value) throws Exception {
+    FunctionName function = (FunctionName) object;
+    value.appendChild(document.createTextNode(function.getName()));
+    value.setAttributeNS("", "nArgs", function.getArgumentCount() + "");
 
-        return value;
-    }
+    return value;
+  }
 }

@@ -18,11 +18,7 @@ package org.geotools.graph.traverse.standard;
 
 import junit.framework.TestSuite;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class AllTests extends TestSuite {
   public AllTests() {
     super();
@@ -33,10 +29,9 @@ public class AllTests extends TestSuite {
     addTest(new TestSuite(NoBifurcationIteratorTest.class));
     addTest(new TestSuite(BreadthFirstTopologicalIteratorTest.class));
     addTest(new TestSuite(DepthFirstTopologicalIteratorTest.class));
-    
-    //addTest(new TestSuite(DepthFirstTraversalTest.class));
-//    addTest(new TestSuite(BreadthFirstTraversalTest.class));
-//    addTest(new TestSuite(NoBifurcationTraversalTest.class));
-  } 	
-    
+
+    // addTest(new TestSuite(DepthFirstTraversalTest.class));
+    //    addTest(new TestSuite(BreadthFirstTraversalTest.class));
+    //    addTest(new TestSuite(NoBifurcationTraversalTest.class));
+  }
 }

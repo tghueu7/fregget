@@ -5,9 +5,8 @@ import org.geotools.jdbc.JDBCThreeValuedLogicTestSetup;
 
 public class H2ThreeValuedLogicTest extends JDBCThreeValuedLogicOnlineTest {
 
-    @Override
-    protected JDBCThreeValuedLogicTestSetup createTestSetup() {
-        return new H2ThreeValuedLogicTestSetup();
-    }
-
+  @Override
+  protected JDBCThreeValuedLogicTestSetup createTestSetup() {
+    return new H2ThreeValuedLogicTestSetup();
+  }
 }

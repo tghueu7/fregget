@@ -16,70 +16,68 @@
  */
 package org.geotools.s3.cache;
 
-import org.geotools.s3.S3Connector;
-
 import net.sf.ehcache.*;
 import net.sf.ehcache.config.CacheConfiguration;
 import net.sf.ehcache.config.Configuration;
 import net.sf.ehcache.config.DiskStoreConfiguration;
 import net.sf.ehcache.config.PersistenceConfiguration;
 import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
+import org.geotools.s3.S3Connector;
 
-/**
- * Very basic EhCache handling
- */
+/** Very basic EhCache handling */
 public enum CacheManagement {
+  DEFAULT;
 
-    DEFAULT;
+  public static final String DEFAULT_CACHE = "default_cache";
+  private final CacheManager manager;
+  private final CacheConfig config;
 
-    public static final String DEFAULT_CACHE = "default_cache";
-    private final CacheManager manager;
-    private final CacheConfig config;
+  CacheManagement() {
+    CacheConfig config = CacheConfig.getDefaultConfig();
 
-    CacheManagement() {
-        CacheConfig config = CacheConfig.getDefaultConfig();
+    this.manager = buildCache(config);
+    this.config = config;
+  }
 
-        this.manager = buildCache(config);
-        this.config = config;
+  private static CacheManager buildCache(CacheConfig config) {
+    CacheManager manager;
+    if (config.getConfigurationPath() != null) {
+      manager = CacheManager.newInstance(config.getConfigurationPath());
+    } else {
+      Configuration cacheConfig = new Configuration();
+      cacheConfig.setMaxBytesLocalDisk((long) config.getDiskCacheSize());
+      cacheConfig.setMaxBytesLocalHeap((long) config.getHeapSize());
+      CacheConfiguration defaultCacheConfiguration =
+          new CacheConfiguration()
+              .persistence(
+                  new PersistenceConfiguration()
+                      .strategy(PersistenceConfiguration.Strategy.LOCALTEMPSWAP));
+      cacheConfig.defaultCache(defaultCacheConfiguration);
+
+      if (config.isUseDiskCache()) {
+        DiskStoreConfiguration diskConfig = new DiskStoreConfiguration();
+        diskConfig.setPath(config.getCacheDirectory().toAbsolutePath().toString());
+        cacheConfig.diskStore(diskConfig);
+      }
+
+      manager = new CacheManager(cacheConfig);
+
+      manager.addCache(DEFAULT_CACHE);
+      Cache cache = manager.getCache(DEFAULT_CACHE);
+      SelfPopulatingCache populatingCache =
+          new SelfPopulatingCache(cache, new S3ChunkEntryFactory(config));
+      manager.replaceCacheWithDecoratedCache(cache, populatingCache);
     }
 
-    private static CacheManager buildCache(CacheConfig config) {
-        CacheManager manager;
-        if (config.getConfigurationPath() != null) {
-            manager = CacheManager.newInstance(config.getConfigurationPath());
-        }
-        else {
-            Configuration cacheConfig = new Configuration();
-            cacheConfig.setMaxBytesLocalDisk((long) config.getDiskCacheSize());
-            cacheConfig.setMaxBytesLocalHeap((long) config.getHeapSize());
-            CacheConfiguration defaultCacheConfiguration = new CacheConfiguration()
-                .persistence(new PersistenceConfiguration().strategy(
-                    PersistenceConfiguration.Strategy.LOCALTEMPSWAP));
-            cacheConfig.defaultCache(defaultCacheConfiguration);
+    return manager;
+  }
 
-            if (config.isUseDiskCache()) {
-                DiskStoreConfiguration diskConfig = new DiskStoreConfiguration();
-                diskConfig.setPath(config.getCacheDirectory().toAbsolutePath().toString());
-                cacheConfig.diskStore(diskConfig);
-            }
-            
-            manager = new CacheManager(cacheConfig);
+  public byte[] getChunk(CacheEntryKey key, S3Connector connector) {
+    key.setConnector(connector);
+    return (byte[]) this.manager.getEhcache(DEFAULT_CACHE).get(key).getObjectValue();
+  }
 
-            manager.addCache(DEFAULT_CACHE);
-            Cache cache = manager.getCache(DEFAULT_CACHE);
-            SelfPopulatingCache populatingCache = new SelfPopulatingCache(cache, new S3ChunkEntryFactory(config));
-            manager.replaceCacheWithDecoratedCache(cache, populatingCache);
-        }
-
-        return manager;
-    }
-
-    public byte[] getChunk(CacheEntryKey key, S3Connector connector) {
-        key.setConnector(connector);
-        return (byte[]) this.manager.getEhcache(DEFAULT_CACHE).get(key).getObjectValue();
-    }
-
-    public CacheConfig getCacheConfig() {
-        return this.config;
-    }
+  public CacheConfig getCacheConfig() {
+    return this.config;
+  }
 }

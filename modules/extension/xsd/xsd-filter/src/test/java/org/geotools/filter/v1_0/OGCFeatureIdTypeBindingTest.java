@@ -16,34 +16,29 @@
  */
 package org.geotools.filter.v1_0;
 
-import org.w3c.dom.Document;
-import org.opengis.filter.identity.FeatureId;
 import org.geotools.xml.Binding;
+import org.opengis.filter.identity.FeatureId;
+import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class OGCFeatureIdTypeBindingTest extends FilterTestSupport {
-    public void testType() {
-        assertEquals(FeatureId.class, binding(OGC.FeatureIdType).getType());
-    }
+  public void testType() {
+    assertEquals(FeatureId.class, binding(OGC.FeatureIdType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(OGC.FeatureIdType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(OGC.FeatureIdType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        FilterMockData.featureId(document, document);
+  public void testParse() throws Exception {
+    FilterMockData.featureId(document, document);
 
-        FeatureId featureId = (FeatureId) parse();
-        assertEquals("foo", featureId.getID());
-    }
+    FeatureId featureId = (FeatureId) parse();
+    assertEquals("foo", featureId.getID());
+  }
 
-    public void testEncode() throws Exception {
-        Document doc = encode(FilterMockData.featureId(), OGC.FeatureId);
-        assertEquals("foo", doc.getDocumentElement().getAttribute("fid"));
-    }
+  public void testEncode() throws Exception {
+    Document doc = encode(FilterMockData.featureId(), OGC.FeatureId);
+    assertEquals("foo", doc.getDocumentElement().getAttribute("fid"));
+  }
 }

@@ -5,15 +5,14 @@ import org.geotools.data.ogr.OGRDataStoreFactory;
 
 public class JniOGRDataStoreFactory extends OGRDataStoreFactory {
 
-    @Override
-    protected OGR createOGR() {
-        return new JniOGR();
-    }
-    
-    @Override
-    protected boolean doIsAvailable() throws Throwable {
-        System.loadLibrary("gdaljni");
-        return true;
-    }
+  @Override
+  protected OGR createOGR() {
+    return new JniOGR();
+  }
 
+  @Override
+  protected boolean doIsAvailable() throws Throwable {
+    System.loadLibrary("gdaljni");
+    return true;
+  }
 }

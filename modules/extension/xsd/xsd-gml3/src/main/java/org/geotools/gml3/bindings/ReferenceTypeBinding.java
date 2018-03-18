@@ -17,7 +17,6 @@
 package org.geotools.gml3.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.gml3.GML;
 import org.geotools.xlink.XLINK;
 import org.geotools.xml.AbstractComplexBinding;
@@ -27,12 +26,12 @@ import org.opengis.feature.Property;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-
 /**
  * Binding object for the type http://www.opengis.net/gml:ReferenceType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="ReferenceType"&gt;
  *      &lt;annotation&gt;
@@ -47,64 +46,59 @@ import org.w3c.dom.Element;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class ReferenceTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.ReferenceType;
+  /** @generated */
+  public QName getTarget() {
+    return GML.ReferenceType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Property.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // TODO: implement and remove call to super
+    return super.parse(instance, node, value);
+  }
+
+  public Element encode(Object object, Document document, Element value) throws Exception {
+    Property property = (Property) object;
+    // I don't think we can assign values to this type, so only encode client properties
+    // for the mean time
+    GML3EncodingUtils.encodeClientProperties(property, value);
+
+    return value;
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    Property association = (Property) object;
+
+    // non resolved, return the xlink:href
+    if (XLINK.HREF.equals(name)) {
+      String id = (String) association.getUserData().get("gml:id");
+      if (id != null) {
+        return "#" + id;
+      }
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Property.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //TODO: implement and remove call to super
-        return super.parse(instance, node, value);
-    }
-    
-    public Element encode(Object object, Document document, Element value) throws Exception {
-        Property property = (Property) object;
-        // I don't think we can assign values to this type, so only encode client properties
-        // for the mean time
-        GML3EncodingUtils.encodeClientProperties(property, value);
-
-        return value;
-    }
-
-    public Object getProperty(Object object, QName name) throws Exception {
-        Property association = (Property) object;
-    
-        //non resolved, return the xlink:href
-        if (XLINK.HREF.equals(name)) {
-            String id = (String) association.getUserData().get("gml:id");
-            if (id != null) {    
-                return "#" + id;
-            }
-        }
-    
-        return null;
-    }
+    return null;
+  }
 }

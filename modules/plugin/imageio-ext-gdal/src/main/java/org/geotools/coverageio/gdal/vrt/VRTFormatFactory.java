@@ -17,59 +17,56 @@
 package org.geotools.coverageio.gdal.vrt;
 
 import it.geosolutions.imageio.plugins.vrt.VRTImageReaderSpi;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.geotools.coverage.grid.io.GridFormatFactorySpi;
 import org.geotools.coverageio.BaseGridFormatFactorySPI;
 import org.opengis.coverage.grid.Format;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * Implementation of the {@link Format} service provider interface for VRT files.
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
  * @since 2.10.x
- *
- *
  * @source $URL$
  */
 public final class VRTFormatFactory extends BaseGridFormatFactorySPI
-        implements GridFormatFactorySpi {
-    /** Logger. */
-    private final static Logger LOGGER = org.geotools.util.logging.Logging
-            .getLogger("org.geotools.coverageio.gdal.vrt");
+    implements GridFormatFactorySpi {
+  /** Logger. */
+  private static final Logger LOGGER =
+      org.geotools.util.logging.Logging.getLogger("org.geotools.coverageio.gdal.vrt");
 
-    @Override
-    public boolean isAvailable() {
-        boolean available = true;
+  @Override
+  public boolean isAvailable() {
+    boolean available = true;
 
-        // if these classes are here, then the runtime environment has
-        // access to JAI and the JAI ImageI/O toolbox.
-        try {
-            Class.forName("it.geosolutions.imageio.plugins.vrt.VRTImageReaderSpi");
-            available = new VRTImageReaderSpi().isAvailable();
+    // if these classes are here, then the runtime environment has
+    // access to JAI and the JAI ImageI/O toolbox.
+    try {
+      Class.forName("it.geosolutions.imageio.plugins.vrt.VRTImageReaderSpi");
+      available = new VRTImageReaderSpi().isAvailable();
 
-            if (LOGGER.isLoggable(Level.FINE)) {
-                if (available) {
-                    LOGGER.fine("VRTFormatFactory is availaible.");
-                } else {
-                    LOGGER.fine("VRTFormatFactory is not availaible.");
-                }
-            }
-        } catch (ClassNotFoundException cnf) {
-            if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.fine("VRTFormatFactory is not availaible.");
-            }
-
-            available = false;
+      if (LOGGER.isLoggable(Level.FINE)) {
+        if (available) {
+          LOGGER.fine("VRTFormatFactory is availaible.");
+        } else {
+          LOGGER.fine("VRTFormatFactory is not availaible.");
         }
+      }
+    } catch (ClassNotFoundException cnf) {
+      if (LOGGER.isLoggable(Level.FINE)) {
+        LOGGER.fine("VRTFormatFactory is not availaible.");
+      }
 
-        return available;
+      available = false;
     }
 
-    @Override
-    public VRTFormat createFormat() {
-        return new VRTFormat();
-    }
+    return available;
+  }
+
+  @Override
+  public VRTFormat createFormat() {
+    return new VRTFormat();
+  }
 }

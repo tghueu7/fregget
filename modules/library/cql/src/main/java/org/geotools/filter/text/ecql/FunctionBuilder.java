@@ -30,26 +30,25 @@ import org.opengis.filter.expression.Function;
  */
 abstract class FunctionBuilder {
 
-    private FilterFactory filterFactory;
-    private BuildResultStack resultStack;
+  private FilterFactory filterFactory;
+  private BuildResultStack resultStack;
 
-    public FunctionBuilder(final BuildResultStack resultStack,
-            final FilterFactory filterFactory) {
-        
-        assert resultStack != null;
-        assert filterFactory != null;
-        
-        this.resultStack = resultStack;
-        this.filterFactory = filterFactory;
-    }
+  public FunctionBuilder(final BuildResultStack resultStack, final FilterFactory filterFactory) {
 
-    public FilterFactory getFilterFactory() {
-        return filterFactory;
-    }
+    assert resultStack != null;
+    assert filterFactory != null;
 
-    public BuildResultStack getResultStack() {
-        return resultStack;
-    }
+    this.resultStack = resultStack;
+    this.filterFactory = filterFactory;
+  }
 
-    public abstract Function build() throws CQLException ;
+  public FilterFactory getFilterFactory() {
+    return filterFactory;
+  }
+
+  public BuildResultStack getResultStack() {
+    return resultStack;
+  }
+
+  public abstract Function build() throws CQLException;
 }

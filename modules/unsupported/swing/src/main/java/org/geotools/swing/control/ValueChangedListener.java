@@ -22,22 +22,17 @@ package org.geotools.swing.control;
  *
  * @see JValueField
  * @see ValueChangedEvent
- * 
  * @author Michael Bedward
  * @since 2.6.1
- *
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public interface ValueChangedListener {
 
-    /**
-     * Called by the control whose value has just changed
-     *
-     * @param ev the event
-     */
-    public void onValueChanged( ValueChangedEvent ev );
-
+  /**
+   * Called by the control whose value has just changed
+   *
+   * @param ev the event
+   */
+  public void onValueChanged(ValueChangedEvent ev);
 }

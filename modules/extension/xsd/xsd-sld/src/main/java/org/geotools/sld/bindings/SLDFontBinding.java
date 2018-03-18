@@ -16,14 +16,8 @@
  */
 package org.geotools.sld.bindings;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.sld.CssParameter;
 import org.geotools.styling.Font;
 import org.geotools.styling.StyleFactory;
@@ -34,12 +28,12 @@ import org.opengis.filter.FilterFactory;
 import org.opengis.filter.expression.Expression;
 import org.picocontainer.MutablePicoContainer;
 
-
 /**
  * Binding object for the element http://www.opengis.net/sld:Font.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Font"&gt;
  *      &lt;xsd:annotation&gt;
@@ -57,100 +51,96 @@ import org.picocontainer.MutablePicoContainer;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDFontBinding extends AbstractComplexBinding {
-    StyleFactory styleFactory;
-    FilterFactory filterFactory;
+  StyleFactory styleFactory;
+  FilterFactory filterFactory;
 
-    public SLDFontBinding(StyleFactory styleFactory, FilterFactory filterFactory) {
-        this.styleFactory = styleFactory;
-        this.filterFactory = filterFactory;
-    }
+  public SLDFontBinding(StyleFactory styleFactory, FilterFactory filterFactory) {
+    this.styleFactory = styleFactory;
+    this.filterFactory = filterFactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.FONT;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return SLD.FONT;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Font.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Font.class;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Font font = styleFactory.getDefaultFont();
-        
-        boolean familyFound = false;
-        for (Iterator i = node.getChildValues(CssParameter.class).iterator(); i.hasNext();) {
-            CssParameter css = (CssParameter) i.next();
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Font font = styleFactory.getDefaultFont();
 
-            Expression exp = css.getExpression();
-            if (exp == null) {
-                continue;
-            }
+    boolean familyFound = false;
+    for (Iterator i = node.getChildValues(CssParameter.class).iterator(); i.hasNext(); ) {
+      CssParameter css = (CssParameter) i.next();
 
-            if ("font-family".equals(css.getName())) {
-                if(!familyFound) {
-                    font.getFamily().set(0, exp);
-                    familyFound = true;
-                } else { 
-                    font.getFamily().add(exp);
-                }
-            }
+      Expression exp = css.getExpression();
+      if (exp == null) {
+        continue;
+      }
 
-            if ("font-style".equals(css.getName())) {
-                font.setStyle(exp);
-            }
-
-            if ("font-weight".equals(css.getName())) {
-                font.setWeight(exp);
-            }
-
-            if ("font-size".equals(css.getName())) {
-                font.setSize(exp);
-            }
+      if ("font-family".equals(css.getName())) {
+        if (!familyFound) {
+          font.getFamily().set(0, exp);
+          familyFound = true;
+        } else {
+          font.getFamily().add(exp);
         }
+      }
 
-        return font;
+      if ("font-style".equals(css.getName())) {
+        font.setStyle(exp);
+      }
+
+      if ("font-weight".equals(css.getName())) {
+        font.setWeight(exp);
+      }
+
+      if ("font-size".equals(css.getName())) {
+        font.setSize(exp);
+      }
     }
+
+    return font;
+  }
 }

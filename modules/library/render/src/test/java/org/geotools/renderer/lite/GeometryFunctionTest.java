@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2009 - 2016, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -17,82 +17,69 @@
 
 package org.geotools.renderer.lite;
 
+import static java.awt.RenderingHints.KEY_ANTIALIASING;
+import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import org.geotools.data.property.PropertyDataStore;
 import org.geotools.data.simple.SimpleFeatureSource;
-import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.image.test.ImageAssert;
 import org.geotools.map.FeatureLayer;
 import org.geotools.map.MapContent;
 import org.geotools.renderer.style.FontCache;
-import org.geotools.styling.SLD;
-import org.geotools.styling.Stroke;
 import org.geotools.styling.Style;
-import org.geotools.styling.StyleFactory;
-import org.geotools.styling.Symbolizer;
 import org.geotools.test.TestData;
 import org.junit.Before;
 import org.junit.Test;
-import org.opengis.filter.FilterFactory2;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-
-import static java.awt.RenderingHints.KEY_ANTIALIASING;
-import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
-
-/**
- * 
- * 
- * @source $URL$
- */
+/** @source $URL$ */
 public class GeometryFunctionTest {
-    private static final long TIME = 40000;
+  private static final long TIME = 40000;
 
-    SimpleFeatureSource fs;
+  SimpleFeatureSource fs;
 
-    ReferencedEnvelope bounds;
+  ReferencedEnvelope bounds;
 
-    @Before
-    public void setUp() throws Exception {
-        File property = new File(TestData.getResource(this, "squareUTM.properties").toURI());
-        PropertyDataStore ds = new PropertyDataStore(property.getParentFile());
-        fs = ds.getFeatureSource("square");
-        bounds = fs.getBounds();
-        bounds.expandBy(0.5);
+  @Before
+  public void setUp() throws Exception {
+    File property = new File(TestData.getResource(this, "squareUTM.properties").toURI());
+    PropertyDataStore ds = new PropertyDataStore(property.getParentFile());
+    fs = ds.getFeatureSource("square");
+    bounds = fs.getBounds();
+    bounds.expandBy(0.5);
 
-        Font font = Font.createFont(Font.TRUETYPE_FONT, TestData.getResource(this, "Vera.ttf").openStream());
-        FontCache.getDefaultInstance().registerFont(font);
-    }
+    Font font =
+        Font.createFont(Font.TRUETYPE_FONT, TestData.getResource(this, "Vera.ttf").openStream());
+    FontCache.getDefaultInstance().registerFont(font);
+  }
 
-    @Test
-    public void testPointSize() throws Exception {
-        runSingleLayerTest("pointSizeGeometryFunction.sld", 100);
-    }
+  @Test
+  public void testPointSize() throws Exception {
+    runSingleLayerTest("pointSizeGeometryFunction.sld", 100);
+  }
 
-    @Test
-    public void testLabel() throws Exception {
-        // larger tolerance since it's a label
-        runSingleLayerTest("labelGeometryFunction.sld", 300);
-    }
+  @Test
+  public void testLabel() throws Exception {
+    // larger tolerance since it's a label
+    runSingleLayerTest("labelGeometryFunction.sld", 300);
+  }
 
-    private void runSingleLayerTest(String styleName, int threshold) throws Exception {
-        Style style = RendererBaseTest.loadStyle(this, styleName);
+  private void runSingleLayerTest(String styleName, int threshold) throws Exception {
+    Style style = RendererBaseTest.loadStyle(this, styleName);
 
-        MapContent mc = new MapContent();
-        mc.addLayer(new FeatureLayer(fs, style));
+    MapContent mc = new MapContent();
+    mc.addLayer(new FeatureLayer(fs, style));
 
-        StreamingRenderer renderer = new StreamingRenderer();
-        renderer.setMapContent(mc);
-        renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
+    StreamingRenderer renderer = new StreamingRenderer();
+    renderer.setMapContent(mc);
+    renderer.setJava2DHints(new RenderingHints(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON));
 
-        BufferedImage image = RendererBaseTest.showRender(styleName, renderer, TIME, bounds);
-        File reference = new File("./src/test/resources/org/geotools/renderer/lite/test-data/"
-                + styleName + ".png");
-        ImageAssert.assertEquals(reference, image, threshold);
-    }
-
-
-
+    BufferedImage image = RendererBaseTest.showRender(styleName, renderer, TIME, bounds);
+    File reference =
+        new File("./src/test/resources/org/geotools/renderer/lite/test-data/" + styleName + ".png");
+    ImageAssert.assertEquals(reference, image, threshold);
+  }
 }

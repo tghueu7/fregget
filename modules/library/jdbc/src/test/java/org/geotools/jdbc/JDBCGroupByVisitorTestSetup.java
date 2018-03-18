@@ -18,20 +18,20 @@ package org.geotools.jdbc;
 
 public abstract class JDBCGroupByVisitorTestSetup extends JDBCDelegatingTestSetup {
 
-    protected JDBCGroupByVisitorTestSetup(JDBCTestSetup delegate) {
-        super(delegate);
+  protected JDBCGroupByVisitorTestSetup(JDBCTestSetup delegate) {
+    super(delegate);
+  }
+
+  @Override
+  protected final void setUpData() throws Exception {
+    try {
+      dropBuildingsTable();
+    } finally {
+      createBuildingsTable();
     }
+  }
 
-    @Override
-    protected final void setUpData() throws Exception {
-        try {
-            dropBuildingsTable();
-        } finally {
-            createBuildingsTable();
-        }
-    }
+  protected abstract void createBuildingsTable() throws Exception;
 
-    protected abstract void createBuildingsTable() throws Exception;
-
-    protected abstract void dropBuildingsTable() throws Exception;
+  protected abstract void dropBuildingsTable() throws Exception;
 }

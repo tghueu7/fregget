@@ -18,7 +18,6 @@ package org.geotools.data.shapefile;
 
 import java.io.IOException;
 import java.util.Set;
-
 import org.geotools.data.FeatureReader;
 import org.geotools.data.FeatureWriter;
 import org.geotools.data.FilteringFeatureWriter;
@@ -40,137 +39,138 @@ import org.opengis.filter.Filter;
 
 /**
  * FeatureStore for the Shapefile store, based on the {@link ContentFeatureStore} framework
- * 
+ *
  * @author Andrea Aime - GeoSolutions
  */
 class ShapefileFeatureStore extends ContentFeatureStore {
 
-    ShapefileFeatureSource delegate;
+  ShapefileFeatureSource delegate;
 
-    @SuppressWarnings("unchecked")
-    public ShapefileFeatureStore(ContentEntry entry, ShpFiles files) {
-        super(entry, Query.ALL);
-        this.delegate = new ShapefileFeatureSource(entry, files);
-        this.hints = (Set<Key>) (Set<?>) delegate.getSupportedHints();
+  @SuppressWarnings("unchecked")
+  public ShapefileFeatureStore(ContentEntry entry, ShpFiles files) {
+    super(entry, Query.ALL);
+    this.delegate = new ShapefileFeatureSource(entry, files);
+    this.hints = (Set<Key>) (Set<?>) delegate.getSupportedHints();
+  }
+
+  @Override
+  protected FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterInternal(
+      Query query, int flags) throws IOException {
+    if (flags == 0) {
+      throw new IllegalArgumentException("no write flags set");
     }
 
-    @Override
-    protected FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterInternal(Query query,
-            int flags) throws IOException {
-        if (flags == 0) {
-            throw new IllegalArgumentException("no write flags set");
-        }
+    ShapefileFeatureReader reader = (ShapefileFeatureReader) delegate.getReaderInternal(Query.ALL);
+    ShapefileFeatureWriter writer;
+    ShapefileDataStore ds = getDataStore();
+    if (ds.indexManager.hasFidIndex(false)
+        || ds.isFidIndexed() && ds.indexManager.hasFidIndex(true)) {
+      writer =
+          new IndexedShapefileFeatureWriter(
+              ds.indexManager, reader, ds.getCharset(), ds.getTimeZone());
+    } else {
+      writer =
+          new ShapefileFeatureWriter(delegate.shpFiles, reader, ds.getCharset(), ds.getTimeZone());
+    }
+    writer.setMaxShpSize(getDataStore().getMaxShpSize());
+    writer.setMaxDbfSize(getDataStore().getMaxDbfSize());
 
-        ShapefileFeatureReader reader = (ShapefileFeatureReader) delegate
-                .getReaderInternal(Query.ALL);
-        ShapefileFeatureWriter writer;
-        ShapefileDataStore ds = getDataStore();
-        if(ds.indexManager.hasFidIndex(false) || ds.isFidIndexed() && ds.indexManager.hasFidIndex(true)) {
-            writer = new IndexedShapefileFeatureWriter(ds.indexManager, reader, ds.getCharset(), ds.getTimeZone());
-        } else {
-            writer = new ShapefileFeatureWriter(delegate.shpFiles, reader, ds.getCharset(), 
-                    ds.getTimeZone());
-        }
-        writer.setMaxShpSize(getDataStore().getMaxShpSize());
-        writer.setMaxDbfSize(getDataStore().getMaxDbfSize());
-
-        // if we only have to add move to the end.
-        // TODO: just make the code transfer the bytes in bulk instead and start actual writing at
-        // the end
-        if ((flags | WRITER_ADD) == WRITER_ADD) {
-            while (writer.hasNext()) {
-                writer.next();
-            }
-        }
-
-        // if we are filtering wrap the writer so that it returns only the selected features
-        // but writes down the mall
-        Filter filter = query.getFilter();
-        if (filter != null && !Filter.INCLUDE.equals(filter)) {
-            return new FilteringFeatureWriter(writer, filter);
-        } else {
-            return writer;
-        }
+    // if we only have to add move to the end.
+    // TODO: just make the code transfer the bytes in bulk instead and start actual writing at
+    // the end
+    if ((flags | WRITER_ADD) == WRITER_ADD) {
+      while (writer.hasNext()) {
+        writer.next();
+      }
     }
 
-    // ----------------------------------------------------------------------------------------
-    // METHODS DELEGATED TO OGRFeatureSource
-    // ----------------------------------------------------------------------------------------
-
-    public ShapefileDataStore getDataStore() {
-        return delegate.getDataStore();
+    // if we are filtering wrap the writer so that it returns only the selected features
+    // but writes down the mall
+    Filter filter = query.getFilter();
+    if (filter != null && !Filter.INCLUDE.equals(filter)) {
+      return new FilteringFeatureWriter(writer, filter);
+    } else {
+      return writer;
     }
+  }
 
-    public Transaction getTransaction() {
-        return delegate.getTransaction();
+  // ----------------------------------------------------------------------------------------
+  // METHODS DELEGATED TO OGRFeatureSource
+  // ----------------------------------------------------------------------------------------
+
+  public ShapefileDataStore getDataStore() {
+    return delegate.getDataStore();
+  }
+
+  public Transaction getTransaction() {
+    return delegate.getTransaction();
+  }
+
+  public ResourceInfo getInfo() {
+    return delegate.getInfo();
+  }
+
+  public QueryCapabilities getQueryCapabilities() {
+    return delegate.getQueryCapabilities();
+  }
+
+  @Override
+  protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
+    return delegate.getBoundsInternal(query);
+  }
+
+  @Override
+  protected int getCountInternal(Query query) throws IOException {
+    return delegate.getCountInternal(query);
+  }
+
+  @Override
+  protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query)
+      throws IOException {
+    return delegate.getReaderInternal(query);
+  }
+
+  @Override
+  protected SimpleFeatureType buildFeatureType() throws IOException {
+    return delegate.buildFeatureType();
+  }
+
+  @Override
+  public ContentEntry getEntry() {
+    return delegate.getEntry();
+  }
+
+  @Override
+  public Name getName() {
+    return delegate.getName();
+  }
+
+  @Override
+  public ContentState getState() {
+    return delegate.getState();
+  }
+
+  @Override
+  public void setTransaction(Transaction transaction) {
+    super.setTransaction(transaction);
+
+    if (delegate.getTransaction() != transaction) {
+      delegate.setTransaction(transaction);
     }
+  }
 
-    public ResourceInfo getInfo() {
-        return delegate.getInfo();
-    }
+  @Override
+  protected boolean canFilter() {
+    return delegate.canFilter();
+  }
 
-    public QueryCapabilities getQueryCapabilities() {
-        return delegate.getQueryCapabilities();
-    }
+  @Override
+  protected boolean canRetype() {
+    return delegate.canRetype();
+  }
 
-    @Override
-    protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
-        return delegate.getBoundsInternal(query);
-    }
-
-    @Override
-    protected int getCountInternal(Query query) throws IOException {
-        return delegate.getCountInternal(query);
-    }
-
-    @Override
-    protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query)
-            throws IOException {
-        return delegate.getReaderInternal(query);
-    }
-
-    @Override
-    protected SimpleFeatureType buildFeatureType() throws IOException {
-        return delegate.buildFeatureType();
-    }
-
-    @Override
-    public ContentEntry getEntry() {
-        return delegate.getEntry();
-    }
-
-    @Override
-    public Name getName() {
-        return delegate.getName();
-    }
-
-    @Override
-    public ContentState getState() {
-        return delegate.getState();
-    }
-
-    @Override
-    public void setTransaction(Transaction transaction) {
-        super.setTransaction(transaction);
-
-        if (delegate.getTransaction() != transaction) {
-            delegate.setTransaction(transaction);
-        }
-    }
-
-    @Override
-    protected boolean canFilter() {
-        return delegate.canFilter();
-    }
-
-    @Override
-    protected boolean canRetype() {
-        return delegate.canRetype();
-    }
-
-    @Override
-    protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {
-        return delegate.handleVisitor(query, visitor);
-    }
-    
+  @Override
+  protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {
+    return delegate.handleVisitor(query, visitor);
+  }
 }

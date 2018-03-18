@@ -16,25 +16,22 @@
  */
 package org.geotools.gml3.bindings;
 
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
 import java.util.List;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.gml3.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Polygon;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiPolygonType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiPolygonType"&gt;
  *      &lt;annotation&gt;
@@ -51,83 +48,76 @@ import com.vividsolutions.jts.geom.Polygon;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class MultiPolygonTypeBinding extends AbstractComplexBinding implements Comparable {
-    GeometryFactory gFactory;
+  GeometryFactory gFactory;
 
-    public MultiPolygonTypeBinding(GeometryFactory gFactory) {
-        this.gFactory = gFactory;
+  public MultiPolygonTypeBinding(GeometryFactory gFactory) {
+    this.gFactory = gFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.MultiPolygonType;
+  }
+
+  public int getExecutionMode() {
+    return BEFORE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return MultiPolygon.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    List polys = node.getChildValues(Polygon.class);
+
+    return gFactory.createMultiPolygon((Polygon[]) polys.toArray(new Polygon[polys.size()]));
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    if (GML.polygonMember.equals(name)) {
+      MultiPolygon multiPolygon = (MultiPolygon) object;
+      Polygon[] members = new Polygon[multiPolygon.getNumGeometries()];
+
+      for (int i = 0; i < members.length; i++) {
+        members[i] = (Polygon) multiPolygon.getGeometryN(i);
+      }
+
+      GML3EncodingUtils.setChildIDs(multiPolygon);
+
+      return members;
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.MultiPolygonType;
+    return null;
+  }
+
+  /**
+   * Implement comparable because both MultiPolygonBinding and MultiSurfaceBinding are bound to the
+   * same class, MultiPolygon. Since MultiPolygon is deprecated by gml3 MultiSurface always wins.
+   */
+  public int compareTo(Object o) {
+    if (o instanceof MultiSurfaceTypeBinding) {
+      return 1;
+    } else {
+      return 0;
     }
-
-    public int getExecutionMode() {
-        return BEFORE;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return MultiPolygon.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        List polys = node.getChildValues(Polygon.class);
-
-        return gFactory.createMultiPolygon((Polygon[]) polys.toArray(new Polygon[polys.size()]));
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        if (GML.polygonMember.equals(name)) {
-            MultiPolygon multiPolygon = (MultiPolygon) object;
-            Polygon[] members = new Polygon[multiPolygon.getNumGeometries()];
-
-            for (int i = 0; i < members.length; i++) {
-                members[i] = (Polygon) multiPolygon.getGeometryN(i);
-            }
-
-            GML3EncodingUtils.setChildIDs(multiPolygon);
-
-            return members;
-        }
-
-        return null;
-    }
-
-    /**
-     * Implement comparable because both MultiPolygonBinding and MultiSurfaceBinding
-     * are bound to the same class, MultiPolygon. Since MultiPolygon is deprecated
-     * by gml3 MultiSurface always wins.
-     */
-    public int compareTo(Object o) {
-        if (o instanceof MultiSurfaceTypeBinding) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
+  }
 }

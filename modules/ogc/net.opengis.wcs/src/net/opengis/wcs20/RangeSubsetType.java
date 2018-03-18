@@ -4,18 +4,17 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * The range subset from the WCS 2.0 range subsetting specification 
- *  
+ * The range subset from the WCS 2.0 range subsetting specification
+ *
  * @author Andrea Aime - GeoSolutions
  * @model
  */
 public interface RangeSubsetType extends EObject {
 
-    /**
-     * The range items to be returned 
-     * 
-     * @model
-     */
-    public EList<RangeItemType> getRangeItems();
-
+  /**
+   * The range items to be returned
+   *
+   * @model
+   */
+  public EList<RangeItemType> getRangeItems();
 }

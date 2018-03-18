@@ -18,69 +18,62 @@
 package org.geotools.swt.event;
 
 /**
- * An adapter class that implements all of the method
- * defined in the {@code MapPaneListener} interface as empty methods, allowing sub-classes
- * to just override the methods they need. 
+ * An adapter class that implements all of the method defined in the {@code MapPaneListener}
+ * interface as empty methods, allowing sub-classes to just override the methods they need.
  *
  * @author Michael Bedward
  * @since 2.6
- *
- *
- *
  * @source $URL$
  */
 public class MapPaneAdapter implements MapPaneListener {
 
-    /**
-     * Called by the map pane when a new map context has been set
-     *
-     * @param ev the event
-     */
-    public void onNewContext(MapPaneEvent ev) {}
+  /**
+   * Called by the map pane when a new map context has been set
+   *
+   * @param ev the event
+   */
+  public void onNewContext(MapPaneEvent ev) {}
 
-    /**
-     * Called by the map pane when a new renderer has been set
-     *
-     * @param ev the event
-     */
-    public void onNewRenderer(MapPaneEvent ev) {}
+  /**
+   * Called by the map pane when a new renderer has been set
+   *
+   * @param ev the event
+   */
+  public void onNewRenderer(MapPaneEvent ev) {}
 
-    /**
-     * Called by the map pane when it has been resized
-     *
-     * @param ev the event
-     */
-    public void onResized(MapPaneEvent ev) {}
+  /**
+   * Called by the map pane when it has been resized
+   *
+   * @param ev the event
+   */
+  public void onResized(MapPaneEvent ev) {}
 
-    /**
-     * Called by the map pane when its display area has been
-     * changed e.g. by zooming or panning
-     *
-     * @param ev the event
-     */
-    public void onDisplayAreaChanged(MapPaneEvent ev) {}
+  /**
+   * Called by the map pane when its display area has been changed e.g. by zooming or panning
+   *
+   * @param ev the event
+   */
+  public void onDisplayAreaChanged(MapPaneEvent ev) {}
 
-    /**
-     * Called by the map pane when it has started rendering features
-     *
-     * @param ev the event
-     */
-    public void onRenderingStarted(MapPaneEvent ev) {}
+  /**
+   * Called by the map pane when it has started rendering features
+   *
+   * @param ev the event
+   */
+  public void onRenderingStarted(MapPaneEvent ev) {}
 
-    /**
-     * Called by the map pane when it has stopped rendering features
-     *
-     * @param ev the event
-     */
-    public void onRenderingStopped(MapPaneEvent ev) {}
+  /**
+   * Called by the map pane when it has stopped rendering features
+   *
+   * @param ev the event
+   */
+  public void onRenderingStopped(MapPaneEvent ev) {}
 
-    /**
-     * Called by the map pane when it is rendering features. The
-     * event will be carrying data: a floating point value between
-     * 0 and 1 indicating rendering progress.
-     *
-     * @param ev the event
-     */
-    public void onRenderingProgress(MapPaneEvent ev) {}
-
+  /**
+   * Called by the map pane when it is rendering features. The event will be carrying data: a
+   * floating point value between 0 and 1 indicating rendering progress.
+   *
+   * @param ev the event
+   */
+  public void onRenderingProgress(MapPaneEvent ev) {}
 }

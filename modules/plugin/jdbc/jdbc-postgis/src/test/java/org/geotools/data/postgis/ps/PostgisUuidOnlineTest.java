@@ -17,14 +17,13 @@
 package org.geotools.data.postgis.ps;
 
 import org.geotools.data.postgis.PostGISUuidTestSetup;
-import org.geotools.jdbc.JDBCUuidTestSetup;
 import org.geotools.jdbc.JDBCUuidOnlineTest;
+import org.geotools.jdbc.JDBCUuidTestSetup;
 
 public class PostgisUuidOnlineTest extends JDBCUuidOnlineTest {
 
-    @Override
-    protected JDBCUuidTestSetup createTestSetup() {
-        return new PostGISUuidTestSetup(new PostGISPSTestSetup());
-    }
-
+  @Override
+  protected JDBCUuidTestSetup createTestSetup() {
+    return new PostGISUuidTestSetup(new PostGISPSTestSetup());
+  }
 }

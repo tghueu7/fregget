@@ -20,19 +20,20 @@ import javax.imageio.ImageReadParam;
 
 /**
  * Utility class that should be used to pass extra parameters to the NetCdf image reader machinery.
+ *
  * @deprecated use {@link it.geosolutions.imageio.imageioimpl.EnhancedImageReadParam}
  */
 @Deprecated
 public class ExtendedImageParam extends ImageReadParam {
 
-    // the bands parameter define the order and which bands should be returned
-    private int[] bands;
+  // the bands parameter define the order and which bands should be returned
+  private int[] bands;
 
-    public int[] getBands() {
-        return bands;
-    }
+  public int[] getBands() {
+    return bands;
+  }
 
-    public void setBands(int[] bands) {
-        this.bands = bands;
-    }
+  public void setBands(int[] bands) {
+    this.bands = bands;
+  }
 }

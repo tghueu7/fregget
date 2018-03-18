@@ -16,22 +16,17 @@
  */
 package org.geotools.data.shapefile.files;
 
-
 /**
- * Indicates that the object reads one of the Shapefile related files controlled
- * by {@link ShpFiles}
- * 
+ * Indicates that the object reads one of the Shapefile related files controlled by {@link ShpFiles}
+ *
  * @author jesse
- *
- *
- *
  * @source $URL$
  */
 public interface FileReader {
-    /**
-     * An id for the reader. This is only used for debugging.
-     * 
-     * @return id for the reader.
-     */
-    String id();
+  /**
+   * An id for the reader. This is only used for debugging.
+   *
+   * @return id for the reader.
+   */
+  String id();
 }

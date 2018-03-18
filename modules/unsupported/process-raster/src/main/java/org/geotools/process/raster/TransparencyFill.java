@@ -17,29 +17,28 @@
 package org.geotools.process.raster;
 
 import javax.media.jai.JAI;
-
 import org.geotools.coverage.processing.OperationJAI;
 import org.geotools.image.jai.Registry;
 import org.geotools.processing.jai.TransparencyFillDescriptor;
 import org.geotools.processing.jai.TransparencyFillRIF;
 
 public class TransparencyFill extends OperationJAI {
-    /**
-     * Serial number for interoperability with different versions.
-     */
-    private static final long serialVersionUID = 3368109980974496342L;
+  /** Serial number for interoperability with different versions. */
+  private static final long serialVersionUID = 3368109980974496342L;
 
-    static {
-        Registry.registerRIF(JAI.getDefaultInstance(), new TransparencyFillDescriptor(),
-                new TransparencyFillRIF(), "it.geosolutions.jaiext");
-    }
-    
-    public TransparencyFill() {
-        super("TransparencyFill");
-    }
+  static {
+    Registry.registerRIF(
+        JAI.getDefaultInstance(),
+        new TransparencyFillDescriptor(),
+        new TransparencyFillRIF(),
+        "it.geosolutions.jaiext");
+  }
 
-    public String getName() {
-        return "TransparencyFill";
-    }
+  public TransparencyFill() {
+    super("TransparencyFill");
+  }
 
+  public String getName() {
+    return "TransparencyFill";
+  }
 }

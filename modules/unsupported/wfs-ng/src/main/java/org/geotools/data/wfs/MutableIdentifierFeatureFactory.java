@@ -17,7 +17,6 @@
 package org.geotools.data.wfs;
 
 import java.util.Collection;
-
 import org.geotools.feature.AbstractFeatureFactoryImpl;
 import org.geotools.feature.FeatureImpl;
 import org.geotools.feature.simple.SimpleFeatureImpl;
@@ -35,37 +34,37 @@ import org.opengis.filter.FilterFactory2;
  */
 class MutableIdentifierFeatureFactory extends AbstractFeatureFactoryImpl {
 
-    private static FilterFactory2 MUTABLE_FIDS_FILTER_FACTORY = new FilterFactoryImpl() {
+  private static FilterFactory2 MUTABLE_FIDS_FILTER_FACTORY =
+      new FilterFactoryImpl() {
         @Override
         public MutableFeatureId featureId(String id) {
-            return new MutableFeatureId(id);
+          return new MutableFeatureId(id);
         }
 
         @Override
         public MutableFeatureId featureId(String fid, String featureVersion) {
-            return new MutableFeatureId(fid, featureVersion);
+          return new MutableFeatureId(fid, featureVersion);
         }
+      };
 
-    };
+  @Override
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  public Feature createFeature(Collection value, AttributeDescriptor descriptor, String id) {
+    return new FeatureImpl(value, descriptor, MUTABLE_FIDS_FILTER_FACTORY.featureId(id));
+  }
 
-    @Override
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Feature createFeature(Collection value, AttributeDescriptor descriptor, String id) {
-        return new FeatureImpl(value, descriptor, MUTABLE_FIDS_FILTER_FACTORY.featureId(id));
+  @Override
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  public Feature createFeature(Collection value, FeatureType type, String id) {
+    return new FeatureImpl(value, type, MUTABLE_FIDS_FILTER_FACTORY.featureId(id));
+  }
+
+  @Override
+  public SimpleFeature createSimpleFeature(Object[] array, SimpleFeatureType type, String id) {
+    if (type.isAbstract()) {
+      throw new IllegalArgumentException(
+          "Cannot create an feature of an abstract FeatureType " + type.getTypeName());
     }
-
-    @Override
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Feature createFeature(Collection value, FeatureType type, String id) {
-        return new FeatureImpl(value, type, MUTABLE_FIDS_FILTER_FACTORY.featureId(id));
-    }
-
-    @Override
-    public SimpleFeature createSimpleFeature(Object[] array, SimpleFeatureType type, String id) {
-        if (type.isAbstract()) {
-            throw new IllegalArgumentException(
-                    "Cannot create an feature of an abstract FeatureType " + type.getTypeName());
-        }
-        return new SimpleFeatureImpl(array, type, MUTABLE_FIDS_FILTER_FACTORY.featureId(id), false);
-    }
+    return new SimpleFeatureImpl(array, type, MUTABLE_FIDS_FILTER_FACTORY.featureId(id), false);
+  }
 }

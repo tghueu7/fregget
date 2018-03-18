@@ -5,9 +5,8 @@ import org.geotools.jdbc.JDBCNoPrimaryKeyTestSetup;
 
 public class SQLServerNoPrimaryKeyOnlineTest extends JDBCNoPrimaryKeyOnlineTest {
 
-    @Override
-    protected JDBCNoPrimaryKeyTestSetup createTestSetup() {
-        return new SQLServerNoPrimaryKeyTestSetup(new SQLServerTestSetup());
-    }
-
+  @Override
+  protected JDBCNoPrimaryKeyTestSetup createTestSetup() {
+    return new SQLServerNoPrimaryKeyTestSetup(new SQLServerTestSetup());
+  }
 }

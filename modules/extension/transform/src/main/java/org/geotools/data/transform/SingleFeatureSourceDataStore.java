@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
-
 import org.geotools.data.DataStore;
 import org.geotools.data.DefaultServiceInfo;
 import org.geotools.data.FeatureReader;
@@ -45,145 +44,144 @@ import org.opengis.filter.Filter;
  */
 public class SingleFeatureSourceDataStore implements DataStore {
 
-    SimpleFeatureSource source;
+  SimpleFeatureSource source;
 
-    public SingleFeatureSourceDataStore(SimpleFeatureSource fs) {
-        this.source = fs;
+  public SingleFeatureSourceDataStore(SimpleFeatureSource fs) {
+    this.source = fs;
+  }
+
+  @Override
+  public ServiceInfo getInfo() {
+    try {
+      DefaultServiceInfo info = new DefaultServiceInfo();
+      SimpleFeatureType schema = source.getSchema();
+      info.setDescription("Features from " + schema.getName());
+      info.setSchema(new URI(schema.getName().getNamespaceURI()));
+      info.setTitle(schema.getName().toString());
+      return info;
+    } catch (Exception e) {
+      throw new RuntimeException("Feature source returned an invalid namespace URI", e);
     }
+  }
 
-    @Override
-    public ServiceInfo getInfo() {
-        try {
-            DefaultServiceInfo info = new DefaultServiceInfo();
-            SimpleFeatureType schema = source.getSchema();
-            info.setDescription("Features from " + schema.getName());
-            info.setSchema(new URI(schema.getName().getNamespaceURI()));
-            info.setTitle(schema.getName().toString());
-            return info;
-        } catch (Exception e) {
-            throw new RuntimeException("Feature source returned an invalid namespace URI", e);
-        }
+  @Override
+  public void createSchema(SimpleFeatureType featureType) throws IOException {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void updateSchema(Name typeName, SimpleFeatureType featureType) throws IOException {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public List<Name> getNames() throws IOException {
+    return Arrays.asList(source.getSchema().getName());
+  }
+
+  @Override
+  public SimpleFeatureType getSchema(Name name) throws IOException {
+    SimpleFeatureType schema = source.getSchema();
+    if (schema.getName().equals(name)) {
+      return schema;
+    } else {
+      return null;
     }
+  }
 
-    @Override
-    public void createSchema(SimpleFeatureType featureType) throws IOException {
-        throw new UnsupportedOperationException();
+  @Override
+  public void dispose() {
+    // nothing to do here
+  }
+
+  @Override
+  public void updateSchema(String typeName, SimpleFeatureType featureType) throws IOException {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void removeSchema(Name typeName) throws IOException {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void removeSchema(String typeName) throws IOException {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public String[] getTypeNames() throws IOException {
+    return new String[] {source.getSchema().getName().getLocalPart()};
+  }
+
+  @Override
+  public SimpleFeatureType getSchema(String typeName) throws IOException {
+    SimpleFeatureType schema = source.getSchema();
+    if (schema.getName().getLocalPart().equals(typeName)) {
+      return schema;
+    } else {
+      throw new IOException("Schema '" + typeName + "' does not exist.");
     }
+  }
 
-    @Override
-    public void updateSchema(Name typeName, SimpleFeatureType featureType) throws IOException {
-        throw new UnsupportedOperationException();
+  @Override
+  public SimpleFeatureSource getFeatureSource(String typeName) throws IOException {
+    SimpleFeatureType schema = source.getSchema();
+    if (schema.getName().getLocalPart().equals(typeName)) {
+      return source;
+    } else {
+      throw new IOException("Schema '" + typeName + "' does not exist.");
     }
+  }
 
-    @Override
-    public List<Name> getNames() throws IOException {
-        return Arrays.asList(source.getSchema().getName());
+  @Override
+  public SimpleFeatureSource getFeatureSource(Name typeName) throws IOException {
+    SimpleFeatureType schema = source.getSchema();
+    if (schema.getName().equals(typeName)) {
+      return source;
+    } else {
+      throw new IOException("Schema '" + typeName + "' does not exist.");
     }
+  }
 
-    @Override
-    public SimpleFeatureType getSchema(Name name) throws IOException {
-        SimpleFeatureType schema = source.getSchema();
-        if (schema.getName().equals(name)) {
-            return schema;
-        } else {
-            return null;
-        }
-    }
+  @Override
+  public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(
+      Query query, Transaction transaction) throws IOException {
+    throw new UnsupportedOperationException(
+        "This store is wrapping a FeatureSource/FeatureStore, which handles "
+            + "transactions in a stateful way as opposed to a per call way. "
+            + "You should get the feature source and use that one instead");
+  }
 
-    @Override
-    public void dispose() {
-        // nothing to do here
-    }
+  @Override
+  public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(
+      String typeName, Filter filter, Transaction transaction) throws IOException {
+    throw new UnsupportedOperationException(
+        "This store is wrapping a FeatureSource/FeatureStore, which handles "
+            + "transactions in a stateful way as opposed to a per call way. "
+            + "You should get the feature source and use that one instead");
+  }
 
-    @Override
-    public void updateSchema(String typeName, SimpleFeatureType featureType) throws IOException {
-        throw new UnsupportedOperationException();
-    }
+  @Override
+  public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(
+      String typeName, Transaction transaction) throws IOException {
+    throw new UnsupportedOperationException(
+        "This store is wrapping a FeatureSource/FeatureStore, which handles "
+            + "transactions in a stateful way as opposed to a per call way. "
+            + "You should get the feature source and use that one instead");
+  }
 
-    @Override
-    public void removeSchema(Name typeName) throws IOException {
-        throw new UnsupportedOperationException();
-    }
+  @Override
+  public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriterAppend(
+      String typeName, Transaction transaction) throws IOException {
+    throw new UnsupportedOperationException(
+        "This store is wrapping a FeatureSource/FeatureStore, which handles "
+            + "transactions in a stateful way as opposed to a per call way. "
+            + "You should get the feature source and use that one instead");
+  }
 
-    @Override
-    public void removeSchema(String typeName) throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String[] getTypeNames() throws IOException {
-        return new String[] { source.getSchema().getName().getLocalPart() };
-    }
-
-    @Override
-    public SimpleFeatureType getSchema(String typeName) throws IOException {
-        SimpleFeatureType schema = source.getSchema();
-        if (schema.getName().getLocalPart().equals(typeName)) {
-            return schema;
-        } else {
-            throw new IOException("Schema '" + typeName + "' does not exist.");
-        }
-    }
-
-    @Override
-    public SimpleFeatureSource getFeatureSource(String typeName) throws IOException {
-        SimpleFeatureType schema = source.getSchema();
-        if (schema.getName().getLocalPart().equals(typeName)) {
-            return source;
-        } else {
-            throw new IOException("Schema '" + typeName + "' does not exist.");
-        }
-    }
-
-    @Override
-    public SimpleFeatureSource getFeatureSource(Name typeName) throws IOException {
-        SimpleFeatureType schema = source.getSchema();
-        if (schema.getName().equals(typeName)) {
-            return source;
-        } else {
-            throw new IOException("Schema '" + typeName + "' does not exist.");
-        }
-    }
-
-    @Override
-    public FeatureReader<SimpleFeatureType, SimpleFeature> getFeatureReader(Query query,
-            Transaction transaction) throws IOException {
-        throw new UnsupportedOperationException(
-                "This store is wrapping a FeatureSource/FeatureStore, which handles "
-                        + "transactions in a stateful way as opposed to a per call way. "
-                        + "You should get the feature source and use that one instead");
-    }
-
-    @Override
-    public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-            Filter filter, Transaction transaction) throws IOException {
-        throw new UnsupportedOperationException(
-                "This store is wrapping a FeatureSource/FeatureStore, which handles "
-                        + "transactions in a stateful way as opposed to a per call way. "
-                        + "You should get the feature source and use that one instead");
-    }
-
-    @Override
-    public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriter(String typeName,
-            Transaction transaction) throws IOException {
-        throw new UnsupportedOperationException(
-                "This store is wrapping a FeatureSource/FeatureStore, which handles "
-                        + "transactions in a stateful way as opposed to a per call way. "
-                        + "You should get the feature source and use that one instead");
-    }
-
-    @Override
-    public FeatureWriter<SimpleFeatureType, SimpleFeature> getFeatureWriterAppend(String typeName,
-            Transaction transaction) throws IOException {
-        throw new UnsupportedOperationException(
-                "This store is wrapping a FeatureSource/FeatureStore, which handles "
-                        + "transactions in a stateful way as opposed to a per call way. "
-                        + "You should get the feature source and use that one instead");
-    }
-
-    @Override
-    public LockingManager getLockingManager() {
-        return null;
-    }
-
+  @Override
+  public LockingManager getLockingManager() {
+    return null;
+  }
 }

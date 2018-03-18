@@ -16,18 +16,17 @@
  */
 package org.geotools.se.v1_1.bindings;
 
+import javax.xml.namespace.QName;
 import org.geotools.se.v1_1.SE;
 import org.geotools.sld.bindings.SLDChannelSelectionBinding;
 import org.geotools.styling.StyleFactory;
 import org.geotools.xml.*;
 
-import javax.xml.namespace.QName;
-
 /**
  * Binding object for the element http://www.opengis.net/se:ChannelSelection.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *  <code>
  *  &lt;xsd:element name="ChannelSelection" type="se:ChannelSelectionType"&gt;
@@ -37,29 +36,22 @@ import javax.xml.namespace.QName;
  *          for a multi-spectral raster source.
  *        &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class ChannelSelectionBinding extends SLDChannelSelectionBinding {
 
-    public ChannelSelectionBinding(StyleFactory styleFactory) {
-        super(styleFactory);
-    }
+  public ChannelSelectionBinding(StyleFactory styleFactory) {
+    super(styleFactory);
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SE.ChannelSelection;
-    }
-
+  /** @generated */
+  public QName getTarget() {
+    return SE.ChannelSelection;
+  }
 }

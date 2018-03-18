@@ -17,14 +17,12 @@
 
 package org.geotools.filter.text.ecql;
 
-import java.util.Stack;
-
-import org.geotools.filter.text.commons.BuildResultStack;
-import org.geotools.filter.text.cql2.CQLException;
-
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
+import java.util.Stack;
+import org.geotools.filter.text.commons.BuildResultStack;
+import org.geotools.filter.text.cql2.CQLException;
 
 /**
  * Builds a LineString
@@ -34,29 +32,27 @@ import com.vividsolutions.jts.geom.LineString;
  */
 final class LineStringBuilder extends GeometryBuilder {
 
-    /**
-     * @param statement
-     * @param resultStack
-     */
-    public LineStringBuilder(String statement, BuildResultStack resultStack) {
-        super(statement, resultStack);
+  /**
+   * @param statement
+   * @param resultStack
+   */
+  public LineStringBuilder(String statement, BuildResultStack resultStack) {
+    super(statement, resultStack);
+  }
 
-    }
+  /* (non-Javadoc)
+   * @see org.geotools.filter.text.txt.GeometryBuilder#build()
+   */
+  @Override
+  public Geometry build(final int pointNode) throws CQLException {
+    // Retrieve the linestirng points
+    Stack<Coordinate> pointStack = popCoordinatesOf(pointNode);
+    // now pointStack has the coordinate in the correct order
+    // the next code creates the coordinate array used to create
+    // the lineString
+    Coordinate[] coordinates = asCoordinate(pointStack);
+    LineString line = getGeometryFactory().createLineString(coordinates);
 
-    /* (non-Javadoc)
-     * @see org.geotools.filter.text.txt.GeometryBuilder#build()
-     */
-    @Override
-    public Geometry build(final int pointNode) throws CQLException {
-        // Retrieve the linestirng points
-        Stack<Coordinate> pointStack = popCoordinatesOf(pointNode);
-        // now pointStack has the coordinate in the correct order
-        // the next code creates the coordinate array used to create
-        // the lineString
-        Coordinate[] coordinates = asCoordinate(pointStack);
-        LineString line= getGeometryFactory().createLineString(coordinates);
-
-        return line;
-    }
-
+    return line;
+  }
 }

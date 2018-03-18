@@ -20,9 +20,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.xml.namespace.QName;
-
 import org.geotools.data.ows.HTTPResponse;
 import org.geotools.data.ows.Response;
 import org.geotools.ows.ServiceException;
@@ -32,100 +30,101 @@ import org.opengis.feature.simple.SimpleFeatureType;
 /**
  * A handle to a WFS response that contains the input stream to the actual contents and some well
  * known response information derived from the HTTP response headers.
- * 
+ *
  * @author Gabriel Roldan (OpenGeo)
  * @version $Id$
  * @since 2.6
- * 
- * 
- * 
  * @source $URL$
  */
 @SuppressWarnings("nls")
 public class WFSResponse extends Response {
 
-    private static final Logger LOGGER = Logging.getLogger("org.geotools.data.wfs.protocol.wfs");
+  private static final Logger LOGGER = Logging.getLogger("org.geotools.data.wfs.protocol.wfs");
 
-    private Charset charset;
+  private Charset charset;
 
-    private String contentType;
+  private String contentType;
 
-    private WFSRequest request;
+  private WFSRequest request;
 
-    private SimpleFeatureType queryType;
+  private SimpleFeatureType queryType;
 
-    private QName remoteTypeName;
+  private QName remoteTypeName;
 
-    /**
-     * @throws IOException
-     * @throws ServiceException
-     */
-    public WFSResponse(WFSRequest originatingRequest, final HTTPResponse httpResponse)
-            throws ServiceException, IOException {
+  /**
+   * @throws IOException
+   * @throws ServiceException
+   */
+  public WFSResponse(WFSRequest originatingRequest, final HTTPResponse httpResponse)
+      throws ServiceException, IOException {
 
-        super(httpResponse);
+    super(httpResponse);
 
-        this.request = originatingRequest;
+    this.request = originatingRequest;
 
-        String charset = httpResponse.getResponseHeader("Charset");
-        if (charset == null) {
-            this.charset = Charset.forName("UTF-8");
-        } else {
-            try {
-                this.charset = Charset.forName(charset);
-            } catch (Exception e) {
-                // TODO log
-                this.charset = Charset.forName("UTF-8");
-            }
-        }
-        this.contentType = httpResponse.getContentType();
-        if (LOGGER.isLoggable(Level.FINEST)) {
-            LOGGER.finest("WFS response: charset=" + charset + ", contentType=" + contentType);
-        }
+    String charset = httpResponse.getResponseHeader("Charset");
+    if (charset == null) {
+      this.charset = Charset.forName("UTF-8");
+    } else {
+      try {
+        this.charset = Charset.forName(charset);
+      } catch (Exception e) {
+        // TODO log
+        this.charset = Charset.forName("UTF-8");
+      }
     }
-
-    /**
-     * Returns the character encoding if set by the server as an http header, if unknown assumes
-     * {@code UTF-8}
-     * 
-     * @return the character set for the response if set, or {@code null}
-     */
-    public Charset getCharacterEncoding() {
-        return charset;
+    this.contentType = httpResponse.getContentType();
+    if (LOGGER.isLoggable(Level.FINEST)) {
+      LOGGER.finest("WFS response: charset=" + charset + ", contentType=" + contentType);
     }
+  }
 
-    /**
-     * Returns the WFS response declared content type
-     * 
-     * @return the content type of the response
-     */
-    public String getContentType() {
-        return contentType;
-    }
+  /**
+   * Returns the character encoding if set by the server as an http header, if unknown assumes
+   * {@code UTF-8}
+   *
+   * @return the character set for the response if set, or {@code null}
+   */
+  public Charset getCharacterEncoding() {
+    return charset;
+  }
 
-    public WFSRequest getOriginatingRequest() {
-        return request;
-    }
+  /**
+   * Returns the WFS response declared content type
+   *
+   * @return the content type of the response
+   */
+  public String getContentType() {
+    return contentType;
+  }
 
-    @Override
-    public String toString() {
-        return new StringBuilder("WFSResponse[charset=").append(charset).append(", contentType=")
-                .append(contentType).append("]").toString();
-    }
+  public WFSRequest getOriginatingRequest() {
+    return request;
+  }
 
-    public SimpleFeatureType getQueryType() {
-        return queryType;
-    }
+  @Override
+  public String toString() {
+    return new StringBuilder("WFSResponse[charset=")
+        .append(charset)
+        .append(", contentType=")
+        .append(contentType)
+        .append("]")
+        .toString();
+  }
 
-    public void setQueryType(SimpleFeatureType queryType) {
-        this.queryType = queryType;
-    }
+  public SimpleFeatureType getQueryType() {
+    return queryType;
+  }
 
-    public QName getRemoteTypeName() {
-        return remoteTypeName;
-    }
+  public void setQueryType(SimpleFeatureType queryType) {
+    this.queryType = queryType;
+  }
 
-    public void setRemoteTypeName(final QName remoteName) {
-        remoteTypeName = remoteName;
-    }
+  public QName getRemoteTypeName() {
+    return remoteTypeName;
+  }
+
+  public void setRemoteTypeName(final QName remoteName) {
+    remoteTypeName = remoteName;
+  }
 }

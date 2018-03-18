@@ -18,16 +18,16 @@ package org.geotools.filter.v1_1.capabilities;
 
 import java.util.List;
 import javax.xml.namespace.QName;
-import org.opengis.filter.capability.GeometryOperand;
 import org.geotools.filter.v1_1.OGC;
 import org.geotools.xml.*;
-
+import org.opengis.filter.capability.GeometryOperand;
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:GeometryOperandsType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="GeometryOperandsType"&gt;
  *      &lt;xsd:sequence&gt;
@@ -37,51 +37,45 @@ import org.geotools.xml.*;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GeometryOperandsTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.GeometryOperandsType;
+  /** @generated */
+  public QName getTarget() {
+    return OGC.GeometryOperandsType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return GeometryOperand[].class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    List gops = node.getChildValues(GeometryOperand.class);
+
+    return gops.toArray(new GeometryOperand[gops.size()]);
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    if ("GeometryOperand".equals(name.getLocalPart())) {
+      return object;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return GeometryOperand[].class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        List gops = node.getChildValues(GeometryOperand.class);
-
-        return gops.toArray(new GeometryOperand[gops.size()]);
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        if ("GeometryOperand".equals(name.getLocalPart())) {
-            return object;
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

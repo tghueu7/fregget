@@ -16,21 +16,19 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.Envelope;
 import javax.xml.namespace.QName;
-
 import org.geotools.gml2.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.Envelope;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:BoundingShapeType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="BoundingShapeType"&gt;
  *      &lt;annotation&gt;
@@ -47,65 +45,59 @@ import com.vividsolutions.jts.geom.Envelope;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLBoundingShapeTypeBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.BoundingShapeType;
+  /** @generated */
+  public QName getTarget() {
+    return GML.BoundingShapeType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Envelope.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // do the null check
+    if (node.getChild("null") != null) {
+      // ignore the description as to why its null
+      Envelope e = new Envelope();
+      e.setToNull();
+
+      return e;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Envelope.class;
+    // has to be a valid bounding box
+    return (Envelope) node.getChildValue(0);
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    Envelope e = (Envelope) object;
+
+    if (GML.Box.equals(name) && !e.isNull()) {
+      return e;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //do the null check
-        if (node.getChild("null") != null) {
-            //ignore the description as to why its null
-            Envelope e = new Envelope();
-            e.setToNull();
-
-            return e;
-        }
-
-        //has to be a valid bounding box
-        return (Envelope) node.getChildValue(0);
+    if ("null".equals(name.getLocalPart()) && e.isNull()) {
+      return e;
     }
 
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        Envelope e = (Envelope) object;
-
-        if (GML.Box.equals(name) && !e.isNull()) {
-            return e;
-        }
-
-        if ("null".equals(name.getLocalPart()) && e.isNull()) {
-            return e;
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

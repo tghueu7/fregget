@@ -20,31 +20,30 @@ import java.util.List;
 
 public class And extends Composite {
 
-    public And(Selector... selectors) {
-        super(selectors);
+  public And(Selector... selectors) {
+    super(selectors);
+  }
+
+  public And(List<Selector> selectors) {
+    super(selectors);
+  }
+
+  @Override
+  public Specificity getSpecificity() {
+    Specificity sum = Specificity.ZERO;
+    for (Selector s : getChildren()) {
+      sum = sum.sum(s.getSpecificity());
     }
 
-    public And(List<Selector> selectors) {
-        super(selectors);
-    }
+    return sum;
+  }
 
-    @Override
-    public Specificity getSpecificity() {
-        Specificity sum = Specificity.ZERO;
-        for (Selector s : getChildren()) {
-            sum = sum.sum(s.getSpecificity());
-        }
+  @Override
+  public String toString() {
+    return "And [children=" + getChildren() + "]";
+  }
 
-        return sum;
-    }
-
-    @Override
-    public String toString() {
-        return "And [children=" + getChildren() + "]";
-    }
-
-    public Object accept(SelectorVisitor visitor) {
-        return visitor.visit(this);
-    }
-
+  public Object accept(SelectorVisitor visitor) {
+    return visitor.visit(this);
+  }
 }

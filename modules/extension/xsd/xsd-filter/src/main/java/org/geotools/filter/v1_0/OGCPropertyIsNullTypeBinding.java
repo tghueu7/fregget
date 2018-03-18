@@ -17,21 +17,21 @@
 package org.geotools.filter.v1_0;
 
 import javax.xml.namespace.QName;
+import org.geotools.xml.AbstractComplexBinding;
+import org.geotools.xml.ElementInstance;
+import org.geotools.xml.Node;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.PropertyIsNull;
 import org.opengis.filter.expression.Expression;
 import org.opengis.filter.expression.Literal;
 import org.opengis.filter.expression.PropertyName;
-import org.geotools.xml.AbstractComplexBinding;
-import org.geotools.xml.ElementInstance;
-import org.geotools.xml.Node;
-
 
 /**
  * Binding object for the type http://www.opengis.net/ogc:PropertyIsNullType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="PropertyIsNullType"&gt;
  *      &lt;xsd:complexContent&gt;
@@ -46,61 +46,55 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCPropertyIsNullTypeBinding extends AbstractComplexBinding {
-    private FilterFactory factory;
+  private FilterFactory factory;
 
-    public OGCPropertyIsNullTypeBinding(FilterFactory factory) {
-        this.factory = factory;
+  public OGCPropertyIsNullTypeBinding(FilterFactory factory) {
+    this.factory = factory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return OGC.PropertyIsNullType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return PropertyIsNull.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return factory.isNull((Expression) node.getChildValue(Expression.class));
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+    PropertyIsNull isNull = (PropertyIsNull) object;
+
+    if (OGC.PropertyName.equals(name) && isNull.getExpression() instanceof PropertyName) {
+      return isNull.getExpression();
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.PropertyIsNullType;
+    if (OGC.Literal.equals(name) && isNull.getExpression() instanceof Literal) {
+      return isNull.getExpression();
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return PropertyIsNull.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return factory.isNull((Expression) node.getChildValue(Expression.class));
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-        PropertyIsNull isNull = (PropertyIsNull) object;
-
-        if (OGC.PropertyName.equals(name) && isNull.getExpression() instanceof PropertyName) {
-            return isNull.getExpression();
-        }
-
-        if (OGC.Literal.equals(name) && isNull.getExpression() instanceof Literal) {
-            return isNull.getExpression();
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

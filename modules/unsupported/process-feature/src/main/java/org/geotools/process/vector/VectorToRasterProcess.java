@@ -1,5 +1,5 @@
 /*
-  *    GeoTools - The Open Source Java GIS Toolkit
+ *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
  *
  *    (C) 2008-2011, Open Source Geospatial Foundation (OSGeo)
@@ -25,6 +25,9 @@
 
 package org.geotools.process.vector;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -38,28 +41,18 @@ import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.media.jai.RasterFactory;
 import javax.media.jai.TiledImage;
-
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-
 import org.geotools.coverage.grid.GridCoordinates2D;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridCoverageFactory;
 import org.geotools.coverage.grid.GridEnvelope2D;
 import org.geotools.coverage.grid.GridGeometry2D;
 import org.geotools.data.DataUtilities;
-import org.geotools.data.Parameter;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
-import org.geotools.feature.FeatureCollection;
 import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.filter.text.ecql.ECQL;
 import org.geotools.geometry.DirectPosition2D;
@@ -69,10 +62,7 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.process.factory.DescribeParameter;
 import org.geotools.process.factory.DescribeProcess;
 import org.geotools.process.factory.DescribeResult;
-import org.geotools.process.feature.AbstractFeatureCollectionProcess;
-import org.geotools.process.feature.AbstractFeatureCollectionProcessFactory;
 import org.geotools.referencing.CRS;
-import org.geotools.text.Text;
 import org.geotools.util.NullProgressListener;
 import org.geotools.util.SimpleInternationalString;
 import org.opengis.feature.simple.SimpleFeature;
@@ -87,557 +77,613 @@ import org.opengis.util.ProgressListener;
 
 /**
  * A Process to rasterize vector features in an input FeatureCollection.
- * <p>
- * A feature attribute is specified from which to extract the numeric
- * values that will be written to the output grid coverage.
- * At present only int or float values are written to the output grid
- * coverage. If the attribute is of type Long it will be coerced to
- * int values and a warning will be logged. Similarly if the attribute
- * is of type Double it will be coerced to float and a warning logged.
+ *
+ * <p>A feature attribute is specified from which to extract the numeric values that will be written
+ * to the output grid coverage. At present only int or float values are written to the output grid
+ * coverage. If the attribute is of type Long it will be coerced to int values and a warning will be
+ * logged. Similarly if the attribute is of type Double it will be coerced to float and a warning
+ * logged.
  *
  * @author Steve Ansari, NOAA
  * @author Michael Bedward
  * @since 2.6
- *
  * @source $URL$
  * @version $Id$
- * 
- * 
  */
-@DescribeProcess(title = "Transform", description = "Converts some or all of a feature collection to a raster grid, using an attribute to specify cell values.")
+@DescribeProcess(
+  title = "Transform",
+  description =
+      "Converts some or all of a feature collection to a raster grid, using an attribute to specify cell values."
+)
 public class VectorToRasterProcess implements VectorProcess {
 
-    private static final int COORD_GRID_CHUNK_SIZE = 1000;
+  private static final int COORD_GRID_CHUNK_SIZE = 1000;
 
-    private static enum TransferType {
-        INTEGRAL,
-        FLOAT;
+  private static enum TransferType {
+    INTEGRAL,
+    FLOAT;
+  }
+
+  private TransferType transferType;
+
+  private static enum ValueSource {
+    PROPERTY_NAME,
+    EXPRESSION;
+  }
+
+  private ValueSource valueSource;
+
+  GridCoverage2D result;
+  private Number minAttValue;
+  private Number maxAttValue;
+  private float nodataValue;
+
+  private ReferencedEnvelope extent;
+  private Geometry extentGeometry;
+  private GridGeometry2D gridGeom;
+
+  private boolean transformFeatures;
+  private MathTransform featureToRasterTransform;
+
+  private int[] coordGridX = new int[COORD_GRID_CHUNK_SIZE];
+  private int[] coordGridY = new int[COORD_GRID_CHUNK_SIZE];
+  // private double cellsize;
+
+  TiledImage image;
+  Graphics2D graphics;
+
+  /**
+   * A static helper method that can be called directy to run the process.
+   *
+   * <p>The process interface is useful for advertising functionality to dynamic applications, but
+   * for 'hands on' coding this method is much more convenient than working via the {@linkplain
+   * org.geotools.process.Process#execute }.
+   *
+   * @param features the feature collection to be (wholly or partially) rasterized
+   * @param attribute source of values for the output grid: either a {@code String} for the name of
+   *     a numeric feature property or an {@code org.opengis.filter.expression.Expression} that
+   *     evaluates to a numeric value
+   * @param gridWidthInCells width (cell) of the output raster
+   * @param gridHeightInCells height (cell) of the output raster
+   * @param bounds bounds (world coordinates) of the output raster
+   * @param covName a name for the output raster
+   * @param monitor an optional {@code ProgressListener} (may be {@code null}
+   * @return a new grid coverage
+   * @throws org.geotools.process.raster.VectorToRasterException
+   */
+  public static GridCoverage2D process(
+      SimpleFeatureCollection features,
+      Object attribute,
+      Dimension gridDim,
+      Envelope bounds,
+      String covName,
+      ProgressListener monitor)
+      throws VectorToRasterException {
+
+    VectorToRasterProcess process = new VectorToRasterProcess();
+    return process.convert(features, attribute, gridDim, bounds, covName, monitor);
+  }
+
+  @DescribeResult(name = "result", description = "Rasterized grid")
+  public GridCoverage2D execute(
+      @DescribeParameter(name = "features", description = "Features to process", min = 1, max = 1)
+          SimpleFeatureCollection features,
+      @DescribeParameter(
+            name = "rasterWidth",
+            description = "Width of the output grid in pixels",
+            min = 1,
+            max = 1,
+            minValue = 1
+          )
+          Integer rasterWidth,
+      @DescribeParameter(
+            name = "rasterHeight",
+            description = "Height of the output grid in pixels",
+            min = 1,
+            max = 1,
+            minValue = 1
+          )
+          Integer rasterHeight,
+      @DescribeParameter(
+            name = "title",
+            description = "Title to use for the output grid",
+            min = 0,
+            max = 1,
+            defaultValue = "raster"
+          )
+          String title,
+      @DescribeParameter(
+            name = "attribute",
+            description = "Attribute name to use for the raster cell values",
+            min = 1,
+            max = 1
+          )
+          String attribute,
+      @DescribeParameter(
+            name = "bounds",
+            description = "Bounding box of the area to rasterize",
+            min = 0,
+            max = 1
+          )
+          Envelope bounds,
+      ProgressListener progressListener) {
+
+    Expression attributeExpr = null;
+    try {
+      attributeExpr = ECQL.toExpression(attribute);
+    } catch (CQLException e) {
+      throw new VectorToRasterException(e);
     }
-    private TransferType transferType;
+    return convert(
+        features,
+        attributeExpr,
+        new Dimension(rasterWidth, rasterHeight),
+        bounds,
+        title,
+        progressListener);
+  }
 
-    private static enum ValueSource {
-        PROPERTY_NAME,
-        EXPRESSION;
+  /**
+   * This method is called by {@linkplain #execute} to rasterize an individual feature.
+   *
+   * @param feature the feature to be rasterized
+   * @param input the intput parameters (ignored in this implementation)
+   * @throws java.lang.Exception
+   */
+  protected void processFeature(SimpleFeature feature, Object attribute) throws Exception {
+
+    Geometry geometry = (Geometry) feature.getDefaultGeometry();
+
+    if (geometry.intersects(extentGeometry)) {
+
+      Number value = getFeatureValue(feature, attribute);
+      switch (transferType) {
+        case FLOAT:
+          if (minAttValue == null) {
+            minAttValue = maxAttValue = Float.valueOf(value.floatValue());
+          } else if (Float.compare(value.floatValue(), minAttValue.floatValue()) < 0) {
+            minAttValue = value.floatValue();
+          } else if (Float.compare(value.floatValue(), maxAttValue.floatValue()) > 0) {
+            maxAttValue = value.floatValue();
+          }
+
+          break;
+
+        case INTEGRAL:
+          if (minAttValue == null) {
+            minAttValue = maxAttValue = Integer.valueOf(value.intValue());
+          } else if (value.intValue() < minAttValue.intValue()) {
+            minAttValue = value.intValue();
+          } else if (value.intValue() > maxAttValue.intValue()) {
+            maxAttValue = value.intValue();
+          }
+
+          break;
+      }
+
+      graphics.setColor(valueToColor(value));
+
+      Geometries geomType = Geometries.get(geometry);
+      switch (geomType) {
+        case MULTIPOLYGON:
+        case MULTILINESTRING:
+        case MULTIPOINT:
+          final int numGeom = geometry.getNumGeometries();
+          for (int i = 0; i < numGeom; i++) {
+            Geometry geomN = geometry.getGeometryN(i);
+            drawGeometry(Geometries.get(geomN), geomN);
+          }
+          break;
+
+        case POLYGON:
+        case LINESTRING:
+        case POINT:
+          drawGeometry(geomType, geometry);
+          break;
+
+        default:
+          throw new UnsupportedOperationException(
+              "Unsupported geometry type: " + geomType.getName());
+      }
     }
-    private ValueSource valueSource;
+  }
 
-    GridCoverage2D result;
-    private Number minAttValue;
-    private Number maxAttValue;
-    private float nodataValue;
+  private Number getFeatureValue(SimpleFeature feature, Object attribute) {
+    Class<? extends Number> rtnType =
+        transferType == TransferType.FLOAT ? Float.class : Integer.class;
+    if (valueSource == ValueSource.PROPERTY_NAME) {
+      return rtnType.cast(feature.getAttribute((String) attribute));
+    } else {
+      return ((Expression) attribute).evaluate(feature, rtnType);
+    }
+  }
 
-    private ReferencedEnvelope extent;
-    private Geometry extentGeometry;
-    private GridGeometry2D gridGeom;
-    
-    private boolean transformFeatures;
-    private MathTransform featureToRasterTransform;
+  private GridCoverage2D convert(
+      SimpleFeatureCollection features,
+      Object attribute,
+      Dimension gridDim,
+      Envelope bounds,
+      String covName,
+      ProgressListener monitor)
+      throws VectorToRasterException {
 
-    private int[] coordGridX = new int[COORD_GRID_CHUNK_SIZE];
-    private int[] coordGridY = new int[COORD_GRID_CHUNK_SIZE];
-    // private double cellsize;
-
-    TiledImage image;
-    Graphics2D graphics;
-
-
-    /**
-     * A static helper method that can be called directy to run the process.
-     * <p>
-     * The process interface is useful for advertising functionality to
-     * dynamic applications, but for 'hands on' coding this method is much more
-     * convenient than working via the {@linkplain org.geotools.process.Process#execute }.
-     *
-     * @param features the feature collection to be (wholly or partially) rasterized
-     *
-     * @param attribute source of values for the output grid: either a
-     *        {@code String} for the name of a numeric feature property or
-     *        an {@code org.opengis.filter.expression.Expression} that
-     *        evaluates to a numeric value
-     *
-     * @param gridWidthInCells width (cell) of the output raster
-     *
-     * @param gridHeightInCells height (cell) of the output raster
-     *
-     * @param bounds bounds (world coordinates) of the output raster
-     *
-     * @param covName a name for the output raster
-     *
-     * @param monitor an optional {@code ProgressListener} (may be {@code null}
-     *
-     * @return a new grid coverage
-     *
-     * @throws org.geotools.process.raster.VectorToRasterException
-     */
-    public static GridCoverage2D process(
-            SimpleFeatureCollection features,
-            Object attribute,
-            Dimension gridDim,
-            Envelope bounds,
-            String covName,
-            ProgressListener monitor) throws VectorToRasterException {
-
-        VectorToRasterProcess process = new VectorToRasterProcess();
-        return process.convert(features, attribute, gridDim, bounds, covName, monitor);
+    if (monitor == null) {
+      monitor = new NullProgressListener();
     }
 
-    @DescribeResult(name = "result", description = "Rasterized grid")
-    public GridCoverage2D execute(
-        @DescribeParameter(name = "features", description = "Features to process", min = 1, max = 1) SimpleFeatureCollection features,
-        @DescribeParameter(name = "rasterWidth", description = "Width of the output grid in pixels", min = 1, max = 1, minValue = 1) Integer rasterWidth,
-        @DescribeParameter(name = "rasterHeight", description = "Height of the output grid in pixels", min = 1, max = 1, minValue = 1) Integer rasterHeight,
-        @DescribeParameter(name = "title", description = "Title to use for the output grid", min = 0, max = 1, defaultValue = "raster" ) String title,
-        @DescribeParameter(name = "attribute", description = "Attribute name to use for the raster cell values", min = 1, max = 1) String attribute,
-        @DescribeParameter(name = "bounds", description = "Bounding box of the area to rasterize", min = 0, max = 1) Envelope bounds,
-        ProgressListener progressListener) {
-        
-        Expression attributeExpr = null;
+    initialize(features, bounds, attribute, gridDim);
+
+    monitor.setTask(new SimpleInternationalString("Rasterizing features..."));
+
+    float scale = 100.0f / features.size();
+    monitor.started();
+
+    SimpleFeatureIterator fi = features.features();
+    try {
+      int counter = 0;
+      while (fi.hasNext()) {
         try {
-              attributeExpr = ECQL.toExpression(attribute);
-        } catch(CQLException e) {
-              throw new VectorToRasterException(e);
+          processFeature(fi.next(), attribute);
+        } catch (Exception e) {
+          monitor.exceptionOccurred(e);
         }
-        return convert(features, attributeExpr, new Dimension(rasterWidth, rasterHeight), bounds, 
-            title, progressListener);
+
+        monitor.progress(scale * counter++);
+      }
+    } finally {
+      fi.close();
     }
-    
+    monitor.complete();
 
-    /**
-     * This method is called by {@linkplain #execute} to rasterize an individual feature.
-     *
-     * @param feature
-     *          the feature to be rasterized
-     *
-     * @param input
-     *          the intput parameters (ignored in this implementation)
-     *
-     * @throws java.lang.Exception
-     */
-    protected void processFeature(SimpleFeature feature, Object attribute) throws Exception {
+    flattenImage();
 
-        Geometry geometry = (Geometry) feature.getDefaultGeometry();
+    GridCoverageFactory gcf = new GridCoverageFactory();
+    return gcf.create(covName, image, extent);
+  }
 
-        if (geometry.intersects(extentGeometry)) {
+  private void initialize(
+      SimpleFeatureCollection features, Envelope bounds, Object attribute, Dimension gridDim)
+      throws VectorToRasterException {
 
-            Number value = getFeatureValue(feature, attribute);
-            switch (transferType) {
-                case FLOAT:
-                    if (minAttValue == null) {
-                        minAttValue = maxAttValue = Float.valueOf(value.floatValue());
-                    } else if (Float.compare(value.floatValue(), minAttValue.floatValue()) < 0) {
-                        minAttValue = value.floatValue();
-                    } else if (Float.compare(value.floatValue(), maxAttValue.floatValue()) > 0) {
-                        maxAttValue = value.floatValue();
-                    }
+    // check the attribute argument
+    if (attribute instanceof String) {
+      String propName = (String) attribute;
+      AttributeDescriptor attDesc = features.getSchema().getDescriptor(propName);
+      if (attDesc == null) {
+        throw new VectorToRasterException(propName + " not found");
+      }
 
-                    break;
+      Class<?> attClass = attDesc.getType().getBinding();
+      if (!Number.class.isAssignableFrom(attClass)) {
+        throw new VectorToRasterException(propName + " is not numeric");
+      }
 
-                case INTEGRAL:
-                    if (minAttValue == null) {
-                        minAttValue = maxAttValue = Integer.valueOf(value.intValue());
-                    } else if (value.intValue() < minAttValue.intValue()) {
-                        minAttValue = value.intValue();
-                    } else if (value.intValue() > maxAttValue.intValue()) {
-                        maxAttValue = value.intValue();
-                    }
+      if (Float.class.isAssignableFrom(attClass)) {
+        transferType = TransferType.FLOAT;
 
-                    break;
-            }
+      } else if (Double.class.isAssignableFrom(attClass)) {
+        transferType = TransferType.FLOAT;
+        Logger.getLogger(VectorToRasterProcess.class.getName())
+            .log(Level.WARNING, "coercing double feature values to float raster values");
 
-            graphics.setColor(valueToColor(value));
-            
-            Geometries geomType = Geometries.get(geometry);
-            switch (geomType) {
-                case MULTIPOLYGON:
-                case MULTILINESTRING:
-                case MULTIPOINT:
-                    final int numGeom = geometry.getNumGeometries();
-                    for (int i = 0; i < numGeom; i++) {
-                        Geometry geomN = geometry.getGeometryN(i);
-                        drawGeometry(Geometries.get(geomN), geomN);
-                    }
-                    break;
-                    
-                case POLYGON:
-                case LINESTRING:
-                case POINT:
-                    drawGeometry(geomType, geometry);
-                    break;
-                    
-                default:
-                    throw new UnsupportedOperationException(
-                            "Unsupported geometry type: " + geomType.getName());
-                    
-            }
-        }
-    }
+      } else if (Long.class.isAssignableFrom(attClass)) {
+        transferType = TransferType.INTEGRAL;
+        Logger.getLogger(VectorToRasterProcess.class.getName())
+            .log(Level.WARNING, "coercing long feature values to int raster values");
 
-    private Number getFeatureValue(SimpleFeature feature, Object attribute) {
-        Class<? extends Number> rtnType = transferType == TransferType.FLOAT ? Float.class : Integer.class;
-        if (valueSource == ValueSource.PROPERTY_NAME) {
-            return rtnType.cast(feature.getAttribute((String)attribute));
-        } else {
-            return ((Expression)attribute).evaluate(feature, rtnType);
-        }
-    }
+      } else {
+        transferType = TransferType.INTEGRAL;
+      }
 
-    private GridCoverage2D convert(
-            SimpleFeatureCollection features,
-            Object attribute,
-            Dimension gridDim,
-            Envelope bounds,
-            String covName,
-            ProgressListener monitor)
-        throws VectorToRasterException {
+      valueSource = ValueSource.PROPERTY_NAME;
 
-        if ( monitor == null ) {
-            monitor = new NullProgressListener();
-        }
+    } else if (attribute instanceof Expression) {
+      valueSource = ValueSource.EXPRESSION;
 
-        initialize( features, bounds, attribute, gridDim );
+      SimpleFeature feature = DataUtilities.first(features);
+      Object value = ((Expression) attribute).evaluate(feature);
 
-        monitor.setTask(new SimpleInternationalString("Rasterizing features..."));
-
-        float scale = 100.0f / features.size();
-        monitor.started();
-
-        SimpleFeatureIterator fi = features.features();
+      // if the expression evaluates to a string check if the
+      // value can be cast to a Number
+      if (value.getClass().equals(String.class)) {
+        Boolean hasException = false;
         try {
-            int counter = 0;
-            while( fi.hasNext() ) {
-                try {
-                    processFeature(fi.next(), attribute);
-                }
-                catch( Exception e ) {
-                    monitor.exceptionOccurred( e );
-                }
-
-                monitor.progress( scale * counter++);
-            }
+          Integer.valueOf((String) value);
+          transferType = TransferType.INTEGRAL;
+        } catch (NumberFormatException e) {
+          hasException = true;
         }
-        finally {
-            fi.close();
+        if (hasException) {
+          hasException = false;
+          try {
+            Float.valueOf((String) value);
+            transferType = TransferType.FLOAT;
+          } catch (NumberFormatException e) {
+            hasException = true;
+          }
         }
-        monitor.complete();
+        if (hasException) {
+          throw new VectorToRasterException(
+              ((Expression) attribute).toString() + " does not evaluate to a number");
+        }
+      } else if (!Number.class.isAssignableFrom(value.getClass())) {
+        throw new VectorToRasterException(
+            ((Expression) attribute).toString() + " does not evaluate to a number");
+      } else if (Float.class.isAssignableFrom(value.getClass())) {
+        transferType = TransferType.FLOAT;
+      } else if (Double.class.isAssignableFrom(value.getClass())) {
+        transferType = TransferType.FLOAT;
+        Logger.getLogger(VectorToRasterProcess.class.getName())
+            .log(Level.WARNING, "coercing double feature values to float raster values");
+      } else if (Long.class.isAssignableFrom(value.getClass())) {
+        transferType = TransferType.INTEGRAL;
+        Logger.getLogger(VectorToRasterProcess.class.getName())
+            .log(Level.WARNING, "coercing long feature values to int raster values");
+      } else {
+        transferType = TransferType.INTEGRAL;
+      }
 
-        flattenImage();
-        
-        GridCoverageFactory gcf = new GridCoverageFactory();
-        return gcf.create(covName, image, extent);
+    } else {
+      throw new VectorToRasterException(
+          "value attribute must be a feature property name"
+              + "or an org.opengis.filter.expression.Expression object");
     }
 
-    private void initialize(SimpleFeatureCollection features,
-            Envelope bounds, Object attribute, Dimension gridDim ) throws VectorToRasterException {
+    minAttValue = maxAttValue = null;
 
-        // check the attribute argument
-        if (attribute instanceof String) {
-            String propName = (String) attribute;
-            AttributeDescriptor attDesc = features.getSchema().getDescriptor(propName);
-            if (attDesc == null) {
-                throw new VectorToRasterException(propName + " not found");
-            }
-
-            Class<?> attClass = attDesc.getType().getBinding();
-            if (!Number.class.isAssignableFrom(attClass)) {
-                throw new VectorToRasterException(propName + " is not numeric");
-            }
-
-            if (Float.class.isAssignableFrom(attClass)) {
-                transferType = TransferType.FLOAT;
-
-            } else if (Double.class.isAssignableFrom(attClass)) {
-                transferType = TransferType.FLOAT;
-                Logger.getLogger(VectorToRasterProcess.class.getName()).log(Level.WARNING, "coercing double feature values to float raster values");
-
-            } else if (Long.class.isAssignableFrom(attClass)) {
-                transferType = TransferType.INTEGRAL;
-                Logger.getLogger(VectorToRasterProcess.class.getName()).log(Level.WARNING, "coercing long feature values to int raster values");
-
-            } else {
-                transferType = TransferType.INTEGRAL;
-            }
-
-            valueSource = ValueSource.PROPERTY_NAME;
-
-        } else if (attribute instanceof Expression) {
-            valueSource = ValueSource.EXPRESSION;
-
-            SimpleFeature feature = DataUtilities.first(features);
-            Object value = ((Expression)attribute).evaluate(feature);
-            
-            // if the expression evaluates to a string check if the
-            // value can be cast to a Number
-            if (value.getClass().equals(String.class)) {
-                Boolean hasException = false;
-                try {
-                    Integer.valueOf((String)value);
-                    transferType = TransferType.INTEGRAL;
-                } catch (NumberFormatException e) {
-                    hasException = true;
-                }
-                if (hasException) {
-                    hasException = false;
-                    try {
-                        Float.valueOf((String)value);
-                        transferType = TransferType.FLOAT;
-                    } catch (NumberFormatException e) {
-                        hasException = true;
-                    }
-                }
-                if (hasException) {
-                    throw new VectorToRasterException(((Expression)attribute).toString() + " does not evaluate to a number");
-                }
-            } else if (!Number.class.isAssignableFrom(value.getClass())) {
-                throw new VectorToRasterException(((Expression)attribute).toString() + " does not evaluate to a number");
-            } else if (Float.class.isAssignableFrom(value.getClass())) {
-                transferType = TransferType.FLOAT;
-            } else if (Double.class.isAssignableFrom(value.getClass())) {
-                transferType = TransferType.FLOAT;
-                Logger.getLogger(VectorToRasterProcess.class.getName()).log(Level.WARNING, "coercing double feature values to float raster values");
-            } else if (Long.class.isAssignableFrom(value.getClass())) {
-                transferType = TransferType.INTEGRAL;
-                Logger.getLogger(VectorToRasterProcess.class.getName()).log(Level.WARNING, "coercing long feature values to int raster values");
-            } else {
-                transferType = TransferType.INTEGRAL;
-            }
-            
-        } else {
-            throw new VectorToRasterException(
-                    "value attribute must be a feature property name" +
-                    "or an org.opengis.filter.expression.Expression object");
-        }
-
-        minAttValue = maxAttValue = null;
-
-        try {
-            setBounds(features, bounds);
-        } catch (TransformException ex) {
-            throw new VectorToRasterException(ex);
-        }
-        
-        createImage( gridDim );
-        
-        gridGeom = new GridGeometry2D(
-                new GridEnvelope2D(0, 0, gridDim.width, gridDim.height), 
-                extent);
+    try {
+      setBounds(features, bounds);
+    } catch (TransformException ex) {
+      throw new VectorToRasterException(ex);
     }
 
-    /**
-     * Sets the output coverage bounds and checks whether features need to be 
-     * transformed into the output CRS. 
-     *
-     * @param 
-     * @throws org.geotools.process.raster.VectorToRasterException
-     */
-    private void setBounds( SimpleFeatureCollection features, Envelope bounds) 
-            throws TransformException {
+    createImage(gridDim);
 
-        ReferencedEnvelope featureBounds = features.getBounds();
+    gridGeom = new GridGeometry2D(new GridEnvelope2D(0, 0, gridDim.width, gridDim.height), extent);
+  }
 
-        if (bounds == null) {
-            extent = featureBounds;
-            
-        } else {
-            extent = new ReferencedEnvelope(bounds);
-        }
-        
-        extentGeometry = (new GeometryFactory()).toGeometry(extent);
-        
-        // Compare the CRS of faetures and requested output bounds. If they 
-        // are different (and both non-null) flag that we need to transform
-        // features to the output CRS prior to rasterizing them.
+  /**
+   * Sets the output coverage bounds and checks whether features need to be transformed into the
+   * output CRS.
+   *
+   * @param
+   * @throws org.geotools.process.raster.VectorToRasterException
+   */
+  private void setBounds(SimpleFeatureCollection features, Envelope bounds)
+      throws TransformException {
 
-        CoordinateReferenceSystem featuresCRS = featureBounds.getCoordinateReferenceSystem();
-        CoordinateReferenceSystem boundsCRS = extent.getCoordinateReferenceSystem();
+    ReferencedEnvelope featureBounds = features.getBounds();
 
-        transformFeatures = false;
-        if (featuresCRS != null 
-                && boundsCRS != null 
-                && !CRS.equalsIgnoreMetadata(boundsCRS, featuresCRS)) {
-            
-            try {
-                featureToRasterTransform = CRS.findMathTransform(featuresCRS, boundsCRS, true);
-                
-            } catch (Exception ex) {
-                throw new TransformException(
-                        "Unable to transform features into output coordinate reference system", ex);
-            }
-            
-            transformFeatures = true;
-        }
+    if (bounds == null) {
+      extent = featureBounds;
+
+    } else {
+      extent = new ReferencedEnvelope(bounds);
     }
 
-    /**
-     * Create the tiled image and the associated graphics object that we will be used to
-     * draw the vector features into a raster.
-     * <p>
-     * Note, the graphics objects will be an
-     * instance of TiledImageGraphics which is a sub-class of Graphics2D.
-     */
-    private void createImage( Dimension gridDim ) {
+    extentGeometry = (new GeometryFactory()).toGeometry(extent);
 
-        ColorModel cm = ColorModel.getRGBdefault();
-        SampleModel sm = cm.createCompatibleSampleModel(gridDim.width, gridDim.height);
+    // Compare the CRS of faetures and requested output bounds. If they
+    // are different (and both non-null) flag that we need to transform
+    // features to the output CRS prior to rasterizing them.
 
-        image = new TiledImage(0, 0, gridDim.width, gridDim.height, 0, 0, sm, cm);
-        graphics = image.createGraphics();
-        graphics.setPaintMode();
-        graphics.setComposite(AlphaComposite.Src);
+    CoordinateReferenceSystem featuresCRS = featureBounds.getCoordinateReferenceSystem();
+    CoordinateReferenceSystem boundsCRS = extent.getCoordinateReferenceSystem();
+
+    transformFeatures = false;
+    if (featuresCRS != null
+        && boundsCRS != null
+        && !CRS.equalsIgnoreMetadata(boundsCRS, featuresCRS)) {
+
+      try {
+        featureToRasterTransform = CRS.findMathTransform(featuresCRS, boundsCRS, true);
+
+      } catch (Exception ex) {
+        throw new TransformException(
+            "Unable to transform features into output coordinate reference system", ex);
+      }
+
+      transformFeatures = true;
+    }
+  }
+
+  /**
+   * Create the tiled image and the associated graphics object that we will be used to draw the
+   * vector features into a raster.
+   *
+   * <p>Note, the graphics objects will be an instance of TiledImageGraphics which is a sub-class of
+   * Graphics2D.
+   */
+  private void createImage(Dimension gridDim) {
+
+    ColorModel cm = ColorModel.getRGBdefault();
+    SampleModel sm = cm.createCompatibleSampleModel(gridDim.width, gridDim.height);
+
+    image = new TiledImage(0, 0, gridDim.width, gridDim.height, 0, 0, sm, cm);
+    graphics = image.createGraphics();
+    graphics.setPaintMode();
+    graphics.setComposite(AlphaComposite.Src);
+  }
+
+  /**
+   * Takes the 4-band ARGB image that we have been drawing into and converts it to a single-band
+   * image.
+   *
+   * @todo There is probably a much easier / faster way to do this that still takes advantage of
+   *     image tiling (?)
+   */
+  private void flattenImage() {
+
+    if (transferType == TransferType.FLOAT) {
+      flattenImageToFloat();
+    } else {
+      flattenImageToInt();
+    }
+  }
+
+  /**
+   * Takes the 4-band ARGB image that we have been drawing into and converts it to a single-band int
+   * image.
+   */
+  private void flattenImageToInt() {
+    int numXTiles = image.getNumXTiles();
+    int numYTiles = image.getNumYTiles();
+
+    SampleModel sm =
+        RasterFactory.createPixelInterleavedSampleModel(
+            DataBuffer.TYPE_INT, image.getWidth(), image.getHeight(), 1);
+
+    TiledImage destImage =
+        new TiledImage(
+            0,
+            0,
+            image.getWidth(),
+            image.getHeight(),
+            0,
+            0,
+            sm,
+            new ComponentColorModel(
+                ColorSpace.getInstance(ColorSpace.CS_GRAY),
+                false,
+                false,
+                Transparency.OPAQUE,
+                DataBuffer.TYPE_INT));
+
+    for (int yt = 0; yt < numYTiles; yt++) {
+      for (int xt = 0; xt < numXTiles; xt++) {
+        Raster srcTile = image.getTile(xt, yt);
+        WritableRaster destTile = destImage.getWritableTile(xt, yt);
+
+        int[] data = new int[srcTile.getDataBuffer().getSize()];
+        srcTile.getDataElements(
+            srcTile.getMinX(), srcTile.getMinY(), srcTile.getWidth(), srcTile.getHeight(), data);
+
+        Rectangle bounds = destTile.getBounds();
+        destTile.setPixels(bounds.x, bounds.y, bounds.width, bounds.height, data);
+        destImage.releaseWritableTile(xt, yt);
+      }
     }
 
-    /**
-     * Takes the 4-band ARGB image that we have been drawing into and
-     * converts it to a single-band image.
-     *
-     * @todo There is probably a much easier / faster way to do this that
-     * still takes advantage of image tiling (?)
-     */
-    private void flattenImage() {
+    image = destImage;
+  }
 
-        if (transferType == TransferType.FLOAT) {
-            flattenImageToFloat();
-        } else {
-            flattenImageToInt();
+  /**
+   * Takes the 4-band ARGB image that we have been drawing into and converts it to a single-band
+   * float image
+   */
+  private void flattenImageToFloat() {
+    int numXTiles = image.getNumXTiles();
+    int numYTiles = image.getNumYTiles();
+
+    SampleModel sm =
+        RasterFactory.createPixelInterleavedSampleModel(
+            DataBuffer.TYPE_FLOAT, image.getWidth(), image.getHeight(), 1);
+    TiledImage destImage =
+        new TiledImage(
+            0,
+            0,
+            image.getWidth(),
+            image.getHeight(),
+            0,
+            0,
+            sm,
+            new ComponentColorModel(
+                ColorSpace.getInstance(ColorSpace.CS_GRAY),
+                false,
+                false,
+                Transparency.OPAQUE,
+                DataBuffer.TYPE_FLOAT));
+
+    for (int yt = 0; yt < numYTiles; yt++) {
+      for (int xt = 0; xt < numXTiles; xt++) {
+        Raster srcTile = image.getTile(xt, yt);
+        WritableRaster destTile = destImage.getWritableTile(xt, yt);
+
+        int[] data = new int[srcTile.getDataBuffer().getSize()];
+        srcTile.getDataElements(
+            srcTile.getMinX(), srcTile.getMinY(), srcTile.getWidth(), srcTile.getHeight(), data);
+
+        Rectangle bounds = destTile.getBounds();
+
+        int k = 0;
+        for (int dy = bounds.y, drow = 0; drow < bounds.height; dy++, drow++) {
+          for (int dx = bounds.x, dcol = 0; dcol < bounds.width; dx++, dcol++, k++) {
+            destTile.setSample(dx, dy, 0, Float.intBitsToFloat(data[k]));
+          }
         }
+
+        destImage.releaseWritableTile(xt, yt);
+      }
     }
 
-    /**
-     * Takes the 4-band ARGB image that we have been drawing into and
-     * converts it to a single-band int image.
-     */
-    private void flattenImageToInt() {
-        int numXTiles = image.getNumXTiles();
-        int numYTiles = image.getNumYTiles();
+    image = destImage;
+  }
 
-        SampleModel sm = RasterFactory.createPixelInterleavedSampleModel(
-                DataBuffer.TYPE_INT, image.getWidth(), image.getHeight(), 1);
+  private void drawGeometry(Geometries geomType, Geometry geometry) throws TransformException {
+    Geometry workingGeometry;
+    if (transformFeatures) {
+      try {
+        workingGeometry = JTS.transform(geometry, featureToRasterTransform);
+      } catch (TransformException ex) {
+        throw ex;
+      } catch (MismatchedDimensionException ex) {
+        throw new RuntimeException(ex);
+      }
 
-        TiledImage destImage = new TiledImage(0, 0, image.getWidth(), image.getHeight(),
-                0, 0, sm, new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_GRAY), 
-                		false, false, Transparency.OPAQUE, DataBuffer.TYPE_INT));
-
-        for (int yt = 0; yt < numYTiles; yt++) {
-            for (int xt = 0; xt < numXTiles; xt++) {
-                Raster srcTile = image.getTile(xt, yt);
-                WritableRaster destTile = destImage.getWritableTile(xt, yt);
-
-                int[] data = new int[srcTile.getDataBuffer().getSize()];
-                srcTile.getDataElements(srcTile.getMinX(), srcTile.getMinY(),
-                        srcTile.getWidth(), srcTile.getHeight(), data);
-
-                Rectangle bounds = destTile.getBounds();
-                destTile.setPixels(bounds.x, bounds.y, bounds.width, bounds.height, data);
-                destImage.releaseWritableTile(xt, yt);
-            }
-        }
-
-        image = destImage;
+    } else {
+      workingGeometry = geometry;
     }
 
-    /**
-     * Takes the 4-band ARGB image that we have been drawing into and
-     * converts it to a single-band float image
-     */
-    private void flattenImageToFloat() {
-        int numXTiles = image.getNumXTiles();
-        int numYTiles = image.getNumYTiles();
+    Coordinate[] coords = geometry.getCoordinates();
 
-        SampleModel sm = RasterFactory.createPixelInterleavedSampleModel(DataBuffer.TYPE_FLOAT, image.getWidth(), image.getHeight(), 1);
-        TiledImage destImage = new TiledImage(0, 0, image.getWidth(), image.getHeight(), 0, 0, sm, 
-        		new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_GRAY), 
-                		false, false, Transparency.OPAQUE, DataBuffer.TYPE_FLOAT));
-
-        for (int yt = 0; yt < numYTiles; yt++) {
-            for (int xt = 0; xt < numXTiles; xt++) {
-                Raster srcTile = image.getTile(xt, yt);
-                WritableRaster destTile = destImage.getWritableTile(xt, yt);
-
-                int[] data = new int[srcTile.getDataBuffer().getSize()];
-                srcTile.getDataElements(srcTile.getMinX(), srcTile.getMinY(),
-                        srcTile.getWidth(), srcTile.getHeight(), data);
-                
-                Rectangle bounds = destTile.getBounds();
-                
-                int k = 0;
-                for (int dy = bounds.y, drow = 0; drow < bounds.height; dy++, drow++) {
-                    for (int dx = bounds.x, dcol = 0; dcol < bounds.width; dx++, dcol++, k++) {
-                        destTile.setSample(dx, dy, 0, Float.intBitsToFloat(data[k]));
-                    }
-                }
-
-                destImage.releaseWritableTile(xt, yt);
-            }
-        }
-
-        image = destImage;
+    // enlarge if needed
+    if (coords.length > coordGridX.length) {
+      int n = coords.length / COORD_GRID_CHUNK_SIZE + 1;
+      coordGridX = new int[n * COORD_GRID_CHUNK_SIZE];
+      coordGridY = new int[n * COORD_GRID_CHUNK_SIZE];
     }
 
-    private void drawGeometry(Geometries geomType, Geometry geometry) throws TransformException {
-        Geometry workingGeometry;
-        if (transformFeatures) {
-            try {
-                workingGeometry = JTS.transform(geometry, featureToRasterTransform);
-            } catch (TransformException ex) {
-                throw ex;
-            } catch (MismatchedDimensionException ex) {
-                throw new RuntimeException(ex);
-            }
-            
-        } else {
-            workingGeometry = geometry;
-        }
-        
-        Coordinate[] coords = geometry.getCoordinates();
-
-        // enlarge if needed
-        if (coords.length > coordGridX.length) {
-            int n = coords.length / COORD_GRID_CHUNK_SIZE + 1;
-            coordGridX = new int[n * COORD_GRID_CHUNK_SIZE];
-            coordGridY = new int[n * COORD_GRID_CHUNK_SIZE];
-        }
-
-        // Go through coordinate array in order received
-        DirectPosition2D worldPos = new DirectPosition2D();
-        for (int n = 0; n < coords.length; n++) {
-            worldPos.setLocation(coords[n].x, coords[n].y);
-            GridCoordinates2D gridPos = gridGeom.worldToGrid(worldPos);
-            coordGridX[n] = gridPos.x;
-            coordGridY[n] = gridPos.y;
-        }
-
-        switch (geomType) {
-            case POLYGON:
-                graphics.fillPolygon(coordGridX, coordGridY, coords.length);
-                break;
-                
-            case LINESTRING:  // includes LinearRing
-                graphics.drawPolyline(coordGridX, coordGridY, coords.length);
-                break;
-                
-            case POINT:
-                graphics.fillRect(coordGridX[0], coordGridY[0], 1, 1);
-                break;
-                
-            default:
-                throw new IllegalArgumentException(
-                        "Invalid geometry type: " + geomType.getName());
-        }
+    // Go through coordinate array in order received
+    DirectPosition2D worldPos = new DirectPosition2D();
+    for (int n = 0; n < coords.length; n++) {
+      worldPos.setLocation(coords[n].x, coords[n].y);
+      GridCoordinates2D gridPos = gridGeom.worldToGrid(worldPos);
+      coordGridX[n] = gridPos.x;
+      coordGridY[n] = gridPos.y;
     }
 
-    /**
-     * Encode a value as a Color. The value will be Integer or Float.
-     * @param value the value to enclode
-     * @return the resulting sRGB Color
-     */
-    private Color valueToColor(Number value) {
-        int intBits;
-        if (transferType == TransferType.FLOAT) {
-            intBits = Float.floatToIntBits(value.floatValue());
-        } else {
-            intBits = value.intValue();
-        }
+    switch (geomType) {
+      case POLYGON:
+        graphics.fillPolygon(coordGridX, coordGridY, coords.length);
+        break;
 
-        return new Color(intBits, true);
+      case LINESTRING: // includes LinearRing
+        graphics.drawPolyline(coordGridX, coordGridY, coords.length);
+        break;
+
+      case POINT:
+        graphics.fillRect(coordGridX[0], coordGridY[0], 1, 1);
+        break;
+
+      default:
+        throw new IllegalArgumentException("Invalid geometry type: " + geomType.getName());
+    }
+  }
+
+  /**
+   * Encode a value as a Color. The value will be Integer or Float.
+   *
+   * @param value the value to enclode
+   * @return the resulting sRGB Color
+   */
+  private Color valueToColor(Number value) {
+    int intBits;
+    if (transferType == TransferType.FLOAT) {
+      intBits = Float.floatToIntBits(value.floatValue());
+    } else {
+      intBits = value.intValue();
     }
 
+    return new Color(intBits, true);
+  }
 }

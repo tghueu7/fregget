@@ -9,7 +9,6 @@
 package org.geotools.tutorial.csv2;
 
 import java.io.IOException;
-
 import org.geotools.data.FeatureReader;
 import org.geotools.data.FeatureWriter;
 import org.geotools.data.Query;
@@ -27,116 +26,118 @@ import org.opengis.feature.type.Name;
 
 /**
  * Read-write access to CSV File.
- * 
+ *
  * @author Jody Garnett (Boundless)
  * @author Ian Turton (Astun Technology)
  */
 public class CSVFeatureStore extends ContentFeatureStore {
-    public CSVFeatureStore(ContentEntry entry, Query query) {
-        super(entry, query);
-    }
-    // header end
-    // getWriter start
-    //
-    // CSVFeatureStore implementations
-    //
-    @Override
-    protected FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterInternal(Query query,
-            int flags) throws IOException {
-        return new CSVFeatureWriter(getState(), query);
-    }
-    // getWriter end
-    
-    // transaction start
-    /**
-     * Delegate used for FeatureSource methods (We do this because Java cannot inherit from both ContentFeatureStore and CSVFeatureSource at the same
-     * time
-     */
-    CSVFeatureSource delegate = new CSVFeatureSource(entry, query) {
+  public CSVFeatureStore(ContentEntry entry, Query query) {
+    super(entry, query);
+  }
+  // header end
+  // getWriter start
+  //
+  // CSVFeatureStore implementations
+  //
+  @Override
+  protected FeatureWriter<SimpleFeatureType, SimpleFeature> getWriterInternal(
+      Query query, int flags) throws IOException {
+    return new CSVFeatureWriter(getState(), query);
+  }
+  // getWriter end
+
+  // transaction start
+  /**
+   * Delegate used for FeatureSource methods (We do this because Java cannot inherit from both
+   * ContentFeatureStore and CSVFeatureSource at the same time
+   */
+  CSVFeatureSource delegate =
+      new CSVFeatureSource(entry, query) {
         @Override
         public void setTransaction(Transaction transaction) {
-            super.setTransaction(transaction);
-            CSVFeatureStore.this.setTransaction(transaction); // Keep these two implementations on the same transaction
+          super.setTransaction(transaction);
+          CSVFeatureStore.this.setTransaction(
+              transaction); // Keep these two implementations on the same transaction
         }
-    };
+      };
 
-    @Override
-    public void setTransaction(Transaction transaction) {
-        super.setTransaction(transaction);
-        if( delegate.getTransaction() != transaction ){
-            delegate.setTransaction( transaction );
-        }
+  @Override
+  public void setTransaction(Transaction transaction) {
+    super.setTransaction(transaction);
+    if (delegate.getTransaction() != transaction) {
+      delegate.setTransaction(transaction);
     }
-    // transaction end
-    
-    // internal start
-    //
-    // Internal Delegate Methods
-    // Implement FeatureSource methods using CSVFeatureSource implementation
-    //
-    @Override
-    protected SimpleFeatureType buildFeatureType() throws IOException {
-        return delegate.buildFeatureType();
-    }
+  }
+  // transaction end
 
-    @Override
-    protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
-        return delegate.getBoundsInternal(query);
-    }
+  // internal start
+  //
+  // Internal Delegate Methods
+  // Implement FeatureSource methods using CSVFeatureSource implementation
+  //
+  @Override
+  protected SimpleFeatureType buildFeatureType() throws IOException {
+    return delegate.buildFeatureType();
+  }
 
-    @Override
-    protected int getCountInternal(Query query) throws IOException {
-        return delegate.getCountInternal(query);
-    }
-    
-    @Override
-    protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query)
-            throws IOException {
-        return delegate.getReaderInternal(query);
-    }
-    // internal end
+  @Override
+  protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
+    return delegate.getBoundsInternal(query);
+  }
 
-    // visitor start
-    @Override
-    protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {
-        return delegate.handleVisitor(query, visitor);
-    }
-    // visitor end
-    
-    // public start
-    //
-    // Public Delegate Methods
-    // Implement FeatureSource methods using CSVFeatureSource implementation
-    //
-    @Override
-    public CSVDataStore getDataStore() {
-        return delegate.getDataStore();
-    }
+  @Override
+  protected int getCountInternal(Query query) throws IOException {
+    return delegate.getCountInternal(query);
+  }
 
-    @Override
-    public ContentEntry getEntry() {
-        return delegate.getEntry();
-    }
+  @Override
+  protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query)
+      throws IOException {
+    return delegate.getReaderInternal(query);
+  }
+  // internal end
 
-    public Transaction getTransaction() {
-        return delegate.getTransaction();
-    }
+  // visitor start
+  @Override
+  protected boolean handleVisitor(Query query, FeatureVisitor visitor) throws IOException {
+    return delegate.handleVisitor(query, visitor);
+  }
+  // visitor end
 
-    public ContentState getState() {
-        return delegate.getState();
-    }
+  // public start
+  //
+  // Public Delegate Methods
+  // Implement FeatureSource methods using CSVFeatureSource implementation
+  //
+  @Override
+  public CSVDataStore getDataStore() {
+    return delegate.getDataStore();
+  }
 
-    public ResourceInfo getInfo() {
-        return delegate.getInfo();
-    }
+  @Override
+  public ContentEntry getEntry() {
+    return delegate.getEntry();
+  }
 
-    public Name getName() {
-        return delegate.getName();
-    }
+  public Transaction getTransaction() {
+    return delegate.getTransaction();
+  }
 
-    public QueryCapabilities getQueryCapabilities() {
-        return delegate.getQueryCapabilities();
-    }
-    // public end
+  public ContentState getState() {
+    return delegate.getState();
+  }
+
+  public ResourceInfo getInfo() {
+    return delegate.getInfo();
+  }
+
+  public Name getName() {
+    return delegate.getName();
+  }
+
+  public QueryCapabilities getQueryCapabilities() {
+    return delegate.getQueryCapabilities();
+  }
+  // public end
 
 }

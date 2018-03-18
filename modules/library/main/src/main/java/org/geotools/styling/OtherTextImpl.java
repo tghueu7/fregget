@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -18,31 +18,26 @@ package org.geotools.styling;
 
 import org.opengis.filter.expression.Expression;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class OtherTextImpl implements OtherText {
 
-    String location;
+  String location;
 
-    Expression text;
+  Expression text;
 
-    public String getTarget() {
-        return location;
-    }
+  public String getTarget() {
+    return location;
+  }
 
-    public void setTarget(String location) {
-        this.location = location;
-    }
+  public void setTarget(String location) {
+    this.location = location;
+  }
 
-    public Expression getText() {
-        return text;
-    }
+  public Expression getText() {
+    return text;
+  }
 
-    public void setText(Expression text) {
-        this.text = text;
-    }
-
+  public void setText(Expression text) {
+    this.text = text;
+  }
 }

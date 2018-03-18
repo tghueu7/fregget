@@ -16,6 +16,7 @@
  */
 package org.geotools.gml3.simple;
 
+import com.vividsolutions.jts.geom.LineString;
 import org.geotools.gml2.simple.GMLWriter;
 import org.geotools.gml2.simple.GeometryEncoder;
 import org.geotools.gml2.simple.QualifiedName;
@@ -23,34 +24,32 @@ import org.geotools.gml3.GML;
 import org.geotools.xml.Encoder;
 import org.xml.sax.helpers.AttributesImpl;
 
-import com.vividsolutions.jts.geom.LineString;
-
 /**
  * Encodes a GML3 line string
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */
 class LineStringEncoder extends GeometryEncoder<LineString> {
 
-    static final QualifiedName LINE_STRING = new QualifiedName(GML.NAMESPACE, "LineString", "gml");
+  static final QualifiedName LINE_STRING = new QualifiedName(GML.NAMESPACE, "LineString", "gml");
 
-    QualifiedName element;
+  QualifiedName element;
 
-    protected LineStringEncoder(Encoder encoder, String gmlPrefix, String gmlUri) {
-        this(encoder, LINE_STRING.derive(gmlPrefix, gmlUri));
-    }
+  protected LineStringEncoder(Encoder encoder, String gmlPrefix, String gmlUri) {
+    this(encoder, LINE_STRING.derive(gmlPrefix, gmlUri));
+  }
 
-    protected LineStringEncoder(Encoder encoder, QualifiedName element) {
-        super(encoder);
-        this.element = element;
-    }
+  protected LineStringEncoder(Encoder encoder, QualifiedName element) {
+    super(encoder);
+    this.element = element;
+  }
 
-    public void encode(LineString geometry, AttributesImpl atts, GMLWriter handler, String gmlId)
-            throws Exception {
-        atts = cloneWithGmlId(atts, gmlId);
-        handler.startElement(element, atts);
-        handler.posList(geometry.getCoordinateSequence());
-        handler.endElement(element);
-    }
+  public void encode(LineString geometry, AttributesImpl atts, GMLWriter handler, String gmlId)
+      throws Exception {
+    atts = cloneWithGmlId(atts, gmlId);
+    handler.startElement(element, atts);
+    handler.posList(geometry.getCoordinateSequence());
+    handler.endElement(element);
+  }
 }

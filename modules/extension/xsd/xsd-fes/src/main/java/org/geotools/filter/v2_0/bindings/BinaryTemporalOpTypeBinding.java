@@ -17,7 +17,6 @@
 package org.geotools.filter.v2_0.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.filter.v2_0.FES;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
@@ -26,9 +25,9 @@ import org.opengis.filter.temporal.BinaryTemporalOperator;
 
 /**
  * Binding object for the type http://www.opengis.net/fes/2.0:BinaryTemporalOpType.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *  <code>
  *  &lt;xsd:complexType name="BinaryTemporalOpType"&gt;
@@ -43,45 +42,44 @@ import org.opengis.filter.temporal.BinaryTemporalOperator;
  *              &lt;/xsd:sequence&gt;
  *          &lt;/xsd:extension&gt;
  *      &lt;/xsd:complexContent&gt;
- *  &lt;/xsd:complexType&gt; 
- * 	
+ *  &lt;/xsd:complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
  */
 public class BinaryTemporalOpTypeBinding extends AbstractComplexBinding {
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return FES.BinaryTemporalOpType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return FES.BinaryTemporalOpType;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return BinaryTemporalOperator.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return BinaryTemporalOperator.class;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        return null;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return null;
+  }
 
-    @Override
-    public Object getProperty(Object object, QName name) throws Exception {
-        return FESParseEncodeUtil.getProperty((BinaryTemporalOperator) object, name);
-    }
-
+  @Override
+  public Object getProperty(Object object, QName name) throws Exception {
+    return FESParseEncodeUtil.getProperty((BinaryTemporalOperator) object, name);
+  }
 }

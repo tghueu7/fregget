@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2016, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
-
 import org.geotools.feature.NameImpl;
 import org.geotools.util.SimpleInternationalString;
 import org.geotools.util.Utilities;
@@ -39,409 +38,392 @@ import org.opengis.style.StyleVisitor;
 import org.opengis.util.Cloneable;
 
 /**
- * Implementation of Feature Type Style; care is taken to ensure everything
- * is mutable.
+ * Implementation of Feature Type Style; care is taken to ensure everything is mutable.
  *
  * @author James Macgill
  * @author Johann Sorel (Geomatys)
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class FeatureTypeStyleImpl implements org.geotools.styling.FeatureTypeStyle, Cloneable {
-    
-    /**
-     * This option influences how multiple rules matching the same feature are evaluated
-     */
-    public static String KEY_EVALUATION_MODE = "ruleEvaluation";
 
-    /**
-     * The standard behavior, all the matching rules are executed
-     */
-    public static String VALUE_EVALUATION_MODE_ALL = "all";
+  /** This option influences how multiple rules matching the same feature are evaluated */
+  public static String KEY_EVALUATION_MODE = "ruleEvaluation";
 
-    /**
-     * Only the first matching rule gets executed, all the others are skipped
-     */
-    public static String VALUE_EVALUATION_MODE_FIRST = "first";
+  /** The standard behavior, all the matching rules are executed */
+  public static String VALUE_EVALUATION_MODE_ALL = "all";
 
-    private static final Logger LOGGER = org.geotools.util.logging.Logging.getLogger("org.geotools.styling");
-    
-    private List<Rule> rules = new ArrayList<Rule>();
-    private Set<SemanticType> semantics = new LinkedHashSet<SemanticType>();
-    private Id featureInstances = null;
-    private Set<Name> featureTypeNames = new LinkedHashSet<Name>();
-    
-    private DescriptionImpl description = new DescriptionImpl();
-    private String name = "name";
-    private OnLineResource online = null;
-    private Expression transformation = null;
+  /** Only the first matching rule gets executed, all the others are skipped */
+  public static String VALUE_EVALUATION_MODE_FIRST = "first";
 
-    protected Map<String, String> options;
+  private static final Logger LOGGER =
+      org.geotools.util.logging.Logging.getLogger("org.geotools.styling");
 
-    /**
-     * Creates a new instance of FeatureTypeStyleImpl
-     *
-     * @param rules DOCUMENT ME!
-     */
-    protected FeatureTypeStyleImpl(Rule[] rules) {
-        this(Arrays.asList(rules));
+  private List<Rule> rules = new ArrayList<Rule>();
+  private Set<SemanticType> semantics = new LinkedHashSet<SemanticType>();
+  private Id featureInstances = null;
+  private Set<Name> featureTypeNames = new LinkedHashSet<Name>();
+
+  private DescriptionImpl description = new DescriptionImpl();
+  private String name = "name";
+  private OnLineResource online = null;
+  private Expression transformation = null;
+
+  protected Map<String, String> options;
+
+  /**
+   * Creates a new instance of FeatureTypeStyleImpl
+   *
+   * @param rules DOCUMENT ME!
+   */
+  protected FeatureTypeStyleImpl(Rule[] rules) {
+    this(Arrays.asList(rules));
+  }
+
+  protected FeatureTypeStyleImpl(List<Rule> arules) {
+    rules = new ArrayList<Rule>();
+    rules.addAll(arules);
+  }
+
+  /** Creates a new instance of FeatureTypeStyleImpl */
+  protected FeatureTypeStyleImpl() {
+    rules = new ArrayList<Rule>();
+  }
+
+  public FeatureTypeStyleImpl(org.opengis.style.FeatureTypeStyle fts) {
+    this.description = new DescriptionImpl(fts.getDescription());
+    this.featureInstances = fts.getFeatureInstanceIDs();
+    this.featureTypeNames = new LinkedHashSet<Name>(fts.featureTypeNames());
+    this.name = fts.getName();
+    this.rules = new ArrayList<Rule>();
+    if (fts.rules() != null) {
+      for (org.opengis.style.Rule rule : fts.rules()) {
+        rules.add(RuleImpl.cast(rule)); // need to deep copy?
+      }
+    }
+    this.semantics = new LinkedHashSet<SemanticType>(fts.semanticTypeIdentifiers());
+    this.online = fts.getOnlineResource();
+    this.transformation = fts.getTransformation();
+  }
+
+  public List<Rule> rules() {
+    return rules;
+  }
+
+  @Deprecated
+  public org.geotools.styling.Rule[] getRules() {
+    final org.geotools.styling.Rule[] ret;
+
+    ret = new org.geotools.styling.Rule[rules.size()];
+    for (int i = 0, n = rules.size(); i < n; i++) {
+      ret[i] = rules.get(i);
     }
 
-    protected FeatureTypeStyleImpl(List<Rule> arules) {
-        rules = new ArrayList<Rule>();
-        rules.addAll(arules);
+    return ret;
+  }
+
+  @Deprecated
+  public void setRules(org.geotools.styling.Rule[] newRules) {
+    rules = new ArrayList<Rule>();
+    rules.addAll(Arrays.asList(newRules));
+
+    // fireChanged();
+  }
+
+  @Deprecated
+  public void addRule(org.geotools.styling.Rule rule) {
+    rules.add(rule);
+
+    // fireChildAdded(rule);
+  }
+
+  public Set<SemanticType> semanticTypeIdentifiers() {
+    return semantics;
+  }
+
+  @Deprecated
+  public String[] getSemanticTypeIdentifiers() {
+    String[] ids = new String[semantics.size()];
+
+    Iterator<SemanticType> types = semantics.iterator();
+    int i = 0;
+    while (types.hasNext()) {
+      ids[i] = types.next().name();
+      i++;
     }
 
-    /**
-     * Creates a new instance of FeatureTypeStyleImpl
-     */
-    protected FeatureTypeStyleImpl() {
-        rules = new ArrayList<Rule>();
-    }
-    
-    public FeatureTypeStyleImpl(org.opengis.style.FeatureTypeStyle fts){
-        this.description = new DescriptionImpl( fts.getDescription() );
-        this.featureInstances = fts.getFeatureInstanceIDs();
-        this.featureTypeNames = new LinkedHashSet<Name>(fts.featureTypeNames());
-        this.name = fts.getName();
-        this.rules = new ArrayList<Rule>();
-        if( fts.rules() != null ){
-            for (org.opengis.style.Rule rule : fts.rules()) {
-                rules.add( RuleImpl.cast(rule) ); // need to deep copy?
-            }
-        }
-        this.semantics = new LinkedHashSet<SemanticType>(fts.semanticTypeIdentifiers());
-        this.online = fts.getOnlineResource();
-        this.transformation = fts.getTransformation();
-    }
-    
-    public List<Rule> rules() {
-        return rules;
-    }
-    
-    @Deprecated
-    public org.geotools.styling.Rule[] getRules() {
-        final org.geotools.styling.Rule[] ret;
-
-        ret = new org.geotools.styling.Rule[rules.size()];
-        for(int i=0, n=rules.size(); i<n; i++){
-            ret[i] = rules.get(i);
-        }
-        
-        return ret;
+    if (ids.length == 0) {
+      ids = new String[] {SemanticType.ANY.toString()};
     }
 
-    @Deprecated
-    public void setRules(org.geotools.styling.Rule[] newRules) {
-        rules = new ArrayList<Rule>();
-        rules.addAll(Arrays.asList(newRules));
+    return ids;
+  }
 
-        // fireChanged();
+  @Deprecated
+  public void setSemanticTypeIdentifiers(String[] types) {
+    semantics.clear();
+
+    for (String id : types) {
+
+      SemanticType st = SemanticType.valueOf(id);
+
+      if (st != null) semantics.add(st);
+    }
+  }
+
+  public Set<Name> featureTypeNames() {
+    return featureTypeNames;
+  }
+
+  @Deprecated
+  public String getFeatureTypeName() {
+    if (!featureTypeNames.isEmpty()) {
+      return featureTypeNames.iterator().next().getLocalPart();
+    } else {
+      return "Feature"; // this is the deafault value - matches to any feature
+    }
+  }
+
+  @Deprecated
+  public void setFeatureTypeName(String name) {
+    featureTypeNames.clear();
+
+    if (name.equals("feature")) {
+      LOGGER.warning(
+          "FeatureTypeStyle with typename 'feature' - "
+              + "did you mean to say 'Feature' (with a capital F) for the 'generic' FeatureType");
     }
 
-    @Deprecated
-    public void addRule(org.geotools.styling.Rule rule) {
-        rules.add(rule);
+    Name featurename = new NameImpl(name);
 
-        // fireChildAdded(rule);
+    featureTypeNames.add(featurename);
+  }
+
+  public Id getFeatureInstanceIDs() {
+    return featureInstances;
+  }
+
+  public Description getDescription() {
+    return description;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  @Deprecated
+  public String getAbstract() {
+    if (description == null || description.getAbstract() == null) {
+      return null;
+    }
+    return description.getAbstract().toString();
+  }
+
+  @Deprecated
+  public void setAbstract(String abstractStr) {
+    description.setAbstract(new SimpleInternationalString(abstractStr));
+  }
+
+  @Deprecated
+  public String getTitle() {
+    if (description == null || description.getTitle() == null) {
+      return null;
+    }
+    return description.getTitle().toString();
+  }
+
+  @Deprecated
+  public void setTitle(String title) {
+    description.setTitle(new SimpleInternationalString(title));
+  }
+
+  public Object accept(StyleVisitor visitor, Object data) {
+    return visitor.visit(this, data);
+  }
+
+  public void accept(org.geotools.styling.StyleVisitor visitor) {
+    visitor.visit(this);
+  }
+
+  /**
+   * Creates a deep copy clone of the FeatureTypeStyle.
+   *
+   * @see org.geotools.styling.FeatureTypeStyle#clone()
+   */
+  public Object clone() {
+    FeatureTypeStyleImpl clone;
+
+    try {
+      clone = (FeatureTypeStyleImpl) super.clone();
+    } catch (final CloneNotSupportedException e) {
+      throw new AssertionError(e); // this should never happen.
     }
 
-    public Set<SemanticType> semanticTypeIdentifiers() {
-        return semantics;
-    }
-    
-    @Deprecated
-    public String[] getSemanticTypeIdentifiers() {
-        String[] ids = new String[semantics.size()];
-        
-        Iterator<SemanticType> types = semantics.iterator();
-        int i=0;
-        while (types.hasNext()){
-            ids[i] = types.next().name();
-            i++;
-        }
-        
-        if(ids.length == 0){
-            ids = new String[]{SemanticType.ANY.toString()};
-        }
-        
-        return ids;
+    final List<Rule> rulesCopy = new ArrayList<Rule>();
+
+    for (final Rule rl : rules) {
+      rulesCopy.add((Rule) ((Cloneable) rl).clone());
     }
 
-    @Deprecated
-    public void setSemanticTypeIdentifiers(String[] types) {
-        semantics.clear();
-        
-        for(String id : types){
-            
-            SemanticType st = SemanticType.valueOf(id);
-            
-            if(st != null) semantics.add(st);
-        }
-        
+    clone.rules = new ArrayList<Rule>();
+    clone.featureTypeNames = new LinkedHashSet<Name>();
+    clone.semantics = new LinkedHashSet<SemanticType>();
+    final List<Rule> cloneRules = (List<Rule>) clone.rules();
+    cloneRules.addAll(rulesCopy);
+    clone.featureTypeNames().addAll(featureTypeNames);
+    clone.semanticTypeIdentifiers().addAll(semantics);
+
+    return clone;
+  }
+
+  /**
+   * Overrides hashCode.
+   *
+   * @return The hashcode.
+   */
+  public int hashCode() {
+    final int PRIME = 1000003;
+    int result = 0;
+
+    if (rules != null) {
+      result = (PRIME * result) + rules.hashCode();
     }
 
-    public Set<Name> featureTypeNames() {
-        return featureTypeNames;
-    }
-    
-    @Deprecated
-    public String getFeatureTypeName() {
-        if(!featureTypeNames.isEmpty()){
-            return featureTypeNames.iterator().next().getLocalPart();
-        }else{
-            return "Feature"; // this is the deafault value - matches to any feature
-        }
-    }
-        
-    @Deprecated
-    public void setFeatureTypeName(String name) {
-        featureTypeNames.clear();
-        
-        if (name.equals("feature")) {
-            LOGGER.warning("FeatureTypeStyle with typename 'feature' - " +
-                    "did you mean to say 'Feature' (with a capital F) for the 'generic' FeatureType");
-        }
-
-        Name featurename = new NameImpl(name);
-        
-        featureTypeNames.add(featurename);
+    if (featureInstances != null) {
+      result = (PRIME * result) + featureInstances.hashCode();
     }
 
-    public Id getFeatureInstanceIDs() {
-        return featureInstances;
-    }
-    
-    public Description getDescription() {
-        return description;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
+    if (semantics != null) {
+      result = (PRIME * result) + semantics.hashCode();
     }
 
-    @Deprecated
-    public String getAbstract() {
-        if( description == null || description.getAbstract() == null){
-            return null;
-        }
-        return description.getAbstract().toString();
-    }
-    
-    @Deprecated
-    public void setAbstract(String abstractStr) {
-        description.setAbstract(new SimpleInternationalString(abstractStr));
-    }
-    
-    @Deprecated
-    public String getTitle() {
-        if( description == null || description.getTitle() == null){
-            return null;
-        }
-        return description.getTitle().toString();
+    if (featureTypeNames != null) {
+      result = (PRIME * result) + featureTypeNames.hashCode();
     }
 
-    @Deprecated
-    public void setTitle(String title) {
-        description.setTitle(new SimpleInternationalString(title));
+    if (name != null) {
+      result = (PRIME * result) + name.hashCode();
     }
 
-    public Object accept(StyleVisitor visitor,Object data) {
-        return visitor.visit(this,data);
+    if (description != null) {
+      result = (PRIME * result) + description.hashCode();
     }
 
-    public void accept(org.geotools.styling.StyleVisitor visitor) {
-        visitor.visit(this);
-    }
-    
-    /**
-     * Creates a deep copy clone of the FeatureTypeStyle.
-     *
-     * @see org.geotools.styling.FeatureTypeStyle#clone()
-     */
-    public Object clone() {
-        FeatureTypeStyleImpl clone;
-
-        try {
-            clone = (FeatureTypeStyleImpl) super.clone();
-        } catch (final CloneNotSupportedException e) {
-            throw new AssertionError(e); // this should never happen.
-        }
-
-        final List<Rule> rulesCopy = new ArrayList<Rule>();
-
-        for (final Rule rl : rules) {
-            rulesCopy.add((Rule) ((Cloneable) rl).clone());
-        }
-
-        clone.rules = new ArrayList<Rule>();
-        clone.featureTypeNames = new LinkedHashSet<Name>();
-        clone.semantics = new LinkedHashSet<SemanticType>();
-        final List<Rule> cloneRules = (List<Rule>) clone.rules();
-        cloneRules.addAll(rulesCopy);
-        clone.featureTypeNames().addAll(featureTypeNames);
-        clone.semanticTypeIdentifiers().addAll(semantics);
-
-        return clone;
+    if (options != null) {
+      result = PRIME * result + options.hashCode();
     }
 
-    /**
-     * Overrides hashCode.
-     *
-     * @return The hashcode.
-     */
-    public int hashCode() {
-        final int PRIME = 1000003;
-        int result = 0;
-
-        if (rules != null) {
-            result = (PRIME * result) + rules.hashCode();
-        }
-        
-        if (featureInstances != null) {
-            result = (PRIME * result) + featureInstances.hashCode();
-        }
-        
-        if (semantics != null) {
-            result = (PRIME * result) + semantics.hashCode();
-        }
-        
-        if (featureTypeNames != null) {
-            result = (PRIME * result) + featureTypeNames.hashCode();
-        }
-
-        if (name != null) {
-            result = (PRIME * result) + name.hashCode();
-        }
-
-        if (description != null) {
-            result = (PRIME * result) + description.hashCode();
-        }
-        
-        if(options != null) {
-            result = PRIME * result + options.hashCode();
-        }
-        
-        if(transformation != null) {
-            result = PRIME * result + transformation.hashCode();
-        }
-        
-        if(online != null) {
-            result = PRIME * result + online.hashCode();
-        }
-
-        return result;
+    if (transformation != null) {
+      result = PRIME * result + transformation.hashCode();
     }
 
-    /**
-     * Compares this FeatureTypeStyleImpl with another.
-     * 
-     * <p>
-     * Two FeatureTypeStyles are equal if they contain equal properties and an
-     * equal list of Rules.
-     * </p>
-     *
-     * @param oth The other FeatureTypeStyleImpl to compare with.
-     *
-     * @return True if this and oth are equal.
-     */
-    public boolean equals(Object oth) {
-                
-        if (this == oth) {
-            return true;
-        }
-
-        if (oth instanceof FeatureTypeStyleImpl) {
-            FeatureTypeStyleImpl other = (FeatureTypeStyleImpl) oth;
-
-            return Utilities.equals(name, other.name)
-            && Utilities.equals(description, other.description)
-            && Utilities.equals(rules, other.rules)
-            && Utilities.equals(featureTypeNames, other.featureTypeNames)
-                    && Utilities.equals(semantics, other.semantics)
-                    && Utilities.equals(getOptions(), other.getOptions())
-                    && Utilities.equals(getTransformation(), other.getTransformation())
-                    && Utilities.equals(getOnlineResource(), other.getOnlineResource());
-        }
-
-        return false;
-    }
-    
-    public String toString() {
-        StringBuffer buf = new StringBuffer();
-        buf.append("FeatureTypeStyleImpl");
-        buf.append("[");
-        if (name != null) {
-            buf.append(" name=");
-            buf.append(name);
-        } else {
-            buf.append(" UNNAMED");
-        }
-        buf.append(", ");
-        buf.append(featureTypeNames);
-        buf.append(", rules=<");
-        buf.append(rules.size());
-        buf.append(">");
-        if (rules.size() > 0) {
-            buf.append("(");
-            buf.append(rules.get(0));
-            if (rules.size() > 1) {
-                buf.append(",...");
-            }
-            buf.append(")");
-        }
-        if (options != null) {
-            buf.append(", options=" + options);
-        }
-        buf.append("]");
-        return buf.toString();
+    if (online != null) {
+      result = PRIME * result + online.hashCode();
     }
 
-    public void setOnlineResource(OnLineResource online) {
-        this.online = online;
+    return result;
+  }
+
+  /**
+   * Compares this FeatureTypeStyleImpl with another.
+   *
+   * <p>Two FeatureTypeStyles are equal if they contain equal properties and an equal list of Rules.
+   *
+   * @param oth The other FeatureTypeStyleImpl to compare with.
+   * @return True if this and oth are equal.
+   */
+  public boolean equals(Object oth) {
+
+    if (this == oth) {
+      return true;
     }
 
-    public OnLineResource getOnlineResource() {
-        return online;
+    if (oth instanceof FeatureTypeStyleImpl) {
+      FeatureTypeStyleImpl other = (FeatureTypeStyleImpl) oth;
+
+      return Utilities.equals(name, other.name)
+          && Utilities.equals(description, other.description)
+          && Utilities.equals(rules, other.rules)
+          && Utilities.equals(featureTypeNames, other.featureTypeNames)
+          && Utilities.equals(semantics, other.semantics)
+          && Utilities.equals(getOptions(), other.getOptions())
+          && Utilities.equals(getTransformation(), other.getTransformation())
+          && Utilities.equals(getOnlineResource(), other.getOnlineResource());
     }
 
-    static FeatureTypeStyleImpl cast(FeatureTypeStyle featureTypeStyle) {
-        if( featureTypeStyle == null){
-            return null;
-        }
-        else if ( featureTypeStyle instanceof FeatureTypeStyleImpl){
-            return (FeatureTypeStyleImpl) featureTypeStyle;
-        }
-        else {
-            FeatureTypeStyleImpl copy = new FeatureTypeStyleImpl();
-            // the above is a deep copy - replace with cast if we can
-            return copy;
-        }
+    return false;
+  }
 
+  public String toString() {
+    StringBuffer buf = new StringBuffer();
+    buf.append("FeatureTypeStyleImpl");
+    buf.append("[");
+    if (name != null) {
+      buf.append(" name=");
+      buf.append(name);
+    } else {
+      buf.append(" UNNAMED");
     }
-    
-    public Expression getTransformation() {
-        return transformation;
+    buf.append(", ");
+    buf.append(featureTypeNames);
+    buf.append(", rules=<");
+    buf.append(rules.size());
+    buf.append(">");
+    if (rules.size() > 0) {
+      buf.append("(");
+      buf.append(rules.get(0));
+      if (rules.size() > 1) {
+        buf.append(",...");
+      }
+      buf.append(")");
     }
+    if (options != null) {
+      buf.append(", options=" + options);
+    }
+    buf.append("]");
+    return buf.toString();
+  }
 
-    public void setTransformation(Expression transformation) {
-        this.transformation = transformation;
-    }
+  public void setOnlineResource(OnLineResource online) {
+    this.online = online;
+  }
 
-    public boolean hasOption(String key) {
-        return options != null && options.containsKey(key);
-    }
+  public OnLineResource getOnlineResource() {
+    return online;
+  }
 
-    public Map<String, String> getOptions() {
-        if (options == null) {
-            options = new LinkedHashMap<String, String>();
-        }
-        return options;
+  static FeatureTypeStyleImpl cast(FeatureTypeStyle featureTypeStyle) {
+    if (featureTypeStyle == null) {
+      return null;
+    } else if (featureTypeStyle instanceof FeatureTypeStyleImpl) {
+      return (FeatureTypeStyleImpl) featureTypeStyle;
+    } else {
+      FeatureTypeStyleImpl copy = new FeatureTypeStyleImpl();
+      // the above is a deep copy - replace with cast if we can
+      return copy;
     }
+  }
+
+  public Expression getTransformation() {
+    return transformation;
+  }
+
+  public void setTransformation(Expression transformation) {
+    this.transformation = transformation;
+  }
+
+  public boolean hasOption(String key) {
+    return options != null && options.containsKey(key);
+  }
+
+  public Map<String, String> getOptions() {
+    if (options == null) {
+      options = new LinkedHashMap<String, String>();
+    }
+    return options;
+  }
 }

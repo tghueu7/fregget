@@ -16,19 +16,18 @@
  */
 package org.geotools.gml3.bindings;
 
+import javax.xml.namespace.QName;
 import org.geotools.gml3.GML;
 import org.geotools.temporal.object.DefaultInstant;
 import org.geotools.xml.*;
 import org.opengis.temporal.Instant;
 import org.opengis.temporal.Position;
 
-import javax.xml.namespace.QName;
-
 /**
  * Binding object for the type http://www.opengis.net/gml:TimeInstantType.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *  <code>
  *  &lt;complexType name="TimeInstantType"&gt;
@@ -42,41 +41,40 @@ import javax.xml.namespace.QName;
  *              &lt;/sequence&gt;
  *          &lt;/extension&gt;
  *      &lt;/complexContent&gt;
- *  &lt;/complexType&gt; 
- * 	
+ *  &lt;/complexType&gt;
+ *
  *   </code>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
  */
 public class TimeInstantTypeBinding extends AbstractComplexBinding {
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.TimeInstantType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return GML.TimeInstantType;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Instant.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Instant.class;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        Position pos = (Position) node.getChildValue(Position.class);
-        return new DefaultInstant(pos);
-    }
-
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Position pos = (Position) node.getChildValue(Position.class);
+    return new DefaultInstant(pos);
+  }
 }

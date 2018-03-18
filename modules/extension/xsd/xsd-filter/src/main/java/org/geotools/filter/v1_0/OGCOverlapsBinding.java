@@ -16,74 +16,69 @@
  */
 package org.geotools.filter.v1_0;
 
-import javax.xml.namespace.QName;
 import com.vividsolutions.jts.geom.GeometryFactory;
-import org.opengis.filter.FilterFactory2;
-import org.opengis.filter.expression.Expression;
-import org.opengis.filter.spatial.Overlaps;
+import javax.xml.namespace.QName;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
-
+import org.opengis.filter.FilterFactory2;
+import org.opengis.filter.expression.Expression;
+import org.opengis.filter.spatial.Overlaps;
 
 /**
  * Binding object for the element http://www.opengis.net/ogc:Overlaps.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="Overlaps" substitutionGroup="ogc:spatialOps" type="ogc:BinarySpatialOpType"/&gt;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCOverlapsBinding extends AbstractComplexBinding {
-    FilterFactory2 filterFactory;
-    GeometryFactory geometryFactory;
+  FilterFactory2 filterFactory;
+  GeometryFactory geometryFactory;
 
-    public OGCOverlapsBinding(FilterFactory2 filterFactory, GeometryFactory geometryFactory) {
-        this.filterFactory = filterFactory;
-        this.geometryFactory = geometryFactory;
-    }
+  public OGCOverlapsBinding(FilterFactory2 filterFactory, GeometryFactory geometryFactory) {
+    this.filterFactory = filterFactory;
+    this.geometryFactory = geometryFactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.Overlaps;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return OGC.Overlaps;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Overlaps.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Overlaps.class;
+  }
 
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        Expression[] operands = OGCUtils.spatial(node, filterFactory, geometryFactory);
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Expression[] operands = OGCUtils.spatial(node, filterFactory, geometryFactory);
 
-        return filterFactory.overlaps(operands[0], operands[1]);
-    }
+    return filterFactory.overlaps(operands[0], operands[1]);
+  }
 }

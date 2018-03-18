@@ -20,34 +20,33 @@ import java.util.List;
 
 public class Or extends Composite {
 
-    public Or(Selector... selectors) {
-        super(selectors);
+  public Or(Selector... selectors) {
+    super(selectors);
+  }
+
+  public Or(List<Selector> selectors) {
+    super(selectors);
+  }
+
+  @Override
+  public Specificity getSpecificity() {
+    Specificity max = Specificity.ZERO;
+    for (Selector s : getChildren()) {
+      Specificity curr = s.getSpecificity();
+      if (curr.compareTo(max) > 0) {
+        max = curr;
+      }
     }
 
-    public Or(List<Selector> selectors) {
-        super(selectors);
-    }
+    return max;
+  }
 
-    @Override
-    public Specificity getSpecificity() {
-        Specificity max = Specificity.ZERO;
-        for (Selector s : getChildren()) {
-            Specificity curr = s.getSpecificity();
-            if (curr.compareTo(max) > 0) {
-                max = curr;
-            }
-        }
+  public Object accept(SelectorVisitor visitor) {
+    return visitor.visit(this);
+  }
 
-        return max;
-    }
-
-    public Object accept(SelectorVisitor visitor) {
-        return visitor.visit(this);
-    }
-
-    @Override
-    public String toString() {
-        return "Or [children=" + getChildren() + "]";
-    }
-
+  @Override
+  public String toString() {
+    return "Or [children=" + getChildren() + "]";
+  }
 }

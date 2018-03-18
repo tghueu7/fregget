@@ -18,25 +18,20 @@ package org.geotools.sld.bindings;
 
 import org.geotools.styling.UserLayer;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDUserLayerBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(UserLayer.class, new SLDUserLayerBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(UserLayer.class, new SLDUserLayerBinding(null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.userLayer(document, document);
+  public void test() throws Exception {
+    SLDMockData.userLayer(document, document);
 
-        UserLayer layer = (UserLayer) parse();
-        assertNotNull(layer);
+    UserLayer layer = (UserLayer) parse();
+    assertNotNull(layer);
 
-        assertEquals("theName", layer.getName());
-        assertNotNull(layer.getLayerFeatureConstraints());
-        assertEquals(2, layer.getUserStyles().length);
-    }
+    assertEquals("theName", layer.getName());
+    assertNotNull(layer.getLayerFeatureConstraints());
+    assertEquals(2, layer.getUserStyles().length);
+  }
 }

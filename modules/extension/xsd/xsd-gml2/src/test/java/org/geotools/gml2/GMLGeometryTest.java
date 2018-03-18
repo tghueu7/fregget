@@ -16,52 +16,44 @@
  */
 package org.geotools.gml2;
 
-import javax.xml.parsers.SAXParserFactory;
-
-import junit.framework.TestCase;
-
-import org.geotools.xml.Configuration;
-import org.geotools.xml.Parser;
-
 import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
+import javax.xml.parsers.SAXParserFactory;
+import junit.framework.TestCase;
+import org.geotools.xml.Configuration;
+import org.geotools.xml.Parser;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GMLGeometryTest extends TestCase {
-    Parser parser;
+  Parser parser;
 
-    protected void setUp() throws Exception {
-        SAXParserFactory spf = SAXParserFactory.newInstance();
+  protected void setUp() throws Exception {
+    SAXParserFactory spf = SAXParserFactory.newInstance();
 
-        spf.setNamespaceAware(true);
+    spf.setNamespaceAware(true);
 
-        Configuration configuration = new GMLConfiguration();
+    Configuration configuration = new GMLConfiguration();
 
-        parser = new Parser(configuration, getClass().getResourceAsStream("geometry.xml"));
-    }
+    parser = new Parser(configuration, getClass().getResourceAsStream("geometry.xml"));
+  }
 
-    public void test() throws Exception {
-        GeometryCollection gc = (GeometryCollection) parser.parse();
+  public void test() throws Exception {
+    GeometryCollection gc = (GeometryCollection) parser.parse();
 
-        assertEquals(gc.getNumGeometries(), 3);
+    assertEquals(gc.getNumGeometries(), 3);
 
-        Object o = gc.getGeometryN(0);
-        assertNotNull(o);
-        assertTrue(o instanceof Point);
+    Object o = gc.getGeometryN(0);
+    assertNotNull(o);
+    assertTrue(o instanceof Point);
 
-        o = gc.getGeometryN(1);
-        assertNotNull(o);
-        assertTrue(o instanceof LineString);
+    o = gc.getGeometryN(1);
+    assertNotNull(o);
+    assertTrue(o instanceof LineString);
 
-        o = gc.getGeometryN(2);
-        assertNotNull(o);
-        assertTrue(o instanceof Polygon);
-    }
+    o = gc.getGeometryN(2);
+    assertNotNull(o);
+    assertTrue(o instanceof Polygon);
+  }
 }

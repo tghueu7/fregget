@@ -17,58 +17,50 @@
 package org.geotools.coverageio.gdal.envihdr;
 
 import it.geosolutions.imageio.plugins.envihdr.ENVIHdrImageReaderSpi;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.geotools.coverage.grid.io.GridFormatFactorySpi;
 import org.geotools.coverageio.BaseGridFormatFactorySPI;
 
 /**
  * @author Mathew Wyatt, CSIRO Australia
  * @author Daniele Romagnoli, GeoSolutions SAS
- *
- *
  * @source $URL$
  */
-public class EnviHdrFormatFactory extends BaseGridFormatFactorySPI implements GridFormatFactorySpi  {
+public class EnviHdrFormatFactory extends BaseGridFormatFactorySPI implements GridFormatFactorySpi {
 
-    /** Logger. */
-    private final static Logger LOGGER = org.geotools.util.logging.Logging.getLogger(
-            "org.geotools.coverageio.gdal.envihdr");
+  /** Logger. */
+  private static final Logger LOGGER =
+      org.geotools.util.logging.Logging.getLogger("org.geotools.coverageio.gdal.envihdr");
 
-    public boolean isAvailable() {
-        boolean available = true;
+  public boolean isAvailable() {
+    boolean available = true;
 
-        // if these classes are here, then the runtime environment has
-        // access to JAI and the JAI ImageI/O toolbox.
-        try {
-            Class.forName("it.geosolutions.imageio.plugins.envihdr.ENVIHdrImageReaderSpi");
-            available = new ENVIHdrImageReaderSpi().isAvailable();
+    // if these classes are here, then the runtime environment has
+    // access to JAI and the JAI ImageI/O toolbox.
+    try {
+      Class.forName("it.geosolutions.imageio.plugins.envihdr.ENVIHdrImageReaderSpi");
+      available = new ENVIHdrImageReaderSpi().isAvailable();
 
-            if (LOGGER.isLoggable(Level.FINE)) {
-                if (available)
-                    LOGGER.fine("EnviHdrFormatFactory is availaible.");
-                else
-                    LOGGER.fine("EnviHdrFormatFactory is not availaible.");
-            }
-        } catch (ClassNotFoundException cnf) {
-            if (LOGGER.isLoggable(Level.FINE))
-                LOGGER.fine("EnviHdrFormatFactory is not availaible.");
+      if (LOGGER.isLoggable(Level.FINE)) {
+        if (available) LOGGER.fine("EnviHdrFormatFactory is availaible.");
+        else LOGGER.fine("EnviHdrFormatFactory is not availaible.");
+      }
+    } catch (ClassNotFoundException cnf) {
+      if (LOGGER.isLoggable(Level.FINE)) LOGGER.fine("EnviHdrFormatFactory is not availaible.");
 
-            available = false;
-        }
-
-        return available;
+      available = false;
     }
 
-    /**
-     * Creating a {@link EnviHdrFormat}
-     *
-     * @return A {@link EnviHdrFormat}
-     */
-    public EnviHdrFormat createFormat() {
-        return new EnviHdrFormat();
-    }
+    return available;
+  }
 
+  /**
+   * Creating a {@link EnviHdrFormat}
+   *
+   * @return A {@link EnviHdrFormat}
+   */
+  public EnviHdrFormat createFormat() {
+    return new EnviHdrFormat();
+  }
 }

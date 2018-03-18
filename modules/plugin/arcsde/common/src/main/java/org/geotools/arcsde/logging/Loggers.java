@@ -23,32 +23,30 @@ import java.util.logging.Logger;
 /**
  * Creates a {@link Logger} using the geotools {@code org.geotools.util.logging.Logging} utility
  * class if available, or the standard {@link Logger#getLogger(String)} method otherwise.
- * <p>
- * This Jar may be used without geotools' gt-metadata being in the class path, so try to use the
+ *
+ * <p>This Jar may be used without geotools' gt-metadata being in the class path, so try to use the
  * org.geotools.util.logging.Logging.getLogger method reflectively and fall back to plain
  * java.util.logger if that's the case
- * </p>
- * 
+ *
  * @author Gabriel Roldan
  * @since 2.6.6
- *
- *
  * @source $URL$
  */
 public class Loggers {
 
-    public static Logger getLogger(final String name) {
+  public static Logger getLogger(final String name) {
 
-        Logger logger = null;
-        try {
-            Class<?> clazz = Class.forName("org.geotools.util.logging.Logging");
-            Method method = clazz.getMethod("getLogger", String.class);
-            logger = (Logger) method.invoke(null, "org.geotools.arcsde.session");
-        } catch (Exception e) {
-            logger = Logger.getLogger("org.geotools.arcsde.session");
-            logger.info("org.geotools.util.logging.Logging seems not to be in the classpath, "
-                    + "acquired Logger through java.util.Logger");
-        }
-        return logger;
+    Logger logger = null;
+    try {
+      Class<?> clazz = Class.forName("org.geotools.util.logging.Logging");
+      Method method = clazz.getMethod("getLogger", String.class);
+      logger = (Logger) method.invoke(null, "org.geotools.arcsde.session");
+    } catch (Exception e) {
+      logger = Logger.getLogger("org.geotools.arcsde.session");
+      logger.info(
+          "org.geotools.util.logging.Logging seems not to be in the classpath, "
+              + "acquired Logger through java.util.Logger");
     }
+    return logger;
+  }
 }

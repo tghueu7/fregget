@@ -34,7 +34,6 @@ import java.nio.channels.WritableByteChannel;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import org.geotools.TestData;
 import org.geotools.data.shapefile.files.ShpFileType;
 import org.geotools.data.shapefile.files.ShpFiles;
@@ -42,239 +41,233 @@ import org.geotools.data.shapefile.files.StorageFile;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * 
- *
- * @source $URL$
- */
-public class ShpFilesTestStream implements
-        org.geotools.data.shapefile.files.FileWriter {
+/** @source $URL$ */
+public class ShpFilesTestStream implements org.geotools.data.shapefile.files.FileWriter {
 
-    private String typeName;
-    private Map<ShpFileType, File> map;
-    private ShpFiles files;
+  private String typeName;
+  private Map<ShpFileType, File> map;
+  private ShpFiles files;
 
-    @Before
-    public void setUp() throws Exception {
-        map = ShpFilesTest.createFiles("shpFiles", ShpFileType.values(), false);
+  @Before
+  public void setUp() throws Exception {
+    map = ShpFilesTest.createFiles("shpFiles", ShpFileType.values(), false);
 
-        typeName = map.get(SHP).getName();
-        typeName = typeName.substring(0, typeName.lastIndexOf("."));
+    typeName = map.get(SHP).getName();
+    typeName = typeName.substring(0, typeName.lastIndexOf("."));
 
-        files = new ShpFiles(map.get(SHP));
+    files = new ShpFiles(map.get(SHP));
+  }
+
+  private void writeDataToFiles() throws IOException {
+    Set<Entry<ShpFileType, File>> entries = map.entrySet();
+    for (Entry<ShpFileType, File> entry : entries) {
+      FileWriter out = new FileWriter(entry.getValue());
+      try {
+        out.write(entry.getKey().name());
+      } finally {
+        out.close();
+      }
     }
+  }
 
-    private void writeDataToFiles() throws IOException {
-        Set<Entry<ShpFileType, File>> entries = map.entrySet();
-        for (Entry<ShpFileType, File> entry : entries) {
-            FileWriter out = new FileWriter(entry.getValue());
-            try {
-                out.write(entry.getKey().name());
-            } finally {
-                out.close();
-            }
+  @Test
+  public void testIsLocalURL() throws IOException {
+    ShpFiles files = new ShpFiles("http://someurl.com/file.shp");
+    assertFalse(files.isLocal());
+  }
+
+  @Test
+  public void testIsLocalFiles() throws IOException {
+    assertTrue(files.isLocal());
+  }
+
+  @Test
+  public void testDelete() throws IOException {
+
+    assertTrue(files.delete());
+
+    for (File file : map.values()) {
+      assertFalse(file.exists());
+    }
+  }
+
+  @Test
+  public void testExceptionGetInputStream() throws Exception {
+    ShpFiles shpFiles = new ShpFiles(new URL("http://blah/blah.shp"));
+    try {
+      shpFiles.getInputStream(SHP, this);
+      fail("maybe test is bad?  We want an exception here");
+    } catch (Throwable e) {
+      assertEquals(0, shpFiles.numberOfLocks());
+    }
+  }
+
+  @Test
+  public void testExceptionGetOutputStream() throws Exception {
+    ShpFiles shpFiles = new ShpFiles(new URL("http://blah/blah.shp"));
+    try {
+      shpFiles.getOutputStream(SHP, this);
+      fail("maybe test is bad?  We want an exception here");
+    } catch (Throwable e) {
+      assertEquals(0, shpFiles.numberOfLocks());
+    }
+  }
+
+  @Test
+  public void testExceptionGetWriteChannel() throws Exception {
+    ShpFiles shpFiles = new ShpFiles(new URL("http://blah/blah.shp"));
+    try {
+      shpFiles.getWriteChannel(SHP, this);
+      fail("maybe test is bad?  We want an exception here");
+    } catch (Throwable e) {
+      assertEquals(0, shpFiles.numberOfLocks());
+    }
+  }
+
+  @Test
+  public void testExceptionGetReadChannel() throws Exception {
+    ShpFiles shpFiles = new ShpFiles(new URL("http://blah/blah.shp"));
+    try {
+      shpFiles.getReadChannel(SHP, this);
+      fail("maybe test is bad?  We want an exception here");
+    } catch (Throwable e) {
+      assertEquals(0, shpFiles.numberOfLocks());
+    }
+  }
+
+  @Test
+  public void testGetInputStream() throws IOException {
+    writeDataToFiles();
+
+    ShpFileType[] types = ShpFileType.values();
+    for (ShpFileType shpFileType : types) {
+      String read = "";
+      InputStream in = files.getInputStream(shpFileType, this);
+      InputStreamReader reader = new InputStreamReader(in);
+      assertEquals(1, files.numberOfLocks());
+      try {
+        int current = reader.read();
+        while (current != -1) {
+          read += (char) current;
+          current = reader.read();
         }
-    }
-
-    @Test
-    public void testIsLocalURL() throws IOException {
-        ShpFiles files = new ShpFiles("http://someurl.com/file.shp");
-        assertFalse(files.isLocal());
-    }
-
-    @Test
-    public void testIsLocalFiles() throws IOException {
-        assertTrue(files.isLocal());
-    }
-
-    @Test
-    public void testDelete() throws IOException {
-
-        assertTrue(files.delete());
-
-        for (File file : map.values()) {
-            assertFalse(file.exists());
-        }
-    }
-
-    @Test
-    public void testExceptionGetInputStream() throws Exception {
-        ShpFiles shpFiles = new ShpFiles(new URL("http://blah/blah.shp"));
-        try{
-            shpFiles.getInputStream(SHP, this);
-            fail("maybe test is bad?  We want an exception here");
-        }catch(Throwable e){
-            assertEquals(0, shpFiles.numberOfLocks());
-        }
-    }
-
-    @Test
-    public void testExceptionGetOutputStream() throws Exception {
-        ShpFiles shpFiles = new ShpFiles(new URL("http://blah/blah.shp"));
-        try{
-            shpFiles.getOutputStream(SHP, this);
-            fail("maybe test is bad?  We want an exception here");
-        }catch(Throwable e){
-            assertEquals(0, shpFiles.numberOfLocks());
-        }
-    }
-
-    @Test
-    public void testExceptionGetWriteChannel() throws Exception {
-        ShpFiles shpFiles = new ShpFiles(new URL("http://blah/blah.shp"));
-        try{
-            shpFiles.getWriteChannel(SHP, this);
-            fail("maybe test is bad?  We want an exception here");
-        }catch(Throwable e){
-            assertEquals(0, shpFiles.numberOfLocks());
-        }
-    }
-
-    @Test
-    public void testExceptionGetReadChannel() throws Exception {
-        ShpFiles shpFiles = new ShpFiles(new URL("http://blah/blah.shp"));
-        try{
-            shpFiles.getReadChannel(SHP, this);
-            fail("maybe test is bad?  We want an exception here");
-        }catch(Throwable e){
-            assertEquals(0, shpFiles.numberOfLocks());
-        }
-    }
-    
-    @Test
-    public void testGetInputStream() throws IOException {
-        writeDataToFiles();
-
-        ShpFileType[] types = ShpFileType.values();
-        for (ShpFileType shpFileType : types) {
-            String read = "";
-            InputStream in = files.getInputStream(shpFileType, this);
-            InputStreamReader reader = new InputStreamReader(in);
-            assertEquals(1, files.numberOfLocks());
-            try {
-                int current = reader.read();
-                while (current != -1) {
-                    read += (char) current;
-                    current = reader.read();
-                }
-            } finally {
-                reader.close();
-                in.close();
-                assertEquals(0, files.numberOfLocks());
-            }
-            assertEquals(shpFileType.name(), read);
-        }
-    }
-
-    @Test
-    public void testGetWriteStream() throws IOException {
-
-        ShpFileType[] types = ShpFileType.values();
-        for (ShpFileType shpFileType : types) {
-            
-            OutputStream out = files.getOutputStream(shpFileType, this);
-            assertEquals(1, files.numberOfLocks());
-            try {
-                out.write((byte)2);
-            } finally {
-                out.close();
-                assertEquals(0, files.numberOfLocks());
-            }
-        }
-    }
-
-    @Test
-    public void testGetReadChannelFileChannel() throws IOException {
-        writeDataToFiles();
-
-        ShpFileType[] types = ShpFileType.values();
-        for (ShpFileType shpFileType : types) {
-            doRead(shpFileType);
-        }
-    }
-
-    @Test
-    public void testGetReadChannelURL() throws IOException {
-        URL url = TestData.url("shapes/statepop.shp");
-        ShpFiles files = new ShpFiles(url);
-        
-        assertFalse(files.isLocal());
-        
-        ReadableByteChannel read = files.getReadChannel(SHP, this);
-        
-        assertEquals(1, files.numberOfLocks());
-        
-        read.close();
-        
+      } finally {
+        reader.close();
+        in.close();
         assertEquals(0, files.numberOfLocks());
+      }
+      assertEquals(shpFileType.name(), read);
     }
-    
-    private void doRead(ShpFileType shpFileType) throws IOException {
-        ReadableByteChannel in = files.getReadChannel(shpFileType, this);
-        assertEquals(1, files.numberOfLocks());
-        assertTrue(in instanceof FileChannel);
+  }
 
-        ByteBuffer buffer = ByteBuffer.allocate(10);
-        in.read(buffer);
-        buffer.flip();
-        String read = "";
-        try {
-            while (buffer.hasRemaining()) {
-                read += (char) buffer.get();
-            }
-        } finally {
-            in.close();
-            // verify that you can close multiple times without bad things
-            // happening
-            in.close();
-        }
+  @Test
+  public void testGetWriteStream() throws IOException {
+
+    ShpFileType[] types = ShpFileType.values();
+    for (ShpFileType shpFileType : types) {
+
+      OutputStream out = files.getOutputStream(shpFileType, this);
+      assertEquals(1, files.numberOfLocks());
+      try {
+        out.write((byte) 2);
+      } finally {
+        out.close();
         assertEquals(0, files.numberOfLocks());
-        assertEquals(shpFileType.name(), read);
+      }
     }
+  }
 
-    private void doWrite(ShpFileType shpFileType) throws IOException {
-        WritableByteChannel out = files.getWriteChannel(shpFileType, this);
-        assertEquals(1, files.numberOfLocks());
-        assertTrue(out instanceof FileChannel);
+  @Test
+  public void testGetReadChannelFileChannel() throws IOException {
+    writeDataToFiles();
 
-        try {
-            ByteBuffer buffer = ByteBuffer.allocate(10);
-            buffer.put(shpFileType.name().getBytes());
-            buffer.flip();
-            out.write(buffer);
-        } finally {
-            out.close();
-            // verify that you can close multiple times without bad things
-            // happening
-            out.close();
-        }
-        assertEquals(0, files.numberOfLocks());
+    ShpFileType[] types = ShpFileType.values();
+    for (ShpFileType shpFileType : types) {
+      doRead(shpFileType);
     }
+  }
 
-    @Test
-    public void testGetWriteChannel() throws IOException {
+  @Test
+  public void testGetReadChannelURL() throws IOException {
+    URL url = TestData.url("shapes/statepop.shp");
+    ShpFiles files = new ShpFiles(url);
 
-        ShpFileType[] types = ShpFileType.values();
-        for (ShpFileType shpFileType : types) {
-            doWrite(shpFileType);
-            doRead(shpFileType);
-        }
+    assertFalse(files.isLocal());
+
+    ReadableByteChannel read = files.getReadChannel(SHP, this);
+
+    assertEquals(1, files.numberOfLocks());
+
+    read.close();
+
+    assertEquals(0, files.numberOfLocks());
+  }
+
+  private void doRead(ShpFileType shpFileType) throws IOException {
+    ReadableByteChannel in = files.getReadChannel(shpFileType, this);
+    assertEquals(1, files.numberOfLocks());
+    assertTrue(in instanceof FileChannel);
+
+    ByteBuffer buffer = ByteBuffer.allocate(10);
+    in.read(buffer);
+    buffer.flip();
+    String read = "";
+    try {
+      while (buffer.hasRemaining()) {
+        read += (char) buffer.get();
+      }
+    } finally {
+      in.close();
+      // verify that you can close multiple times without bad things
+      // happening
+      in.close();
     }
+    assertEquals(0, files.numberOfLocks());
+    assertEquals(shpFileType.name(), read);
+  }
 
-    @Test
-    public void testGetStorageFile() throws Exception {
-        StorageFile prj = files.getStorageFile(PRJ);
-        assertTrue(prj.getFile().getName().startsWith(typeName));
-        assertTrue(prj.getFile().getName().endsWith(".prj"));
+  private void doWrite(ShpFileType shpFileType) throws IOException {
+    WritableByteChannel out = files.getWriteChannel(shpFileType, this);
+    assertEquals(1, files.numberOfLocks());
+    assertTrue(out instanceof FileChannel);
+
+    try {
+      ByteBuffer buffer = ByteBuffer.allocate(10);
+      buffer.put(shpFileType.name().getBytes());
+      buffer.flip();
+      out.write(buffer);
+    } finally {
+      out.close();
+      // verify that you can close multiple times without bad things
+      // happening
+      out.close();
     }
+    assertEquals(0, files.numberOfLocks());
+  }
 
-    @Test
-    public void testGetTypeName() throws Exception {
-        assertEquals(typeName, files.getTypeName());
+  @Test
+  public void testGetWriteChannel() throws IOException {
+
+    ShpFileType[] types = ShpFileType.values();
+    for (ShpFileType shpFileType : types) {
+      doWrite(shpFileType);
+      doRead(shpFileType);
     }
+  }
 
-    public String id() {
-        return getClass().getName();
-    }
+  @Test
+  public void testGetStorageFile() throws Exception {
+    StorageFile prj = files.getStorageFile(PRJ);
+    assertTrue(prj.getFile().getName().startsWith(typeName));
+    assertTrue(prj.getFile().getName().endsWith(".prj"));
+  }
 
+  @Test
+  public void testGetTypeName() throws Exception {
+    assertEquals(typeName, files.getTypeName());
+  }
+
+  public String id() {
+    return getClass().getName();
+  }
 }

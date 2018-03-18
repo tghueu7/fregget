@@ -16,6 +16,7 @@
  */
 package org.geotools.se.v1_1.bindings;
 
+import javax.xml.namespace.QName;
 import org.geotools.se.v1_1.SE;
 import org.geotools.sld.bindings.SLDFeatureTypeStyleBinding;
 import org.geotools.styling.Description;
@@ -23,13 +24,11 @@ import org.geotools.styling.FeatureTypeStyle;
 import org.geotools.styling.StyleFactory;
 import org.geotools.xml.*;
 
-import javax.xml.namespace.QName;
-
 /**
  * Binding object for the element http://www.opengis.net/se:FeatureTypeStyle.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *  <code>
  *  &lt;xsd:element name="FeatureTypeStyle" type="se:FeatureTypeStyleType"&gt;
@@ -39,11 +38,11 @@ import javax.xml.namespace.QName;
  *        feature type.
  *      &lt;/xsd:documentation&gt;
  *      &lt;/xsd:annotation&gt;
- *  &lt;/xsd:element&gt; 
- * 	
+ *  &lt;/xsd:element&gt;
+ *
  *   </code>
  * </pre>
- * 
+ *
  * <pre>
  *       <code>
  *  &lt;xsd:complexType name="FeatureTypeStyleType"&gt;
@@ -58,51 +57,45 @@ import javax.xml.namespace.QName;
  *          &lt;/xsd:choice&gt;
  *      &lt;/xsd:sequence&gt;
  *      &lt;xsd:attribute name="version" type="se:VersionType"/&gt;
- *  &lt;/xsd:complexType&gt; 
- *              
+ *  &lt;/xsd:complexType&gt;
+ *
  *        </code>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
- *
- *
  * @source $URL$
  */
 public class FeatureTypeStyleBinding extends SLDFeatureTypeStyleBinding {
 
-    public FeatureTypeStyleBinding(StyleFactory styleFactory) {
-        super(styleFactory);
+  public FeatureTypeStyleBinding(StyleFactory styleFactory) {
+    super(styleFactory);
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return SE.FeatureTypeStyle;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+
+    FeatureTypeStyle fts = (FeatureTypeStyle) super.parse(instance, node, value);
+
+    if (node.hasChild("Description")) {
+      Description d = (Description) node.getChildValue("Description");
+      fts.getDescription().setTitle(d.getTitle());
+      fts.getDescription().setAbstract(d.getAbstract());
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SE.FeatureTypeStyle;
-    }
+    // TODO: version
+    if (node.hasChild("version")) {}
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-
-        FeatureTypeStyle fts = (FeatureTypeStyle) super.parse(instance, node, value);
-        
-        if (node.hasChild("Description")) {
-            Description d = (Description) node.getChildValue("Description");
-            fts.getDescription().setTitle(d.getTitle());
-            fts.getDescription().setAbstract(d.getAbstract());
-        }
-        
-        //TODO: version
-        if (node.hasChild("version")) {
-        }
-        
-        return fts;
-    }
-
+    return fts;
+  }
 }

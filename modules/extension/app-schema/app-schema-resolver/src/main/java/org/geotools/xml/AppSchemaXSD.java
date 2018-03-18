@@ -20,124 +20,106 @@ package org.geotools.xml;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
-
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.util.XSDSchemaLocator;
-import org.geotools.xml.SchemaLocationResolver;
-import org.geotools.xml.XSD;
 import org.geotools.xml.resolver.SchemaResolver;
 
 /**
- * {@link XSD} that uses {@link SchemaResolver} to locate schema resources in a catalog, on the
- * classpath, or in a cache.
- * 
+ * {@link org.geotools.xml.XSD} that uses {@link SchemaResolver} to locate schema resources in a
+ * catalog, on the classpath, or in a cache.
+ *
  * @author Ben Caradoc-Davies (CSIRO Earth Science and Resource Engineering)
  * @author Niels Charlier (Curtin University of Technology)
- *
- *
- *
  * @source $URL$
  */
 public class AppSchemaXSD extends XSD {
 
-    private final String namespaceUri;
+  private final String namespaceUri;
 
-    private final String schemaLocation;
+  private final String schemaLocation;
 
-    /**
-     * The resolver used to locate resources.
-     */
-    private final SchemaResolver resolver;
+  /** The resolver used to locate resources. */
+  private final SchemaResolver resolver;
 
-    /**
-     * The {@link Configuration} used to encode documents with this schema.
-     */
-    private AppSchemaConfiguration configuration;
+  /** The {@link Configuration} used to encode documents with this schema. */
+  private AppSchemaConfiguration configuration;
 
-    /**
-     * @param namespaceUri
-     * @param schemaLocation
-     * @param resolver
-     */
-    public AppSchemaXSD(String namespaceUri, String schemaLocation, SchemaResolver resolver) {
-        this.namespaceUri = namespaceUri;
-        this.schemaLocation = resolver.resolve(schemaLocation);
-        this.resolver = resolver;
+  /**
+   * @param namespaceUri
+   * @param schemaLocation
+   * @param resolver
+   */
+  public AppSchemaXSD(String namespaceUri, String schemaLocation, SchemaResolver resolver) {
+    this.namespaceUri = namespaceUri;
+    this.schemaLocation = resolver.resolve(schemaLocation);
+    this.resolver = resolver;
+  }
+
+  /** @see org.geotools.xml.XSD#getNamespaceURI() */
+  @Override
+  public String getNamespaceURI() {
+    return namespaceUri;
+  }
+
+  /** @see org.geotools.xml.XSD#getSchemaLocation() */
+  @Override
+  public String getSchemaLocation() {
+    return schemaLocation;
+  }
+
+  /** @param configuration */
+  public void setConfiguration(AppSchemaConfiguration configuration) {
+    this.configuration = configuration;
+  }
+
+  /** @see org.geotools.xml.XSD#createSchemaLocationResolver() */
+  @Override
+  public SchemaLocationResolver createSchemaLocationResolver() {
+    return new AppSchemaLocationResolver(resolver);
+  }
+
+  /** @see org.geotools.xml.XSD#addDependencies(java.util.Set) */
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  @Override
+  protected void addDependencies(Set dependencies) {
+    if (configuration != null) {
+      for (Configuration dependency : (List<Configuration>) configuration.getDependencies()) {
+        dependencies.add(dependency.getXSD());
+      }
     }
+  }
 
-    /**
-     * @see org.geotools.xml.XSD#getNamespaceURI()
-     */
-    @Override
-    public String getNamespaceURI() {
-        return namespaceUri;
-    }
+  @Override
+  public SchemaLocator createSchemaLocator() {
+    return new SchemaLocator(this) {
+      public boolean canHandle(
+          XSDSchema schema,
+          String namespaceURI,
+          String rawSchemaLocationURI,
+          String resolvedSchemaLocationURI) {
+        return xsd.getNamespaceURI().equals(namespaceURI)
+            && xsd.getSchemaLocation().equals(resolvedSchemaLocationURI);
+      }
+    };
+  }
 
-    /**
-     * @see org.geotools.xml.XSD#getSchemaLocation()
-     */
-    @Override
-    public String getSchemaLocation() {
-        return schemaLocation;
-    }
+  @Override
+  public XSDSchemaLocator getSupplementarySchemaLocator() {
+    return AppSchemaXSDRegistry.getInstance();
+  }
 
-    /**
-     * @param configuration
-     */
-    public void setConfiguration(AppSchemaConfiguration configuration) {
-        this.configuration = configuration;
+  @Override
+  protected XSDSchema buildSchema() throws IOException {
+    // check if schema already exists in registry, if so do not build
+    XSDSchema schema = AppSchemaXSDRegistry.getInstance().lookUp(schemaLocation);
+    if (schema == null) {
+      schema = super.buildSchema();
+      // register schema
+      AppSchemaXSDRegistry.getInstance().register(schema);
+    } else {
+      // reset because included schema's are not always complete
+      schema.reset();
     }
-
-    /**
-     * @see org.geotools.xml.XSD#createSchemaLocationResolver()
-     */
-    @Override
-    public SchemaLocationResolver createSchemaLocationResolver() {
-        return new AppSchemaLocationResolver(resolver);
-    }
-
-    /**
-     * @see org.geotools.xml.XSD#addDependencies(java.util.Set)
-     */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Override
-    protected void addDependencies(Set dependencies) {
-        if (configuration != null) {
-            for (Configuration dependency : (List<Configuration>) configuration.getDependencies()) {
-                dependencies.add(dependency.getXSD());
-            }
-        }
-    }
-    
-    @Override
-    public SchemaLocator createSchemaLocator() {
-        return new SchemaLocator(this) {
-            public boolean canHandle( XSDSchema schema, String namespaceURI,
-                    String rawSchemaLocationURI, String resolvedSchemaLocationURI) {
-                return xsd.getNamespaceURI().equals(namespaceURI) &&
-                        xsd.getSchemaLocation().equals(resolvedSchemaLocationURI); 
-            }
-        };
-    }
-    
-    @Override
-    public XSDSchemaLocator getSupplementarySchemaLocator() {
-       return AppSchemaXSDRegistry.getInstance();
-    }
-    
-    @Override
-    protected XSDSchema buildSchema() throws IOException {
-        //check if schema already exists in registry, if so do not build
-        XSDSchema schema = AppSchemaXSDRegistry.getInstance().lookUp(schemaLocation);
-        if (schema == null) {
-            schema = super.buildSchema();
-            //register schema
-            AppSchemaXSDRegistry.getInstance().register(schema);
-        } else {
-            //reset because included schema's are not always complete 
-            schema.reset();
-        }
-        return schema;
-    }
-
+    return schema;
+  }
 }

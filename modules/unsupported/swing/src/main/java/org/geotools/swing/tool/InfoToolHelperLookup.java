@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.logging.Logger;
-
 import org.geotools.map.Layer;
 
 /**
@@ -34,44 +33,40 @@ import org.geotools.map.Layer;
  * @version $URL$
  */
 class InfoToolHelperLookup {
-    private static final Logger LOGGER = Logger.getLogger("org.geotools.swing");
+  private static final Logger LOGGER = Logger.getLogger("org.geotools.swing");
 
-    private static List<InfoToolHelper> cachedInstances;
+  private static List<InfoToolHelper> cachedInstances;
 
-    public static InfoToolHelper getHelper(Layer layer) {
-        loadProviders();
-        
-        for (InfoToolHelper helper : cachedInstances) {
-            try {
-                if (helper.isSupportedLayer(layer)) {
-                    return helper.getClass().newInstance();
-                }
-                
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
+  public static InfoToolHelper getHelper(Layer layer) {
+    loadProviders();
+
+    for (InfoToolHelper helper : cachedInstances) {
+      try {
+        if (helper.isSupportedLayer(layer)) {
+          return helper.getClass().newInstance();
         }
 
-        return null;
+      } catch (Exception ex) {
+        throw new RuntimeException(ex);
+      }
     }
 
-    /**
-     * Caches available classes which implement the InfoToolHelper SPI.
-     */
-    private static void loadProviders() {
-        List<Class> providers = null;
-        
-        if (cachedInstances == null) {
-            cachedInstances = new ArrayList<InfoToolHelper>();
-            
-            ServiceLoader<InfoToolHelper> loader = 
-                    ServiceLoader.load(InfoToolHelper.class);
-            
-            Iterator<InfoToolHelper> iter = loader.iterator();
-            while (iter.hasNext()) {
-                cachedInstances.add(iter.next());
-            }
-        }
-    }
+    return null;
+  }
 
+  /** Caches available classes which implement the InfoToolHelper SPI. */
+  private static void loadProviders() {
+    List<Class> providers = null;
+
+    if (cachedInstances == null) {
+      cachedInstances = new ArrayList<InfoToolHelper>();
+
+      ServiceLoader<InfoToolHelper> loader = ServiceLoader.load(InfoToolHelper.class);
+
+      Iterator<InfoToolHelper> iter = loader.iterator();
+      while (iter.hasNext()) {
+        cachedInstances.add(iter.next());
+      }
+    }
+  }
 }

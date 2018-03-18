@@ -18,61 +18,57 @@
 package org.geotools.arcsde.data.view;
 
 import java.util.Map;
-
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.select.ColumnIndex;
 import net.sf.jsqlparser.statement.select.ColumnReference;
 import net.sf.jsqlparser.statement.select.ColumnReferenceVisitor;
-
 import org.geotools.arcsde.session.ISession;
 
 /**
  * Qualifies a column reference (aliased) the ArcSDE "table.user." prefix as required by the ArcSDE
  * java api to not get confused when using joined tables.
- * 
+ *
  * @author Gabriel Roldan, Axios Engineering
  * @version $Id$
- *
- *
  * @source $URL$
- *         http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
- *         /org/geotools/arcsde/data/view/ColumnReferenceQualifier.java $
+ *     http://svn.geotools.org/geotools/trunk/gt/modules/plugin/arcsde/datastore/src/main/java
+ *     /org/geotools/arcsde/data/view/ColumnReferenceQualifier.java $
  * @since 2.3.x
  */
 public class ColumnReferenceQualifier implements ColumnReferenceVisitor {
-    private ColumnReference qualifiedReference;
+  private ColumnReference qualifiedReference;
 
-    private ISession session;
+  private ISession session;
 
-    private Map<String, Object> tableAliases;
+  private Map<String, Object> tableAliases;
 
-    /**
-     * Creates a new ColumnReferenceQualifier object.
-     * 
-     * @param session
-     */
-    private ColumnReferenceQualifier(ISession session, Map<String, Object> tableAliases) {
-        this.session = session;
-        this.tableAliases = tableAliases;
+  /**
+   * Creates a new ColumnReferenceQualifier object.
+   *
+   * @param session
+   */
+  private ColumnReferenceQualifier(ISession session, Map<String, Object> tableAliases) {
+    this.session = session;
+    this.tableAliases = tableAliases;
+  }
+
+  public static ColumnReference qualify(
+      ISession session, Map<String, Object> tableAliases, ColumnReference colRef) {
+    if (colRef == null) {
+      return null;
     }
 
-    public static ColumnReference qualify(ISession session, Map<String, Object> tableAliases,
-            ColumnReference colRef) {
-        if (colRef == null) {
-            return null;
-        }
+    ColumnReferenceQualifier qualifier = new ColumnReferenceQualifier(session, tableAliases);
+    colRef.accept(qualifier);
 
-        ColumnReferenceQualifier qualifier = new ColumnReferenceQualifier(session, tableAliases);
-        colRef.accept(qualifier);
+    return qualifier.qualifiedReference;
+  }
 
-        return qualifier.qualifiedReference;
-    }
+  public void visit(ColumnIndex columnIndex) {
+    qualifiedReference = columnIndex;
+  }
 
-    public void visit(ColumnIndex columnIndex) {
-        qualifiedReference = columnIndex;
-    }
-
-    public void visit(Column column) {
-        this.qualifiedReference = ColumnQualifier.qualify(session, tableAliases, column);
-    }
+  public void visit(Column column) {
+    this.qualifiedReference = ColumnQualifier.qualify(session, tableAliases, column);
+  }
 }

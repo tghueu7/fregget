@@ -17,7 +17,6 @@
 package org.geotools.filter.v2_0.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.filter.v2_0.FES;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
@@ -28,57 +27,56 @@ import org.opengis.filter.temporal.Ends;
 
 /**
  * Binding object for the element http://www.opengis.net/fes/2.0:Ends.
- * 
+ *
  * <p>
- * 
+ *
  * <pre>
  *  <code>
- *  &lt;xsd:element name="Ends" substitutionGroup="fes:temporalOps" type="fes:BinaryTemporalOpType"/&gt; 
- * 	
+ *  &lt;xsd:element name="Ends" substitutionGroup="fes:temporalOps" type="fes:BinaryTemporalOpType"/&gt;
+ *
  *   </code>
  * </pre>
- * 
- * </p>
- * 
+ *
  * @generated
  */
 public class EndsBinding extends AbstractComplexBinding {
 
-    FilterFactory filterFactory;
+  FilterFactory filterFactory;
 
-    public EndsBinding(FilterFactory filterFactory) {
-        this.filterFactory = filterFactory;
-    }
+  public EndsBinding(FilterFactory filterFactory) {
+    this.filterFactory = filterFactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return FES.Ends;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return FES.Ends;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Class getType() {
-        return Ends.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return Ends.class;
+  }
 
-    @Override
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  @Override
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        Expression[] e = FESParseEncodeUtil.temporal(node, filterFactory);
-        return filterFactory.ends(e[0], e[1]);
-    }
-
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    Expression[] e = FESParseEncodeUtil.temporal(node, filterFactory);
+    return filterFactory.ends(e[0], e[1]);
+  }
 }

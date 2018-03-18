@@ -18,28 +18,22 @@ package org.geotools.sld.bindings;
 
 import org.geotools.styling.StyledLayerDescriptor;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SLDStyledLayerDescriptorBindingTest extends SLDTestSupport {
-    public void testType() throws Exception {
-        assertEquals(StyledLayerDescriptor.class,
-            new SLDStyledLayerDescriptorBinding(null).getType());
-    }
+  public void testType() throws Exception {
+    assertEquals(StyledLayerDescriptor.class, new SLDStyledLayerDescriptorBinding(null).getType());
+  }
 
-    public void test() throws Exception {
-        SLDMockData.styledLayerDescriptor(document, document);
+  public void test() throws Exception {
+    SLDMockData.styledLayerDescriptor(document, document);
 
-        StyledLayerDescriptor sld = (StyledLayerDescriptor) parse();
-        assertNotNull(sld);
+    StyledLayerDescriptor sld = (StyledLayerDescriptor) parse();
+    assertNotNull(sld);
 
-        assertEquals("theName", sld.getName());
-        assertEquals("theTitle", sld.getTitle());
-        assertEquals("theAbstract", sld.getAbstract());
+    assertEquals("theName", sld.getName());
+    assertEquals("theTitle", sld.getTitle());
+    assertEquals("theAbstract", sld.getAbstract());
 
-        assertEquals(2, sld.getStyledLayers().length);
-    }
+    assertEquals(2, sld.getStyledLayers().length);
+  }
 }

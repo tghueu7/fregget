@@ -1,9 +1,9 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
- *    
+ *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
  *    License as published by the Free Software Foundation;
@@ -21,36 +21,34 @@ import java.io.InputStream;
 
 public class DelegateHTTPResponse implements HTTPResponse {
 
-    protected HTTPResponse delegate;
+  protected HTTPResponse delegate;
 
-    
-    public DelegateHTTPResponse(HTTPResponse delegate) {
-        this.delegate = delegate;
-    }
-    
-    
-    @Override
-    public void dispose() {
-        delegate.dispose();
-    }
-    
-    @Override
-    public String getContentType() {
-        return delegate.getContentType();
-    }
-    
-    @Override
-    public String getResponseHeader(String headerName) {
-        return delegate.getResponseHeader(headerName);
-    }
-    
-    @Override
-    public InputStream getResponseStream() throws IOException {
-        return delegate.getResponseStream();
-    }
+  public DelegateHTTPResponse(HTTPResponse delegate) {
+    this.delegate = delegate;
+  }
 
-    @Override
-    public String getResponseCharset() {
-        return delegate.getResponseCharset();
-    }
+  @Override
+  public void dispose() {
+    delegate.dispose();
+  }
+
+  @Override
+  public String getContentType() {
+    return delegate.getContentType();
+  }
+
+  @Override
+  public String getResponseHeader(String headerName) {
+    return delegate.getResponseHeader(headerName);
+  }
+
+  @Override
+  public InputStream getResponseStream() throws IOException {
+    return delegate.getResponseStream();
+  }
+
+  @Override
+  public String getResponseCharset() {
+    return delegate.getResponseCharset();
+  }
 }

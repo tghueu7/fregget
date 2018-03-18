@@ -20,9 +20,9 @@ import org.geotools.jdbc.JDBCInEncodingOnlineTest;
 import org.geotools.jdbc.JDBCTestSetup;
 
 public class MySQLInEncodingOnlineTest extends JDBCInEncodingOnlineTest {
-    
-    @Override
-    protected JDBCTestSetup createTestSetup() {
-        return new MySQLTestSetup();
-    }
+
+  @Override
+  protected JDBCTestSetup createTestSetup() {
+    return new MySQLTestSetup();
+  }
 }

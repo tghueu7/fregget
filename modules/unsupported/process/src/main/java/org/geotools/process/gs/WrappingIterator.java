@@ -18,38 +18,36 @@
 package org.geotools.process.gs;
 
 import java.util.Iterator;
-
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.opengis.feature.simple.SimpleFeature;
 
 /**
  * An iterator wrapping a {@link SimpleFeatureIterator} and exposing its close method.
- * 
- * @author Andrea Aime - OpenGeo
  *
+ * @author Andrea Aime - OpenGeo
  * @source $URL$
  */
 public class WrappingIterator implements Iterator<SimpleFeature>, SimpleFeatureIterator {
-    SimpleFeatureIterator delegate;
+  SimpleFeatureIterator delegate;
 
-    public WrappingIterator(SimpleFeatureIterator delegate) {
-        super();
-        this.delegate = delegate;
-    }
+  public WrappingIterator(SimpleFeatureIterator delegate) {
+    super();
+    this.delegate = delegate;
+  }
 
-    public boolean hasNext() {
-        return delegate.hasNext();
-    }
+  public boolean hasNext() {
+    return delegate.hasNext();
+  }
 
-    public SimpleFeature next() {
-        return delegate.next();
-    }
+  public SimpleFeature next() {
+    return delegate.next();
+  }
 
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
+  public void remove() {
+    throw new UnsupportedOperationException();
+  }
 
-    public void close() {
-        delegate.close();
-    }
+  public void close() {
+    delegate.close();
+  }
 }

@@ -17,36 +17,26 @@
 package org.geotools.validation.relate;
 
 import java.beans.PropertyDescriptor;
-
 import org.geotools.validation.DefaultIntegrityValidationBeanInfo;
 
 /**
  * @author Pati
- *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- *
- *
+ *     <p>To change the template for this generated type comment go to
+ *     Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  * @source $URL$
  */
-public class IntersectsIntegrityBeanInfo
-	extends DefaultIntegrityValidationBeanInfo 
-{
-	/**
-	 * 
-	 */
-	public IntersectsIntegrityBeanInfo(){
-        super();
-    }
+public class IntersectsIntegrityBeanInfo extends DefaultIntegrityValidationBeanInfo {
+  /** */
+  public IntersectsIntegrityBeanInfo() {
+    super();
+  }
 
-	
-    /**
-     * Implementation of getPropertyDescriptors.
-     *
-     *
-     * @see java.beans.BeanInfo#getPropertyDescriptors()
-     */
-    public PropertyDescriptor[] getPropertyDescriptors() {
-        return super.getPropertyDescriptors();
-    }
+  /**
+   * Implementation of getPropertyDescriptors.
+   *
+   * @see java.beans.BeanInfo#getPropertyDescriptors()
+   */
+  public PropertyDescriptor[] getPropertyDescriptors() {
+    return super.getPropertyDescriptors();
+  }
 }

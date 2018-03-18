@@ -16,44 +16,40 @@
  */
 package org.geotools.data.mongodb.complex;
 
+import static org.geotools.filter.capability.FunctionNameImpl.parameter;
+
 import org.geotools.feature.NameImpl;
 import org.geotools.filter.AttributeExpressionImpl;
 import org.geotools.filter.FunctionExpressionImpl;
 import org.geotools.filter.capability.FunctionNameImpl;
 import org.opengis.filter.capability.FunctionName;
 
-import static org.geotools.filter.capability.FunctionNameImpl.parameter;
-
-/**
- * Function that selects a JSON object using a JSON path.
- */
+/** Function that selects a JSON object using a JSON path. */
 public final class JsonSelectFunction extends FunctionExpressionImpl {
 
-    private static final FunctionName DEFINITION = new FunctionNameImpl(
-            "jsonSelect", parameter("path", String.class));
+  private static final FunctionName DEFINITION =
+      new FunctionNameImpl("jsonSelect", parameter("path", String.class));
 
-    public JsonSelectFunction() {
-        super(DEFINITION);
-    }
+  public JsonSelectFunction() {
+    super(DEFINITION);
+  }
 
-    public Object evaluate(Object object) {
-        String path = (String) this.params.get(0).evaluate(object);
-        if (object instanceof MongoCollectionFeature) {
-            if (!MongoComplexUtilities.useLegacyPaths()) {
-                String parentPath = ((MongoCollectionFeature) object).getCollectionPath();
-                path = parentPath + "." + path;
-            }
-        }
-        if (object == null) {
-            return new AttributeExpressionImpl(new NameImpl(path));
-        }
-        return MongoComplexUtilities.getValue(object, path);
+  public Object evaluate(Object object) {
+    String path = (String) this.params.get(0).evaluate(object);
+    if (object instanceof MongoCollectionFeature) {
+      if (!MongoComplexUtilities.useLegacyPaths()) {
+        String parentPath = ((MongoCollectionFeature) object).getCollectionPath();
+        path = parentPath + "." + path;
+      }
     }
+    if (object == null) {
+      return new AttributeExpressionImpl(new NameImpl(path));
+    }
+    return MongoComplexUtilities.getValue(object, path);
+  }
 
-    /**
-     * Return the JSON path to be selected.
-     */
-    public String getJsonPath() {
-        return (String) this.params.get(0).evaluate(null);
-    }
+  /** Return the JSON path to be selected. */
+  public String getJsonPath() {
+    return (String) this.params.get(0).evaluate(null);
+  }
 }

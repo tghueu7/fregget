@@ -17,25 +17,22 @@
 package org.geotools.wfs.bindings;
 
 import java.util.Iterator;
-
 import javax.xml.namespace.QName;
-
 import net.opengis.wfs.InsertResultsType;
 import net.opengis.wfs.InsertedFeatureType;
 import net.opengis.wfs.WfsFactory;
-
 import org.eclipse.emf.common.util.EList;
 import org.geotools.wfs.v1_1.WFS;
 import org.geotools.xml.AbstractComplexEMFBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-
 /**
  * Binding object for the type http://www.opengis.net/wfs:InsertResultsType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="InsertResultsType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -57,50 +54,44 @@ import org.geotools.xml.Node;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class InsertResultsTypeBinding extends AbstractComplexEMFBinding {
-    public InsertResultsTypeBinding(WfsFactory factory) {
-        super(factory);
+  public InsertResultsTypeBinding(WfsFactory factory) {
+    super(factory);
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return WFS.InsertResultsType;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return InsertResultsType.class;
+  }
+
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+
+    InsertResultsType resultType = (InsertResultsType) super.parse(instance, node, value);
+
+    // remove 'none'
+    Iterator it = resultType.getFeature().iterator();
+    while (it.hasNext()) {
+      EList fids = ((InsertedFeatureType) it.next()).getFeatureId();
+      if (fids.size() == 1 && "none".equals(fids.get(0).toString())) {
+        it.remove();
+      }
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WFS.InsertResultsType;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return InsertResultsType.class;
-    }
-    
-    public Object parse(ElementInstance instance, Node node, Object value) throws Exception{
-        
-        InsertResultsType resultType = (InsertResultsType) super.parse(instance, node, value);
-        
-        //remove 'none'
-        Iterator it = resultType.getFeature().iterator();
-        while (it.hasNext()) {
-              EList fids = ((InsertedFeatureType)it.next()).getFeatureId();
-              if (fids.size() == 1 && "none".equals(fids.get(0).toString())){
-                  it.remove();
-              }
-        }
-        
-        return resultType;
-    }
-
+    return resultType;
+  }
 }

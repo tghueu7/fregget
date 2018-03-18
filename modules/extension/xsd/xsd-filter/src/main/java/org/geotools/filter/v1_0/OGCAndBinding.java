@@ -17,72 +17,67 @@
 package org.geotools.filter.v1_0;
 
 import java.util.List;
-
 import javax.xml.namespace.QName;
-import org.opengis.filter.And;
-import org.opengis.filter.Filter;
-import org.opengis.filter.FilterFactory;
 import org.geotools.filter.FilterParsingUtils;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
-
+import org.opengis.filter.And;
+import org.opengis.filter.Filter;
+import org.opengis.filter.FilterFactory;
 
 /**
  * Binding object for the element http://www.opengis.net/ogc:And.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="And" substitutionGroup="ogc:logicOps" type="ogc:BinaryLogicOpType"/&gt;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class OGCAndBinding extends AbstractComplexBinding {
-    FilterFactory filterfactory;
+  FilterFactory filterfactory;
 
-    public OGCAndBinding(FilterFactory filterfactory) {
-        this.filterfactory = filterfactory;
-    }
+  public OGCAndBinding(FilterFactory filterfactory) {
+    this.filterfactory = filterfactory;
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return OGC.And;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return OGC.And;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return And.class;
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return And.class;
+  }
 
-    public int getExecutionMode() {
-        return AFTER;
-    }
+  public int getExecutionMode() {
+    return AFTER;
+  }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        List<Filter> operands = FilterParsingUtils.BinaryLogicOperator_getChildFilters(node, filterfactory);
-        return filterfactory.and( operands );
-    }
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    List<Filter> operands =
+        FilterParsingUtils.BinaryLogicOperator_getChildFilters(node, filterfactory);
+    return filterfactory.and(operands);
+  }
 }

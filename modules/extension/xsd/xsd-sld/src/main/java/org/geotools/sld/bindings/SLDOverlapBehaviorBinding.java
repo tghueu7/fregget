@@ -17,19 +17,18 @@
 package org.geotools.sld.bindings;
 
 import javax.xml.namespace.QName;
-
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 import org.opengis.style.OverlapBehavior;
 import org.picocontainer.MutablePicoContainer;
 
-
 /**
  * Binding object for the element http://www.opengis.net/sld:OverlapBehavior.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:element name="OverlapBehavior"&gt;
  *      &lt;xsd:annotation&gt;
@@ -50,79 +49,75 @@ import org.picocontainer.MutablePicoContainer;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class SLDOverlapBehaviorBinding extends AbstractComplexBinding {
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return SLD.OVERLAPBEHAVIOR;
+  /** @generated */
+  public QName getTarget() {
+    return SLD.OVERLAPBEHAVIOR;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public int getExecutionMode() {
+    return AFTER;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return OverlapBehavior.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {}
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    // &lt;xsd:element ref="sld:LATEST_ON_TOP"/&gt;
+    if (node.hasChild("LATEST_ON_TOP")) {
+      return OverlapBehavior.LATEST_ON_TOP;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public int getExecutionMode() {
-        return AFTER;
+    // &lt;xsd:element ref="sld:EARLIEST_ON_TOP"/&gt;
+    if (node.hasChild("EARLIEST_ON_TOP")) {
+      return OverlapBehavior.EARLIEST_ON_TOP;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return OverlapBehavior.class;
+    // &lt;xsd:element ref="sld:AVERAGE"/&gt;
+    if (node.hasChild("AVERAGE")) {
+      return OverlapBehavior.AVERAGE;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public void initialize(ElementInstance instance, Node node, MutablePicoContainer context) {
+    // &lt;xsd:element ref="sld:RANDOM"/&gt;
+    if (node.hasChild("RANDOM")) {
+      return OverlapBehavior.RANDOM;
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        //&lt;xsd:element ref="sld:LATEST_ON_TOP"/&gt;
-        if (node.hasChild("LATEST_ON_TOP")) {
-            return OverlapBehavior.LATEST_ON_TOP;
-        }
-
-        //&lt;xsd:element ref="sld:EARLIEST_ON_TOP"/&gt;
-        if (node.hasChild("EARLIEST_ON_TOP")) {
-            return OverlapBehavior.EARLIEST_ON_TOP;
-        }
-
-        //&lt;xsd:element ref="sld:AVERAGE"/&gt;
-        if (node.hasChild("AVERAGE")) {
-            return OverlapBehavior.AVERAGE;
-        }
-
-        //&lt;xsd:element ref="sld:RANDOM"/&gt;
-        if (node.hasChild("RANDOM")) {
-            return OverlapBehavior.RANDOM;
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

@@ -16,65 +16,60 @@
  */
 package org.geotools.coverage.grid;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import org.opengis.referencing.crs.CoordinateReferenceSystem;
-import org.geotools.referencing.crs.DefaultGeographicCRS;
-
-import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import org.geotools.referencing.crs.DefaultGeographicCRS;
+import org.junit.*;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
  * Tests the {@link GridCoverage2D} implementation.
- *
- *
  *
  * @source $URL$
  * @version $Id$
  * @author Martin Desruisseaux (IRD)
  */
 public final class GridCoverageTest extends GridCoverageTestBase {
-    
-    /** Used to avoid errors if building on a system where hostname is not defined */
-    private boolean hostnameDefined;
-    
-    @Before
-    public void setup() {
-        try {
-            InetAddress.getLocalHost();
-            hostnameDefined = true;
-        } catch (Exception ex) {
-            hostnameDefined = false;
-        }
-    }
 
-    /**
-     * Tests a grid coverage filled with random values.
-     */
-    @Test
-    public void testRandomCoverage() {
-        final CoordinateReferenceSystem crs = DefaultGeographicCRS.WGS84;
-        final GridCoverage2D coverage = getRandomCoverage(crs);
-        assertRasterEquals(coverage, coverage); // Actually a test of assertEqualRasters(...).
-        assertSame(coverage.getRenderedImage(), coverage.getRenderableImage(0,1).createDefaultRendering());
-    }
+  /** Used to avoid errors if building on a system where hostname is not defined */
+  private boolean hostnameDefined;
 
-    /**
-     * Tests the serialization of a grid coverage.
-     *
-     * @throws IOException if an I/O operation was needed and failed.
-     * @throws ClassNotFoundException Should never happen.
-     */
-    @Test
-    public void testSerialization() throws IOException, ClassNotFoundException {
-        if (hostnameDefined) {
-            GridCoverage2D coverage = EXAMPLES.get(0);
-            GridCoverage2D serial = serialize(coverage);
-            assertNotSame(coverage, serial);
-            assertEquals(GridCoverage2D.class, serial.getClass());
-            assertRasterEquals(coverage, serial);
-        }
+  @Before
+  public void setup() {
+    try {
+      InetAddress.getLocalHost();
+      hostnameDefined = true;
+    } catch (Exception ex) {
+      hostnameDefined = false;
     }
+  }
 
+  /** Tests a grid coverage filled with random values. */
+  @Test
+  public void testRandomCoverage() {
+    final CoordinateReferenceSystem crs = DefaultGeographicCRS.WGS84;
+    final GridCoverage2D coverage = getRandomCoverage(crs);
+    assertRasterEquals(coverage, coverage); // Actually a test of assertEqualRasters(...).
+    assertSame(
+        coverage.getRenderedImage(), coverage.getRenderableImage(0, 1).createDefaultRendering());
+  }
+
+  /**
+   * Tests the serialization of a grid coverage.
+   *
+   * @throws IOException if an I/O operation was needed and failed.
+   * @throws ClassNotFoundException Should never happen.
+   */
+  @Test
+  public void testSerialization() throws IOException, ClassNotFoundException {
+    if (hostnameDefined) {
+      GridCoverage2D coverage = EXAMPLES.get(0);
+      GridCoverage2D serial = serialize(coverage);
+      assertNotSame(coverage, serial);
+      assertEquals(GridCoverage2D.class, serial.getClass());
+      assertRasterEquals(coverage, serial);
+    }
+  }
 }

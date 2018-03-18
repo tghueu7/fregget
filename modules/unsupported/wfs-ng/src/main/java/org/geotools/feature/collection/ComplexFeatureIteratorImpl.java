@@ -20,76 +20,75 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.geotools.data.wfs.internal.parsers.XmlComplexFeatureParser;
 import org.geotools.feature.FeatureIterator;
 import org.geotools.util.logging.Logging;
 import org.opengis.feature.Feature;
 
 /**
- * Defines the complex feature iterator implementation class. It's responsible for exposing an iterator-style interface for complex features.
- * 
+ * Defines the complex feature iterator implementation class. It's responsible for exposing an
+ * iterator-style interface for complex features.
+ *
  * @author Adam Brown (Curtin University of Technology)
  * @author Rini Angreani (CSIRO Earth Science and Resource Engineering)
- * 
  */
 public class ComplexFeatureIteratorImpl implements FeatureIterator<Feature> {
 
-    private static final Logger LOGGER = Logging.getLogger(ComplexFeatureIteratorImpl.class);
+  private static final Logger LOGGER = Logging.getLogger(ComplexFeatureIteratorImpl.class);
 
-    private XmlComplexFeatureParser parser;
+  private XmlComplexFeatureParser parser;
 
-    private Feature parsedFeature;
+  private Feature parsedFeature;
 
-    private boolean hasNextCalled;
+  private boolean hasNextCalled;
 
-    /**
-     * Initialises a new instance of ComplexFeatureIteratorImpl.
-     * 
-     * @param parser The feature parser to use.
-     */
-    public ComplexFeatureIteratorImpl(XmlComplexFeatureParser parser) {
-        this.parser = parser;
-        this.parsedFeature = null;
+  /**
+   * Initialises a new instance of ComplexFeatureIteratorImpl.
+   *
+   * @param parser The feature parser to use.
+   */
+  public ComplexFeatureIteratorImpl(XmlComplexFeatureParser parser) {
+    this.parser = parser;
+    this.parsedFeature = null;
+    this.hasNextCalled = false;
+  }
+
+  @Override
+  public boolean hasNext() {
+    this.hasNextCalled = true;
+    try {
+      parsedFeature = parser.parse();
+      return parsedFeature != null;
+    } catch (IOException e) {
+      LOGGER.log(Level.FINER, e.getMessage(), e);
+      close();
+      return false;
+    }
+  }
+
+  @Override
+  public Feature next() throws NoSuchElementException {
+    if (!hasNextCalled) {
+      if (hasNext()) {
         this.hasNextCalled = false;
+        return parsedFeature;
+      } else {
+        close();
+        return null;
+      }
+    } else {
+      this.hasNextCalled = false;
+      return parsedFeature;
     }
+  }
 
-    @Override
-    public boolean hasNext() {
-        this.hasNextCalled = true;
-        try {
-            parsedFeature = parser.parse();
-            return parsedFeature != null;
-        } catch (IOException e) {
-            LOGGER.log(Level.FINER, e.getMessage(), e);
-            close();
-            return false;
-        }
+  @Override
+  public void close() {
+    try {
+      parser.close();
+      parsedFeature = null;
+    } catch (IOException e) {
+      LOGGER.log(Level.FINER, e.getMessage(), e);
     }
-
-    @Override
-    public Feature next() throws NoSuchElementException {
-        if (!hasNextCalled) {
-            if (hasNext()) {
-                this.hasNextCalled = false;
-                return parsedFeature;
-            } else {
-                close();
-                return null;
-            }
-        } else {
-            this.hasNextCalled = false;
-            return parsedFeature;
-        }
-    }
-
-    @Override
-    public void close() {
-        try {
-            parser.close();
-            parsedFeature = null;
-        } catch (IOException e) {
-            LOGGER.log(Level.FINER, e.getMessage(), e);
-        }
-    }
+  }
 }

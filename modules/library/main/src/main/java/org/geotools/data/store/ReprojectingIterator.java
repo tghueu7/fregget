@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -16,10 +16,10 @@
  */
 package org.geotools.data.store;
 
+import com.vividsolutions.jts.geom.Geometry;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-
 import org.geotools.factory.FactoryRegistryException;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.geometry.jts.GeometryCoordinateSequenceTransformer;
@@ -34,106 +34,97 @@ import org.opengis.referencing.operation.MathTransform2D;
 import org.opengis.referencing.operation.OperationNotFoundException;
 import org.opengis.referencing.operation.TransformException;
 
-import com.vividsolutions.jts.geom.Geometry;
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class ReprojectingIterator implements Iterator<SimpleFeature> {
 
-    /**
-     * decorated iterator
-     */
-    Iterator<SimpleFeature> delegate;
+  /** decorated iterator */
+  Iterator<SimpleFeature> delegate;
 
-    /**
-     * The target coordinate reference system
-     */
-    CoordinateReferenceSystem target;
+  /** The target coordinate reference system */
+  CoordinateReferenceSystem target;
 
-    /**
-     * schema of reprojected features
-     */
-    SimpleFeatureType schema;
+  /** schema of reprojected features */
+  SimpleFeatureType schema;
 
-    /**
-     * Transformer
-     */
-    GeometryCoordinateSequenceTransformer tx;
+  /** Transformer */
+  GeometryCoordinateSequenceTransformer tx;
 
-    public ReprojectingIterator(
-		Iterator<SimpleFeature> delegate, MathTransform transform, SimpleFeatureType schema, 
-		GeometryCoordinateSequenceTransformer transformer
-    ) throws OperationNotFoundException, FactoryRegistryException, FactoryException {
-        this.delegate = delegate;
-        this.schema = schema;
+  public ReprojectingIterator(
+      Iterator<SimpleFeature> delegate,
+      MathTransform transform,
+      SimpleFeatureType schema,
+      GeometryCoordinateSequenceTransformer transformer)
+      throws OperationNotFoundException, FactoryRegistryException, FactoryException {
+    this.delegate = delegate;
+    this.schema = schema;
 
-        tx = transformer;
-        tx.setMathTransform((MathTransform2D) transform);
+    tx = transformer;
+    tx.setMathTransform((MathTransform2D) transform);
+  }
+
+  public ReprojectingIterator(
+      Iterator<SimpleFeature> delegate,
+      CoordinateReferenceSystem source,
+      CoordinateReferenceSystem target,
+      SimpleFeatureType schema,
+      GeometryCoordinateSequenceTransformer transformer)
+      throws OperationNotFoundException, FactoryRegistryException, FactoryException {
+    this.delegate = delegate;
+    this.target = target;
+    this.schema = schema;
+    tx = transformer;
+
+    MathTransform transform =
+        ReferencingFactoryFinder.getCoordinateOperationFactory(null)
+            .createOperation(source, target)
+            .getMathTransform();
+    tx.setMathTransform(transform);
+  }
+
+  public Iterator<SimpleFeature> getDelegate() {
+    return delegate;
+  }
+
+  public void remove() {
+    delegate.remove();
+  }
+
+  public boolean hasNext() {
+    return delegate.hasNext();
+  }
+
+  public SimpleFeature next() {
+    SimpleFeature feature = (SimpleFeature) delegate.next();
+    try {
+      return reproject(feature);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    public ReprojectingIterator(
-		Iterator<SimpleFeature> delegate, CoordinateReferenceSystem source, CoordinateReferenceSystem target,
-        SimpleFeatureType schema, GeometryCoordinateSequenceTransformer transformer
-    ) throws OperationNotFoundException, FactoryRegistryException, FactoryException {
-        this.delegate = delegate;
-        this.target = target;
-        this.schema = schema;
-        tx = transformer;
+  SimpleFeature reproject(SimpleFeature feature) throws IOException {
 
-        MathTransform transform = ReferencingFactoryFinder.getCoordinateOperationFactory(
-                null).createOperation(source, target).getMathTransform();
-        tx.setMathTransform(transform);
-    }
+    List<Object> attributes = feature.getAttributes();
 
-    public Iterator<SimpleFeature> getDelegate() {
-        return delegate;
-    }
-
-    public void remove() {
-        delegate.remove();
-    }
-
-    public boolean hasNext() {
-        return delegate.hasNext();
-    }
-
-    public SimpleFeature next() {
-        SimpleFeature feature = (SimpleFeature) delegate.next();
+    for (int i = 0; i < attributes.size(); i++) {
+      Object object = attributes.get(i);
+      if (object instanceof Geometry) {
+        // do the transformation
+        Geometry geometry = (Geometry) object;
         try {
-            return reproject(feature);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+          attributes.set(i, tx.transform(geometry));
+        } catch (TransformException e) {
+          String msg = "Error occured transforming " + geometry.toString();
+          throw (IOException) new IOException(msg).initCause(e);
         }
+      }
     }
 
-    SimpleFeature reproject(SimpleFeature feature) throws IOException {
-
-        List<Object> attributes = feature.getAttributes();
-
-        for (int i = 0; i < attributes.size(); i++) {
-            Object object = attributes.get(i);
-            if (object instanceof Geometry) {
-                // do the transformation
-                Geometry geometry = (Geometry) object;
-                try {
-                    attributes.set(i, tx.transform(geometry));
-                } catch (TransformException e) {
-                    String msg = "Error occured transforming "
-                            + geometry.toString();
-                    throw (IOException) new IOException(msg).initCause(e);
-                }
-            }
-        }
-
-        try {
-            return SimpleFeatureBuilder.build(schema, attributes, feature.getID());
-        } catch (IllegalAttributeException e) {
-            String msg = "Error creating reprojeced feature";
-            throw (IOException) new IOException(msg).initCause(e);
-        }
+    try {
+      return SimpleFeatureBuilder.build(schema, attributes, feature.getID());
+    } catch (IllegalAttributeException e) {
+      String msg = "Error creating reprojeced feature";
+      throw (IOException) new IOException(msg).initCause(e);
     }
-
+  }
 }

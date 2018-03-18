@@ -19,7 +19,6 @@ package org.geotools.data.directory;
 import java.awt.RenderingHints.Key;
 import java.io.IOException;
 import java.util.Set;
-
 import org.geotools.data.DataAccess;
 import org.geotools.data.FeatureListener;
 import org.geotools.data.Query;
@@ -33,81 +32,72 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.Name;
 import org.opengis.filter.Filter;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class DirectoryFeatureSource implements SimpleFeatureSource {
-    SimpleFeatureSource fsource;
-    
-    public DirectoryFeatureSource(
-            SimpleFeatureSource delegate) {
-        this.fsource = delegate;
-    }
+  SimpleFeatureSource fsource;
 
-    public void addFeatureListener(FeatureListener listener) {
-        fsource.addFeatureListener(listener);
-    }
+  public DirectoryFeatureSource(SimpleFeatureSource delegate) {
+    this.fsource = delegate;
+  }
 
-    public ReferencedEnvelope getBounds() throws IOException {
-        return fsource.getBounds();
-    }
+  public void addFeatureListener(FeatureListener listener) {
+    fsource.addFeatureListener(listener);
+  }
 
-    public ReferencedEnvelope getBounds(Query query) throws IOException {
-        return fsource.getBounds(query);
-    }
+  public ReferencedEnvelope getBounds() throws IOException {
+    return fsource.getBounds();
+  }
 
-    public int getCount(Query query) throws IOException {
-        return fsource.getCount(query);
-    }
+  public ReferencedEnvelope getBounds(Query query) throws IOException {
+    return fsource.getBounds(query);
+  }
 
-    public DataAccess<SimpleFeatureType, SimpleFeature> getDataStore() {
-        // this is done on purpose to avoid crippling the shapefile renderer optimizations
-        return fsource.getDataStore();
-    }
+  public int getCount(Query query) throws IOException {
+    return fsource.getCount(query);
+  }
 
-    public SimpleFeatureCollection getFeatures()
-            throws IOException {
-        return fsource.getFeatures();
-    }
+  public DataAccess<SimpleFeatureType, SimpleFeature> getDataStore() {
+    // this is done on purpose to avoid crippling the shapefile renderer optimizations
+    return fsource.getDataStore();
+  }
 
-    public SimpleFeatureCollection getFeatures(
-            Filter filter) throws IOException {
-        return fsource.getFeatures(filter);
-    }
+  public SimpleFeatureCollection getFeatures() throws IOException {
+    return fsource.getFeatures();
+  }
 
-    public SimpleFeatureCollection getFeatures(
-            Query query) throws IOException {
-        return fsource.getFeatures(query);
-    }
+  public SimpleFeatureCollection getFeatures(Filter filter) throws IOException {
+    return fsource.getFeatures(filter);
+  }
 
-    public ResourceInfo getInfo() {
-        return fsource.getInfo();
-    }
+  public SimpleFeatureCollection getFeatures(Query query) throws IOException {
+    return fsource.getFeatures(query);
+  }
 
-    public Name getName() {
-        return fsource.getName();
-    }
+  public ResourceInfo getInfo() {
+    return fsource.getInfo();
+  }
 
-    public QueryCapabilities getQueryCapabilities() {
-        return fsource.getQueryCapabilities();
-    }
+  public Name getName() {
+    return fsource.getName();
+  }
 
-    public SimpleFeatureType getSchema() {
-        return fsource.getSchema();
-    }
+  public QueryCapabilities getQueryCapabilities() {
+    return fsource.getQueryCapabilities();
+  }
 
-    public Set<Key> getSupportedHints() {
-        return fsource.getSupportedHints();
-    }
+  public SimpleFeatureType getSchema() {
+    return fsource.getSchema();
+  }
 
-    public void removeFeatureListener(FeatureListener listener) {
-        fsource.removeFeatureListener(listener);
-    }
+  public Set<Key> getSupportedHints() {
+    return fsource.getSupportedHints();
+  }
 
-    public SimpleFeatureSource unwrap() {
-        return fsource;
-    }
-    
+  public void removeFeatureListener(FeatureListener listener) {
+    fsource.removeFeatureListener(listener);
+  }
+
+  public SimpleFeatureSource unwrap() {
+    return fsource;
+  }
 }

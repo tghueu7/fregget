@@ -17,24 +17,20 @@
 package org.geotools.coverage.io.util;
 
 import java.util.Comparator;
-
 import org.geotools.util.DateRange;
 import org.geotools.util.Utilities;
 
-/**
- * A DateRange comparator
- */
+/** A DateRange comparator */
 public class DateRangeComparator implements Comparator<DateRange> {
 
-    @Override
-    public int compare(DateRange firstDateRange, DateRange secondDateRange) {
-        Utilities.ensureNonNull("firstDateRange", firstDateRange);
-        Utilities.ensureNonNull("secondDateRange", secondDateRange);
-        final long beginFirst = firstDateRange.getMinValue().getTime();
-        final long endFirst = firstDateRange.getMaxValue().getTime();
-        final long beginSecond = secondDateRange.getMinValue().getTime();
-        final long endSecond = secondDateRange.getMaxValue().getTime();
-        return NumberRangeComparator.doubleCompare(beginFirst, endFirst, beginSecond, endSecond);
-    }
-
+  @Override
+  public int compare(DateRange firstDateRange, DateRange secondDateRange) {
+    Utilities.ensureNonNull("firstDateRange", firstDateRange);
+    Utilities.ensureNonNull("secondDateRange", secondDateRange);
+    final long beginFirst = firstDateRange.getMinValue().getTime();
+    final long endFirst = firstDateRange.getMaxValue().getTime();
+    final long beginSecond = secondDateRange.getMinValue().getTime();
+    final long endSecond = secondDateRange.getMaxValue().getTime();
+    return NumberRangeComparator.doubleCompare(beginFirst, endFirst, beginSecond, endSecond);
+  }
 }

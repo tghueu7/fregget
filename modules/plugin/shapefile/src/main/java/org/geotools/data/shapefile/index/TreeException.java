@@ -20,47 +20,45 @@ import java.io.IOException;
 
 /**
  * DOCUMENT ME!
- * 
+ *
  * @author Tommaso Nolli
- *
- *
  * @source $URL$
  */
 public class TreeException extends IOException {
 
-    private static final long serialVersionUID = 1988241322009839486L;
+  private static final long serialVersionUID = 1988241322009839486L;
 
-    public TreeException() {
-        super();
-    }
+  public TreeException() {
+    super();
+  }
 
-    /**
-     * DOCUMENT ME!
-     * 
-     * @param message
-     */
-    public TreeException(String message) {
-        super(message);
-    }
+  /**
+   * DOCUMENT ME!
+   *
+   * @param message
+   */
+  public TreeException(String message) {
+    super(message);
+  }
 
-    /**
-     * DOCUMENT ME!
-     * 
-     * @param message
-     * @param cause
-     */
-    public TreeException(String message, Throwable cause) {
-        super(message);
-        initCause(cause);
-    }
+  /**
+   * DOCUMENT ME!
+   *
+   * @param message
+   * @param cause
+   */
+  public TreeException(String message, Throwable cause) {
+    super(message);
+    initCause(cause);
+  }
 
-    /**
-     * DOCUMENT ME!
-     * 
-     * @param cause
-     */
-    public TreeException(Throwable cause) {
-        super();
-        initCause(cause);
-    }
+  /**
+   * DOCUMENT ME!
+   *
+   * @param cause
+   */
+  public TreeException(Throwable cause) {
+    super();
+    initCause(cause);
+  }
 }

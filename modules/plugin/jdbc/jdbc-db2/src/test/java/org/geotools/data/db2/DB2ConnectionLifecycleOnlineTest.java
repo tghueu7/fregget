@@ -21,9 +21,8 @@ import org.geotools.jdbc.JDBCTestSetup;
 
 public class DB2ConnectionLifecycleOnlineTest extends JDBCConnectionLifecycleOnlineTest {
 
-    @Override
-    protected JDBCTestSetup createTestSetup() {
-        return new DB2TestSetup();
-    }
-
+  @Override
+  protected JDBCTestSetup createTestSetup() {
+    return new DB2TestSetup();
+  }
 }

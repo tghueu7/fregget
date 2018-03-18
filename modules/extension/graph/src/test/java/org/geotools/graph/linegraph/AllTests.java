@@ -18,11 +18,7 @@ package org.geotools.graph.linegraph;
 
 import junit.framework.TestSuite;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class AllTests extends TestSuite {
   public AllTests() {
     super();
@@ -30,5 +26,5 @@ public class AllTests extends TestSuite {
     addTest(new TestSuite(DirectedLineGraphGeneratorTest.class));
     addTest(new TestSuite(OptLineGraphGeneratorTest.class));
     addTest(new TestSuite(OptDirectedLineGraphGeneratorTest.class));
-  } 	
+  }
 }

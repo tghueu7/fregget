@@ -24,26 +24,22 @@ import org.geotools.grid.PolygonElement;
  *
  * @author mbedward
  * @since 2.7
- *
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public interface Hexagon extends PolygonElement {
 
-    /**
-     * Gets the side length of this hexagon.
-     *
-     * @return side length
-     */
-    double getSideLength();
+  /**
+   * Gets the side length of this hexagon.
+   *
+   * @return side length
+   */
+  double getSideLength();
 
-    /**
-     * Gets the orientation of this hexagon.
-     *
-     * @return either {@linkplain Orientation#ANGLED} or {@linkplain Orientation#FLAT}
-     */
-    HexagonOrientation getOrientation();
-
+  /**
+   * Gets the orientation of this hexagon.
+   *
+   * @return either {@linkplain Orientation#ANGLED} or {@linkplain Orientation#FLAT}
+   */
+  HexagonOrientation getOrientation();
 }

@@ -19,32 +19,29 @@ package org.geotools.jdbc;
 import java.sql.SQLException;
 
 /**
- * 
- *
- * @source $URL: http://svn.osgeo.org/geotools/trunk/modules/library/jdbc/src/test/java/org/geotools/jdbc/JDBCEmptyGeometryTestSetup.java $
+ * @source $URL:
+ *     http://svn.osgeo.org/geotools/trunk/modules/library/jdbc/src/test/java/org/geotools/jdbc/JDBCEmptyGeometryTestSetup.java
+ *     $
  */
 public abstract class JDBCEmptyGeometryTestSetup extends JDBCDelegatingTestSetup {
 
-    protected JDBCEmptyGeometryTestSetup(JDBCTestSetup delegate) {
-        super(delegate);
-    }
-    
-    protected final void setUpData() throws Exception {
-        //kill all the data
-        try {
-            dropEmptyGeometryTable();
-        } catch (SQLException e) {
-        }
+  protected JDBCEmptyGeometryTestSetup(JDBCTestSetup delegate) {
+    super(delegate);
+  }
 
-        //create all the data
-        createEmptyGeometryTable();
+  protected final void setUpData() throws Exception {
+    // kill all the data
+    try {
+      dropEmptyGeometryTable();
+    } catch (SQLException e) {
     }
 
-    protected abstract void createEmptyGeometryTable() throws Exception;
+    // create all the data
+    createEmptyGeometryTable();
+  }
 
-    /**
-     * Drops the "empty" table previously created
-     */
-    protected abstract void dropEmptyGeometryTable() throws Exception;
+  protected abstract void createEmptyGeometryTable() throws Exception;
 
+  /** Drops the "empty" table previously created */
+  protected abstract void dropEmptyGeometryTable() throws Exception;
 }

@@ -16,42 +16,38 @@
  */
 package org.geotools.coverage.grid.io.footprint;
 
-import java.io.File;
-import java.io.FileReader;
-
-import org.apache.commons.io.IOUtils;
-
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.WKTReader;
+import java.io.File;
+import java.io.FileReader;
+import org.apache.commons.io.IOUtils;
 
 public class WKTLoaderSPI implements FootprintLoaderSpi {
 
+  @Override
+  public FootprintLoader createLoader() {
+    return new WKTLoader();
+  }
+
+  /** Loads WKT files */
+  public static class WKTLoader implements FootprintLoader {
+
+    WKTReader reader = new WKTReader();
+
     @Override
-    public FootprintLoader createLoader() {
-        return new WKTLoader();
-    }
-
-    /**
-     * Loads WKT files
-     */
-    public static class WKTLoader implements FootprintLoader {
-
-        WKTReader reader = new WKTReader();
-
-        @Override
-        public Geometry loadFootprint(String pathNoExtension) throws Exception {
-            File file = new File(pathNoExtension + ".wkt");
-            if (file.exists()) {
-                FileReader fr = null;
-                try {
-                    fr = new FileReader(file);
-                    return reader.read(fr);
-                } finally {
-                    IOUtils.closeQuietly(fr);
-                }
-            }
-
-            return null;
+    public Geometry loadFootprint(String pathNoExtension) throws Exception {
+      File file = new File(pathNoExtension + ".wkt");
+      if (file.exists()) {
+        FileReader fr = null;
+        try {
+          fr = new FileReader(file);
+          return reader.read(fr);
+        } finally {
+          IOUtils.closeQuietly(fr);
         }
+      }
+
+      return null;
     }
+  }
 }

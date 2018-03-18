@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
@@ -30,50 +29,50 @@ import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.MemoryCacheImageInputStream;
 
 /**
- * Support class helping to read tile images from a geopackage. This class keeps state to avoid performing repeated image reader lookups, it is not
- * thread safe, create one for each thread reading data.
- * 
- * @author Andrea Aime - GeoSolutions
+ * Support class helping to read tile images from a geopackage. This class keeps state to avoid
+ * performing repeated image reader lookups, it is not thread safe, create one for each thread
+ * reading data.
  *
+ * @author Andrea Aime - GeoSolutions
  */
 class TileImageReader {
 
-    List<ImageReader> readersCache = new ArrayList<>();
+  List<ImageReader> readersCache = new ArrayList<>();
 
-    ImageReader lastReader;
+  ImageReader lastReader;
 
-    public BufferedImage read(byte[] data) throws IOException {
-        ByteArrayInputStream bis = new ByteArrayInputStream(data);
-        ImageInputStream iis = new MemoryCacheImageInputStream(bis);
-        if (lastReader != null) {
-            lastReader.reset();
-            lastReader.setInput(iis);
-        }
-        if (lastReader == null || !lastReader.getOriginatingProvider().canDecodeInput(iis)) {
-            boolean found = false;
-            for (ImageReader ir : readersCache) {
-                if (ir != lastReader) {
-                    ir.reset();
-                    ir.setInput(iis);
-                    if (ir.canReadRaster()) {
-                        lastReader = ir;
-                        found = true;
-                    }
-                }
-            }
-            if (!found) {
-                Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
-                if (!readers.hasNext()) {
-                    throw new IOException(
-                            "Unexpected, cannot find a reader for the current tile image format");
-                }
-                lastReader = readers.next();
-                lastReader.setInput(iis);
-                readersCache.add(lastReader);
-            }
-        }
-
-        ImageReadParam param = lastReader.getDefaultReadParam();
-        return lastReader.read(0, param);
+  public BufferedImage read(byte[] data) throws IOException {
+    ByteArrayInputStream bis = new ByteArrayInputStream(data);
+    ImageInputStream iis = new MemoryCacheImageInputStream(bis);
+    if (lastReader != null) {
+      lastReader.reset();
+      lastReader.setInput(iis);
     }
+    if (lastReader == null || !lastReader.getOriginatingProvider().canDecodeInput(iis)) {
+      boolean found = false;
+      for (ImageReader ir : readersCache) {
+        if (ir != lastReader) {
+          ir.reset();
+          ir.setInput(iis);
+          if (ir.canReadRaster()) {
+            lastReader = ir;
+            found = true;
+          }
+        }
+      }
+      if (!found) {
+        Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
+        if (!readers.hasNext()) {
+          throw new IOException(
+              "Unexpected, cannot find a reader for the current tile image format");
+        }
+        lastReader = readers.next();
+        lastReader.setInput(iis);
+        readersCache.add(lastReader);
+      }
+    }
+
+    ImageReadParam param = lastReader.getDefaultReadParam();
+    return lastReader.read(0, param);
+  }
 }

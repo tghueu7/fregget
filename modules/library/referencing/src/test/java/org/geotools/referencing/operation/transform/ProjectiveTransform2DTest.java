@@ -33,13 +33,13 @@ import org.opengis.referencing.operation.NoninvertibleTransformException;
  * @author Alexey Valikov
  */
 public final class ProjectiveTransform2DTest {
-    // Tests that ProjectiveTransform2D is invertible
-    @Test
-    public void testInvertible() throws NoninvertibleTransformException {
-        final GeneralMatrix matrix = new GeneralMatrix(3);
-        matrix.setElement(0, 1, -1);
-        matrix.setElement(1, 0, 1);
-        final MathTransform transform = new ProjectiveTransform2D(matrix);
-        Assert.assertNotNull(transform.inverse());
-    }
+  // Tests that ProjectiveTransform2D is invertible
+  @Test
+  public void testInvertible() throws NoninvertibleTransformException {
+    final GeneralMatrix matrix = new GeneralMatrix(3);
+    matrix.setElement(0, 1, -1);
+    matrix.setElement(1, 0, 1);
+    final MathTransform transform = new ProjectiveTransform2D(matrix);
+    Assert.assertNotNull(transform.inverse());
+  }
 }

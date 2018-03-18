@@ -23,115 +23,105 @@ import org.opengis.util.ProgressListener;
 
 /**
  * An implementation of ProgressListener to use when testing.
- * <p>
- * This implementation is good about throwing illegal state exceptions and so forth.
- * 
+ *
+ * <p>This implementation is good about throwing illegal state exceptions and so forth.
+ *
  * @author Jody
- * 
- *
- *
  * @source $URL$
- *         http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/test/java/org
- *         /geotools/arcsde/data/TestProgressListener.java $
+ *     http://svn.osgeo.org/geotools/trunk/modules/plugin/arcsde/datastore/src/test/java/org
+ *     /geotools/arcsde/data/TestProgressListener.java $
  */
 public class TestProgressListener implements ProgressListener {
-    int progressCount;
+  int progressCount;
 
-    float progress;
+  float progress;
 
-    int taskCount;
+  int taskCount;
 
-    InternationalString task;
+  InternationalString task;
 
-    boolean isCanceled;
+  boolean isCanceled;
 
-    int exceptionCount;
+  int exceptionCount;
 
-    Throwable exception;
+  Throwable exception;
 
-    boolean completed;
+  boolean completed;
 
-    private boolean started;
+  private boolean started;
 
-    @SuppressWarnings("unused")
-    private String[] warning;
+  @SuppressWarnings("unused")
+  private String[] warning;
 
-    public void reset() {
-        progressCount = 0;
-        progress = 0f;
-        taskCount = 0;
-        task = null;
-        isCanceled = false;
-        exceptionCount = 0;
-        exception = null;
-        completed = false;
-        started = false;
-        warning = null;
-    }
+  public void reset() {
+    progressCount = 0;
+    progress = 0f;
+    taskCount = 0;
+    task = null;
+    isCanceled = false;
+    exceptionCount = 0;
+    exception = null;
+    completed = false;
+    started = false;
+    warning = null;
+  }
 
-    public void complete() {
-        if (completed)
-            throw new IllegalStateException("Cannot complete twice");
-        progress = 100f;
-        completed = true;
-    }
+  public void complete() {
+    if (completed) throw new IllegalStateException("Cannot complete twice");
+    progress = 100f;
+    completed = true;
+  }
 
-    public void dispose() {
-        reset();
-    }
+  public void dispose() {
+    reset();
+  }
 
-    public void exceptionOccurred(Throwable exception) {
-        this.exception = exception;
-    }
+  public void exceptionOccurred(Throwable exception) {
+    this.exception = exception;
+  }
 
-    public String getDescription() {
-        return task == null ? null : task.toString();
-    }
+  public String getDescription() {
+    return task == null ? null : task.toString();
+  }
 
-    public float getProgress() {
-        return progress;
-    }
+  public float getProgress() {
+    return progress;
+  }
 
-    public InternationalString getTask() {
-        return task;
-    }
+  public InternationalString getTask() {
+    return task;
+  }
 
-    public boolean isCanceled() {
-        return isCanceled;
-    }
+  public boolean isCanceled() {
+    return isCanceled;
+  }
 
-    public void progress(float percent) {
-        if (!started)
-            throw new IllegalStateException("Cannot record progress unless started");
-        if (completed)
-            throw new IllegalStateException("Cannot record progress when completed");
-        progress = percent;
-    }
+  public void progress(float percent) {
+    if (!started) throw new IllegalStateException("Cannot record progress unless started");
+    if (completed) throw new IllegalStateException("Cannot record progress when completed");
+    progress = percent;
+  }
 
-    public void setCanceled(boolean cancel) {
-        if (!started)
-            throw new IllegalStateException("Cannot canel unless started");
-        if (completed)
-            throw new IllegalStateException("Cannot cancel when completed");
-        isCanceled = cancel;
-    }
+  public void setCanceled(boolean cancel) {
+    if (!started) throw new IllegalStateException("Cannot canel unless started");
+    if (completed) throw new IllegalStateException("Cannot cancel when completed");
+    isCanceled = cancel;
+  }
 
-    public void setDescription(String description) {
-        task = new SimpleInternationalString(description);
-    }
+  public void setDescription(String description) {
+    task = new SimpleInternationalString(description);
+  }
 
-    public void setTask(InternationalString task) {
-        this.task = task;
-    }
+  public void setTask(InternationalString task) {
+    this.task = task;
+  }
 
-    public void started() {
-        if (started)
-            throw new IllegalStateException("Cannot start twice");
-        this.started = true;
-    }
+  public void started() {
+    if (started) throw new IllegalStateException("Cannot start twice");
+    this.started = true;
+  }
 
-    public void warningOccurred(String source, String location, String warning) {
-        this.warning = new String[] { source, location, warning };
-    }
-
+  public void warningOccurred(String source, String location, String warning) {
+    this.warning = new String[] {source, location, warning};
+  }
 }

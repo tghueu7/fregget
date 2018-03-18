@@ -17,18 +17,16 @@
 package org.geotools.wfs.bindings;
 
 import javax.xml.namespace.QName;
-
 import net.opengis.wfs.WfsFactory;
-
 import org.geotools.wfs.WFS;
 import org.geotools.xml.AbstractComplexEMFBinding;
-
 
 /**
  * Binding object for the type http://www.opengis.net/wfs:GetCapabilitiesType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;xsd:complexType name="GetCapabilitiesType"&gt;
  *      &lt;xsd:annotation&gt;
@@ -55,23 +53,17 @@ import org.geotools.xml.AbstractComplexEMFBinding;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GetCapabilitiesTypeBinding extends AbstractComplexEMFBinding {
-    public GetCapabilitiesTypeBinding(WfsFactory factory) {
-        super(factory);
-    }
+  public GetCapabilitiesTypeBinding(WfsFactory factory) {
+    super(factory);
+  }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return WFS.GetCapabilitiesType;
-    }
+  /** @generated */
+  public QName getTarget() {
+    return WFS.GetCapabilitiesType;
+  }
 }

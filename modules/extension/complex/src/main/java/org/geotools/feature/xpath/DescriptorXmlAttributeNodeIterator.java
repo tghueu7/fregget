@@ -25,60 +25,42 @@ import org.opengis.feature.type.PropertyDescriptor;
 
 /**
  * Special node iterator for {@link Attribute}.
- * 
+ *
  * @author Justin Deoliveira (The Open Planning Project)
  * @author Gabriel Roldan (Axios Engineering)
- * 
- *
- *
- *
- *
  * @source $URL$
  */
 public class DescriptorXmlAttributeNodeIterator implements NodeIterator {
 
-    /**
-     * The feature node pointer
-     */
-    FeatureTypeAttributePointer pointer;
+  /** The feature node pointer */
+  FeatureTypeAttributePointer pointer;
 
-    /**
-     * The feature.
-     */
-    PropertyDescriptor descriptor;
-    
-    /**
-     * The name
-     */
-    Name name;
-    
-    int position = 0;
+  /** The feature. */
+  PropertyDescriptor descriptor;
 
+  /** The name */
+  Name name;
 
-    public DescriptorXmlAttributeNodeIterator(FeatureTypeAttributePointer pointer, Name name) {
-        this.pointer = pointer;
-        this.name = name;
-        descriptor = (PropertyDescriptor) pointer.getImmediateNode();
+  int position = 0;
 
-    }
+  public DescriptorXmlAttributeNodeIterator(FeatureTypeAttributePointer pointer, Name name) {
+    this.pointer = pointer;
+    this.name = name;
+    descriptor = (PropertyDescriptor) pointer.getImmediateNode();
+  }
 
-    /**
-     * Always return 1, only a single property.
-     */
-    public int getPosition() {
-        return position;
-    }
+  /** Always return 1, only a single property. */
+  public int getPosition() {
+    return position;
+  }
 
-    /**
-     * Return true if position == 1.
-     */
-    public boolean setPosition(int position) {
-        this.position = position;
-        return position < 2;
-    }
+  /** Return true if position == 1. */
+  public boolean setPosition(int position) {
+    this.position = position;
+    return position < 2;
+  }
 
-    public NodePointer getNodePointer() {
-        return new DescriptorXmlAttributeNodePointer(pointer, descriptor, name);
-    }
-
+  public NodePointer getNodePointer() {
+    return new DescriptorXmlAttributeNodePointer(pointer, descriptor, name);
+  }
 }

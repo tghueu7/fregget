@@ -21,11 +21,11 @@ import org.opengis.filter.identity.FeatureId;
 
 public interface TransactionResponse {
 
-    public List<FeatureId> getInsertedFids();
+  public List<FeatureId> getInsertedFids();
 
-    public int getUpdatedCount();
+  public int getUpdatedCount();
 
-    public int getDeleteCount();
+  public int getDeleteCount();
 
-    public int getInsertCount();
+  public int getInsertCount();
 }

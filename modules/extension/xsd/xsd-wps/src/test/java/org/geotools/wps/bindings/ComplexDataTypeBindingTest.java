@@ -16,13 +16,12 @@
  */
 package org.geotools.wps.bindings;
 
+import com.vividsolutions.jts.geom.Polygon;
 import java.io.Reader;
 import java.io.StringReader;
-
 import net.opengis.wfs.FeatureCollectionType;
 import net.opengis.wps10.ComplexDataType;
 import net.opengis.wps10.Wps10Factory;
-
 import org.geotools.feature.FeatureCollection;
 import org.geotools.wps.WPS;
 import org.geotools.wps.WPSConfiguration;
@@ -36,123 +35,124 @@ import org.w3c.dom.Text;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.ext.LexicalHandler;
 
-import com.vividsolutions.jts.geom.Polygon;
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class ComplexDataTypeBindingTest extends WPSTestSupport {
 
-    public void testParsePolygon() throws Exception {
-        String xml = 
-          "<wps:ComplexData xmlns:wps='http://www.opengis.net/wps/1.0.0'>" + 
-            "<gml:Polygon xmlns:gml='http://www.opengis.net/gml'>" +
-              "<gml:exterior>" + 
-                "<gml:LinearRing>" + 
-                  "<gml:posList>1 1 2 1 2 2 1 2 1 1</gml:posList>" + 
-                "</gml:LinearRing>" + 
-              "</gml:exterior>" + 
-            "</gml:Polygon>" +
-          "</wps:ComplexData>";
-        buildDocument(xml);
-       
-        Object o = parse(WPS.ComplexDataType);
-        assertTrue( o instanceof ComplexDataType );
-        
-        ComplexDataType data = (ComplexDataType) o;
-        assertEquals( 1, data.getData().size() );
-        
-        assertTrue( data.getData().get( 0 ) instanceof Polygon );
-    }
-    
-    public void testParseFeatureCollection() throws Exception {
-        String xml = 
-          "<wps:ComplexData xmlns:wps='http://www.opengis.net/wps/1.0.0'>" + 
-            "<wfs:FeatureCollection xmlns='http://www.opengis.net/wfs' " +
-                "xmlns:wfs='http://www.opengis.net/wfs' xmlns:geotools='http://geotools.org' " +
-                "xmlns:gml='http://www.opengis.net/gml'>" +
-                "<gml:boundedBy>" + 
-                  "<gml:Envelope srsName='urn:x-ogc:def:crs:EPSG:4326'>" + 
-                    "<gml:lowerCorner>0 0</gml:lowerCorner>" + 
-                    "<gml:upperCorner>1 1</gml:upperCorner>" + 
-                  "</gml:Envelope>" + 
-                "</gml:boundedBy>" + 
-                "<gml:featureMember>" + 
-                  "<geotools:feature fid='feature.1'>" + 
-                     "<geotools:geometry>" + 
-                       "<gml:LineString>" + 
-                          "<gml:posList>0 0 1 1</gml:posList>" + 
-                       "</gml:LineString>" +
-                     "</geotools:geometry>" +
-                     "<geotools:integer>1</geotools:integer>" + 
-                  "</geotools:feature>" + 
-                "</gml:featureMember>" + 
-            "</wfs:FeatureCollection>" + 
-          "</wps:ComplexData>";
-        buildDocument(xml);
-       
-        Object o = parse(WPS.ComplexDataType);
-        assertTrue( o instanceof ComplexDataType );
-        
-        ComplexDataType data = (ComplexDataType) o;
-        assertEquals( 1, data.getData().size() );
-        
-        assertTrue( data.getData().get( 0 ) instanceof FeatureCollectionType );
-        FeatureCollectionType fc = (FeatureCollectionType) data.getData().get( 0 );
+  public void testParsePolygon() throws Exception {
+    String xml =
+        "<wps:ComplexData xmlns:wps='http://www.opengis.net/wps/1.0.0'>"
+            + "<gml:Polygon xmlns:gml='http://www.opengis.net/gml'>"
+            + "<gml:exterior>"
+            + "<gml:LinearRing>"
+            + "<gml:posList>1 1 2 1 2 2 1 2 1 1</gml:posList>"
+            + "</gml:LinearRing>"
+            + "</gml:exterior>"
+            + "</gml:Polygon>"
+            + "</wps:ComplexData>";
+    buildDocument(xml);
 
-        assertEquals( 1, fc.getFeature().size() );
-        FeatureCollection features = (FeatureCollection) fc.getFeature().get( 0 );
-        assertEquals( 1, features.size() );
-    
-    }
+    Object o = parse(WPS.ComplexDataType);
+    assertTrue(o instanceof ComplexDataType);
 
-    @SuppressWarnings("unchecked")
-    public void testEncodeCData() throws Exception {
-        Wps10Factory factory = Wps10Factory.eINSTANCE;
-        ComplexDataType complexData = factory.createComplexDataType();
-        complexData.setMimeType("text/plain");
-        complexData.getData().add(0, new EncoderDelegate() {
+    ComplexDataType data = (ComplexDataType) o;
+    assertEquals(1, data.getData().size());
 
-            @Override
-            public void encode(ContentHandler output) throws Exception {
+    assertTrue(data.getData().get(0) instanceof Polygon);
+  }
+
+  public void testParseFeatureCollection() throws Exception {
+    String xml =
+        "<wps:ComplexData xmlns:wps='http://www.opengis.net/wps/1.0.0'>"
+            + "<wfs:FeatureCollection xmlns='http://www.opengis.net/wfs' "
+            + "xmlns:wfs='http://www.opengis.net/wfs' xmlns:geotools='http://geotools.org' "
+            + "xmlns:gml='http://www.opengis.net/gml'>"
+            + "<gml:boundedBy>"
+            + "<gml:Envelope srsName='urn:x-ogc:def:crs:EPSG:4326'>"
+            + "<gml:lowerCorner>0 0</gml:lowerCorner>"
+            + "<gml:upperCorner>1 1</gml:upperCorner>"
+            + "</gml:Envelope>"
+            + "</gml:boundedBy>"
+            + "<gml:featureMember>"
+            + "<geotools:feature fid='feature.1'>"
+            + "<geotools:geometry>"
+            + "<gml:LineString>"
+            + "<gml:posList>0 0 1 1</gml:posList>"
+            + "</gml:LineString>"
+            + "</geotools:geometry>"
+            + "<geotools:integer>1</geotools:integer>"
+            + "</geotools:feature>"
+            + "</gml:featureMember>"
+            + "</wfs:FeatureCollection>"
+            + "</wps:ComplexData>";
+    buildDocument(xml);
+
+    Object o = parse(WPS.ComplexDataType);
+    assertTrue(o instanceof ComplexDataType);
+
+    ComplexDataType data = (ComplexDataType) o;
+    assertEquals(1, data.getData().size());
+
+    assertTrue(data.getData().get(0) instanceof FeatureCollectionType);
+    FeatureCollectionType fc = (FeatureCollectionType) data.getData().get(0);
+
+    assertEquals(1, fc.getFeature().size());
+    FeatureCollection features = (FeatureCollection) fc.getFeature().get(0);
+    assertEquals(1, features.size());
+  }
+
+  @SuppressWarnings("unchecked")
+  public void testEncodeCData() throws Exception {
+    Wps10Factory factory = Wps10Factory.eINSTANCE;
+    ComplexDataType complexData = factory.createComplexDataType();
+    complexData.setMimeType("text/plain");
+    complexData
+        .getData()
+        .add(
+            0,
+            new EncoderDelegate() {
+
+              @Override
+              public void encode(ContentHandler output) throws Exception {
                 ((LexicalHandler) output).startCDATA();
                 Reader r = new StringReader("test data");
                 char[] buffer = new char[1024];
                 int read;
                 while ((read = r.read(buffer)) > 0) {
-                    output.characters(buffer, 0, read);
+                  output.characters(buffer, 0, read);
                 }
                 r.close();
                 ((LexicalHandler) output).endCDATA();
-            }
-        });
+              }
+            });
 
-        Encoder encoder = new Encoder(new WPSConfiguration());
-        encoder.setIndenting(true);
-        encoder.setIndentSize(2);
-        encoder.setRootElementType(WPS.ComplexDataType);
-        String xml = encoder.encodeAsString(complexData, WPS.ComplexDataType);
-        // System.out.println(xml);
+    Encoder encoder = new Encoder(new WPSConfiguration());
+    encoder.setIndenting(true);
+    encoder.setIndentSize(2);
+    encoder.setRootElementType(WPS.ComplexDataType);
+    String xml = encoder.encodeAsString(complexData, WPS.ComplexDataType);
+    // System.out.println(xml);
 
-        buildDocument(xml);
-        Element element = document.getDocumentElement();
-        assertEquals("ComplexDataType", element.getLocalName());
-        assertEquals("text/plain", element.getAttribute("mimeType"));
+    buildDocument(xml);
+    Element element = document.getDocumentElement();
+    assertEquals("ComplexDataType", element.getLocalName());
+    assertEquals("text/plain", element.getAttribute("mimeType"));
 
-        assertTrue(xml.contains("<![CDATA[test data]]>"));
-    }
+    assertTrue(xml.contains("<![CDATA[test data]]>"));
+  }
 
-    @SuppressWarnings("unchecked")
-    public void testEncodeXML() throws Exception {
-        Wps10Factory factory = Wps10Factory.eINSTANCE;
-        ComplexDataType complexData = factory.createComplexDataType();
-        complexData.setMimeType("text/xml");
-        complexData.getData().add(0, new EncoderDelegate() {
+  @SuppressWarnings("unchecked")
+  public void testEncodeXML() throws Exception {
+    Wps10Factory factory = Wps10Factory.eINSTANCE;
+    ComplexDataType complexData = factory.createComplexDataType();
+    complexData.setMimeType("text/xml");
+    complexData
+        .getData()
+        .add(
+            0,
+            new EncoderDelegate() {
 
-            @Override
-            public void encode(ContentHandler output) throws Exception {
+              @Override
+              public void encode(ContentHandler output) throws Exception {
                 String ns = "http://www.geotools.org";
                 String local = "myElement";
                 String qualified = "gt:myElement";
@@ -161,32 +161,31 @@ public class ComplexDataTypeBindingTest extends WPSTestSupport {
                 String txt = "hello world";
                 output.characters(txt.toCharArray(), 0, txt.length());
                 output.endElement(ns, local, qualified);
-            }
-        });
+              }
+            });
 
-        Encoder encoder = new Encoder(new WPSConfiguration());
-        encoder.setIndenting(true);
-        encoder.setIndentSize(2);
-        encoder.setRootElementType(WPS.ComplexDataType);
-        String xml = encoder.encodeAsString(complexData, WPS.ComplexDataType);
-        // System.out.println(xml);
+    Encoder encoder = new Encoder(new WPSConfiguration());
+    encoder.setIndenting(true);
+    encoder.setIndentSize(2);
+    encoder.setRootElementType(WPS.ComplexDataType);
+    String xml = encoder.encodeAsString(complexData, WPS.ComplexDataType);
+    // System.out.println(xml);
 
-        buildDocument(xml);
-        Element element = document.getDocumentElement();
-        assertEquals("ComplexDataType", element.getLocalName());
-        assertEquals("text/xml", element.getAttribute("mimeType"));
-        NodeList children = element.getChildNodes();
-        boolean myElementFound = false;
-        for (int i = 0; i < children.getLength(); i++) {
-            Node node = children.item(i);
-            if (node instanceof Text) {
-                continue;
-            } else {
-                myElementFound |= node.getLocalName().equals("myElement");
-                assertEquals("hello world", node.getTextContent());
-            }
-        }
-        assertTrue(myElementFound);
-
+    buildDocument(xml);
+    Element element = document.getDocumentElement();
+    assertEquals("ComplexDataType", element.getLocalName());
+    assertEquals("text/xml", element.getAttribute("mimeType"));
+    NodeList children = element.getChildNodes();
+    boolean myElementFound = false;
+    for (int i = 0; i < children.getLength(); i++) {
+      Node node = children.item(i);
+      if (node instanceof Text) {
+        continue;
+      } else {
+        myElementFound |= node.getLocalName().equals("myElement");
+        assertEquals("hello world", node.getTextContent());
+      }
     }
+    assertTrue(myElementFound);
+  }
 }

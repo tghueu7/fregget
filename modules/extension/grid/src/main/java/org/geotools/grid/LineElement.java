@@ -19,15 +19,12 @@ package org.geotools.grid;
 
 /**
  * A marker (empty) interface for a grid element that is a line.
- * 
+ *
  * @author mbedward
  * @since 8.0
- *
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public interface LineElement extends GridElement {
-    // empty interface
+  // empty interface
 }

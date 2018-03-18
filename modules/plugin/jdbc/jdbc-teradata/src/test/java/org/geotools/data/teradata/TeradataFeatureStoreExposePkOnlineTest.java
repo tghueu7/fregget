@@ -16,28 +16,23 @@
  */
 package org.geotools.data.teradata;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import org.geotools.jdbc.JDBCFeatureStoreExposePkOnlineTest;
 import org.geotools.jdbc.JDBCTestSetup;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class TeradataFeatureStoreExposePkOnlineTest extends JDBCFeatureStoreExposePkOnlineTest {
 
-    protected JDBCTestSetup createTestSetup() {
-        return new TeradataTestSetup();
-    }
+  protected JDBCTestSetup createTestSetup() {
+    return new TeradataTestSetup();
+  }
 
-    public void testAddInTransaction() throws IOException {
-        // TODO enable transaction isolation (non-blocking)
-    }
+  public void testAddInTransaction() throws IOException {
+    // TODO enable transaction isolation (non-blocking)
+  }
 
-    public void testExternalConnection() throws IOException, SQLException {
-        // TODO enable transaction isolation (non-blocking)
-    }
+  public void testExternalConnection() throws IOException, SQLException {
+    // TODO enable transaction isolation (non-blocking)
+  }
 }

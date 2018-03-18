@@ -20,8 +20,8 @@ import org.geotools.jdbc.JDBCInEncodingOnlineTest;
 import org.geotools.jdbc.JDBCTestSetup;
 
 public class H2InEncodingOnlineTest extends JDBCInEncodingOnlineTest {
-    @Override
-    protected JDBCTestSetup createTestSetup() {
-        return new H2TestSetup();
-    }
+  @Override
+  protected JDBCTestSetup createTestSetup() {
+    return new H2TestSetup();
+  }
 }

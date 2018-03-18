@@ -16,84 +16,81 @@
  */
 package org.geotools.gml2.simple;
 
+import com.vividsolutions.jts.geom.Geometry;
 import org.geotools.gml2.GML;
 import org.geotools.xml.Encoder;
 import org.xml.sax.helpers.AttributesImpl;
 
-import com.vividsolutions.jts.geom.Geometry;
-
 /**
- * Base class for all encoders writing a Geometry. Implementations should provide one of the two "encode" methods,
- * {@link #encode(Geometry, AttributesImpl, GMLWriter)} or {@link #encode(Geometry, AttributesImpl, GMLWriter, String)},
- * failing to do so will result in a infinite recursion and eventually in a {@link StackOverflowError}
- * 
- * 
+ * Base class for all encoders writing a Geometry. Implementations should provide one of the two
+ * "encode" methods, {@link #encode(Geometry, AttributesImpl, GMLWriter)} or {@link
+ * #encode(Geometry, AttributesImpl, GMLWriter, String)}, failing to do so will result in a infinite
+ * recursion and eventually in a {@link StackOverflowError}
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
- *
  * @param <T>
  */
 public abstract class GeometryEncoder<T extends Geometry> extends ObjectEncoder<T> {
 
-    protected GeometryEncoder(Encoder encoder) {
-        super(encoder);
-    }
+  protected GeometryEncoder(Encoder encoder) {
+    super(encoder);
+  }
 
-    /**
-     * Encodes a geometry value with a given gmlId (implementations might choose to use it
-     * to generate gml:id attributes, depending on the GML version. The default implementation
-     * does not use gmlId and simply delegates to {@link #encode(Geometry, AttributesImpl, GMLWriter)}
-     * 
-     * @param geometry The Geometry to be encoded
-     * @param atts Its attributes
-     * @param handler The handler used to write XML
-     * @param gmlId If not null, some implementation will use to as the gml:id 
-     *                 (and to build ids for the nested features)
-     * @throws Exception
-     */
-    public void encode(T geometry, AttributesImpl atts, GMLWriter handler, String gmlId) throws Exception {
-        encode(geometry, atts, handler);
-    }
+  /**
+   * Encodes a geometry value with a given gmlId (implementations might choose to use it to generate
+   * gml:id attributes, depending on the GML version. The default implementation does not use gmlId
+   * and simply delegates to {@link #encode(Geometry, AttributesImpl, GMLWriter)}
+   *
+   * @param geometry The Geometry to be encoded
+   * @param atts Its attributes
+   * @param handler The handler used to write XML
+   * @param gmlId If not null, some implementation will use to as the gml:id (and to build ids for
+   *     the nested features)
+   * @throws Exception
+   */
+  public void encode(T geometry, AttributesImpl atts, GMLWriter handler, String gmlId)
+      throws Exception {
+    encode(geometry, atts, handler);
+  }
 
-    /**
-     * Returns a new AttributesImpl based on the provided on, with the addition of a gml:id
-     * attribute
-     * @param atts The base attributes (can be null)
-     * @param gmlId The desired gml:id value
-     * @return The provided atts object if gmlId is null, a clone of the provided one plus the gml:id attribute otherwise
-     */
-    protected AttributesImpl cloneWithGmlId(AttributesImpl atts, String gmlId) {
-        if(gmlId == null) {
-            return atts;
-        }
-        AttributesImpl result;
-        if ( atts == null) {
-            result = new AttributesImpl();
-        } else {
-            result = new AttributesImpl(atts);
-        }
-        addGmlId(result, gmlId);
-
-        return result;
+  /**
+   * Returns a new AttributesImpl based on the provided on, with the addition of a gml:id attribute
+   *
+   * @param atts The base attributes (can be null)
+   * @param gmlId The desired gml:id value
+   * @return The provided atts object if gmlId is null, a clone of the provided one plus the gml:id
+   *     attribute otherwise
+   */
+  protected AttributesImpl cloneWithGmlId(AttributesImpl atts, String gmlId) {
+    if (gmlId == null) {
+      return atts;
     }
-
-    /**
-     * Adds a gmlId to an existing and non null attribute set 
-     */
-    protected void addGmlId(AttributesImpl attributes, String gmlId) {
-        attributes.addAttribute(GML.NAMESPACE, "id", "gml:id", null, gmlId);
+    AttributesImpl result;
+    if (atts == null) {
+      result = new AttributesImpl();
+    } else {
+      result = new AttributesImpl(atts);
     }
+    addGmlId(result, gmlId);
 
-    /**
-     * Encodes a geometry value
-     *
-     * @param geometry The Geometry to be encoded
-     * @param atts Its attributes
-     * @param handler The handler used to write XML
-     * @throws Exception
-     */
-    public void encode(T geometry, AttributesImpl atts, GMLWriter handler)
-            throws Exception {
-        encode(geometry, atts, handler, null);
-    }
+    return result;
+  }
+
+  /** Adds a gmlId to an existing and non null attribute set */
+  protected void addGmlId(AttributesImpl attributes, String gmlId) {
+    attributes.addAttribute(GML.NAMESPACE, "id", "gml:id", null, gmlId);
+  }
+
+  /**
+   * Encodes a geometry value
+   *
+   * @param geometry The Geometry to be encoded
+   * @param atts Its attributes
+   * @param handler The handler used to write XML
+   * @throws Exception
+   */
+  public void encode(T geometry, AttributesImpl atts, GMLWriter handler) throws Exception {
+    encode(geometry, atts, handler, null);
+  }
 }

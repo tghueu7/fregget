@@ -19,14 +19,9 @@ package org.geotools.ows.v1_1;
 import org.geotools.xml.Configuration;
 import org.geotools.xml.test.XMLTestSupport;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class OWSTestSupport extends XMLTestSupport {
-    protected Configuration createConfiguration() {
-        return new OWSConfiguration();
-    }
+  protected Configuration createConfiguration() {
+    return new OWSConfiguration();
+  }
 }

@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,135 +22,125 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+import net.miginfocom.swing.MigLayout;
 import org.geotools.data.FileDataStoreFactorySpi;
 import org.geotools.data.Parameter;
 import org.geotools.swing.data.JFileDataStoreChooser;
 import org.geotools.swing.wizard.JWizard.Controller;
 import org.geotools.util.URLs;
 
-import net.miginfocom.swing.MigLayout;
-
 /**
  * Widget for File; provides a "Browse" button to open a file dialog.
- * 
+ *
  * @author Jody Garnett
- *
- *
- *
- *
  * @source $URL$
  */
 public class JFileField extends ParamField {
 
-    private JTextField field;
+  private JTextField field;
 
-    private JButton browse;
+  private JButton browse;
 
-    public JFileField(Parameter<?> parameter) {
-        super(parameter);
-    }
+  public JFileField(Parameter<?> parameter) {
+    super(parameter);
+  }
 
-    public JComponent doLayout() {
-        final JPanel panel = new JPanel(new MigLayout("insets 0"));
-        panel.add(field = new JTextField(32), "width 200::700, growx");
-        // field.setActionCommand(FINISH); // pressing return will Finish wizard
+  public JComponent doLayout() {
+    final JPanel panel = new JPanel(new MigLayout("insets 0"));
+    panel.add(field = new JTextField(32), "width 200::700, growx");
+    // field.setActionCommand(FINISH); // pressing return will Finish wizard
 
-        panel.add(browse = new JButton("Browse"), "wrap");
-        browse.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                browse();
-            }
+    panel.add(browse = new JButton("Browse"), "wrap");
+    browse.addActionListener(
+        new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+            browse();
+          }
         });
-        return panel;
-    }
+    return panel;
+  }
 
-    @SuppressWarnings("unchecked")
-    protected void browse() {
-        JFileChooser dialog;
-        Object format = this.parameter.metadata == null ? null : this.parameter.metadata.get( Parameter.EXT );
-        if (format instanceof FileDataStoreFactorySpi) {
-            dialog = new JFileDataStoreChooser((FileDataStoreFactorySpi) format);
-        } else if (format instanceof String) {
-            dialog = new JFileDataStoreChooser((String) format);
-        } else if (format instanceof String[]) {
-            dialog = new JFileDataStoreChooser((String[]) format);
-        }
-        else if (format instanceof List) {
-            dialog = new JFileDataStoreChooser((List<String>) format);
-        }
-        else {
-            dialog = new JFileChooser();
-        }
-        dialog.setSelectedFile( getValue() );
-        
-        int returnVal = dialog.showOpenDialog( browse );
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = dialog.getSelectedFile();
-            setValue( file );
-        }
+  @SuppressWarnings("unchecked")
+  protected void browse() {
+    JFileChooser dialog;
+    Object format =
+        this.parameter.metadata == null ? null : this.parameter.metadata.get(Parameter.EXT);
+    if (format instanceof FileDataStoreFactorySpi) {
+      dialog = new JFileDataStoreChooser((FileDataStoreFactorySpi) format);
+    } else if (format instanceof String) {
+      dialog = new JFileDataStoreChooser((String) format);
+    } else if (format instanceof String[]) {
+      dialog = new JFileDataStoreChooser((String[]) format);
+    } else if (format instanceof List) {
+      dialog = new JFileDataStoreChooser((List<String>) format);
+    } else {
+      dialog = new JFileChooser();
     }
-    
-    public void addListener(Controller controller) {
-        //field.addKeyListener(controller);
-        field.addActionListener(controller);
-        field.getDocument().addDocumentListener(controller);
-    }
+    dialog.setSelectedFile(getValue());
 
-    public void removeListener(Controller controller) {
-        //field.removeKeyListener(controller);
-        field.removeActionListener(controller);
-        field.getDocument().removeDocumentListener(controller);
+    int returnVal = dialog.showOpenDialog(browse);
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+      File file = dialog.getSelectedFile();
+      setValue(file);
     }
-    
-    public File getValue(){
-        String txt = field.getText();
-        if (txt == null || txt.equals("")) {
-            return null;
-        }
-        try {
-            File file = new File(txt);
-            return file;
-        } catch (Exception e) {
-        }
-        try {
-            URL url = new URL(txt);
-            return URLs.urlToFile( url );            
-        } catch (MalformedURLException e) {
-        }
-        return null; // not a file
-    }
+  }
 
-    public void setValue(Object value) {
-        if( value instanceof File ){
-            File file = (File) value;
-            field.setText( file.toString() );            
-        }
-        else if ( value instanceof URL ){
-            URL url = (URL) value;
-            field.setText( url.toExternalForm() );
-        }
-        else if ( value instanceof String){
-            field.setText( (String) value );
-        }
-    }
+  public void addListener(Controller controller) {
+    // field.addKeyListener(controller);
+    field.addActionListener(controller);
+    field.getDocument().addDocumentListener(controller);
+  }
 
-    public boolean validate() {
-        String txt = field.getText();
-        if (txt == null || txt.equals("")) {
-            return !parameter.required;
-        }
-        File file = getValue();
-        if( file != null ){
-            return file.exists();
-        }
-        return false;
-    }
+  public void removeListener(Controller controller) {
+    // field.removeKeyListener(controller);
+    field.removeActionListener(controller);
+    field.getDocument().removeDocumentListener(controller);
+  }
 
+  public File getValue() {
+    String txt = field.getText();
+    if (txt == null || txt.equals("")) {
+      return null;
+    }
+    try {
+      File file = new File(txt);
+      return file;
+    } catch (Exception e) {
+    }
+    try {
+      URL url = new URL(txt);
+      return URLs.urlToFile(url);
+    } catch (MalformedURLException e) {
+    }
+    return null; // not a file
+  }
+
+  public void setValue(Object value) {
+    if (value instanceof File) {
+      File file = (File) value;
+      field.setText(file.toString());
+    } else if (value instanceof URL) {
+      URL url = (URL) value;
+      field.setText(url.toExternalForm());
+    } else if (value instanceof String) {
+      field.setText((String) value);
+    }
+  }
+
+  public boolean validate() {
+    String txt = field.getText();
+    if (txt == null || txt.equals("")) {
+      return !parameter.required;
+    }
+    File file = getValue();
+    if (file != null) {
+      return file.exists();
+    }
+    return false;
+  }
 }

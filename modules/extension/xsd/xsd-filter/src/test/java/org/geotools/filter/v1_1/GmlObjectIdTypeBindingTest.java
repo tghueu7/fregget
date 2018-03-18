@@ -16,36 +16,31 @@
  */
 package org.geotools.filter.v1_1;
 
-import org.w3c.dom.Document;
-import org.opengis.filter.identity.GmlObjectId;
 import org.geotools.gml3.GML;
 import org.geotools.xml.Binding;
+import org.opengis.filter.identity.GmlObjectId;
+import org.w3c.dom.Document;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GmlObjectIdTypeBindingTest extends FilterTestSupport {
-    public void testType() {
-        assertEquals(GmlObjectId.class, binding(OGC.GmlObjectIdType).getType());
-    }
+  public void testType() {
+    assertEquals(GmlObjectId.class, binding(OGC.GmlObjectIdType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(OGC.GmlObjectIdType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(OGC.GmlObjectIdType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        FilterMockData.gmlObjectId(document, document);
+  public void testParse() throws Exception {
+    FilterMockData.gmlObjectId(document, document);
 
-        GmlObjectId id = (GmlObjectId) parse();
+    GmlObjectId id = (GmlObjectId) parse();
 
-        assertEquals("foo", id.toString());
-    }
+    assertEquals("foo", id.toString());
+  }
 
-    public void testEncode() throws Exception {
-        Document doc = encode(FilterMockData.gmlObjectId(), OGC.GmlObjectId);
-        assertEquals("foo", doc.getDocumentElement().getAttributeNS(GML.NAMESPACE, "id"));
-    }
+  public void testEncode() throws Exception {
+    Document doc = encode(FilterMockData.gmlObjectId(), OGC.GmlObjectId);
+    assertEquals("foo", doc.getDocumentElement().getAttributeNS(GML.NAMESPACE, "id"));
+  }
 }

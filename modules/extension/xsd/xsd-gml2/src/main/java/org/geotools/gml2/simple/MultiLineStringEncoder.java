@@ -16,62 +16,59 @@
  */
 package org.geotools.gml2.simple;
 
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.LinearRing;
+import com.vividsolutions.jts.geom.MultiLineString;
 import org.geotools.gml2.GML;
 import org.geotools.xml.Encoder;
 import org.xml.sax.helpers.AttributesImpl;
 
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.LinearRing;
-import com.vividsolutions.jts.geom.MultiLineString;
-
 /**
  * Encodes a GML2 multi line string
- * 
+ *
  * @author Justin Deoliveira, OpenGeo
  * @author Andrea Aime - GeoSolutions
  */
-
 class MultiLineStringEncoder extends GeometryEncoder<MultiLineString> {
 
-    static final QualifiedName MULTI_LINE_STRING = new QualifiedName(GML.NAMESPACE,
-            "MultiLineString", "gml");
+  static final QualifiedName MULTI_LINE_STRING =
+      new QualifiedName(GML.NAMESPACE, "MultiLineString", "gml");
 
-    static final QualifiedName LINE_STRING_MEMBER = new QualifiedName(GML.NAMESPACE,
-            "lineStringMember", "gml");
+  static final QualifiedName LINE_STRING_MEMBER =
+      new QualifiedName(GML.NAMESPACE, "lineStringMember", "gml");
 
-    LineStringEncoder lse;
+  LineStringEncoder lse;
 
-    LinearRingEncoder lre;
+  LinearRingEncoder lre;
 
-    QualifiedName multiLineString;
+  QualifiedName multiLineString;
 
-    QualifiedName lineStringMember;
+  QualifiedName lineStringMember;
 
-    protected MultiLineStringEncoder(Encoder encoder, String gmlPrefix) {
-        super(encoder);
-        lse = new LineStringEncoder(encoder, gmlPrefix);
-        lre = new LinearRingEncoder(encoder, gmlPrefix);
-        multiLineString = MULTI_LINE_STRING.derive(gmlPrefix);
-        lineStringMember = LINE_STRING_MEMBER.derive(gmlPrefix);
+  protected MultiLineStringEncoder(Encoder encoder, String gmlPrefix) {
+    super(encoder);
+    lse = new LineStringEncoder(encoder, gmlPrefix);
+    lre = new LinearRingEncoder(encoder, gmlPrefix);
+    multiLineString = MULTI_LINE_STRING.derive(gmlPrefix);
+    lineStringMember = LINE_STRING_MEMBER.derive(gmlPrefix);
+  }
+
+  @Override
+  public void encode(MultiLineString geometry, AttributesImpl atts, GMLWriter handler)
+      throws Exception {
+    handler.startElement(multiLineString, atts);
+
+    for (int i = 0; i < geometry.getNumGeometries(); i++) {
+      handler.startElement(lineStringMember, null);
+      LineString line = (LineString) geometry.getGeometryN(i);
+      if (line instanceof LinearRing) {
+        lre.encode(line, null, handler);
+      } else {
+        lse.encode(line, null, handler);
+      }
+      handler.endElement(lineStringMember);
     }
 
-    @Override
-    public void encode(MultiLineString geometry, AttributesImpl atts, GMLWriter handler)
-            throws Exception {
-        handler.startElement(multiLineString, atts);
-
-        for (int i = 0; i < geometry.getNumGeometries(); i++) {
-            handler.startElement(lineStringMember, null);
-            LineString line = (LineString) geometry.getGeometryN(i);
-            if (line instanceof LinearRing) {
-                lre.encode(line, null, handler);
-            } else {
-                lse.encode(line, null, handler);
-            }
-            handler.endElement(lineStringMember);
-        }
-
-        handler.endElement(multiLineString);
-    }
-
+    handler.endElement(multiLineString);
+  }
 }

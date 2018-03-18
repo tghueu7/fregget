@@ -16,40 +16,34 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.Coordinate;
 import org.geotools.gml2.GML;
 import org.geotools.xml.Binding;
 import org.w3c.dom.Document;
 
-import com.vividsolutions.jts.geom.Coordinate;
-
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class GMLCoordTypeBinding2Test extends GMLTestSupport {
-    public void testType() {
-        assertEquals(Coordinate.class, binding(GML.CoordType).getType());
-    }
+  public void testType() {
+    assertEquals(Coordinate.class, binding(GML.CoordType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.OVERRIDE, binding(GML.CoordType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.OVERRIDE, binding(GML.CoordType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        GML2MockData.coordinate(document, document);
+  public void testParse() throws Exception {
+    GML2MockData.coordinate(document, document);
 
-        Coordinate c = (Coordinate) parse();
+    Coordinate c = (Coordinate) parse();
 
-        assertEquals(1.0, c.x, 0.0);
-        assertEquals(2.0, c.y, 0.0);
-    }
+    assertEquals(1.0, c.x, 0.0);
+    assertEquals(2.0, c.y, 0.0);
+  }
 
-    public void testEncode() throws Exception {
-        Document doc = encode(GML2MockData.coordinate(), GML.coord);
+  public void testEncode() throws Exception {
+    Document doc = encode(GML2MockData.coordinate(), GML.coord);
 
-        assertEquals(1, doc.getElementsByTagNameNS(GML.NAMESPACE, "X").getLength());
-        assertEquals(1, doc.getElementsByTagNameNS(GML.NAMESPACE, "Y").getLength());
-    }
+    assertEquals(1, doc.getElementsByTagNameNS(GML.NAMESPACE, "X").getLength());
+    assertEquals(1, doc.getElementsByTagNameNS(GML.NAMESPACE, "Y").getLength());
+  }
 }

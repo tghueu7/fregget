@@ -23,44 +23,47 @@ import org.geotools.styling.PolygonSymbolizer;
 import org.geotools.styling.SLD;
 import org.geotools.xml.Binding;
 
-
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class PolyStyleTypeBindingTest extends KMLTestSupport {
-    public void testType() {
-        assertEquals(PolygonSymbolizer.class, binding(KML.PolyStyleType).getType());
-    }
+  public void testType() {
+    assertEquals(PolygonSymbolizer.class, binding(KML.PolyStyleType).getType());
+  }
 
-    public void testExecutionMode() {
-        assertEquals(Binding.AFTER, binding(KML.PolyStyleType).getExecutionMode());
-    }
+  public void testExecutionMode() {
+    assertEquals(Binding.AFTER, binding(KML.PolyStyleType).getExecutionMode());
+  }
 
-    public void testParse() throws Exception {
-        String xml = "<PolyStyle>" + "<color>ffff0000</color>" + "<outline>1</outline>"
-            + "<fill>1</fill>" + "</PolyStyle>";
-
-        buildDocument(xml);
-
-        PolygonSymbolizer poly = (PolygonSymbolizer) parse();
-        assertEquals(Color.RED, SLD.color(poly.getFill()));
-        assertEquals(1, SLD.width(poly.getStroke()));
-
-        xml = "<PolyStyle>" + "<color>ffff0000</color>" + "<outline>0</outline>" + "<fill>0</fill>"
+  public void testParse() throws Exception {
+    String xml =
+        "<PolyStyle>"
+            + "<color>ffff0000</color>"
+            + "<outline>1</outline>"
+            + "<fill>1</fill>"
             + "</PolyStyle>";
 
-        buildDocument(xml);
-        poly = (PolygonSymbolizer) parse();
-        assertNull(poly.getFill());
-        assertNull(poly.getStroke());
+    buildDocument(xml);
 
-        xml = "<PolyStyle>" + "</PolyStyle>";
+    PolygonSymbolizer poly = (PolygonSymbolizer) parse();
+    assertEquals(Color.RED, SLD.color(poly.getFill()));
+    assertEquals(1, SLD.width(poly.getStroke()));
 
-        buildDocument(xml);
-        poly = (PolygonSymbolizer) parse();
-        assertEquals(Color.WHITE, SLD.color(poly.getFill()));
-        assertEquals(1, SLD.width(poly.getStroke()));
-    }
+    xml =
+        "<PolyStyle>"
+            + "<color>ffff0000</color>"
+            + "<outline>0</outline>"
+            + "<fill>0</fill>"
+            + "</PolyStyle>";
+
+    buildDocument(xml);
+    poly = (PolygonSymbolizer) parse();
+    assertNull(poly.getFill());
+    assertNull(poly.getStroke());
+
+    xml = "<PolyStyle>" + "</PolyStyle>";
+
+    buildDocument(xml);
+    poly = (PolygonSymbolizer) parse();
+    assertEquals(Color.WHITE, SLD.color(poly.getFill()));
+    assertEquals(1, SLD.width(poly.getStroke()));
+  }
 }

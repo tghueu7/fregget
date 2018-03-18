@@ -17,46 +17,41 @@
 
 package org.geotools.swing.testutils;
 
-
 import org.geotools.swing.event.MapPaneEvent;
 import org.geotools.swing.event.MapPaneListener;
 
-
 /**
- * A MapPaneListener that can be set to expect specified events
- * and test if they are received.
- * 
+ * A MapPaneListener that can be set to expect specified events and test if they are received.
+ *
  * @author Michael Bedward
  * @since 8.0
- *
  * @source $URL$
  * @version $Id$
  */
 public class WaitingMapPaneListener extends WaitingListener<MapPaneEvent, MapPaneEvent.Type>
-        implements MapPaneListener {
+    implements MapPaneListener {
 
-    public WaitingMapPaneListener() {
-        super(MapPaneEvent.Type.values().length);
-    }
-    
-    @Override
-    public void onNewMapContent(MapPaneEvent ev) {
-        catchEvent(MapPaneEvent.Type.NEW_MAPCONTENT.ordinal(), ev);
-    }
+  public WaitingMapPaneListener() {
+    super(MapPaneEvent.Type.values().length);
+  }
 
-    @Override
-    public void onDisplayAreaChanged(MapPaneEvent ev) {
-        catchEvent(MapPaneEvent.Type.DISPLAY_AREA_CHANGED.ordinal(), ev);
-    }
+  @Override
+  public void onNewMapContent(MapPaneEvent ev) {
+    catchEvent(MapPaneEvent.Type.NEW_MAPCONTENT.ordinal(), ev);
+  }
 
-    @Override
-    public void onRenderingStarted(MapPaneEvent ev) {
-        catchEvent(MapPaneEvent.Type.RENDERING_STARTED.ordinal(), ev);
-    }
+  @Override
+  public void onDisplayAreaChanged(MapPaneEvent ev) {
+    catchEvent(MapPaneEvent.Type.DISPLAY_AREA_CHANGED.ordinal(), ev);
+  }
 
-    @Override
-    public void onRenderingStopped(MapPaneEvent ev) {
-        catchEvent(MapPaneEvent.Type.RENDERING_STOPPED.ordinal(), ev);
-    }
-    
+  @Override
+  public void onRenderingStarted(MapPaneEvent ev) {
+    catchEvent(MapPaneEvent.Type.RENDERING_STARTED.ordinal(), ev);
+  }
+
+  @Override
+  public void onRenderingStopped(MapPaneEvent ev) {
+    catchEvent(MapPaneEvent.Type.RENDERING_STOPPED.ordinal(), ev);
+  }
 }

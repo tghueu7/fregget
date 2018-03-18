@@ -18,76 +18,72 @@
 package org.geotools.grid.ortholine;
 
 /**
- * Defines how to generate a set of regularly-spaced, ortho-line elements with
- * given orientation and level.
- * 
+ * Defines how to generate a set of regularly-spaced, ortho-line elements with given orientation and
+ * level.
+ *
  * @author mbedward
  * @since 8.0
- *
- *
- *
  * @source $URL$
  * @version $Id$
  */
 public class OrthoLineDef {
 
-    private final int level;
-    private final LineOrientation orientation;
-    private final double spacing;
+  private final int level;
+  private final LineOrientation orientation;
+  private final double spacing;
 
-    /**
-     * Creates a new ortho-line definition.
-     * 
-     * @param orientation line orientation
-     * @param level an integer level (user-defined values) indicating line precedence
-     * @param spacing the spacing between lines in world distance units
-     */
-    public OrthoLineDef(LineOrientation orientation, int level, double spacing) {
-        this.level = level;
-        this.orientation = orientation;
-        this.spacing = spacing;
-    }
-    
-    /**
-     * Creates a copy of an existing line definition.
-     * 
-     * @param lineDef the definition to copy
-     * @throws IllegalArgumentException if {@code lineDef} is {@code null}
-     */
-    public OrthoLineDef(OrthoLineDef lineDef) {
-        if (lineDef == null) {
-            throw new IllegalArgumentException("lineDef arg must not be null");
-        }
-        this.level = lineDef.level;
-        this.orientation = lineDef.orientation;
-        this.spacing = lineDef.spacing;
-    }
+  /**
+   * Creates a new ortho-line definition.
+   *
+   * @param orientation line orientation
+   * @param level an integer level (user-defined values) indicating line precedence
+   * @param spacing the spacing between lines in world distance units
+   */
+  public OrthoLineDef(LineOrientation orientation, int level, double spacing) {
+    this.level = level;
+    this.orientation = orientation;
+    this.spacing = spacing;
+  }
 
-    /**
-     * Gets the integer level (line precedence).
-     * 
-     * @return the level
-     */
-    public int getLevel() {
-        return level;
+  /**
+   * Creates a copy of an existing line definition.
+   *
+   * @param lineDef the definition to copy
+   * @throws IllegalArgumentException if {@code lineDef} is {@code null}
+   */
+  public OrthoLineDef(OrthoLineDef lineDef) {
+    if (lineDef == null) {
+      throw new IllegalArgumentException("lineDef arg must not be null");
     }
+    this.level = lineDef.level;
+    this.orientation = lineDef.orientation;
+    this.spacing = lineDef.spacing;
+  }
 
-    /**
-     * Gets the orientation.
-     * 
-     * @return orientation
-     */
-    public LineOrientation getOrientation() {
-        return orientation;
-    }
+  /**
+   * Gets the integer level (line precedence).
+   *
+   * @return the level
+   */
+  public int getLevel() {
+    return level;
+  }
 
-    /**
-     * Gets the spacing between lines.
-     * 
-     * @return line spacing
-     */
-    public double getSpacing() {
-        return spacing;
-    }
+  /**
+   * Gets the orientation.
+   *
+   * @return orientation
+   */
+  public LineOrientation getOrientation() {
+    return orientation;
+  }
 
+  /**
+   * Gets the spacing between lines.
+   *
+   * @return line spacing
+   */
+  public double getSpacing() {
+    return spacing;
+  }
 }

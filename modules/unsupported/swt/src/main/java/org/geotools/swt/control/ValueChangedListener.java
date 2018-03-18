@@ -22,20 +22,15 @@ package org.geotools.swt.control;
  *
  * @see JValueField
  * @see ValueChangedEvent
- * 
  * @author Michael Bedward
- *
- *
- *
  * @source $URL$
  */
 public interface ValueChangedListener {
 
-    /**
-     * Called by the control whose value has just changed.
-     *
-     * @param ev the event.
-     */
-    public void onValueChanged( ValueChangedEvent<?> ev );
-
+  /**
+   * Called by the control whose value has just changed.
+   *
+   * @param ev the event.
+   */
+  public void onValueChanged(ValueChangedEvent<?> ev);
 }

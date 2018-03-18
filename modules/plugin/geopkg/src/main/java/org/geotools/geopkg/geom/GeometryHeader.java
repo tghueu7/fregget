@@ -20,45 +20,45 @@ import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * The Geopackage Geometry BLOB Header (see Geopackage specs).
- * 
+ *
  * @author Justin Deoliveira
  * @author Niels Charlier
  */
 public class GeometryHeader {
-    private byte version;
-    private GeometryHeaderFlags flags;
-    private int srid;
-    private Envelope envelope;
+  private byte version;
+  private GeometryHeaderFlags flags;
+  private int srid;
+  private Envelope envelope;
 
-    public byte getVersion() {
-        return version;
-    }
+  public byte getVersion() {
+    return version;
+  }
 
-    public void setVersion(byte version) {
-        this.version = version;
-    }
+  public void setVersion(byte version) {
+    this.version = version;
+  }
 
-    public GeometryHeaderFlags getFlags() {
-        return flags;
-    }
+  public GeometryHeaderFlags getFlags() {
+    return flags;
+  }
 
-    public void setFlags(GeometryHeaderFlags flags) {
-        this.flags = flags;
-    }
+  public void setFlags(GeometryHeaderFlags flags) {
+    this.flags = flags;
+  }
 
-    public int getSrid() {
-        return srid;
-    }
+  public int getSrid() {
+    return srid;
+  }
 
-    public void setSrid(int srid) {
-        this.srid = srid;
-    }
+  public void setSrid(int srid) {
+    this.srid = srid;
+  }
 
-    public Envelope getEnvelope() {
-        return envelope;
-    }
+  public Envelope getEnvelope() {
+    return envelope;
+  }
 
-    public void setEnvelope(Envelope envelope) {
-        this.envelope = envelope;
-    }
+  public void setEnvelope(Envelope envelope) {
+    this.envelope = envelope;
+  }
 }

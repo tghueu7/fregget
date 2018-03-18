@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -19,114 +19,85 @@
  */
 package org.geotools.metadata.iso.citation;
 
-import org.opengis.metadata.citation.Series;
-import org.opengis.util.InternationalString;
 import org.geotools.metadata.iso.MetadataEntity;
 import org.geotools.util.SimpleInternationalString;
-
+import org.opengis.metadata.citation.Series;
+import org.opengis.util.InternationalString;
 
 /**
  * Information about the series, or aggregate dataset, to which a dataset belongs.
  *
  * @author Jody Garnett
  * @author Martin Desruisseaux
- *
  * @since 2.1
- *
- *
  * @source $URL$
  */
 public class SeriesImpl extends MetadataEntity implements Series {
-    /**
-     * Serial number for interoperability with different versions.
-     */
-    private static final long serialVersionUID = 2784101441023323052L;
+  /** Serial number for interoperability with different versions. */
+  private static final long serialVersionUID = 2784101441023323052L;
 
-    /**
-     * Name of the series, or aggregate dataset, of which the dataset is a part.
-     */
-    private InternationalString name;
+  /** Name of the series, or aggregate dataset, of which the dataset is a part. */
+  private InternationalString name;
 
-    /**
-     * Information identifying the issue of the series.
-     */
-    private String issueIdentification;
+  /** Information identifying the issue of the series. */
+  private String issueIdentification;
 
-    /**
-     * Details on which pages of the publication the article was published.
-     */
-    private String page;
+  /** Details on which pages of the publication the article was published. */
+  private String page;
 
-    /**
-     * Constructs a default series.
-     */
-    public SeriesImpl() {
+  /** Constructs a default series. */
+  public SeriesImpl() {}
+
+  /**
+   * Constructs a metadata entity initialized with the values from the specified metadata.
+   *
+   * @since 2.4
+   */
+  public SeriesImpl(final Series source) {
+    super(source);
+  }
+
+  /** Constructs a series with the specified name. */
+  public SeriesImpl(final CharSequence name) {
+    final InternationalString n;
+    if (name instanceof InternationalString) {
+      n = (InternationalString) name;
+    } else {
+      n = new SimpleInternationalString(name.toString());
     }
+    setName(n);
+  }
 
-    /**
-     * Constructs a metadata entity initialized with the values from the specified metadata.
-     *
-     * @since 2.4
-     */
-    public SeriesImpl(final Series source) {
-        super(source);
-    }
+  /** Returne the name of the series, or aggregate dataset, of which the dataset is a part. */
+  public InternationalString getName() {
+    return name;
+  }
 
-    /**
-     * Constructs a series with the specified name.
-     */
-    public SeriesImpl(final CharSequence name) {
-        final InternationalString n;
-        if (name instanceof InternationalString) {
-            n = (InternationalString) name;
-        } else {
-            n = new SimpleInternationalString(name.toString());
-        }
-        setName(n);
-    }
+  /** Set the name of the series, or aggregate dataset, of which the dataset is a part. */
+  public synchronized void setName(final InternationalString newValue) {
+    checkWritePermission();
+    name = newValue;
+  }
 
-    /**
-     * Returne the name of the series, or aggregate dataset, of which the dataset is a part.
-     */
-    public InternationalString getName() {
-        return name;
-    }
+  /** Returns information identifying the issue of the series. */
+  public String getIssueIdentification() {
+    return issueIdentification;
+  }
 
-    /**
-     * Set the name of the series, or aggregate dataset, of which the dataset is a part.
-     */
-    public synchronized void setName(final InternationalString newValue) {
-        checkWritePermission();
-        name = newValue;
-    }
+  /** Set information identifying the issue of the series. */
+  public synchronized void setIssueIdentification(final String newValue) {
+    checkWritePermission();
+    issueIdentification = newValue;
+  }
 
-    /**
-     * Returns information identifying the issue of the series.
-     */
-    public String getIssueIdentification() {
-        return issueIdentification;
-    }
+  /** Returns details on which pages of the publication the article was published. */
+  public String getPage() {
+    return page;
+  }
 
-    /**
-     * Set information identifying the issue of the series.
-     */
-    public synchronized void setIssueIdentification(final String newValue) {
-        checkWritePermission();
-        issueIdentification = newValue;
-    }
-
-    /**
-     * Returns details on which pages of the publication the article was published.
-     */
-    public String getPage() {
-        return page;
-    }
-
-    /**
-     * Set details on which pages of the publication the article was published.
-     */
-    public synchronized void setPage(final String newValue) {
-        checkWritePermission();
-        page = newValue;
-    }
+  /** Set details on which pages of the publication the article was published. */
+  public synchronized void setPage(final String newValue) {
+    checkWritePermission();
+    page = newValue;
+  }
 }

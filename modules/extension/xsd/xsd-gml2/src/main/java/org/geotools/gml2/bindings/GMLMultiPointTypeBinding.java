@@ -16,22 +16,20 @@
  */
 package org.geotools.gml2.bindings;
 
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.MultiPoint;
 import javax.xml.namespace.QName;
-
 import org.geotools.gml2.GML;
 import org.geotools.xml.AbstractComplexBinding;
 import org.geotools.xml.ElementInstance;
 import org.geotools.xml.Node;
 
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPoint;
-
-
 /**
  * Binding object for the type http://www.opengis.net/gml:MultiPointType.
  *
  * <p>
- *        <pre>
+ *
+ * <pre>
  *         <code>
  *  &lt;complexType name="MultiPointType"&gt;
  *      &lt;annotation&gt;
@@ -51,60 +49,54 @@ import com.vividsolutions.jts.geom.MultiPoint;
  *
  *          </code>
  *         </pre>
- * </p>
  *
  * @generated
- *
- *
- *
  * @source $URL$
  */
 public class GMLMultiPointTypeBinding extends AbstractComplexBinding {
-    GeometryFactory gFactory;
+  GeometryFactory gFactory;
 
-    public GMLMultiPointTypeBinding(GeometryFactory gFactory) {
-        this.gFactory = gFactory;
+  public GMLMultiPointTypeBinding(GeometryFactory gFactory) {
+    this.gFactory = gFactory;
+  }
+
+  /** @generated */
+  public QName getTarget() {
+    return GML.MultiPointType;
+  }
+
+  public int getExecutionMode() {
+    return OVERRIDE;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Class getType() {
+    return MultiPoint.class;
+  }
+
+  /**
+   *
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable
+   */
+  public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
+    return GML2ParsingUtils.GeometryCollectionType_parse(node, MultiPoint.class, gFactory);
+  }
+
+  public Object getProperty(Object object, QName name) throws Exception {
+
+    if (GML.pointMember.equals(name)) {
+      return GML2ParsingUtils.asCollection((MultiPoint) object);
     }
 
-    /**
-     * @generated
-     */
-    public QName getTarget() {
-        return GML.MultiPointType;
-    }
-
-    public int getExecutionMode() {
-        return OVERRIDE;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Class getType() {
-        return MultiPoint.class;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated modifiable
-     */
-    public Object parse(ElementInstance instance, Node node, Object value)
-        throws Exception {
-        return GML2ParsingUtils.GeometryCollectionType_parse(node, MultiPoint.class, gFactory);
-    }
-
-    public Object getProperty(Object object, QName name)
-        throws Exception {
-      
-        if (GML.pointMember.equals(name)) {
-            return GML2ParsingUtils.asCollection((MultiPoint) object);
-        }
-
-        return GML2ParsingUtils.GeometryCollectionType_getProperty(object, name);
-    }
+    return GML2ParsingUtils.GeometryCollectionType_getProperty(object, name);
+  }
 }

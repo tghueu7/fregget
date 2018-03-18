@@ -21,9 +21,8 @@ import org.geotools.jdbc.JDBCTemporalFilterOnlineTest;
 
 public class SQLServerTemporalFilterOnlineTest extends JDBCTemporalFilterOnlineTest {
 
-    @Override
-    protected JDBCDateTestSetup createTestSetup() {
-        return new SQLServerDateTestSetup();
-    }
-
+  @Override
+  protected JDBCDateTestSetup createTestSetup() {
+    return new SQLServerDateTestSetup();
+  }
 }

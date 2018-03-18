@@ -17,64 +17,57 @@
 package org.geotools.coverageio.gdal.vrt;
 
 import it.geosolutions.imageio.plugins.vrt.VRTImageReaderSpi;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.geotools.coverageio.gdal.BaseGDALGridFormat;
 import org.geotools.data.DataSourceException;
 import org.geotools.factory.Hints;
 import org.opengis.coverage.grid.Format;
 import org.opengis.geometry.MismatchedDimensionException;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * An implementation of {@link Format} for the VRT format
- * 
+ *
  * @author Daniele Romagnoli, GeoSolutions
  * @author Simone Giannecchini (simboss), GeoSolutions
  * @since 2.10.x
- *
- *
  * @source $URL$
  */
 public final class VRTFormat extends BaseGDALGridFormat implements Format {
-    /**
-     * Logger.
-     */
-    private final static Logger LOGGER = org.geotools.util.logging.Logging
-            .getLogger("org.geotools.coverageio.gdal.vrt");
+  /** Logger. */
+  private static final Logger LOGGER =
+      org.geotools.util.logging.Logging.getLogger("org.geotools.coverageio.gdal.vrt");
 
-    /**
-     * Creates an instance and sets the metadata.
-     */
-    public VRTFormat() {
-        super(new VRTImageReaderSpi());
+  /** Creates an instance and sets the metadata. */
+  public VRTFormat() {
+    super(new VRTImageReaderSpi());
 
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.fine("Creating a new VRTFormat.");
-        }
-
-        setInfo();
+    if (LOGGER.isLoggable(Level.FINE)) {
+      LOGGER.fine("Creating a new VRTFormat.");
     }
 
-    private static InfoWrapper INFO = new InfoWrapper("Virtual (VRT) Format", "VRT");
+    setInfo();
+  }
 
-    @Override
-    protected void setInfo() {
-        setInfo(INFO);
-    }
+  private static InfoWrapper INFO = new InfoWrapper("Virtual (VRT) Format", "VRT");
 
-    @Override
-    public VRTReader getReader(Object source, Hints hints) {
-        try {
-            return new VRTReader(source, hints);
-        } catch (MismatchedDimensionException e) {
-            final RuntimeException re = new RuntimeException();
-            re.initCause(e);
-            throw re;
-        } catch (DataSourceException e) {
-            final RuntimeException re = new RuntimeException();
-            re.initCause(e);
-            throw re;
-        }
+  @Override
+  protected void setInfo() {
+    setInfo(INFO);
+  }
+
+  @Override
+  public VRTReader getReader(Object source, Hints hints) {
+    try {
+      return new VRTReader(source, hints);
+    } catch (MismatchedDimensionException e) {
+      final RuntimeException re = new RuntimeException();
+      re.initCause(e);
+      throw re;
+    } catch (DataSourceException e) {
+      final RuntimeException re = new RuntimeException();
+      re.initCause(e);
+      throw re;
     }
+  }
 }
