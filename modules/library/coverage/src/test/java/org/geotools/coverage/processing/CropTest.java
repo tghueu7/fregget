@@ -708,7 +708,7 @@ public final class CropTest extends GridProcessingTestBase {
         try {
             processor.doOperation(param);
             fail("Cropping outside bounds");
-        } catch (CannotCropException _) {
+        } catch (CannotCropException e) {
         }
 
     }
