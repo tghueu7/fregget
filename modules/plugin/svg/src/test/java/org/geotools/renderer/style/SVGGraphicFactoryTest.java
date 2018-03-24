@@ -1,7 +1,7 @@
 /*
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
- * 
+ *
  *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
@@ -22,48 +22,40 @@ import static org.junit.Assert.assertThat;
 import java.awt.RenderingHints.Key;
 import java.net.URL;
 import java.util.HashMap;
-
 import javax.swing.Icon;
-
 import junit.framework.TestCase;
-
 import org.geotools.factory.CommonFactoryFinder;
-import org.geotools.factory.GeoTools;
 import org.geotools.factory.Hints;
 import org.geotools.xml.NullEntityResolver;
 import org.geotools.xml.PreventLocalEntityResolver;
 import org.opengis.filter.FilterFactory;
 
-/**
- * 
- *
- * @source $URL$
- */
+/** @source $URL$ */
 public class SVGGraphicFactoryTest extends TestCase {
 
     private FilterFactory ff;
 
     @Override
     protected void setUp() throws Exception {
-        
+
         ff = CommonFactoryFinder.getFilterFactory(null);
     }
-    
+
     public void testNull() throws Exception {
         SVGGraphicFactory svg = new SVGGraphicFactory();
         assertNull(svg.getIcon(null, ff.literal("http://www.nowhere.com"), null, 20));
     }
-    
+
     public void testInvalidPaths() throws Exception {
         SVGGraphicFactory svg = new SVGGraphicFactory();
         assertNull(svg.getIcon(null, ff.literal("http://www.nowhere.com"), "image/svg+not!", 20));
         try {
             svg.getIcon(null, ff.literal("ThisIsNotAUrl"), "image/svg", 20);
             fail("Should have throw an exception, invalid url");
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
         }
     }
-    
+
     public void testLocalURL() throws Exception {
         SVGGraphicFactory svg = new SVGGraphicFactory();
         URL url = SVGGraphicFactory.class.getResource("gradient.svg");
@@ -74,17 +66,17 @@ public class SVGGraphicFactoryTest extends TestCase {
         assertEquals(20, icon.getIconHeight());
         // check caching is working
         assertTrue(SVGGraphicFactory.glyphCache.containsKey(url.toString()));
-        
+
         // second call, hopefully using the cached path
         icon = svg.getIcon(null, ff.literal(url), "image/svg", 20);
         assertNotNull(icon);
         assertEquals(20, icon.getIconHeight());
     }
-    
+
     public void testLocalURLXEE() throws Exception {
         // disable references to entity stored on local file
         HashMap<Key, Object> hints = new HashMap<>();
-        hints.put(Hints.ENTITY_RESOLVER, PreventLocalEntityResolver.INSTANCE );
+        hints.put(Hints.ENTITY_RESOLVER, PreventLocalEntityResolver.INSTANCE);
         SVGGraphicFactory svg = new SVGGraphicFactory(hints);
         try {
             URL url = SVGGraphicFactory.class.getResource("attack.svg");
@@ -93,12 +85,12 @@ public class SVGGraphicFactoryTest extends TestCase {
         } catch (Exception e) {
             assertThat(e.getMessage(), containsString("passwd"));
         }
-        
-        // now enable references to entity stored on local file 
+
+        // now enable references to entity stored on local file
         hints = new HashMap<>();
-        hints.put(Hints.ENTITY_RESOLVER, NullEntityResolver.INSTANCE );
+        hints.put(Hints.ENTITY_RESOLVER, NullEntityResolver.INSTANCE);
         svg = new SVGGraphicFactory(hints); // disable safety protection
-        
+
         URL url = SVGGraphicFactory.class.getResource("attack.svg");
         Icon icon = svg.getIcon(null, ff.literal(url), "image/svg", 20);
         assertNotNull(icon);
@@ -113,7 +105,7 @@ public class SVGGraphicFactoryTest extends TestCase {
         assertNotNull(icon);
         assertEquals(500, icon.getIconHeight());
     }
-    
+
     public void testSizeWithPixels() throws Exception {
         SVGGraphicFactory svg = new SVGGraphicFactory();
         URL url = SVGGraphicFactory.class.getResource("gradient-pixels.svg");
@@ -123,10 +115,10 @@ public class SVGGraphicFactoryTest extends TestCase {
         assertNotNull(icon);
         assertEquals(500, icon.getIconHeight());
     }
-    
+
     /**
-     * Tests that a fetched graphic is added to the cache, and that the {@link GraphicCache#clearCache()} method correctly clears the
-     * cache.
+     * Tests that a fetched graphic is added to the cache, and that the {@link
+     * GraphicCache#clearCache()} method correctly clears the cache.
      */
     public void testClearCache() throws Exception {
         SVGGraphicFactory svg = new SVGGraphicFactory();
