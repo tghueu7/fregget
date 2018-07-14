@@ -27,6 +27,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -51,6 +52,7 @@ import org.geotools.jdbc.BasicSQLDialect;
 import org.geotools.jdbc.ColumnMetadata;
 import org.geotools.jdbc.JDBCDataStore;
 import org.geotools.referencing.CRS;
+import org.geotools.resources.Classes;
 import org.geotools.util.Version;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
@@ -102,6 +104,25 @@ public class PostGISDialect extends BasicSQLDialect {
                     put("CIRCULARSTRING", CircularString.class);
                     put("MULTISURFACE", MultiSurface.class);
                     put("BYTEA", byte[].class);
+                }
+            };
+
+    // simple type to class map
+    static final Map<String, Class> SIMPLE_TYPE_TO_CLASS_MAP =
+            new HashMap<String, Class>() {
+                {
+                    put("INT2", Short.class);
+                    put("INT4", Integer.class);
+                    put("INT8", Long.class);
+                    put("FLOAT4", Float.class);
+                    put("FLOAT8", Double.class);
+                    put("BOOL", Boolean.class);
+                    put("VARCHAR", String.class);
+                    put("DATE", java.sql.Date.class);
+                    put("TIME", java.sql.Time.class);
+                    put("TIMESTAMP", java.sql.Timestamp.class);
+                    put("TIMESTAMPZ", java.sql.Timestamp.class);
+                    put("TIMESTAMPTZ", java.sql.Timestamp.class);
                 }
             };
 
@@ -466,7 +487,35 @@ public class PostGISDialect extends BasicSQLDialect {
     public Class<?> getMapping(ResultSet columnMetaData, Connection cx) throws SQLException {
 
         String typeName = columnMetaData.getString("TYPE_NAME");
+        int dataType = columnMetaData.getInt("DATA_TYPE");
+        
+        if (dataType == Types.ARRAY && typeName.length() > 1) {
+            // type_name starts with an underscore and then provides the type of data in the array
+            typeName = typeName.substring(1);
+            Class<?> arrayContentType = getMappingInternal(columnMetaData, cx, typeName);
+            // if we did not find it with the above procedure, consult the type to class map 
+            // (should contain mappings for all basic java types)
+            if (arrayContentType == null) {
+                arrayContentType = SIMPLE_TYPE_TO_CLASS_MAP.get(typeName.toUpperCase());
+            }
+            
+            if (arrayContentType != null) {
+                try {
+                    return Class.forName ("[L" + arrayContentType.getName() + ";");
+                } catch (ClassNotFoundException e) {
+                    LOGGER.log(Level.WARNING, "Failed to create Java equivalent of array class", e);
+                    return null;
+                }
+            }
+            
+            return null;
+        }
 
+        return getMappingInternal(columnMetaData, cx, typeName);
+    }
+
+    private Class<?> getMappingInternal(ResultSet columnMetaData, Connection cx, String typeName)
+            throws SQLException {
         if ("uuid".equalsIgnoreCase(typeName)) {
             return UUID.class;
         }

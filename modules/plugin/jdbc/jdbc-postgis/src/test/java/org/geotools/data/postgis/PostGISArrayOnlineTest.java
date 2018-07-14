@@ -16,124 +16,67 @@
  */
 package org.geotools.data.postgis;
 
-import java.io.IOException;
-import java.util.logging.Logger;
+import static org.junit.Assert.assertArrayEquals;
+
 import org.geotools.data.DataUtilities;
-import org.geotools.data.Query;
+import org.geotools.data.FeatureStore;
+import org.geotools.data.store.ContentFeatureCollection;
 import org.geotools.data.store.ContentFeatureSource;
 import org.geotools.jdbc.JDBCTestSetup;
 import org.geotools.jdbc.JDBCTestSupport;
+import org.geotools.util.Converters;
 import org.junit.Test;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.filter.FilterFactory;
-import org.opengis.filter.PropertyIsEqualTo;
+import org.opengis.filter.Id;
 
-public class PostGISHStoreOnlineTest extends JDBCTestSupport {
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.logging.Logger;
 
-    private static final Logger LOGGER = Logger.getLogger(PostGISHStoreOnlineTest.class.getName());
+public class PostGISArrayOnlineTest extends JDBCTestSupport {
 
-    private PostGISHStoreTestSetup pgHstoreSetup;
+    private static final Logger LOGGER = Logger.getLogger(PostGISArrayOnlineTest.class.getName());
 
     @Override
     protected JDBCTestSetup createTestSetup() {
-        pgHstoreSetup = new PostGISHStoreTestSetup();
-        return pgHstoreSetup;
-    }
-
-    private boolean skipTests() {
-        return pgHstoreSetup.hasException;
+        return new PostGISArrayTestSetup();
     }
 
     @Test
-    public void testReportingException() throws Exception {
-        if (skipTests()) {
-            LOGGER.warning("HSTORE tests will be skipped due to previous exception");
-        }
+    public void testWritable() throws Exception {
+        ContentFeatureSource fs = dataStore.getFeatureSource(tname("arraytest"));
+        assertTrue(fs instanceof FeatureStore);
     }
 
     @Test
-    public void testSinglePair() throws Exception {
-        if (skipTests()) {
-            return;
-        }
-        String name = "singlepair";
-        Object object = getHstoreColumnForFeatureWithName(name);
-        assertNotNull(object);
-        assertTrue(object instanceof HStore);
-        HStore hstore = (HStore) object;
-        assertTrue(hstore.size() == 1);
-        assertTrue(hstore.containsKey("key1"));
-        assertTrue(hstore.get("key1").equals("value1"));
-        LOGGER.info(name + " hstore content: " + hstore.toString());
-    }
-
-    @Test
-    public void testDoublePair() throws Exception {
-        if (skipTests()) {
-            return;
-        }
-        String name = "doublepair";
-        Object object = getHstoreColumnForFeatureWithName(name);
-        assertNotNull(object);
-        assertTrue(object instanceof HStore);
-        HStore hstore = (HStore) object;
-        assertTrue(hstore.size() == 2);
-        assertTrue(hstore.containsKey("key2"));
-        assertTrue(hstore.get("key2").equals("value2"));
-        assertTrue(hstore.containsKey("key3"));
-        assertTrue(hstore.get("key3").equals("value3"));
-        LOGGER.info(name + " hstore content: " + hstore.toString());
-    }
-
-    @Test
-    public void testPairWithNullValue() throws Exception {
-        if (skipTests()) {
-            return;
-        }
-        String name = "pairwithnullvalue";
-        Object object = getHstoreColumnForFeatureWithName(name);
-        assertNotNull(object);
-        assertTrue(object instanceof HStore);
-        HStore hstore = (HStore) object;
-        assertTrue(hstore.size() == 1);
-        assertTrue(hstore.containsKey("key4"));
-        assertNull(hstore.get("key4"));
-        LOGGER.info(name + " hstore content: " + hstore.toString());
-    }
-
-    @Test
-    public void testEmpty() throws Exception {
-        if (skipTests()) {
-            return;
-        }
-        String name = "emptycontent";
-        Object object = getHstoreColumnForFeatureWithName(name);
-        assertNotNull(object);
-        assertTrue(object instanceof HStore);
-        HStore hstore = (HStore) object;
-        assertTrue(hstore.isEmpty());
-        LOGGER.info(name + " hstore content: " + hstore.toString());
-    }
-
-    @Test
-    public void testNullEntry() throws Exception {
-        if (skipTests()) {
-            return;
-        }
-        Object object = getHstoreColumnForFeatureWithName("nullcontent");
-        assertNull(object);
-    }
-
-    private Object getHstoreColumnForFeatureWithName(String name) throws IOException {
-        SimpleFeature feature = getSingleFeatureByName(name);
-        return feature.getAttribute("mapping");
-    }
-
-    private SimpleFeature getSingleFeatureByName(String name) throws IOException {
-        ContentFeatureSource fs = dataStore.getFeatureSource(tname("hstoretest"));
+    public void testRead() throws Exception {
         FilterFactory ff = dataStore.getFilterFactory();
-        PropertyIsEqualTo filter = ff.equal(ff.property(aname("name")), ff.literal(name), true);
-        Query q = new Query(tname("hstoretest"), filter);
-        return DataUtilities.first(fs.getFeatures(q));
+        
+        // check the non null array
+        SimpleFeature first =
+                getSingleArrayFeature(
+                        ff.id(Collections.singleton(ff.featureId(tname("arraytest") + ".0"))));
+        assertArrayEquals(new String[] {"A", "B"}, (String[]) first.getAttribute(aname("strings")));
+        assertArrayEquals(new Integer[] {1, 2}, (Integer[]) first.getAttribute(aname("ints")));
+        assertArrayEquals(new Double[] {3.4, 5.6}, (Double[]) first.getAttribute(aname("floats")));
+        Timestamp date = Converters.convert("2009-06-28 15:12:41", Timestamp.class);
+        assertArrayEquals(
+                new Timestamp[] {date}, (Timestamp[]) first.getAttribute(aname("timestamps")));
+        
+        // check the one containing nulls
+        SimpleFeature nulls =
+                getSingleArrayFeature(
+                        ff.id(Collections.singleton(ff.featureId(tname("arraytest") + ".1"))));
+        assertNull(nulls.getAttribute(aname("strings")));
+        assertNull(nulls.getAttribute(aname("ints")));
+        assertNull(nulls.getAttribute(aname("floats")));
+    }
+
+    private SimpleFeature getSingleArrayFeature(Id filter) throws IOException {
+        ContentFeatureSource fs = dataStore.getFeatureSource(tname("arraytest"));
+        ContentFeatureCollection fc = fs.getFeatures(filter);
+        return DataUtilities.first(fc);
     }
 }
