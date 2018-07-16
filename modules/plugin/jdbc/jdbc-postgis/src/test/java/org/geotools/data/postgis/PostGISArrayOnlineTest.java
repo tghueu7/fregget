@@ -2,7 +2,7 @@
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
  *
- *    (C) 2017, Open Source Geospatial Foundation (OSGeo)
+ *    (C) 2018, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -20,19 +20,24 @@ import static org.junit.Assert.assertArrayEquals;
 
 import org.geotools.data.DataUtilities;
 import org.geotools.data.FeatureStore;
+import org.geotools.data.simple.SimpleFeatureStore;
 import org.geotools.data.store.ContentFeatureCollection;
 import org.geotools.data.store.ContentFeatureSource;
+import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.jdbc.JDBCTestSetup;
 import org.geotools.jdbc.JDBCTestSupport;
 import org.geotools.util.Converters;
 import org.junit.Test;
 import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.Id;
+import org.opengis.filter.identity.FeatureId;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class PostGISArrayOnlineTest extends JDBCTestSupport {
@@ -41,7 +46,7 @@ public class PostGISArrayOnlineTest extends JDBCTestSupport {
 
     @Override
     protected JDBCTestSetup createTestSetup() {
-        return new PostGISArrayTestSetup();
+        return new PostGISArrayTestSetup(new PostGISTestSetup());
     }
 
     @Test
@@ -53,7 +58,7 @@ public class PostGISArrayOnlineTest extends JDBCTestSupport {
     @Test
     public void testRead() throws Exception {
         FilterFactory ff = dataStore.getFilterFactory();
-        
+
         // check the non null array
         SimpleFeature first =
                 getSingleArrayFeature(
@@ -64,14 +69,56 @@ public class PostGISArrayOnlineTest extends JDBCTestSupport {
         Timestamp date = Converters.convert("2009-06-28 15:12:41", Timestamp.class);
         assertArrayEquals(
                 new Timestamp[] {date}, (Timestamp[]) first.getAttribute(aname("timestamps")));
-        
-        // check the one containing nulls
-        SimpleFeature nulls =
+
+        // check the one containing null values inside non null arrays
+        SimpleFeature nullValues =
                 getSingleArrayFeature(
                         ff.id(Collections.singleton(ff.featureId(tname("arraytest") + ".1"))));
-        assertNull(nulls.getAttribute(aname("strings")));
-        assertNull(nulls.getAttribute(aname("ints")));
-        assertNull(nulls.getAttribute(aname("floats")));
+        assertArrayEquals(
+                new String[] {null, "C"}, (String[]) nullValues.getAttribute(aname("strings")));
+        assertArrayEquals(
+                new Integer[] {null, 3}, (Integer[]) nullValues.getAttribute(aname("ints")));
+        assertArrayEquals(
+                new Double[] {null, 7.8}, (Double[]) nullValues.getAttribute(aname("floats")));
+        assertArrayEquals(
+                new Timestamp[] {null, date},
+                (Timestamp[]) nullValues.getAttribute(aname("timestamps")));
+
+        // check the one containing null arrays
+        SimpleFeature nullArrays =
+                getSingleArrayFeature(
+                        ff.id(Collections.singleton(ff.featureId(tname("arraytest") + ".2"))));
+        assertNull(nullArrays.getAttribute(aname("strings")));
+        assertNull(nullArrays.getAttribute(aname("ints")));
+        assertNull(nullArrays.getAttribute(aname("floats")));
+    }
+
+    @Test
+    public void testWrite() throws Exception {
+        SimpleFeatureStore fs = (SimpleFeatureStore) dataStore.getFeatureSource(tname("arraytest"));
+
+        // build new feature
+        SimpleFeatureType schema = fs.getSchema();
+        SimpleFeatureBuilder fb = new SimpleFeatureBuilder(schema);
+        String[] stringArray = {null, "test"};
+        fb.set("strings", stringArray);
+        Integer[] intArray = {null, 1234};
+        fb.set("ints", intArray);
+        Double[] floatArray = {null, 123.4};
+        fb.set("floats", floatArray);
+        fb.set("timestamps", null);
+        SimpleFeature feature = fb.buildFeature(null);
+
+        List<FeatureId> ids = fs.addFeatures(DataUtilities.collection(feature));
+        assertEquals(1, ids.size());
+
+        // read back and check
+        FilterFactory ff = dataStore.getFilterFactory();
+        SimpleFeature read = getSingleArrayFeature(ff.id(Collections.singleton(ids.get(0))));
+        assertArrayEquals(stringArray, (String[]) read.getAttribute(aname("strings")));
+        assertArrayEquals(intArray, (Integer[]) read.getAttribute(aname("ints")));
+        assertArrayEquals(floatArray, (Double[]) read.getAttribute(aname("floats")));
+        assertNull(read.getAttribute(aname("timestamps")));
     }
 
     private SimpleFeature getSingleArrayFeature(Id filter) throws IOException {

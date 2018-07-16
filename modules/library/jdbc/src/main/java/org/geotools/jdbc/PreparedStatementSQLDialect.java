@@ -16,8 +16,16 @@
  */
 package org.geotools.jdbc;
 
+import static java.lang.String.format;
+import static java.lang.reflect.Array.getLength;
+
+import org.geotools.util.Converters;
+import org.locationtech.jts.geom.Geometry;
+import org.opengis.feature.simple.SimpleFeatureType;
+
 import java.io.StringReader;
 import java.math.BigDecimal;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -25,9 +33,8 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
-import org.geotools.util.Converters;
-import org.locationtech.jts.geom.Geometry;
-import org.opengis.feature.simple.SimpleFeatureType;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * SQL dialect which uses prepared statements for database interaction.
@@ -124,8 +131,11 @@ public abstract class PreparedStatementSQLDialect extends SQLDialect {
 
         // get the sql type
         Integer sqlType = dataStore.getMapping(binding);
+        if (sqlType == null && binding.isArray()) {
+            sqlType = Types.ARRAY;
+        }
 
-        // handl null case
+        // handle null case
         if (value == null) {
             ps.setNull(column, sqlType);
             return;
@@ -172,9 +182,75 @@ public abstract class PreparedStatementSQLDialect extends SQLDialect {
                 String string = convert(value, String.class);
                 ps.setCharacterStream(column, new StringReader(string), string.length());
                 break;
+            case Types.ARRAY:
+                Array array = convertToArray(value, binding.getComponentType(), ps.getConnection());
+                ps.setArray(column, array);
             default:
                 ps.setObject(column, value, Types.OTHER);
         }
+    }
+
+    /**
+     * Converts a given array value into a {@link Array}
+     *
+     * @param value The non null value to be converted
+     * @param binding The attribute binding (of array type
+     * @param connection The connection used to create an {@link Array}
+     * @return The converted array
+     * @throws SQLException
+     */
+    protected Array convertToArray(Object value, Class componentType, Connection connection)
+            throws SQLException {
+        String typeName = getSqlTypeName(componentType);
+        int length = getLength(value);
+        Object[] elements = new Object[length];
+        for (int i = 0; i < elements.length; i++) {
+            Object element = java.lang.reflect.Array.get(value, i);
+            if (element == null) {
+                elements[i] = null;
+            } else {
+                Object converted = convertArrayElement(element, componentType);
+                elements[i] = converted;
+            }
+        }
+        return connection.createArrayOf(typeName, elements);
+    }
+
+    /**
+     * Converts a given array element to the desired type, throws an exception in case conversion
+     * failed
+     *
+     * @param value
+     * @param target
+     * @return
+     * @throws SQLException
+     */
+    protected Object convertArrayElement(Object value, Class target) throws SQLException {
+        Object converted = Converters.convert(value, target);
+        if (converted == null) {
+            String message =
+                    format("Failed to convert array element %s to target type %s", value, target);
+            throw new SQLException(message);
+        }
+        return converted;
+    }
+
+    /**
+     * Looks up the SQL type equivalent for a given Java class. The default implementation scans the
+     * {@link JDBCDataStore#getSqlTypeNameToClassMappings()} map (from value back to key),
+     * subclasses can override.
+     *
+     * @param clazz
+     * @return
+     */
+    protected String getSqlTypeName(Class clazz) throws SQLException {
+        Map<String, Class<?>> mappings = dataStore.getSqlTypeNameToClassMappings();
+        Optional<Map.Entry<String, Class<?>>> first =
+                mappings.entrySet().stream().filter(e -> e.getValue().equals(clazz)).findFirst();
+        if (first.isPresent()) {
+            return first.get().getKey();
+        }
+        throw new SQLException("Failed to find a SQL type for " + clazz);
     }
 
     /*

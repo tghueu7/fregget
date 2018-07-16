@@ -29,6 +29,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLType;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
@@ -699,6 +700,10 @@ public final class JDBCDataStore extends ContentDataStore implements GmlObjectSt
      */
     public Integer getMapping(Class<?> clazz) {
         Integer mapping = getClassToSqlTypeMappings().get(clazz);
+        
+        if (mapping == null && clazz.isArray()) {
+            mapping = Types.ARRAY;
+        }
 
         if (mapping == null) {
             // no match, try a "fuzzy" match in which we find the super class which matches best

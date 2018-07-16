@@ -16,26 +16,6 @@
  */
 package org.geotools.data.postgis;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Savepoint;
-import java.sql.Statement;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.logging.Level;
 import org.geotools.data.jdbc.FilterToSQL;
 import org.geotools.factory.Hints;
 import org.geotools.geometry.jts.CircularRing;
@@ -52,7 +32,6 @@ import org.geotools.jdbc.BasicSQLDialect;
 import org.geotools.jdbc.ColumnMetadata;
 import org.geotools.jdbc.JDBCDataStore;
 import org.geotools.referencing.CRS;
-import org.geotools.resources.Classes;
 import org.geotools.util.Version;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
@@ -72,6 +51,27 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.AttributeDescriptor;
 import org.opengis.feature.type.GeometryDescriptor;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
+
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Savepoint;
+import java.sql.Statement;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.logging.Level;
 
 /** @source $URL$ */
 public class PostGISDialect extends BasicSQLDialect {
@@ -488,26 +488,26 @@ public class PostGISDialect extends BasicSQLDialect {
 
         String typeName = columnMetaData.getString("TYPE_NAME");
         int dataType = columnMetaData.getInt("DATA_TYPE");
-        
+
         if (dataType == Types.ARRAY && typeName.length() > 1) {
             // type_name starts with an underscore and then provides the type of data in the array
             typeName = typeName.substring(1);
             Class<?> arrayContentType = getMappingInternal(columnMetaData, cx, typeName);
-            // if we did not find it with the above procedure, consult the type to class map 
+            // if we did not find it with the above procedure, consult the type to class map
             // (should contain mappings for all basic java types)
             if (arrayContentType == null) {
                 arrayContentType = SIMPLE_TYPE_TO_CLASS_MAP.get(typeName.toUpperCase());
             }
-            
+
             if (arrayContentType != null) {
                 try {
-                    return Class.forName ("[L" + arrayContentType.getName() + ";");
+                    return Class.forName("[L" + arrayContentType.getName() + ";");
                 } catch (ClassNotFoundException e) {
                     LOGGER.log(Level.WARNING, "Failed to create Java equivalent of array class", e);
                     return null;
                 }
             }
-            
+
             return null;
         }
 
@@ -1381,7 +1381,25 @@ public class PostGISDialect extends BasicSQLDialect {
             }
         }
 
+        if (type.isArray() && value != null) {
+            this.encodeArray(value, type, sql);
+            return;
+        }
+
         super.encodeValue(value, type, sql);
+    }
+
+    private void encodeArray(Object value, Class type, StringBuffer sql) {
+        int length = Array.getLength(value);
+        sql.append("ARRAY[");
+        for (int i = 0; i < length; i++) {
+            Object element = Array.get(value, i);
+            encodeValue(element, type.getComponentType(), sql);
+            if (i < (length - 1)) {
+                sql.append(", ");
+            }
+        }
+        sql.append("]");
     }
 
     void encodeByteArrayAsHex(byte[] input, StringBuffer sql) {

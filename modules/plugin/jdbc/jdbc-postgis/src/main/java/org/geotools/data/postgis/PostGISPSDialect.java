@@ -16,13 +16,6 @@
  */
 package org.geotools.data.postgis;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.Map;
 import org.geotools.factory.Hints;
 import org.geotools.jdbc.ColumnMetadata;
 import org.geotools.jdbc.JDBCDataStore;
@@ -35,6 +28,14 @@ import org.locationtech.jts.geom.LinearRing;
 import org.locationtech.jts.io.WKBWriter;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.GeometryDescriptor;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.Map;
 
 /** @source $URL$ */
 public class PostGISPSDialect extends PreparedStatementSQLDialect {
@@ -269,4 +270,5 @@ public class PostGISPSDialect extends PreparedStatementSQLDialect {
     public void setFunctionEncodingEnabled(boolean functionEncodingEnabled) {
         delegate.setFunctionEncodingEnabled(functionEncodingEnabled);
     }
+
 }
