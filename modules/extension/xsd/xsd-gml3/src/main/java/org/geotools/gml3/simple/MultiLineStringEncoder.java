@@ -91,7 +91,7 @@ class MultiLineStringEncoder extends GeometryEncoder<Geometry> {
         for (int i = 0; i < geometry.getNumGeometries(); i++) {
             handler.startElement(member, null);
             LineString line = (LineString) geometry.getGeometryN(i);
-            String childId = gmlId + "." + (i + 1);
+            String childId = gmlId != null ? (gmlId + "." + (i + 1)) : null;
             if (curveEncoding && line instanceof CurvedGeometry) {
                 ce.encode(line, null, handler, childId);
             } else if (line instanceof LinearRing) {

@@ -60,7 +60,7 @@ class MultiPolygonEncoder extends GeometryEncoder<MultiPolygon> {
 
         for (int i = 0; i < geometry.getNumGeometries(); i++) {
             handler.startElement(surfaceMember, null);
-            pe.encode((Polygon) geometry.getGeometryN(i), null, handler, gmlId + "." + (i + 1));
+            pe.encode((Polygon) geometry.getGeometryN(i), null, handler, gmlId != null ? (gmlId + "." + (i + 1)) : null);
             handler.endElement(surfaceMember);
         }
 

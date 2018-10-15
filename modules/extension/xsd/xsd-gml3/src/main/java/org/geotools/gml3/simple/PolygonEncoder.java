@@ -65,12 +65,12 @@ class PolygonEncoder extends GeometryEncoder<Polygon> {
         handler.startElement(polygon, atts);
 
         handler.startElement(exterior, null);
-        encodeRing(geometry.getExteriorRing(), handler, gmlId + ".1");
+        encodeRing(geometry.getExteriorRing(), handler, gmlId != null ? gmlId + ".1": null);
         handler.endElement(exterior);
 
         for (int i = 0; i < geometry.getNumInteriorRing(); i++) {
             handler.startElement(interior, null);
-            encodeRing(geometry.getInteriorRingN(i), handler, gmlId + "." + (i + 2));
+            encodeRing(geometry.getInteriorRingN(i), handler, gmlId != null ? gmlId + "." + (i + 2) : null);
             handler.endElement(interior);
         }
 
