@@ -38,6 +38,7 @@ import si.uom.SI;
 import ucar.nc2.Attribute;
 import ucar.nc2.Variable;
 import ucar.nc2.constants.CF;
+import ucar.nc2.dataset.CoordinateAxis;
 import ucar.nc2.dataset.NetcdfDataset;
 import ucar.unidata.geoloc.LatLonPointImpl;
 
@@ -174,11 +175,11 @@ public class NetCDFProjection {
                 for (String ogcParameterKey : keys) {
                     handleParam(paramsMapping, netcdfParameters, ogcParameterKey, var);
                 }
-
+                
                 return ProjectionBuilder.buildCRS(
                         Collections.singletonMap(NetCDFUtilities.NAME, projectionName),
                         projection.getOgcParameters(netcdfParameters),
-                        buildEllipsoid(var, SI.METRE));
+                        buildEllipsoid(var, SI.METRE), var.getUnitsString());
             }
         }
     }

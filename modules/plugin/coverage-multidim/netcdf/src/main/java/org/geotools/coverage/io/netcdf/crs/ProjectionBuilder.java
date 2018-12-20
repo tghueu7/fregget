@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import org.geotools.imageio.netcdf.utilities.NetCDFUtilities;
+import org.geotools.measure.Units;
 import org.geotools.metadata.iso.citation.Citations;
 import org.geotools.referencing.NamedIdentifier;
 import org.geotools.referencing.ReferencingFactoryFinder;
@@ -45,14 +46,24 @@ import org.opengis.referencing.NoSuchIdentifierException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.crs.GeographicCRS;
 import org.opengis.referencing.crs.ProjectedCRS;
+import org.opengis.referencing.cs.AxisDirection;
+import org.opengis.referencing.cs.CSFactory;
+import org.opengis.referencing.cs.CartesianCS;
+import org.opengis.referencing.cs.CoordinateSystemAxis;
 import org.opengis.referencing.cs.EllipsoidalCS;
 import org.opengis.referencing.datum.Ellipsoid;
 import org.opengis.referencing.datum.GeodeticDatum;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.MathTransformFactory;
 import org.opengis.referencing.operation.OperationMethod;
+
+import javax.measure.Unit;
+import javax.measure.UnitConverter;
+import javax.measure.quantity.Length;
+
 import si.uom.NonSI;
 import si.uom.SI;
+import tec.uom.se.function.MultiplyConverter;
 
 /**
  * Class used to create an OGC {@link ProjectedCRS} instance on top of Projection name, parameters
@@ -66,6 +77,7 @@ public class ProjectionBuilder {
 
     /** Cached {@link MathTransformFactory} for building {@link MathTransform} objects. */
     private static final MathTransformFactory mtFactory;
+    private static final CSFactory csFactory;
 
     public static final EllipsoidalCS DEFAULT_ELLIPSOIDAL_CS =
             DefaultEllipsoidalCS.GEODETIC_2D.usingUnit(NonSI.DEGREE_ANGLE);
@@ -74,6 +86,7 @@ public class ProjectionBuilder {
         Hints hints = GeoTools.getDefaultHints().clone();
 
         mtFactory = ReferencingFactoryFinder.getMathTransformFactory(hints);
+        csFactory = ReferencingFactoryFinder.getCSFactory(hints);
     }
 
     /**
@@ -103,7 +116,7 @@ public class ProjectionBuilder {
             parameters.parameter(key).setValue(params.get(key));
         }
         return buildCRS(
-                buildProperties(projectionName, Citations.EPSG, code), parameters, ellipsoid);
+                buildProperties(projectionName, Citations.EPSG, code), parameters, ellipsoid, null);
     }
 
     /**
@@ -233,6 +246,27 @@ public class ProjectionBuilder {
             Map<String, ?> props,
             GeographicCRS baseCRS,
             DefiningConversion conversionFromBase,
+            MathTransform transform,
+            CartesianCS cartesianCS) {
+        return new DefaultProjectedCRS(
+                props, conversionFromBase, baseCRS, transform, cartesianCS);
+    }
+
+    /**
+     * Build a {@link ProjectedCRS} given the base {@link GeographicCRS}, the {@link
+     * DefiningConversion} instance from Base as well as the {@link MathTransform} from the base CRS
+     * to returned CRS. The derivedCS is {@link DefaultCartesianCS#PROJECTED} by default.
+     *
+     * @param props
+     * @param baseCRS
+     * @param conversionFromBase
+     * @param transform
+     * @return
+     */
+    public static ProjectedCRS createProjectedCRS(
+            Map<String, ?> props,
+            GeographicCRS baseCRS,
+            DefiningConversion conversionFromBase,
             MathTransform transform) {
         // Create the projected CRS
         return new DefaultProjectedCRS(
@@ -284,7 +318,7 @@ public class ProjectionBuilder {
      * @throws FactoryException
      */
     public static CoordinateReferenceSystem buildCRS(
-            Map<String, ?> props, ParameterValueGroup parameters, Ellipsoid ellipsoid)
+            Map<String, ?> props, ParameterValueGroup parameters, Ellipsoid ellipsoid, String unitName)
             throws NoSuchIdentifierException, FactoryException {
         // Refine the parameters by adding the required ellipsoid's related params
         updateEllipsoidParams(parameters, ellipsoid);
@@ -319,7 +353,17 @@ public class ProjectionBuilder {
             }
         }
 
-        return ProjectionBuilder.createProjectedCRS(props, baseCRS, conversionFromBase, transform);
+        CartesianCS cartesianCS = DefaultCartesianCS.PROJECTED;
+        if (unitName != null) {
+            final Unit<Length> unit = (Unit<Length>) Units.parseUnit(unitName);
+            final CoordinateSystemAxis x = csFactory.createCoordinateSystemAxis(props, "X",
+                    AxisDirection.EAST, unit);
+            final CoordinateSystemAxis y = csFactory.createCoordinateSystemAxis(props, "Y",
+                    AxisDirection.NORTH, unit);
+            cartesianCS = csFactory.createCartesianCS(props, x, y);
+        }
+
+        return ProjectionBuilder.createProjectedCRS(props, baseCRS, conversionFromBase, transform, cartesianCS);
     }
 
     public static MathTransform createTransform(ParameterValueGroup parameters)
