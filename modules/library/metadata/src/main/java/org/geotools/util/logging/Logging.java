@@ -510,24 +510,25 @@ public final class Logging {
      * Implementation of {@link #unexpectedException(Logger, Class, String, Throwable)}.
      *
      * @param logger Where to log the error, or {@code null}.
-     * @param classe The fully qualified class name where the error occurred, or {@code null}.
+     * @param clazz The fully qualified class name where the error occurred, or {@code null}.
      * @param method The method where the error occurred, or {@code null}.
      * @param error The error.
      * @param level The logging level.
      * @return {@code true} if the error has been logged, or {@code false} if the logger doesn't log
      *     anything at the specified level.
      */
+    @SuppressWarnings("PMD.AvoidBranchingStatementAsLastInLoop")
     private static boolean unexpectedException(
-            Logger logger, String classe, String method, final Throwable error, final Level level) {
+            Logger logger, String clazz, String method, final Throwable error, final Level level) {
         /*
          * Checks if loggable, inferring the logger from the classe name if needed.
          */
         if (error == null) {
             return false;
         }
-        if (logger == null && classe != null) {
-            final int separator = classe.lastIndexOf('.');
-            final String paquet = (separator >= 1) ? classe.substring(0, separator - 1) : "";
+        if (logger == null && clazz != null) {
+            final int separator = clazz.lastIndexOf('.');
+            final String paquet = (separator >= 1) ? clazz.substring(0, separator - 1) : "";
             logger = getLogger(paquet);
         }
         if (logger != null && !logger.isLoggable(level)) {
@@ -536,29 +537,29 @@ public final class Logging {
         /*
          * Loggeable, so complete the null argument from the stack trace if we can.
          */
-        if (logger == null || classe == null || method == null) {
-            String paquet = (logger != null) ? logger.getName() : null;
+        if (logger == null || clazz == null || method == null) {
+            String loggerName = (logger != null) ? logger.getName() : null;
             final StackTraceElement[] elements = error.getStackTrace();
             for (int i = 0; i < elements.length; i++) {
                 /*
-                 * Searchs for the first stack trace element with a classname matching the
+                 * Searches for the first stack trace element with a class name matching the
                  * expected one. We compare preferably against the name of the class given
                  * in argument, or against the logger name (taken as the package name) otherwise.
                  */
                 final StackTraceElement element = elements[i];
-                final String classname = element.getClassName();
-                if (classe != null) {
-                    if (!classname.equals(classe)) {
+                final String className = element.getClassName();
+                if (clazz != null) {
+                    if (!className.equals(clazz)) {
                         continue;
                     }
-                } else if (paquet != null) {
-                    if (!classname.startsWith(paquet)) {
+                } else if (loggerName != null) {
+                    if (!className.startsWith(loggerName)) {
                         continue;
                     }
-                    final int length = paquet.length();
-                    if (classname.length() > length) {
+                    final int length = loggerName.length();
+                    if (className.length() > length) {
                         // We expect '.' but we accept also '$' or end of string.
-                        final char separator = classname.charAt(length);
+                        final char separator = className.charAt(length);
                         if (Character.isJavaIdentifierPart(separator)) {
                             continue;
                         }
@@ -575,16 +576,16 @@ public final class Logging {
                 /*
                  * Now computes every values that are null, and stop the loop.
                  */
-                if (paquet == null) {
-                    final int separator = classname.lastIndexOf('.');
-                    paquet = (separator >= 1) ? classname.substring(0, separator - 1) : "";
-                    logger = getLogger(paquet);
+                if (loggerName == null) {
+                    final int separator = className.lastIndexOf('.');
+                    loggerName = (separator >= 1) ? className.substring(0, separator - 1) : "";
+                    logger = getLogger(loggerName);
                     if (!logger.isLoggable(level)) {
                         return false;
                     }
                 }
-                if (classe == null) {
-                    classe = classname;
+                if (clazz == null) {
+                    clazz = className;
                 }
                 if (method == null) {
                     method = methodName;
@@ -615,8 +616,8 @@ public final class Logging {
             buffer.append(": ").append(message);
         }
         final LogRecord record = new LogRecord(level, buffer.toString());
-        if (classe != null) {
-            record.setSourceClassName(classe);
+        if (clazz != null) {
+            record.setSourceClassName(clazz);
         }
         if (method != null) {
             record.setSourceMethodName(method);

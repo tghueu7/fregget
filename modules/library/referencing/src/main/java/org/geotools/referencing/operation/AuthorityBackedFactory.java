@@ -194,10 +194,11 @@ public class AuthorityBackedFactory extends DefaultCoordinateOperationFactory
     protected CoordinateOperation createFromDatabase(
             final CoordinateReferenceSystem sourceCRS, final CoordinateReferenceSystem targetCRS) {
         Set<CoordinateOperation> operations = findFromDatabase(sourceCRS, targetCRS, 1);
-        for (CoordinateOperation op : operations) {
-            return op;
+        if (operations.isEmpty()) {
+            return null;
+        } else {
+            return operations.iterator().next();
         }
-        return null;
     }
 
     /**

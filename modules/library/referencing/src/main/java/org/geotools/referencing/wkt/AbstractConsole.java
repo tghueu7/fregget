@@ -209,15 +209,10 @@ public abstract class AbstractConsole implements Runnable {
         String line;
         while ((line = in.readLine()) != null) {
             line = line.trim();
-            if (line.length() == 0) {
-                // Ignore empty lines.
-                continue;
+            // Ignore empty lines and comment lines
+            if (line.length() > 0 && !line.startsWith("//")) {
+                break;
             }
-            if (line.startsWith("//")) {
-                // Ignore comment lines.
-                continue;
-            }
-            break;
         }
         return line;
     }

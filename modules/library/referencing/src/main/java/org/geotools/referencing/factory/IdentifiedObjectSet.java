@@ -371,6 +371,7 @@ public class IdentifiedObjectSet extends AbstractSet implements Serializable {
          * @throws BackingStoreException if the underlying factory failed to creates the coordinate
          *     operation.
          */
+        @SuppressWarnings("PMD.AvoidBranchingStatementAsLastInLoop")
         private void toNext() throws BackingStoreException {
             while (iterator.hasNext()) {
                 final Map.Entry entry = (Map.Entry) iterator.next();

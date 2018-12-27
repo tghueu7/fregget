@@ -147,6 +147,7 @@ public class FallbackAuthorityFactory extends AuthorityFactoryAdapter {
      *     set of interfaces to be implemented by the returned factory.
      * @param factories The factories to chain.
      */
+    @SuppressWarnings("PMD.AvoidBranchingStatementAsLastInLoop")
     private static AuthorityFactory create(
             final boolean automatic,
             int interfaceMask,

@@ -580,15 +580,10 @@ public class FactoryRegistry {
             final T candidate = it.next().get();
             if (candidate == null) {
                 it.remove();
-                continue;
+            } else if ((implementation == null || implementation.isInstance(candidate))
+                    && isAcceptable(candidate, category, hints, filter)) {
+                return Optional.of(candidate);
             }
-            if (implementation != null && !implementation.isInstance(candidate)) {
-                continue;
-            }
-            if (!isAcceptable(candidate, category, hints, filter)) {
-                continue;
-            }
-            return Optional.of(candidate);
         }
         return Optional.empty();
     }

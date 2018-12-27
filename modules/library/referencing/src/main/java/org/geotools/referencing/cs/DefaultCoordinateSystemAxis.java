@@ -1241,7 +1241,7 @@ public class DefaultCoordinateSystemAxis extends AbstractIdentifiedObject
     /**
      * Compares the specified object with this axis for equality, with optional comparaison of
      * units. Units should always be compared (they are not just metadata), except in the particular
-     * case of {@link AbstractCS#axisColinearWith}, which is used as a first step toward units
+     * case of {@link AbstractCS#axisCollinearWith}, which is used as a first step toward units
      * conversions through {@link AbstractCS#swapAndScaleAxis}.
      */
     final boolean equals(

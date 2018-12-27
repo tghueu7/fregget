@@ -149,11 +149,11 @@ public class LineWriter extends FilterWriter {
             assert (c != '\r' && c != '\n');
             if (isWhitespace(c)) {
                 upper--;
-                continue;
+            } else {
+                flushBuffer();
+                out.write(cbuf, lower, upper - lower);
+                return;
             }
-            flushBuffer();
-            out.write(cbuf, lower, upper - lower);
-            return;
         }
         assert bufferBlank();
         count = 0;
@@ -169,11 +169,10 @@ public class LineWriter extends FilterWriter {
             assert (c != '\r' && c != '\n');
             if (isWhitespace(c)) {
                 upper--;
-                continue;
+            } else {
+                flushBuffer();
+                out.write(str, lower, upper - lower);
             }
-            flushBuffer();
-            out.write(str, lower, upper - lower);
-            return;
         }
         assert bufferBlank();
         count = 0;

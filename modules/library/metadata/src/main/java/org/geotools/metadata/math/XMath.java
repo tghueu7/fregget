@@ -305,22 +305,22 @@ public final class XMath {
             int n = primes[i - 1] & 0xFFFF;
             primes = XArray.resize(primes, Math.min((index | 0xF) + 1, MAX_PRIMES_LENGTH));
             do {
-                next:
-                while (true) {
-                    n += 2;
-                    for (int j = 1; j < i; j++) {
-                        if (n % (primes[j] & 0xFFFF) == 0) {
-                            continue next;
-                        }
-                        // We could stop the search at the first value greater than sqrt(n), but
-                        // given that the array is relatively short (because we limit ourself to
-                        // 16 bits prime numbers), it probably doesn't worth.
+                n += 2;
+                boolean prime = true;
+                final int max = (int) Math.sqrt(n);
+                // can it be divided by a smaller prime?
+                for (int j = 1; j < max; j++) {
+                    if (n % (primes[j] & 0xFFFF) == 0) {
+                        prime = false;
+                        break;
                     }
-                    assert n < 0xFFFF : i;
-                    primes[i] = (short) n;
-                    break;
                 }
-            } while (++i < primes.length);
+                assert n < 0xFFFF : i;
+                if (prime) {
+                    primes[i] = (short) n;
+                    i++;
+                }
+            } while (i < primes.length);
             XMath.primes = primes;
         }
         return primes[index] & 0xFFFF;

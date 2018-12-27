@@ -370,6 +370,7 @@ public class LocalizationGrid {
      * @return 0 if the array is unordered. Otherwise, returns {@code flags} with maybe one of
      *     {@link #INCREASING} or {@link #DECREASING} flags cleared.
      */
+    @SuppressWarnings("PMD.AvoidBranchingStatementAsLastInLoop")
     private static int testOrder(
             final double[] grid, int offset, int num, final int step, int flags) {
         // We will check (num-1) combinations of coordinates.

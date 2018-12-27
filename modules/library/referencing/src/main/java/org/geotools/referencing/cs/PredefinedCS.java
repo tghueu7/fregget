@@ -95,10 +95,10 @@ final class PredefinedCS implements Comparator<CoordinateSystem> {
             switch (dimension) {
                 case 2:
                     {
-                        if (DefaultCartesianCS.PROJECTED.axisColinearWith(cs)) {
+                        if (DefaultCartesianCS.PROJECTED.axisCollinearWith(cs)) {
                             return DefaultCartesianCS.PROJECTED;
                         }
-                        if (DefaultCartesianCS.GRID.axisColinearWith(cs)) {
+                        if (DefaultCartesianCS.GRID.axisCollinearWith(cs)) {
                             return DefaultCartesianCS.GRID;
                         }
                         if (DefaultCartesianCS.GENERIC_2D.directionColinearWith(cs)) {
@@ -108,7 +108,7 @@ final class PredefinedCS implements Comparator<CoordinateSystem> {
                     }
                 case 3:
                     {
-                        if (DefaultCartesianCS.GEOCENTRIC.axisColinearWith(cs)) {
+                        if (DefaultCartesianCS.GEOCENTRIC.axisCollinearWith(cs)) {
                             return DefaultCartesianCS.GEOCENTRIC;
                         }
                         if (DefaultCartesianCS.GENERIC_3D.directionColinearWith(cs)) {

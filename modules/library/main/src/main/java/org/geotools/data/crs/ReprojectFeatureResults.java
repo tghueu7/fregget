@@ -90,8 +90,8 @@ public class ReprojectFeatureResults extends AbstractFeatureCollection {
             throws IOException, SchemaException, TransformException, OperationNotFoundException,
                     NoSuchElementException, FactoryException {
 
-        super(forceType(origionalType(results), destinationCS));
-        this.results = origionalCollection(results);
+        super(forceType(ForceCoordinateSystemFeatureResults.originalType(results), destinationCS));
+        this.results = originalCollection(results);
 
         CoordinateReferenceSystem originalCs = null;
         if (results instanceof ForceCoordinateSystemFeatureResults)
@@ -118,32 +118,18 @@ public class ReprojectFeatureResults extends AbstractFeatureCollection {
         return results.size();
     }
 
-    private static FeatureCollection<SimpleFeatureType, SimpleFeature> origionalCollection(
+    private static FeatureCollection<SimpleFeatureType, SimpleFeature> originalCollection(
             FeatureCollection<SimpleFeatureType, SimpleFeature> results) {
-        while (true) {
+        while (results instanceof ReprojectFeatureResults
+                || results instanceof ForceCoordinateSystemFeatureResults) {
             if (results instanceof ReprojectFeatureResults) {
                 results = ((ReprojectFeatureResults) results).getOrigin();
             }
             if (results instanceof ForceCoordinateSystemFeatureResults) {
                 results = ((ForceCoordinateSystemFeatureResults) results).getOrigin();
             }
-            break;
         }
         return results;
-    }
-
-    private static SimpleFeatureType origionalType(
-            FeatureCollection<SimpleFeatureType, SimpleFeature> results) {
-        while (true) {
-            if (results instanceof ReprojectFeatureResults) {
-                results = ((ReprojectFeatureResults) results).getOrigin();
-            }
-            if (results instanceof ForceCoordinateSystemFeatureResults) {
-                results = ((ForceCoordinateSystemFeatureResults) results).getOrigin();
-            }
-            break;
-        }
-        return results.getSchema();
     }
 
     private static SimpleFeatureType forceType(

@@ -207,10 +207,10 @@ public class DefaultCoordinateOperationFactory extends AbstractCoordinateOperati
             CoordinateReferenceSystem sourceCRS, CoordinateReferenceSystem targetCRS)
             throws OperationNotFoundException, FactoryException {
         Set<CoordinateOperation> operations = findOperations(sourceCRS, targetCRS, 1);
-        for (CoordinateOperation op : operations) {
-            return op;
+        if (operations.isEmpty()) {
+            throw new OperationNotFoundException(getErrorMessage(sourceCRS, targetCRS));
         }
-        throw new OperationNotFoundException(getErrorMessage(sourceCRS, targetCRS));
+        return operations.iterator().next();
     }
 
     /**
@@ -948,10 +948,7 @@ public class DefaultCoordinateOperationFactory extends AbstractCoordinateOperati
      */
     protected CoordinateOperation createOperationStep(
             final ProjectedCRS sourceCRS, final ProjectedCRS targetCRS) throws FactoryException {
-        for (CoordinateOperation op : findOperationSteps(sourceCRS, targetCRS, 1)) {
-            return op;
-        }
-        return null;
+        return firstOrNull(findOperationSteps(sourceCRS, targetCRS, 1));
     }
 
     /**
@@ -1037,10 +1034,14 @@ public class DefaultCoordinateOperationFactory extends AbstractCoordinateOperati
      */
     protected CoordinateOperation createOperationStep(
             final GeographicCRS sourceCRS, final ProjectedCRS targetCRS) throws FactoryException {
-        for (CoordinateOperation op : findOperationSteps(sourceCRS, targetCRS, 1)) {
-            return op;
+        return firstOrNull(findOperationSteps(sourceCRS, targetCRS, 1));
+    }
+
+    private CoordinateOperation firstOrNull(Set<CoordinateOperation> operationSteps) {
+        if (operationSteps.isEmpty()) {
+            return null;
         }
-        return null;
+        return operationSteps.iterator().next();
     }
 
     /**
@@ -1108,10 +1109,7 @@ public class DefaultCoordinateOperationFactory extends AbstractCoordinateOperati
      */
     protected CoordinateOperation createOperationStep(
             final ProjectedCRS sourceCRS, final GeographicCRS targetCRS) throws FactoryException {
-        for (CoordinateOperation op : findOperationSteps(sourceCRS, targetCRS, 1)) {
-            return op;
-        }
-        return null;
+        return firstOrNull(findOperationSteps(sourceCRS, targetCRS, 1));
     }
 
     /**
@@ -1336,10 +1334,7 @@ public class DefaultCoordinateOperationFactory extends AbstractCoordinateOperati
      */
     protected CoordinateOperation createOperationStep(
             final CompoundCRS sourceCRS, final SingleCRS targetCRS) throws FactoryException {
-        for (CoordinateOperation op : findOperationSteps(sourceCRS, targetCRS, 1)) {
-            return op;
-        }
-        return null;
+        return firstOrNull(findOperationSteps(sourceCRS, targetCRS, 1));
     }
 
     /**
@@ -1403,10 +1398,7 @@ public class DefaultCoordinateOperationFactory extends AbstractCoordinateOperati
      */
     protected CoordinateOperation createOperationStep(
             final SingleCRS sourceCRS, final CompoundCRS targetCRS) throws FactoryException {
-        for (CoordinateOperation op : findOperationSteps(sourceCRS, targetCRS, 1)) {
-            return op;
-        }
-        return null;
+        return firstOrNull(findOperationSteps(sourceCRS, targetCRS, 1));
     }
 
     /**
@@ -1450,10 +1442,7 @@ public class DefaultCoordinateOperationFactory extends AbstractCoordinateOperati
      */
     protected CoordinateOperation createOperationStep(
             final CompoundCRS sourceCRS, final CompoundCRS targetCRS) throws FactoryException {
-        for (CoordinateOperation op : findOperationSteps(sourceCRS, targetCRS, 1)) {
-            return op;
-        }
-        return null;
+        return firstOrNull(findOperationSteps(sourceCRS, targetCRS, 1));
     }
 
     /**
@@ -1520,6 +1509,7 @@ public class DefaultCoordinateOperationFactory extends AbstractCoordinateOperati
      * @return A coordinate operation from {@code sourceCRS} to {@code targetCRS}.
      * @throws FactoryException If the operation can't be constructed.
      */
+    @SuppressWarnings("PMD.AvoidBranchingStatementAsLastInLoop")
     private CoordinateOperation createOperationStep(
             final CoordinateReferenceSystem sourceCRS,
             final List<SingleCRS> sources,
@@ -1742,16 +1732,21 @@ public class DefaultCoordinateOperationFactory extends AbstractCoordinateOperati
      */
     private static boolean containsIgnoreMetadata(
             final List<SingleCRS> container, final List<SingleCRS> candidates) {
-        search:
         for (final SingleCRS crs : candidates) {
-            for (final SingleCRS c : container) {
-                if (equalsIgnoreMetadata(crs, c)) {
-                    continue search;
-                }
+            if (!containsEqualsIgnoreMetadata(container, crs)) {
+                return false;
             }
-            return false;
         }
         return true;
+    }
+
+    private static boolean containsEqualsIgnoreMetadata(List<SingleCRS> container, SingleCRS crs) {
+        for (final SingleCRS c : container) {
+            if (equalsIgnoreMetadata(crs, c)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

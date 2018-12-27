@@ -263,24 +263,24 @@ public final class CRSUtilities {
         for (int i = name.lastIndexOf(search); i >= 0; i = name.lastIndexOf(search, i - 1)) {
             if (i != 0 && Character.isLetterOrDigit(name.charAt(i - 1))) {
                 continue;
-            }
-            if (i != last && Character.isLetterOrDigit(i + search.length())) {
+            } else if (i != last && Character.isLetterOrDigit(i + search.length())) {
                 continue;
+            } else {
+                name.replace(i, i + search.length(), replace);
+                i = name.indexOf(". ", i);
+                if (i >= 0) {
+                    /*
+                     * Stops the sentence after the dimension, since it may contains details that
+                     * are not applicable anymore. For example the EPSG name for 3D EllipsoidalCS is:
+                     *
+                     *     Ellipsoidal 3D CS. Axes: latitude, longitude, ellipsoidal height.
+                     *     Orientations: north, east, up.  UoM: DMSH, DMSH, m.
+                     */
+                    name.setLength(i + 1);
+                }
+                append = false;
+                break;
             }
-            name.replace(i, i + search.length(), replace);
-            i = name.indexOf(". ", i);
-            if (i >= 0) {
-                /*
-                 * Stops the sentence after the dimension, since it may contains details that
-                 * are not applicable anymore. For example the EPSG name for 3D EllipsoidalCS is:
-                 *
-                 *     Ellipsoidal 3D CS. Axes: latitude, longitude, ellipsoidal height.
-                 *     Orientations: north, east, up.  UoM: DMSH, DMSH, m.
-                 */
-                name.setLength(i + 1);
-            }
-            append = false;
-            break;
         }
         if (append) {
             if (name.indexOf(" ") >= 0) {

@@ -557,7 +557,8 @@ public class AbstractCS extends AbstractIdentifiedObject implements CoordinateSy
      * invoked on pre-defined CS declared in this package. {@link PredefinedCS} uses this method
      * only that way.
      */
-    final boolean axisColinearWith(final CoordinateSystem userCS) {
+    @SuppressWarnings("PMD.AvoidBranchingStatementAsLastInLoop")
+    final boolean axisCollinearWith(final CoordinateSystem userCS) {
         if (userCS.getDimension() != getDimension()) {
             return false;
         }
@@ -584,6 +585,7 @@ public class AbstractCS extends AbstractIdentifiedObject implements CoordinateSy
     }
 
     /** Compares directions only, without consideration for the axis name. */
+    @SuppressWarnings("PMD.AvoidBranchingStatementAsLastInLoop")
     final boolean directionColinearWith(final CoordinateSystem userCS) {
         if (userCS.getDimension() != axis.length) {
             return false;

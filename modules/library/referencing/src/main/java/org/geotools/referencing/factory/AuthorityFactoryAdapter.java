@@ -1228,6 +1228,7 @@ public class AuthorityFactoryAdapter extends AbstractAuthorityFactory implements
                 type = type.getSuperclass()) {
             try {
                 type.getDeclaredMethod("toBackingFactoryCode", arguments);
+                return true;
             } catch (NoSuchMethodException e) {
                 // The method is not overriden in this class.
                 // Checks in the super-class.
@@ -1236,7 +1237,6 @@ public class AuthorityFactoryAdapter extends AbstractAuthorityFactory implements
                 // We are not allowed to get this information.
                 // Conservatively assumes that the method is overriden.
             }
-            return true;
         }
         return false;
     }

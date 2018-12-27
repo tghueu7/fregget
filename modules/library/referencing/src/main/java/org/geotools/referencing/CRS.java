@@ -1361,6 +1361,7 @@ public final class CRS {
      * the projected center coordinate. If {@code targetPt} is non-null, then this method will set
      * it to the center of the source envelope projected to the target CRS.
      */
+    @SuppressWarnings("PMD.AvoidBranchingStatementAsLastInLoop")
     private static GeneralEnvelope transform(
             final MathTransform transform, final Envelope envelope, GeneralDirectPosition targetPt)
             throws TransformException {

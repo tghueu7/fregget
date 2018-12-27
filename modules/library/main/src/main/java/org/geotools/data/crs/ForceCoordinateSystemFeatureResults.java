@@ -69,21 +69,21 @@ public class ForceCoordinateSystemFeatureResults extends AbstractFeatureCollecti
             CoordinateReferenceSystem forcedCS,
             boolean forceOnlyMissing)
             throws IOException, SchemaException {
-        super(forceType(origionalType(results), forcedCS, forceOnlyMissing));
+        super(forceType(originalType(results), forcedCS, forceOnlyMissing));
 
         this.results = results;
     }
 
-    private static SimpleFeatureType origionalType(
+    static SimpleFeatureType originalType(
             FeatureCollection<SimpleFeatureType, SimpleFeature> results) {
-        while (true) {
+        while (results instanceof ReprojectFeatureResults
+                || results instanceof ForceCoordinateSystemFeatureResults) {
             if (results instanceof ReprojectFeatureResults) {
                 results = ((ReprojectFeatureResults) results).getOrigin();
             }
             if (results instanceof ForceCoordinateSystemFeatureResults) {
                 results = ((ForceCoordinateSystemFeatureResults) results).getOrigin();
             }
-            break;
         }
         return results.getSchema();
     }

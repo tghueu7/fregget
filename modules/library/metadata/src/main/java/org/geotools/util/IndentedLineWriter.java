@@ -121,20 +121,19 @@ public class IndentedLineWriter extends FilterWriter {
             while (offset < upper) {
                 if (newLine) {
                     doWrite(buffer[offset++]);
-                    continue;
+                } else {
+                    final int lower = offset;
+                    do {
+                        final char c = buffer[offset];
+                        if (c == '\r' || c == '\n') {
+                            out.write(buffer, lower, offset - lower);
+                            doWrite(c);
+                            offset++;
+                            continue check;
+                        }
+                    } while (++offset < upper);
+                    out.write(buffer, lower, offset - lower);
                 }
-                final int lower = offset;
-                do {
-                    final char c = buffer[offset];
-                    if (c == '\r' || c == '\n') {
-                        out.write(buffer, lower, offset - lower);
-                        doWrite(c);
-                        offset++;
-                        continue check;
-                    }
-                } while (++offset < upper);
-                out.write(buffer, lower, offset - lower);
-                break;
             }
         }
     }
@@ -156,19 +155,19 @@ public class IndentedLineWriter extends FilterWriter {
                 if (newLine) {
                     doWrite(string.charAt(offset++));
                     continue;
+                } else {
+                    final int lower = offset;
+                    do {
+                        final char c = string.charAt(offset);
+                        if (c == '\r' || c == '\n') {
+                            out.write(string, lower, offset - lower);
+                            doWrite(c);
+                            offset++;
+                            continue check;
+                        }
+                    } while (++offset < upper);
+                    out.write(string, lower, offset - lower);
                 }
-                final int lower = offset;
-                do {
-                    final char c = string.charAt(offset);
-                    if (c == '\r' || c == '\n') {
-                        out.write(string, lower, offset - lower);
-                        doWrite(c);
-                        offset++;
-                        continue check;
-                    }
-                } while (++offset < upper);
-                out.write(string, lower, offset - lower);
-                break;
             }
         }
     }

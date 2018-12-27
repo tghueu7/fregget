@@ -188,12 +188,12 @@ public final class Element {
             if (Character.isWhitespace(c)) {
                 index++;
                 continue;
-            }
-            if (c == separator) {
+            } else if (c == separator) {
                 position.setIndex(++index);
                 return true;
+            } else {
+                break;
             }
-            break;
         }
         position.setIndex(index); // MANDATORY for correct working of the constructor.
         return false;

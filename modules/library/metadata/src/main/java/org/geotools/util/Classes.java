@@ -235,16 +235,21 @@ public final class Classes {
          * type can exists. We check for it first in order to avoid the creation of a
          * temporary HashSet if such type is found.
          */
-        search:
         for (final Class<?> candidate : types) {
-            for (final Class<?> type : types) {
-                if (!candidate.isAssignableFrom(type)) {
-                    continue search;
-                }
+            if (isAssignableFromAll(candidate, types)) {
+                return candidate;
             }
-            return candidate;
         }
         return commonSuperClass(types);
+    }
+
+    private static boolean isAssignableFromAll(Class<?> candidate, Set<Class<?>> types) {
+        for (final Class<?> type : types) {
+            if (!candidate.isAssignableFrom(type)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

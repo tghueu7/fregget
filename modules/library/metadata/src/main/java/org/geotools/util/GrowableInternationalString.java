@@ -266,13 +266,11 @@ public class GrowableInternationalString extends AbstractInternationalString
             final String variant = locale.getVariant();
             if (variant.length() != 0) {
                 locale = new Locale(language, country);
-                continue;
-            }
-            if (country.length() != 0) {
+            } else if (country.length() != 0) {
                 locale = new Locale(language);
-                continue;
+            } else {
+                break;
             }
-            break;
         }
 
         // Tries the string in the 'null' locale.

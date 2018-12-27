@@ -123,20 +123,18 @@ final class ProjectionAnalyzer {
                 }
                 geographicScale = ((LinearTransform) ctr.transform1).getMatrix();
                 candidate = ctr.transform2;
-                continue;
-            }
-            if (ctr.transform2 instanceof LinearTransform) {
+            } else if (ctr.transform2 instanceof LinearTransform) {
                 if (projectedScale != null) {
                     // Should never happen with ConcatenatedTransform.create(...) implementation.
                     throw new IllegalStateException(String.valueOf(candidate));
                 }
                 projectedScale = ((LinearTransform) ctr.transform2).getMatrix();
                 candidate = ctr.transform1;
-                continue;
+            } else {
+                // Both transforms are non-linear. We can not handle that.
+                candidate = null;
+                break;
             }
-            // Both transforms are non-linear. We can not handle that.
-            candidate = null;
-            break;
         }
         //
         // TODO: We need to handle PassthroughTransform here in some future version
@@ -285,6 +283,7 @@ final class ProjectionAnalyzer {
      * Checks if the parameter in the two specified list contains the same values. The order
      * parameter order is irrelevant. The common parameters are removed from both lists.
      */
+    @SuppressWarnings("PMD.AvoidBranchingStatementAsLastInLoop")
     private static boolean parameterValuesEqual(
             final List<GeneralParameterValue> source,
             final List<GeneralParameterValue> target,
