@@ -16,34 +16,6 @@
  */
 package org.geotools.renderer.lite.gridcoverage2d;
 
-import it.geosolutions.imageio.utilities.ImageIOUtilities;
-import it.geosolutions.jaiext.range.RangeFactory;
-import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.IndexColorModel;
-import java.awt.image.RenderedImage;
-import java.awt.image.WritableRaster;
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import javax.media.jai.InterpolationBilinear;
-import javax.media.jai.InterpolationNearest;
-import javax.media.jai.JAI;
-import javax.media.jai.PlanarImage;
-import javax.media.jai.ROIShape;
-import javax.media.jai.RasterFactory;
-import javax.media.jai.RenderedOp;
-import javax.xml.transform.TransformerException;
 import org.geotools.coverage.Category;
 import org.geotools.coverage.CoverageFactoryFinder;
 import org.geotools.coverage.GridSampleDimension;
@@ -53,6 +25,7 @@ import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.geometry.GeneralEnvelope;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.image.ImageWorker;
+import org.geotools.image.test.ImageAssert;
 import org.geotools.image.util.ComponentColorModelJAI;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.referencing.operation.builder.GridToEnvelopeMapper;
@@ -83,6 +56,36 @@ import org.junit.Test;
 import org.opengis.filter.expression.Expression;
 import org.opengis.referencing.datum.PixelInCell;
 import org.opengis.style.ContrastMethod;
+
+import java.awt.*;
+import java.awt.color.ColorSpace;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.ComponentColorModel;
+import java.awt.image.DataBuffer;
+import java.awt.image.IndexColorModel;
+import java.awt.image.RenderedImage;
+import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+import javax.media.jai.InterpolationBilinear;
+import javax.media.jai.InterpolationNearest;
+import javax.media.jai.JAI;
+import javax.media.jai.PlanarImage;
+import javax.media.jai.ROIShape;
+import javax.media.jai.RasterFactory;
+import javax.media.jai.RenderedOp;
+import javax.xml.transform.TransformerException;
+
+import it.geosolutions.imageio.utilities.ImageIOUtilities;
+import it.geosolutions.jaiext.range.RangeFactory;
 
 /** @author Simone Giannecchini, GeoSolutions. */
 public class RasterSymbolizerTest extends org.junit.Assert {
@@ -1529,27 +1532,7 @@ public class RasterSymbolizerTest extends org.junit.Assert {
             throws IOException, TransformerException, FactoryRegistryException,
                     IllegalArgumentException, URISyntaxException {
         // the GridCoverage
-        GeneralEnvelope envelope =
-                new GeneralEnvelope(new double[] {-180, -90}, new double[] {180, 90});
-        envelope.setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
-        final GridSampleDimension[] gsd = {
-            new GridSampleDimension("test1BandByte_SLD1"),
-            new GridSampleDimension("test1BandByte_SLD2"),
-            new GridSampleDimension("test1BandByte_SLD3")
-        };
-        GridCoverage2D gc =
-                CoverageFactoryFinder.getGridCoverageFactory(null)
-                        .create(
-                                "name",
-                                JAI.create(
-                                        "ImageRead",
-                                        new File(
-                                                TestData.url(this, "small_3bands_Byte.tif")
-                                                        .toURI())),
-                                envelope,
-                                gsd,
-                                null,
-                                null);
+        GridCoverage2D gc = read3BandsByteCoverage();
 
         // ////////////////////////////////////////////////////////////////////
         //
@@ -1624,31 +1607,61 @@ public class RasterSymbolizerTest extends org.junit.Assert {
     }
 
     @org.junit.Test
+    public void greenSelection()
+            throws IOException, TransformerException, FactoryRegistryException,
+            IllegalArgumentException, URISyntaxException {
+        GridCoverage2D gc = read3BandsByteCoverage();
+
+        java.net.URL surl = TestData.url(this, "greenChannelSelection.sld");
+        SLDParser stylereader = new SLDParser(sf, surl);
+        StyledLayerDescriptor sld = stylereader.parseSLD();
+        // the RasterSymbolizer Helper
+        SubchainStyleVisitorCoverageProcessingAdapter rsh = new RasterSymbolizerHelper(gc, null);
+
+        // build the RasterSymbolizer
+        final RasterSymbolizer rs_1 = extractRasterSymbolizer(sld);
+
+        // visit the RasterSymbolizer
+        rsh.visit(rs_1);
+
+        final RenderedImage image = rsh.getOutput().getRenderedImage();
+        File reference =
+                new File(
+                        "src/test/resources/org/geotools/renderer/lite/gridcoverage2d/greenChannleSelection.png");
+        ImageAssert.assertEquals(reference, image, 0);
+    }
+
+    public GridCoverage2D read3BandsByteCoverage()
+            throws URISyntaxException, FileNotFoundException {
+        // the GridCoverage
+        GeneralEnvelope envelope =
+                new GeneralEnvelope(new double[]{-180, -90}, new double[]{180, 90});
+        envelope.setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
+        final GridSampleDimension[] gsd = {
+                new GridSampleDimension("test1BandByte_SLD1"),
+                new GridSampleDimension("test1BandByte_SLD2"),
+                new GridSampleDimension("test1BandByte_SLD3")
+        };
+        return CoverageFactoryFinder.getGridCoverageFactory(null)
+                .create(
+                        "name",
+                        JAI.create(
+                                "ImageRead",
+                                new File(
+                                        TestData.url(this, "small_3bands_Byte.tif")
+                                                .toURI())),
+                        envelope,
+                        gsd,
+                        null,
+                        null);
+    }
+
+    @org.junit.Test
     public void bandsByte_ColorMap_SLD()
             throws IOException, TransformerException, FactoryRegistryException,
                     IllegalArgumentException, URISyntaxException {
         // the GridCoverage
-        GeneralEnvelope envelope =
-                new GeneralEnvelope(new double[] {-180, -90}, new double[] {180, 90});
-        envelope.setCoordinateReferenceSystem(DefaultGeographicCRS.WGS84);
-        final GridSampleDimension[] gsd = {
-            new GridSampleDimension("test1BandByte_SLD1"),
-            new GridSampleDimension("test1BandByte_SLD2"),
-            new GridSampleDimension("test1BandByte_SLD3")
-        };
-        GridCoverage2D gc =
-                CoverageFactoryFinder.getGridCoverageFactory(null)
-                        .create(
-                                "name",
-                                JAI.create(
-                                        "ImageRead",
-                                        new File(
-                                                TestData.url(this, "small_3bands_Byte.tif")
-                                                        .toURI())),
-                                envelope,
-                                gsd,
-                                null,
-                                null);
+        GridCoverage2D gc = read3BandsByteCoverage();
 
         // ////////////////////////////////////////////////////////////////////
         //
