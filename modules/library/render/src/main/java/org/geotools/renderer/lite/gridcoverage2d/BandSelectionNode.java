@@ -2,7 +2,7 @@
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
  *
- *    (C) 2005-2008, Open Source Geospatial Foundation (OSGeo)
+ *    (C) 2005-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -16,86 +16,101 @@
  */
 package org.geotools.renderer.lite.gridcoverage2d;
 
+import it.geosolutions.jaiext.range.NoDataContainer;
+import it.geosolutions.jaiext.range.Range;
+import it.geosolutions.jaiext.range.RangeFactory;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.color.ColorSpace;
-import java.awt.image.ColorModel;
 import java.awt.image.ComponentColorModel;
 import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 import javax.media.jai.ImageLayout;
 import javax.media.jai.JAI;
+import javax.media.jai.PlanarImage;
+import javax.media.jai.ROI;
+import javax.media.jai.RenderedOp;
+import org.geotools.coverage.GridSampleDimension;
+import org.geotools.coverage.TypeMap;
 import org.geotools.coverage.grid.GridCoverage2D;
-import org.geotools.coverage.processing.CoverageProcessor;
-import org.geotools.coverage.processing.operation.SelectSampleDimension;
+import org.geotools.coverage.grid.GridGeometry2D;
+import org.geotools.coverage.util.CoverageUtilities;
+import org.geotools.image.ImageWorker;
 import org.geotools.renderer.i18n.ErrorKeys;
 import org.geotools.renderer.i18n.Errors;
 import org.geotools.renderer.i18n.Vocabulary;
 import org.geotools.renderer.i18n.VocabularyKeys;
-import org.geotools.styling.SelectedChannelType;
 import org.geotools.util.SimpleInternationalString;
 import org.geotools.util.factory.Hints;
-import org.opengis.parameter.ParameterValueGroup;
+import org.opengis.coverage.grid.GridCoverage;
 import org.opengis.util.InternationalString;
 
 /**
- * This {@link CoverageProcessingNode} has been built for taking care of the band select operation
- * within the context of applying SLD 1.0.
+ * This {@link BandMergeNode} wraps a {@link JAI} {@link BandMergeDescriptor} operation for usage
+ * withing SLD 1.0 processing.
  *
- * @author Simone Giannecchini, GeoSolutions.
+ * @author Simone Giannecchini, GeoSolutions. TODO we should preserve properties
  */
-class BandSelectionNode extends StyleVisitorCoverageProcessingNodeAdapter
-        implements CoverageProcessingNode {
+class BandMergeNode extends BaseCoverageProcessingNode implements CoverageProcessingNode {
 
     /*
      * (non-Javadoc)
      * @see CoverageProcessingNode#getName()
      */
     public InternationalString getName() {
-        return Vocabulary.formatInternational(VocabularyKeys.BAND_SELECTION);
-    }
-
-    /**
-     * Index of the band we want to select.
-     *
-     * @uml.property name="bandIndex"
-     */
-    private int bandIndex = -1;
-
-    /**
-     * Default constructor.
-     *
-     * <p>A band selection node can have at most one source node.
-     */
-    public BandSelectionNode() {
-        this(null);
-    }
-
-    /**
-     * Default constructor.
-     *
-     * <p>A band selection node can have at most one source node.
-     *
-     * @param hints {@link Hints} to contro internal machinery for factories,
-     */
-    public BandSelectionNode(Hints hints) {
-        super(
-                1,
-                hints,
-                SimpleInternationalString.wrap("BandSelectionNode"),
-                SimpleInternationalString.wrap(
-                        "Node which applies a BandSelection following SLD 1.0 spec."));
+        return Vocabulary.formatInternational(VocabularyKeys.BAND_MERGE);
     }
 
     /*
      * (non-Javadoc)
-     *
-     * @see org.geotools.renderer.lite.gridcoverage2d.BaseCoverageProcessingNode#execute()
+     * @see org.geotools.renderer.lite.gridcoverage2d.BaseCoverageProcessingNode#dispose(boolean)
      */
-    protected GridCoverage2D execute() {
-        // preconditions
-        assert this.getSources().size() <= 1;
+    public void dispose(boolean force) {
+        ///////////////////////////////////////////////////////////////////////
+        //
+        // Dispose local intermediate operations
+        //
+        ///////////////////////////////////////////////////////////////////////
+        final Iterator<RenderedImage> it = intermediateOps.iterator();
+        while (it.hasNext()) {
+            final PlanarImage image = PlanarImage.wrapRenderedImage((RenderedImage) it.next());
+            image.dispose();
+        }
+        super.dispose(force);
+    }
+
+    /**
+     * Holds the intermediate {@link RenderedOp} we create along the path for this {@link
+     * CoverageProcessingNode} in order to be able to dispose them later on.
+     */
+    private Stack<RenderedImage> intermediateOps = new Stack<RenderedImage>();
+
+    /** alpha channel from previous nodes to be restored (it may be null) */
+    private RenderedImage alpha;
+
+    /**
+     * Default constructor for the {@link BandMergeNode} which merge multiple single bands into s
+     * single coverage.
+     *
+     * @param hints {@link Hints} to control this node behavior.
+     */
+    public BandMergeNode(Hints hints) {
+        // we use at most 3 bands for a band merge node according to the specs
+        super(
+                3,
+                hints,
+                SimpleInternationalString.wrap("BandMergeNode"),
+                SimpleInternationalString.wrap(
+                        "Node which applies a BandMergeNode following SLD 1.0 spec."));
+    }
+
+    protected GridCoverage execute() {
+        assert getSources().size() <= 3;
 
         // /////////////////////////////////////////////////////////////////////
         //
@@ -105,132 +120,140 @@ class BandSelectionNode extends StyleVisitorCoverageProcessingNodeAdapter
         // /////////////////////////////////////////////////////////////////////
         final List<CoverageProcessingNode> sources = this.getSources();
         if (sources != null && !sources.isEmpty()) {
-            final GridCoverage2D source = (GridCoverage2D) getSource(0).getOutput();
-            GridCoverageRendererUtilities.ensureSourceNotNull(source, this.getName().toString());
-            GridCoverage2D output = null;
-            if (bandIndex != -1) {
-                // /////////////////////////////////////////////////////////////////////
-                //
-                // We have a valid band index, go ahead and to a band select
-                //
-                // /////////////////////////////////////////////////////////////////////
+            // //
+            //
+            // only one source, let's forward it, nothing to do.
+            //
+            // //
+            final int size = sources.size();
+            final boolean hasAlpha = (alpha != null);
+            if (size == 1 && !hasAlpha) {
+                // returns the source if we don't need to restore the alpha channel
+                return getSource(0).getOutput();
+            }
+            // //
+            //
+            // We can accept only 3 sources OR 1 source (when alpha need to be added)
+            //
+            // //
+            if (size != 3 && size != 1) {
+                throw new IllegalArgumentException(
+                        Errors.format(
+                                ErrorKeys.INVALID_NUMBER_OF_SOURCES_$1, Integer.valueOf(size)));
+            }
 
+            // /////////////////////////////////////////////////////////////////////
+            //
+            // we have at least two sources, let's merge them
+            //
+            // /////////////////////////////////////////////////////////////////////
+            final Iterator<CoverageProcessingNode> it = sources.iterator();
+            RenderedImage op = null;
+            GridGeometry2D gridGeometry = null;
+            ImageLayout layout = null;
+            final Hints hints = getHints();
+            final List<GridCoverage2D> sourceGridCoverages = new ArrayList<GridCoverage2D>();
+            ImageWorker w = new ImageWorker();
+
+            List<RenderedImage> bands = new ArrayList<>();
+            List<Range> noDatas = new ArrayList<>();
+            boolean hasNoDatas = false;
+            ROI roi = null;
+            do {
                 // //
                 //
-                // Is the index correct?
+                // Get the source image and do the merge
                 //
                 // //
-                final int numSampleDimensions = source.getNumSampleDimensions();
-                if (bandIndex < 1 || bandIndex > numSampleDimensions)
-                    throw new IllegalArgumentException(
-                            Errors.format(
-                                    ErrorKeys.BAD_BAND_NUMBER_$1, Integer.valueOf(bandIndex)));
+                final CoverageProcessingNode currentSourceNode = (CoverageProcessingNode) it.next();
+                final GridCoverage2D currentSourceCoverage =
+                        (GridCoverage2D) currentSourceNode.getOutput();
+                sourceGridCoverages.add(currentSourceCoverage);
+                final GridGeometry2D gg = (GridGeometry2D) currentSourceCoverage.getGridGeometry();
+                if (gridGeometry == null) {
+                    // get the envelope for the first source.
+                    gridGeometry = gg;
 
-                // //
-                //
-                // SHORTCUT
-                //
-                // Are we trying to do a band select on a single band coverage?
-                // Note that we already checked that the index is valid.
-                //
-                // //
-                if (bandIndex == 1 && numSampleDimensions == 1) {
-                    output = source;
-
-                } else {
-                    // //
-                    //
-                    // Do the actual band selection.
-                    //
-                    // //
-                    final CoverageProcessor processor = new CoverageProcessor(this.getHints());
-                    // get the source
-                    final ParameterValueGroup parameters =
-                            processor.getOperation("SelectSampleDimension").getParameters();
-                    parameters.parameter("SampleDimensions").setValue(new int[] {bandIndex - 1});
-                    parameters.parameter("Source").setValue(source);
-
-                    // //
-                    //
-                    // Save the output
-                    //
-                    // //
-                    final Hints hints = new Hints(getHints());
-                    final ImageLayout layout = new ImageLayout();
-                    final RenderedImage sourceRaster = source.getRenderedImage();
-                    final SampleModel oldSM = sourceRaster.getSampleModel();
-                    final ColorModel cm =
+                    // color model
+                    final ColorSpace colorSpace =
+                            (size == 1 && hasAlpha)
+                                    ? ColorSpace.getInstance(ColorSpace.CS_GRAY)
+                                    : ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB);
+                    final int transparency =
+                            hasAlpha ? Transparency.TRANSLUCENT : Transparency.OPAQUE;
+                    final ComponentColorModel cm =
                             new ComponentColorModel(
-                                    ColorSpace.getInstance(ColorSpace.CS_GRAY),
+                                    colorSpace,
+                                    hasAlpha,
                                     false,
-                                    false,
-                                    Transparency.OPAQUE,
-                                    oldSM.getDataType());
+                                    transparency,
+                                    currentSourceCoverage
+                                            .getRenderedImage()
+                                            .getSampleModel()
+                                            .getDataType());
+                    layout = new ImageLayout();
                     layout.setColorModel(cm);
-                    layout.setSampleModel(
-                            cm.createCompatibleSampleModel(oldSM.getWidth(), oldSM.getHeight()));
-                    hints.add(new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout));
-                    output =
-                            (GridCoverage2D)
-                                    new SelectSampleDimension().doOperation(parameters, hints);
+                } else if (!gg.equals(gridGeometry))
+                    throw new IllegalArgumentException(
+                            Errors.format(ErrorKeys.MUST_SHARE_GRIDGEOMETRY_$1, "BandMerge"));
+
+                bands.add(currentSourceCoverage.getRenderedImage());
+                NoDataContainer container =
+                        CoverageUtilities.getNoDataProperty(currentSourceCoverage);
+                hasNoDatas |= container != null && container.getAsRange() != null;
+                noDatas.add(container != null ? container.getAsRange() : null);
+
+                if (roi == null) {
+                    CoverageUtilities.getROIProperty(currentSourceCoverage);
                 }
 
-                // postcondition
-                assert output.getNumSampleDimensions() == 1;
-            } else
-                // /////////////////////////////////////////////////////////////////////
-                //
-                // We do not have a valid band index, let's try with a
-                // conservative approach that is, let's forward the source
-                // coverage intact.
-                // TODO better throwing an error?
-                // /////////////////////////////////////////////////////////////////////
-                output = source;
+            } while (it.hasNext());
 
-            return output;
-        }
-        throw new IllegalStateException("No source was set for this Node.");
-    }
-
-    public void visit(SelectedChannelType sct) {
-        // /////////////////////////////////////////////////////////////////////
-        //
-        // If a SelectedChannelType was provided, let's try to parse it.
-        //
-        // /////////////////////////////////////////////////////////////////////
-        if (sct != null) {
-            try {
-                bandIndex = sct.getChannelName().evaluate(null, Integer.class);
-            } catch (NumberFormatException e) {
-                // something bad happened
-                final IllegalArgumentException iee =
-                        new IllegalArgumentException(
-                                Errors.format(
-                                        ErrorKeys.BAD_BAND_NUMBER_$1, Integer.valueOf(bandIndex)));
-                iee.initCause(e);
-                throw iee;
+            // /////////////////////////////////////////////////////////////////////
+            //
+            // let's now create the output coverage and
+            //
+            // /////////////////////////////////////////////////////////////////////
+            if (layout != null) hints.add(new RenderingHints(JAI.KEY_IMAGE_LAYOUT, layout));
+            if (hasAlpha && layout != null && !layout.getColorModel(null).hasAlpha()) {
+                bands.add(alpha);
+                noDatas.add(hasNoDatas ? RangeFactory.create(255, false, 255, false) : null);
             }
-            return;
-        }
+            op =
+                    w.addBands(
+                            bands.toArray(new RenderedImage[bands.size()]),
+                            hasAlpha,
+                            noDatas.toArray(new Range[noDatas.size()]))
+                            .getRenderedImage();
+            intermediateOps.add(op);
+            op = w.format(op.getSampleModel().getDataType()).getRenderedImage();
+            final GridSampleDimension[] sd =
+                    new GridSampleDimension[op.getSampleModel().getNumBands()];
+            for (int i = 0; i < sd.length; i++)
+                sd[i] =
+                        new GridSampleDimension(
+                                TypeMap.getColorInterpretation(op.getColorModel(), i).name());
 
-        // /////////////////////////////////////////////////////////////////////
-        //
-        // If no SelectedChannelType was provided, let's just forward the
-        // source.
-        //
-        // /////////////////////////////////////////////////////////////////////
-        // do nothing
+            // Defining NoData and ROI properties
+            Map<String, Object> properties = new HashMap<>();
+            CoverageUtilities.setNoDataProperty(properties, w.getNoData());
+            CoverageUtilities.setROIProperty(properties, w.getROI());
+            return getCoverageFactory()
+                    .create(
+                            "BandMerge",
+                            op,
+                            gridGeometry,
+                            sd,
+                            sourceGridCoverages.toArray(
+                                    new GridCoverage[sourceGridCoverages.size()]),
+                            properties);
+        }
+        throw new IllegalStateException(
+                Errors.format(ErrorKeys.SOURCE_CANT_BE_NULL_$1, "BandMergeNode"));
     }
 
-    /**
-     * Retrieves the band index we use for this {@link BandSelectionNode} .
-     *
-     * <p><code>-1</code> warns about a possible error.
-     *
-     * @return the bandIndex
-     * @uml.property name="bandIndex"
-     */
-    public int getBandIndex() {
-        return bandIndex;
+    /** If specified, the result of the bandMerge will contain the alpha channel. */
+    public void setAlpha(RenderedImage alpha) {
+        this.alpha = alpha;
     }
 }
