@@ -1834,34 +1834,56 @@ public class StreamingRenderer implements GTRenderer {
         final int length = attributes.size();
         Object attType;
 
-        for (int j = 0; j < length; j++) {
-            // NC - support nested attributes -> use evaluation for getting descriptor
-            // result is not necessary a descriptor, is Name in case of @attribute
-            attType = attributes.get(j).evaluate(schema);
-
-            // the attribute type might be missing because of rendering transformations, skip it
-            if (attType == null) {
-                continue;
+        if (length == 0) {
+            PropertyName defaultGeometry = filterFactory.property("");
+            filter = new FastBBOX(defaultGeometry, bboxes.get(0), filterFactory);
+            if (bboxes.size() > 0) {
+                for (int k = 1; k < bboxes.size(); k++) {
+                    // filter = filterFactory.or( filter, new FastBBOX(localName,
+                    // bboxes.get(k),
+                    // filterFactory) );
+                    filter =
+                            filterFactory.or(
+                                    filter,
+                                    new FastBBOX(
+                                            defaultGeometry,
+                                            bboxes.get(k),
+                                            filterFactory));
+                }
             }
+        } else {
+            for (int j = 0; j < length; j++) {
+                // NC - support nested attributes -> use evaluation for getting descriptor
+                // result is not necessary a descriptor, is Name in case of @attribute
+                attType = attributes.get(j).evaluate(schema);
 
-            if (attType instanceof GeometryDescriptor) {
-                Filter gfilter = new FastBBOX(attributes.get(j), bboxes.get(0), filterFactory);
-
-                if (filter == Filter.INCLUDE) {
-                    filter = gfilter;
-                } else {
-                    filter = filterFactory.or(filter, gfilter);
+                // the attribute type might be missing because of rendering transformations, skip it
+                if (attType == null) {
+                    continue;
                 }
 
-                if (bboxes.size() > 0) {
-                    for (int k = 1; k < bboxes.size(); k++) {
-                        // filter = filterFactory.or( filter, new FastBBOX(localName, bboxes.get(k),
-                        // filterFactory) );
-                        filter =
-                                filterFactory.or(
-                                        filter,
-                                        new FastBBOX(
-                                                attributes.get(j), bboxes.get(k), filterFactory));
+                if (attType instanceof GeometryDescriptor) {
+                    Filter gfilter = new FastBBOX(attributes.get(j), bboxes.get(0), filterFactory);
+
+                    if (filter == Filter.INCLUDE) {
+                        filter = gfilter;
+                    } else {
+                        filter = filterFactory.or(filter, gfilter);
+                    }
+
+                    if (bboxes.size() > 0) {
+                        for (int k = 1; k < bboxes.size(); k++) {
+                            // filter = filterFactory.or( filter, new FastBBOX(localName,
+                            // bboxes.get(k),
+                            // filterFactory) );
+                            filter =
+                                    filterFactory.or(
+                                            filter,
+                                            new FastBBOX(
+                                                    attributes.get(j),
+                                                    bboxes.get(k),
+                                                    filterFactory));
+                        }
                     }
                 }
             }
