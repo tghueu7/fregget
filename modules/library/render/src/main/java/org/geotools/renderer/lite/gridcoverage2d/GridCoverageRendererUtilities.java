@@ -39,6 +39,7 @@ import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.renderer.i18n.ErrorKeys;
 import org.geotools.renderer.i18n.Errors;
 import org.geotools.util.factory.Hints;
+import org.huldra.math.BigInt;
 import org.opengis.coverage.grid.GridEnvelope;
 import org.opengis.parameter.ParameterValueGroup;
 import org.opengis.referencing.FactoryException;
@@ -49,6 +50,8 @@ import org.opengis.referencing.operation.TransformException;
 
 /** @author Simone Giannecchini, GeoSolutions */
 final class GridCoverageRendererUtilities {
+
+    private static final int MAX_TERMS = 20;
 
     private static final CoverageProcessor processor =
             CoverageProcessor.getInstance(new Hints(Hints.LENIENT_DATUM_SHIFT, Boolean.TRUE));
@@ -149,21 +152,21 @@ final class GridCoverageRendererUtilities {
         // Since a value of 1.2 is represented as 1.200001 which
         // throws the forward/backward mapping in certain situations.
         // Convert the scale and translation factors to Rational numbers
-        Rational scaleXRational = Rational.approximate(scaleX, RATIONAL_TOLERANCE);
-        Rational scaleYRational = Rational.approximate(scaleY, RATIONAL_TOLERANCE);
+        Rational scaleXRational = approximate(scaleX, RATIONAL_TOLERANCE);
+        Rational scaleYRational = approximate(scaleY, RATIONAL_TOLERANCE);
 
-        long scaleXRationalNum = scaleXRational.num;
-        long scaleXRationalDenom = scaleXRational.denom;
-        long scaleYRationalNum = scaleYRational.num;
-        long scaleYRationalDenom = scaleYRational.denom;
+        BigInt scaleXRationalNum = new BigInt(scaleXRational.num);
+        BigInt scaleXRationalDenom = new BigInt(scaleXRational.denom);
+        BigInt scaleYRationalNum = new BigInt(scaleYRational.num);
+        BigInt scaleYRationalDenom = new BigInt(scaleYRational.denom);
 
-        Rational transXRational = Rational.approximate(transX, RATIONAL_TOLERANCE);
-        Rational transYRational = Rational.approximate(transY, RATIONAL_TOLERANCE);
+        Rational transXRational = approximate(transX, RATIONAL_TOLERANCE);
+        Rational transYRational = approximate(transY, RATIONAL_TOLERANCE);
 
-        long transXRationalNum = transXRational.num;
-        long transXRationalDenom = transXRational.denom;
-        long transYRationalNum = transYRational.num;
-        long transYRationalDenom = transYRational.denom;
+        BigInt transXRationalNum = new BigInt(transXRational.num);
+        BigInt transXRationalDenom = new BigInt(transXRational.denom);
+        BigInt transYRationalNum = new BigInt(transYRational.num);
+        BigInt transYRationalDenom = new BigInt(transYRational.denom);
 
         int x0 = source.getMinX();
         int y0 = source.getMinY();
@@ -171,85 +174,140 @@ final class GridCoverageRendererUtilities {
         int h = source.getHeight();
 
         // Variables to store the calculated destination upper left coordinate
-        long dx0Num, dx0Denom, dy0Num, dy0Denom;
+        BigInt dx0Num, dx0Denom, dy0Num, dy0Denom;
 
         // Variables to store the calculated destination bottom right
         // coordinate
-        long dx1Num, dx1Denom, dy1Num, dy1Denom;
+        BigInt dx1Num, dx1Denom, dy1Num, dy1Denom;
 
         // Start calculations for destination
+        dx0Num = new BigInt(x0);
+        dx0Denom = new BigInt(1);
 
-        dx0Num = x0;
-        dx0Denom = 1;
-
-        dy0Num = y0;
-        dy0Denom = 1;
+        dy0Num = new BigInt(y0);
+        dy0Denom = new BigInt(1);
 
         // Formula requires srcMaxX + 1 = (x0 + w - 1) + 1 = x0 + w
-        dx1Num = x0 + w;
-        dx1Denom = 1;
+        dx1Num = new BigInt(x0 + w);
+        dx1Denom = new BigInt(1);
 
         // Formula requires srcMaxY + 1 = (y0 + h - 1) + 1 = y0 + h
-        dy1Num = y0 + h;
-        dy1Denom = 1;
+        dy1Num = new BigInt(y0 + h);
+        dy1Denom = new BigInt(1);
 
-        dx0Num *= scaleXRationalNum;
-        dx0Denom *= scaleXRationalDenom;
+        dx0Num.mul(scaleXRationalNum);
+        dx0Denom.mul(scaleXRationalDenom);
 
-        dy0Num *= scaleYRationalNum;
-        dy0Denom *= scaleYRationalDenom;
+        dy0Num.mul(scaleYRationalNum);
+        dy0Denom.mul(scaleYRationalDenom);
 
-        dx1Num *= scaleXRationalNum;
-        dx1Denom *= scaleXRationalDenom;
+        dx1Num.mul(scaleXRationalNum);
+        dx1Denom.mul(scaleXRationalDenom);
 
-        dy1Num *= scaleYRationalNum;
-        dy1Denom *= scaleYRationalDenom;
+        dy1Num.mul(scaleYRationalNum);
+        dy1Denom.mul(scaleYRationalDenom);
 
         // Equivalent to subtracting 0.5
-        dx0Num = 2 * dx0Num - dx0Denom;
-        dx0Denom *= 2;
+        dx0Num.mul(2);
+        dx0Num.sub(dx0Denom);
+        dx0Denom.mul(2);
 
-        dy0Num = 2 * dy0Num - dy0Denom;
-        dy0Denom *= 2;
+        dy0Num.mul(2);
+        dy0Num.sub(dy0Denom);
+        dy0Denom.mul(2);
 
         // Equivalent to subtracting 1.5
-        dx1Num = 2 * dx1Num - 3 * dx1Denom;
-        dx1Denom *= 2;
+        dx1Num = subnew(mulnew(dx1Num, 2), mulnew(dx1Denom, 3));
+        dx1Denom.mul(2);
 
-        dy1Num = 2 * dy1Num - 3 * dy1Denom;
-        dy1Denom *= 2;
+        dy1Num = subnew(mulnew(dy1Num, 2), mulnew(dy1Denom, 3));
+        dy1Denom.mul(2);
 
         // Adding translation factors
 
         // Equivalent to float dx0 += transX
-        dx0Num = dx0Num * transXRationalDenom + transXRationalNum * dx0Denom;
-        dx0Denom *= transXRationalDenom;
+        dx0Num.mul(transXRationalDenom);
+        dx0Num.add(mulnew(transXRationalNum, dx0Denom));
+        dx0Denom.mul(transXRationalDenom);
 
         // Equivalent to float dy0 += transY
-        dy0Num = dy0Num * transYRationalDenom + transYRationalNum * dy0Denom;
-        dy0Denom *= transYRationalDenom;
+        dy0Num.mul(transYRationalDenom);
+        dy0Num.add(mulnew(transYRationalNum, dy0Denom));
+        dy0Denom.mul(transYRationalDenom);
 
         // Equivalent to float dx1 += transX
-        dx1Num = dx1Num * transXRationalDenom + transXRationalNum * dx1Denom;
-        dx1Denom *= transXRationalDenom;
+        dx1Num.mul(transXRationalDenom);
+        dx1Num.add(mulnew(transXRationalNum, dx1Denom));
+        dx1Denom.mul(transXRationalDenom);
 
         // Equivalent to float dy1 += transY
-        dy1Num = dy1Num * transYRationalDenom + transYRationalNum * dy1Denom;
-        dy1Denom *= transYRationalDenom;
+        dy1Num.mul(transYRationalDenom);
+        dy1Num.add(mulnew(transYRationalNum, dy1Denom));
+        dy1Denom.mul(transYRationalDenom);
 
         // Get the integral coordinates
         int l_x0, l_y0, l_x1, l_y1;
 
-        l_x0 = Rational.ceil(dx0Num, dx0Denom);
-        l_y0 = Rational.ceil(dy0Num, dy0Denom);
+        // We may want to not use Rational.ceil and use BigInts again
+        l_x0 = Rational.ceil(dx0Num.longValue(), dx0Denom.longValue());
+        l_y0 = Rational.ceil(dy0Num.longValue(), dy0Denom.longValue());
 
-        l_x1 = Rational.ceil(dx1Num, dx1Denom);
-        l_y1 = Rational.ceil(dy1Num, dy1Denom);
+        l_x1 = Rational.ceil(dx1Num.longValue(), dx1Denom.longValue());
+        l_y1 = Rational.ceil(dy1Num.longValue(), dy1Denom.longValue());
 
         // Set the top left coordinate of the destination
         final Rectangle2D retValue = new Rectangle2D.Double();
         retValue.setFrame(l_x0, l_y0, l_x1 - l_x0 + 1, l_y1 - l_y0 + 1);
         return retValue;
+    }
+
+    /** Returns a Rational that is within the given tolerance of a given float value. */
+    static Rational approximate(float f, float tol) {
+        // Expand f as a continued fraction by repeatedly removing the integer
+        // part and inverting.
+        double rem = f;
+        long[] d = new long[MAX_TERMS];
+        int index = 0;
+        for (int i = 0; i < MAX_TERMS; i++) {
+            long k = (long) Math.floor(rem);
+            d[index++] = k;
+
+            rem -= k;
+            if (rem == 0) {
+                break;
+            }
+            rem = 1.0F / rem;
+        }
+
+        // Evaluate with increasing number of terms until the tolerance
+        // has been reached
+        Rational r = null;
+        for (int i = 1; i <= index; i++) {
+            r = Rational.createFromFrac(d, i);
+            if (Math.abs(r.floatValue() - f) < tol) {
+                return r;
+            }
+        }
+
+        return r;
+    }
+
+    protected static BigInt subnew(BigInt a, BigInt b) {
+        BigInt result = a.copy();
+        result.sub(b);
+        return result;
+    }
+
+    protected static BigInt mulnew(BigInt a, BigInt b) {
+        BigInt result = a.copy();
+        result.mul(b);
+        return result;
+    }
+
+    protected static BigInt mulnew(BigInt a, int b) {
+        BigInt result = a.copy();
+        result.mul(b);
+        return result;
     }
 
     /**
