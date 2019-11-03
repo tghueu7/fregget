@@ -3143,18 +3143,24 @@ public final class JDBCDataStore extends ContentDataStore implements GmlObjectSt
             // some sql dialects require varchars to have an
             // associated size with them
             int length = -1;
-            if (sqlTypeNames[i].toUpperCase().startsWith("VARCHAR")) {
+            String sqlTypeName = sqlTypeNames[i];
+            if (sqlTypeName.toUpperCase().startsWith("VARCHAR")) {
                 if (featureType != null) {
                     AttributeDescriptor att = featureType.getDescriptor(columnNames[i]);
                     length = findVarcharColumnLength(att);
+                }
+                
+                if (length > 0 && dialect.getVarcharLimit() > length) {
+                    sqlTypeName = dialect.getLargeTextColumn(length);
+                    length = -1;
                 }
             }
 
             // only apply a length if one exists (i.e. to applicable varchars)
             if (length == -1) {
-                dialect.encodeColumnType(sqlTypeNames[i], sql);
+                dialect.encodeColumnType(sqlTypeName, sql);
             } else {
-                dialect.encodeColumnType(sqlTypeNames[i] + "(" + length + ")", sql);
+                dialect.encodeColumnType(sqlTypeName + "(" + length + ")", sql);
             }
 
             // nullable
