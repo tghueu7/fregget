@@ -16,20 +16,6 @@
  */
 package org.geotools.data.store;
 
-import java.awt.RenderingHints;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.geotools.data.DataUtilities;
 import org.geotools.data.Diff;
 import org.geotools.data.DiffFeatureReader;
@@ -79,6 +65,21 @@ import org.opengis.filter.identity.FeatureId;
 import org.opengis.filter.sort.SortBy;
 import org.opengis.geometry.BoundingBox;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
+
+import java.awt.*;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Abstract implementation of FeatureSource.
@@ -446,7 +447,10 @@ public abstract class ContentFeatureSource implements SimpleFeatureSource {
         return bounds;
     }
 
-    /** Calculates the bounds of a specified query. Subclasses must implement this method. */
+    /**
+     * Calculates the bounds of a specified query. Subclasses must implement this method. If the
+     * computation is not fast, subclasses can return <code>null</code>.
+     */
     protected abstract ReferencedEnvelope getBoundsInternal(Query query) throws IOException;
 
     /**
@@ -535,7 +539,7 @@ public abstract class ContentFeatureSource implements SimpleFeatureSource {
 
     /**
      * Calculates the number of features of a specified query. Subclasses must implement this
-     * method.
+     * method. If the computation is not fast, it's possible to return -1.
      */
     protected abstract int getCountInternal(Query query) throws IOException;
 

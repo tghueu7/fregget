@@ -24,6 +24,7 @@ import static org.geotools.jdbc.util.SqlUtil.prepare;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +38,6 @@ import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.geotools.data.jdbc.datasource.ManageableDataSource;
-import org.geotools.jdbc.JDBCDataStore;
 import org.geotools.jdbc.util.SqlUtil;
 import org.geotools.util.logging.Logging;
 
@@ -136,6 +136,8 @@ public class MBTilesFile implements AutoCloseable {
 
     protected final String MD_MAXZOOM = "maxzoom";
 
+    protected final String MD_JSON = "json";
+
     /** Logger */
     protected static final Logger LOGGER = Logging.getLogger(MBTilesFile.class);
 
@@ -144,9 +146,6 @@ public class MBTilesFile implements AutoCloseable {
 
     /** connection pool */
     protected final DataSource connPool;
-
-    /** datastore for vector access, lazily created */
-    protected volatile JDBCDataStore dataStore;
 
     /** Boolean indicating if journal must be disabled or not */
     protected boolean disableJournal;
@@ -190,16 +189,10 @@ public class MBTilesFile implements AutoCloseable {
             throws IOException {
         this.file = file;
         this.disableJournal = disableJournal;
-        Map<String, Object> params = new HashMap<String, Object>();
-        if (user != null) {
-            params.put(MBTilesDataStoreFactory.USER.key, user);
-        }
-        if (passwd != null) {
-            params.put(MBTilesDataStoreFactory.PASSWD.key, passwd);
-        }
-
+        Map<String, Serializable> params = new HashMap<>();
         params.put(MBTilesDataStoreFactory.DATABASE.key, file.getPath());
-        params.put(MBTilesDataStoreFactory.DBTYPE.key, MBTilesDataStoreFactory.DBTYPE.sample);
+        params.put(
+                MBTilesDataStoreFactory.DBTYPE.key, (String) MBTilesDataStoreFactory.DBTYPE.sample);
 
         this.connPool = new MBTilesDataStoreFactory().createDataSource(params);
     }
@@ -212,11 +205,6 @@ public class MBTilesFile implements AutoCloseable {
      */
     public MBTilesFile(DataSource dataSource) {
         this.connPool = dataSource;
-    }
-
-    MBTilesFile(JDBCDataStore dataStore) {
-        this.dataStore = dataStore;
-        this.connPool = dataStore.getDataSource();
     }
 
     /**
@@ -238,6 +226,7 @@ public class MBTilesFile implements AutoCloseable {
                 saveMetaDataEntry(MD_BOUNDS, metaData.getBoundsStr(), cx);
                 saveMetaDataEntry(MD_MINZOOM, String.valueOf(metaData.getMinZoom()), cx);
                 saveMetaDataEntry(MD_MAXZOOM, String.valueOf(metaData.getMaxZoom()), cx);
+                saveMetaDataEntry(MD_JSON, String.valueOf(metaData.getJson()), cx);
             } finally {
                 cx.close();
             }
@@ -421,6 +410,7 @@ public class MBTilesFile implements AutoCloseable {
                 metaData.setBoundsStr(loadMetaDataEntry(MD_BOUNDS, cx));
                 metaData.setMinZoomStr(loadMetaDataEntry(MD_MINZOOM, cx));
                 metaData.setMaxZoomStr(loadMetaDataEntry(MD_MAXZOOM, cx));
+                metaData.setJson(loadMetaDataEntry(MD_JSON, cx));
             } finally {
                 cx.close();
             }
@@ -760,10 +750,6 @@ public class MBTilesFile implements AutoCloseable {
      * connection leakage.
      */
     public void close() {
-        if (dataStore != null) {
-            dataStore.dispose();
-        }
-
         try {
             if (connPool instanceof BasicDataSource) {
                 ((BasicDataSource) connPool).close();

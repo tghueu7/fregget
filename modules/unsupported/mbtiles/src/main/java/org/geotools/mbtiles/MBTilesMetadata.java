@@ -85,6 +85,8 @@ public class MBTilesMetadata {
 
     protected int maxZoom;
 
+    protected String json;
+
     public String getName() {
         return name;
     }
@@ -250,5 +252,13 @@ public class MBTilesMetadata {
         } else {
             maxZoom = Integer.parseInt(maxZoomStr);
         }
+    }
+
+    public String getJson() {
+        return json;
+    }
+
+    public void setJson(String json) {
+        this.json = json;
     }
 }

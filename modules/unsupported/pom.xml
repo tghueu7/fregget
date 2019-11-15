@@ -232,6 +232,8 @@
 		<module>wfs-ng</module>
 		<module>ogr</module>
 		<module>postgis-raster</module>
-	</modules>
+		<module>mbtiles-vector</module>
+        <module>mbtiles-vector</module>
+    </modules>
 
 </project>
