@@ -114,6 +114,10 @@ public class MBTilesFeatureSource extends ContentFeatureSource {
     @Override
     protected FeatureReader<SimpleFeatureType, SimpleFeature> getReaderInternal(Query query)
             throws IOException {
+        // read tiles in sequences, by row
+        // emit the features fully inside the tile
+        // keep in memory features that cross or touch the tiles boundaries (clip by default)
+        // 
         return null;
     }
 }
