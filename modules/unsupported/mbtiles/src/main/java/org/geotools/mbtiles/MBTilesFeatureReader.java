@@ -25,7 +25,6 @@ import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureReader;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.geometry.jts.GeometryClipper;
-import org.geotools.util.Converters;
 import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
@@ -44,7 +43,7 @@ import java.util.zip.GZIPInputStream;
 
 import no.ecc.vectortile.VectorTileDecoder;
 
-public class MBTilesFeatureReader implements SimpleFeatureReader {
+class MBTilesFeatureReader implements SimpleFeatureReader {
 
     private final MBTilesFile.TileIterator tiles;
     private final SimpleFeatureType schema;
@@ -109,7 +108,7 @@ public class MBTilesFeatureReader implements SimpleFeatureReader {
         ListFeatureCollection result = new ListFeatureCollection(schema);
 
         byte[] gzippedData = getPbfFromTile(tile);
-
+        String featureIdPrefix = buildFeatureIdPrefix(tile, typeName);
         for (VectorTileDecoder.Feature mvtFeature : decoder.decode(gzippedData, typeName)) {
             Geometry geometry = getGeometry(tile, mvtFeature);
             // geometry might have been fully outside boundaries
@@ -117,6 +116,7 @@ public class MBTilesFeatureReader implements SimpleFeatureReader {
                 continue;
             }
             builder.set(geometryName, geometry);
+            // collect all the attributes
             Map<String, Object> attributes = mvtFeature.getAttributes();
             for (AttributeDescriptor ad : schema.getAttributeDescriptors()) {
                 String attributeName = ad.getLocalName();
@@ -124,18 +124,9 @@ public class MBTilesFeatureReader implements SimpleFeatureReader {
                 if (value != null) {
                     builder.set(attributeName, value);
                 }
-                Converters.convert(value, String.class);
             }
-            SimpleFeature feature =
-                    builder.buildFeature(
-                            typeName
-                                    + "."
-                                    + tile.getZoomLevel()
-                                    + "."
-                                    + tile.getTileRow()
-                                    + "."
-                                    + tile.getTileColumn()
-                                    + mvtFeature.getId());
+
+            SimpleFeature feature = builder.buildFeature(featureIdPrefix + mvtFeature.getId());
 
             // todo: handle the un-finished features
             result.add(feature);
@@ -144,13 +135,24 @@ public class MBTilesFeatureReader implements SimpleFeatureReader {
         return result;
     }
 
+    private String buildFeatureIdPrefix(MBTilesTile tile, String typeName) {
+        return typeName
+                + "."
+                + tile.getZoomLevel()
+                + "."
+                + tile.getTileRow()
+                + "."
+                + tile.getTileColumn()
+                + ".";
+    }
+
     private Geometry getGeometry(MBTilesTile tile, VectorTileDecoder.Feature mvtFeature) {
         Geometry screenGeometry = mvtFeature.getGeometry();
         int extent = mvtFeature.getExtent();
         if (this.processor == null || processor.extent != extent) {
             this.processor = new GeometryProcessor(tile, extent);
         }
-        
+
         return processor.process(screenGeometry);
     }
 
@@ -160,6 +162,10 @@ public class MBTilesFeatureReader implements SimpleFeatureReader {
         return IOUtils.toByteArray(new GZIPInputStream(new ByteArrayInputStream(raw)));
     }
 
+    /**
+     * Processes a screen space MBTiles geometry, clipping it to the tile boundaries, and turning it
+     * into a geographic space one.
+     */
     private static class GeometryProcessor {
         final AffineTransformation at;
         private final GeometryClipper clipper;
