@@ -16,8 +16,6 @@
  */
 package org.geotools.geometry.jts;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.CoordinateSequenceFactory;
 import org.locationtech.jts.geom.Envelope;
@@ -34,6 +32,9 @@ import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.geom.TopologyException;
 import org.locationtech.jts.precision.GeometryPrecisionReducer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A stateful geometry clipper, can clip linestring on a specified rectangle. Trivial benchmarks
@@ -585,22 +586,19 @@ public class GeometryClipper {
                 }
             }
 
-            //            Class targetGeometry = Geometry.class;
-            //            if(gc instanceof MultiPoint) {
-            //            	targetGeometry = Point.class;
-            //            } else if(gc instanceof MultiLineString) {
-            //            	targetGeometry = LineString.class;
-            //            } else if(gc instanceof MultiPolygon) {
-            //            	targetGeometry = Polygon.class;
-            //            }
+            if (gc instanceof MultiPoint) {
+                result = filterCollection(Point.class, result);
+            } else if (gc instanceof MultiLineString) {
+                result = filterCollection(LineString.class, result);
+            } else if (gc instanceof MultiPolygon) {
+                result = filterCollection(Polygon.class, result);
+            }
 
             if (result.size() == 0) {
                 return null;
             } else if (result.size() == 1) {
                 return result.get(0);
             }
-
-            flattenCollection(result);
 
             if (gc instanceof MultiPoint) {
                 return gc.getFactory()
@@ -618,6 +616,17 @@ public class GeometryClipper {
                                 (Geometry[]) result.toArray(new Geometry[result.size()]));
             }
         }
+    }
+
+    private List<Geometry> filterCollection(Class clazz, List<Geometry> collection) {
+        List<Geometry> filtered = new ArrayList<>();
+        for (Geometry g : collection) {
+            if (clazz.isInstance(g)) {
+                filtered.add(g);
+            }
+        }
+
+        return filtered;
     }
 
     private void flattenCollection(List<Geometry> result) {
