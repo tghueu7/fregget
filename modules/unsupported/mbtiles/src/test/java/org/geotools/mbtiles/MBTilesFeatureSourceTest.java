@@ -25,12 +25,14 @@ import static org.junit.Assert.assertTrue;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataUtilities;
 import org.geotools.data.Query;
+import org.geotools.data.store.ContentFeatureCollection;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.util.URLs;
 import org.junit.After;
 import org.junit.Test;
 import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 import org.opengis.feature.simple.SimpleFeature;
@@ -54,7 +56,7 @@ public class MBTilesFeatureSourceTest {
     }
 
     @Test
-    public void readSingle() throws IOException, ParseException {
+    public void readSinglePointDataTypes() throws IOException, ParseException {
         File file =
                 URLs.urlToFile(MBTilesFileVectorTileTest.class.getResource("datatypes.mbtiles"));
         this.store = new MBTilesDataStore(new MBTilesFile(file));
@@ -70,6 +72,34 @@ public class MBTilesFeatureSourceTest {
         Point expected = (Point) new WKTReader().read("POINT (215246.671651058 6281289.23636264)");
         Point actual = (Point) feature.getDefaultGeometry();
         assertTrue(actual.equalsExact(expected, 0.01));
+    }
+
+    @Test
+    public void readSinglePolygon() throws IOException, ParseException {
+        MBTilesFeatureSource fs = getMadagascarSource("water");
+        BBOX bbox =
+                FF.bbox(
+                        FF.property(""),
+                        new ReferencedEnvelope(
+                                5635550,
+                                5948635,
+                                -1565430,
+                                -1252345,
+                                MBTilesFile.SPHERICAL_MERCATOR));
+        ContentFeatureCollection fc = fs.getFeatures(new Query("water", bbox));
+        assertEquals(1, fc.size());
+        SimpleFeature feature = DataUtilities.first(fc);
+        assertThat(feature.getAttribute("class"), equalTo("ocean"));
+        // geometry as read from ogrinfo
+        Polygon expected =
+                (Polygon)
+                        new WKTReader()
+                                .read(
+                                        "POLYGON ((5953527.25907581 -1570322.30909066,5630657.25159922 -1570322.30909066,5630657.25159922 -1247452.30161408,5953527.25907581 -1247452.30161408,5953527.25907581 -1570322.30909066))");
+        Polygon actual = (Polygon) feature.getDefaultGeometry();
+        assertTrue(
+                "Expected:\n" + expected + "\nBut got:\n" + actual,
+                actual.equalsExact(expected, 0.1));
     }
 
     @Test

@@ -24,6 +24,10 @@ import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureReader;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
+import org.geotools.geometry.jts.GeometryClipper;
+import org.geotools.util.Converters;
+import org.locationtech.jts.geom.CoordinateSequence;
+import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.util.AffineTransformation;
 import org.opengis.feature.simple.SimpleFeature;
@@ -32,6 +36,8 @@ import org.opengis.feature.type.AttributeDescriptor;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.zip.GZIPInputStream;
@@ -43,12 +49,19 @@ public class MBTilesFeatureReader implements SimpleFeatureReader {
     private final MBTilesFile.TileIterator tiles;
     private final SimpleFeatureType schema;
     private final SimpleFeatureBuilder builder;
+    private final MessageDigest md;
     private SimpleFeatureIterator currentIterator;
+    private GeometryProcessor processor;
 
     public MBTilesFeatureReader(MBTilesFile.TileIterator tiles, SimpleFeatureType schema, long z) {
         this.tiles = tiles;
         this.schema = schema;
         this.builder = new SimpleFeatureBuilder(schema);
+        try {
+            this.md = MessageDigest.getInstance("SHA-1");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Could not get SHA-1 algorithm", e);
+        }
     }
 
     @Override
@@ -99,6 +112,10 @@ public class MBTilesFeatureReader implements SimpleFeatureReader {
 
         for (VectorTileDecoder.Feature mvtFeature : decoder.decode(gzippedData, typeName)) {
             Geometry geometry = getGeometry(tile, mvtFeature);
+            // geometry might have been fully outside boundaries
+            if (geometry == null) {
+                continue;
+            }
             builder.set(geometryName, geometry);
             Map<String, Object> attributes = mvtFeature.getAttributes();
             for (AttributeDescriptor ad : schema.getAttributeDescriptors()) {
@@ -107,8 +124,18 @@ public class MBTilesFeatureReader implements SimpleFeatureReader {
                 if (value != null) {
                     builder.set(attributeName, value);
                 }
+                Converters.convert(value, String.class);
             }
-            SimpleFeature feature = builder.buildFeature(typeName + mvtFeature.getId());
+            SimpleFeature feature =
+                    builder.buildFeature(
+                            typeName
+                                    + "."
+                                    + tile.getZoomLevel()
+                                    + "."
+                                    + tile.getTileRow()
+                                    + "."
+                                    + tile.getTileColumn()
+                                    + mvtFeature.getId());
 
             // todo: handle the un-finished features
             result.add(feature);
@@ -120,45 +147,94 @@ public class MBTilesFeatureReader implements SimpleFeatureReader {
     private Geometry getGeometry(MBTilesTile tile, VectorTileDecoder.Feature mvtFeature) {
         Geometry screenGeometry = mvtFeature.getGeometry();
         int extent = mvtFeature.getExtent();
-
-        // This needs an explaination... the tiles follow the TMS spec, so they go from south to
-        // north, however the geometry inside the tile uses screen coordinate system, so top to
-        // bottom instead. Confused? Here are excerpts from the spec:
-
-        // The tiles table contains tiles and the values used to locate them. The zoom_level,
-        // tile_column, and tile_row columns MUST encode the location of the tile, following the
-        // Tile Map // Service Specification, with the restriction that the global-mercator (aka
-        // Spherical Mercator) profile MUST be used.
-
-        // Geometry data in a Vector Tile is defined in a screen coordinate system.
-        // The upper left corner of the tile (as displayed by default) is the origin of the
-        // coordinate system.
-        // The X axis is positive to the right, and the Y axis is positive downward.
-        long numberOfTiles =
-                Math.round(
-                        Math.pow(2, tile.getZoomLevel())); // number of tile columns/rows for chosen
-        // zoom level
-        double resX = WORLD_ENVELOPE.getSpan(0) / numberOfTiles; // points per tile
-        double resY = WORLD_ENVELOPE.getSpan(1) / numberOfTiles; // points per tile
-        double offsetX = WORLD_ENVELOPE.getMinimum(0);
-        double offsetY = WORLD_ENVELOPE.getMinimum(1);
-
-        double tx = offsetX + tile.getTileColumn() * resX;
-        double ty = offsetY + (tile.getTileRow() + 1) * resY;
-        double mx = resX / extent;
-        double my = resY / extent;
-
-        AffineTransformation at = new AffineTransformation();
-        at.setToScale(mx, -my);
-        at.translate(tx, ty);
-        screenGeometry.apply(at);
-
-        return screenGeometry;
+        if (this.processor == null || processor.extent != extent) {
+            this.processor = new GeometryProcessor(tile, extent);
+        }
+        
+        return processor.process(screenGeometry);
     }
 
     private byte[] getPbfFromTile(MBTilesTile tile) throws IOException {
         // from spec, the MVT contents are g-zipped
         byte[] raw = tile.getData();
         return IOUtils.toByteArray(new GZIPInputStream(new ByteArrayInputStream(raw)));
+    }
+
+    private static class GeometryProcessor {
+        final AffineTransformation at;
+        private final GeometryClipper clipper;
+        MBTilesTile tile;
+        int extent;
+
+        GeometryProcessor(MBTilesTile tile, int extent) {
+            // This needs an explaination... the tiles follow the TMS spec, so they go from south to
+            // north, however the geometry inside the tile uses screen coordinate system, so top to
+            // bottom instead. Confused? Here are excerpts from the spec:
+
+            // The tiles table contains tiles and the values used to locate them. The zoom_level,
+            // tile_column, and tile_row columns MUST encode the location of the tile, following the
+            // Tile Map // Service Specification, with the restriction that the global-mercator (aka
+            // Spherical Mercator) profile MUST be used.
+
+            // Geometry data in a Vector Tile is defined in a screen coordinate system.
+            // The upper left corner of the tile (as displayed by default) is the origin of the
+            // coordinate system.
+            // The X axis is positive to the right, and the Y axis is positive downward.
+            long numberOfTiles =
+                    Math.round(
+                            Math.pow(
+                                    2,
+                                    tile.getZoomLevel())); // number of tile columns/rows for chosen
+            // zoom level
+            double resX = WORLD_ENVELOPE.getSpan(0) / numberOfTiles; // points per tile
+            double resY = WORLD_ENVELOPE.getSpan(1) / numberOfTiles; // points per tile
+            double offsetX = WORLD_ENVELOPE.getMinimum(0);
+            double offsetY = WORLD_ENVELOPE.getMinimum(1);
+
+            double tx = offsetX + tile.getTileColumn() * resX;
+            double ty = offsetY + (tile.getTileRow() + 1) * resY;
+            double mx = resX / extent;
+            double my = resY / extent;
+
+            // affine transformation
+            this.at =
+                    new AffineTransformation() {
+                        @Override
+                        public void filter(CoordinateSequence seq, int i) {
+                            // java-vector-tile uses the exact same Coordinate object for first and
+                            // last
+                            // element of a ring, but we don't want to transform it twice
+                            if (seq instanceof CoordinateSequence
+                                    && i > 0 // don't consider points
+                                    && i == seq.size() - 1
+                                    && seq.getCoordinate(0) == seq.getCoordinate(i)) {
+                                return;
+                            }
+                            super.filter(seq, i);
+                        }
+                    };
+            at.setToScale(mx, -my);
+            at.translate(tx, ty);
+
+            // and clipper in screen coordinates
+            this.clipper = new GeometryClipper(new Envelope(0, extent, 0, extent));
+        }
+
+        /**
+         * Clips the geometry to the tile extents and rescales it to real world coordinates
+         *
+         * @param screenGeometry the input geometry
+         * @return the rescaled geometry, might have happened either in place, so the returned
+         *     geometry is the same object as the screen geometry, or could be a different object
+         */
+        Geometry process(Geometry screenGeometry) {
+            Geometry clipped = clipper.clip(screenGeometry, true);
+            if (clipped == null) {
+                return null;
+            }
+            clipped.apply(at);
+
+            return clipped;
+        }
     }
 }
