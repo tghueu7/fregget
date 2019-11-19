@@ -17,16 +17,13 @@
 package org.geotools.mbtiles;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
+import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
 public class VectorLayersMetadataTest {
-    
+
     @Test
     public void testParseMetadata() throws Exception {
         String json = IOUtils.toString(getClass().getResourceAsStream("vectorLayers.json"));

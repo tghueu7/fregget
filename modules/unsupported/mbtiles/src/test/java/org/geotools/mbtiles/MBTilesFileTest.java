@@ -5,6 +5,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotools.util.logging.Logging;
+import org.junit.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -12,8 +16,6 @@ import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.geotools.util.logging.Logging;
-import org.junit.Test;
 
 public class MBTilesFileTest {
 
@@ -197,5 +199,45 @@ public class MBTilesFileTest {
         assertTrue(Arrays.equals(grid2.getGrid(), testGrid.getGrid()));
         assertEquals(grid2.getGridDataKey("key3"), grid2.getGridDataKey("key3"));
         assertEquals(grid2.getGridDataKey("key4"), grid2.getGridDataKey("key4"));
+    }
+
+    @Test
+    public void testMBTilesBounds() throws IOException, SQLException {
+        // this one has different bounds per zoom level, even in geographic terms
+        MBTilesFile mbTilesFile =
+                new MBTilesFile(
+                        new File("./src/test/resources/org/geotools/mbtiles/madagascar.mbtiles"));
+        RectangleLong bounds = mbTilesFile.getTileBounds(7);
+        assertEquals(79, bounds.getMinX());
+        assertEquals(82, bounds.getMaxX());
+        assertEquals(54, bounds.getMinY());
+        assertEquals(59, bounds.getMaxY());
+    }
+
+    @Test
+    public void testWorldEnvelopeToTiles() throws IOException, SQLException {
+        MBTilesFile mbTilesFile =
+                new MBTilesFile(
+                        new File("./src/test/resources/org/geotools/mbtiles/madagascar.mbtiles"));
+        RectangleLong bounds = mbTilesFile.toTilesRectangle(MBTilesFile.WORLD_ENVELOPE, 7);
+        assertEquals(0, bounds.getMinX());
+        assertEquals(128, bounds.getMaxX());
+        assertEquals(0, bounds.getMinY());
+        assertEquals(128, bounds.getMaxY());
+    }
+
+    @Test
+    public void testLocalEnvelopeToTiles() throws IOException, SQLException {
+        MBTilesFile mbTilesFile =
+                new MBTilesFile(
+                        new File("./src/test/resources/org/geotools/mbtiles/madagascar.mbtiles"));
+        ReferencedEnvelope envelope =
+                new ReferencedEnvelope(0, 5000000, 0, 5000000, MBTilesFile.SPHERICAL_MERCATOR);
+        RectangleLong bounds = mbTilesFile.toTilesRectangle(envelope, 7);
+        System.out.println(bounds);
+        assertEquals(64, bounds.getMinX());
+        assertEquals(79, bounds.getMaxX());
+        assertEquals(64, bounds.getMinY());
+        assertEquals(79, bounds.getMaxY());
     }
 }

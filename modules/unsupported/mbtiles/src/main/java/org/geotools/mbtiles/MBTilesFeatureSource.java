@@ -16,27 +16,29 @@
  */
 package org.geotools.mbtiles;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.geotools.data.FeatureReader;
 import org.geotools.data.Query;
 import org.geotools.data.store.ContentEntry;
 import org.geotools.data.store.ContentFeatureSource;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
+import org.geotools.filter.visitor.ExtractBoundsFilterVisitor;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.crs.DefaultEngineeringCRS;
 import org.geotools.util.logging.Logging;
+import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.Filter;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
-
-import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MBTilesFeatureSource extends ContentFeatureSource {
 
@@ -117,7 +119,35 @@ public class MBTilesFeatureSource extends ContentFeatureSource {
         // read tiles in sequences, by row
         // emit the features fully inside the tile
         // keep in memory features that cross or touch the tiles boundaries (clip by default)
-        // 
-        return null;
+        //
+        // need min and max z levels here
+        // mbtiles.tiles()
+        try {
+            long z = mbtiles.maxZoom();
+            RectangleLong tileBounds = getTileBoundsFor(query, z);
+            MBTilesFile.TileIterator tiles =
+                    mbtiles.tiles(
+                            z,
+                            tileBounds.getMinX(),
+                            tileBounds.getMinY(),
+                            tileBounds.getMaxX(),
+                            tileBounds.getMaxY());
+            return new MBTilesFeatureReader(tiles, getSchema(), z);
+        } catch (SQLException e) {
+            throw new IOException(e);
+        }
+    }
+
+    protected RectangleLong getTileBoundsFor(Query query, long z) throws SQLException {
+        if (query == null || query.getFilter() == null || query.getFilter() == Filter.INCLUDE) {
+            return mbtiles.getTileBounds(z);
+        }
+        Envelope envelope =
+                (ReferencedEnvelope)
+                        query.getFilter().accept(ExtractBoundsFilterVisitor.BOUNDS_VISITOR, null);
+        if (envelope == null) {
+            return mbtiles.getTileBounds(z);
+        }
+        return mbtiles.toTilesRectangle(envelope, z);
     }
 }

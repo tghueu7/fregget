@@ -18,8 +18,18 @@
 
 package org.geotools.mbtiles;
 
-import static java.lang.String.format;
 import static org.geotools.jdbc.util.SqlUtil.prepare;
+
+import static java.lang.String.format;
+
+import org.apache.commons.dbcp.BasicDataSource;
+import org.geotools.data.jdbc.datasource.ManageableDataSource;
+import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotools.jdbc.util.SqlUtil;
+import org.geotools.referencing.CRS;
+import org.geotools.util.logging.Logging;
+import org.locationtech.jts.geom.Envelope;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 import java.io.Closeable;
 import java.io.File;
@@ -35,11 +45,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.sql.DataSource;
-import org.apache.commons.dbcp.BasicDataSource;
-import org.geotools.data.jdbc.datasource.ManageableDataSource;
-import org.geotools.jdbc.util.SqlUtil;
-import org.geotools.util.logging.Logging;
 
 public class MBTilesFile implements AutoCloseable {
 
@@ -140,6 +147,20 @@ public class MBTilesFile implements AutoCloseable {
 
     /** Logger */
     protected static final Logger LOGGER = Logging.getLogger(MBTilesFile.class);
+
+    public static final CoordinateReferenceSystem SPHERICAL_MERCATOR;
+
+    static {
+        try {
+            SPHERICAL_MERCATOR = CRS.decode("EPSG:3857", true);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static final ReferencedEnvelope WORLD_ENVELOPE =
+            new ReferencedEnvelope(
+                    -20037508.34, 20037508.34, -20037508.34, 20037508.34, SPHERICAL_MERCATOR);
 
     /** database file */
     protected File file;
@@ -858,5 +879,58 @@ public class MBTilesFile implements AutoCloseable {
                 prepared.close();
             }
         }
+    }
+
+    /**
+     * Converts the envelope into a tiles rectangle containing it, at the requested zoom level. X
+     * tiles start from west and increase towards east, Y tiles start from north and increase
+     * towards south
+     *
+     * @param envelope
+     * @param zoomLevel
+     * @return
+     * @throws SQLException
+     */
+    protected RectangleLong toTilesRectangle(Envelope envelope, long zoomLevel)
+            throws SQLException {
+        // From the specification:
+        // ---------------------------------------------------------------------------------
+        // The tiles table contains tiles and the values used to locate them. The zoom_level,
+        // tile_column, and tile_row columns MUST encode the location of the tile, following the
+        // Tile Map Service Specification, with the restriction that the global-mercator (aka
+        // Spherical Mercator) profile MUST be used.
+        // ---------------------------------------------------------------------------------
+        // Hence, tile wise the Y axis starts at the bottom and grows north-ward
+
+        long numberOfTiles =
+                Math.round(
+                        Math.pow(
+                                2, zoomLevel)); // number of tile columns/rows for chosen zoom level
+        double resX = WORLD_ENVELOPE.getSpan(0) / numberOfTiles; // points per tile
+        double resY = WORLD_ENVELOPE.getSpan(1) / numberOfTiles; // points per tile
+        double offsetX = WORLD_ENVELOPE.getMinimum(0);
+        double offsetY = WORLD_ENVELOPE.getMinimum(1);
+
+        long minTileX = Math.round(Math.floor((envelope.getMinX() - offsetX) / resX));
+        long maxTileX = Math.round(Math.floor((envelope.getMaxX() - offsetX) / resX));
+        long minTileY = Math.round(Math.floor((envelope.getMinY() - offsetY) / resY));
+        long maxTileY = Math.round(Math.floor((envelope.getMaxY() - offsetY) / resY));
+
+        return new RectangleLong(minTileX, maxTileX, minTileY, maxTileY);
+    }
+
+    /**
+     * Returns the tile bounds for the given zoom level
+     *
+     * @param zoomLevel
+     * @return
+     * @throws SQLException
+     */
+    public RectangleLong getTileBounds(long zoomLevel) throws SQLException {
+        long minRow = minRow(zoomLevel);
+        long maxRow = maxRow(zoomLevel);
+        long minCol = minColumn(zoomLevel);
+        long maxCol = maxColumn(zoomLevel);
+        return new RectangleLong(minCol, maxCol, minRow, maxRow);
     }
 }

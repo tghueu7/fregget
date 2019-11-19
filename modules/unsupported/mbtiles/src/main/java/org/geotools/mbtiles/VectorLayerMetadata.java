@@ -17,7 +17,6 @@
 package org.geotools.mbtiles;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -83,7 +82,8 @@ class VectorLayerMetadata {
      * @return
      */
     public LinkedHashMap<String, Class> getFieldBindings() {
-        return fields.entrySet().stream()
+        return fields.entrySet()
+                .stream()
                 .collect(
                         Collectors.toMap(
                                 e -> e.getKey(),

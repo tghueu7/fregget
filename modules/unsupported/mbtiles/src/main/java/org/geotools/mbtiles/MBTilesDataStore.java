@@ -16,17 +16,16 @@
  */
 package org.geotools.mbtiles;
 
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.geotools.data.DataSourceException;
 import org.geotools.data.store.ContentDataStore;
 import org.geotools.data.store.ContentEntry;
 import org.geotools.data.store.ContentFeatureSource;
 import org.geotools.feature.NameImpl;
 import org.opengis.feature.type.Name;
-
-import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class MBTilesDataStore extends ContentDataStore {
 
@@ -56,7 +55,8 @@ public class MBTilesDataStore extends ContentDataStore {
 
     @Override
     protected List<Name> createTypeNames() throws IOException {
-        return layers.keySet().stream()
+        return layers.keySet()
+                .stream()
                 .map(id -> new NameImpl(getNamespaceURI(), id))
                 .collect(Collectors.toList());
     }
