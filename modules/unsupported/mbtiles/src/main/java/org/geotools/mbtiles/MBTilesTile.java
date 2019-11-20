@@ -18,20 +18,16 @@
 
 package org.geotools.mbtiles;
 
-public class MBTilesTile {
+import java.util.Arrays;
+import java.util.Objects;
 
-    // the ordinates
-    protected final long ZoomLevel;
-    protected final long TileColumn;
-    protected final long TileRow;
+public class MBTilesTile extends MBTilesTileLocation {
 
     // the data
     protected byte[] data = null;
 
     public MBTilesTile(long zoomLevel, long tileColumn, long tileRow) {
-        ZoomLevel = zoomLevel;
-        TileColumn = tileColumn;
-        TileRow = tileRow;
+        super(zoomLevel, tileColumn, tileRow);
     }
 
     public byte[] getData() {
@@ -42,15 +38,5 @@ public class MBTilesTile {
         this.data = data;
     }
 
-    public long getZoomLevel() {
-        return ZoomLevel;
-    }
 
-    public long getTileColumn() {
-        return TileColumn;
-    }
-
-    public long getTileRow() {
-        return TileRow;
-    }
 }

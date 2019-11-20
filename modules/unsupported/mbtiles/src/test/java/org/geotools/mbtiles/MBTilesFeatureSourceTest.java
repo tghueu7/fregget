@@ -93,12 +93,11 @@ public class MBTilesFeatureSourceTest {
         assertEquals(1, fc.size());
         SimpleFeature feature = DataUtilities.first(fc);
         assertThat(feature.getAttribute("class"), equalTo("ocean"));
-        // geometry as read from ogrinfo
-        Polygon expected =
-                (Polygon)
-                        new WKTReader()
-                                .read(
-                                        "POLYGON ((5953527.25907581 -1570322.30909066,5630657.25159922 -1570322.30909066,5630657.25159922 -1247452.30161408,5953527.25907581 -1247452.30161408,5953527.25907581 -1570322.30909066))");
+        String wkt =
+                "POLYGON ((5635549.220624998 -1565430.3390624984, 5635549.220624998 -1252344"
+                        + ".2712499984, 5948635.288437498 -1252344.2712499984, 5948635.288437498 "
+                        + "-1565430.3390624984, 5635549.220624998 -1565430.3390624984))";
+        Polygon expected = (Polygon) new WKTReader().read(wkt);
         Polygon actual = (Polygon) feature.getDefaultGeometry();
         assertTrue(
                 "Expected:\n" + expected + "\nBut got:\n" + actual,
