@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import org.apache.commons.io.IOUtils;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataUtilities;
 import org.geotools.data.Query;
@@ -29,8 +30,10 @@ import org.geotools.data.store.ContentFeatureCollection;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.util.URLs;
+import org.geotools.util.factory.Hints;
 import org.junit.After;
 import org.junit.Test;
+import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.io.ParseException;
@@ -154,5 +157,24 @@ public class MBTilesFeatureSourceTest {
                 URLs.urlToFile(MBTilesFileVectorTileTest.class.getResource("madagascar.mbtiles"));
         this.store = new MBTilesDataStore(new MBTilesFile(file));
         return (MBTilesFeatureSource) store.getFeatureSource(typeName);
+    }
+
+    @Test
+    public void testGetLowerResolution() throws IOException, ParseException {
+        MBTilesFeatureSource fs = getMadagascarSource("water");
+        Query query = new Query("water", FF.equal(FF.property("class"), FF.literal("ocean"), true));
+        query.setHints(new Hints(Hints.GEOMETRY_SIMPLIFICATION, 78271d));
+        ContentFeatureCollection fc = fs.getFeatures(query);
+        assertEquals(1, fc.size());
+        SimpleFeature feature = DataUtilities.first(fc);
+        // this one got from ogrinfo on the tile
+        Geometry expected =
+                new WKTReader()
+                        .read(IOUtils.toString(getClass().getResourceAsStream("ocean_2_2_1.wkt")));
+        Geometry actual = (Geometry) feature.getDefaultGeometry();
+        // theere is some difference in size, but nothing major
+        // (not sure why, on a viewer it looks good...)
+        assertEquals(0, expected.difference(actual).getArea(), 31000);
+        assertEquals(0, actual.difference(expected).getArea(), 31000);
     }
 }

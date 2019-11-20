@@ -16,12 +16,6 @@
  */
 package org.geotools.mbtiles;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.LinkedHashMap;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.geotools.data.FeatureReader;
 import org.geotools.data.Query;
 import org.geotools.data.store.ContentEntry;
@@ -31,6 +25,7 @@ import org.geotools.filter.visitor.ExtractBoundsFilterVisitor;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.crs.DefaultEngineeringCRS;
+import org.geotools.util.factory.Hints;
 import org.geotools.util.logging.Logging;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
@@ -39,6 +34,14 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.Filter;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.Optional;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MBTilesFeatureSource extends ContentFeatureSource {
 
@@ -70,6 +73,11 @@ public class MBTilesFeatureSource extends ContentFeatureSource {
         super(entry, null);
         this.layerMetadata = layerMetadata;
         this.mbtiles = mbtiles;
+    }
+
+    @Override
+    protected void addHints(Set<Hints.Key> hints) {
+        hints.add(Hints.GEOMETRY_SIMPLIFICATION);
     }
 
     @Override
@@ -123,7 +131,7 @@ public class MBTilesFeatureSource extends ContentFeatureSource {
         // need min and max z levels here
         // mbtiles.tiles()
         try {
-            long z = mbtiles.maxZoom();
+            long z = getTargetZLevel(query);
             RectangleLong tileBounds = getTileBoundsFor(query, z);
             MBTilesFile.TileIterator tiles =
                     mbtiles.tiles(
@@ -138,14 +146,29 @@ public class MBTilesFeatureSource extends ContentFeatureSource {
         }
     }
 
+    private long getTargetZLevel(Query query) throws SQLException {
+        return Optional.ofNullable(query)
+                .map(Query::getHints)
+                .map(h -> h.get(Hints.GEOMETRY_SIMPLIFICATION))
+                .map(
+                        d -> {
+                            try {
+                                return mbtiles.getZoomLevel((Double) d);
+                            } catch (SQLException e) {
+                                throw new RuntimeException(
+                                        "Failed to compute the best zoom level for rendering", e);
+                            }
+                        })
+                .orElse(mbtiles.maxZoom());
+    }
+
     protected RectangleLong getTileBoundsFor(Query query, long z) throws SQLException {
         if (query == null || query.getFilter() == null || query.getFilter() == Filter.INCLUDE) {
             return mbtiles.getTileBounds(z);
         }
         Envelope envelope =
-                (ReferencedEnvelope)
-                        query.getFilter().accept(ExtractBoundsFilterVisitor.BOUNDS_VISITOR, null);
-        if (envelope == null) {
+                (Envelope) query.getFilter().accept(ExtractBoundsFilterVisitor.BOUNDS_VISITOR, null);
+        if (envelope == null || Double.isInfinite(envelope.getWidth())) {
             return mbtiles.getTileBounds(z);
         }
         return mbtiles.toTilesRectangle(envelope, z);

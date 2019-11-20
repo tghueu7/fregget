@@ -903,9 +903,7 @@ public class MBTilesFile implements AutoCloseable {
         // Hence, tile wise the Y axis starts at the bottom and grows north-ward
 
         long numberOfTiles =
-                Math.round(
-                        Math.pow(
-                                2, zoomLevel)); // number of tile columns/rows for chosen zoom level
+                tilesForZoom(zoomLevel); // number of tile columns/rows for chosen zoom level
         double resX = WORLD_ENVELOPE.getSpan(0) / numberOfTiles; // points per tile
         double resY = WORLD_ENVELOPE.getSpan(1) / numberOfTiles; // points per tile
         double offsetX = WORLD_ENVELOPE.getMinimum(0);
@@ -919,6 +917,10 @@ public class MBTilesFile implements AutoCloseable {
         return new RectangleLong(minTileX, maxTileX, minTileY, maxTileY);
     }
 
+    private long tilesForZoom(long zoomLevel) {
+        return Math.round(Math.pow(2, zoomLevel));
+    }
+
     /**
      * Returns the tile bounds for the given zoom level
      *
@@ -926,11 +928,32 @@ public class MBTilesFile implements AutoCloseable {
      * @return
      * @throws SQLException
      */
-    public RectangleLong getTileBounds(long zoomLevel) throws SQLException {
+    protected RectangleLong getTileBounds(long zoomLevel) throws SQLException {
         long minRow = minRow(zoomLevel);
         long maxRow = maxRow(zoomLevel);
         long minCol = minColumn(zoomLevel);
         long maxCol = maxColumn(zoomLevel);
         return new RectangleLong(minCol, maxCol, minRow, maxRow);
+    }
+
+    /**
+     * Returns the zoom level for the given simplification distance
+     *
+     * @param d
+     * @return
+     */
+    protected long getZoomLevel(double distance) throws SQLException {
+        long maxZoom = maxZoom();
+        long numberOfTiles = tilesForZoom(maxZoom);
+        double span = WORLD_ENVELOPE.getSpan(0) / numberOfTiles;
+        double pxSize = span / 256; // assuming a visualization of 256px per tile
+
+        for (long z = maxZoom; z > 0; z--, pxSize *= 2) {
+            if (pxSize > distance) {
+                return Math.min(z + 1, maxZoom);
+            }
+        }
+        
+        return 0;
     }
 }
