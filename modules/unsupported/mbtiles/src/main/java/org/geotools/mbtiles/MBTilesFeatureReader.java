@@ -234,7 +234,7 @@ class MBTilesFeatureReader implements SimpleFeatureReader {
          *     geometry is the same object as the screen geometry, or could be a different object
          */
         Geometry process(Geometry screenGeometry) {
-            Geometry clipped = clipper.clip(screenGeometry, true);
+            Geometry clipped = clipper.clipSafe(screenGeometry, false, 1);
             if (clipped == null) {
                 return null;
             }
