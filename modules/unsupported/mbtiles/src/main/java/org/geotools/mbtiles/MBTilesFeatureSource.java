@@ -42,7 +42,11 @@ public class MBTilesFeatureSource extends ContentFeatureSource {
     private final MBTilesFile mbtiles;
     private final MBtilesCache tileCache;
 
-    public MBTilesFeatureSource(ContentEntry entry, SimpleFeatureType schema, MBTilesFile mbtiles, MBtilesCache tileCache) {
+    public MBTilesFeatureSource(
+            ContentEntry entry,
+            SimpleFeatureType schema,
+            MBTilesFile mbtiles,
+            MBtilesCache tileCache) {
         super(entry, null);
         this.mbtiles = mbtiles;
         this.schema = schema;
@@ -56,7 +60,19 @@ public class MBTilesFeatureSource extends ContentFeatureSource {
 
     @Override
     protected ReferencedEnvelope getBoundsInternal(Query query) throws IOException {
-
+        // all mbtiles likely have a root tile that covers the world, the real intended
+        // bound is normally found at the max zoom level. However, this takes ages on
+        // large geopackages, so best to have it disabled... or maybe make it optional later
+        //        if (query == null || query.getFilter() == null || query.getFilter() ==
+        // Filter.INCLUDE) {
+        //            try {
+        //                long maxZoom = mbtiles.maxZoom();
+        //                RectangleLong tileBounds = mbtiles.getTileBounds(maxZoom);
+        //                mbtiles.toEnvelope(tileBounds, maxZoom);
+        //            } catch (SQLException e) {
+        //                throw new IOException(e);
+        //            }
+        //        }
         return null;
     }
 

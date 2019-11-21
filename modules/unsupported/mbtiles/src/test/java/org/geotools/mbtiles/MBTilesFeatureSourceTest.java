@@ -22,6 +22,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import org.apache.commons.io.IOUtils;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataUtilities;
@@ -41,10 +44,6 @@ import org.locationtech.jts.io.WKTReader;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.spatial.BBOX;
-
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
 
 public class MBTilesFeatureSourceTest {
     static final FilterFactory2 FF = CommonFactoryFinder.getFilterFactory2();

@@ -19,9 +19,15 @@
 package org.geotools.mbtiles;
 
 import static org.geotools.jdbc.JDBCDataStoreFactory.DATASOURCE;
-import static org.geotools.jdbc.JDBCDataStoreFactory.FETCHSIZE;
 import static org.geotools.jdbc.JDBCDataStoreFactory.NAMESPACE;
 import static org.geotools.jdbc.JDBCDataStoreFactory.PASSWD;
+
+import org.geotools.data.DataStore;
+import org.geotools.data.DataStoreFactorySpi;
+import org.geotools.data.Parameter;
+import org.geotools.jdbc.JDBCDataStoreFactory;
+import org.sqlite.SQLiteConfig;
+import org.sqlite.javax.SQLiteConnectionPoolDataSource;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,13 +35,8 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 import javax.sql.DataSource;
-import org.geotools.data.DataStore;
-import org.geotools.data.DataStoreFactorySpi;
-import org.geotools.data.Parameter;
-import org.geotools.jdbc.JDBCDataStoreFactory;
-import org.sqlite.SQLiteConfig;
-import org.sqlite.javax.SQLiteConnectionPoolDataSource;
 
 public class MBTilesDataStoreFactory implements DataStoreFactorySpi {
 
@@ -69,7 +70,7 @@ public class MBTilesDataStoreFactory implements DataStoreFactorySpi {
 
     @Override
     public String getDisplayName() {
-        return "MBTiles";
+        return "MBTiles with vector tiles";
     }
 
     @Override
@@ -86,19 +87,11 @@ public class MBTilesDataStoreFactory implements DataStoreFactorySpi {
     }
 
     protected void setupParameters(Map parameters) {
-        parameters.put(
-                DBTYPE.key,
-                new Param(
-                        DBTYPE.key,
-                        DBTYPE.type,
-                        DBTYPE.description,
-                        DBTYPE.required,
-                        DBTYPE.getDefaultValue()));
-        parameters.put(USER.key, USER);
-        parameters.put(PASSWD.key, PASSWD);
+        parameters.put(DBTYPE.key, DBTYPE);
         parameters.put(DATABASE.key, DATABASE);
         parameters.put(NAMESPACE.key, NAMESPACE);
-        parameters.put(FETCHSIZE.key, FETCHSIZE);
+        parameters.put(USER.key, USER);
+        parameters.put(PASSWD.key, PASSWD);
     }
 
     @Override
@@ -128,7 +121,9 @@ public class MBTilesDataStoreFactory implements DataStoreFactorySpi {
         }
         MBTilesFile mbtiles = new MBTilesFile(ds);
 
-        return new MBTilesDataStore(mbtiles);
+        
+        String namespace = (String) NAMESPACE.lookUp(params);
+        return new MBTilesDataStore(namespace, mbtiles);
     }
 
     /**

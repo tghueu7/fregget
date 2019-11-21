@@ -16,6 +16,13 @@
  */
 package org.geotools.mbtiles;
 
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.geotools.data.DataSourceException;
 import org.geotools.data.store.ContentDataStore;
 import org.geotools.data.store.ContentEntry;
@@ -30,14 +37,6 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.Name;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
-
-import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class MBTilesDataStore extends ContentDataStore {
 
@@ -67,6 +66,11 @@ public class MBTilesDataStore extends ContentDataStore {
     LinkedHashMap<String, SimpleFeatureType> schemas;
 
     public MBTilesDataStore(MBTilesFile mbtiles) throws IOException {
+        this(null, mbtiles);
+    }
+    
+    public MBTilesDataStore(String namespaceURI, MBTilesFile mbtiles) throws IOException {
+        this.namespaceURI = namespaceURI;
         this.mbtiles = mbtiles;
         MBTilesMetadata metadata = mbtiles.loadMetaData();
         if (!MBTilesMetadata.t_format.PBF.equals(metadata.getFormat())) {
@@ -96,6 +100,7 @@ public class MBTilesDataStore extends ContentDataStore {
     private SimpleFeatureType buildFeatureType(VectorLayerMetadata layerMetadata) {
         SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
         tb.setName(layerMetadata.getId());
+        tb.setNamespaceURI(this.namespaceURI);
         LinkedHashMap<String, Class> fieldBindings = layerMetadata.getFieldBindings();
         fieldBindings.entrySet().forEach(e -> tb.add(e.getKey(), e.getValue()));
         String geometryName = guessGeometryName(fieldBindings.keySet());
@@ -122,7 +127,8 @@ public class MBTilesDataStore extends ContentDataStore {
 
     @Override
     protected List<Name> createTypeNames() throws IOException {
-        return schemas.keySet().stream()
+        return schemas.keySet()
+                .stream()
                 .map(id -> new NameImpl(getNamespaceURI(), id))
                 .collect(Collectors.toList());
     }

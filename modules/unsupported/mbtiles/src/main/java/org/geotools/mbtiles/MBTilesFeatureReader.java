@@ -16,14 +16,13 @@
  */
 package org.geotools.mbtiles;
 
+import java.io.IOException;
+import java.util.NoSuchElementException;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureReader;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
-
-import java.io.IOException;
-import java.util.NoSuchElementException;
 
 class MBTilesFeatureReader implements SimpleFeatureReader {
 
@@ -63,7 +62,8 @@ class MBTilesFeatureReader implements SimpleFeatureReader {
         while (tiles.hasNext()) {
             SimpleFeatureCollection features =
                     cache.getFeatures(tiles.next(), schema.getTypeName());
-            // was the layer not found in the tile? Can happen, some layers show up only at certain zoom levels 
+            // was the layer not found in the tile? Can happen, some layers show up only at certain
+            // zoom levels
             if (features == null) {
                 continue;
             }

@@ -23,6 +23,7 @@ import org.geotools.data.collection.ListFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.geometry.jts.GeometryClipper;
+import org.geotools.util.CanonicalSet;
 import org.geotools.util.SoftValueHashMap;
 import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.Envelope;
@@ -44,21 +45,31 @@ import no.ecc.vectortile.VectorTileDecoder;
 /** Caches MBTiles in their parsed and clipped form, to avoid re-parsing the tiles over and over. */
 public class MBtilesCache {
 
+    CanonicalSet<MBTilesTileLocation> canonicalizer = CanonicalSet.newInstance(MBTilesTileLocation.class);
     SoftValueHashMap<MBTilesTileLocation, Map<String, SimpleFeatureCollection>> cache =
             new SoftValueHashMap<>(0);
     Map<String, SimpleFeatureType> schemas = new HashMap<>();
-    
+
     public MBtilesCache(Map<String, SimpleFeatureType> schemas) {
         this.schemas = schemas;
     }
 
     public SimpleFeatureCollection getFeatures(MBTilesTile tile, String layerName)
             throws IOException {
-        Map<String, SimpleFeatureCollection> layers = cache.get(tile);
+        MBTilesTileLocation location = canonicalizer.unique(tile.toLocation());
+        Map<String, SimpleFeatureCollection> layers = cache.get(location);
         if (layers == null) {
-            System.out.println("Miss for " + tile);
-            layers = fillCache(tile);
-            cache.put(tile, layers);
+            synchronized (location) {
+                layers = cache.get(location);
+                if (layers == null) {
+                    System.out.println("Miss for " + tile + ", looking for layer " + layerName);
+                    layers = fillCache(tile);
+                    cache.put(location, layers);
+                }
+            }
+
+        } else {
+            System.out.println("Hit for " + tile + ", looking for layer " + layerName);
         }
         return layers.get(layerName);
     }

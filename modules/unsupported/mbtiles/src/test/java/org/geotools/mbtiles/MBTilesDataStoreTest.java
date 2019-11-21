@@ -23,12 +23,17 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import org.geotools.data.DataStore;
+import org.geotools.data.DataStoreFinder;
 import org.geotools.data.FeatureReader;
 import org.geotools.data.Query;
 import org.geotools.data.Transaction;
 import org.geotools.data.store.ContentFeatureSource;
+import org.geotools.feature.NameImpl;
+import org.geotools.jdbc.JDBCDataStoreFactory;
 import org.geotools.referencing.CRS;
 import org.geotools.util.URLs;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.ParseException;
@@ -41,6 +46,9 @@ import org.opengis.referencing.FactoryException;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MBTilesDataStoreTest {
 
@@ -98,11 +106,29 @@ public class MBTilesDataStoreTest {
             Point expected =
                     (Point) new WKTReader().read("POINT (215246.671651058 6281289.23636264)");
             Point actual = (Point) feature.getDefaultGeometry();
-            System.out.println(expected);
-            System.out.println(actual);
             assertTrue(actual.equalsExact(expected, 0.01));
         } finally {
             reader.close();
         }
+    }
+
+    @Test
+    public void testFactory() throws IOException {
+        String namespaceURI = "http://geotools.org/mbtiles";
+        File file =
+                URLs.urlToFile(MBTilesFileVectorTileTest.class.getResource("datatypes.mbtiles"));
+        Map<String, Serializable> params = new HashMap<>();
+        params.put(MBTilesDataStoreFactory.DBTYPE.key, "mbtiles");
+        params.put(MBTilesDataStoreFactory.DATABASE.key, file);
+        params.put(JDBCDataStoreFactory.NAMESPACE.key, namespaceURI);
+        DataStore store = DataStoreFinder.getDataStore(params);
+        assertNotNull(store);
+        assertThat(store, Matchers.instanceOf(MBTilesDataStore.class));
+        assertThat(store.getTypeNames(), arrayContaining("datatypes"));
+        SimpleFeatureType schema = store.getSchema("datatypes");
+        NameImpl qualifiedName = new NameImpl(namespaceURI, "datatypes");
+        assertThat(schema.getName(), equalTo(qualifiedName));
+        SimpleFeatureType schemaFromQualified = store.getSchema(qualifiedName);
+        assertThat(schema, equalTo(schemaFromQualified));
     }
 }

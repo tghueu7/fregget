@@ -943,17 +943,45 @@ public class MBTilesFile implements AutoCloseable {
      * @return
      */
     protected long getZoomLevel(double distance) throws SQLException {
-        long maxZoom = maxZoom();
-        long numberOfTiles = tilesForZoom(maxZoom);
-        double span = WORLD_ENVELOPE.getSpan(0) / numberOfTiles;
+        final long maxZoom = maxZoom();
+        final long numberOfTiles = tilesForZoom(maxZoom);
+        final double span = WORLD_ENVELOPE.getSpan(0) / numberOfTiles;
         double pxSize = span / 256; // assuming a visualization of 256px per tile
-
+        double deltaBefore = 0;
         for (long z = maxZoom; z > 0; z--, pxSize *= 2) {
+            double delta = Math.abs(pxSize - distance);
             if (pxSize > distance) {
-                return Math.min(z + 1, maxZoom);
+//                // pick the closes one
+                if (z == maxZoom) {
+                    return maxZoom;
+                } else if (deltaBefore < delta) {
+                    return Math.min(z + 1, maxZoom);
+                } else {
+                    return z;
+                }
+            } else {
+                deltaBefore = delta;
             }
         }
-        
+
         return 0;
+    }
+
+    /**
+     * Converts the tile locations into a real world one
+     *
+     * @param rect The tile rectangle, in tile space
+     * @param zoom The zoom level
+     * @return
+     */
+    protected ReferencedEnvelope toEnvelope(RectangleLong rect, long zoom) {
+        final long numberOfTiles = tilesForZoom(zoom);
+        final double spanX = WORLD_ENVELOPE.getSpan(0) / numberOfTiles;
+        final double spanY = WORLD_ENVELOPE.getSpan(1) / numberOfTiles;
+        final double minX = rect.getMinX() * spanX + WORLD_ENVELOPE.getMinX();
+        final double maxX = rect.getMaxX() * spanX + WORLD_ENVELOPE.getMinX();
+        final double minY = rect.getMinX() * spanY + WORLD_ENVELOPE.getMinY();
+        final double maxY = rect.getMaxX() * spanY + WORLD_ENVELOPE.getMinY();
+        return new ReferencedEnvelope(minX, maxX, minY, maxY, SPHERICAL_MERCATOR);
     }
 }

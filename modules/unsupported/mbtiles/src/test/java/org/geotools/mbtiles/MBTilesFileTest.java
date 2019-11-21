@@ -5,10 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.util.logging.Logging;
-import org.junit.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,6 +12,9 @@ import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotools.util.logging.Logging;
+import org.junit.Test;
 
 public class MBTilesFileTest {
 

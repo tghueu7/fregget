@@ -18,8 +18,6 @@
 
 package org.geotools.mbtiles;
 
-import java.util.Arrays;
-import java.util.Objects;
 
 public class MBTilesTile extends MBTilesTileLocation {
 
@@ -38,5 +36,7 @@ public class MBTilesTile extends MBTilesTileLocation {
         this.data = data;
     }
 
-
+    public MBTilesTileLocation toLocation() {
+        return new MBTilesTileLocation(zoomLevel, tileColumn, tileRow);
+    }
 }
