@@ -951,7 +951,7 @@ public class MBTilesFile implements AutoCloseable {
         for (long z = maxZoom; z > 0; z--, pxSize *= 2) {
             double delta = Math.abs(pxSize - distance);
             if (pxSize > distance) {
-//                // pick the closes one
+                // pick the closes one
                 if (z == maxZoom) {
                     return maxZoom;
                 } else if (deltaBefore < delta) {

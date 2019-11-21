@@ -168,8 +168,9 @@ public class MBTilesFeatureSourceTest {
         // this one got from ogrinfo on the tile
         Geometry expected =
                 new WKTReader()
-                        .read(IOUtils.toString(getClass().getResourceAsStream("ocean_2_2_1.wkt")));
+                        .read(IOUtils.toString(getClass().getResourceAsStream("ocean_1_0_1.wkt")));
         Geometry actual = (Geometry) feature.getDefaultGeometry();
+        System.out.println(actual);
         // theere is some difference in size, but nothing major
         // (not sure why, on a viewer it looks good...)
         assertEquals(0, expected.difference(actual).getArea(), 31000);

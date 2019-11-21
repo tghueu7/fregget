@@ -35,8 +35,11 @@ import org.opengis.feature.type.AttributeDescriptor;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
@@ -45,8 +48,9 @@ import no.ecc.vectortile.VectorTileDecoder;
 /** Caches MBTiles in their parsed and clipped form, to avoid re-parsing the tiles over and over. */
 public class MBtilesCache {
 
-    CanonicalSet<MBTilesTileLocation> canonicalizer = CanonicalSet.newInstance(MBTilesTileLocation.class);
-    SoftValueHashMap<MBTilesTileLocation, Map<String, SimpleFeatureCollection>> cache =
+    CanonicalSet<MBTilesTileLocation> canonicalizer =
+            CanonicalSet.newInstance(MBTilesTileLocation.class);
+    SoftValueHashMap<MBTilesTileLocation, Map<String, CollectionProvider>> cache =
             new SoftValueHashMap<>(0);
     Map<String, SimpleFeatureType> schemas = new HashMap<>();
 
@@ -57,13 +61,24 @@ public class MBtilesCache {
     public SimpleFeatureCollection getFeatures(MBTilesTile tile, String layerName)
             throws IOException {
         MBTilesTileLocation location = canonicalizer.unique(tile.toLocation());
-        Map<String, SimpleFeatureCollection> layers = cache.get(location);
+        Map<String, CollectionProvider> layers = cache.get(location);
         if (layers == null) {
             synchronized (location) {
                 layers = cache.get(location);
                 if (layers == null) {
                     System.out.println("Miss for " + tile + ", looking for layer " + layerName);
-                    layers = fillCache(tile);
+                    layers =
+                            fillCache(tile).entrySet().stream()
+                                    .collect(
+                                            Collectors.toMap(
+                                                    e -> e.getKey(),
+                                                    e ->
+                                                            new CollectionProvider(
+                                                                    e.getValue(),
+                                                                    new LayerFeatureBuilder(
+                                                                            location,
+                                                                            schemas.get(
+                                                                                    layerName)))));
                     cache.put(location, layers);
                 }
             }
@@ -71,30 +86,29 @@ public class MBtilesCache {
         } else {
             System.out.println("Hit for " + tile + ", looking for layer " + layerName);
         }
-        return layers.get(layerName);
+        return Optional.ofNullable(layers.get(layerName)).map(p -> p.getGeoToolsFeatures()).orElse(null);
     }
 
-    private Map<String, SimpleFeatureCollection> fillCache(MBTilesTile tile) throws IOException {
+    private Map<String, List<VectorTileDecoder.Feature>> fillCache(MBTilesTile tile)
+            throws IOException {
         VectorTileDecoder decoder = new VectorTileDecoder();
         decoder.setAutoScale(false);
 
         byte[] gzippedData = getPbfFromTile(tile);
-        Map<String, LayerFeatureBuilder> builders = new HashMap<>();
+        Map<String, List<VectorTileDecoder.Feature>> result = new HashMap<>();
         for (VectorTileDecoder.Feature mvtFeature : decoder.decode(gzippedData)) {
             String layer = mvtFeature.getLayerName();
             // skip unknown layers, as a safety measure
             if (schemas.get(layer) == null) {
                 continue;
             }
-            LayerFeatureBuilder builder =
-                    builders.computeIfAbsent(
-                            layer, l -> new LayerFeatureBuilder(tile, schemas.get(layer)));
-            builder.addFeature(mvtFeature);
+            List<VectorTileDecoder.Feature> features =
+                    result.computeIfAbsent(layer, l -> new ArrayList<>());
+            features.add(mvtFeature);
         }
 
         // remap to a map from names to collections
-        return builders.entrySet().stream()
-                .collect(Collectors.toMap(e -> e.getKey(), v -> v.getValue().result));
+        return result;
     }
 
     private byte[] getPbfFromTile(MBTilesTile tile) throws IOException {
@@ -112,12 +126,12 @@ public class MBtilesCache {
         private final String featureIdPrefix;
         private final ListFeatureCollection result;
         private final SimpleFeatureBuilder builder;
-        private final MBTilesTile tile;
+        private final MBTilesTileLocation tile;
         private final String geometryName;
         private final SimpleFeatureType schema;
         private GeometryProcessor processor;
 
-        LayerFeatureBuilder(MBTilesTile tile, SimpleFeatureType schema) {
+        LayerFeatureBuilder(MBTilesTileLocation tile, SimpleFeatureType schema) {
             this.geometryName = schema.getGeometryDescriptor().getLocalName();
             String typeName = schema.getTypeName();
             this.featureIdPrefix =
@@ -158,7 +172,8 @@ public class MBtilesCache {
             result.add(feature);
         }
 
-        private Geometry getGeometry(MBTilesTile tile, VectorTileDecoder.Feature mvtFeature) {
+        private Geometry getGeometry(
+                MBTilesTileLocation tile, VectorTileDecoder.Feature mvtFeature) {
             Geometry screenGeometry = mvtFeature.getGeometry();
             int extent = mvtFeature.getExtent();
             if (this.processor == null || processor.extent != extent) {
@@ -176,10 +191,10 @@ public class MBtilesCache {
     private static class GeometryProcessor {
         final AffineTransformation at;
         private final GeometryClipper clipper;
-        MBTilesTile tile;
+        MBTilesTileLocation tile;
         int extent;
 
-        GeometryProcessor(MBTilesTile tile, int extent) {
+        GeometryProcessor(MBTilesTileLocation tile, int extent) {
             // This needs an explaination... the tiles follow the TMS spec, so they go from south to
             // north, however the geometry inside the tile uses screen coordinate system, so top to
             // bottom instead. Confused? Here are excerpts from the spec:
@@ -248,6 +263,33 @@ public class MBtilesCache {
             clipped.apply(at);
 
             return clipped;
+        }
+    }
+
+    private class CollectionProvider {
+        List<VectorTileDecoder.Feature> mvtFeatures;
+        SimpleFeatureCollection converted;
+        LayerFeatureBuilder builder;
+
+        public CollectionProvider(
+                List<VectorTileDecoder.Feature> mvtFeatures, LayerFeatureBuilder builder) {
+            this.mvtFeatures = mvtFeatures;
+            this.builder = builder;
+        }
+
+        public SimpleFeatureCollection getGeoToolsFeatures() {
+            if (converted == null) {
+                synchronized (this) {
+                    if (converted == null) {
+                        mvtFeatures.stream().forEach(f -> builder.addFeature(f));
+                        converted = builder.result;
+                        builder = null;
+                        mvtFeatures = null;
+                    }
+                }
+            }
+
+            return converted;
         }
     }
 }
