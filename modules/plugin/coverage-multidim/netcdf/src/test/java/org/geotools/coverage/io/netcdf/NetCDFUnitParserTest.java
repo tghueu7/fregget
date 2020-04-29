@@ -32,10 +32,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import javax.measure.Unit;
-import javax.measure.format.ParserException;
+import javax.measure.format.MeasurementParseException;
 import org.geotools.imageio.netcdf.NetCDFUnitFormat;
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -163,7 +162,7 @@ public class NetCDFUnitParserTest {
             assertEquals("µmol·(1/m²)*446.2", unit.toString());
         }
 
-        @Test(expected = ParserException.class)
+        @Test(expected = MeasurementParseException.class)
         public void testIsolation() {
             // the normal instance should be isolated, the configuration of the the NetCDF
             // unit parse should not affect the normal parser
