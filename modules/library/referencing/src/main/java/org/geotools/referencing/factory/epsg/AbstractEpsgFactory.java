@@ -46,6 +46,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
+import javax.measure.MetricPrefix;
 import javax.measure.Unit;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -137,8 +138,7 @@ import org.opengis.util.InternationalString;
 import si.uom.NonSI;
 import si.uom.SI;
 import systems.uom.common.USCustomary;
-import tec.uom.se.AbstractUnit;
-import tec.uom.se.unit.MetricPrefix;
+import tech.units.indriya.AbstractUnit;
 
 /**
  * A coordinate reference system factory backed by the EPSG database tables.

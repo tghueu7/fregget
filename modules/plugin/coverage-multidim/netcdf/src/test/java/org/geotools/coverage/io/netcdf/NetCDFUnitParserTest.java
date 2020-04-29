@@ -18,15 +18,15 @@ package org.geotools.coverage.io.netcdf;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static tec.uom.se.unit.Units.GRAM;
-import static tec.uom.se.unit.Units.JOULE;
-import static tec.uom.se.unit.Units.KELVIN;
-import static tec.uom.se.unit.Units.KILOGRAM;
-import static tec.uom.se.unit.Units.METRE;
-import static tec.uom.se.unit.Units.MOLE;
-import static tec.uom.se.unit.Units.PASCAL;
-import static tec.uom.se.unit.Units.SECOND;
-import static tec.uom.se.unit.Units.WATT;
+import static tech.units.indriya.unit.Units.GRAM;
+import static tech.units.indriya.unit.Units.JOULE;
+import static tech.units.indriya.unit.Units.KELVIN;
+import static tech.units.indriya.unit.Units.KILOGRAM;
+import static tech.units.indriya.unit.Units.METRE;
+import static tech.units.indriya.unit.Units.MOLE;
+import static tech.units.indriya.unit.Units.PASCAL;
+import static tech.units.indriya.unit.Units.SECOND;
+import static tech.units.indriya.unit.Units.WATT;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,15 +35,16 @@ import javax.measure.Unit;
 import javax.measure.format.ParserException;
 import org.geotools.imageio.netcdf.NetCDFUnitFormat;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import si.uom.NonSI;
 import si.uom.SI;
-import tec.uom.se.AbstractUnit;
-import tec.uom.se.format.SimpleUnitFormat;
-import tec.uom.se.function.LogConverter;
+import tech.units.indriya.AbstractUnit;
+import tech.units.indriya.format.SimpleUnitFormat;
+import tech.units.indriya.function.LogConverter;
 
 @RunWith(Enclosed.class)
 public class NetCDFUnitParserTest {

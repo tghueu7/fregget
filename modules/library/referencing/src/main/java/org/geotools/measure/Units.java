@@ -28,12 +28,13 @@ import javax.measure.quantity.Dimensionless;
 import javax.measure.quantity.Length;
 import javax.measure.quantity.Time;
 import org.geotools.referencing.wkt.DefaultUnitParser;
+import org.geotools.util.GeoToolsUnitFormat;
 import si.uom.NonSI;
 import si.uom.SI;
 import systems.uom.common.USCustomary;
-import tec.uom.se.AbstractUnit;
-import tec.uom.se.format.SimpleUnitFormat;
-import tec.uom.se.unit.TransformedUnit;
+import tech.units.indriya.AbstractUnit;
+import tech.units.indriya.format.SimpleUnitFormat;
+import tech.units.indriya.unit.TransformedUnit;
 
 /**
  * A set of units to use in addition of {@link SI} and {@link NonSI}.
@@ -151,7 +152,7 @@ public final class Units {
 
     /**
      * Returns an equivalent unit instance based on the provided unit. First, it tries to get one of
-     * the reference units defined in the JSR363 implementation in use. Units are considered
+     * the reference units defined in the JSR 385 implementation in use. Units are considered
      * equivalent if the {@link Units#equals(Unit, Unit)} method returns true. If no equivalent
      * reference unit is defined, it returns the provided unit.
      */
