@@ -168,7 +168,6 @@ class SexagesimalConverter extends AbstractConverter {
 
     @Override
     protected String transformationLiteral() {
-        // TODO
         return null;
     }
 
