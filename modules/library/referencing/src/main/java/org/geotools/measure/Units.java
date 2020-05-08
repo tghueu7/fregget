@@ -17,11 +17,11 @@
 package org.geotools.measure;
 
 import javax.measure.IncommensurableException;
+import javax.measure.MetricPrefix;
 import javax.measure.Quantity;
 import javax.measure.UnconvertibleException;
 import javax.measure.Unit;
 import javax.measure.UnitConverter;
-import javax.measure.format.ParserException;
 import javax.measure.format.UnitFormat;
 import javax.measure.quantity.Angle;
 import javax.measure.quantity.Dimensionless;
@@ -46,11 +46,32 @@ import tech.units.indriya.unit.TransformedUnit;
 public final class Units {
     /** Do not allows instantiation of this class. */
     private Units() {}
-    /** Length of <code>1/72</code> of a {@link USCustomary#INCH} */
-    public static final Unit<Length> PIXEL = USCustomary.INCH.divide(72);
 
-    /** Time duration of <code>1/12</code> of a {@link SI#YEAR}. */
-    public static final Unit<Time> MONTH = SI.YEAR.divide(12);
+    // Angle Units
+
+    public static final Unit<Angle> DEGREE_ANGLE = NonSI.DEGREE_ANGLE;
+
+    /**
+     * Pseudo-unit for degree - minute - second. Numbers in this pseudo-unit has the following
+     * format:
+     *
+     * <p><cite>signed degrees (integer) - arc-minutes (integer) - arc-seconds (real, any
+     * precision)</cite>.
+     *
+     * <p>This unit is non-linear and not practical for computation. Consequently, it should be
+     * avoid as much as possible. Unfortunately, this pseudo-unit is extensively used in the EPSG
+     * database (code 9107).
+     */
+    public static final Unit<Angle> DEGREE_MINUTE_SECOND =
+            NonSI.DEGREE_ANGLE
+                    .transform(SexagesimalConverter.INTEGER.inverse())
+                    .asType(Angle.class);
+
+    public static final Unit<Angle> GRADE = USCustomary.GRADE;
+    public static final Unit<Angle> MICRORADIAN =
+            MetricPrefix.MICRO(tech.units.indriya.unit.Units.RADIAN);
+    public static final Unit<Angle> MINUTE_ANGLE = NonSI.MINUTE_ANGLE;
+    public static final Unit<Angle> RADIAN = tech.units.indriya.unit.Units.RADIAN;
 
     /**
      * Pseudo-unit for sexagesimal degree. Numbers in this pseudo-unit has the following format:
@@ -67,24 +88,32 @@ public final class Units {
                     .transform(SexagesimalConverter.FRACTIONAL.inverse())
                     .asType(Angle.class);
 
-    /**
-     * Pseudo-unit for degree - minute - second. Numbers in this pseudo-unit has the following
-     * format:
-     *
-     * <p><cite>signed degrees (integer) - arc-minutes (integer) - arc-seconds (real, any
-     * precision)</cite>.
-     *
-     * <p>This unit is non-linear and not pratical for computation. Consequently, it should be avoid
-     * as much as possible. Unfortunatly, this pseudo-unit is extensively used in the EPSG database
-     * (code 9107).
-     */
-    public static final Unit<Angle> DEGREE_MINUTE_SECOND =
-            NonSI.DEGREE_ANGLE
-                    .transform(SexagesimalConverter.INTEGER.inverse())
-                    .asType(Angle.class);
+    public static final Unit<Angle> SECOND_ANGLE = NonSI.SECOND_ANGLE;
+
+    // Dimensionless Units
 
     /** Parts per million. */
     public static final Unit<Dimensionless> PPM = AbstractUnit.ONE.multiply(1E-6);
+
+    public static final Unit<Dimensionless> ONE = AbstractUnit.ONE;
+
+    // Length Units
+
+    public static final Unit<Length> FOOT = USCustomary.FOOT;
+    public static final Unit<Length> METRE = tech.units.indriya.unit.Units.METRE;
+    public static final Unit<Length> KILOMETER = MetricPrefix.KILO(METRE);
+    public static final Unit<Length> NAUTICAL_MILE = USCustomary.NAUTICAL_MILE;
+
+    /** Length of <code>1/72</code> of a {@link USCustomary#INCH} */
+    public static final Unit<Length> PIXEL = USCustomary.INCH.divide(72);
+
+    /** Helper definition so someone can align to GeoTools Day Unit type * */
+    public static final Unit<Time> DAY = SI.DAY;
+
+    /** Time duration of <code>1/12</code> of a {@link SI#YEAR}. */
+    public static final Unit<Time> MONTH = SI.YEAR.divide(12);
+
+    public static final Unit<Time> YEAR = SI.YEAR;
 
     static final UnitFormat format = SimpleUnitFormat.getInstance();
 
@@ -219,8 +248,8 @@ public final class Units {
      * Parses the text into an instance of unit
      *
      * @see UnitFormat#parse(CharSequence)
-     * @throws ParserException if any problem occurs while parsing the specified character sequence
-     *     (e.g. illegal syntax).
+     * @throws javax.measure.format.MeasurementParseException if any problem occurs while parsing
+     *     the specified character sequence (e.g. illegal syntax).
      * @throws UnsupportedOperationException if the {@link UnitFormat} is unable to parse.
      * @return A unit instance
      */

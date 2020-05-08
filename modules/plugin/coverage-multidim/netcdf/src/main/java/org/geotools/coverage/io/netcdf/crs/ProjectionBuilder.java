@@ -23,7 +23,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.measure.Unit;
-import javax.measure.format.ParserException;
+import javax.measure.format.MeasurementParseException;
 import org.geotools.imageio.netcdf.utilities.NetCDFUtilities;
 import org.geotools.measure.Units;
 import org.geotools.metadata.i18n.Vocabulary;
@@ -62,8 +62,6 @@ import org.opengis.referencing.datum.GeodeticDatum;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.MathTransformFactory;
 import org.opengis.referencing.operation.OperationMethod;
-import si.uom.NonSI;
-import si.uom.SI;
 
 /**
  * Class used to create an OGC {@link ProjectedCRS} instance on top of Projection name, parameters
@@ -81,7 +79,7 @@ public class ProjectionBuilder {
     private static final MathTransformFactory mtFactory;
 
     public static final EllipsoidalCS DEFAULT_ELLIPSOIDAL_CS =
-            DefaultEllipsoidalCS.GEODETIC_2D.usingUnit(NonSI.DEGREE_ANGLE);
+            DefaultEllipsoidalCS.GEODETIC_2D.usingUnit(Units.DEGREE_ANGLE);
 
     static {
         Hints hints = GeoTools.getDefaultHints().clone();
@@ -184,7 +182,7 @@ public class ProjectionBuilder {
 
     /**
      * Build a {@link GeographicCRS} given the name to be assigned and the {@link GeodeticDatum} to
-     * be used. {@link EllipsoidalCS} is {@value #DEFAULT_ELLIPSOIDAL_CS}
+     * be used. {@link EllipsoidalCS} is {@link #DEFAULT_ELLIPSOIDAL_CS}
      */
     public static GeographicCRS createGeographicCRS(String name, GeodeticDatum datum) {
         return createGeographicCRS(name, datum, DEFAULT_ELLIPSOIDAL_CS);
@@ -227,8 +225,8 @@ public class ProjectionBuilder {
 
     /**
      * Build a custom {@link Ellipsoid} provided the name and a Map contains <key,number> parameters
-     * describing that ellipsoid. Supported params are {@link #SEMI_MAJOR}, {@link #SEMI_MINOR},
-     * {@link NetCDFUtilities#INVERSE_FLATTENING}
+     * describing that ellipsoid. Supported params are {@link NetCDFUtilities#SEMI_MAJOR}, {@link
+     * NetCDFUtilities#SEMI_MINOR}, {@link NetCDFUtilities#INVERSE_FLATTENING}
      */
     public static Ellipsoid createEllipsoid(String name, Map<String, Number> ellipsoidParams) {
         Number semiMajor = NetCDFUtilities.DEFAULT_EARTH_RADIUS;
@@ -247,10 +245,10 @@ public class ProjectionBuilder {
         }
         if (semiMinor != null) {
             return DefaultEllipsoid.createEllipsoid(
-                    name, semiMajor.doubleValue(), semiMinor.doubleValue(), SI.METRE);
+                    name, semiMajor.doubleValue(), semiMinor.doubleValue(), Units.METRE);
         } else {
             return DefaultEllipsoid.createFlattenedSphere(
-                    name, semiMajor.doubleValue(), inverseFlattening.doubleValue(), SI.METRE);
+                    name, semiMajor.doubleValue(), inverseFlattening.doubleValue(), Units.METRE);
         }
     }
 
@@ -312,12 +310,16 @@ public class ProjectionBuilder {
     }
 
     private static Unit getUnit(Map<String, ?> props) {
-        Unit unit = SI.METRE;
+        Unit unit = Units.METRE;
         if (props != null && !props.isEmpty() && props.containsKey(AXIS_UNIT)) {
             String axisUnit = (String) props.remove(AXIS_UNIT);
             try {
-                unit = Units.parseUnit(axisUnit);
-            } catch (ParserException | UnsupportedOperationException e) {
+                if (axisUnit.equals("degrees")) {
+                    unit = Units.DEGREE_ANGLE;
+                } else {
+                    unit = Units.parseUnit(axisUnit);
+                }
+            } catch (MeasurementParseException | UnsupportedOperationException e) {
                 if (LOGGER.isLoggable(Level.WARNING)) {
                     LOGGER.warning(
                             "Unabe to parse the specified axis unit: "
