@@ -227,15 +227,4 @@ class SexagesimalConverter extends AbstractConverter {
             return (int) serialVersionUID + divider;
         }
     }
-
-    //    @Override
-    //    public BigDecimal convert(BigDecimal value, MathContext ctx) throws ArithmeticException {
-    //        double valueAsDouble = value.doubleValue();
-    //        if (valueAsDouble == Double.NEGATIVE_INFINITY
-    //                || valueAsDouble == Double.POSITIVE_INFINITY) {
-    //            throw new ArithmeticException(
-    //                    "Bigdecimal value magnitude too great to fit in double: " + value);
-    //        }
-    //        return new BigDecimal(convert(valueAsDouble));
-    //    }
 }
