@@ -31,8 +31,10 @@ import org.geotools.metadata.i18n.VocabularyKeys;
 import org.geotools.metadata.iso.citation.Citations;
 import org.geotools.referencing.NamedIdentifier;
 import org.geotools.referencing.ReferencingFactoryFinder;
+import org.geotools.referencing.crs.DefaultDerivedCRS;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.referencing.crs.DefaultProjectedCRS;
+import org.geotools.referencing.cs.AbstractCS;
 import org.geotools.referencing.cs.DefaultCartesianCS;
 import org.geotools.referencing.cs.DefaultCoordinateSystemAxis;
 import org.geotools.referencing.cs.DefaultEllipsoidalCS;
@@ -62,6 +64,8 @@ import org.opengis.referencing.datum.GeodeticDatum;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.MathTransformFactory;
 import org.opengis.referencing.operation.OperationMethod;
+import si.uom.SI;
+import tech.units.indriya.AbstractUnit;
 
 /**
  * Class used to create an OGC {@link ProjectedCRS} instance on top of Projection name, parameters
@@ -275,7 +279,7 @@ public class ProjectionBuilder {
             name = (String) props.get(NetCDFUtilities.NAME);
         }
         DefiningConversion conversionFromBase = new DefiningConversion(name, parameters);
-        DefaultCartesianCS derivedCS = createCartesianCS(name, unit);
+        AbstractCS derivedCS = createCoordinateSystem(name, unit);
 
         MathTransform transform = mtFactory.createBaseToDerived(baseCRS, parameters, derivedCS);
         OperationMethod method = conversionFromBase.getMethod();
@@ -290,23 +294,36 @@ public class ProjectionBuilder {
             }
         }
 
-        return ProjectionBuilder.createProjectedCRS(
-                props, baseCRS, conversionFromBase, transform, derivedCS);
+        if (derivedCS instanceof DefaultCartesianCS) {
+            return ProjectionBuilder.createProjectedCRS(
+                    props, baseCRS, conversionFromBase, transform, (CartesianCS) derivedCS);
+        } else {
+            return new DefaultDerivedCRS(name, baseCRS, transform, derivedCS);
+        }
     }
 
-    private static DefaultCartesianCS createCartesianCS(String name, Unit unit) {
-        return new DefaultCartesianCS(
-                name,
-                new DefaultCoordinateSystemAxis(
-                        Vocabulary.formatInternational(VocabularyKeys.EASTING),
-                        "E",
-                        AxisDirection.EAST,
-                        unit),
-                new DefaultCoordinateSystemAxis(
-                        Vocabulary.formatInternational(VocabularyKeys.NORTHING),
-                        "N",
-                        AxisDirection.NORTH,
-                        unit));
+    private static AbstractCS createCoordinateSystem(String name, Unit unit) {
+        if (SI.METRE.isCompatible(unit) || AbstractUnit.ONE.equals(unit)) {
+            return new DefaultCartesianCS(
+                    name,
+                    new DefaultCoordinateSystemAxis(
+                            Vocabulary.formatInternational(VocabularyKeys.EASTING),
+                            "E",
+                            AxisDirection.EAST,
+                            unit),
+                    new DefaultCoordinateSystemAxis(
+                            Vocabulary.formatInternational(VocabularyKeys.NORTHING),
+                            "N",
+                            AxisDirection.NORTH,
+                            unit));
+        } else if (SI.RADIAN.isCompatible(unit)) {
+            return new DefaultEllipsoidalCS(
+                    name,
+                    DefaultGeographicCRS.WGS84.getAxis(0),
+                    DefaultGeographicCRS.WGS84.getAxis(1));
+        } else {
+            throw new IllegalArgumentException("No support for axis unit " + unit);
+        }
     }
 
     private static Unit getUnit(Map<String, ?> props) {
