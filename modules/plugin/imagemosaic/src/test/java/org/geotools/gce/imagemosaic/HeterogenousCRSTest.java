@@ -659,6 +659,7 @@ public class HeterogenousCRSTest {
         return getInputFileNames(ri);
     }
 
+    @SuppressWarnings("PMD.CloseResource") // image stream closed along the reader
     private List<String> getInputFileNames(RenderedImage inputImage) {
         List<String> files = new ArrayList<>();
         if (inputImage instanceof PlanarImage) {

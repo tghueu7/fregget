@@ -150,7 +150,7 @@ public class WMTSCoverageReaderTest {
                 getTileHeadersCalled.containsKey("header1"));
     }
 
-    public List<Tile> testInitMapRequest(WMTSCoverageReader wcr, ReferencedEnvelope bbox)
+    protected List<Tile> testInitMapRequest(WMTSCoverageReader wcr, ReferencedEnvelope bbox)
             throws Exception {
 
         int width = 400;
