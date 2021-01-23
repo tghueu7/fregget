@@ -24,26 +24,27 @@ import org.geotools.util.factory.FactoryRegistry;
 import org.geotools.util.factory.Hints;
 
 /**
- * Factory finder for getting instances of HTTPClientFactory. All implementations should be
- * registered as a file with name org.geotools.http.HTTPClientFactory in META_INF/services of their
- * respective jar.
+ * Finder for getting instances of {@link HTTPClient} based on registered {@link HTTPClientFactory}.
+ * All implementations should be registered as a file with name <code>
+ * org.geotools.http.HTTPClientFactory</code> in <code>META_INF/services</code> of their respective
+ * jar.
  *
- * <p>To pick a particular implementation the hint HTTP_CLIENT_FACTORY could be set to the full
- * class name, either in the function call, or by Java property.
+ * <p>To pick a particular implementation the hint {@link Hints#HTTP_CLIENT_FACTORY} could be set to
+ * the full class name, either in the function call, or by Java system property.
  *
  * @author Roar Brænden
  */
-public class HTTPFactoryFinder extends FactoryFinder {
+public class HTTPClientFinder {
 
     /** The service registry for this manager. Will be initialized only when first needed. */
     private static volatile FactoryRegistry registry;
 
-    private HTTPFactoryFinder() {
+    private HTTPClientFinder() {
         // singleton
     }
 
     private static FactoryRegistry getServiceRegistry() {
-        assert Thread.holdsLock(HTTPFactoryFinder.class);
+        assert Thread.holdsLock(HTTPClientFinder.class);
         if (registry == null) {
             registry = new FactoryCreator(Arrays.asList(new Class<?>[] {HTTPClientFactory.class}));
         }
@@ -68,7 +69,7 @@ public class HTTPFactoryFinder extends FactoryFinder {
      * @return
      */
     public static synchronized HTTPClient createClient(Hints hints) {
-        final Hints merged = mergeSystemHints(hints);
+        final Hints merged = FactoryFinder.mergeSystemHints(hints);
         return getServiceRegistry()
                 .getFactories(HTTPClientFactory.class, null, null)
                 .filter((fact) -> matchHttpFactoryHints(merged, fact))
