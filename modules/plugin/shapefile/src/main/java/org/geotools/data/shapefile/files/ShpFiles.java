@@ -837,7 +837,12 @@ public class ShpFiles {
     }
 
     public String getTypeName() {
-        String path = SHP.toBase(urls.get(SHP));
+        URL url = urls.get(SHP);
+        File file = URLs.urlToFile(url);
+        String path = SHP.toBase(url);
+        if (file != null && file.exists()) {
+            path = SHP.toBase(file.getPath());
+        }
         int slash = Math.max(0, path.lastIndexOf('/') + 1);
         return path.substring(slash);
     }
