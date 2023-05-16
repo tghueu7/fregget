@@ -228,6 +228,7 @@ public class GeoPkgDataStoreFactory extends JDBCDataStoreFactory {
             int memoryMB = (Integer) map;
             config.setPragma(SQLiteConfig.Pragma.MMAP_SIZE, String.valueOf(memoryMB * 1024 * 1024));
         }
+        config.setBusyTimeout(60000);
         return config;
     }
 
