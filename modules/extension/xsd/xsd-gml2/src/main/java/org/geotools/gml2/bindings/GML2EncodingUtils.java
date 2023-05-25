@@ -43,6 +43,7 @@ import org.opengis.feature.Feature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.FeatureType;
 import org.opengis.metadata.Identifier;
+import org.opengis.referencing.ReferenceIdentifier;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -60,6 +61,10 @@ public class GML2EncodingUtils {
 
     static GMLEncodingUtils e = new GMLEncodingUtils(GML.getInstance());
 
+    /**
+     * @deprecated Use {@link #toURI(CoordinateReferenceSystem, SrsSyntax)} instead, or {@link
+     *     SrsSyntax} directly
+     */
     public static String epsgCode(CoordinateReferenceSystem crs) {
         if (crs == null) {
             return null;
@@ -99,7 +104,32 @@ public class GML2EncodingUtils {
      * <p>The axis order of the crs is taken into account. In cases where
      */
     public static String toURI(CoordinateReferenceSystem crs, SrsSyntax srsSyntax) {
-        String code = epsgCode(crs);
+        String code = null;
+        String authority = "EPSG";
+        if (crs != null) {
+            for (ReferenceIdentifier referenceIdentifier : crs.getIdentifiers()) {
+                Identifier id = (Identifier) referenceIdentifier;
+
+                if ((id.getAuthority() != null)
+                        && id.getAuthority().getTitle().equals(Citations.EPSG.getTitle())) {
+                    code = id.getCode();
+                    break;
+                }
+            }
+
+            // not an EPSG code? figure out separate authority and code then
+            if (code == null) {
+                for (ReferenceIdentifier referenceIdentifier : crs.getIdentifiers()) {
+                    Identifier id = (Identifier) referenceIdentifier;
+                    if (id.getAuthority() != null) {
+                        authority = id.getAuthority().getTitle().toString();
+                        code = id.getCode();
+                        break;
+                    }
+                }
+            }
+        }
+
         AxisOrder axisOrder = CRS.getAxisOrder(crs, true);
 
         if (code != null) {
@@ -114,7 +144,7 @@ public class GML2EncodingUtils {
                 srsSyntax = SrsSyntax.OGC_HTTP_URL;
             }
 
-            return srsSyntax.getPrefix() + code;
+            return srsSyntax.getSRS(authority, code);
         }
 
         // if crs has no EPSG code but its identifier is a URI, then use its identifier
