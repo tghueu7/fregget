@@ -52,6 +52,7 @@ public class IAUAuthorityFactory extends FactoryUsingWKT {
      */
     public IAUAuthorityFactory(final Hints hints) {
         super(hints, PRIORITY);
+        this.hints.put(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, false);
     }
 
     /**

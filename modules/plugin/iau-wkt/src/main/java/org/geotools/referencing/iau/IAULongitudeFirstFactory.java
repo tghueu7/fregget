@@ -14,13 +14,15 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.geotools.referencing.factory.epsg;
+package org.geotools.referencing.iau;
 
 import org.geotools.metadata.iso.citation.Citations;
 import org.geotools.referencing.ReferencingFactoryFinder;
 import org.geotools.referencing.factory.AbstractAuthorityFactory;
 import org.geotools.referencing.factory.DeferredAuthorityFactory;
 import org.geotools.referencing.factory.OrderedAxisAuthorityFactory;
+import org.geotools.referencing.factory.OrderedAxisCRSAuthorityFactory;
+import org.geotools.referencing.factory.epsg.ThreadedEpsgFactory;
 import org.geotools.util.factory.FactoryNotFoundException;
 import org.geotools.util.factory.FactoryRegistryException;
 import org.geotools.util.factory.GeoTools;
@@ -28,13 +30,10 @@ import org.geotools.util.factory.Hints;
 import org.opengis.metadata.citation.Citation;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CRSAuthorityFactory;
-import org.opengis.referencing.cs.CSAuthorityFactory;
-import org.opengis.referencing.datum.DatumAuthorityFactory;
-import org.opengis.referencing.operation.CoordinateOperationAuthorityFactory;
 
 /**
- * An EPSG authority factory using (<var>longitude</var>, <var>latitude</var>) axis order. This
- * factory wraps a {@link ThreadedEpsgFactory} into an {@link OrderedAxisAuthorityFactory} when
+ * An IAU authority factory using (<var>longitude</var>, <var>latitude</var>) axis order. This
+ * factory wraps a {@link IAUAuthorityFactory} into an {@link OrderedAxisAuthorityFactory} when
  * first needed.
  *
  * <p>Users don't need to create explicitly an instance of this class. Instead, one can get an
@@ -44,21 +43,18 @@ import org.opengis.referencing.operation.CoordinateOperationAuthorityFactory;
  *
  * <pre>
  * Hints hints = new Hints({@linkplain Hints#FORCE_LONGITUDE_FIRST_AXIS_ORDER}, Boolean.TRUE);
- * CRSAuthorityFactory factory = {@linkplain ReferencingFactoryFinder}.getCRSAuthorityFactory("EPSG", hints);
+ * CRSAuthorityFactory factory = {@linkplain ReferencingFactoryFinder}.getCRSAuthorityFactory("IAU", hints);
  * </pre>
  *
  * </blockquote>
  *
- * @since 2.3
- * @author Martin Desruisseaux
- * @see OrderedAxisAuthorityFactory
+ * Copied and adapted from {@link org.geotools.referencing.factory.epsg.LongitudeFirstFactory},
+ * which provides the same service for the EPSG database.
+ *
  * @see Hints#FORCE_LONGITUDE_FIRST_AXIS_ORDER
  */
-public class LongitudeFirstFactory extends DeferredAuthorityFactory
-        implements CRSAuthorityFactory,
-                CSAuthorityFactory,
-                CoordinateOperationAuthorityFactory,
-                DatumAuthorityFactory {
+public class IAULongitudeFirstFactory extends DeferredAuthorityFactory
+        implements CRSAuthorityFactory {
     /*
      * Implementation note: in theory the DatumAuthorityFactory interface is useless here, since
      * "axis order" doesn't make any sense for them. However if we do not register this class for
@@ -72,9 +68,9 @@ public class LongitudeFirstFactory extends DeferredAuthorityFactory
      * Hints#FORCE_STANDARD_AXIS_DIRECTIONS FORCE_STANDARD_AXIS_DIRECTIONS} and {@link
      * Hints#FORCE_STANDARD_AXIS_UNITS FORCE_STANDARD_AXIS_UNITS} hints are set to {@link
      * Boolean#FALSE FALSE} by default. A different value for those two hints can be specified using
-     * the {@linkplain LongitudeFirstFactory(Hints) constructor below}.
+     * the {@linkplain IAULongitudeFirstFactory (Hints) constructor below}.
      */
-    public LongitudeFirstFactory() {
+    public IAULongitudeFirstFactory() {
         this(null);
     }
 
@@ -83,8 +79,8 @@ public class LongitudeFirstFactory extends DeferredAuthorityFactory
      *
      * @param userHints An optional set of hints, or {@code null} for the default values.
      */
-    public LongitudeFirstFactory(final Hints userHints) {
-        super(userHints, ThreadedEpsgFactory.PRIORITY + relativePriority());
+    public IAULongitudeFirstFactory(final Hints userHints) {
+        super(userHints, IAUAuthorityFactory.PRIORITY + relativePriority());
         // See comment in createBackingStore() method body.
         hints.put(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE);
         put(userHints, Hints.FORCE_STANDARD_AXIS_DIRECTIONS);
@@ -110,25 +106,19 @@ public class LongitudeFirstFactory extends DeferredAuthorityFactory
      * true}.
      */
     private static int relativePriority() {
-        try {
-            if (Boolean.getBoolean(GeoTools.FORCE_LONGITUDE_FIRST_AXIS_ORDER)) {
-                return +7;
-            }
-        } catch (SecurityException e) {
-            // Fall back on default value.
-        }
+        //        try {
+        //            if (Boolean.getBoolean(GeoTools.FORCE_LONGITUDE_FIRST_AXIS_ORDER)) {
+        //                return +7;
+        //            }
+        //        } catch (SecurityException e) {
+        //            // Fall back on default value.
+        //        }
         return -7;
     }
 
-    /**
-     * Returns the authority for this EPSG database. This authority will contains the database
-     * version in the {@linkplain Citation#getEdition edition} attribute, together with the
-     * {@linkplain Citation#getEditionDate edition date}.
-     */
     @Override
     public Citation getAuthority() {
-        final Citation authority = super.getAuthority();
-        return (authority != null) ? authority : Citations.EPSG;
+        return Citations.IAU;
     }
 
     /**
@@ -154,7 +144,7 @@ public class LongitudeFirstFactory extends DeferredAuthorityFactory
          * and we don't want the backing store to interfer with that.
          */
         final Hints backingStoreHints =
-                new Hints(Hints.CRS_AUTHORITY_FACTORY, ThreadedEpsgFactory.class);
+                new Hints(Hints.CRS_AUTHORITY_FACTORY, IAUAuthorityFactory.class);
         backingStoreHints.put(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.FALSE);
         backingStoreHints.put(Hints.FORCE_STANDARD_AXIS_DIRECTIONS, Boolean.FALSE);
         backingStoreHints.put(Hints.FORCE_STANDARD_AXIS_UNITS, Boolean.FALSE);
@@ -163,12 +153,12 @@ public class LongitudeFirstFactory extends DeferredAuthorityFactory
             factory =
                     (AbstractAuthorityFactory)
                             ReferencingFactoryFinder.getCRSAuthorityFactory(
-                                    "EPSG", backingStoreHints);
+                                    "IAU", backingStoreHints);
         } catch (FactoryNotFoundException exception) {
             throw new org.geotools.referencing.factory.FactoryNotFoundException(exception);
         } catch (FactoryRegistryException exception) {
             throw new FactoryException(exception);
         }
-        return new OrderedAxisAuthorityFactory(factory, new Hints(hints), null);
+        return new OrderedAxisCRSAuthorityFactory(factory, new Hints(hints), null);
     }
 }

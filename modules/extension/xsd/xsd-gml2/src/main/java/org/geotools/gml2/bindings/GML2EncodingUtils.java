@@ -62,8 +62,8 @@ public class GML2EncodingUtils {
     static GMLEncodingUtils e = new GMLEncodingUtils(GML.getInstance());
 
     /**
-     * @deprecated Use {@link #toURI(CoordinateReferenceSystem, SrsSyntax)} instead, or {@link
-     *     SrsSyntax} directly
+     * @deprecated Use {@link #toURI(CoordinateReferenceSystem, SrsSyntax, boolean)} instead, or
+     *     {@link SrsSyntax} directly
      */
     public static String epsgCode(CoordinateReferenceSystem crs) {
         if (crs == null) {
@@ -95,37 +95,44 @@ public class GML2EncodingUtils {
      * <p>The axis order of the crs determines which form of uri is used.
      */
     public static String toURI(CoordinateReferenceSystem crs, boolean forceOldStyle) {
-        return toURI(crs, forceOldStyle ? SrsSyntax.OGC_HTTP_URL : SrsSyntax.OGC_URN_EXPERIMENTAL);
+        return toURI(
+                crs, forceOldStyle ? SrsSyntax.OGC_HTTP_URL : SrsSyntax.OGC_URN_EXPERIMENTAL, true);
     }
 
     /**
      * Encodes the crs object as a uri using the specified syntax.
      *
-     * <p>The axis order of the crs is taken into account. In cases where
+     * @param crs The CRS to be evaluated
+     * @param srsSyntax The syntax to use
+     * @param switchCode If true, the authority and code will be switched to HTTP URI automatically
+     *     if the CRS axis order is east/north or inapplicable
      */
-    public static String toURI(CoordinateReferenceSystem crs, SrsSyntax srsSyntax) {
+    public static String toURI(
+            CoordinateReferenceSystem crs, SrsSyntax srsSyntax, boolean switchCode) {
+        if (crs == null) {
+            return null;
+        }
+
         String code = null;
         String authority = "EPSG";
-        if (crs != null) {
+        for (ReferenceIdentifier referenceIdentifier : crs.getIdentifiers()) {
+            Identifier id = (Identifier) referenceIdentifier;
+
+            if ((id.getAuthority() != null)
+                    && id.getAuthority().getTitle().equals(Citations.EPSG.getTitle())) {
+                code = id.getCode();
+                break;
+            }
+        }
+
+        // not an EPSG code? figure out separate authority and code then
+        if (code == null) {
             for (ReferenceIdentifier referenceIdentifier : crs.getIdentifiers()) {
                 Identifier id = (Identifier) referenceIdentifier;
-
-                if ((id.getAuthority() != null)
-                        && id.getAuthority().getTitle().equals(Citations.EPSG.getTitle())) {
+                if (id.getAuthority() != null) {
+                    authority = id.getAuthority().getTitle().toString();
                     code = id.getCode();
                     break;
-                }
-            }
-
-            // not an EPSG code? figure out separate authority and code then
-            if (code == null) {
-                for (ReferenceIdentifier referenceIdentifier : crs.getIdentifiers()) {
-                    Identifier id = (Identifier) referenceIdentifier;
-                    if (id.getAuthority() != null) {
-                        authority = id.getAuthority().getTitle().toString();
-                        code = id.getCode();
-                        break;
-                    }
                 }
             }
         }
@@ -139,7 +146,8 @@ public class GML2EncodingUtils {
             // specified
             // syntax verbatim, maintaining this check for to maintain the excision behavior of this
             // method
-            if (!Boolean.TRUE.equals(Hints.getSystemDefault(Hints.FORCE_SRS_STYLE))
+            if (switchCode
+                    && !Boolean.TRUE.equals(Hints.getSystemDefault(Hints.FORCE_SRS_STYLE))
                     && (axisOrder == AxisOrder.EAST_NORTH || axisOrder == AxisOrder.INAPPLICABLE)) {
                 srsSyntax = SrsSyntax.OGC_HTTP_URL;
             }

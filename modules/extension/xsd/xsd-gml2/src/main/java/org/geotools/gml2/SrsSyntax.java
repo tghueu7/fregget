@@ -24,13 +24,27 @@ package org.geotools.gml2;
 public enum SrsSyntax {
 
     /**
-     * Commonly used syntax outside of gml that follows the form:
+     * Deprecated, please use {@link #AUTH_CODE} instead
      *
      * <pre>EPSG:1234</pre>
      *
      * .
      */
     EPSG_CODE("EPSG:") {
+        @Override
+        public String getSRS(String authority, String code) {
+            return authority + ":" + code;
+        }
+    },
+
+    /**
+     * Commonly used syntax outside of gml that follows the form:
+     *
+     * <pre>EPSG:1234</pre>
+     *
+     * .
+     */
+    AUTH_CODE("EPSG:") {
         @Override
         public String getSRS(String authority, String code) {
             return authority + ":" + code;
