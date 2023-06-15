@@ -102,6 +102,7 @@ import org.geotools.data.DataSourceException;
 import org.geotools.data.FileGroupProvider.FileGroup;
 import org.geotools.data.MapInfoFileReader;
 import org.geotools.data.PrjFileReader;
+import org.geotools.data.ResourceInfo;
 import org.geotools.data.WorldFileReader;
 import org.geotools.geometry.GeneralEnvelope;
 import org.geotools.image.ImageWorker;
@@ -613,6 +614,13 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
     @Override
     public Format getFormat() {
         return new GeoTiffFormat();
+    }
+
+    @Override
+    public ResourceInfo getInfo(String coverageName) {
+        List<FileGroup> files = getFiles();
+        if (files == null) files = Collections.emptyList();
+        return new GeoTIFFResourceInfo(files, pamDataset);
     }
 
     /**
